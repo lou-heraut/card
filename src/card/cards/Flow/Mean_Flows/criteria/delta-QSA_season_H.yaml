@@ -154,16 +154,16 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       QSA: [nanmean, "Q"]
     time_step: year-season
-    Seasons: [DJF, MAM, JJA, SON]
-    NApct_lim: 3
-    NAyear_lim: 10
+    seasons: [DJF, MAM, JJA, SON]
+    max_na_pct: 3
+    max_na_years: 10
     compress: true
 
   P2:
-    funct:
+    func:
       delta-QSA_DJF_H1: [delta, "QSA_DJF", "date", {past: $H0, future: $H1, relative: true}]
       delta-QSA_DJF_H2: [delta, "QSA_DJF", "date", {past: $H0, future: $H2, relative: true}]
       delta-QSA_DJF_H3: [delta, "QSA_DJF", "date", {past: $H0, future: $H3, relative: true}]

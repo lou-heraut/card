@@ -29,7 +29,7 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       STD: [std_ratio, "Q_obs", "Q_sim"]
     time_step: none
-    NAyear_lim: 10
+    max_na_years: 10

@@ -40,23 +40,23 @@ meta:
 
   global:
     input_vars: "R_obs, R_sim"
-    to_normalise: false
+    relative: false
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
 
 process:
   P1:
-    funct:
+    func:
       RSA_obs: [nansum_strict, "R_obs"]
       RSA_sim: [nansum_strict, "R_sim"]
     time_step: year-season
-    Seasons: [DJF, MAM, JJA, SON]
-    NApct_lim: 3
-    NAyear_lim: 10
+    seasons: [DJF, MAM, JJA, SON]
+    max_na_pct: 3
+    max_na_years: 10
     compress: true
 
   P2:
-    funct:
+    func:
       mean-RSA_obs_DJF: [nanmean, "RSA_obs_DJF"]
       mean-RSA_obs_MAM: [nanmean, "RSA_obs_MAM"]
       mean-RSA_obs_JJA: [nanmean, "RSA_obs_JJA"]
@@ -68,7 +68,7 @@ process:
     time_step: none
 
   P3:
-    funct:
+    func:
       CRS_DJF: [ratio, "mean-RSA_sim_DJF", "mean-RSA_obs_DJF"]
       CRS_MAM: [ratio, "mean-RSA_sim_MAM", "mean-RSA_obs_MAM"]
       CRS_JJA: [ratio, "mean-RSA_sim_JJA", "mean-RSA_obs_JJA"]

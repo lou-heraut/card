@@ -38,36 +38,36 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       VC10: [rollmean_center, "Q", {k: 10}]
     time_step: none
     keep: all
 
   P2:
-    funct:
+    func:
       VCN10: [nanmin, "VC10"]
     sampling_period:
       type: adaptive
-      funct: [nanmax, "Q"]
-    NApct_lim: 3
-    NAyear_lim: 10
+      func: [nanmax, "Q"]
+    max_na_pct: 3
+    max_na_years: 10
     keep: all
 
   P3:
-    funct:
+    func:
       upLim: [nanmax, "VCN10"]
     time_step: none
     keep: all
 
   P4:
-    funct:
+    func:
       vLF: [deficit_volume, "VC10", {threshold: upLim}]
     sampling_period:
       type: adaptive
-      funct: [nanmax, "Q"]
-    NApct_lim: 3
+      func: [nanmax, "Q"]
+    max_na_pct: 3
 
   P5:
-    funct:
+    func:
       median-vLF: [nanmedian, "vLF"]
     time_step: none

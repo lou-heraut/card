@@ -30,19 +30,19 @@ meta:
     input_vars: Q
     preferred_sampling_period: "09-01"
     is_date: true
-    to_normalise: false
+    relative: false
 
 process:
   P1:
-    funct:
+    func:
       tQJXA: [nanargmax, "Q", true]
     sampling_period:
       type: adaptive
-      funct: [nanmin, "Q"]
-    NApct_lim: 3
-    NAyear_lim: 10
+      func: [nanmin, "Q"]
+    max_na_pct: 3
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       median-tQJXA: [circular_median, "tQJXA", {periodicity: 365.25}]
     time_step: none

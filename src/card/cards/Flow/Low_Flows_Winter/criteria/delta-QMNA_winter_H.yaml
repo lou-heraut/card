@@ -43,21 +43,21 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       QMA_winter: [nanmean, "Q"]
     time_step: year-month
-    NApct_lim: 3
-    NAyear_lim: 10
+    max_na_pct: 3
+    max_na_years: 10
     keep: all
 
   P2:
-    funct:
+    func:
       QMNA_winter: [nanmin, "QMA_winter"]
     sampling_period: ["11-01", "04-30"]
-    NApct_lim: 3
+    max_na_pct: 3
 
   P3:
-    funct:
+    func:
       delta-QMNA_winter_H1: [delta, "QMNA_winter", "date", {past: $H0, future: $H1, relative: true}]
       delta-QMNA_winter_H2: [delta, "QMNA_winter", "date", {past: $H0, future: $H2, relative: true}]
       delta-QMNA_winter_H3: [delta, "QMNA_winter", "date", {past: $H0, future: $H3, relative: true}]

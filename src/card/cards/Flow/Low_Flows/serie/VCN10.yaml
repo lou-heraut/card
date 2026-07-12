@@ -34,16 +34,16 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       VC10: [rollmean_center, "Q", {k: 10}]
     time_step: none
     keep: all
-    NAyear_lim: 10
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       VCN10: [nanmin, "VC10"]
     sampling_period:
       type: adaptive
-      funct: [nanmax, "Q"]
-    NApct_lim: 3
+      func: [nanmax, "Q"]
+    max_na_pct: 3

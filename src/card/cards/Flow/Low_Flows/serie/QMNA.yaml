@@ -34,17 +34,17 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       QMA: [nanmean, "Q"]
     time_step: year-month
-    NApct_lim: 3
-    NAyear_lim: 10
+    max_na_pct: 3
+    max_na_years: 10
     keep: all
 
   P2:
-    funct:
+    func:
       QMNA: [nanmin, "QMA"]
     sampling_period:
       type: adaptive
-      funct: [nanmax, "QMA"]
-    NApct_lim: 3
+      func: [nanmax, "QMA"]
+    max_na_pct: 3

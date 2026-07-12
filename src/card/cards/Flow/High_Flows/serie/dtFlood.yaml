@@ -55,33 +55,33 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       dQ: [quickflow, "Q"]
     time_step: none
     keep: all
-    NAyear_lim: 10
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       dQXA: [nanmax, "dQ"]
     sampling_period:
       type: adaptive
-      funct: [nanmin, "Q"]
+      func: [nanmin, "Q"]
     keep: all
 
   P3:
-    funct:
+    func:
       lowLim: [ratio, "dQXA", 2, {first: true}]
     sampling_period:
       type: adaptive
-      funct: [nanmin, "Q"]
+      func: [nanmin, "Q"]
     keep: all
 
   P4:
-    funct:
+    func:
       dtFlood: [apply_threshold, "dQ",
                 {lim: lowLim, where: ">=", what: length, select: dQXA}]
     sampling_period:
       type: adaptive
-      funct: [nanmin, "Q"]
-    NApct_lim: 3
+      func: [nanmin, "Q"]
+    max_na_pct: 3

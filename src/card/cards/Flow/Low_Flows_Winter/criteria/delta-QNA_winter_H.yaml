@@ -27,7 +27,7 @@ meta:
   global:
     input_vars: Q
     preferred_sampling_period: "01-01"
-    to_normalise: false
+    relative: false
     horizons:
       H0: ["1976-01-01", "2005-08-31"]
       H1: ["2021-01-01", "2050-12-31"]
@@ -38,14 +38,14 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       QNA_winter: [nanmin, "Q"]
     sampling_period: ["11-01", "04-30"]
-    NApct_lim: 3
-    NAyear_lim: 10
+    max_na_pct: 3
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       delta-QNA_winter_H1: [delta, "QNA_winter", "date", {past: $H0, future: $H1, relative: false}]
       delta-QNA_winter_H2: [delta, "QNA_winter", "date", {past: $H0, future: $H2, relative: false}]
       delta-QNA_winter_H3: [delta, "QNA_winter", "date", {past: $H0, future: $H3, relative: false}]

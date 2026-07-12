@@ -49,22 +49,22 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       VC30: [rollmean_center, "Q", {k: 30}]
     time_step: none
     keep: all
-    NAyear_lim: 10
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       VCN30: [nanmin, "VC30"]
     sampling_period:
       type: adaptive
-      funct: [nanmax, "Q"]
-    NApct_lim: 3
+      func: [nanmax, "Q"]
+    max_na_pct: 3
 
   P3:
-    funct:
+    func:
       delta-VCN30_H1: [delta, "VCN30", "date", {past: $H0, future: $H1, relative: true}]
       delta-VCN30_H2: [delta, "VCN30", "date", {past: $H0, future: $H2, relative: true}]
       delta-VCN30_H3: [delta, "VCN30", "date", {past: $H0, future: $H3, relative: true}]

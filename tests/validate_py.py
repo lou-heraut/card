@@ -92,6 +92,8 @@ def main():
     print("\nmedian-QJC5")
     r = pd.read_csv(R_OUT / "median-QJC5.csv")
     p = dataEX["median-QJC5"]
+    # sortie R : 'Yearday' ; sortie Python : 'yearday' (snake_case)
+    p = p.rename(columns={"yearday": "Yearday"})
     m = r[["id", "Yearday", "median-QJ", "median-QJC5"]].merge(
         p[["id", "Yearday", "median-QJ", "median-QJC5"]],
         on=["id", "Yearday"], suffixes=("_R", "_py"), how="outer",

@@ -29,11 +29,11 @@ meta:
     source: |
       GUPTA, H. V. et al. (2009). « Decomposition of the mean squared error and NSE performance criteria :
       Implications for improving hydrological modelling ». In : Journal of Hydrology 377, p. 80-91.
-    to_normalise: false
+    relative: false
 
 process:
   P1:
-    funct:
+    func:
       KGEsqrt: [KGE_sqrt, "Q_obs", "Q_sim"]
     time_step: none
-    NAyear_lim: 10
+    max_na_years: 10

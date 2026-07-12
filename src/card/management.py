@@ -29,8 +29,8 @@ from .extraction import _DEFAULT_CARD_DIR, _find_cards, _meta_rows
 from .loader import load_card
 
 
-def list_cards(CARD_path=None, include_experimental=False,
-                  topic=None, variable=None, search=None) -> pd.DataFrame:
+def list_cards(path=None, include_experimental=False,
+               topic=None, variable=None, search=None) -> pd.DataFrame:
     """Liste toutes les fiches CARD disponibles avec leurs métadonnées.
 
     Contrairement au package R (qui lit un CSV pré-généré), les métadonnées
@@ -42,9 +42,9 @@ def list_cards(CARD_path=None, include_experimental=False,
     search   : sous-chaîne cherchée dans nom, description et variable
                (fr et en confondus).
     """
-    if CARD_path is None:
-        CARD_path = _DEFAULT_CARD_DIR
-    cards = _find_cards(CARD_path, None)
+    if path is None:
+        path = _DEFAULT_CARD_DIR
+    cards = _find_cards(path, None)
     rows = [_meta_rows(load_card(p)) for p in cards.values()]
     metaEX = pd.concat(rows, ignore_index=True) if rows else pd.DataFrame()
     if not include_experimental and "is_experimental" in metaEX.columns:
@@ -69,19 +69,19 @@ def list_cards(CARD_path=None, include_experimental=False,
     return metaEX.reset_index(drop=True)
 
 
-def info(CARD_name, CARD_path=None, lang="fr") -> dict:
+def info(name, path=None, lang="fr") -> dict:
     """Affiche la description complète d'une fiche CARD et retourne ses
     métadonnées sous forme de dict.
 
-    CARD_name : nom de la fiche (ex. 'QA', 'VCN10', 'dtLF').
-    lang      : 'fr' (défaut) ou 'en'.
+    name : nom de la fiche (ex. 'QA', 'VCN10', 'dtLF').
+    lang : 'fr' (défaut) ou 'en'.
     """
-    if CARD_path is None:
-        CARD_path = _DEFAULT_CARD_DIR
+    if path is None:
+        path = _DEFAULT_CARD_DIR
     if lang not in ("fr", "en"):
         raise ValueError(f"lang='{lang}' invalide : 'fr' ou 'en'.")
-    found = _find_cards(CARD_path, [CARD_name])
-    card = load_card(found[CARD_name])
+    found = _find_cards(path, [name])
+    card = load_card(found[name])
     meta_l = card["meta"][lang]
     meta_g = card["meta"]["global"]
 
@@ -89,7 +89,7 @@ def info(CARD_name, CARD_path=None, lang="fr") -> dict:
         return ", ".join(str(x) for x in v) if isinstance(v, list) else v
 
     info = {
-        "id": card.get("id", CARD_name),
+        "id": card.get("id", name),
         "variable": _fmt(meta_l.get("variable")),
         "name": _fmt(meta_l.get("name")),
         "unit": _fmt(meta_l.get("unit")),
@@ -99,7 +99,7 @@ def info(CARD_name, CARD_path=None, lang="fr") -> dict:
         "topic": _fmt(meta_l.get("topic")),
         "input_vars": meta_g.get("input_vars"),
         "is_experimental": bool(meta_g.get("is_experimental", False)),
-        "path": str(found[CARD_name]),
+        "path": str(found[name]),
     }
     width = max(len(k) for k in info)
     for k, v in info.items():
@@ -108,17 +108,20 @@ def info(CARD_name, CARD_path=None, lang="fr") -> dict:
     return info
 
 
-def copy_cards(CARD_name=("QA", "QJXA"), CARD_path="./WIP",
-                    CARD_source=None, add_id=True, overwrite=False,
-                    verbose=False):
+def copy_cards(cards=("QA", "QJXA"), dest="./WIP",
+               source=None, numbered=True, overwrite=False,
+               verbose=False):
     """Copie des fiches YAML dans un dossier de travail pour personnalisation.
 
-    CARD_name : liste de noms, ou dict imbriqué {sous_dossier: [noms, ...]}
-                pour organiser en sous-dossiers numérotés (comme en R).
+    cards    : liste de noms, ou dict imbriqué {sous_dossier: [noms, ...]}
+               pour organiser en sous-dossiers numérotés.
+    dest     : dossier de destination.
+    source   : dossier source des fiches (défaut : fiches embarquées).
+    numbered : préfixe les fichiers copiés (001_, 002_, ...).
     """
-    if CARD_source is None:
-        CARD_source = _DEFAULT_CARD_DIR
-    dest = Path(CARD_path)
+    if source is None:
+        source = _DEFAULT_CARD_DIR
+    dest = Path(dest)
 
     if dest.exists():
         if overwrite:
@@ -130,24 +133,24 @@ def copy_cards(CARD_name=("QA", "QJXA"), CARD_path="./WIP",
             )
     dest.mkdir(parents=True)
 
-    available = _find_cards(CARD_source, None)
+    available = _find_cards(source, None)
 
     def _copy_names(names, target: Path):
         for j, name in enumerate(names, start=1):
             if name not in available:
                 raise FileNotFoundError(f"CARD introuvable : {name}")
-            fname = f"{j:03d}_{name}.yaml" if add_id else f"{name}.yaml"
+            fname = f"{j:03d}_{name}.yaml" if numbered else f"{name}.yaml"
             shutil.copy(available[name], target / fname)
             if verbose:
                 print(f"  {available[name]} -> {target / fname}")
 
-    if isinstance(CARD_name, dict):
-        for i, (sub, names) in enumerate(CARD_name.items(), start=1):
-            sub_dir = dest / (f"{i:03d}_{sub}" if add_id else sub)
+    if isinstance(cards, dict):
+        for i, (sub, names) in enumerate(cards.items(), start=1):
+            sub_dir = dest / (f"{i:03d}_{sub}" if numbered else sub)
             sub_dir.mkdir(parents=True)
             _copy_names(names, sub_dir)
     else:
-        _copy_names(list(CARD_name), dest)
+        _copy_names(list(cards), dest)
 
 
 # Alias hérités du package R CARD

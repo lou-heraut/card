@@ -25,8 +25,8 @@ Usage :
 
 Contrôles :
 - structure (id, meta en/fr/global, process P1..Pn consécutifs) ;
-- tuples funct bien formés et fonctions résolubles (card.functions/numpy) ;
-- champs process valides (time_step, keep, NApct_lim, sampling_period) ;
+- tuples func bien formés et fonctions résolubles (card.functions/numpy) ;
+- champs process valides (time_step, keep, max_na_pct, sampling_period) ;
 - cohérence des longueurs des listes meta (variable/name/...) ;
 - cohérence fenêtre meta ↔ process : une fenêtre partielle déclarée en
   meta doit se retrouver dans un sampling_period de process (le contrôle
@@ -125,10 +125,10 @@ def _check_process(proc, issues):
     if keep is not None and keep != "all" and not isinstance(keep, list):
         issues.append(f"{name}.keep invalide : {keep!r}")
 
-    napct = proc["NApct_lim"]
+    napct = proc["max_na_pct"]
     if napct is not None and not (isinstance(napct, (int, float))
                                   and 0 <= napct <= 100):
-        issues.append(f"{name}.NApct_lim invalide : {napct!r}")
+        issues.append(f"{name}.max_na_pct invalide : {napct!r}")
 
     sp = proc["sampling_period"]
     if isinstance(sp, str) and _parse_mmdd(sp) is None:
@@ -137,17 +137,17 @@ def _check_process(proc, issues):
         if len(sp) != 2 or any(_parse_mmdd(x) is None for x in sp):
             issues.append(f"{name}.sampling_period invalide : {sp!r}")
 
-    for entry in proc["funct"]:
+    for entry in proc["func"]:
         try:
             resolve(entry["fn_name"])
         except KeyError:
             issues.append(
-                f"{name}.funct.{entry['name']}: fonction inconnue "
+                f"{name}.func.{entry['name']}: fonction inconnue "
                 f"'{entry['fn_name']}'"
             )
     if isinstance(sp, dict):
         try:
-            resolve(sp["funct"]["fn_name"])
+            resolve(sp["func"]["fn_name"])
         except KeyError:
             issues.append(
                 f"{name}.sampling_period: fonction inconnue "

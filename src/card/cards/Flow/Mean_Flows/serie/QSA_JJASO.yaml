@@ -29,8 +29,8 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       QSA_JJASO: [nanmean, "Q"]
     sampling_period: ["06-01", "10-31"]
-    NApct_lim: 3
-    NAyear_lim: 10
+    max_na_pct: 3
+    max_na_years: 10

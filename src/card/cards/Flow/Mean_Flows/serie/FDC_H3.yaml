@@ -25,9 +25,9 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       FDC_H3_p: [fdc_probabilities, {n: 1000, norm_spacing: true}]
       FDC_H3_Q: [fdc_quantiles, "Q", {n: 1000, norm_spacing: true}]
     period: ["2070-01-01", "2099-12-31"]
     time_step: none
-    NAyear_lim: 10
+    max_na_years: 10

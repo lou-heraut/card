@@ -48,7 +48,7 @@ meta:
     input_vars: Q
     preferred_sampling_period: "09-01"
     is_date: true
-    to_normalise: false
+    relative: false
     palette: ["#60265e", "#893687", "#c05fbe", "#dba3da", "#edd1ec",
               "#f6ddd3", "#edbaa7", "#e08765", "#CD5629", "#8f3c1d"]
     horizons:
@@ -59,22 +59,22 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       VC3: [rollmean_center, "Q", {k: 3}]
     time_step: none
     keep: all
-    NAyear_lim: 10
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       tVCX3: [nanargmax, "VC3", true]
     sampling_period:
       type: adaptive
-      funct: [nanmin, "Q"]
-    NApct_lim: 3
+      func: [nanmin, "Q"]
+    max_na_pct: 3
 
   P3:
-    funct:
+    func:
       delta-tVCX3_H1: [delta, "tVCX3", "date",
                        {past: $H0, future: $H1, relative: false}]
       delta-tVCX3_H2: [delta, "tVCX3", "date",

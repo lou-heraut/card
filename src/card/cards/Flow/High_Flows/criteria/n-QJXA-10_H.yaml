@@ -62,16 +62,16 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       QJXA: [nanmax, "Q"]
     sampling_period:
       type: adaptive
-      funct: [nanmin, "Q"]
-    NApct_lim: 3
-    NAyear_lim: 10
+      func: [nanmin, "Q"]
+    max_na_pct: 3
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       QJXA-10_H0: [return_level, "QJXA",
                    {return_period: 10, water_type: "high", dates: "date",
                     period: $H0}]
@@ -79,7 +79,7 @@ process:
     keep: all
 
   P3:
-    funct:
+    func:
       n-QJXA-10_H1: [apply_threshold, "QJXA",
                      {lim: QJXA-10_H0, where: ">=", what: length,
                       select: all, dates: "date", period: $H1}]

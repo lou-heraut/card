@@ -120,15 +120,15 @@ meta:
 
   global:
     input_vars: R
-    to_normalise: false
+    relative: false
     palette: ["#003C30", "#01665E", "#35978F", "#80CDC1", "#C7EAE5",
               "#F6E8C3", "#DFC27D", "#BF812D", "#8C510A", "#543005"]
 
 process:
   P1:
-    funct:
+    func:
       dtCDDMA: [apply_threshold, "R", {lim: 1, where: "<", what: length, select: longest}]
     time_step: year-month
-    NApct_lim: 3
-    NAyear_lim: 10
+    max_na_pct: 3
+    max_na_years: 10
     compress: true

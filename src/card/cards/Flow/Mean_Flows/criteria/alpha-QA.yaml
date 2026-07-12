@@ -40,18 +40,18 @@ meta:
       SEN, P. K. (1968). « Estimates of the regression coefficient based on Kendall's tau ».
       In : Journal of the American Statistical Association 63, p. 1379-1389. DOI : doi:10.2307/2285891.
     preferred_sampling_period: "09-01"
-    to_normalise: [true, false]
+    relative: [true, false]
 
 process:
   P1:
-    funct:
+    func:
       QA: [nanmean, "Q"]
     sampling_period: "09-01"
-    NApct_lim: 3
-    NAyear_lim: 10
+    max_na_pct: 3
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       alpha-QA:     [mannkendall_slope, "QA", {level: 0.1}]
       hyp-alpha-QA: [mannkendall_test,     "QA", {level: 0.1}]
     time_step: none

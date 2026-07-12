@@ -22,12 +22,12 @@ meta:
 
   global:
     input_vars: Q
-    to_normalise: false
+    relative: false
 
 process:
   P1:
-    funct:
+    func:
       BF-LH: [baseflow, "Q", {method: LH}]
     time_step: none
     keep: all
-    NAyear_lim: 10
+    max_na_years: 10

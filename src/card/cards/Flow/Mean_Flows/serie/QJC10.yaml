@@ -25,15 +25,15 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       QJ: [nanmean, "Q_obs"]
     time_step: yearday
     keep: all
-    NApct_lim: 3
-    NAyear_lim: 10
+    max_na_pct: 3
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       QJC10: [rollmean_center, "QJ", {k: 10, cyclical: true}]
     time_step: none
     keep: [QJC10]

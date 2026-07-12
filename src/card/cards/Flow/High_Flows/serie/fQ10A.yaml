@@ -39,22 +39,22 @@ meta:
   global:
     input_vars: Q
     preferred_sampling_period: "09-01"
-    to_normalise: false
+    relative: false
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
 
 process:
   P1:
-    funct:
+    func:
       lowLim: [exceedance_quantile, "Q", {p: 0.1}]
     time_step: none
     keep: all
-    NAyear_lim: 10
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       fQ10A: [exceedance_frequency, "Q", {threshold: lowLim}]
     sampling_period:
       type: adaptive
-      funct: [nanmin, "Q"]
-    NApct_lim: 3
+      func: [nanmin, "Q"]
+    max_na_pct: 3

@@ -43,28 +43,28 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       VC10: [rollmean_center, "Q", {k: 10}]
     time_step: none
     keep: all
-    NAyear_lim: 10
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       VCN10: [nanmin, "VC10"]
     sampling_period:
       type: adaptive
-      funct: [nanmax, "Q"]
-    NApct_lim: 3
+      func: [nanmax, "Q"]
+    max_na_pct: 3
 
   P3:
-    funct:
+    func:
       VCN10-5_H0: [return_level, "VCN10", {return_period: 5, water_type: "low", dates: "date", period: $H0}]
     time_step: none
     keep: all
 
   P4:
-    funct:
+    func:
       n-VCN10-5_H1: [apply_threshold, "VCN10", {lim: VCN10-5_H0, where: "<=", what: length, select: all, dates: "date", period: $H1}]
       n-VCN10-5_H2: [apply_threshold, "VCN10", {lim: VCN10-5_H0, where: "<=", what: length, select: all, dates: "date", period: $H2}]
       n-VCN10-5_H3: [apply_threshold, "VCN10", {lim: VCN10-5_H0, where: "<=", what: length, select: all, dates: "date", period: $H3}]

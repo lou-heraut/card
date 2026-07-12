@@ -250,15 +250,15 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       QMA: [nanmean, "Q"]
     time_step: year-month
-    NApct_lim: 3
-    NAyear_lim: 10
+    max_na_pct: 3
+    max_na_years: 10
     compress: true
 
   P2:
-    funct:
+    func:
       delta-QMA_jan_H1: [delta, "QMA_jan", "date", {past: $H0, future: $H1, relative: true}]
       delta-QMA_jan_H2: [delta, "QMA_jan", "date", {past: $H0, future: $H2, relative: true}]
       delta-QMA_jan_H3: [delta, "QMA_jan", "date", {past: $H0, future: $H3, relative: true}]

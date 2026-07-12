@@ -61,16 +61,16 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       QA: [nanmean, "Q"]
       TA: [nanmean, "T"]
     time_step: year-season
-    Seasons: [DJF, MAM, JJA, SON]
-    NApct_lim: 3
-    NAyear_lim: 10
+    seasons: [DJF, MAM, JJA, SON]
+    max_na_pct: 3
+    max_na_years: 10
     compress: true
   P2:
-    funct:
+    func:
       epsilon_T_DJF: [elasticity, {Q: "QA_DJF", X: "TA_DJF"}]
       epsilon_T_MAM: [elasticity, {Q: "QA_MAM", X: "TA_MAM"}]
       epsilon_T_JJA: [elasticity, {Q: "QA_JJA", X: "TA_JJA"}]

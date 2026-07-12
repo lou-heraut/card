@@ -43,20 +43,20 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       VC30_winter: [rollmean_center, "Q", {k: 30}]
     time_step: none
     keep: all
-    NAyear_lim: 10
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       VCN30_winter: [nanmin, "VC30_winter"]
     sampling_period: ["11-01", "04-30"]
-    NApct_lim: 3
+    max_na_pct: 3
 
   P3:
-    funct:
+    func:
       delta-VCN30_winter_H1: [delta, "VCN30_winter", "date", {past: $H0, future: $H1, relative: true}]
       delta-VCN30_winter_H2: [delta, "VCN30_winter", "date", {past: $H0, future: $H2, relative: true}]
       delta-VCN30_winter_H3: [delta, "VCN30_winter", "date", {past: $H0, future: $H3, relative: true}]

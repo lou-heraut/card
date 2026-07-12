@@ -29,12 +29,12 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       median-QJ: [nanmedian, "Q"]
     time_step: yearday
 
   P2:
-    funct:
+    func:
       median-QJC5: [rollmean_center, "median-QJ", {k: 5, cyclical: true}]
     time_step: none
     keep: all

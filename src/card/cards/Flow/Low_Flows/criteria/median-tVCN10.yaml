@@ -32,25 +32,25 @@ meta:
     input_vars: Q
     preferred_sampling_period: "01-01"
     is_date: true
-    to_normalise: false
+    relative: false
 
 process:
   P1:
-    funct:
+    func:
       VC10: [rollmean_center, "Q", {k: 10}]
     time_step: none
     keep: all
-    NAyear_lim: 10
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       tVCN10: [nanargmin, "VC10", true]
     sampling_period:
       type: adaptive
-      funct: [nanmax, "Q"]
-    NApct_lim: 3
+      func: [nanmax, "Q"]
+    max_na_pct: 3
 
   P3:
-    funct:
+    func:
       median-tVCN10: [circular_median, "tVCN10", {periodicity: 365.25}]
     time_step: none

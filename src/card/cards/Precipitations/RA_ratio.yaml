@@ -24,25 +24,25 @@ meta:
 
   global:
     input_vars: "R, Rl, Rs"
-    to_normalise: false
+    relative: false
 
 process:
   P1:
-    funct:
+    func:
       RA:  [nansum_strict, "R"]
       RAl: [nansum_strict, "Rl"]
       RAs: [nansum_strict, "Rs"]
     sampling_period: "09-01"
-    NApct_lim: 3
-    NAyear_lim: 10
+    max_na_pct: 3
+    max_na_years: 10
   P2:
-    funct:
+    func:
       mean-RA:  [nanmean, "RA"]
       mean-RAl: [nanmean, "RAl"]
       mean-RAs: [nanmean, "RAs"]
     time_step: none
   P3:
-    funct:
+    func:
       Rl_ratio: [ratio, "mean-RAl", "mean-RA"]
       Rs_ratio: [ratio, "mean-RAs", "mean-RA"]
     time_step: none

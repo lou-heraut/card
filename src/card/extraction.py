@@ -72,8 +72,8 @@ def _funct_tuple(entry: dict):
 
 def _sampling_period(sp):
     if isinstance(sp, dict):        # {type: adaptive, funct: entry}
-        entry = sp["funct"]
-        return Adaptive(funct=resolve(entry["fn_name"]),
+        entry = sp["func"]
+        return Adaptive(func=resolve(entry["fn_name"]),
                         col=entry["cols"][0])
     return sp                       # None, "MM-DD" ou ["MM-DD", "MM-DD"]
 
@@ -83,13 +83,13 @@ def _run_process(data, proc, period_default=None, cancel_lim=False,
     period = proc["period"] if proc["period"] is not None else period_default
     return process_extraction(
         data,
-        funct={e["name"]: _funct_tuple(e) for e in proc["funct"]},
+        func={e["name"]: _funct_tuple(e) for e in proc["func"]},
         time_step=proc["time_step"],
         sampling_period=_sampling_period(proc["sampling_period"]),
         period=period,
-        NApct_lim=None if cancel_lim else proc["NApct_lim"],
-        NAyear_lim=None if cancel_lim else proc["NAyear_lim"],
-        Seasons=proc["Seasons"],
+        max_na_pct=None if cancel_lim else proc["max_na_pct"],
+        max_na_years=None if cancel_lim else proc["max_na_years"],
+        seasons=proc["seasons"],
         keep=proc["keep"],
         compress=proc["compress"],
         expand=proc["expand"],
@@ -152,7 +152,7 @@ def _meta_rows(card) -> pd.DataFrame:
         "source": _as_list(gl.get("source"), n),
         "preferred_sampling_period": _as_list(gl.get("preferred_sampling_period"), n),
         "is_date": _as_list(gl.get("is_date"), n),
-        "to_normalise": _as_list(gl.get("to_normalise"), n),
+        "relative": _as_list(gl.get("relative"), n),
         "palette": _as_list(palette, n),
         "script_path": [card["path"]] * n,
     })
@@ -245,27 +245,41 @@ def _find_cards(CARD_path, CARD_name):
     return {n: found[n] for n in CARD_name}
 
 
-def extract(data, cards=("QA", "QJXA"), CARD_path=None,
-            period_default=None, cancel_lim=False,
-            simplify=False, extract_only_metadata=False,
+def extract(data, cards=("QA", "QJXA"), path=None,
+            default_period=None, ignore_na_limits=False,
+            simplify=False, metadata_only=False,
             rename=None, verbose=False, CARD_name=None):
     """Extrait des variables hydroclimatiques selon des fiches CARD YAML.
 
-    data : DataFrame avec une colonne datetime, une colonne str (id) et
-           les colonnes numériques d'entrée requises par les fiches
-           (référencées par leur nom, ex. 'Q' : cf. input_vars des
-           fiches, visibles via card.list_cards() ou card.info()).
+    data : DataFrame avec une colonne datetime, une colonne texte
+           (identifiant de série) et les colonnes numériques d'entrée
+           requises par les fiches (référencées par leur nom, ex. 'Q' :
+           cf. input_vars des fiches, via card.list_cards() ou
+           card.info()).
     cards : noms des fiches à exécuter (cf. card.list_cards()).
+    path : dossier des fiches YAML (défaut : fiches embarquées, ou la
+           variable d'environnement CARD_YML_PATH).
+    default_period : [début, fin] appliqué aux fiches sans période propre.
+    ignore_na_limits : désactive les seuils de lacunes des fiches
+           (max_na_pct, max_na_years).
+    simplify : fusionne les DataFrames de sortie en un seul.
+    metadata_only : ne calcule rien, retourne seulement les métadonnées.
     rename : dict {nom_colonne_data: nom_variable_fiche} pour faire
            correspondre vos colonnes aux noms attendus, ex.
            rename={"Qm3s": "Q"}. Si les données n'ont qu'une seule
            colonne numérique et la fiche une seule variable requise, la
            correspondance est automatique (signalée par un warning).
     CARD_name : alias hérité du R pour `cards` (prioritaire si fourni).
-    Retourne {"metaEX": DataFrame, "dataEX": {card_id: DataFrame}}.
+
+    Retourne {"data": {id_fiche: DataFrame}, "meta": DataFrame}. Les
+    clés héritées "dataEX" et "metaEX" pointent vers les mêmes objets.
     """
     if CARD_name is not None:
         cards = CARD_name
+    CARD_path = path
+    period_default = default_period
+    cancel_lim = ignore_na_limits
+    extract_only_metadata = metadata_only
     if CARD_path is None:
         CARD_path = os.environ.get("CARD_YML_PATH", _DEFAULT_CARD_DIR)
 
@@ -304,7 +318,7 @@ def extract(data, cards=("QA", "QJXA"), CARD_path=None,
         else pd.DataFrame()
 
     if extract_only_metadata:
-        return {"metaEX": metaEX}
+        return {"meta": metaEX, "metaEX": metaEX}
 
     if simplify and dataEX:
         dfs = list(dataEX.values())
@@ -313,9 +327,11 @@ def extract(data, cards=("QA", "QJXA"), CARD_path=None,
             by = [c for c in merged.columns
                   if c in df.columns and not pd.api.types.is_numeric_dtype(df[c])]
             merged = merged.merge(df, on=by, how="outer")
-        return {"metaEX": metaEX, "dataEX": merged}
+        return {"data": merged, "meta": metaEX,
+                "dataEX": merged, "metaEX": metaEX}
 
-    return {"metaEX": metaEX, "dataEX": dataEX}
+    return {"data": dataEX, "meta": metaEX,
+            "dataEX": dataEX, "metaEX": metaEX}
 
 
 # Alias hérité du package R CARD

@@ -48,16 +48,16 @@ meta:
 
   global:
     input_vars: R
-    to_normalise: false
+    relative: false
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
 
 process:
   P1:
-    funct:
+    func:
       RSA: [nansum_strict, "R"]
     time_step: year-season
-    Seasons: [DJF, MAM, JJA, SON]
-    NApct_lim: 3
-    NAyear_lim: 10
+    seasons: [DJF, MAM, JJA, SON]
+    max_na_pct: 3
+    max_na_years: 10
     compress: true

@@ -25,7 +25,7 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       QM_H2: [nanmean, "Q"]
     period: ["2041-01-01", "2070-12-31"]
     time_step: month

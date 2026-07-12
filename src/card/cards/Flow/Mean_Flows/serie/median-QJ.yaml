@@ -25,6 +25,6 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       median-QJ: [nanmedian, "Q"]
     time_step: yearday

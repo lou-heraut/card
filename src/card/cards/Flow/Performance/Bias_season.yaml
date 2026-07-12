@@ -81,14 +81,14 @@ meta:
 
   global:
     input_vars: "Q_obs, Q_sim"
-    to_normalise: false
+    relative: false
 
 process:
   P1:
-    funct:
+    func:
       Bias: [bias, "Q_obs", "Q_sim"]
     time_step: season
-    Seasons: [DJF, MAM, JJA, SON]
-    NApct_lim: 3
-    NAyear_lim: 10
+    seasons: [DJF, MAM, JJA, SON]
+    max_na_pct: 3
+    max_na_years: 10
     compress: true

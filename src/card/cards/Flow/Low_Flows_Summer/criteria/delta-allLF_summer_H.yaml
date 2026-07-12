@@ -304,7 +304,7 @@ meta:
     input_vars: Q
     preferred_sampling_period: "01-01"
     is_date: [true, true, true, true, true, true, true, true, true, false, false, false, false, false, false]
-    to_normalise: [false, false, false, false, false, false, false, false, false, false, false, false, true, true, true]
+    relative: [false, false, false, false, false, false, false, false, false, false, false, false, true, true, true]
     horizons:
       H0: ["1976-01-01", "2005-08-31"]
       H1: ["2021-01-01", "2050-12-31"]
@@ -329,37 +329,37 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       VC10_summer: [rollmean_center, "Q", {k: 10}]
     time_step: none
     keep: all
 
   P2:
-    funct:
+    func:
       VCN10_summer: [nanmin, "VC10_summer"]
     sampling_period: ["05-01", "11-30"]
-    NApct_lim: 3
-    NAyear_lim: 10
+    max_na_pct: 3
+    max_na_years: 10
     keep: all
 
   P3:
-    funct:
+    func:
       upLim: [nanmax, "VCN10_summer"]
     time_step: none
     keep: all
 
   P4:
-    funct:
+    func:
       startLF_summer:  [apply_threshold, "VC10_summer", {lim: upLim, where: "<=", what: first, select: longest}, true]
       centerLF_summer: [apply_threshold, "VC10_summer", {lim: upLim, where: "<=", what: nanargmin, select: longest}, true]
       endLF_summer:    [apply_threshold, "VC10_summer", {lim: upLim, where: "<=", what: last, select: longest}, true]
       dtLF_summer:     [apply_threshold, "VC10_summer", {lim: upLim, where: "<=", what: length, select: longest}]
       vLF_summer:      [deficit_volume, "VC10_summer", {threshold: upLim}]
     sampling_period: ["05-01", "11-30"]
-    NApct_lim: 3
+    max_na_pct: 3
 
   P5:
-    funct:
+    func:
       delta-startLF_summer_H1:  [delta, "startLF_summer", "date", {past: $H0, future: $H1, relative: false}]
       delta-startLF_summer_H2:  [delta, "startLF_summer", "date", {past: $H0, future: $H2, relative: false}]
       delta-startLF_summer_H3:  [delta, "startLF_summer", "date", {past: $H0, future: $H3, relative: false}]

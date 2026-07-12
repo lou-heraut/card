@@ -26,11 +26,11 @@ meta:
 
   global:
     input_vars: "Q_obs, Q_sim"
-    to_normalise: false
+    relative: false
 
 process:
   P1:
-    funct:
+    func:
       Bias: [bias, "Q_obs", "Q_sim"]
     time_step: none
-    NAyear_lim: 10
+    max_na_years: 10

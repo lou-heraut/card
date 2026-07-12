@@ -59,14 +59,14 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       Q01A: [exceedance_quantile, "Q", {p: 0.01}]
     sampling_period: "01-01"
-    NApct_lim: 3
-    NAyear_lim: 10
+    max_na_pct: 3
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       delta-Q01A_H1: [delta, "Q01A", "date",
                       {past: $H0, future: $H1, relative: true}]
       delta-Q01A_H2: [delta, "Q01A", "date",

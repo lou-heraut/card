@@ -48,7 +48,7 @@ meta:
       TALLAKSEN, L. et H. VAN LANEN, éd. (2004). Hydrological drought. Processes
       and estimation methods for streamflow and groundwater. Developments in water
       science 48. Netherlands : Elsevier. ISBN : 9780444516886.
-    to_normalise: false
+    relative: false
     horizons:
       H0: ["1976-01-01", "2005-08-31"]
       H1: ["2021-01-01", "2050-12-31"]
@@ -57,14 +57,14 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       BF-Wal: [baseflow, "Q", {method: Wal}]
     time_step: none
     keep: all
-    NAyear_lim: 10
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       delta-BFI-Wal_H1: [delta, "BF-Wal", "date",
                           {past: $H0, future: $H1, relative: false, Q_for_BFI: "Q"}]
       delta-BFI-Wal_H2: [delta, "BF-Wal", "date",

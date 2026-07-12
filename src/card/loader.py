@@ -23,9 +23,9 @@ Une fiche chargée est un dict :
       "processes": [                                          # P1..Pn ordonnés
           {
             "name": "P1",
-            "funct": [FunctEntry, ...],
+            "func": [FunctEntry, ...],
             "time_step": str, "sampling_period": ..., "period": ...,
-            "NApct_lim": ..., "NAyear_lim": ..., "Seasons": [...],
+            "max_na_pct": ..., "max_na_years": ..., "seasons": [...],
             "keep": ..., "compress": bool, "expand": bool,
           },
       ],
@@ -33,8 +33,8 @@ Une fiche chargée est un dict :
 
 FunctEntry (dict) : {name, fn_name, fn, cols, kwargs, is_date}
 Les symboles $H0..$Hn sont substitués par les dates de meta.global.horizons.
-Le sampling_period adaptatif {type: adaptive, funct: [...]} est parsé de la
-même façon qu'un tuple funct.
+Le sampling_period adaptatif {type: adaptive, func: [...]} est parsé de la
+même façon qu'un tuple func.
 """
 
 import re
@@ -47,7 +47,7 @@ _GLOBAL_DEFAULTS = {
     "source": None,
     "preferred_sampling_period": None,
     "is_date": False,
-    "to_normalise": True,
+    "relative": True,
     "palette": None,
 }
 
@@ -55,9 +55,9 @@ _PROCESS_DEFAULTS = {
     "time_step": "year",
     "sampling_period": None,
     "period": None,
-    "NApct_lim": None,
-    "NAyear_lim": None,
-    "Seasons": ["DJF", "MAM", "JJA", "SON"],
+    "max_na_pct": None,
+    "max_na_years": None,
+    "seasons": ["DJF", "MAM", "JJA", "SON"],
     "keep": None,
     "compress": False,
     "expand": False,
@@ -89,7 +89,7 @@ def _substitute_horizons(value, horizons):
 def _parse_funct_tuple(name, raw, horizons):
     """Parse [fn_name, *cols, kwargs?, is_date?] en FunctEntry."""
     if not isinstance(raw, list) or not raw or not isinstance(raw[0], str):
-        raise ValueError(f"Tuple funct invalide pour '{name}' : {raw!r}")
+        raise ValueError(f"Tuple func invalide pour '{name}' : {raw!r}")
     fn_name = raw[0]
     rest = list(raw[1:])
 
@@ -111,7 +111,7 @@ def _parse_funct_tuple(name, raw, horizons):
             pos_args.append(("lit", item))
         else:
             raise ValueError(
-                f"Élément inattendu dans le tuple funct de '{name}' : {item!r}"
+                f"Élément inattendu dans le tuple func de '{name}' : {item!r}"
             )
 
     # la résolution fn_name -> callable est paresseuse (extraction.resolve
@@ -133,15 +133,15 @@ def _parse_sampling_period(raw, horizons):
     if isinstance(raw, dict):
         if raw.get("type") != "adaptive":
             raise ValueError(f"sampling_period dict invalide : {raw!r}")
-        entry = _parse_funct_tuple("_sampling", raw["funct"], horizons)
-        return {"type": "adaptive", "funct": entry}
+        entry = _parse_funct_tuple("_sampling", raw["func"], horizons)
+        return {"type": "adaptive", "func": entry}
     return raw  # "MM-DD" ou ["MM-DD", "MM-DD"]
 
 
 def load_card(path):
     """Charge une fiche CARD YAML et la normalise : méta fr/en/global
     complétées par les défauts, horizons $Hx expansés, processus
-    P1..Pn ordonnés avec leurs tuples funct prêts pour stase.
+    P1..Pn ordonnés avec leurs tuples func prêts pour stase.
     Retourne un dict {id, path, meta, processes}.
     """
     with open(path, encoding="utf-8") as f:
@@ -161,11 +161,11 @@ def load_card(path):
             )
         p_raw = process_raw[pname]
         proc = {**_PROCESS_DEFAULTS,
-                **{k: v for k, v in p_raw.items() if k != "funct"}}
+                **{k: v for k, v in p_raw.items() if k != "func"}}
         proc["name"] = pname
-        proc["funct"] = [
+        proc["func"] = [
             _parse_funct_tuple(var, t, horizons)
-            for var, t in p_raw["funct"].items()
+            for var, t in p_raw["func"].items()
         ]
         proc["sampling_period"] = _parse_sampling_period(
             proc["sampling_period"], horizons

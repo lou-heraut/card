@@ -32,7 +32,7 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       Q10: [exceedance_quantile, "Q", {p: 0.1}]
     time_step: none
-    NAyear_lim: 10
+    max_na_years: 10

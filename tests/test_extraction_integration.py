@@ -23,7 +23,7 @@ def data():
 
 @pytest.fixture(scope="module")
 def result(data):
-    return CARD_extraction(data, CARD_name=["QA", "tQJXA", "dtLF", "QMNA"])
+    return CARD_extraction(data, cards=["QA", "tQJXA", "dtLF", "QMNA"])
 
 
 def station_a(result, name):
@@ -64,6 +64,6 @@ def test_metaex_structure(result):
 
 
 def test_extract_only_metadata(data):
-    res = CARD_extraction(data, CARD_name=["QA"], extract_only_metadata=True)
+    res = CARD_extraction(data, cards=["QA"], metadata_only=True)
     assert "dataEX" not in res
     assert len(res["metaEX"]) == 1

@@ -34,14 +34,14 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       VC30_winter: [rollmean_center, "Q", {k: 30}]
     time_step: none
     keep: all
-    NAyear_lim: 10
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       VCN30_winter: [nanmin, "VC30_winter"]
     sampling_period: ["11-01", "04-30"]
-    NApct_lim: 3
+    max_na_pct: 3

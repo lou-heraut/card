@@ -69,3 +69,56 @@ Les noms de variables internes aux fiches (upLim, lowLim comme sorties
 de processus) sont conservés. Validation croisée R↔Python relancée
 après application : corpus identique (552 ok en mode parité rolling).
 Cette table est conservée pour la traçabilité R↔Python.
+
+
+# Renommages Python (2026-07-12)
+
+Nettoyage validé par l'utilisateur : renommage sec des paramètres et des
+clés YAML ; fonctions R conservées en alias. Côté stase :
+voir stase/docs/dev/RENAMING_PY.md.
+
+## Fonctions (alias R conservés)
+
+| R / historique | Python canonique |
+|---|---|
+| CARD_extraction (param CARD_name accepté) | card.extract(data, cards=[...]) |
+| CARD_list_all | card.list_cards |
+| CARD_info | card.info |
+| CARD_management | card.copy_cards |
+
+## Paramètres (renommage sec)
+
+| Ancien | Nouveau |
+|---|---|
+| CARD_path (extract, list_cards, info) | path |
+| period_default | default_period |
+| cancel_lim | ignore_na_limits |
+| extract_only_metadata | metadata_only |
+| info(CARD_name) | info(name) |
+| copy_cards : CARD_name / CARD_path / CARD_source / add_id | cards / dest / source / numbered |
+
+## Clés de retour de card.extract
+
+`{"data": ..., "meta": ...}` ; les clés héritées `dataEX` / `metaEX`
+pointent vers les mêmes objets (transition, retrait possible plus tard).
+
+## Clés des fiches YAML (215 fiches réécrites)
+
+| Ancien | Nouveau |
+|---|---|
+| funct (process et sampling adaptatif) | func |
+| NApct_lim | max_na_pct |
+| NAyear_lim | max_na_years |
+| Seasons | seasons |
+| to_normalise (meta global) | relative |
+
+La colonne metaEX correspondante s'appelle aussi `relative`
+(consommée par stase.trend via meta=).
+
+## Note de validation
+
+Le corpus R↔Python a été régénéré avant/après renommage : aucun statut
+ne change sur les vraies variables ; seules disparaissent 11 lignes
+« ok » triviales où les colonnes structurelles R (Month, Yearday)
+étaient comparées à elles-mêmes par coïncidence de nom (les colonnes
+Python sont désormais en snake_case).

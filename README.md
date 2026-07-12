@@ -37,8 +37,8 @@ data = pd.DataFrame({
 })
 
 res = card.extract(data, cards=["QA", "VCN10"])
-res["dataEX"]["QA"]      # un DataFrame par fiche
-res["metaEX"]            # métadonnées (une ligne par variable)
+res["data"]["QA"]        # un DataFrame par fiche
+res["meta"]              # métadonnées (une ligne par variable)
 ```
 
 Les fiches référencent les colonnes d'entrée par leur nom (`Q` pour le
@@ -62,13 +62,13 @@ Le catalogue complet est consultable en ligne :
 [lou-heraut.github.io/card](https://lou-heraut.github.io/card/) ou
 [docs/CARDS.md](docs/CARDS.md). Pour personnaliser une fiche, copiez-la
 dans un dossier de travail avec `card.copy_cards`, modifiez le YAML et
-passez `CARD_path=` à `card.extract`.
+passez `path=` à `card.extract`.
 
 ## Architecture
 
 ```
 src/card/
-  loader.py       # YAML vers processus : défauts, horizons $Hx, tuples funct
+  loader.py       # YAML vers processus : défauts, horizons $Hx, tuples func
   extraction.py   # card.extract : chaîne P1..Pn via stase.extract
   management.py   # card.list_cards, card.info, card.copy_cards
   functions/      # fonctions hydro (baseflow, return_level, NSE, KGE...)

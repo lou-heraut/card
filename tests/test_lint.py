@@ -24,8 +24,8 @@ def test_linter_catches_lost_window_bound(tmp_path):
     perdue dans le process — le linter doit le signaler."""
     src = next(_DEFAULT_CARD_DIR.rglob("QNA_summer.yaml"))
     damaged = src.read_text().replace(
-        'sampling_period: ["05-01", "11-30"]\n    NApct_lim',
-        'sampling_period: "05-01"\n    NApct_lim',
+        'sampling_period: ["05-01", "11-30"]\n    max_na_pct',
+        'sampling_period: "05-01"\n    max_na_pct',
     )
     assert damaged != src.read_text(), "fixture invalide"
     bad = tmp_path / "QNA_summer.yaml"
@@ -38,7 +38,7 @@ def test_linter_catches_unknown_function(tmp_path):
     bad = tmp_path / "X.yaml"
     bad.write_text(
         "id: X\nmeta: {en: {variable: X}, fr: {variable: X}, global: {}}\n"
-        "process:\n  P1:\n    funct:\n      X: [fonction_inconnue, \"Q\"]\n"
+        "process:\n  P1:\n    func:\n      X: [fonction_inconnue, \"Q\"]\n"
     )
     issues = validate_card(bad)
     assert any("fonction inconnue" in i for i in issues), issues

@@ -33,7 +33,7 @@ meta:
   global:
     input_vars: Q
     preferred_sampling_period: "01-01"
-    to_normalise: false
+    relative: false
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
     horizons:
@@ -44,16 +44,16 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       QNA: [nanmin, "Q"]
     sampling_period:
       type: adaptive
-      funct: [nanmax, "Q"]
-    NApct_lim: 3
-    NAyear_lim: 10
+      func: [nanmax, "Q"]
+    max_na_pct: 3
+    max_na_years: 10
 
   P2:
-    funct:
+    func:
       delta-QNA_H1: [delta, "QNA", "date", {past: $H0, future: $H1, relative: false}]
       delta-QNA_H2: [delta, "QNA", "date", {past: $H0, future: $H2, relative: false}]
       delta-QNA_H3: [delta, "QNA", "date", {past: $H0, future: $H3, relative: false}]

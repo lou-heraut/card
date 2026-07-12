@@ -25,7 +25,7 @@ meta:
 
 process:
   P1:
-    funct:
+    func:
       median-QJ_H0: [nanmedian, "Q"]
     period: ["1976-01-01", "2005-08-31"]
     time_step: yearday
