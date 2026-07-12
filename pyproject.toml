@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "card"
 version = "0.1.0"
 description = "CARD — hydroclimatic variable extraction from YAML parameterization files, powered by exstat"
-license = {text = "AGPL-3.0-or-later"}
+license = {text = "GPL-3.0-or-later"}
 authors = [{name = "Louis Héraut", email = "louis.heraut@inrae.fr"}]
 maintainers = [{name = "Louis Héraut", email = "louis.heraut@inrae.fr"}]
 requires-python = ">=3.10"

@@ -26,13 +26,15 @@
 > Reste : phase D (doc finale, commits initiaux).
 >
 > **Phase D TERMINÉE (2026-07-12)** : LICENSE et AUTHORS repris des
-> packages R (⚠ le fichier LICENSE des repos R est du texte AGPL-3
-> alors que DESCRIPTION dit GPL-3 — incohérence héritée, signalée à
-> l'utilisateur ; les pyproject suivent le fichier LICENSE :
-> AGPL-3.0-or-later), en-têtes de copyright par module (crédits des
-> fichiers R sources), commits initiaux des deux repos (branche main)
-> et nettoyage commité du repo CARD R (retour au R pur). Il reste à
-> l'utilisateur : créer les remotes GitHub et pousser.
+> packages R, en-têtes de copyright par module (crédits des fichiers R
+> sources), commits initiaux des deux repos (branche main) et nettoyage
+> commité du repo CARD R (retour au R pur). L'incohérence héritée des
+> repos R (fichier LICENSE en texte AGPL-3 vs DESCRIPTION GPL-3) a été
+> tranchée par l'utilisateur : **GPL-3 partout** — LICENSE = texte
+> GPL-3, pyproject = GPL-3.0-or-later (les LICENSE des repos R restent
+> à corriger côté utilisateur). Reste : remotes GitHub + push
+> (réflexion sur les noms de repos en cours : GitHub est insensible à
+> la casse, CARD/card impossibles dans le même compte).
 
 ## Principes actés
 
