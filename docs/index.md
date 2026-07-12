@@ -1,4 +1,4 @@
-# card
+# card <img src="img/flower_alt.png" align="right" width="140" height="140" alt=""/>
 
 **CARD** — extraction de variables hydroclimatiques définies par des
 fiches YAML, exécutées par le moteur [stase](https://github.com/lou-heraut/stase).

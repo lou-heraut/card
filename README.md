@@ -1,12 +1,13 @@
-# card
+# card [<img src="docs/img/flower_alt.png" align="right" width="160" height="160" alt="card"/>](https://github.com/lou-heraut/stase)
 
+<!-- badges: start -->
 [![tests](https://github.com/lou-heraut/card/actions/workflows/tests.yml/badge.svg)](https://github.com/lou-heraut/card/actions/workflows/tests.yml)
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue)](https://lifecycle.r-lib.org/articles/stages.html)
+![](https://img.shields.io/github/last-commit/lou-heraut/card)
+[![License: GPL v3](https://img.shields.io/badge/license-GPL--3.0-bd0000)](LICENSE)
+<!-- badges: end -->
 
 **CARD** — *CARD Aggregates Recursive Diagnostics*.
-
-<!-- Figure d'illustration (à déposer dans docs/img/, cf. docs/img/README.md) :
-![Exemple de variables CARD](docs/img/overview.png)
--->
 
 Package Python d'extraction de variables hydroclimatiques définies
 par des fiches de paramétrisation YAML (`src/card/cards/`), exécutées par le
