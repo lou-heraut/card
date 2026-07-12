@@ -108,6 +108,12 @@ def _bfs_lyne_hollick(Q, a=0.925, passes=3):
 
 
 def baseflow(Q, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
+    """Débit de base par séparation d'hydrogramme. method='Wal'
+    (Wallingford / smoothed minima : blocs de d jours, points
+    pivots au facteur w) ou 'LH' (filtre de Lyne & Hollick,
+    paramètre a, nombre de passes). Sortie de même longueur que Q
+    (transform).
+    """
     q = _to_float_array(Q)
     if method == "Wal":
         return _bfs_wallingford(q, d=d, w=w)
@@ -117,6 +123,9 @@ def baseflow(Q, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
 
 
 def quickflow(Q, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
+    """Écoulement rapide : Q - baseflow(Q) (mêmes paramètres).
+    Sortie de même longueur que Q (transform).
+    """
     q = _to_float_array(Q)
     return q - baseflow(q, d=d, w=w, a=a, passes=passes, method=method)
 
@@ -126,6 +135,9 @@ quickflow.is_transform = True
 
 
 def BFI(Q, BF):
+    """Base Flow Index : somme du débit de base / somme du débit
+    total (NaN ignorés).
+    """
     q = _to_float_array(Q)
     bf = _to_float_array(BF)
     if len(q) != len(bf):
@@ -135,6 +147,9 @@ def BFI(Q, BF):
 
 
 def BFM(BFA):
+    """Base Flow Magnitude : (max - min) / max des débits de base
+    agrégés (ex. régime mensuel interannuel).
+    """
     x = _to_float_array(BFA)
     bfa_max = np.nanmax(x)
     bfa_min = np.nanmin(x)
@@ -142,6 +157,9 @@ def BFM(BFA):
 
 
 def snowmelt_volume(Q, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
+    """Volume de fonte (hm³) : somme du débit de base (m³/s) convertie
+    en volume journalier (× 86 400 s / 10⁶).
+    """
     BF = baseflow(Q, d=d, w=w, a=a, passes=passes, method=method)
     return np.nansum(BF) * 24 * 3600 / 1e6
 
@@ -161,6 +179,9 @@ def snowmelt_timing(Q, fraction, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
 
 
 def snowmelt_duration(Q, fraction1, fraction2, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
+    """Durée (en pas de temps, bornes incluses) entre les atteintes des
+    fractions fraction1 puis fraction2 du volume de fonte cumulé.
+    """
     BF = baseflow(Q, d=d, w=w, a=a, passes=passes, method=method)
     vol = np.cumsum(BF)
     if np.all(np.isnan(vol)):

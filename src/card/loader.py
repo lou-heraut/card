@@ -139,6 +139,11 @@ def _parse_sampling_period(raw, horizons):
 
 
 def load_card(path):
+    """Charge une fiche CARD YAML et la normalise : méta fr/en/global
+    complétées par les défauts, horizons $Hx expansés, processus
+    P1..Pn ordonnés avec leurs tuples funct prêts pour stase.
+    Retourne un dict {id, path, meta, processes}.
+    """
     with open(path, encoding="utf-8") as f:
         raw = yaml.safe_load(f)
 

@@ -58,6 +58,12 @@ def _squeeze_scalar(x):
 
 
 def difference(a, b, first=False):
+    """Différence a - b (élément par élément, scalaire si possible).
+
+    first=True : différence des valeurs dominantes (rle) de a et b —
+    utile quand a et b sont des colonnes constantes par groupe.
+    Tout-NaN d'un côté → NaN.
+    """
     a = _to_float_array(a)
     b = _to_float_array(b)
     if np.all(np.isnan(a)) or np.all(np.isnan(b)):
@@ -68,6 +74,11 @@ def difference(a, b, first=False):
 
 
 def ratio(a, b, first=False):
+    """Rapport a / b (élément par élément, scalaire si possible).
+
+    first=True : rapport des valeurs dominantes (rle) de a et b.
+    Tout-NaN d'un côté → NaN.
+    """
     a = _to_float_array(a)
     b = _to_float_array(b)
     if np.all(np.isnan(a)) or np.all(np.isnan(b)):
@@ -87,6 +98,10 @@ def ratio(a, b, first=False):
 # celles qui utilisaient nansum_strict gardent la version stricte.
 
 def nansum_strict(X, div=1):
+    """Somme ignorant les NaN, mais NaN si TOUT est NaN (≠ np.nansum
+    qui vaut 0.0) : une année sans aucune donnée n'est pas un cumul
+    nul. Résultat divisé par div.
+    """
     x = _to_float_array(X)
     if np.all(np.isnan(x)):
         return np.nan
@@ -124,6 +139,11 @@ def _roll_cyclical(x: np.ndarray, k: int, stat: str) -> np.ndarray:
 
 
 def rollmean_center(X, k, cyclical=False):
+    """Moyenne mobile centrée de fenêtre k (convention pandas
+    center=True ; fenêtre contenant un NaN → NaN). cyclical=True :
+    la série est considérée circulaire (régimes interannuels).
+    Sortie de même longueur que X (transform).
+    """
     x = _to_float_array(X)
     if cyclical:
         return _roll_cyclical(x, k, "mean")
@@ -131,6 +151,9 @@ def rollmean_center(X, k, cyclical=False):
 
 
 def rollsum_center(X, k, cyclical=False):
+    """Somme mobile centrée de fenêtre k — mêmes conventions que
+    rollmean_center. Sortie de même longueur que X (transform).
+    """
     x = _to_float_array(X)
     if cyclical:
         return _roll_cyclical(x, k, "sum")
@@ -162,16 +185,26 @@ def _circular_tweak(X, Y, periodicity):
 
 
 def circular_difference(X, Y, periodicity):
+    """Différence X - Y sur un axe circulaire de période donnée (ex.
+    jours de l'année, periodicity=365.25) : quand l'écart dépasse une
+    demi-période, le plus petit terme est décalé d'une période.
+    """
     X, Y = _circular_tweak(X, Y, periodicity)
     return _squeeze_scalar(X - Y)
 
 
 def circular_ratio(X, Y, periodicity):
+    """Rapport X / Y après recalage circulaire des deux termes
+    (cf. circular_difference).
+    """
     X, Y = _circular_tweak(X, Y, periodicity)
     return _squeeze_scalar(X / Y)
 
 
 def circular_median(X, periodicity):
+    """Médiane circulaire de X sur une période donnée (arctangente des
+    médianes de sin/cos) — ex. date médiane d'un événement annuel.
+    """
     x = _to_float_array(X)
     scaling = 2 * np.pi / periodicity
     radians = x * scaling

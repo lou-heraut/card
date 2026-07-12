@@ -68,6 +68,15 @@ def _contiguous_periods(ID: np.ndarray) -> list[np.ndarray]:
 
 def apply_threshold(X, lim, where="<=", what="X", select="all",
                     dates=None, period=None):
+    """Analyse des épisodes où X franchit un seuil lim (comparaison
+    where : '<=', '<', '>=', '>').
+
+    what : grandeur retournée — 'X' (valeurs), 'length' (durée des
+    épisodes), 'first'/'last' (index 0-based de début/fin)...
+    select : 'all', 'longest', 'shortest', ou une durée cible.
+    dates/period : restreint l'analyse à une sous-période.
+    Épisode = run contigu d'indices satisfaisant la condition.
+    """
     X = _to_float_array(X)
 
     lim_arr = _to_float_array(lim) if np.ndim(lim) > 0 or isinstance(lim, pd.Series) \
