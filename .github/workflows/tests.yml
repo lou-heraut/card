@@ -6,9 +6,8 @@ on:
   pull_request:
 
 env:
-  # TODO : adapter l'URL une fois le repo stase publié sur GitHub
-  # (voir CARD_project/card/ROADMAP dans docs/dev — noms de repos en réflexion)
-  STASE_GIT: "stase @ git+https://github.com/louis-heraut/stase.git"
+  # moteur stase, installé depuis GitHub (pas de PyPI)
+  STASE_GIT: "stase @ git+https://github.com/lou-heraut/stase.git"
 
 jobs:
   tests:

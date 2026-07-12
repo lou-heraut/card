@@ -1,8 +1,6 @@
 # card
 
-<!-- Badge CI à activer après le push GitHub :
-[![tests](https://github.com/<owner>/card/actions/workflows/tests.yml/badge.svg)](https://github.com/<owner>/card/actions/workflows/tests.yml)
--->
+[![tests](https://github.com/lou-heraut/card/actions/workflows/tests.yml/badge.svg)](https://github.com/lou-heraut/card/actions/workflows/tests.yml)
 
 **CARD** — *CARD Aggregates Recursive Diagnostics*.
 
@@ -55,8 +53,8 @@ des fiches).
 Depuis GitHub (pas de publication PyPI pour l'instant) :
 
 ```bash
-pip install "stase @ git+https://github.com/<owner>/stase.git"
-pip install "card @ git+https://github.com/<owner>/card.git"
+pip install "stase @ git+https://github.com/lou-heraut/stase.git"
+pip install "card @ git+https://github.com/lou-heraut/card.git"
 ```
 
 Pour le développement : ajouter `src/` de card **et** de stase au

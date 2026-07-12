@@ -21,6 +21,10 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest"]
 
+[project.urls]
+Repository = "https://github.com/lou-heraut/card"
+Issues = "https://github.com/lou-heraut/card/issues"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
