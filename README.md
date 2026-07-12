@@ -1,8 +1,10 @@
 # card
 
-Package Python **CARD** : extraction de variables hydroclimatiques définies
+**CARD** — *CARD Aggregates Recursive Diagnostics*.
+
+Package Python d'extraction de variables hydroclimatiques définies
 par des fiches de paramétrisation YAML (`src/card/cards/`), exécutées par le
-moteur [exstat](../../EXstat_project/exstat).
+moteur [stase](../../EXstat_project/stase).
 
 Successeur du package R CARD (`CARD_project/CARD/`) — les fiches YAML sont
 la source de vérité ; les fiches R restent la référence de validation.
@@ -21,8 +23,8 @@ res["metaEX"]            # métadonnées (une ligne par variable)
 CARD_list_all()          # métadonnées des ~215 fiches disponibles
 ```
 
-Sans installation : ajouter `src/` de card **et** d'exstat au PYTHONPATH
-(cf. `tests/conftest.py`). Sinon `pip install -e ../../EXstat_project/exstat -e .`
+Sans installation : ajouter `src/` de card **et** de stase au PYTHONPATH
+(cf. `tests/conftest.py`). Sinon `pip install -e ../../EXstat_project/stase -e .`
 dans un environnement virtuel.
 
 ## Architecture
@@ -30,7 +32,7 @@ dans un environnement virtuel.
 ```
 src/card/
   loader.py       # YAML → processus : défauts, horizons $Hx, tuples funct
-  extraction.py   # CARD_extraction : chaîne P1..Pn via exstat.process_extraction
+  extraction.py   # CARD_extraction : chaîne P1..Pn via stase.process_extraction
                   #   + resolve() : nom YAML = vrai nom Python
                   #   (card.functions, puis numpy en repli — pas de registre)
   management.py   # CARD_list_all, CARD_management
@@ -46,7 +48,7 @@ tests/
 
 Toute la mécanique de données (sampling adaptatif, sorties vectorielles,
 kwargs-colonnes, colonnes creuses, filtres de lacunes) est portée par le
-moteur exstat — card ne gère que les fiches et leurs métadonnées.
+moteur stase — card ne gère que les fiches et leurs métadonnées.
 
 ## Tests
 
@@ -62,7 +64,7 @@ de validation lourde.
 
 ## Validation croisée R ↔ Python (2026-07-11)
 
-Corpus complet (~215 fiches) exécuté via card/exstat et comparé au package
+Corpus complet (~215 fiches) exécuté via card/stase et comparé au package
 R CARD sur données synthétiques (2 stations × 131 ans) :
 
 - **552 comparaisons identiques** (tol 1e-6) en mode parité rolling
@@ -92,7 +94,7 @@ CARD_ROLL_COMPAT=rcpp python3 run_py_corpus.py   # mode parité RcppRoll
   moyennes mobiles (R ne les voit pas) — légèrement plus strict près du
   seuil NApct.
 - **Index 0-based** (`which.*NA`, apply_threshold first/last) : la chaîne
-  complète avec la conversion is_date d'exstat redonne exactement les
+  complète avec la conversion is_date de stase redonne exactement les
   valeurs R.
 
 ## Suite

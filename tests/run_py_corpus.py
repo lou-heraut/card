@@ -21,7 +21,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).parent))
-import conftest  # noqa: F401  (chemins card/exstat sans installation)
+import conftest  # noqa: F401  (chemins card/stase sans installation)
 warnings.filterwarnings("ignore")
 
 from card import CARD_extraction  # noqa: E402

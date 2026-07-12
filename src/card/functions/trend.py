@@ -14,9 +14,9 @@
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.
 
-"""Tendances Mann-Kendall — délègue au GeneralMannKendall d'exstat."""
+"""Tendances Mann-Kendall — délègue au GeneralMannKendall de stase."""
 
-from exstat import GeneralMannKendall
+from stase import GeneralMannKendall
 
 from .aggregation import _to_float_array
 

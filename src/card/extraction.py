@@ -15,10 +15,10 @@
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.
 
-"""CARD_extraction — exécution des fiches CARD YAML via le moteur exstat.
+"""CARD_extraction — exécution des fiches CARD YAML via le moteur stase.
 
 card ne gère que les fiches et leurs métadonnées : chaque processus P1..Pn
-est traduit en un appel à exstat.process_extraction, qui porte toute la
+est traduit en un appel à stase.process_extraction, qui porte toute la
 mécanique de données (sampling adaptatif, sorties vectorielles, kwargs
 référencant des colonnes, colonnes creuses, NA...).
 """
@@ -28,7 +28,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from exstat import Adaptive, process_extraction
+from stase import Adaptive, process_extraction
 
 from . import functions
 from .loader import load_card
@@ -55,7 +55,7 @@ def resolve(name: str):
 
 
 def _funct_tuple(entry: dict):
-    """FunctEntry (loader) → tuple (fn, *args, kwargs?, is_date?) exstat.
+    """FunctEntry (loader) → tuple (fn, *args, kwargs?, is_date?) stase.
 
     L'ordre positionnel d'origine (colonnes et littéraux mélangés) est
     préservé : le moteur parse les littéraux nativement.

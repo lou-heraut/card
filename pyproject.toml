@@ -3,7 +3,7 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "card"
+name = "card-stase"
 version = "0.1.0"
 description = "CARD — hydroclimatic variable extraction from YAML parameterization files, powered by exstat"
 license = {text = "GPL-3.0-or-later"}
@@ -11,7 +11,7 @@ authors = [{name = "Louis Héraut", email = "louis.heraut@inrae.fr"}]
 maintainers = [{name = "Louis Héraut", email = "louis.heraut@inrae.fr"}]
 requires-python = ">=3.10"
 dependencies = [
-    "exstat",
+    "stase",
     "numpy",
     "pandas>=2.0",
     "PyYAML",
