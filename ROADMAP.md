@@ -24,6 +24,15 @@
 > des fenêtres perdues (testé). Le harnais R croisé (tests/*.R,
 > run_py_corpus.py) reste l'outil de validation lourde, hors pytest.
 > Reste : phase D (doc finale, commits initiaux).
+>
+> **Phase D TERMINÉE (2026-07-12)** : LICENSE et AUTHORS repris des
+> packages R (⚠ le fichier LICENSE des repos R est du texte AGPL-3
+> alors que DESCRIPTION dit GPL-3 — incohérence héritée, signalée à
+> l'utilisateur ; les pyproject suivent le fichier LICENSE :
+> AGPL-3.0-or-later), en-têtes de copyright par module (crédits des
+> fichiers R sources), commits initiaux des deux repos (branche main)
+> et nettoyage commité du repo CARD R (retour au R pur). Il reste à
+> l'utilisateur : créer les remotes GitHub et pousser.
 
 ## Principes actés
 
