@@ -5,7 +5,7 @@
 library(CARD)
 
 tests_dir = dirname(sub("--file=", "", grep("--file=", commandArgs(), value=TRUE)))
-repo = normalizePath(file.path(tests_dir, "..", "..", "CARD"))
+repo = normalizePath(file.path(tests_dir, "..", "..", "CARD-R"))
 CARD_path = file.path(repo, "inst", "__all__")
 out_root = file.path(tests_dir, "data", "R_corpus")
 dir.create(out_root, showWarnings=FALSE, recursive=TRUE)

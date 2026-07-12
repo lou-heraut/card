@@ -5,7 +5,7 @@ library(CARD)
 
 args = commandArgs(trailingOnly=TRUE)
 tests_dir = dirname(sub("--file=", "", grep("--file=", commandArgs(), value=TRUE)))
-repo = normalizePath(file.path(tests_dir, "..", "..", "CARD"))
+repo = normalizePath(file.path(tests_dir, "..", "..", "CARD-R"))
 
 data = dplyr::tibble(read.csv(file.path(tests_dir, "data", "test_data.csv")))
 data$date = as.Date(data$date)
