@@ -66,7 +66,8 @@ def main():
             unit = str(meta["unit_en"].iloc[0])
             inputs = str(meta["input_vars"].iloc[0])
             exp = "⚠" if bool(meta["is_experimental"].iloc[0]) else ""
-            link = f"[{name}](../src/card/cards/{rel.as_posix()})"
+            link = (f"[{name}](https://github.com/lou-heraut/card/"
+                    f"blob/main/src/card/cards/{rel.as_posix()})")
             lines.append(
                 f"| {link} | {variables} | {label} | {unit} | {inputs} | {exp} |"
             )
