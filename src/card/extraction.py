@@ -15,12 +15,12 @@
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.
 
-"""CARD_extraction — exécution des fiches CARD YAML via le moteur stase.
+"""card.extract : exécution des fiches CARD YAML via le moteur stase.
 
 card ne gère que les fiches et leurs métadonnées : chaque processus P1..Pn
-est traduit en un appel à stase.process_extraction, qui porte toute la
-mécanique de données (sampling adaptatif, sorties vectorielles, kwargs
-référencant des colonnes, colonnes creuses, NA...).
+est traduit en un appel à stase.extract, qui porte toute la mécanique de
+données (sampling adaptatif, sorties vectorielles, kwargs référençant des
+colonnes, colonnes creuses, NA...).
 """
 
 import os
@@ -245,23 +245,27 @@ def _find_cards(CARD_path, CARD_name):
     return {n: found[n] for n in CARD_name}
 
 
-def CARD_extraction(data, CARD_name=("QA", "QJXA"), CARD_path=None,
-                    period_default=None, cancel_lim=False,
-                    simplify=False, extract_only_metadata=False,
-                    rename=None, verbose=False):
+def extract(data, cards=("QA", "QJXA"), CARD_path=None,
+            period_default=None, cancel_lim=False,
+            simplify=False, extract_only_metadata=False,
+            rename=None, verbose=False, CARD_name=None):
     """Extrait des variables hydroclimatiques selon des fiches CARD YAML.
 
     data : DataFrame avec une colonne datetime, une colonne str (id) et
            les colonnes numériques d'entrée requises par les fiches
-           (référencées par leur nom, ex. 'Q' — cf. input_vars des
-           fiches, visibles via CARD_list_all() ou CARD_info()).
+           (référencées par leur nom, ex. 'Q' : cf. input_vars des
+           fiches, visibles via card.list_cards() ou card.info()).
+    cards : noms des fiches à exécuter (cf. card.list_cards()).
     rename : dict {nom_colonne_data: nom_variable_fiche} pour faire
            correspondre vos colonnes aux noms attendus, ex.
            rename={"Qm3s": "Q"}. Si les données n'ont qu'une seule
            colonne numérique et la fiche une seule variable requise, la
            correspondance est automatique (signalée par un warning).
+    CARD_name : alias hérité du R pour `cards` (prioritaire si fourni).
     Retourne {"metaEX": DataFrame, "dataEX": {card_id: DataFrame}}.
     """
+    if CARD_name is not None:
+        cards = CARD_name
     if CARD_path is None:
         CARD_path = os.environ.get("CARD_YML_PATH", _DEFAULT_CARD_DIR)
 
@@ -274,8 +278,8 @@ def CARD_extraction(data, CARD_name=("QA", "QJXA"), CARD_path=None,
             )
         data = data.rename(columns=rename)
 
-    cards = _find_cards(CARD_path, list(CARD_name) if CARD_name else None)
-    loaded = {name: load_card(path) for name, path in cards.items()}
+    found = _find_cards(CARD_path, list(cards) if cards else None)
+    loaded = {name: load_card(path) for name, path in found.items()}
 
     auto_map = ({} if extract_only_metadata
                 else _check_input_vars(data, loaded))
@@ -312,3 +316,7 @@ def CARD_extraction(data, CARD_name=("QA", "QJXA"), CARD_path=None,
         return {"metaEX": metaEX, "dataEX": merged}
 
     return {"metaEX": metaEX, "dataEX": dataEX}
+
+
+# Alias hérité du package R CARD
+CARD_extraction = extract

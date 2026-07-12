@@ -46,13 +46,13 @@ def main():
         "# Catalogue des fiches CARD",
         "",
         f"{n_cards} fiches, {n_vars} variables. "
-        "Généré par `scripts/generate_catalog.py` — ne pas éditer à la main.",
+        "Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.",
         "",
         "Chaque fiche s'exécute via "
-        "`CARD_extraction(data, CARD_name=[...])` ; la colonne *entrées* "
+        "`card.extract(data, cards=[...])` ; la colonne *entrées* "
         "indique les colonnes que `data` doit contenir "
         "(cf. `rename=` pour la correspondance). Détail d'une fiche : "
-        "`CARD_info(\"nom\")`.",
+        "`card.info(\"nom\")`.",
         "",
     ]
 

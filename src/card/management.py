@@ -18,7 +18,7 @@
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.
 
-"""Port Python de R/CARD_management.R — gestion des fiches CARD YAML."""
+"""Gestion des fiches CARD YAML : catalogue, détail, copie locale."""
 
 import shutil
 from pathlib import Path
@@ -29,7 +29,7 @@ from .extraction import _DEFAULT_CARD_DIR, _find_cards, _meta_rows
 from .loader import load_card
 
 
-def CARD_list_all(CARD_path=None, include_experimental=False,
+def list_cards(CARD_path=None, include_experimental=False,
                   topic=None, variable=None, search=None) -> pd.DataFrame:
     """Liste toutes les fiches CARD disponibles avec leurs métadonnées.
 
@@ -69,7 +69,7 @@ def CARD_list_all(CARD_path=None, include_experimental=False,
     return metaEX.reset_index(drop=True)
 
 
-def CARD_info(CARD_name, CARD_path=None, lang="fr") -> dict:
+def info(CARD_name, CARD_path=None, lang="fr") -> dict:
     """Affiche la description complète d'une fiche CARD et retourne ses
     métadonnées sous forme de dict.
 
@@ -108,7 +108,7 @@ def CARD_info(CARD_name, CARD_path=None, lang="fr") -> dict:
     return info
 
 
-def CARD_management(CARD_name=("QA", "QJXA"), CARD_path="./WIP",
+def copy_cards(CARD_name=("QA", "QJXA"), CARD_path="./WIP",
                     CARD_source=None, add_id=True, overwrite=False,
                     verbose=False):
     """Copie des fiches YAML dans un dossier de travail pour personnalisation.
@@ -148,3 +148,9 @@ def CARD_management(CARD_name=("QA", "QJXA"), CARD_path="./WIP",
             _copy_names(names, sub_dir)
     else:
         _copy_names(list(CARD_name), dest)
+
+
+# Alias hérités du package R CARD
+CARD_list_all = list_cards
+CARD_info = info
+CARD_management = copy_cards

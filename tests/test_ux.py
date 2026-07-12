@@ -6,7 +6,8 @@ import pandas as pd
 import pytest
 
 import conftest  # noqa: F401  (chemins card/stase sans installation)
-from card import CARD_extraction, CARD_info, CARD_list_all
+import card
+from card import extract, info, list_cards
 
 
 def _daily(colname="Q"):
@@ -18,21 +19,21 @@ def _daily(colname="Q"):
 # ── correspondance des colonnes ──────────────────────────────────────────────
 
 def test_rename_maps_columns():
-    res = CARD_extraction(_daily("Qm3s"), CARD_name=["QA"],
-                          rename={"Qm3s": "Q"}, verbose=False)
+    res = extract(_daily("Qm3s"), cards=["QA"],
+                  rename={"Qm3s": "Q"}, verbose=False)
     assert len(res["dataEX"]["QA"]) > 0
 
 
 def test_rename_unknown_column_raises():
     with pytest.raises(ValueError, match="introuvables"):
-        CARD_extraction(_daily(), CARD_name=["QA"],
-                        rename={"debit": "Q"}, verbose=False)
+        extract(_daily(), cards=["QA"],
+                rename={"debit": "Q"}, verbose=False)
 
 
 def test_auto_assign_single_numeric_column():
     with pytest.warns(UserWarning, match="Affectation automatique"):
-        res = CARD_extraction(_daily("Qm3s"), CARD_name=["QA"], verbose=False)
-    ref = CARD_extraction(_daily(), CARD_name=["QA"], verbose=False)
+        res = extract(_daily("Qm3s"), cards=["QA"], verbose=False)
+    ref = extract(_daily(), cards=["QA"], verbose=False)
     pd.testing.assert_frame_equal(res["dataEX"]["QA"], ref["dataEX"]["QA"])
 
 
@@ -40,28 +41,40 @@ def test_missing_input_vars_clear_error():
     data = _daily("Qm3s")
     data["T"] = 15.0     # 2 colonnes numériques → pas d'affectation auto
     with pytest.raises(ValueError, match="rename="):
-        CARD_extraction(data, CARD_name=["QA"], verbose=False)
+        extract(data, cards=["QA"], verbose=False)
 
 
 # ── découverte des fiches ────────────────────────────────────────────────────
 
 def test_list_all_filters():
-    full = CARD_list_all()
-    by_topic = CARD_list_all(topic="Low Flows")
-    by_var = CARD_list_all(variable="VCN10")
+    full = list_cards()
+    by_topic = list_cards(topic="Low Flows")
+    by_var = list_cards(variable="VCN10")
     assert 0 < len(by_topic) < len(full)
     assert 0 < len(by_var) < len(by_topic)
     assert by_var.variable_en.str.contains("VCN10").all()
 
 
 def test_card_info(capsys):
-    info = CARD_info("QA")
+    meta = info("QA")
     out = capsys.readouterr().out
-    assert info["input_vars"] == "Q"
-    assert info["id"] == "QA"
+    assert meta["input_vars"] == "Q"
+    assert meta["id"] == "QA"
     assert "QA" in out and "input_vars" in out
 
 
 def test_card_info_unknown_raises():
     with pytest.raises(FileNotFoundError):
-        CARD_info("FICHE_INEXISTANTE")
+        info("FICHE_INEXISTANTE")
+
+
+# ── alias hérités du R ───────────────────────────────────────────────────────
+
+def test_r_aliases_still_work():
+    assert card.CARD_extraction is card.extract
+    assert card.CARD_list_all is card.list_cards
+    assert card.CARD_info is card.info
+    assert card.CARD_management is card.copy_cards
+    # l'ancien paramètre CARD_name= reste accepté et prioritaire
+    res = card.CARD_extraction(_daily(), CARD_name=["QA"], verbose=False)
+    assert "QA" in res["dataEX"]

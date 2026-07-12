@@ -1,8 +1,8 @@
 # Catalogue des fiches CARD
 
-215 fiches, 588 variables. Généré par `scripts/generate_catalog.py` — ne pas éditer à la main.
+215 fiches, 588 variables. Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.
 
-Chaque fiche s'exécute via `CARD_extraction(data, CARD_name=[...])` ; la colonne *entrées* indique les colonnes que `data` doit contenir (cf. `rename=` pour la correspondance). Détail d'une fiche : `CARD_info("nom")`.
+Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entrées* indique les colonnes que `data` doit contenir (cf. `rename=` pour la correspondance). Détail d'une fiche : `card.info("nom")`.
 
 ## Evapotranspiration
 
