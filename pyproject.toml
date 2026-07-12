@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "card"
+version = "0.1.0"
+description = "CARD — hydroclimatic variable extraction from YAML parameterization files, powered by exstat"
+license = {text = "AGPL-3.0-or-later"}
+authors = [{name = "Louis Héraut", email = "louis.heraut@inrae.fr"}]
+maintainers = [{name = "Louis Héraut", email = "louis.heraut@inrae.fr"}]
+requires-python = ">=3.10"
+dependencies = [
+    "exstat",
+    "numpy",
+    "pandas>=2.0",
+    "PyYAML",
+    "scipy",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+card = ["cards/**/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::RuntimeWarning", "ignore::FutureWarning", "ignore::UserWarning"]
