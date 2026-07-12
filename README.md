@@ -1,6 +1,14 @@
 # card
 
+<!-- Badge CI à activer après le push GitHub :
+[![tests](https://github.com/<owner>/card/actions/workflows/tests.yml/badge.svg)](https://github.com/<owner>/card/actions/workflows/tests.yml)
+-->
+
 **CARD** — *CARD Aggregates Recursive Diagnostics*.
+
+<!-- Figure d'illustration (à déposer dans docs/img/, cf. docs/img/README.md) :
+![Exemple de variables CARD](docs/img/overview.png)
+-->
 
 Package Python d'extraction de variables hydroclimatiques définies
 par des fiches de paramétrisation YAML (`src/card/cards/`), exécutées par le
@@ -13,19 +21,47 @@ la source de vérité ; les fiches R restent la référence de validation.
 
 ```python
 import pandas as pd
-from card import CARD_extraction, CARD_list_all
+from card import CARD_extraction, CARD_info, CARD_list_all
 
-data = pd.DataFrame({"date": ..., "Q": ..., "id": ...})   # date en datetime64
+data = pd.DataFrame({"date": ..., "Q": ..., "id": ...})
 res = CARD_extraction(data, CARD_name=["QA", "dtLF"])
 res["dataEX"]["QA"]      # un DataFrame par fiche
 res["metaEX"]            # métadonnées (une ligne par variable)
-
-CARD_list_all()          # métadonnées des ~215 fiches disponibles
 ```
 
-Sans installation : ajouter `src/` de card **et** de stase au PYTHONPATH
-(cf. `tests/conftest.py`). Sinon `pip install -e ../../EXstat_project/stase -e .`
-dans un environnement virtuel.
+Les fiches référencent les colonnes d'entrée par leur nom (`input_vars`,
+ex. `Q`). Si vos colonnes s'appellent autrement :
+`CARD_extraction(data, rename={"Qm3s": "Q"})` — et si les données n'ont
+qu'une colonne numérique pour une fiche à variable unique, la
+correspondance est automatique (signalée par un warning). Une colonne de
+dates en texte au format ISO `YYYY-MM-DD` est convertie automatiquement.
+
+## Explorer les fiches
+
+```python
+CARD_list_all()                        # les ~215 fiches (une ligne par variable)
+CARD_list_all(topic="Low Flows")       # filtre par thème
+CARD_list_all(variable="VCN")          # filtre par nom de variable
+CARD_list_all(search="étiage")         # recherche plein texte fr/en
+CARD_info("VCN10")                     # détail d'une fiche (méthode, entrées...)
+```
+
+Catalogue complet consultable sur GitHub : [docs/CARDS.md](docs/CARDS.md)
+(généré par `scripts/generate_catalog.py`, à relancer après modification
+des fiches).
+
+## Installation
+
+Depuis GitHub (pas de publication PyPI pour l'instant) :
+
+```bash
+pip install "stase @ git+https://github.com/<owner>/stase.git"
+pip install "card @ git+https://github.com/<owner>/card.git"
+```
+
+Pour le développement : ajouter `src/` de card **et** de stase au
+PYTHONPATH (cf. `tests/conftest.py`), ou
+`pip install -e ../../EXstat_project/stase -e .` dans un venv.
 
 ## Architecture
 
@@ -35,9 +71,9 @@ src/card/
   extraction.py   # CARD_extraction : chaîne P1..Pn via stase.process_extraction
                   #   + resolve() : nom YAML = vrai nom Python
                   #   (card.functions, puis numpy en repli — pas de registre)
-  management.py   # CARD_list_all, CARD_management
+  management.py   # CARD_list_all, CARD_info, CARD_management
   functions/      # fonctions hydro (delta, return_level, baseflow, bias,
-                  #   apply_threshold... — correspondance R : RENAMING.md)
+                  #   apply_threshold... — correspondance R : docs/dev/RENAMING.md)
   cards/          # les fiches YAML (arborescence thématique)
 tests/
   make_test_data.py   # données synthétiques 2 stations, 1970-2100
@@ -99,6 +135,6 @@ CARD_ROLL_COMPAT=rcpp python3 run_py_corpus.py   # mode parité RcppRoll
 
 ## Suite
 
-Voir `ROADMAP.md` — phases A et B terminées (packages séparés, noms
-Python natifs dans les YAML, registre supprimé). Reste : phase C
-(pytest, schéma de validation YAML) et phase D (doc, commits initiaux).
+Historique de la refonte et décisions : `docs/dev/ROADMAP.md` (phases A-D
+terminées). Correspondance des noms R → Python : `docs/dev/RENAMING.md`.
+CI : `.github/workflows/tests.yml` (pytest + linter de fiches + ruff).

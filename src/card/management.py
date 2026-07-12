@@ -29,11 +29,18 @@ from .extraction import _DEFAULT_CARD_DIR, _find_cards, _meta_rows
 from .loader import load_card
 
 
-def CARD_list_all(CARD_path=None, include_experimental=False) -> pd.DataFrame:
+def CARD_list_all(CARD_path=None, include_experimental=False,
+                  topic=None, variable=None, search=None) -> pd.DataFrame:
     """Liste toutes les fiches CARD disponibles avec leurs métadonnées.
 
     Contrairement au package R (qui lit un CSV pré-généré), les métadonnées
     sont lues directement depuis les blocs meta des YAML.
+
+    Filtres optionnels (insensibles à la casse) :
+    topic    : sous-chaîne du thème (ex. 'Étiages', 'Low Flows').
+    variable : sous-chaîne du nom de variable (ex. 'VCN').
+    search   : sous-chaîne cherchée dans nom, description et variable
+               (fr et en confondus).
     """
     if CARD_path is None:
         CARD_path = _DEFAULT_CARD_DIR
@@ -42,8 +49,63 @@ def CARD_list_all(CARD_path=None, include_experimental=False) -> pd.DataFrame:
     metaEX = pd.concat(rows, ignore_index=True) if rows else pd.DataFrame()
     if not include_experimental and "is_experimental" in metaEX.columns:
         metaEX = metaEX[~metaEX["is_experimental"].astype(bool)]
-        metaEX = metaEX.reset_index(drop=True)
-    return metaEX
+
+    def _contains(cols, needle):
+        mask = pd.Series(False, index=metaEX.index)
+        for c in cols:
+            if c in metaEX.columns:
+                mask |= (metaEX[c].astype(str)
+                         .str.contains(needle, case=False, regex=False))
+        return mask
+
+    if topic is not None:
+        metaEX = metaEX[_contains(["topic_fr", "topic_en"], topic)]
+    if variable is not None:
+        metaEX = metaEX[_contains(["variable_fr", "variable_en"], variable)]
+    if search is not None:
+        metaEX = metaEX[_contains(
+            ["variable_fr", "variable_en", "name_fr", "name_en",
+             "description_fr", "description_en"], search)]
+    return metaEX.reset_index(drop=True)
+
+
+def CARD_info(CARD_name, CARD_path=None, lang="fr") -> dict:
+    """Affiche la description complète d'une fiche CARD et retourne ses
+    métadonnées sous forme de dict.
+
+    CARD_name : nom de la fiche (ex. 'QA', 'VCN10', 'dtLF').
+    lang      : 'fr' (défaut) ou 'en'.
+    """
+    if CARD_path is None:
+        CARD_path = _DEFAULT_CARD_DIR
+    if lang not in ("fr", "en"):
+        raise ValueError(f"lang='{lang}' invalide : 'fr' ou 'en'.")
+    found = _find_cards(CARD_path, [CARD_name])
+    card = load_card(found[CARD_name])
+    meta_l = card["meta"][lang]
+    meta_g = card["meta"]["global"]
+
+    def _fmt(v):
+        return ", ".join(str(x) for x in v) if isinstance(v, list) else v
+
+    info = {
+        "id": card.get("id", CARD_name),
+        "variable": _fmt(meta_l.get("variable")),
+        "name": _fmt(meta_l.get("name")),
+        "unit": _fmt(meta_l.get("unit")),
+        "description": _fmt(meta_l.get("description")) or "",
+        "method": _fmt(meta_l.get("method")),
+        "sampling_period": _fmt(meta_l.get("sampling_period")),
+        "topic": _fmt(meta_l.get("topic")),
+        "input_vars": meta_g.get("input_vars"),
+        "is_experimental": bool(meta_g.get("is_experimental", False)),
+        "path": str(found[CARD_name]),
+    }
+    width = max(len(k) for k in info)
+    for k, v in info.items():
+        if v not in (None, ""):
+            print(f"{k.ljust(width)}  {v}")
+    return info
 
 
 def CARD_management(CARD_name=("QA", "QJXA"), CARD_path="./WIP",

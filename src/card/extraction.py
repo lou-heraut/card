@@ -24,6 +24,7 @@ référencant des colonnes, colonnes creuses, NA...).
 """
 
 import os
+import warnings
 from pathlib import Path
 
 import numpy as np
@@ -158,6 +159,72 @@ def _meta_rows(card) -> pd.DataFrame:
 
 
 # ---------------------------------------------------------------------------
+# Vérification amont des variables d'entrée
+# ---------------------------------------------------------------------------
+
+def _required_vars(card) -> list[str]:
+    """Variables d'entrée requises par une fiche (meta global input_vars)."""
+    raw = card["meta"]["global"].get("input_vars")
+    if not raw:
+        return []
+    if isinstance(raw, str):
+        return [v.strip() for v in raw.split(",") if v.strip()]
+    return [str(v).strip() for v in raw]
+
+
+def _check_input_vars(data: pd.DataFrame, loaded: dict) -> dict:
+    """Vérifie que les colonnes requises par les fiches sont présentes.
+
+    Retourne {card_name: {col_data: var_fiche}} pour les affectations
+    automatiques non ambiguës : une fiche ne requiert qu'UNE variable
+    absente ET les données n'ont qu'UNE colonne numérique → cette
+    colonne est utilisée (signalé par un UserWarning). Tout autre
+    manque lève une ValueError listant fiche par fiche les colonnes
+    requises vs disponibles, avec le paramètre rename= en solution.
+    """
+    numeric_cols = [c for c in data.columns
+                    if pd.api.types.is_numeric_dtype(data[c])]
+    auto: dict = {}
+    problems: list[str] = []
+    auto_msgs: set = set()
+
+    for name, card in loaded.items():
+        required = _required_vars(card)
+        missing = [v for v in required if v not in data.columns]
+        if not missing:
+            continue
+        if len(required) == 1 and len(numeric_cols) == 1:
+            col = numeric_cols[0]
+            auto[name] = {col: required[0]}
+            auto_msgs.add(
+                f"colonne '{col}' utilisée comme '{required[0]}'"
+            )
+        else:
+            problems.append(
+                f"  - {name} : requiert {required}, manquant {missing}"
+            )
+
+    if problems:
+        raise ValueError(
+            "Colonnes d'entrée manquantes pour certaines fiches CARD "
+            "(les fiches référencent les colonnes par leur nom) :\n"
+            + "\n".join(problems)
+            + f"\nColonnes numériques disponibles : {numeric_cols}.\n"
+            "Renommez vos colonnes ou passez rename= à CARD_extraction, "
+            "ex. CARD_extraction(data, rename={'Qm3s': 'Q'})."
+        )
+
+    if auto_msgs:
+        warnings.warn(
+            "Affectation automatique (une seule colonne numérique, une "
+            "seule variable requise) : " + " ; ".join(sorted(auto_msgs))
+            + ". Passez rename= pour rendre la correspondance explicite.",
+            UserWarning, stacklevel=3,
+        )
+    return auto
+
+
+# ---------------------------------------------------------------------------
 # API principale
 # ---------------------------------------------------------------------------
 
@@ -181,27 +248,47 @@ def _find_cards(CARD_path, CARD_name):
 def CARD_extraction(data, CARD_name=("QA", "QJXA"), CARD_path=None,
                     period_default=None, cancel_lim=False,
                     simplify=False, extract_only_metadata=False,
-                    verbose=False):
+                    rename=None, verbose=False):
     """Extrait des variables hydroclimatiques selon des fiches CARD YAML.
 
     data : DataFrame avec une colonne datetime, une colonne str (id) et
-           les colonnes numériques d'entrée requises par les fiches.
+           les colonnes numériques d'entrée requises par les fiches
+           (référencées par leur nom, ex. 'Q' — cf. input_vars des
+           fiches, visibles via CARD_list_all() ou CARD_info()).
+    rename : dict {nom_colonne_data: nom_variable_fiche} pour faire
+           correspondre vos colonnes aux noms attendus, ex.
+           rename={"Qm3s": "Q"}. Si les données n'ont qu'une seule
+           colonne numérique et la fiche une seule variable requise, la
+           correspondance est automatique (signalée par un warning).
     Retourne {"metaEX": DataFrame, "dataEX": {card_id: DataFrame}}.
     """
     if CARD_path is None:
         CARD_path = os.environ.get("CARD_YML_PATH", _DEFAULT_CARD_DIR)
 
+    if rename:
+        absent = [c for c in rename if c not in data.columns]
+        if absent:
+            raise ValueError(
+                f"rename : colonnes introuvables dans data : {absent}. "
+                f"Colonnes disponibles : {list(data.columns)}."
+            )
+        data = data.rename(columns=rename)
+
     cards = _find_cards(CARD_path, list(CARD_name) if CARD_name else None)
+    loaded = {name: load_card(path) for name, path in cards.items()}
+
+    auto_map = ({} if extract_only_metadata
+                else _check_input_vars(data, loaded))
 
     metaEX_parts, dataEX = [], {}
-    for name, path in cards.items():
-        card = load_card(path)
+    for name, card in loaded.items():
         metaEX_parts.append(_meta_rows(card))
         if extract_only_metadata:
             continue
         if verbose:
             print(f"Computes {name}")
-        result = data
+        result = (data.rename(columns=auto_map[name])
+                  if name in auto_map else data)
         for proc in card["processes"]:
             result = _run_process(result, proc,
                                   period_default=period_default,

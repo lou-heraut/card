@@ -50,7 +50,7 @@ def compare_series(label, r_vals, py_vals, offset=0.0):
         check(label, True, f"{n} valeurs identiques (tol {RTOL})")
     else:
         diff = np.abs(r[both] - p[both])
-        detail = (f"NA divergents" if not na_match
+        detail = ("NA divergents" if not na_match
                   else f"max |diff| = {np.nanmax(diff):.3e}")
         idx = np.flatnonzero(~np.isclose(r, p, rtol=RTOL, atol=ATOL, equal_nan=True))[:5]
         check(label, False, f"{detail} ; premiers index divergents {idx.tolist()}")

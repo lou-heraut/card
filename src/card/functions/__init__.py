@@ -3,7 +3,7 @@
 Les fiches référencent directement des noms Python réels : d'abord ce
 namespace (fonctions hydro spécifiques), puis numpy en repli (nanmean,
 nanargmax...). Voir card.extraction.resolve(). La table de correspondance
-avec les anciens noms R est dans RENAMING.md.
+avec les anciens noms R est dans docs/dev/RENAMING.md.
 """
 
 from .aggregation import (  # noqa: F401

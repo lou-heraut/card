@@ -1,7 +1,6 @@
 """Le corpus complet des fiches doit passer le linter — et le linter doit
 détecter les défauts qu'il prétend détecter."""
 
-from pathlib import Path
 
 from card.extraction import _DEFAULT_CARD_DIR
 from card.loader import load_card

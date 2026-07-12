@@ -26,7 +26,6 @@ warnings.filterwarnings("ignore")
 
 from card import CARD_extraction  # noqa: E402
 from card.extraction import _DEFAULT_CARD_DIR  # noqa: E402
-from card.loader import load_card  # noqa: E402
 
 TESTS = Path(__file__).parent
 R_ROOT = TESTS / "data" / "R_corpus"
