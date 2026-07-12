@@ -119,3 +119,15 @@
 A (squelettes + frontière stase) → B (audit puis renommage puis YAML)
 → C (non-régression) → D. La table d'audit/renommage de la phase B est
 soumise à validation utilisateur avant application.
+
+## Nom PyPI de card — plan PEP 541 (2026-07-12)
+
+Le nom `card` sur PyPI est un squat manifeste (release unique 0.0.1 du
+2019-08-23, résumé « card », homepage github.com/pipname/card).
+Plan validé avec l'utilisateur :
+1. déposer une demande PEP 541 (transfert de nom pour squatting) sur
+   github.com/pypi/support depuis le compte PyPI de l'utilisateur ;
+2. ne rien publier sur PyPI en attendant (installation GitHub) pour
+   pouvoir publier directement sous `card` si la demande aboutit ;
+3. `card-stase` reste le nom de repli dans pyproject (import `card`
+   dans tous les cas).
