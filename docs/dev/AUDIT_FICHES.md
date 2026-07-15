@@ -6,8 +6,10 @@ exécuté. Les identifiants courts (ids) sont considérés comme stables ;
 l'audit porte sur les métadonnées, sauf mention contraire. La version
 en reflète la fr : toute correction est à faire dans les deux langues.
 
-Aucune correction n'a été appliquée : ce document liste les constats,
-à arbitrer avant modification.
+> **APPLIQUÉ le 2026-07-15** — tous les constats ci-dessous ont été
+> arbitrés puis traités en 4 lots (commits b693fef, c3ccc94, 07a6931,
+> c27fea9 ; règles : NOMENCLATURE.md ; renommages : RENAMING.md).
+> Le document est conservé comme trace des constats et des décisions.
 
 ---
 
