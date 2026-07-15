@@ -26,19 +26,22 @@ métadonnées bilingues :
 meta:
   en:
     classification:
-      domain: Flow            # grandeur (liste si plusieurs)
-      aspect: Timing          # dimension analysée (typologie IHA)
-      season: Annual          # fenêtre d'échantillonnage (Oberlin pos. 4)
-      output: Series          # forme du résultat
-      tags: [Low flows]       # 0..n mots-clés (vocabulaire recommandé)
+      domain: flow            # grandeur (liste si plusieurs)
+      phenomenon: low flows   # phénomène visé (scalaire, liste si multiple, absent si aucun)
+      aspect: timing          # dimension analysée (typologie IHA)
+      season: annual          # fenêtre d'échantillonnage (Oberlin pos. 4)
+      output: series          # forme du résultat
   fr:
     classification:
-      domain: Débit
-      aspect: Saisonnalité
-      season: Annuelle
-      output: Série
-      tags: [Basses eaux]
+      domain: débit
+      phenomenon: basses eaux
+      aspect: saisonnalité
+      season: annuelle
+      output: série
 ```
+
+Convention thésaurus : **tout en minuscules** (les outils d'affichage
+capitalisent au besoin).
 
 - **Doctrine à trois niveaux** : rédigé (name/description/method) =
   bilingue libre ; classifié (classification) = bilingue **validé** ;
@@ -79,31 +82,31 @@ meta:
 Les fiches de sensibilité croisée déclarent une liste :
 `domain: [flow, precipitation]` (ex. QR_ratio, epsilon_R, RAT_R).
 
-### tags — mots-clés (0..n, vocabulaire recommandé extensible)
+### phenomenon — le phénomène hydro-climatique visé (scalaire ou liste)
 
-L'ex-« régime » : pas un axe (il mélangeait partie du spectre,
-composante, type d'événement, et n'avait pas de sens hors débit) mais
-des **mots-clés multiples**. Une fiche peut en porter plusieurs
-(`[Basses eaux, Débit de base]` → elle sort dans les deux
-groupements), ou aucun (les cas ambigus ne sont pas forcés).
-Vocabulaire recommandé de départ, groupé par domaine dans topics.yaml
-(le linter avertit sur un tag inconnu — vocabulaire extensible) :
+L'ex-« régime », correctement nommé : basses eaux, débit de base,
+périodes sèches, neige... sont des **phénomènes** — mot valable pour
+tous les domaines. Champ scalaire dans le cas courant, **liste si une
+fiche relève réellement de plusieurs phénomènes** (même polymorphisme
+que name/palette ; ex. futur : fonte des neiges → `[neige, hautes
+eaux]`), **absent** quand il n'y a pas de phénomène particulier (RA,
+TA, performance, sensibilité) — l'absence est non ambiguë car le
+vocabulaire est fermé et le linter contrôle les valeurs.
 
 | en | fr | Couvre les topics actuels | Domaine typique |
 |---|---|---|---|
-| Low flows | Basses eaux | Low Flows | flow |
-| Mean flows | Moyennes eaux | Mean Flows | flow |
-| High flows | Hautes eaux | High Flows | flow |
-| Baseflow | Débit de base | Baseflow / Base Flow (unifiés) | flow |
-| Dry spells | Périodes sèches | Dry Period | precipitation |
-| Wet days | Jours pluvieux | Low (précip ≥ 1 mm — reclassé) | precipitation |
-| Heavy rain | Pluies fortes | Heavy | precipitation |
-| Snow | Neige | (précip solides Rs/RAs — nouveau) | precipitation |
+| low flows | basses eaux | Low Flows | flow |
+| mean flows | moyennes eaux | Mean Flows | flow |
+| high flows | hautes eaux | High Flows | flow |
+| baseflow | débit de base | Baseflow / Base Flow (unifiés) | flow |
+| dry spells | périodes sèches | Dry Period | precipitation |
+| wet days | jours pluvieux | Low (précip ≥ 1 mm — reclassé) | precipitation |
+| heavy rain | pluies fortes | Heavy | precipitation |
+| snow | neige | (précip solides Rs/RAs — nouveau) | precipitation |
 
 Les anciens « Moderate » (précip) et « Average/Mean » (température,
-ETP) ne deviennent pas des tags : ils ne disaient rien (pas de
-condition particulière) — ces fiches ont simplement `tags: []` ou pas
-de ligne tags.
+ETP) ne deviennent pas des phénomènes : ils ne disaient rien — ces
+fiches n'ont pas de ligne phenomenon.
 
 ### aspect — la dimension analysée (typologie IHA/EFC ; optionnel)
 
@@ -209,8 +212,22 @@ avant application.
    vient du vocabulaire fermé + lint d'appariement en/fr, pas de la
    centralisation du stockage. topics.yaml = référence de contrôle.
 8. **Nouvel axe `season`** (fenêtre d'échantillonnage, position 4
-   d'Oberlin) : Annual, Summer, Winter, By season, By month, Record —
+   d'Oberlin) : annual, summer, winter, by season, by month, record —
    fermé, mécaniquement déterminable.
+9. **Minuscules partout** (convention thésaurus, 2026-07-16) — les
+   outils d'affichage capitalisent au besoin.
+10. **`tags` renommé `phenomenon`** (2026-07-16) : le mot précis que
+    « tags » n'était pas ; scalaire dans le cas courant, liste si
+    réellement multiple, absent si aucun phénomène particulier.
+11. **Arborescence physique `cards/<domain>/<output>/`** (2026-07-16) :
+    remplace l'arbre thématique historique. Ces deux facettes sont les
+    seules fermées, obligatoires et mono-valuées → l'arborescence est
+    dérivable de la classification et le linter vérifie
+    `chemin == f(domain, output)` (fiches bi-domaines : rangées sous le
+    domaine premier de la liste). Dossiers en anglais : flow,
+    precipitation, temperature, evapotranspiration × series, scalar,
+    curve. Navigation humaine : ~10 dossiers de 15 à 90 fiches, et le
+    catalogue pour le tri fin.
 6. **Le champ `topic` est supprimé à la migration** : toute
    l'information vient de `classification` (labels en/fr générés depuis
    le vocabulaire central pour le catalogue et card.info).
