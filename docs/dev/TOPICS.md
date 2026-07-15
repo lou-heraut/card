@@ -1,10 +1,13 @@
 # TOPICS — Facettes à vocabulaire contrôlé pour les fiches CARD
 
 > Proposition du 2026-07-16, arbitrée le jour même avec l'utilisateur
-> (slugs de forme series/scalar/curve, bloc `classification:`,
-> Ratio et Occurrence fondus, a-FDC→magnitude, `regime: general`
-> explicite, champ `topic` supprimé à la migration). Prêt à appliquer ;
-> trois cas de migration marqués « à confirmer » (§3).
+> en plusieurs itérations. Modèle final : **labels bilingues dans les
+> fiches** (autoportantes, plot-direct), validés par le linter contre
+> le vocabulaire central à ensembles fermés ; 4 axes contrôlés +
+> purpose + tags libres-recommandés ; `regime` abandonné au profit des
+> tags ; nouvel axe `season` (position 4 d'Oberlin) ; champ `topic`
+> supprimé à la migration. Prêt à appliquer après relecture de la
+> table de migration.
 > Remplace le champ libre bilingue `topic: "Flow, Low Flows,
 > Seasonality"` par des facettes en slugs neutres, avec un vocabulaire
 > central unique (labels en/fr générés, plus de dérive par fiche).
@@ -13,32 +16,49 @@
 
 ## 1. Le modèle
 
+Un bloc `classification` dans **chaque bloc de langue** (`meta.en`,
+`meta.fr`), avec les labels de la langue — les fiches restent
+autoportantes et les métadonnées d'extraction (metaEX) sont
+directement traçables sur les graphiques, comme le reste des
+métadonnées bilingues :
+
 ```yaml
 meta:
-  global:
+  en:
     classification:
-      domain: flow            # grandeur concernée (liste si plusieurs)
-      regime: low-flows       # condition visée ; 'general' si aucune
-      aspect: timing          # dimension analysée, typologie IHA
-      output: series          # forme du résultat : series | scalar | curve
-      purpose: performance    # seule ligne optionnelle (défaut : description)
-
-# Règle de complétude (vérifiée par le linter) :
-#  - fiches descriptives : domain, regime, aspect, output tous requis
-#    (regime: general si pas de condition particulière) ;
-#  - purpose présent (performance | sensitivity) : regime et aspect
-#    INTERDITS — la ligne purpose explique leur absence.
+      domain: Flow            # grandeur (liste si plusieurs)
+      aspect: Timing          # dimension analysée (typologie IHA)
+      season: Annual          # fenêtre d'échantillonnage (Oberlin pos. 4)
+      output: Series          # forme du résultat
+      tags: [Low flows]       # 0..n mots-clés (vocabulaire recommandé)
+  fr:
+    classification:
+      domain: Débit
+      aspect: Saisonnalité
+      season: Annuelle
+      output: Série
+      tags: [Basses eaux]
 ```
 
-- Les slugs sont **anglais, kebab-case, langue-neutres** : la fiche ne
-  porte plus aucun libellé de topic. Les labels affichés (en/fr),
-  définitions et correspondances externes vivent dans **un fichier
-  unique** `src/card/topics.yaml` — une seule source de vérité (les
-  ~15 bugs de topics trouvés pendant la conversion venaient tous de la
-  duplication en/fr par fiche).
-- `card.list_cards()` expose chaque facette en colonne → filtrage
-  direct (`domain="flow", aspect="duration"`), et le catalogue
-  `CARDS.md` gagne les colonnes correspondantes (dont **output**,
+- **Doctrine à trois niveaux** : rédigé (name/description/method) =
+  bilingue libre ; classifié (classification) = bilingue **validé** ;
+  technique (input_vars, func, palette) = neutre non traduit.
+- **Le vocabulaire central `src/card/topics.yaml` est la référence de
+  contrôle**, pas une jointure : il liste, pour chaque concept, la
+  paire (label_en, label_fr), la définition et l'ancrage externe
+  (IHA, ETCCDI). Le linter vérifie chaque valeur ET l'appariement
+  en/fr entre les deux blocs — une divergence (la cause des ~15 bugs
+  de l'ancien `topic` en texte libre) devient une erreur de lint,
+  plus jamais un bug silencieux.
+- **Règle de complétude** (linter) : `domain`, `aspect`, `season`,
+  `output` requis pour les fiches descriptives ; `purpose`
+  (performance | sensitivity) optionnel — s'il est présent, `aspect`
+  est interdit (la ligne purpose explique son absence) ; `tags` libre
+  (0..n).
+- `card.list_cards()` expose chaque facette en colonne dans les deux
+  langues → filtrage dans sa langue (`aspect="Intensité"` ou
+  `aspect="Magnitude"`), y compris `tags` (appartenance). Le catalogue
+  CARDS.md gagne les colonnes correspondantes (dont **output**,
   aujourd'hui invisible : la moitié de l'arborescence n'a pas de
   dossiers serie/criteria, et le dossier classe mal FDC/QJC10).
 - L'**opérateur** (delta, tendance, médiane inter-annuelle...) n'est
@@ -59,23 +79,31 @@ meta:
 Les fiches de sensibilité croisée déclarent une liste :
 `domain: [flow, precipitation]` (ex. QR_ratio, epsilon_R, RAT_R).
 
-### regime — la condition visée (optionnel : omis quand sans objet)
+### tags — mots-clés (0..n, vocabulaire recommandé extensible)
 
-| Slug | en | fr | Couvre les topics actuels |
+L'ex-« régime » : pas un axe (il mélangeait partie du spectre,
+composante, type d'événement, et n'avait pas de sens hors débit) mais
+des **mots-clés multiples**. Une fiche peut en porter plusieurs
+(`[Basses eaux, Débit de base]` → elle sort dans les deux
+groupements), ou aucun (les cas ambigus ne sont pas forcés).
+Vocabulaire recommandé de départ, groupé par domaine dans topics.yaml
+(le linter avertit sur un tag inconnu — vocabulaire extensible) :
+
+| en | fr | Couvre les topics actuels | Domaine typique |
 |---|---|---|---|
-| low-flows | Low flows | Basses eaux | Low Flows |
-| mean-flows | Mean flows | Moyennes eaux | Mean Flows |
-| high-flows | High flows | Hautes eaux | High Flows |
-| baseflow | Baseflow | Débit de base | Baseflow / Base Flow (unifiés) |
-| dry-spells | Dry spells | Périodes sèches | Dry Period |
-| light-rain | Light rain | Pluies faibles | Low (précip) |
-| heavy-rain | Heavy rain | Pluies fortes | Heavy |
-| general | General | Général | Moderate (précip), Average/Mean (temp., ETP) — pas de condition particulière |
+| Low flows | Basses eaux | Low Flows | flow |
+| Mean flows | Moyennes eaux | Mean Flows | flow |
+| High flows | Hautes eaux | High Flows | flow |
+| Baseflow | Débit de base | Baseflow / Base Flow (unifiés) | flow |
+| Dry spells | Périodes sèches | Dry Period | precipitation |
+| Wet days | Jours pluvieux | Low (précip ≥ 1 mm — reclassé) | precipitation |
+| Heavy rain | Pluies fortes | Heavy | precipitation |
+| Snow | Neige | (précip solides Rs/RAs — nouveau) | precipitation |
 
-`regime: general` est écrit explicitement (décision 2026-07-16 : une
-ligne absente ne distingue pas « sans objet » d'« oublié »). Seules les
-fiches performance/sensibilité n'ont pas de regime (interdit, justifié
-par la ligne `purpose`).
+Les anciens « Moderate » (précip) et « Average/Mean » (température,
+ETP) ne deviennent pas des tags : ils ne disaient rien (pas de
+condition particulière) — ces fiches ont simplement `tags: []` ou pas
+de ligne tags.
 
 ### aspect — la dimension analysée (typologie IHA/EFC ; optionnel)
 
@@ -93,6 +121,20 @@ change.
 
 `aspect` requis pour toutes les fiches descriptives ; interdit quand
 `purpose` est présent (performance, sensibilité).
+
+### season — la fenêtre d'échantillonnage (obligatoire ; position 4 d'Oberlin)
+
+Axe fermé, une valeur par fiche, déterminable mécaniquement depuis le
+process :
+
+| en | fr | Définition | Exemples |
+|---|---|---|---|
+| Annual | Annuelle | fenêtre annuelle, fixe ou adaptative | QA, VCN10, QJXA, RCXA1 |
+| Summer | Estivale | fenêtre saisonnière fixe côté été | VCN10_summer, QSA_JJASO |
+| Winter | Hivernale | fenêtre saisonnière fixe côté hiver | QNA_winter |
+| By season | Par saison | fan-out 4 saisons DJF/MAM/JJA/SON | QSA_season, TSA_season |
+| By month | Par mois | fan-out 12 mois | QMA_month, RMA_month |
+| Record | Chronique | chronique entière, pas de découpage | Q90, FDC, KGE, deltas _H |
 
 ### output — la forme du résultat (obligatoire, nouvelle information)
 
@@ -118,34 +160,34 @@ facette↔process ajouté au linter (`python -m card.schema`).
 
 Les chaînes actuelles se projettent mécaniquement :
 
-| Topic actuel (en) | domain | regime | aspect | purpose |
+| Topic actuel (en) | domain | tags | aspect | purpose |
 |---|---|---|---|---|
-| Flow, Low/Mean/High Flows, X | flow | low/mean/high-flows | X | — |
-| Flow, Baseflow ou Base Flow, X | flow | baseflow | X | — |
-| Flow, Performance | flow | (interdit) | (interdit) | performance |
-| Flow / Precipitations, Sensitivity... | [flow, precipitation] | (interdit) | (interdit) | sensitivity |
-| Precipitations, Moderate, X | precipitation | general | X | — |
-| Precipitations, Heavy/Low, Duration | precipitation | heavy-rain / light-rain | duration | — |
-| Precipitations, Dry Period, Duration | precipitation | dry-spells | duration | — |
-| Temperature, Average/Mean, Intensity | temperature | general | magnitude | — |
-| Evapotranspiration, Average, Intensity | evapotranspiration | general | magnitude | — |
+| Flow, Low/Mean/High Flows, X | Flow | [Low/Mean/High flows] | X | — |
+| Flow, Baseflow ou Base Flow, X | Flow | [Baseflow] | X | — |
+| Flow, Performance | Flow | [] | (interdit) | Model performance |
+| Flow / Precipitations, Sensitivity... | [Flow, Precipitation] | [] | (interdit) | Climate sensitivity |
+| Precipitations, Moderate, X | Precipitation | [] | X | — |
+| Precipitations, Heavy, X | Precipitation | [Heavy rain] | X | — |
+| Precipitations, Low, Duration | Precipitation | [Wet days] | Duration | — |
+| Precipitations, Dry Period, Duration | Precipitation | [Dry spells] | Duration | — |
+| Rs/RAs/RMAs (précip solides) | Precipitation | [Snow] | selon fiche | — |
+| Temperature, Average/Mean, Intensity | Temperature | [] | Magnitude | — |
+| Evapotranspiration, Average, Intensity | Evapotranspiration | [] | Magnitude | — |
+
+(labels anglais montrés ; les blocs fr reçoivent les labels français
+appariés du vocabulaire ; `season` et `output` attribués fiche par
+fiche depuis le process)
 
 `output` est attribué fiche par fiche (dérivable du process à ~95 %,
 vérifié à la main pour FDC/QJC/median-QJ : `curve`). Les bundles multi-variables
 (topic en liste aujourd'hui) prennent des facettes en listes seulement
 si les variables diffèrent (règle C2 amendée).
 
-**Cas à confirmer à la migration** (proposition + relecture) :
-
-1. dtRA01mm / dtRMA01mm_month / dtRSA01mm_season : « Low » actuel, mais
-   le calcul compte TOUS les jours pluvieux (≥ 1 mm) — proposition :
-   `regime: general` plutôt que `light-rain` (à confirmer, voire créer
-   `wet-days` si tu veux la symétrie avec dry-spells).
-2. Précipitations solides/liquides (RAs, RAl, RMAs_month, RAs_ratio...) :
-   `regime: general` (la distinction solide/liquide est portée par la
-   variable) ou slug `snow` pour les solides — à confirmer.
-3. Fiches à cheval (mean-RA, RA_ratio) : purpose absent (descriptives)
-   malgré leur usage en diagnostic — confirmé descriptives.
+**Les trois cas jadis ambigus sont résolus par la nature des tags**
+(multiples, non forcés) : dtRA*01mm → [Wet days] ; précipitations
+solides → [Snow] ; mean-RA / RA_ratio → descriptives sans purpose.
+La table complète fiche par fiche sera générée et soumise à relecture
+avant application.
 
 ## 4. Arbitrages (rendus le 2026-07-16, sauf §4.6)
 
@@ -154,12 +196,21 @@ si les variables diffèrent (règle C2 amendée).
 3. **Parameterization (a-FDC) → `magnitude`** : la pente de la courbe
    des débits classés mesure la variabilité des débits, classée avec
    la magnitude comme en IHA.
-4. **Régime sans objet = `regime: general` explicite** (révisé le
-   2026-07-16 : l'absence de ligne ne distingue pas « sans objet »
-   d'« oublié ») ; regime/aspect interdits quand `purpose` est présent,
-   le linter vérifie la complétude.
+4. **`regime` abandonné comme axe** (révisé deux fois le 2026-07-16,
+   décision finale) : ce n'était pas une facette mais un mélange —
+   remplacé par **`tags`**, mots-clés multiples non forcés à
+   vocabulaire recommandé ; le filtre par « régime » reste un filtre
+   par tag, et une fiche peut appartenir à plusieurs groupes.
 5. **Bloc regroupé**, nommé **`classification:`** (transparent dans
    les deux langues ; « topics » ne décrivait plus des facettes).
+7. **Labels bilingues DANS les fiches** (décision finale 2026-07-16) :
+   les fiches restent autoportantes et les métadonnées d'extraction
+   directement traçables (but historique du bilinguisme) ; la sûreté
+   vient du vocabulaire fermé + lint d'appariement en/fr, pas de la
+   centralisation du stockage. topics.yaml = référence de contrôle.
+8. **Nouvel axe `season`** (fenêtre d'échantillonnage, position 4
+   d'Oberlin) : Annual, Summer, Winter, By season, By month, Record —
+   fermé, mécaniquement déterminable.
 6. **Le champ `topic` est supprimé à la migration** : toute
    l'information vient de `classification` (labels en/fr générés depuis
    le vocabulaire central pour le catalogue et card.info).
