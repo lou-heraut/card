@@ -1,6 +1,6 @@
 # Catalogue des fiches CARD
 
-215 fiches, 596 variables. Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.
+226 fiches, 607 variables. Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.
 
 Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entrées* indique les colonnes que `data` doit contenir (cf. `rename=` pour la correspondance). Détail d'une fiche : `card.info("nom")`.
 
@@ -14,6 +14,7 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 
 | fiche | variable(s) | nom | unité | entrées | exp. |
 |---|---|---|---|---|---|
+| [BFI-LH](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Baseflow/criteria/BFI-LH.yaml) | BFI-LH | Indice de débit de base (Lyne et Hollick) | without unit | Q |  |
 | [BFI-Wal](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Baseflow/criteria/BFI-Wal.yaml) | BFI-Wal | Indice de débit de base (Wallingford) | without unit | Q |  |
 | [BFM](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Baseflow/criteria/BFM.yaml) | BFM | Magnitude du débit de base | without unit | Q |  |
 | [delta-BFI-LH_H](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Baseflow/criteria/delta-BFI-LH_H.yaml) | delta-BFI-LH_H1, delta-BFI-LH_H2, delta-BFI-LH_H3 | Changement moyen de l'indice de débit de base entre l'horizon proche et la période historique (Lyne et Hollick) | without unit | Q |  |
@@ -158,7 +159,12 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 | [VCN30_summer](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Summer/serie/VCN30_summer.yaml) | VCN30_summer | Minimum estival de la moyenne sur 30 jours du débit journalier | m^{3}.s^{-1} | Q |  |
 | [VCN3_summer](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Summer/serie/VCN3_summer.yaml) | VCN3_summer | Minimum estival de la moyenne sur 3 jours du débit journalier | m^{3}.s^{-1} | Q |  |
 | [allLF_summer](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Summer/serie/allLF_summer.yaml) | startLF_summer, centerLF_summer, endLF_summer, dtLF_summer, vLF_summer | Début des basses eaux estivales | yearday | Q |  |
+| [centerLF_summer](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Summer/serie/centerLF_summer.yaml) | centerLF_summer | Centre des basses eaux estivales | yearday | Q |  |
+| [dtLF_summer](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Summer/serie/dtLF_summer.yaml) | dtLF_summer | Durée des basses eaux estivales | day | Q |  |
+| [endLF_summer](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Summer/serie/endLF_summer.yaml) | endLF_summer | Fin des basses eaux estivales | yearday | Q |  |
+| [startLF_summer](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Summer/serie/startLF_summer.yaml) | startLF_summer | Début des basses eaux estivales | yearday | Q |  |
 | [tVCN10_summer](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Summer/serie/tVCN10_summer.yaml) | tVCN10_summer | Date du minimum estival des débits moyens sur 10 jours | yearday | Q |  |
+| [vLF_summer](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Summer/serie/vLF_summer.yaml) | vLF_summer | Volume de déficit des basses eaux estivales | hm^{3} | Q |  |
 
 ## Flow / Low Flows Winter / criteria
 
@@ -182,7 +188,12 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 | [VCN30_winter](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Winter/serie/VCN30_winter.yaml) | VCN30_winter | Minimum hivernal de la moyenne sur 30 jours du débit journalier | m^{3}.s^{-1} | Q |  |
 | [VCN3_winter](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Winter/serie/VCN3_winter.yaml) | VCN3_winter | Minimum hivernal de la moyenne sur 3 jours du débit journalier | m^{3}.s^{-1} | Q |  |
 | [allLF_winter](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Winter/serie/allLF_winter.yaml) | startLF_winter, centerLF_winter, endLF_winter, dtLF_winter, vLF_winter | Début des basses eaux hivernales | yearday | Q |  |
+| [centerLF_winter](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Winter/serie/centerLF_winter.yaml) | centerLF_winter | Centre des basses eaux hivernales | yearday | Q |  |
+| [dtLF_winter](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Winter/serie/dtLF_winter.yaml) | dtLF_winter | Durée des basses eaux hivernales | day | Q |  |
+| [endLF_winter](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Winter/serie/endLF_winter.yaml) | endLF_winter | Fin des basses eaux hivernales | yearday | Q |  |
+| [startLF_winter](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Winter/serie/startLF_winter.yaml) | startLF_winter | Début des basses eaux hivernales | yearday | Q |  |
 | [tVCN10_winter](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Winter/serie/tVCN10_winter.yaml) | tVCN10_winter | Date du minimum hivernal des débits moyens sur 10 jours | yearday | Q |  |
+| [vLF_winter](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Low_Flows_Winter/serie/vLF_winter.yaml) | vLF_winter | Volume de déficit des basses eaux hivernales | hm^{3} | Q |  |
 
 ## Flow / Mean Flows / criteria
 
