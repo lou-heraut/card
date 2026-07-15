@@ -2,9 +2,9 @@
 
 > Proposition du 2026-07-16, arbitrée le jour même avec l'utilisateur
 > (slugs de forme series/scalar/curve, bloc `classification:`,
-> Ratio et Occurrence fondus, a-FDC→magnitude, régime sans objet =
-> pas de ligne). **Reste ouvert : §4.6** (sort du champ `topic`
-> actuel).
+> Ratio et Occurrence fondus, a-FDC→magnitude, `regime: general`
+> explicite, champ `topic` supprimé à la migration). Prêt à appliquer ;
+> trois cas de migration marqués « à confirmer » (§3).
 > Remplace le champ libre bilingue `topic: "Flow, Low Flows,
 > Seasonality"` par des facettes en slugs neutres, avec un vocabulaire
 > central unique (labels en/fr générés, plus de dérive par fiche).
@@ -18,10 +18,16 @@ meta:
   global:
     classification:
       domain: flow            # grandeur concernée (liste si plusieurs)
-      regime: low-flows       # condition hydro-climatique visée (pas de ligne si sans objet)
-      aspect: timing          # dimension analysée, typologie IHA (pas de ligne si sans objet)
+      regime: low-flows       # condition visée ; 'general' si aucune
+      aspect: timing          # dimension analysée, typologie IHA
       output: series          # forme du résultat : series | scalar | curve
-      purpose: performance    # pas de ligne si simple description (défaut)
+      purpose: performance    # seule ligne optionnelle (défaut : description)
+
+# Règle de complétude (vérifiée par le linter) :
+#  - fiches descriptives : domain, regime, aspect, output tous requis
+#    (regime: general si pas de condition particulière) ;
+#  - purpose présent (performance | sensitivity) : regime et aspect
+#    INTERDITS — la ligne purpose explique leur absence.
 ```
 
 - Les slugs sont **anglais, kebab-case, langue-neutres** : la fiche ne
@@ -64,11 +70,12 @@ Les fiches de sensibilité croisée déclarent une liste :
 | dry-spells | Dry spells | Périodes sèches | Dry Period |
 | light-rain | Light rain | Pluies faibles | Low (précip) |
 | heavy-rain | Heavy rain | Pluies fortes | Heavy |
+| general | General | Général | Moderate (précip), Average/Mean (temp., ETP) — pas de condition particulière |
 
-Pas de ligne `regime:` quand il n'y a pas de condition particulière :
-précip « Moderate », température « Average/Mean », évapotranspiration,
-performance, sensibilité (même logique que la règle des défauts,
-NOMENCLATURE Règle 5 / CLAUDE.md).
+`regime: general` est écrit explicitement (décision 2026-07-16 : une
+ligne absente ne distingue pas « sans objet » d'« oublié »). Seules les
+fiches performance/sensibilité n'ont pas de regime (interdit, justifié
+par la ligne `purpose`).
 
 ### aspect — la dimension analysée (typologie IHA/EFC ; optionnel)
 
@@ -84,7 +91,8 @@ change.
 | frequency | Frequency | Fréquence | Frequency, Occurrence (n-* : décomptes d'années) |
 | rate-of-change | Rate of change | Taux de variation | (aucune fiche actuelle — réservé) |
 
-Pas de ligne `aspect:` pour les fiches performance.
+`aspect` requis pour toutes les fiches descriptives ; interdit quand
+`purpose` est présent (performance, sensibilité).
 
 ### output — la forme du résultat (obligatoire, nouvelle information)
 
@@ -114,18 +122,30 @@ Les chaînes actuelles se projettent mécaniquement :
 |---|---|---|---|---|
 | Flow, Low/Mean/High Flows, X | flow | low/mean/high-flows | X | — |
 | Flow, Baseflow ou Base Flow, X | flow | baseflow | X | — |
-| Flow, Performance | flow | — | — | performance |
-| Flow / Precipitations, Sensitivity... | [flow, precipitation] | — | — | sensitivity |
-| Precipitations, Moderate, X | precipitation | — | X | — |
+| Flow, Performance | flow | (interdit) | (interdit) | performance |
+| Flow / Precipitations, Sensitivity... | [flow, precipitation] | (interdit) | (interdit) | sensitivity |
+| Precipitations, Moderate, X | precipitation | general | X | — |
 | Precipitations, Heavy/Low, Duration | precipitation | heavy-rain / light-rain | duration | — |
 | Precipitations, Dry Period, Duration | precipitation | dry-spells | duration | — |
-| Temperature, Average/Mean, Intensity | temperature | — | magnitude | — |
-| Evapotranspiration, Average, Intensity | evapotranspiration | — | magnitude | — |
+| Temperature, Average/Mean, Intensity | temperature | general | magnitude | — |
+| Evapotranspiration, Average, Intensity | evapotranspiration | general | magnitude | — |
 
 `output` est attribué fiche par fiche (dérivable du process à ~95 %,
 vérifié à la main pour FDC/QJC/median-QJ : `curve`). Les bundles multi-variables
 (topic en liste aujourd'hui) prennent des facettes en listes seulement
 si les variables diffèrent (règle C2 amendée).
+
+**Cas à confirmer à la migration** (proposition + relecture) :
+
+1. dtRA01mm / dtRMA01mm_month / dtRSA01mm_season : « Low » actuel, mais
+   le calcul compte TOUS les jours pluvieux (≥ 1 mm) — proposition :
+   `regime: general` plutôt que `light-rain` (à confirmer, voire créer
+   `wet-days` si tu veux la symétrie avec dry-spells).
+2. Précipitations solides/liquides (RAs, RAl, RMAs_month, RAs_ratio...) :
+   `regime: general` (la distinction solide/liquide est portée par la
+   variable) ou slug `snow` pour les solides — à confirmer.
+3. Fiches à cheval (mean-RA, RA_ratio) : purpose absent (descriptives)
+   malgré leur usage en diagnostic — confirmé descriptives.
 
 ## 4. Arbitrages (rendus le 2026-07-16, sauf §4.6)
 
@@ -134,9 +154,12 @@ si les variables diffèrent (règle C2 amendée).
 3. **Parameterization (a-FDC) → `magnitude`** : la pente de la courbe
    des débits classés mesure la variabilité des débits, classée avec
    la magnitude comme en IHA.
-4. **Régime sans objet = pas de ligne** (cohérent avec la règle des
-   défauts), pas de slug `general`.
+4. **Régime sans objet = `regime: general` explicite** (révisé le
+   2026-07-16 : l'absence de ligne ne distingue pas « sans objet »
+   d'« oublié ») ; regime/aspect interdits quand `purpose` est présent,
+   le linter vérifie la complétude.
 5. **Bloc regroupé**, nommé **`classification:`** (transparent dans
    les deux langues ; « topics » ne décrivait plus des facettes).
-6. ⚠️ **Ouvert** — le champ `topic` actuel : supprimé, ou conservé en
-   lecture seule (généré depuis les facettes) pendant une transition ?
+6. **Le champ `topic` est supprimé à la migration** : toute
+   l'information vient de `classification` (labels en/fr générés depuis
+   le vocabulaire central pour le catalogue et card.info).
