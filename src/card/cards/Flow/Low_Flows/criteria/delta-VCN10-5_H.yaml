@@ -18,7 +18,12 @@ meta:
       3. no temporal aggregation - calculation of the 5-year return period flow with the log-normal distribution on the historical period and in the {horizon} horizon then calculation of the average change
     horizon_labels: {H1: near, H2: middle, H3: distant}
     sampling_period: Month of maximum monthly flows
-    topic: "Flow, Low Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: magnitude
+      season: annual
+      output: scalar
 
   fr:
     variable: [delta-VCN10-5_H1, delta-VCN10-5_H2, delta-VCN10-5_H3]
@@ -34,7 +39,12 @@ meta:
       3. aucune agrégation temporelle - calcul du débit de période de retour 5 ans avec la loi log-normal sur la période historique et en horizon {horizon} puis calcul du changement moyen
     horizon_labels: {H1: proche, H2: moyen, H3: lointain}
     sampling_period: Mois du maximum des débits mensuels
-    topic: "Débit, Basses Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: intensité
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

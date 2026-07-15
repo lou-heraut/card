@@ -21,7 +21,12 @@ meta:
       2. no temporal aggregation - calculation of the BFI change between the
          historical period and the {horizon} horizon
     horizon_labels: {H1: near, H2: middle, H3: distant}
-    topic: "Flow, Base Flow, Intensity"
+    classification:
+      domain: flow
+      phenomenon: baseflow
+      aspect: magnitude
+      season: record
+      output: scalar
 
   fr:
     variable: [delta-BFI-LH_H1, delta-BFI-LH_H2, delta-BFI-LH_H3]
@@ -40,7 +45,12 @@ meta:
       2. aucune agrégation temporelle - calcul du changement de BFI entre la
          période historique et l'horizon {horizon}
     horizon_labels: {H1: proche, H2: moyen, H3: lointain}
-    topic: "Débit, Débit de Base, Intensité"
+    classification:
+      domain: débit
+      phenomenon: débit de base
+      aspect: intensité
+      season: chronique
+      output: scalaire
 
   global:
     input_vars: Q

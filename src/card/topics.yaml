@@ -1,0 +1,47 @@
+# Vocabulaire de contrôle de la classification des fiches (cf.
+# docs/dev/TOPICS.md). Référence de validation du linter : chaque
+# valeur utilisée dans un bloc `classification` doit exister ici, et
+# la paire en/fr des deux blocs de langue doit correspondre.
+# Convention thésaurus : labels en minuscules.
+
+domain:
+  flow: {fr: débit}
+  precipitation: {fr: précipitations}
+  temperature: {fr: température}
+  evapotranspiration: {fr: évapotranspiration}
+
+phenomenon:
+  low flows: {fr: basses eaux}
+  mean flows: {fr: moyennes eaux}
+  high flows: {fr: hautes eaux}
+  baseflow: {fr: débit de base}
+  dry spells: {fr: périodes sèches}
+  wet days: {fr: jours pluvieux}
+  heavy rain: {fr: pluies fortes}
+  snow: {fr: neige}
+
+aspect:
+  # typologie IHA/EFC (Richter et al. 1996 ; Olden & Poff 2003)
+  magnitude: {fr: intensité, iha: magnitude}
+  timing: {fr: saisonnalité, iha: timing}
+  duration: {fr: durée, iha: duration}
+  frequency: {fr: fréquence, iha: frequency}
+  rate of change: {fr: taux de variation, iha: rate of change}
+
+season:
+  # position 4 d'Oberlin (1992) : la fenêtre d'échantillonnage
+  annual: {fr: annuelle}
+  summer: {fr: estivale}
+  winter: {fr: hivernale}
+  by season: {fr: par saison}
+  by month: {fr: par mois}
+  record: {fr: chronique}
+
+output:
+  series: {fr: série}
+  scalar: {fr: scalaire}
+  curve: {fr: courbe}
+
+purpose:
+  model performance: {fr: performance de modèle}
+  climate sensitivity: {fr: sensibilité climatique}

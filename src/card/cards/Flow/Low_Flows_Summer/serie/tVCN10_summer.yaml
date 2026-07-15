@@ -13,7 +13,12 @@ meta:
       1. no temporal aggregation - 10-day centered moving average
       2. annual aggregation [05-01, 11-30] - date of the minimum
     sampling_period: ["05-01", "11-30"]
-    topic: "Flow, Low Flows, Seasonality"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: timing
+      season: summer
+      output: series
 
   fr:
     variable: tVCN10_été
@@ -24,7 +29,12 @@ meta:
       1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
       2. agrégation annuelle [01-05, 30-11] - date du minimum
     sampling_period: ["01-05", "30-11"]
-    topic: "Débit, Basses Eaux, Saisonnalité"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: saisonnalité
+      season: estivale
+      output: série
 
   global:
     input_vars: Q

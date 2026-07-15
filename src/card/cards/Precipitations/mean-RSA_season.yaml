@@ -27,7 +27,11 @@ meta:
       - ["03-01", "05-31"]
       - ["06-01", "08-31"]
       - ["09-01", "11-30"]
-    topic: "Precipitations, Moderate, Intensity"
+    classification:
+      domain: precipitation
+      aspect: magnitude
+      season: by season
+      output: scalar
 
   fr:
     variable: [moyenne-RA_DJF, moyenne-RA_MAM, moyenne-RA_JJA, moyenne-RA_SON]
@@ -52,7 +56,11 @@ meta:
       - ["01-03", "31-05"]
       - ["01-06", "31-08"]
       - ["01-09", "30-11"]
-    topic: "Précipitations, Modérée, Intensité"
+    classification:
+      domain: précipitations
+      aspect: intensité
+      season: par saison
+      output: scalaire
 
   global:
     input_vars: R

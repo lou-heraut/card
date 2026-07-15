@@ -20,7 +20,12 @@ meta:
       5. no temporal aggregation - calculation of the average change between the historical period and the {horizon} horizon
     horizon_labels: {H1: near, H2: middle, H3: distant}
     sampling_period: Month of maximum monthly flows
-    topic: "Flow, Low Flows, Seasonality"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: timing
+      season: annual
+      output: scalar
 
   fr:
     variable: [delta-centreBE_H1, delta-centreBE_H2, delta-centreBE_H3]
@@ -38,7 +43,12 @@ meta:
       5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {horizon}
     horizon_labels: {H1: proche, H2: moyen, H3: lointain}
     sampling_period: Mois du maximum des débits mensuels
-    topic: "Débit, Basses Eaux, Saisonnalité"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: saisonnalité
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

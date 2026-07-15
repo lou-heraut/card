@@ -13,7 +13,12 @@ meta:
     method: |
       1. no temporal aggregation - quantile at the exceedance probability
          of 10 %
-    topic: "Flow, High Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: high flows
+      aspect: magnitude
+      season: record
+      output: scalar
 
   fr:
     variable: Q10
@@ -24,7 +29,12 @@ meta:
     method: |
       1. aucune agrégation temporelle - quantile à la probabilité de
          dépassement de 10 %
-    topic: "Débit, Hautes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: hautes eaux
+      aspect: intensité
+      season: chronique
+      output: scalaire
 
   global:
     input_vars: Q

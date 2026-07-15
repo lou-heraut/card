@@ -20,7 +20,12 @@ meta:
          where the difference is greater than the threshold
       5. no temporal aggregation - median
     sampling_period: Month of minimum monthly flows
-    topic: "Flow, High Flows, Duration"
+    classification:
+      domain: flow
+      phenomenon: high flows
+      aspect: duration
+      season: annual
+      output: scalar
 
   fr:
     variable: mediane-dtCrue
@@ -38,7 +43,12 @@ meta:
          jours où la différence est supérieure au seuil
       5. aucune agrégation temporelle - médiane
     sampling_period: Mois du minimum des débits mensuels
-    topic: "Débit, Hautes Eaux, Durée"
+    classification:
+      domain: débit
+      phenomenon: hautes eaux
+      aspect: durée
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

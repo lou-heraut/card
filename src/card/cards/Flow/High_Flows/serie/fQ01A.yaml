@@ -18,7 +18,12 @@ meta:
          number of days with flow exceeding the threshold to the number of
          days in the year
     sampling_period: Month of minimum monthly flows
-    topic: "Flow, High Flows, Frequency"
+    classification:
+      domain: flow
+      phenomenon: high flows
+      aspect: frequency
+      season: annual
+      output: series
 
   fr:
     variable: fQ01A
@@ -34,7 +39,12 @@ meta:
          du nombre de jours où le débit dépasse le seuil par le nombre de
          jours dans l'année
     sampling_period: Mois du minimum des débits mensuels
-    topic: "Débit, Hautes Eaux, Fréquence"
+    classification:
+      domain: débit
+      phenomenon: hautes eaux
+      aspect: fréquence
+      season: annuelle
+      output: série
 
   global:
     input_vars: Q

@@ -11,7 +11,11 @@ meta:
     description: ""
     method: "1. annual aggregation [Month of minimum monthly flows] - mean flow and mean total precipitation\n2. no temporal aggregation - calculation of elasticity ε"
     sampling_period: Month of minimum monthly flows
-    topic: "Flow / Precipitations, Sensitivity to Climate Variability"
+    classification:
+      domain: [flow, precipitation]
+      season: annual
+      output: scalar
+      purpose: climate sensitivity
 
   fr:
     variable: epsilon_R
@@ -20,7 +24,11 @@ meta:
     description: ""
     method: "1. agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen et précipitations totales moyennes\n2. aucune agrégation temporelle - calcul de l'élasticité ε"
     sampling_period: Mois du minimum des débits mensuels
-    topic: "Débit / Précipitations, Sensibilité à la variabilité climatique"
+    classification:
+      domain: [débit, précipitations]
+      season: annuelle
+      output: scalaire
+      purpose: sensibilité climatique
 
   global:
     input_vars: "Q, R"

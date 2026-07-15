@@ -10,7 +10,12 @@ meta:
     name: Base flow (Lyne and Hollick)
     description: ""
     method: "1. no temporal aggregation - extraction of the base flow (Lyne and Hollick)"
-    topic: "Flow, Base Flow, Intensity"
+    classification:
+      domain: flow
+      phenomenon: baseflow
+      aspect: magnitude
+      season: record
+      output: scalar
 
   fr:
     variable: QB-LH
@@ -18,7 +23,12 @@ meta:
     name: Débit de base (Lyne et Hollick)
     description: ""
     method: "1. aucune agrégation temporelle - extraction du débit de base (Lyne et Hollick)"
-    topic: "Débit, Débit de Base, Intensité"
+    classification:
+      domain: débit
+      phenomenon: débit de base
+      aspect: intensité
+      season: chronique
+      output: scalaire
 
   global:
     input_vars: Q

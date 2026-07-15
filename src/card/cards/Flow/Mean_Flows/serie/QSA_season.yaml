@@ -27,7 +27,12 @@ meta:
       - ["03-01", "05-31"]
       - ["06-01", "08-31"]
       - ["09-01", "11-30"]
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: by season
+      output: series
 
   fr:
     variable: [QSA_DJF, QSA_MAM, QSA_JJA, QSA_SON]
@@ -52,7 +57,12 @@ meta:
       - ["01-03", "31-05"]
       - ["01-06", "31-08"]
       - ["01-09", "30-11"]
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: par saison
+      output: série
 
   global:
     input_vars: Q

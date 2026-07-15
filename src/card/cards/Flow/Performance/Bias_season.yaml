@@ -39,7 +39,11 @@ meta:
       - ["03-01", "05-31"]
       - ["06-01", "08-31"]
       - ["09-01", "11-30"]
-    topic: "Flow, Performance"
+    classification:
+      domain: flow
+      season: record
+      output: series
+      purpose: model performance
 
   fr:
     variable: [Biais_DJF, Biais_MAM, Biais_JJA, Biais_SON]
@@ -77,7 +81,11 @@ meta:
       - ["01-03", "31-05"]
       - ["01-06", "31-08"]
       - ["01-09", "30-11"]
-    topic: "Débit, Performance"
+    classification:
+      domain: débit
+      season: chronique
+      output: série
+      purpose: performance de modèle
 
   global:
     input_vars: "Q_obs, Q_sim"

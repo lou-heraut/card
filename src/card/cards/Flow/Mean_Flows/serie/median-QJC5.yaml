@@ -14,7 +14,12 @@ meta:
     method: |
       1. aggregation by day of the year - median
       2. no temporal aggregation - 5-day centered moving average
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: record
+      output: curve
 
   fr:
     variable: mediane-QJC5
@@ -26,7 +31,12 @@ meta:
     method: |
       1. agrégation par jour de l'année - médiane
       2. aucune agrégation temporelle - moyenne mobile centrée sur 5 jours
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: chronique
+      output: courbe
 
   global:
     input_vars: Q

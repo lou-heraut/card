@@ -10,7 +10,12 @@ meta:
     name: Median of daily flows (whole record)
     description: "Flow with an exceedance probability of 50 %"
     method: "1. no temporal aggregation - quantile at the exceedance probability of 50 %"
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: record
+      output: scalar
 
   fr:
     variable: Q50
@@ -18,7 +23,12 @@ meta:
     name: Médiane des débits journaliers (chronique entière)
     description: "Débit avec une probabilité de dépassement de 50 %"
     method: "1. aucune agrégation temporelle - quantile à la probabilité de dépassement de 50 %"
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: chronique
+      output: scalaire
 
   global:
     input_vars: Q

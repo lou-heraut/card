@@ -11,7 +11,12 @@ meta:
     description: "Number of days with at least 1 mm of precipitation"
     method: "1. annual aggregation [09-01, 08-31] - number of days with precipitation of at least 1 mm"
     sampling_period: ["09-01", "08-31"]
-    topic: "Precipitations, Low, Duration"
+    classification:
+      domain: precipitation
+      phenomenon: wet days
+      aspect: duration
+      season: annual
+      output: series
 
   fr:
     variable: dtRA01mm
@@ -20,7 +25,12 @@ meta:
     description: "Nombre de jours avec au moins 1 mm de précipitations"
     method: "1. agrégation annuelle [01-09, 31-08] - nombre de jours avec des précipitations d'au moins 1 mm"
     sampling_period: ["01-09", "31-08"]
-    topic: "Précipitations, Faibles, Durée"
+    classification:
+      domain: précipitations
+      phenomenon: jours pluvieux
+      aspect: durée
+      season: annuelle
+      output: série
 
   global:
     input_vars: R

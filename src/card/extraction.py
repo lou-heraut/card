@@ -132,6 +132,24 @@ def _meta_rows(card) -> pd.DataFrame:
     elif isinstance(palette, list):
         palette = " ".join(palette)
 
+    def cfield(d, key):
+        """Facette de classification -> valeur par variable (str, plot-ready).
+        Une liste de longueur n est par-variable ; toute autre liste
+        (ex. domain multiple) est jointe en une chaîne."""
+        v = d.get("classification", {}).get(key)
+        if isinstance(v, list) and (n == 1 or len(v) != n):
+            v = ", ".join(str(x) for x in v)
+        return _as_list(v if v is not None else "", n)
+
+    _OPERATORS = [("delta-", "delta"), ("median-", "median"), ("mean-", "mean"),
+                  ("alpha-", "trend slope"), ("hyp-", "trend test"), ("n-", "count")]
+
+    def operator(var):
+        for prefix, op in _OPERATORS:
+            if str(var).startswith(prefix):
+                return op
+        return ""
+
     return pd.DataFrame({
         "variable_en": _as_list(variable_en, n),
         "unit_en": field(en, "unit"),
@@ -139,14 +157,25 @@ def _meta_rows(card) -> pd.DataFrame:
         "description_en": field(en, "description"),
         "method_en": field(en, "method"),
         "sampling_period_en": _as_list(_join_sp(en.get("sampling_period")), n),
-        "topic_en": field(en, "topic"),
+        "domain_en": cfield(en, "domain"),
+        "phenomenon_en": cfield(en, "phenomenon"),
+        "aspect_en": cfield(en, "aspect"),
+        "season_en": cfield(en, "season"),
+        "output_en": cfield(en, "output"),
+        "purpose_en": cfield(en, "purpose"),
         "variable_fr": _as_list(fr.get("variable"), n),
         "unit_fr": field(fr, "unit"),
         "name_fr": field(fr, "name"),
         "description_fr": field(fr, "description"),
         "method_fr": field(fr, "method"),
         "sampling_period_fr": _as_list(_join_sp(fr.get("sampling_period")), n),
-        "topic_fr": field(fr, "topic"),
+        "domain_fr": cfield(fr, "domain"),
+        "phenomenon_fr": cfield(fr, "phenomenon"),
+        "aspect_fr": cfield(fr, "aspect"),
+        "season_fr": cfield(fr, "season"),
+        "output_fr": cfield(fr, "output"),
+        "purpose_fr": cfield(fr, "purpose"),
+        "operator": [operator(v) for v in _as_list(variable_en, n)],
         "is_experimental": _as_list(gl.get("is_experimental"), n),
         "input_vars": _as_list(gl.get("input_vars"), n),
         "source": _as_list(gl.get("source"), n),

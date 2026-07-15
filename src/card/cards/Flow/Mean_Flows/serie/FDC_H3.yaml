@@ -13,7 +13,12 @@ meta:
       the card outputs its two coordinates (FDC_H3_p, unitless
       probabilities; FDC_H3_Q, flow quantiles)
     method: "1. no temporal aggregation - flow duration curves with 1000 points spaced according to a centered reduced normal distribution."
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: record
+      output: curve
 
   fr:
     variable: CDC_H3
@@ -25,7 +30,12 @@ meta:
       la fiche produit ses deux coordonnées (FDC_H3_p, probabilités
       sans unité ; FDC_H3_Q, quantiles de débit)
     method: "1. aucune agrégation temporelle - courbes des débits classés avec 1000 points espacés selon une loi normale centrée réduite"
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: chronique
+      output: courbe
 
   global:
     input_vars: Q

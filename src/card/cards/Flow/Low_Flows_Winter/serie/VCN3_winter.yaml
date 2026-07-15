@@ -13,7 +13,12 @@ meta:
       1. no temporal aggregation - 3-day centered moving average
       2. annual aggregation [11-01, 04-30] - minimum
     sampling_period: ["11-01", "04-30"]
-    topic: "Flow, Low Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: magnitude
+      season: winter
+      output: series
 
   fr:
     variable: VCN3_hiver
@@ -24,7 +29,12 @@ meta:
       1. aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
       2. agrégation annuelle [01-11, 30-04] - minimum
     sampling_period: ["01-11", "30-04"]
-    topic: "Débit, Basses Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: intensité
+      season: hivernale
+      output: série
 
   global:
     input_vars: Q

@@ -11,7 +11,12 @@ meta:
     description: ""
     method: "1. annual aggregation [09-01, 08-31] - mean"
     sampling_period: ["09-01", "08-31"]
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: annual
+      output: series
 
   fr:
     variable: QA
@@ -20,7 +25,12 @@ meta:
     description: ""
     method: "1. agrégation annuelle [01-09, 31-08] - moyenne"
     sampling_period: ["01-09", "31-08"]
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: annuelle
+      output: série
 
   global:
     input_vars: Q

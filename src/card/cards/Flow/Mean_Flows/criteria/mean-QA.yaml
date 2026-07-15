@@ -13,7 +13,12 @@ meta:
       1. annual aggregation [09-01, 08-31] - mean
       2. no temporal aggregation - average
     sampling_period: ["09-01", "08-31"]
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: annual
+      output: scalar
 
   fr:
     variable: moyenne-QA
@@ -24,7 +29,12 @@ meta:
       1. agrégation annuelle [01-09, 31-08] - moyenne
       2. aucune agrégation temporelle - moyenne
     sampling_period: ["01-09", "31-08"]
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

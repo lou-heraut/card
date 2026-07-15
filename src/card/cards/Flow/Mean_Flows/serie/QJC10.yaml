@@ -14,7 +14,12 @@ meta:
     method: |
       1. aggregation by day of the year - mean
       2. no temporal aggregation - 10-day centered moving average
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: record
+      output: curve
 
   fr:
     variable: QJC10
@@ -26,7 +31,12 @@ meta:
     method: |
       1. agrégation par jour de l'année - moyenne
       2. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: chronique
+      output: courbe
 
   global:
     input_vars: Q

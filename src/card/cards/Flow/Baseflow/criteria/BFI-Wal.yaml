@@ -13,7 +13,12 @@ meta:
     method: |
       1. no temporal aggregation - extraction of the base flow (Wallingford)
       2. no temporal aggregation - calculation of the Base Flow Index (BFI)
-    topic: "Flow, Base Flow, Intensity"
+    classification:
+      domain: flow
+      phenomenon: baseflow
+      aspect: magnitude
+      season: record
+      output: scalar
 
   fr:
     variable: BFI-Wal
@@ -24,7 +29,12 @@ meta:
     method: |
       1. aucune agrégation temporelle - extraction du débit de base (Wallingford)
       2. aucune agrégation temporelle - calcul du BFI
-    topic: "Débit, Débit de Base, Intensité"
+    classification:
+      domain: débit
+      phenomenon: débit de base
+      aspect: intensité
+      season: chronique
+      output: scalaire
 
   global:
     input_vars: Q

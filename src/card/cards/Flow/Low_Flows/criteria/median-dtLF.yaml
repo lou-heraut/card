@@ -16,7 +16,12 @@ meta:
       4. annual aggregation [Month of maximum monthly flows] - number of days in the longest period below the previous threshold
       5. no temporal aggregation - median
     sampling_period: Month of maximum monthly flows
-    topic: "Flow, Low Flows, Duration"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: duration
+      season: annual
+      output: scalar
 
   fr:
     variable: mediane-dtBE
@@ -30,7 +35,12 @@ meta:
       4. agrégation annuelle [Mois du maximum des débits mensuels] - nombre de jours de la plus longue période sous le précédent seuil
       5. aucune agrégation temporelle - médiane
     sampling_period: Mois du maximum des débits mensuels
-    topic: "Débit, Basses Eaux, Durée"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: durée
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

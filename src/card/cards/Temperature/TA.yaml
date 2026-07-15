@@ -11,7 +11,11 @@ meta:
     description: ""
     method: "1. annual aggregation [09-01, 08-31] - mean"
     sampling_period: ["09-01", "08-31"]
-    topic: "Temperature, Average, Intensity"
+    classification:
+      domain: temperature
+      aspect: magnitude
+      season: annual
+      output: series
 
   fr:
     variable: TA
@@ -20,7 +24,11 @@ meta:
     description: ""
     method: "1. agrégation annuelle [01-09, 31-08] - moyenne"
     sampling_period: ["01-09", "31-08"]
-    topic: "Température, Moyenne, Intensité"
+    classification:
+      domain: température
+      aspect: intensité
+      season: annuelle
+      output: série
 
   global:
     input_vars: T

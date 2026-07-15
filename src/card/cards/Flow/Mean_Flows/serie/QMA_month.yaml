@@ -36,7 +36,12 @@ meta:
       - ["10-01", "10-31"]
       - ["11-01", "11-30"]
       - ["12-01", "12-31"]
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: by month
+      output: series
 
   fr:
     variable: [QMA_janv, QMA_fevr, QMA_mars, QMA_avril, QMA_mai, QMA_juin,
@@ -70,7 +75,12 @@ meta:
       - ["01-10", "31-10"]
       - ["01-11", "30-11"]
       - ["01-12", "31-12"]
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: par mois
+      output: série
 
   global:
     input_vars: Q

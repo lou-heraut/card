@@ -14,7 +14,11 @@ meta:
       The coefficient gives strong weight to the reconstruction of high values
       of the examined variable.
     method: "1. no temporal aggregation - calculation of KGE"
-    topic: "Flow, Performance"
+    classification:
+      domain: flow
+      season: record
+      output: scalar
+      purpose: model performance
 
   fr:
     variable: KGE
@@ -26,7 +30,11 @@ meta:
       aux pondérations identiques. Le coefficient donne un poids fort à la
       reconstitution des valeurs fortes de la variable examinée.
     method: "1. aucune agrégation temporelle - calcul du KGE"
-    topic: "Débit, Performance"
+    classification:
+      domain: débit
+      season: chronique
+      output: scalaire
+      purpose: performance de modèle
 
   global:
     input_vars: "Q_obs, Q_sim"

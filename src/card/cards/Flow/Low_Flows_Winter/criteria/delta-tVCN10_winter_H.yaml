@@ -20,7 +20,12 @@ meta:
       2. annual aggregation [11-01, 04-30] - date of the minimum
       3. no temporal aggregation - calculation of the average change between the historical period and the {horizon} horizon
     sampling_period: ["11-01", "04-30"]
-    topic: "Flow, Low Flows, Seasonality"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: timing
+      season: winter
+      output: scalar
     horizon_labels: {H1: near, H2: middle, H3: distant}
 
   fr:
@@ -39,7 +44,12 @@ meta:
       2. agrégation annuelle [01-11, 30-04] - date du minimum
       3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {horizon}
     sampling_period: ["01-11", "30-04"]
-    topic: "Débit, Basses Eaux, Saisonnalité"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: saisonnalité
+      season: hivernale
+      output: scalaire
     horizon_labels: {H1: proche, H2: moyen, H3: lointain}
 
   global:

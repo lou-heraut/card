@@ -12,7 +12,11 @@ meta:
       Identical to NSE, this score, however, gives strong emphasis on the
       reconstruction of low values of the examined variable.
     method: "1. no temporal aggregation - inverse of daily data, then NSE"
-    topic: "Flow, Performance"
+    classification:
+      domain: flow
+      season: record
+      output: scalar
+      purpose: model performance
 
   fr:
     variable: NSEinv
@@ -22,7 +26,11 @@ meta:
       Identique au NSE, ce score donne cependant un poids fort à la
       reconstitution des valeurs faibles de la variable examinée.
     method: "1. aucune agrégation temporelle - inverse des données journalières puis NSE"
-    topic: "Débit, Performance"
+    classification:
+      domain: débit
+      season: chronique
+      output: scalaire
+      purpose: performance de modèle
 
   global:
     input_vars: "Q_obs, Q_sim"

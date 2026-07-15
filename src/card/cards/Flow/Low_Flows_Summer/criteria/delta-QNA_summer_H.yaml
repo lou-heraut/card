@@ -17,7 +17,12 @@ meta:
     description: ""
     method: "1. annual aggregation [05-01, 11-30] - minimum\n2. no temporal aggregation - calculation of the average change between the historical period and the {horizon} horizon"
     sampling_period: ["05-01", "11-30"]
-    topic: "Flow, Low Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: magnitude
+      season: summer
+      output: scalar
     horizon_labels: {H1: near, H2: middle, H3: distant}
 
   fr:
@@ -33,7 +38,12 @@ meta:
     description: ""
     method: "1. agrégation annuelle [01-05, 30-11] - minimum\n2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {horizon}"
     sampling_period: ["01-05", "30-11"]
-    topic: "Débit, Basses Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: intensité
+      season: estivale
+      output: scalaire
     horizon_labels: {H1: proche, H2: moyen, H3: lointain}
 
   global:

@@ -17,7 +17,12 @@ meta:
       2. no temporal aggregation - calculation of the average change between the historical period and the {horizon} horizon
     horizon_labels: {H1: near, H2: middle, H3: distant}
     sampling_period: ["01-01", "12-31"]
-    topic: "Flow, Low Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: magnitude
+      season: annual
+      output: scalar
 
   fr:
     variable: [delta-Q99A_H1, delta-Q99A_H2, delta-Q99A_H3]
@@ -32,7 +37,12 @@ meta:
       2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {horizon}
     horizon_labels: {H1: proche, H2: moyen, H3: lointain}
     sampling_period: ["01-01", "31-12"]
-    topic: "Débit, Basses Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: intensité
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

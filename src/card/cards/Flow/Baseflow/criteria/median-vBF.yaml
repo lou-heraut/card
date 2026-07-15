@@ -14,7 +14,12 @@ meta:
          day for base flow (Wallingford)
       2. no temporal aggregation - median
     sampling_period: ["09-01", "08-31"]
-    topic: "Flow, Baseflow, Intensity"
+    classification:
+      domain: flow
+      phenomenon: baseflow
+      aspect: magnitude
+      season: annual
+      output: scalar
 
   fr:
     variable: mediane-vQB
@@ -26,7 +31,12 @@ meta:
          jour pour le débit de base (Wallingford)
       2. aucune agrégation temporelle - médiane
     sampling_period: ["01-09", "31-08"]
-    topic: "Débit, Débit de Base, Intensité"
+    classification:
+      domain: débit
+      phenomenon: débit de base
+      aspect: intensité
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

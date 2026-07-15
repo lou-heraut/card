@@ -13,7 +13,12 @@ meta:
       1. no temporal aggregation - 3-day centered moving average
       2. annual aggregation [Month of minimum monthly flows] - date of the maximum
     sampling_period: Month of minimum monthly flows
-    topic: "Flow, High Flows, Seasonality"
+    classification:
+      domain: flow
+      phenomenon: high flows
+      aspect: timing
+      season: annual
+      output: series
 
   fr:
     variable: tVCX3
@@ -24,7 +29,12 @@ meta:
       1. aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
       2. agrégation annuelle [Mois du minimum des débits mensuels] - date du maximum
     sampling_period: Mois du minimum des débits mensuels
-    topic: "Débit, Hautes Eaux, Saisonnalité"
+    classification:
+      domain: débit
+      phenomenon: hautes eaux
+      aspect: saisonnalité
+      season: annuelle
+      output: série
 
   global:
     input_vars: Q

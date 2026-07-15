@@ -13,7 +13,12 @@ meta:
       1. annual aggregation [09-01, 08-31] - sum of volumes discharged each
          day for base flow (Wallingford)
     sampling_period: ["09-01", "08-31"]
-    topic: "Flow, Baseflow, Intensity"
+    classification:
+      domain: flow
+      phenomenon: baseflow
+      aspect: magnitude
+      season: annual
+      output: series
 
   fr:
     variable: vQB
@@ -24,7 +29,12 @@ meta:
       1. agrégation annuelle [01-09, 31-08] - somme des volumes écoulés chaque
          jour pour le débit de base (Wallingford)
     sampling_period: ["01-09", "31-08"]
-    topic: "Débit, Débit de Base, Intensité"
+    classification:
+      domain: débit
+      phenomenon: débit de base
+      aspect: intensité
+      season: annuelle
+      output: série
 
   global:
     input_vars: Q

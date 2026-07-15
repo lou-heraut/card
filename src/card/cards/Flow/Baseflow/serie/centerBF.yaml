@@ -14,7 +14,12 @@ meta:
       1. annual aggregation [09-01, 08-31] - date when the baseflow (Wallingford)
          sum corresponds to 50 % of the total sum
     sampling_period: ["09-01", "08-31"]
-    topic: "Flow, Baseflow, Seasonality"
+    classification:
+      domain: flow
+      phenomenon: baseflow
+      aspect: timing
+      season: annual
+      output: series
 
   fr:
     variable: centreQB
@@ -26,7 +31,12 @@ meta:
       1. agrégation annuelle [01-09, 31-08] - date à laquelle la somme du
          débit de base (Wallingford) correspond à 50 % de la somme totale
     sampling_period: ["01-09", "31-08"]
-    topic: "Débit, Débit de Base, Saisonnalité"
+    classification:
+      domain: débit
+      phenomenon: débit de base
+      aspect: saisonnalité
+      season: annuelle
+      output: série
 
   global:
     input_vars: Q

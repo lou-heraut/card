@@ -11,7 +11,12 @@ meta:
     description: ""
     method: "1. annual aggregation [09-01, 08-31] - sums of total and solid precipitation\n2. no temporal aggregation - solid/total ratio"
     sampling_period: ["09-01", "08-31"]
-    topic: "Precipitations, Moderate, Ratio"
+    classification:
+      domain: precipitation
+      phenomenon: snow
+      aspect: magnitude
+      season: annual
+      output: series
 
   fr:
     variable: RAs_ratio
@@ -20,7 +25,12 @@ meta:
     description: ""
     method: "1. agrégation annuelle [01-09, 31-08] - sommes des précipitations totales et solides\n2. aucune agrégation temporelle - rapport solide/total"
     sampling_period: ["01-09", "31-08"]
-    topic: "Précipitations, Modérée, Ratio"
+    classification:
+      domain: précipitations
+      phenomenon: neige
+      aspect: intensité
+      season: annuelle
+      output: série
 
   global:
     input_vars: "R, Rs"

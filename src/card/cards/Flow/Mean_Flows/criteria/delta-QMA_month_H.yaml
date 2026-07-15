@@ -120,7 +120,12 @@ meta:
       - ["12-01", "12-31"]
       - ["12-01", "12-31"]
     horizon_labels: {H1: near, H2: middle, H3: distant}
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: by month
+      output: scalar
 
   fr:
     variable:
@@ -238,7 +243,12 @@ meta:
       - ["01-12", "31-12"]
       - ["01-12", "31-12"]
     horizon_labels: {H1: proche, H2: moyen, H3: lointain}
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: par mois
+      output: scalaire
 
   global:
     input_vars: Q

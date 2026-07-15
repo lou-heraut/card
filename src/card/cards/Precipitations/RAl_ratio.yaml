@@ -11,7 +11,11 @@ meta:
     description: ""
     method: "1. annual aggregation [09-01, 08-31] - sums of total and liquid precipitation\n2. no temporal aggregation - liquid/total ratio"
     sampling_period: ["09-01", "08-31"]
-    topic: "Precipitations, Moderate, Ratio"
+    classification:
+      domain: precipitation
+      aspect: magnitude
+      season: annual
+      output: series
 
   fr:
     variable: RAl_ratio
@@ -20,7 +24,11 @@ meta:
     description: ""
     method: "1. agrégation annuelle [01-09, 31-08] - sommes des précipitations totales et liquides\n2. aucune agrégation temporelle - rapport liquide/total"
     sampling_period: ["01-09", "31-08"]
-    topic: "Précipitations, Modérée, Ratio"
+    classification:
+      domain: précipitations
+      aspect: intensité
+      season: annuelle
+      output: série
 
   global:
     input_vars: "R, Rl"

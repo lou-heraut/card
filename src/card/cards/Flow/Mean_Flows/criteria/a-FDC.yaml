@@ -10,7 +10,12 @@ meta:
     name: Slope of the segment between the 33 % and 66 % quantiles of the flow duration curve
     description: ""
     method: "1. no temporal aggregation - computation of the flow duration curve and differences between quantiles"
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: record
+      output: scalar
 
   fr:
     variable: a-CDC
@@ -18,7 +23,12 @@ meta:
     name: Pente du segment entre les quantiles des débits journaliers à 33 % et 66 % de la courbe des débits classés
     description: ""
     method: "1. aucune agrégation temporelle - calcul de la courbe des débits classés et des différences entre quantiles"
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: chronique
+      output: scalaire
 
   global:
     input_vars: Q

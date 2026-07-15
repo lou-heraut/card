@@ -30,17 +30,26 @@ from .loader import load_card
 
 
 def list_cards(path=None, include_experimental=False,
-               topic=None, variable=None, search=None) -> pd.DataFrame:
+               domain=None, phenomenon=None, aspect=None, season=None,
+               output=None, purpose=None, operator=None,
+               variable=None, search=None) -> pd.DataFrame:
     """Liste toutes les fiches CARD disponibles avec leurs métadonnées.
 
     Contrairement au package R (qui lit un CSV pré-généré), les métadonnées
     sont lues directement depuis les blocs meta des YAML.
 
-    Filtres optionnels (insensibles à la casse) :
-    topic    : sous-chaîne du thème (ex. 'Étiages', 'Low Flows').
-    variable : sous-chaîne du nom de variable (ex. 'VCN').
-    search   : sous-chaîne cherchée dans nom, description et variable
-               (fr et en confondus).
+    Filtres optionnels (insensibles à la casse, fr et en confondus pour
+    les facettes de classification — cf. docs/dev/TOPICS.md) :
+    domain     : grandeur ('débit', 'flow', 'precipitation'...).
+    phenomenon : phénomène ('basses eaux', 'baseflow', 'snow'...).
+    aspect     : dimension IHA ('intensité', 'timing', 'duration'...).
+    season     : fenêtre d'échantillonnage ('estivale', 'annual'...).
+    output     : forme du résultat ('série', 'scalar', 'curve').
+    purpose    : finalité ('performance', 'sensitivity').
+    operator   : opérateur dérivé du préfixe de l'id ('delta', 'median',
+                 'mean', 'trend slope', 'trend test', 'count').
+    variable   : sous-chaîne du nom de variable (ex. 'VCN').
+    search     : sous-chaîne cherchée dans nom, description et variable.
     """
     if path is None:
         path = _DEFAULT_CARD_DIR
@@ -58,8 +67,17 @@ def list_cards(path=None, include_experimental=False,
                          .str.contains(needle, case=False, regex=False))
         return mask
 
-    if topic is not None:
-        metaEX = metaEX[_contains(["topic_fr", "topic_en"], topic)]
+    for needle, cols in [
+        (domain, ["domain_fr", "domain_en"]),
+        (phenomenon, ["phenomenon_fr", "phenomenon_en"]),
+        (aspect, ["aspect_fr", "aspect_en"]),
+        (season, ["season_fr", "season_en"]),
+        (output, ["output_fr", "output_en"]),
+        (purpose, ["purpose_fr", "purpose_en"]),
+        (operator, ["operator"]),
+    ]:
+        if needle is not None:
+            metaEX = metaEX[_contains(cols, needle)]
     if variable is not None:
         metaEX = metaEX[_contains(["variable_fr", "variable_en"], variable)]
     if search is not None:
@@ -96,7 +114,7 @@ def info(name, path=None, lang="fr") -> dict:
         "description": _fmt(meta_l.get("description")) or "",
         "method": _fmt(meta_l.get("method")),
         "sampling_period": _fmt(meta_l.get("sampling_period")),
-        "topic": _fmt(meta_l.get("topic")),
+        **{k: _fmt(v) for k, v in (meta_l.get("classification") or {}).items()},
         "input_vars": meta_g.get("input_vars"),
         "is_experimental": bool(meta_g.get("is_experimental", False)),
         "path": str(found[name]),

@@ -11,7 +11,11 @@ meta:
     description: ""
     method: "1. annual aggregation [09-01, 08-31] - sum"
     sampling_period: ["09-01", "08-31"]
-    topic: "Evapotranspiration, Average, Intensity"
+    classification:
+      domain: evapotranspiration
+      aspect: magnitude
+      season: annual
+      output: series
 
   fr:
     variable: ETPA
@@ -20,7 +24,11 @@ meta:
     description: ""
     method: "1. agrégation annuelle [01-09, 31-08] - somme"
     sampling_period: ["01-09", "31-08"]
-    topic: "Évapotranspiration, Moyenne, Intensité"
+    classification:
+      domain: évapotranspiration
+      aspect: intensité
+      season: annuelle
+      output: série
 
   global:
     input_vars: ETP

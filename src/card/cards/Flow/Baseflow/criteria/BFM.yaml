@@ -13,7 +13,12 @@ meta:
       1. no temporal aggregation - extraction of the base flow (Wallingford)
       2. aggregation by day of the year - average of the base flow BFA
       3. no temporal aggregation - calculation of the base flow magnitude BFM
-    topic: "Flow, Base Flow, Intensity"
+    classification:
+      domain: flow
+      phenomenon: baseflow
+      aspect: magnitude
+      season: record
+      output: curve
 
   fr:
     variable: BFM
@@ -24,7 +29,12 @@ meta:
       1. aucune agrégation temporelle - extraction du débit de base (Wallingford)
       2. agrégation par jour de l'année - moyenne du débit de base BFA
       3. aucune agrégation temporelle - calcul du BFM
-    topic: "Débit, Débit de Base, Intensité"
+    classification:
+      domain: débit
+      phenomenon: débit de base
+      aspect: intensité
+      season: chronique
+      output: courbe
 
   global:
     input_vars: Q

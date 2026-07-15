@@ -135,22 +135,27 @@ meta:
         4. annual aggregation [11-01, 04-30] - sum of volumes discharged each day in the longest period below the previous threshold
         5. no temporal aggregation - calculation of the average change between the historical period and the distant horizon
     sampling_period: ["11-01", "04-30"]
-    topic:
-      - "Flow, Low Flows, Seasonality"
-      - "Flow, Low Flows, Seasonality"
-      - "Flow, Low Flows, Seasonality"
-      - "Flow, Low Flows, Seasonality"
-      - "Flow, Low Flows, Seasonality"
-      - "Flow, Low Flows, Seasonality"
-      - "Flow, Low Flows, Seasonality"
-      - "Flow, Low Flows, Seasonality"
-      - "Flow, Low Flows, Seasonality"
-      - "Flow, Low Flows, Duration"
-      - "Flow, Low Flows, Duration"
-      - "Flow, Low Flows, Duration"
-      - "Flow, Low Flows, Intensity"
-      - "Flow, Low Flows, Intensity"
-      - "Flow, Low Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect:
+        - timing
+        - timing
+        - timing
+        - timing
+        - timing
+        - timing
+        - timing
+        - timing
+        - timing
+        - duration
+        - duration
+        - duration
+        - magnitude
+        - magnitude
+        - magnitude
+      season: winter
+      output: scalar
 
   fr:
     variable: [delta-debutBE_hiver_H1, delta-debutBE_hiver_H2, delta-debutBE_hiver_H3,
@@ -283,22 +288,27 @@ meta:
         4. agrégation annuelle [01-11, 30-04] - somme des volumes écoulés chaque jour de la plus longue période sous le précédent seuil
         5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon lointain
     sampling_period: ["01-11", "30-04"]
-    topic:
-      - "Débit, Basses Eaux, Saisonnalité"
-      - "Débit, Basses Eaux, Saisonnalité"
-      - "Débit, Basses Eaux, Saisonnalité"
-      - "Débit, Basses Eaux, Saisonnalité"
-      - "Débit, Basses Eaux, Saisonnalité"
-      - "Débit, Basses Eaux, Saisonnalité"
-      - "Débit, Basses Eaux, Saisonnalité"
-      - "Débit, Basses Eaux, Saisonnalité"
-      - "Débit, Basses Eaux, Saisonnalité"
-      - "Débit, Basses Eaux, Durée"
-      - "Débit, Basses Eaux, Durée"
-      - "Débit, Basses Eaux, Durée"
-      - "Débit, Basses Eaux, Intensité"
-      - "Débit, Basses Eaux, Intensité"
-      - "Débit, Basses Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect:
+        - saisonnalité
+        - saisonnalité
+        - saisonnalité
+        - saisonnalité
+        - saisonnalité
+        - saisonnalité
+        - saisonnalité
+        - saisonnalité
+        - saisonnalité
+        - durée
+        - durée
+        - durée
+        - intensité
+        - intensité
+        - intensité
+      season: hivernale
+      output: scalaire
 
   global:
     input_vars: Q

@@ -23,7 +23,12 @@ meta:
          historical period and the {horizon} horizon
     horizon_labels: {H1: near, H2: middle, H3: distant}
     sampling_period: ["09-01", "08-31"]
-    topic: "Flow, Baseflow, Seasonality"
+    classification:
+      domain: flow
+      phenomenon: baseflow
+      aspect: timing
+      season: annual
+      output: scalar
 
   fr:
     variable: [delta-debutQB_H1, delta-debutQB_H2, delta-debutQB_H3]
@@ -44,7 +49,12 @@ meta:
          période historique et l'horizon {horizon}
     horizon_labels: {H1: proche, H2: moyen, H3: lointain}
     sampling_period: ["01-09", "31-08"]
-    topic: "Débit, Débit de Base, Saisonnalité"
+    classification:
+      domain: débit
+      phenomenon: débit de base
+      aspect: saisonnalité
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

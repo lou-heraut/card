@@ -10,7 +10,12 @@ meta:
     name: Median inter-annual flow of distant horizon
     description: ""
     method: "1. aggregation by day of the year over the distant horizon [2070-01-01, 2099-12-31] - median"
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: record
+      output: curve
 
   fr:
     variable: mediane-QJ_H3
@@ -18,7 +23,12 @@ meta:
     name: "Débit médian inter-annuel de l'horizon lointain"
     description: ""
     method: "1. agrégation par jour de l'année sur l'horizon lointain [2070-01-01, 2099-12-31] - médiane"
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: chronique
+      output: courbe
 
   global:
     input_vars: Q

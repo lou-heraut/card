@@ -14,7 +14,12 @@ meta:
       2. annual aggregation [Month of maximum monthly flows] - minimum
       3. no temporal aggregation - calculation of the 2-year return period flow using the log-normal distribution
     sampling_period: Month of maximum monthly flows
-    topic: "Flow, Low Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: magnitude
+      season: annual
+      output: scalar
 
   fr:
     variable: VCN30-2
@@ -26,7 +31,12 @@ meta:
       2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum
       3. aucune agrégation temporelle - calcul du débit de période de retour 2 ans avec la loi log-normal
     sampling_period: Mois du maximum des débits mensuels
-    topic: "Débit, Basses Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: intensité
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

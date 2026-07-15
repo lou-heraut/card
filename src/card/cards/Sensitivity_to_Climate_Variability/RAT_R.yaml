@@ -11,7 +11,11 @@ meta:
     description: ""
     method: "1. annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow, and mean precipitation\n2. no temporal aggregation - RAT with a 5 % significance level"
     sampling_period: ["09-01", "08-31"]
-    topic: "Flow / Precipitations, Sensitivity to Climate Variability"
+    classification:
+      domain: [flow, precipitation]
+      season: annual
+      output: scalar
+      purpose: climate sensitivity
 
   fr:
     variable: RAT_R
@@ -20,7 +24,11 @@ meta:
     description: ""
     method: "1. agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés, et précipitations moyennes\n2. aucune agrégation temporelle - RAT avec un seuil de significativité de 5 %"
     sampling_period: ["01-09", "31-08"]
-    topic: "Débit / Précipitations, Sensibilité à la variabilité climatique"
+    classification:
+      domain: [débit, précipitations]
+      season: annuelle
+      output: scalaire
+      purpose: sensibilité climatique
 
   global:
     input_vars: "Q_obs, Q_sim, R_obs"

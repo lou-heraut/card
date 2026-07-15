@@ -11,7 +11,12 @@ meta:
     description: ""
     method: "1. no temporal aggregation - 5-day centered moving sum\n2. annual aggregation [Month of minimum monthly precipitation] - maximum"
     sampling_period: Month of minimum monthly precipitation
-    topic: "Precipitations, Heavy, Intensity"
+    classification:
+      domain: precipitation
+      phenomenon: heavy rain
+      aspect: magnitude
+      season: annual
+      output: series
 
   fr:
     variable: RCXA5
@@ -20,7 +25,12 @@ meta:
     description: ""
     method: "1. aucune agrégation temporelle - somme mobile centrée sur 5 jours\n2. agrégation annuelle [Mois du minimum des précipitations mensuelles] - maximum"
     sampling_period: Mois du minimum des précipitations mensuelles
-    topic: "Précipitations, Forte, Intensité"
+    classification:
+      domain: précipitations
+      phenomenon: pluies fortes
+      aspect: intensité
+      season: annuelle
+      output: série
 
   global:
     input_vars: R

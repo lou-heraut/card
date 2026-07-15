@@ -21,7 +21,12 @@ meta:
       3. no temporal aggregation - calculation of the 5-year return period flow with the log-normal distribution from the historical period (VCN10-5_H0)
       4. no temporal aggregation - counting the number of VCN10 in the {horizon} horizon below or equal to VCN10-5_H0
     sampling_period: Month of maximum monthly flows
-    topic: "Flow, Low Flows, Occurrence"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: frequency
+      season: annual
+      output: scalar
     horizon_labels: {H1: near, H2: middle, H3: distant}
 
   fr:
@@ -41,7 +46,12 @@ meta:
       3. aucune agrégation temporelle - calcul du débit de période de retour 5 ans avec la loi log-normal sur la période historique (VCN10-5_H0)
       4. aucune agrégation temporelle - décompte du nombre de VCN10 de l'horizon {horizon} inférieurs ou égaux au VCN10-5_H0
     sampling_period: Mois du maximum des débits mensuels
-    topic: "Débit, Basses Eaux, Occurrence"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: fréquence
+      season: annuelle
+      output: scalaire
     horizon_labels: {H1: proche, H2: moyen, H3: lointain}
 
   global:

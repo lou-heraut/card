@@ -48,10 +48,17 @@ def test_missing_input_vars_clear_error():
 
 def test_list_all_filters():
     full = list_cards()
-    by_topic = list_cards(topic="Low Flows")
+    by_phen = list_cards(phenomenon="basses eaux")
+    by_phen_en = list_cards(phenomenon="low flows")
+    by_out = list_cards(output="curve")
+    by_op = list_cards(operator="delta")
     by_var = list_cards(variable="VCN10")
-    assert 0 < len(by_topic) < len(full)
-    assert 0 < len(by_var) < len(by_topic)
+    assert 0 < len(by_phen) < len(full)
+    assert len(by_phen) == len(by_phen_en)
+    assert set(by_out.variable_en.str.replace(r"_(p|Q)$", "", regex=True))
+    assert 0 < len(by_op) < len(full)
+    assert (by_op.operator == "delta").all()
+    assert 0 < len(by_var) < len(by_phen)
     assert by_var.variable_en.str.contains("VCN10").all()
 
 

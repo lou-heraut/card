@@ -23,7 +23,12 @@ meta:
          the {horizon} horizon then calculation of the average change
     horizon_labels: {H1: near, H2: middle, H3: distant}
     sampling_period: Month of minimum monthly flows
-    topic: "Flow, High Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: high flows
+      aspect: magnitude
+      season: annual
+      output: scalar
 
   fr:
     variable: [delta-QJXA-10_H1, delta-QJXA-10_H2, delta-QJXA-10_H3]
@@ -44,7 +49,12 @@ meta:
          {horizon} puis calcul du changement moyen
     horizon_labels: {H1: proche, H2: moyen, H3: lointain}
     sampling_period: Mois du minimum des débits mensuels
-    topic: "Débit, Hautes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: hautes eaux
+      aspect: intensité
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

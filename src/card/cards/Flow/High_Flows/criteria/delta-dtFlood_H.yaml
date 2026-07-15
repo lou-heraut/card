@@ -32,7 +32,12 @@ meta:
          the historical period and the {horizon} horizon
     horizon_labels: {H1: near, H2: middle, H3: distant}
     sampling_period: Month of minimum monthly flows
-    topic: "Flow, High Flows, Duration"
+    classification:
+      domain: flow
+      phenomenon: high flows
+      aspect: duration
+      season: annual
+      output: scalar
 
   fr:
     variable: [delta-dtCrue_H1, delta-dtCrue_H2, delta-dtCrue_H3]
@@ -63,7 +68,12 @@ meta:
          période historique et l'horizon {horizon}
     horizon_labels: {H1: proche, H2: moyen, H3: lointain}
     sampling_period: Mois du minimum des débits mensuels
-    topic: "Débit, Hautes Eaux, Durée"
+    classification:
+      domain: débit
+      phenomenon: hautes eaux
+      aspect: durée
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

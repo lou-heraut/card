@@ -13,7 +13,11 @@ meta:
       KGE (Gupta et al. 2009). Measures the ability of models to
       reproduce the variability of the examined variable.
     method: "1. no temporal aggregation - ratio of standard deviations sd(sim)/sd(obs)"
-    topic: "Flow, Performance"
+    classification:
+      domain: flow
+      season: record
+      output: scalar
+      purpose: model performance
 
   fr:
     variable: STD_ratio
@@ -24,7 +28,11 @@ meta:
       du KGE (Gupta et al. 2009). Mesure la capacité des modèles à
       reproduire la variabilité de la variable examinée.
     method: "1. aucune agrégation temporelle - rapport des écarts-types sd(sim)/sd(obs)"
-    topic: "Débit, Performance"
+    classification:
+      domain: débit
+      season: chronique
+      output: scalaire
+      purpose: performance de modèle
 
   global:
     input_vars: "Q_obs, Q_sim"

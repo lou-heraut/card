@@ -71,7 +71,12 @@ meta:
       - ["09-01", "11-30"]
       - ["09-01", "11-30"]
       - ["09-01", "11-30"]
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: by season
+      output: scalar
 
   fr:
     variable:
@@ -140,7 +145,12 @@ meta:
       - ["01-09", "30-11"]
       - ["01-09", "30-11"]
       - ["01-09", "30-11"]
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: par saison
+      output: scalaire
 
   global:
     input_vars: Q

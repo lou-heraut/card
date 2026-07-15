@@ -58,18 +58,29 @@ def main():
 
     for section in sorted(sections):
         lines += [f"## {section}", ""]
-        lines += ["| fiche | variable(s) | nom | unité | entrées | exp. |",
-                  "|---|---|---|---|---|---|"]
+        lines += ["| fiche | variable(s) | nom | phénomène | aspect | saison "
+                  "| unité | entrées | exp. |",
+                  "|---|---|---|---|---|---|---|---|---|"]
         for name, meta, rel in sections[section]:
             variables = ", ".join(str(v) for v in meta["variable_en"])
             label = str(meta["name_fr"].iloc[0]) or str(meta["name_en"].iloc[0])
             unit = str(meta["unit_en"].iloc[0])
             inputs = str(meta["input_vars"].iloc[0])
             exp = "⚠" if bool(meta["is_experimental"].iloc[0]) else ""
+
+            def facet(col):
+                vals = [str(v) for v in meta[col] if str(v)]
+                uniq = sorted(set(vals), key=vals.index)
+                return ", ".join(uniq)
+
+            phen = facet("phenomenon_fr") or facet("purpose_fr")
+            aspect = facet("aspect_fr")
+            season = facet("season_fr")
             link = (f"[{name}](https://github.com/lou-heraut/card/"
                     f"blob/main/src/card/cards/{rel.as_posix()})")
             lines.append(
-                f"| {link} | {variables} | {label} | {unit} | {inputs} | {exp} |"
+                f"| {link} | {variables} | {label} | {phen} | {aspect} "
+                f"| {season} | {unit} | {inputs} | {exp} |"
             )
         lines.append("")
 

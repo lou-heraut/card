@@ -16,7 +16,12 @@ meta:
          (Wallingford) sum Qb corresponds to 50 % of the total sum
       2. no temporal aggregation - median
     sampling_period: ["09-01", "08-31"]
-    topic: "Flow, Baseflow, Seasonality"
+    classification:
+      domain: flow
+      phenomenon: baseflow
+      aspect: timing
+      season: annual
+      output: scalar
 
   fr:
     variable: mediane-centreQB
@@ -30,7 +35,12 @@ meta:
          débit de base (Wallingford) Qb correspond à 50 % de la somme totale
       2. aucune agrégation temporelle - médiane
     sampling_period: ["01-09", "31-08"]
-    topic: "Débit, Débit de Base, Saisonnalité"
+    classification:
+      domain: débit
+      phenomenon: débit de base
+      aspect: saisonnalité
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

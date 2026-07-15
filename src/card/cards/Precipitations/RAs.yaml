@@ -11,7 +11,12 @@ meta:
     description: ""
     method: "1. Annual aggregation [09-01, 08-31] - sum"
     sampling_period: ["09-01", "08-31"]
-    topic: "Precipitations, Moderate, Intensity"
+    classification:
+      domain: precipitation
+      phenomenon: snow
+      aspect: magnitude
+      season: annual
+      output: series
 
   fr:
     variable: RAs
@@ -20,7 +25,12 @@ meta:
     description: ""
     method: "1. agrégation annuelle [01-09, 31-08] - somme"
     sampling_period: ["01-09", "31-08"]
-    topic: "Précipitations, Modérée, Intensité"
+    classification:
+      domain: précipitations
+      phenomenon: neige
+      aspect: intensité
+      season: annuelle
+      output: série
 
   global:
     input_vars: Rs

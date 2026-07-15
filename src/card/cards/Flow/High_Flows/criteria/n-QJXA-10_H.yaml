@@ -25,7 +25,12 @@ meta:
          {horizon} horizon above QJXA-10_H0
     horizon_labels: {H1: near, H2: middle, H3: distant}
     sampling_period: Month of minimum monthly flows
-    topic: "Flow, High Flows, Occurrence"
+    classification:
+      domain: flow
+      phenomenon: high flows
+      aspect: frequency
+      season: annual
+      output: scalar
 
   fr:
     variable: [n-QJXA-10_H1, n-QJXA-10_H2, n-QJXA-10_H3]
@@ -47,7 +52,12 @@ meta:
          l'horizon {horizon} au dessus du QJXA-10_H0
     horizon_labels: {H1: proche, H2: moyen, H3: lointain}
     sampling_period: Mois du minimum des débits mensuels
-    topic: "Débit, Hautes Eaux, Occurrence"
+    classification:
+      domain: débit
+      phenomenon: hautes eaux
+      aspect: fréquence
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

@@ -10,7 +10,12 @@ meta:
     name: Mean monthly discharge of distant horizon
     description: ""
     method: "1. monthly aggregation over the distant horizon [2070-01-01, 2099-12-31] - mean"
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: by month
+      output: series
 
   fr:
     variable: QM_H3
@@ -18,7 +23,12 @@ meta:
     name: "Débit moyen mensuel de l'horizon lointain"
     description: ""
     method: "1. agrégation mensuelle sur l'horizon lointain [2070-01-01, 2099-12-31] - moyenne"
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: par mois
+      output: série
 
   global:
     input_vars: Q

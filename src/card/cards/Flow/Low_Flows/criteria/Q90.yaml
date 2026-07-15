@@ -10,7 +10,12 @@ meta:
     name: Daily flow exceeded 90 % of the time (whole record)
     description: "Flow with an exceedance probability of 90 % (10th percentile)"
     method: "1. no temporal aggregation - quantile at the exceedance probability of 90 %"
-    topic: "Flow, Low Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: magnitude
+      season: record
+      output: scalar
 
   fr:
     variable: Q90
@@ -18,7 +23,12 @@ meta:
     name: Débit journalier dépassé 90 % du temps (chronique entière)
     description: "Débit avec une probabilité de dépassement de 90 % (centile 10 %)"
     method: "1. aucune agrégation temporelle - quantile à la probabilité de dépassement de 90 %"
-    topic: "Débit, Basses Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: intensité
+      season: chronique
+      output: scalaire
 
   global:
     input_vars: Q

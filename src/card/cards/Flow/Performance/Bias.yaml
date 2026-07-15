@@ -12,7 +12,11 @@ meta:
       Relative difference between simulated and reference data. It measures
       the mean deviation over the entire series.
     method: "1. no temporal aggregation - Bias calculation"
-    topic: "Flow, Performance"
+    classification:
+      domain: flow
+      season: record
+      output: scalar
+      purpose: model performance
 
   fr:
     variable: Biais
@@ -22,7 +26,11 @@ meta:
       Différence relative entre les données simulées et de référence.
       Il mesure l'écart moyen sur l'ensemble de la série.
     method: "1. aucune agrégation temporelle - calcul du Biais"
-    topic: "Débit, Performance"
+    classification:
+      domain: débit
+      season: chronique
+      output: scalaire
+      purpose: performance de modèle
 
   global:
     input_vars: "Q_obs, Q_sim"

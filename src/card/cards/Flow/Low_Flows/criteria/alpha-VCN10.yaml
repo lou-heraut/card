@@ -19,7 +19,12 @@ meta:
       3. no temporal aggregation - Sen's slope of the series where the
          Mann-Kendall test is significant at a 10 % risk level
     sampling_period: Month of maximum monthly flows
-    topic: "Flow, Low Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: magnitude
+      season: annual
+      output: scalar
 
   fr:
     variable: [alpha-VCN10, hyp-alpha-VCN10]
@@ -36,7 +41,12 @@ meta:
       3. aucune agrégation temporelle - pente de Sen de la série dont le
          test de Mann-Kendall est significatif à un risque de 10 %
     sampling_period: Mois du maximum des débits mensuels
-    topic: "Débit, Basses Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: intensité
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

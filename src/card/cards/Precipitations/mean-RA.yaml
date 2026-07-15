@@ -11,7 +11,11 @@ meta:
     description: ""
     method: "1. annual aggregation [09-01, 08-31] - sum\n2. no temporal aggregation - average"
     sampling_period: ["09-01", "08-31"]
-    topic: "Precipitations, Moderate, Intensity"
+    classification:
+      domain: precipitation
+      aspect: magnitude
+      season: annual
+      output: scalar
 
   fr:
     variable: moyenne-RA
@@ -20,7 +24,11 @@ meta:
     description: ""
     method: "1. agrégation annuelle [01-09, 31-08] - somme\n2. aucune agrégation temporelle - moyenne"
     sampling_period: ["01-09", "31-08"]
-    topic: "Précipitations, Modérée, Intensité"
+    classification:
+      domain: précipitations
+      aspect: intensité
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: R

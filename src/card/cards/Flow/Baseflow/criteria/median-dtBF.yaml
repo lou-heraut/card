@@ -16,7 +16,12 @@ meta:
          of the total baseflow sum
       2. no temporal aggregation - median
     sampling_period: ["09-01", "08-31"]
-    topic: "Flow, Baseflow, Duration"
+    classification:
+      domain: flow
+      phenomenon: baseflow
+      aspect: duration
+      season: annual
+      output: scalar
 
   fr:
     variable: mediane-dtQB
@@ -30,7 +35,12 @@ meta:
          et 90 % de la somme totale du débit de base
       2. aucune agrégation temporelle - médiane
     sampling_period: ["01-09", "31-08"]
-    topic: "Débit, Débit de Base, Durée"
+    classification:
+      domain: débit
+      phenomenon: débit de base
+      aspect: durée
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

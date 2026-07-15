@@ -15,7 +15,12 @@ meta:
       2. no temporal aggregation - calculation of the flow with a 10-year
          return period using the Gumbel distribution
     sampling_period: Month of minimum monthly flows
-    topic: "Flow, High Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: high flows
+      aspect: magnitude
+      season: annual
+      output: scalar
 
   fr:
     variable: QJXA-10
@@ -28,7 +33,12 @@ meta:
       2. aucune agrégation temporelle - calcul du débit de période de retour
          10 ans avec la loi de Gumbel
     sampling_period: Mois du minimum des débits mensuels
-    topic: "Débit, Hautes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: hautes eaux
+      aspect: intensité
+      season: annuelle
+      output: scalaire
 
   global:
     input_vars: Q

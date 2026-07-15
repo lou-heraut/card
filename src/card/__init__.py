@@ -4,7 +4,7 @@ fiches YAML et calculées par le moteur stase.
 Usage :
     import card
     res = card.extract(data, cards=["QA", "VCN10"])
-    card.list_cards(topic="Low Flows")
+    card.list_cards(phenomenon="basses eaux")
     card.info("VCN10")
 """
 

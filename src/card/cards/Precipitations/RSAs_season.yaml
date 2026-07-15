@@ -27,7 +27,12 @@ meta:
       - ["03-01", "05-31"]
       - ["06-01", "08-31"]
       - ["09-01", "11-30"]
-    topic: "Precipitations, Moderate, Intensity"
+    classification:
+      domain: precipitation
+      phenomenon: snow
+      aspect: magnitude
+      season: by season
+      output: series
 
   fr:
     variable: [RSAs_DJF, RSAs_MAM, RSAs_JJA, RSAs_SON]
@@ -52,7 +57,12 @@ meta:
       - ["01-03", "31-05"]
       - ["01-06", "31-08"]
       - ["01-09", "30-11"]
-    topic: "Précipitations, Modérée, Intensité"
+    classification:
+      domain: précipitations
+      phenomenon: neige
+      aspect: intensité
+      season: par saison
+      output: série
 
   global:
     input_vars: Rs

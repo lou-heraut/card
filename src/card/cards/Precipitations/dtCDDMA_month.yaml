@@ -59,7 +59,12 @@ meta:
       - ["10-01", "10-31"]
       - ["11-01", "11-30"]
       - ["12-01", "12-31"]
-    topic: "Precipitations, Dry Period, Duration"
+    classification:
+      domain: precipitation
+      phenomenon: dry spells
+      aspect: duration
+      season: by month
+      output: series
 
   fr:
     variable:
@@ -116,7 +121,12 @@ meta:
       - ["01-10", "31-10"]
       - ["01-11", "30-11"]
       - ["01-12", "31-12"]
-    topic: "Précipitations, Période sèche, Durée"
+    classification:
+      domain: précipitations
+      phenomenon: périodes sèches
+      aspect: durée
+      season: par mois
+      output: série
 
   global:
     input_vars: R

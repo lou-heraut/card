@@ -15,7 +15,11 @@ meta:
       to temporal monitoring of a station, not to comparison between
       basins
     method: "1. no temporal aggregation - sum of flows divided by sum of precipitation"
-    topic: "Flow / Precipitations, Sensitivity to Climate Variability"
+    classification:
+      domain: [flow, precipitation]
+      season: record
+      output: scalar
+      purpose: climate sensitivity
 
   fr:
     variable: QR_ratio
@@ -28,7 +32,11 @@ meta:
       km²) : adapté au suivi temporel d'une station, pas à la
       comparaison entre bassins
     method: "1. aucune agrégation temporelle - somme des débits divisée par la somme des précipitations"
-    topic: "Débit / Précipitations, Sensibilité à la variabilité climatique"
+    classification:
+      domain: [débit, précipitations]
+      season: chronique
+      output: scalaire
+      purpose: sensibilité climatique
 
   global:
     input_vars: "Q, R"

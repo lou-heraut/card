@@ -30,15 +30,30 @@ Contrôles :
 - cohérence des longueurs des listes meta (variable/name/...) ;
 - cohérence fenêtre meta ↔ process : une fenêtre partielle déclarée en
   meta doit se retrouver dans un sampling_period de process (le contrôle
-  qui aurait détecté la perte de borne de fin sur 29 fiches).
+  qui aurait détecté la perte de borne de fin sur 29 fiches) ;
+- classification (docs/dev/TOPICS.md) : présence des facettes requises,
+  valeurs au vocabulaire (topics.yaml), appariement en/fr, aspect
+  interdit quand purpose est présent.
 """
 
 import datetime as _dt
 import re
 from pathlib import Path
 
+import yaml
+
 from .extraction import _DEFAULT_CARD_DIR, resolve
 from .loader import load_card
+
+_VOCAB_PATH = Path(__file__).parent / "topics.yaml"
+_VOCAB = None
+
+
+def _vocab():
+    global _VOCAB
+    if _VOCAB is None:
+        _VOCAB = yaml.safe_load(_VOCAB_PATH.read_text(encoding="utf-8"))
+    return _VOCAB
 
 _VALID_TIME_STEPS = {"year", "year-month", "month", "year-season",
                      "season", "yearday", "none"}
@@ -155,6 +170,50 @@ def _check_process(proc, issues):
             )
 
 
+_CL_KEYS = ("domain", "phenomenon", "aspect", "season", "output", "purpose")
+_CL_REQUIRED = ("domain", "season", "output")
+
+
+def _check_classification(card, issues):
+    vocab = _vocab()
+    cl_en = card["meta"]["en"].get("classification")
+    cl_fr = card["meta"]["fr"].get("classification")
+    if not isinstance(cl_en, dict) or not isinstance(cl_fr, dict):
+        issues.append("classification manquante (bloc requis en meta.en ET meta.fr)")
+        return
+    for lang, cl in (("en", cl_en), ("fr", cl_fr)):
+        for k in cl:
+            if k not in _CL_KEYS:
+                issues.append(f"classification.{lang}: clé inconnue '{k}'")
+        for k in _CL_REQUIRED:
+            if k not in cl:
+                issues.append(f"classification.{lang}: facette requise '{k}' absente")
+    if set(cl_en) != set(cl_fr):
+        issues.append("classification: clés différentes entre en et fr")
+        return
+    if "purpose" in cl_en and "aspect" in cl_en:
+        issues.append("classification: aspect interdit quand purpose est présent")
+    if "purpose" not in cl_en and "aspect" not in cl_en:
+        issues.append("classification: aspect requis (sauf purpose présent)")
+
+    for key in cl_en:
+        ven, vfr = cl_en[key], cl_fr.get(key)
+        len_ = isinstance(ven, list)
+        if len_ != isinstance(vfr, list) or (len_ and len(ven) != len(vfr)):
+            issues.append(f"classification.{key}: formes en/fr différentes")
+            continue
+        pairs = zip(ven, vfr) if len_ else [(ven, vfr)]
+        for e, f in pairs:
+            entry = vocab.get(key, {}).get(e)
+            if entry is None:
+                issues.append(f"classification.{key}: '{e}' hors vocabulaire")
+            elif entry["fr"] != f:
+                issues.append(
+                    f"classification.{key}: '{e}' apparié à '{f}' "
+                    f"(attendu '{entry['fr']}')"
+                )
+
+
 def validate_card(path) -> list[str]:
     """Retourne la liste des problèmes détectés (vide si la fiche est valide)."""
     issues: list[str] = []
@@ -183,6 +242,7 @@ def validate_card(path) -> list[str]:
         _check_process(proc, issues)
 
     _check_window_coherence(card, issues)
+    _check_classification(card, issues)
     return issues
 
 

@@ -15,7 +15,12 @@ meta:
       3. no temporal aggregation - the maximum of the previous series is taken as the threshold
       4. annual aggregation [11-01, 04-30] - number of days in the longest period below the previous threshold
     sampling_period: ["11-01", "04-30"]
-    topic: "Flow, Low Flows, Duration"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: duration
+      season: winter
+      output: series
 
   fr:
     variable: dtBE_hiver
@@ -28,7 +33,12 @@ meta:
       3. aucune agrégation temporelle - le maximum de la précédente série est pris comme seuil
       4. agrégation annuelle [01-11, 30-04] - nombre de jours de la plus longue période sous le précédent seuil
     sampling_period: ["01-11", "30-04"]
-    topic: "Débit, Basses Eaux, Durée"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: durée
+      season: hivernale
+      output: série
 
   global:
     input_vars: Q

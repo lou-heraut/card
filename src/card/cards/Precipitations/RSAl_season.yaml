@@ -27,7 +27,11 @@ meta:
       - ["03-01", "05-31"]
       - ["06-01", "08-31"]
       - ["09-01", "11-30"]
-    topic: "Precipitations, Moderate, Intensity"
+    classification:
+      domain: precipitation
+      aspect: magnitude
+      season: by season
+      output: series
 
   fr:
     variable: [RSAl_DJF, RSAl_MAM, RSAl_JJA, RSAl_SON]
@@ -52,7 +56,11 @@ meta:
       - ["01-03", "31-05"]
       - ["01-06", "31-08"]
       - ["01-09", "30-11"]
-    topic: "Précipitations, Modérée, Intensité"
+    classification:
+      domain: précipitations
+      aspect: intensité
+      season: par saison
+      output: série
 
   global:
     input_vars: Rl

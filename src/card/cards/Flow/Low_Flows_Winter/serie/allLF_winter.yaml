@@ -46,12 +46,12 @@ meta:
         3. no temporal aggregation - the maximum of the previous series is taken as the threshold
         4. annual aggregation [11-01, 04-30] - sum of the volumes discharged each day of the longest period below the previous threshold
     sampling_period: ["11-01", "04-30"]
-    topic:
-      - "Flow, Low Flows, Seasonality"
-      - "Flow, Low Flows, Seasonality"
-      - "Flow, Low Flows, Seasonality"
-      - "Flow, Low Flows, Duration"
-      - "Flow, Low Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: [timing, timing, timing, duration, magnitude]
+      season: winter
+      output: series
 
   fr:
     variable: [debutBE_hiver, centreBE_hiver, finBE_hiver, dtBE_hiver, vBE_hiver]
@@ -95,12 +95,17 @@ meta:
         3. aucune agrégation temporelle - le maximum de la précédente série est pris comme seuil
         4. agrégation annuelle [01-11, 30-04] - somme des volumes écoulés chaque jour de la plus longue période sous le précédent seuil
     sampling_period: ["01-11", "30-04"]
-    topic:
-      - "Débit, Basses Eaux, Saisonnalité"
-      - "Débit, Basses Eaux, Saisonnalité"
-      - "Débit, Basses Eaux, Saisonnalité"
-      - "Débit, Basses Eaux, Durée"
-      - "Débit, Basses Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect:
+        - saisonnalité
+        - saisonnalité
+        - saisonnalité
+        - durée
+        - intensité
+      season: hivernale
+      output: série
 
   global:
     input_vars: Q

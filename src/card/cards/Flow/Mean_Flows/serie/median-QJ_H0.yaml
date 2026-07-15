@@ -10,7 +10,12 @@ meta:
     name: Median inter-annual flow of historical period
     description: ""
     method: "1. aggregation by day of the year over the historical period [1976-01-01, 2005-08-31] - median"
-    topic: "Flow, Mean Flows, Intensity"
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: record
+      output: curve
 
   fr:
     variable: mediane-QJ_H0
@@ -18,7 +23,12 @@ meta:
     name: Débit médian inter-annuel de la période historique
     description: ""
     method: "1. agrégation par jour de l'année sur la période historique [1976-01-01, 2005-08-31] - médiane"
-    topic: "Débit, Moyennes Eaux, Intensité"
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: chronique
+      output: courbe
 
   global:
     input_vars: Q
