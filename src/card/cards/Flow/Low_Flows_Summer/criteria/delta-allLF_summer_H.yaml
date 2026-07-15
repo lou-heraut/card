@@ -372,7 +372,7 @@ process:
       delta-dtLF_summer_H1:     [delta, "dtLF_summer", "date", {past: $H0, future: $H1, relative: false}]
       delta-dtLF_summer_H2:     [delta, "dtLF_summer", "date", {past: $H0, future: $H2, relative: false}]
       delta-dtLF_summer_H3:     [delta, "dtLF_summer", "date", {past: $H0, future: $H3, relative: false}]
-      delta-vLF_summer_H1:      [delta, "vLF_summer", "date", {past: $H0, future: $H1, relative: false}]
-      delta-vLF_summer_H2:      [delta, "vLF_summer", "date", {past: $H0, future: $H2, relative: false}]
-      delta-vLF_summer_H3:      [delta, "vLF_summer", "date", {past: $H0, future: $H3, relative: false}]
+      delta-vLF_summer_H1:      [delta, "vLF_summer", "date", {past: $H0, future: $H1, relative: true}]
+      delta-vLF_summer_H2:      [delta, "vLF_summer", "date", {past: $H0, future: $H2, relative: true}]
+      delta-vLF_summer_H3:      [delta, "vLF_summer", "date", {past: $H0, future: $H3, relative: true}]
     time_step: none

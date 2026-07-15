@@ -5,18 +5,22 @@ date: "2026-04-26"
 
 meta:
   en:
-    variable: RA_ratio
-    unit: without unit
-    name: Precipitation ratio
+    variable: [Rl_ratio, Rs_ratio]
+    unit: [without unit, without unit]
+    name:
+      - "Ratio of liquid to total precipitation"
+      - "Ratio of solid to total precipitation"
     description: ""
     method: ""
     sampling_period: ["09-01", "08-31"]
     topic: "Precipitations, Moderate, Ratio"
 
   fr:
-    variable: RA_ratio
-    unit: sans unité
-    name: Ratio des précipitations
+    variable: [Rl_ratio, Rs_ratio]
+    unit: [sans unité, sans unité]
+    name:
+      - "Rapport des précipitations liquides aux précipitations totales"
+      - "Rapport des précipitations solides aux précipitations totales"
     description: ""
     method: ""
     sampling_period: ["01-09", "31-08"]

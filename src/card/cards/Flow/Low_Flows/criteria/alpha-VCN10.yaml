@@ -6,8 +6,12 @@ date: "2026-04-28"
 meta:
   en:
     variable: [alpha-VCN10, hyp-alpha-VCN10]
-    unit: "m^{3}.s^{-1}.year^{-1}"
-    name: Sen's slope and Mann-Kendall test result calculated on the series of annual minima of 10-day mean flows (VCN10)
+    unit: ["m^{3}.s^{-1}.year^{-1}", bool]
+    name:
+      - "Sen's slope of the series of annual minima of 10-day mean flows
+         (VCN10)"
+      - "Mann-Kendall test result on the series of annual minima of 10-day
+         mean flows (VCN10)"
     description: ""
     method: |
       1. no temporal aggregation - 10-day centered moving average
@@ -19,8 +23,12 @@ meta:
 
   fr:
     variable: [alpha-VCN10, hyp-alpha-VCN10]
-    unit: "m^{3}.s^{-1}.an^{-1}"
-    name: Pente de Sen et résultat du test de Mann-Kendall calculés sur la série des minimums annuels des débits moyens sur 10 jours VCN10
+    unit: ["m^{3}.s^{-1}.an^{-1}", bool]
+    name:
+      - "Pente de Sen de la série des minimums annuels des débits moyens
+         sur 10 jours (VCN10)"
+      - "Résultat du test de Mann-Kendall sur la série des minimums annuels
+         des débits moyens sur 10 jours (VCN10)"
     description: ""
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours

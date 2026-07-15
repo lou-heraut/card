@@ -372,7 +372,7 @@ process:
       delta-dtLF_winter_H1:     [delta, "dtLF_winter", "date", {past: $H0, future: $H1, relative: false}]
       delta-dtLF_winter_H2:     [delta, "dtLF_winter", "date", {past: $H0, future: $H2, relative: false}]
       delta-dtLF_winter_H3:     [delta, "dtLF_winter", "date", {past: $H0, future: $H3, relative: false}]
-      delta-vLF_winter_H1:      [delta, "vLF_winter", "date", {past: $H0, future: $H1, relative: false}]
-      delta-vLF_winter_H2:      [delta, "vLF_winter", "date", {past: $H0, future: $H2, relative: false}]
-      delta-vLF_winter_H3:      [delta, "vLF_winter", "date", {past: $H0, future: $H3, relative: false}]
+      delta-vLF_winter_H1:      [delta, "vLF_winter", "date", {past: $H0, future: $H1, relative: true}]
+      delta-vLF_winter_H2:      [delta, "vLF_winter", "date", {past: $H0, future: $H2, relative: true}]
+      delta-vLF_winter_H3:      [delta, "vLF_winter", "date", {past: $H0, future: $H3, relative: true}]
     time_step: none

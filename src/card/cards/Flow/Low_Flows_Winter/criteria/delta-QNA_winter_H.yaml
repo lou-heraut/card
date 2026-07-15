@@ -58,7 +58,7 @@ process:
 
   P2:
     func:
-      delta-QNA_winter_H1: [delta, "QNA_winter", "date", {past: $H0, future: $H1, relative: false}]
-      delta-QNA_winter_H2: [delta, "QNA_winter", "date", {past: $H0, future: $H2, relative: false}]
-      delta-QNA_winter_H3: [delta, "QNA_winter", "date", {past: $H0, future: $H3, relative: false}]
+      delta-QNA_winter_H1: [delta, "QNA_winter", "date", {past: $H0, future: $H1, relative: true}]
+      delta-QNA_winter_H2: [delta, "QNA_winter", "date", {past: $H0, future: $H2, relative: true}]
+      delta-QNA_winter_H3: [delta, "QNA_winter", "date", {past: $H0, future: $H3, relative: true}]
     time_step: none

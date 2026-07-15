@@ -5,17 +5,22 @@ date: "2026-04-30"
 
 meta:
   en:
-    variable: FDC_H2
-    unit: "m^{3}.s^{-1}"
-    name: Flow duration curve of middle horizon
+    variable: [FDC_H2_p, FDC_H2_Q]
+    unit: [without unit, "m^{3}.s^{-1}"]
+    name:
+      - "Exceedance probabilities of the flow duration curve (middle horizon)"
+      - "Flow quantiles of the flow duration curve (middle horizon)"
     description: ""
     method: "1. no temporal aggregation - flow duration curves with 1000 points spaced according to a centered reduced normal distribution."
     topic: "Flow, Mean Flows, Intensity"
 
   fr:
-    variable: CDC_H2
-    unit: "m^{3}.s^{-1}"
-    name: "Courbe des débits classés de l'horizon moyen"
+    variable: [CDC_H2_p, CDC_H2_Q]
+    unit: [sans unité, "m^{3}.s^{-1}"]
+    name:
+      - "Probabilités de dépassement de la courbe des débits classés
+         (horizon moyen)"
+      - "Quantiles de débit de la courbe des débits classés (horizon moyen)"
     description: ""
     method: "1. aucune agrégation temporelle - courbes des débits classés avec 1000 points espacés selon une loi normale centrée réduite"
     topic: "Débit, Moyennes Eaux, Intensité"

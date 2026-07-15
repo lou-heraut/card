@@ -6,10 +6,10 @@ date: "2026-04-26"
 meta:
   en:
     variable: [alpha-QA, hyp-alpha-QA]
-    unit: "m^{3}.s^{-1}.year^{-1}"
-    name: >-
-      Slope of Sen and Mann-Kendall Test result calculated on the series
-      of annual mean daily flows
+    unit: ["m^{3}.s^{-1}.year^{-1}", bool]
+    name:
+      - "Sen's slope of the series of annual mean daily flows"
+      - "Mann-Kendall test result on the series of annual mean daily flows"
     description: ""
     method: |
       1. annual aggregation [09-01, 08-31] - mean
@@ -20,10 +20,11 @@ meta:
 
   fr:
     variable: [alpha-QA, hyp-alpha-QA]
-    unit: "m^{3}.s^{-1}.an^{-1}"
-    name: >-
-      Pente de Sen et résultat du test de Mann-Kendall calculés sur la
-      série des moyennes annuelles des débits journaliers
+    unit: ["m^{3}.s^{-1}.an^{-1}", bool]
+    name:
+      - "Pente de Sen de la série des débits moyens annuels"
+      - "Résultat du test de Mann-Kendall sur la série des débits moyens
+         annuels"
     description: ""
     method: |
       1. agrégation annuelle [01-09, 31-08] - moyenne

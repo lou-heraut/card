@@ -5,17 +5,21 @@ date: "2026-04-30"
 
 meta:
   en:
-    variable: FDC_H0
-    unit: "m^{3}.s^{-1}"
-    name: Flow duration curve of historical period
+    variable: [FDC_H0_p, FDC_H0_Q]
+    unit: [without unit, "m^{3}.s^{-1}"]
+    name:
+      - "Exceedance probabilities of the flow duration curve (historical period)"
+      - "Flow quantiles of the flow duration curve (historical period)"
     description: ""
     method: "1. no temporal aggregation - flow duration curves with 1000 points spaced according to a centered reduced normal distribution."
     topic: "Flow, Mean Flows, Intensity"
 
   fr:
-    variable: CDC_H0
-    unit: "m^{3}.s^{-1}"
-    name: Courbe des débits classés de la période historique
+    variable: [CDC_H0_p, CDC_H0_Q]
+    unit: [sans unité, "m^{3}.s^{-1}"]
+    name:
+      - "Probabilités de dépassement de la courbe des débits classés (période historique)"
+      - "Quantiles de débit de la courbe des débits classés (période historique)"
     description: ""
     method: "1. aucune agrégation temporelle - courbes des débits classés avec 1000 points espacés selon une loi normale centrée réduite"
     topic: "Débit, Moyennes Eaux, Intensité"

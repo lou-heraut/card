@@ -34,7 +34,7 @@ meta:
 process:
   P1:
     func:
-      QJ: [nanmean, "Q_obs"]
+      QJ: [nanmean, "Q"]
     time_step: yearday
     keep: all
     max_na_pct: 3

@@ -378,7 +378,7 @@ process:
       delta-dtLF_H1: [delta, "dtLF", "date", {past: $H0, future: $H1, relative: false}]
       delta-dtLF_H2: [delta, "dtLF", "date", {past: $H0, future: $H2, relative: false}]
       delta-dtLF_H3: [delta, "dtLF", "date", {past: $H0, future: $H3, relative: false}]
-      delta-vLF_H1: [delta, "vLF", "date", {past: $H0, future: $H1, relative: false}]
-      delta-vLF_H2: [delta, "vLF", "date", {past: $H0, future: $H2, relative: false}]
-      delta-vLF_H3: [delta, "vLF", "date", {past: $H0, future: $H3, relative: false}]
+      delta-vLF_H1: [delta, "vLF", "date", {past: $H0, future: $H1, relative: true}]
+      delta-vLF_H2: [delta, "vLF", "date", {past: $H0, future: $H2, relative: true}]
+      delta-vLF_H3: [delta, "vLF", "date", {past: $H0, future: $H3, relative: true}]
     time_step: none

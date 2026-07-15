@@ -5,17 +5,22 @@ date: "2026-04-30"
 
 meta:
   en:
-    variable: FDC_H3
-    unit: "m^{3}.s^{-1}"
-    name: Flow duration curve of distant horizon
+    variable: [FDC_H3_p, FDC_H3_Q]
+    unit: [without unit, "m^{3}.s^{-1}"]
+    name:
+      - "Exceedance probabilities of the flow duration curve (distant horizon)"
+      - "Flow quantiles of the flow duration curve (distant horizon)"
     description: ""
     method: "1. no temporal aggregation - flow duration curves with 1000 points spaced according to a centered reduced normal distribution."
     topic: "Flow, Mean Flows, Intensity"
 
   fr:
-    variable: CDC_H3
-    unit: "m^{3}.s^{-1}"
-    name: "Courbe des débits classés de l'horizon lointain"
+    variable: [CDC_H3_p, CDC_H3_Q]
+    unit: [sans unité, "m^{3}.s^{-1}"]
+    name:
+      - "Probabilités de dépassement de la courbe des débits classés
+         (horizon lointain)"
+      - "Quantiles de débit de la courbe des débits classés (horizon lointain)"
     description: ""
     method: "1. aucune agrégation temporelle - courbes des débits classés avec 1000 points espacés selon une loi normale centrée réduite"
     topic: "Débit, Moyennes Eaux, Intensité"

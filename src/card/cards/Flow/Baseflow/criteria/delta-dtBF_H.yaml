@@ -73,9 +73,9 @@ process:
   P2:
     func:
       delta-dtBF_H1: [delta, "dtBF", "date",
-                      {past: $H0, future: $H1, relative: true}]
+                      {past: $H0, future: $H1, relative: false}]
       delta-dtBF_H2: [delta, "dtBF", "date",
-                      {past: $H0, future: $H2, relative: true}]
+                      {past: $H0, future: $H2, relative: false}]
       delta-dtBF_H3: [delta, "dtBF", "date",
-                      {past: $H0, future: $H3, relative: true}]
+                      {past: $H0, future: $H3, relative: false}]
     time_step: none

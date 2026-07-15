@@ -112,9 +112,9 @@ process:
   P5:
     func:
       delta-dtFlood_H1: [delta, "dtFlood", "date",
-                         {past: $H0, future: $H1, relative: true}]
+                         {past: $H0, future: $H1, relative: false}]
       delta-dtFlood_H2: [delta, "dtFlood", "date",
-                         {past: $H0, future: $H2, relative: true}]
+                         {past: $H0, future: $H2, relative: false}]
       delta-dtFlood_H3: [delta, "dtFlood", "date",
-                         {past: $H0, future: $H3, relative: true}]
+                         {past: $H0, future: $H3, relative: false}]
     time_step: none

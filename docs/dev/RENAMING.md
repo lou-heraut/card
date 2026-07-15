@@ -122,3 +122,28 @@ ne change sur les vraies variables ; seules disparaissent 11 lignes
 « ok » triviales où les colonnes structurelles R (Month, Yearday)
 étaient comparées à elles-mêmes par coïncidence de nom (les colonnes
 Python sont désormais en snake_case).
+
+## Renommages de fiches — audit 2026-07-15 (AUDIT_FICHES.md, NOMENCLATURE.md)
+
+Ids et sorties, validés par l'utilisateur :
+
+| Ancien id | Nouveau id | Sorties | Motif |
+|---|---|---|---|
+| STD | STD_ratio | STD → STD_ratio | la fonction retourne sd(sim)/sd(obs), sans unité (composante α du KGE) — audit A3 |
+| Rc | QR_ratio | Rc → QR_ratio | ΣQ/ΣR n'est pas un coefficient de ruissellement (unité m³·s⁻¹·mm⁻¹) ; l'id Rc est réservé à la future fiche adimensionnelle avec surface en entrée `S` — audit A6 |
+| median-finLF | median-endLF | inchangées (median-endLF) | id franglais, sorties déjà en anglais — audit C3 |
+
+Changements de **valeurs** de sorties (bascules du kwarg `relative` de
+`delta`, décisions B1/B3 — la parité avec le R historique est
+volontairement rompue pour ces sorties) :
+
+| Fiche | Sorties | relative | Avant | Après |
+|---|---|---|---|---|
+| delta-dtBF_H | delta-dtBF_H1..H3 | true → false | % implicite | jours (cohérent avec l'unité) |
+| delta-dtFlood_H | delta-dtFlood_H1..H3 | true → false | % implicite | jours |
+| delta-QNA_H (+ _summer, _winter) | delta-QNA*_H1..H3 | false → true | m³/s | % (cohérent avec l'unité) |
+| delta-allLF_H (+ _summer, _winter) | delta-vLF*_H1..H3 uniquement | false → true | m³ | % — aligne les bundles sur la fiche individuelle delta-vLF_H |
+
+Correction fonctionnelle : QJC10 P1 lisait la colonne `Q_obs`
+inexistante (`input_vars: Q`) — corrigé en `Q`, la fiche est
+exécutable (audit A4).
