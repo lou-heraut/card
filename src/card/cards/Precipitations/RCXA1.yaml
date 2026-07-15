@@ -9,7 +9,7 @@ meta:
     unit: mm
     name: Annual maximum of daily precipitation
     description: ""
-    method: ""
+    method: "1. annual aggregation [Month of minimum monthly precipitation] - maximum"
     sampling_period: Month of minimum monthly precipitation
     topic: "Precipitations, Heavy, Intensity"
 
@@ -18,7 +18,7 @@ meta:
     unit: mm
     name: Maximum annuel des précipitations journalières
     description: ""
-    method: ""
+    method: "1. agrégation annuelle [Mois du minimum des précipitations mensuelles] - maximum"
     sampling_period: Mois du minimum des précipitations mensuelles
     topic: "Précipitations, Forte, Intensité"
 

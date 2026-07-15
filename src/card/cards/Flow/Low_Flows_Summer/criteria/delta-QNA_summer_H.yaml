@@ -15,7 +15,7 @@ meta:
       - "Average change of summer minimum of daily discharge between the distant
          horizon and historical period"
     description: ""
-    method: ""
+    method: "1. annual aggregation [05-01, 11-30] - minimum\n2. no temporal aggregation - calculation of the average change between the historical period and the {horizon} horizon"
     sampling_period: ["05-01", "11-30"]
     topic: "Flow, Low Flows, Intensity"
     horizon_labels: {H1: near, H2: middle, H3: distant}
@@ -31,7 +31,7 @@ meta:
       - "Changement moyen du minimum estival du débit journalier entre l'horizon
          lointain et la période historique"
     description: ""
-    method: ""
+    method: "1. agrégation annuelle [01-05, 30-11] - minimum\n2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {horizon}"
     sampling_period: ["01-05", "30-11"]
     topic: "Débit, Basses Eaux, Intensité"
     horizon_labels: {H1: proche, H2: moyen, H3: lointain}

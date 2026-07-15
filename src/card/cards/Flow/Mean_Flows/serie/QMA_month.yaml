@@ -22,7 +22,7 @@ meta:
       - Average daily discharge for each November
       - Average daily discharge for each December
     description: ""
-    method: ""
+    method: "1. monthly aggregation for each year - mean"
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -56,7 +56,7 @@ meta:
       - Moyenne des débits journaliers de chaque novembre
       - Moyenne des débits journaliers de chaque décembre
     description: ""
-    method: ""
+    method: "1. agrégation mensuelle par année - moyenne"
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

@@ -9,7 +9,7 @@ meta:
     unit: without unit
     name: Ratio of annual liquid precipitation to total annual precipitation
     description: ""
-    method: ""
+    method: "1. annual aggregation [09-01, 08-31] - sums of total and liquid precipitation\n2. no temporal aggregation - liquid/total ratio"
     sampling_period: ["09-01", "08-31"]
     topic: "Precipitations, Moderate, Ratio"
 
@@ -18,7 +18,7 @@ meta:
     unit: sans unité
     name: Ratio des précipitations annuelles liquides sur les précipitations annuelles totales
     description: ""
-    method: ""
+    method: "1. agrégation annuelle [01-09, 31-08] - sommes des précipitations totales et liquides\n2. aucune agrégation temporelle - rapport liquide/total"
     sampling_period: ["01-09", "31-08"]
     topic: "Précipitations, Modérée, Ratio"
 

@@ -33,7 +33,7 @@ meta:
       - Cumulative daily liquid precipitation for each November
       - Cumulative daily liquid precipitation for each December
     description: ""
-    method: ""
+    method: "1. monthly aggregation for each year - sum"
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -78,7 +78,7 @@ meta:
       - Cumul des précipitations liquides journalières de chaque novembre
       - Cumul des précipitations liquides journalières de chaque décembre
     description: ""
-    method: ""
+    method: "1. agrégation mensuelle par année - somme"
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

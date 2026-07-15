@@ -9,7 +9,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Median inter-annual flow of middle horizon
     description: ""
-    method: ""
+    method: "1. aggregation by day of the year over the middle horizon [2041-01-01, 2070-12-31] - median"
     topic: "Flow, Mean Flows, Intensity"
 
   fr:
@@ -17,7 +17,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: "Débit médian inter-annuel de l'horizon moyen"
     description: ""
-    method: ""
+    method: "1. agrégation par jour de l'année sur l'horizon moyen [2041-01-01, 2070-12-31] - médiane"
     topic: "Débit, Moyennes Eaux, Intensité"
 
   global:

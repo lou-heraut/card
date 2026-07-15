@@ -9,7 +9,7 @@ meta:
     unit: "without unit"
     name: Correction coefficient for precipitation
     description: ""
-    method: ""
+    method: "1. annual aggregation [09-01, 08-31] - sums of observed and simulated precipitation\n2. no temporal aggregation - inter-annual means\n3. no temporal aggregation - simulated/observed ratio"
     sampling_period: ["09-01", "08-31"]
     topic: "Precipitations, Moderate, Parameterization"
 
@@ -18,7 +18,7 @@ meta:
     unit: "sans unité"
     name: Coefficient correctif des précipitations
     description: ""
-    method: ""
+    method: "1. agrégation annuelle [01-09, 31-08] - sommes des précipitations observées et simulées\n2. aucune agrégation temporelle - moyennes inter-annuelles\n3. aucune agrégation temporelle - rapport simulé/observé"
     sampling_period: ["01-09", "31-08"]
     topic: "Précipitations, Modérée, Paramétrisation"
 

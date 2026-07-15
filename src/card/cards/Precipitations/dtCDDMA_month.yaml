@@ -45,7 +45,7 @@ meta:
       - "Maximum number of consecutive days with less than 1 mm of precipitation in each October"
       - "Maximum number of consecutive days with less than 1 mm of precipitation in each November"
       - "Maximum number of consecutive days with less than 1 mm of precipitation in each December"
-    method: ""
+    method: "1. monthly aggregation for each year - length of the longest period with precipitation below 1 mm"
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -102,7 +102,7 @@ meta:
       - "Nombre maximal de jours consécutifs avec moins de 1 mm de précipitation de chaque octobre"
       - "Nombre maximal de jours consécutifs avec moins de 1 mm de précipitation de chaque novembre"
       - "Nombre maximal de jours consécutifs avec moins de 1 mm de précipitation de chaque décembre"
-    method: ""
+    method: "1. agrégation mensuelle par année - durée de la plus longue période avec des précipitations inférieures à 1 mm"
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

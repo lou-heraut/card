@@ -17,7 +17,11 @@ meta:
       - "number of days with at least 1 mm of precipitation (months of March, April, and May)"
       - "number of days with at least 1 mm of precipitation (months of June, July, and August)"
       - "number of days with at least 1 mm of precipitation (months of September, October, and November)"
-    method: ""
+    method:
+      - "1. seasonal annual aggregation [12-01, 02-28(29)] - number of days with precipitation of at least 1 mm"
+      - "1. seasonal annual aggregation [03-01, 05-31] - number of days with precipitation of at least 1 mm"
+      - "1. seasonal annual aggregation [06-01, 08-31] - number of days with precipitation of at least 1 mm"
+      - "1. seasonal annual aggregation [09-01, 11-30] - number of days with precipitation of at least 1 mm"
     sampling_period:
       - ["12-01", "02-28(29)"]
       - ["03-01", "05-31"]
@@ -38,7 +42,11 @@ meta:
       - "Nombre de jours au printemps avec au moins 1 mm de précipitations (mois de mars, avril et mai)"
       - "Nombre de jours en été avec au moins 1 mm de précipitations (mois de juin, juillet et août)"
       - "Nombre de jours en automne avec au moins 1 mm de précipitations (mois de septembre, octobre et novembre)"
-    method: ""
+    method:
+      - "1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - nombre de jours avec des précipitations d'au moins 1 mm"
+      - "1. agrégation annuelle saisonnalisée [01-03, 31-05] - nombre de jours avec des précipitations d'au moins 1 mm"
+      - "1. agrégation annuelle saisonnalisée [01-06, 31-08] - nombre de jours avec des précipitations d'au moins 1 mm"
+      - "1. agrégation annuelle saisonnalisée [01-09, 30-11] - nombre de jours avec des précipitations d'au moins 1 mm"
     sampling_period:
       - ["01-12", "28(29)-02"]
       - ["01-03", "31-05"]

@@ -9,7 +9,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Mean monthly discharge
     description: ""
-    method: ""
+    method: "1. monthly aggregation - mean"
     topic: "Flow, Mean Flows, Intensity"
 
   fr:
@@ -17,7 +17,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Débit moyen mensuel
     description: ""
-    method: ""
+    method: "1. agrégation mensuelle - moyenne"
     topic: "Débit, Moyennes Eaux, Intensité"
 
   global:

@@ -17,7 +17,11 @@ meta:
       - "Maximum number of consecutive days in spring with at least 1 mm of precipitation (months of March, April, and May)"
       - "Maximum number of consecutive days in summer with at least 1 mm of precipitation (months of June, July, and August)"
       - "Maximum number of consecutive days in autumn with at least 1 mm of precipitation (months of September, October, and November)"
-    method: ""
+    method:
+      - "1. seasonal annual aggregation [12-01, 02-28(29)] - length of the longest period with precipitation of at least 1 mm"
+      - "1. seasonal annual aggregation [03-01, 05-31] - length of the longest period with precipitation of at least 1 mm"
+      - "1. seasonal annual aggregation [06-01, 08-31] - length of the longest period with precipitation of at least 1 mm"
+      - "1. seasonal annual aggregation [09-01, 11-30] - length of the longest period with precipitation of at least 1 mm"
     sampling_period:
       - ["12-01", "02-28(29)"]
       - ["03-01", "05-31"]
@@ -38,7 +42,11 @@ meta:
       - "Nombre maximal de jours consécutifs au printemps avec au moins 1 mm de précipitation (mois de mars, avril et mai)"
       - "Nombre maximal de jours consécutifs en été avec au moins 1 mm de précipitation (mois de juin, juillet et août)"
       - "Nombre maximal de jours consécutifs en automne avec au moins 1 mm de précipitation (mois de septembre, octobre et novembre)"
-    method: ""
+    method:
+      - "1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - durée de la plus longue période avec des précipitations d'au moins 1 mm"
+      - "1. agrégation annuelle saisonnalisée [01-03, 31-05] - durée de la plus longue période avec des précipitations d'au moins 1 mm"
+      - "1. agrégation annuelle saisonnalisée [01-06, 31-08] - durée de la plus longue période avec des précipitations d'au moins 1 mm"
+      - "1. agrégation annuelle saisonnalisée [01-09, 30-11] - durée de la plus longue période avec des précipitations d'au moins 1 mm"
     sampling_period:
       - ["01-12", "28(29)-02"]
       - ["01-03", "31-05"]

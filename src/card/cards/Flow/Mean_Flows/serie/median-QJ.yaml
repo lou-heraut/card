@@ -9,7 +9,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Median inter-annual flow
     description: ""
-    method: ""
+    method: "1. aggregation by day of the year - median"
     topic: "Flow, Mean Flows, Intensity"
 
   fr:
@@ -17,7 +17,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Débit médian inter-annuel
     description: ""
-    method: ""
+    method: "1. agrégation par jour de l'année - médiane"
     topic: "Débit, Moyennes Eaux, Intensité"
 
   global:

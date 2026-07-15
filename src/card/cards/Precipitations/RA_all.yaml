@@ -12,7 +12,7 @@ meta:
       - "Annual liquid precipitation"
       - "Annual solid precipitation"
     description: ""
-    method: ""
+    method: "1. annual aggregation [09-01, 08-31] - sum"
     sampling_period: ["09-01", "08-31"]
     topic: "Precipitations, Moderate, Intensity"
 
@@ -24,7 +24,7 @@ meta:
       - "Cumul annuel des précipitations liquides"
       - "Cumul annuel des précipitations solides"
     description: ""
-    method: ""
+    method: "1. agrégation annuelle [01-09, 31-08] - somme"
     sampling_period: ["01-09", "31-08"]
     topic: "Précipitations, Modérée, Intensité"
 

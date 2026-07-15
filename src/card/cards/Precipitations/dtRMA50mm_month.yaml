@@ -45,7 +45,7 @@ meta:
       - "Number of days with at least 50 mm of precipitation for each October"
       - "Number of days with at least 50 mm of precipitation for each November"
       - "Number of days with at least 50 mm of precipitation for each December"
-    method: ""
+    method: "1. monthly aggregation for each year - number of days with precipitation of at least 50 mm"
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -102,7 +102,7 @@ meta:
       - "Nombre de jours avec au moins 50 mm de précipitations de chaque octobre"
       - "Nombre de jours avec au moins 50 mm de précipitations de chaque novembre"
       - "Nombre de jours avec au moins 50 mm de précipitations de chaque décembre"
-    method: ""
+    method: "1. agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 50 mm"
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

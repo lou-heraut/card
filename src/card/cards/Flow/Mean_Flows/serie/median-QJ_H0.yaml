@@ -9,7 +9,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Median inter-annual flow of historical period
     description: ""
-    method: ""
+    method: "1. aggregation by day of the year over the historical period [1976-01-01, 2005-08-31] - median"
     topic: "Flow, Mean Flows, Intensity"
 
   fr:
@@ -17,7 +17,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Débit médian inter-annuel de la période historique
     description: ""
-    method: ""
+    method: "1. agrégation par jour de l'année sur la période historique [1976-01-01, 2005-08-31] - médiane"
     topic: "Débit, Moyennes Eaux, Intensité"
 
   global:

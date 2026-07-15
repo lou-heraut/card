@@ -13,7 +13,7 @@ meta:
       - Summer precipitation correction coefficient
       - Autumn precipitation correction coefficient
     description: ""
-    method: ""
+    method: "1. seasonal annual aggregation - sums of observed and simulated precipitation\n2. no temporal aggregation - inter-annual means\n3. no temporal aggregation - simulated/observed ratio for each season"
     sampling_period:
       - ["12-01", "02-28(29)"]
       - ["03-01", "05-31"]
@@ -30,7 +30,7 @@ meta:
       - Coefficient correctif des précipitations estivales
       - Coefficient correctif des précipitations automnales
     description: ""
-    method: ""
+    method: "1. agrégation annuelle saisonnalisée - sommes des précipitations observées et simulées\n2. aucune agrégation temporelle - moyennes inter-annuelles\n3. aucune agrégation temporelle - rapport simulé/observé pour chaque saison"
     sampling_period:
       - ["01-12", "28(29)-02"]
       - ["01-03", "31-05"]

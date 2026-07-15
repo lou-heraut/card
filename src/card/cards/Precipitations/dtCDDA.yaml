@@ -9,7 +9,7 @@ meta:
     unit: day
     name: Maximum number of consecutive dry days in the year
     description: "Maximum number of consecutive days in the year with less than 1 mm of precipitation"
-    method: ""
+    method: "1. annual aggregation [09-01, 08-31] - length of the longest period with precipitation below 1 mm"
     sampling_period: ["09-01", "08-31"]
     topic: "Precipitations, Dry Period, Duration"
 
@@ -18,7 +18,7 @@ meta:
     unit: jour
     name: Nombre maximal de jours secs consécutifs dans l'année
     description: "Nombre maximal de jours consécutifs dans l'année avec moins de 1 mm de précipitation"
-    method: ""
+    method: "1. agrégation annuelle [01-09, 31-08] - durée de la plus longue période avec des précipitations inférieures à 1 mm"
     sampling_period: ["01-09", "31-08"]
     topic: "Précipitations, Période sèche, Durée"
 

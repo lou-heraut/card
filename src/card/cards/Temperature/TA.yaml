@@ -9,7 +9,7 @@ meta:
     unit: "°C"
     name: Annual mean temperature
     description: ""
-    method: ""
+    method: "1. annual aggregation [09-01, 08-31] - mean"
     sampling_period: ["09-01", "08-31"]
     topic: "Temperature, Average, Intensity"
 
@@ -18,7 +18,7 @@ meta:
     unit: "°C"
     name: Température moyenne annuelle
     description: ""
-    method: ""
+    method: "1. agrégation annuelle [01-09, 31-08] - moyenne"
     sampling_period: ["01-09", "31-08"]
     topic: "Température, Moyenne, Intensité"
 
