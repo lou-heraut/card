@@ -1,6 +1,10 @@
 # TOPICS — Facettes à vocabulaire contrôlé pour les fiches CARD
 
-> Proposition du 2026-07-16, **à arbitrer avant application**.
+> Proposition du 2026-07-16, arbitrée le jour même avec l'utilisateur
+> (slugs de forme series/scalar/curve, bloc `classification:`,
+> Ratio et Occurrence fondus, a-FDC→magnitude, régime sans objet =
+> pas de ligne). **Reste ouvert : §4.6** (sort du champ `topic`
+> actuel).
 > Remplace le champ libre bilingue `topic: "Flow, Low Flows,
 > Seasonality"` par des facettes en slugs neutres, avec un vocabulaire
 > central unique (labels en/fr générés, plus de dérive par fiche).
@@ -12,12 +16,12 @@
 ```yaml
 meta:
   global:
-    topics:
+    classification:
       domain: flow            # grandeur concernée (liste si plusieurs)
-      regime: low-flows       # condition hydro-climatique visée (optionnel)
-      aspect: timing          # dimension analysée, typologie IHA (optionnel)
-      output: series          # forme du résultat : series | criterion | pattern
-      purpose: performance    # optionnel — omis si 'description' (défaut)
+      regime: low-flows       # condition hydro-climatique visée (pas de ligne si sans objet)
+      aspect: timing          # dimension analysée, typologie IHA (pas de ligne si sans objet)
+      output: series          # forme du résultat : series | scalar | curve
+      purpose: performance    # pas de ligne si simple description (défaut)
 ```
 
 - Les slugs sont **anglais, kebab-case, langue-neutres** : la fiche ne
@@ -61,10 +65,10 @@ Les fiches de sensibilité croisée déclarent une liste :
 | light-rain | Light rain | Pluies faibles | Low (précip) |
 | heavy-rain | Heavy rain | Pluies fortes | Heavy |
 
-Omis pour : précip « Moderate » (= régime général, pas une condition),
-température « Average/Mean », évapotranspiration, performance,
-sensibilité. ⚠️ à arbitrer : garder un slug `general` explicite plutôt
-qu'omettre ?
+Pas de ligne `regime:` quand il n'y a pas de condition particulière :
+précip « Moderate », température « Average/Mean », évapotranspiration,
+performance, sensibilité (même logique que la règle des défauts,
+NOMENCLATURE Règle 5 / CLAUDE.md).
 
 ### aspect — la dimension analysée (typologie IHA/EFC ; optionnel)
 
@@ -74,24 +78,24 @@ change.
 
 | Slug | en | fr | Couvre les topics actuels |
 |---|---|---|---|
-| magnitude | Magnitude | Intensité | Intensity, Ratio (⚠️ cf. §4) |
+| magnitude | Magnitude | Intensité | Intensity, Ratio, Parameterization (a-FDC — la pente de la FDC est un indicateur de variabilité, classé magnitude comme en IHA) |
 | timing | Timing | Saisonnalité | Seasonality |
 | duration | Duration | Durée | Duration |
-| frequency | Frequency | Fréquence | Frequency, Occurrence (⚠️ cf. §4) |
+| frequency | Frequency | Fréquence | Frequency, Occurrence (n-* : décomptes d'années) |
 | rate-of-change | Rate of change | Taux de variation | (aucune fiche actuelle — réservé) |
 
-Omis pour : performance, paramétrisation (⚠️ cf. §4).
+Pas de ligne `aspect:` pour les fiches performance.
 
 ### output — la forme du résultat (obligatoire, nouvelle information)
 
 | Slug | en | fr | Définition | Usage type |
 |---|---|---|---|---|
 | series | Series | Série | une valeur par pas de temps (année, mois, saison) | analyse de tendance |
-| criterion | Criterion | Critère | un scalaire par station | comparaison en carte |
-| pattern | Pattern | Profil | vecteur indexé par autre chose que le temps (jour de l'année, probabilité) | tracé de régime/courbe |
+| scalar | Scalar | Scalaire | un seul nombre par station | comparaison en carte |
+| curve | Curve | Courbe | résultat indexé par autre chose que le temps (jour de l'année, probabilité) | tracé de régime ou de courbe classée |
 
 Exemples : QA/VCN10/QMA_month → series ; delta-*/median-*/KGE/QMNA-5 →
-criterion ; FDC*/QJC10/median-QJ* → pattern. Contrôle de cohérence
+scalar ; FDC*/QJC10/median-QJ* → curve. Contrôle de cohérence
 facette↔process ajouté au linter (`python -m card.schema`).
 
 ### purpose — la finalité (optionnel, défaut `description`)
@@ -119,21 +123,20 @@ Les chaînes actuelles se projettent mécaniquement :
 | Evapotranspiration, Average, Intensity | evapotranspiration | — | magnitude | — |
 
 `output` est attribué fiche par fiche (dérivable du process à ~95 %,
-vérifié à la main pour FDC/QJC/median-QJ). Les bundles multi-variables
+vérifié à la main pour FDC/QJC/median-QJ : `curve`). Les bundles multi-variables
 (topic en liste aujourd'hui) prennent des facettes en listes seulement
 si les variables diffèrent (règle C2 amendée).
 
-## 4. Points à arbitrer
+## 4. Arbitrages (rendus le 2026-07-16, sauf §4.6)
 
-1. **Ratio** (RA_ratio, RAl/RAs_ratio, « Modérée, Ratio ») : fondre
-   dans `magnitude`, ou slug propre `ratio` (hors IHA) ?
-2. **Occurrence** (n-QJXA-10_H, n-VCN10-5_H) : fondre dans `frequency`
-   (recommandé — c'est un décompte d'années de dépassement) ou garder
-   `occurrence` ?
-3. **Parameterization** (a-FDC) : `aspect` omis, ou slug `variability`
-   (la pente de la FDC décrit la variabilité des débits) ?
-4. **regime omis vs slug `general`** pour « Moderate »/« Average ».
-5. Nom du champ : `topics:` (bloc) vs facettes à plat dans
-   `meta.global` (`domain:`, `regime:`...).
-6. Le champ `topic` actuel : supprimé, ou conservé en lecture seule
-   (généré depuis les facettes) pendant une transition ?
+1. **Ratio → `magnitude`** (pas de slug hors IHA).
+2. **Occurrence → `frequency`** (décompte d'années de dépassement).
+3. **Parameterization (a-FDC) → `magnitude`** : la pente de la courbe
+   des débits classés mesure la variabilité des débits, classée avec
+   la magnitude comme en IHA.
+4. **Régime sans objet = pas de ligne** (cohérent avec la règle des
+   défauts), pas de slug `general`.
+5. **Bloc regroupé**, nommé **`classification:`** (transparent dans
+   les deux langues ; « topics » ne décrivait plus des facettes).
+6. ⚠️ **Ouvert** — le champ `topic` actuel : supprimé, ou conservé en
+   lecture seule (généré depuis les facettes) pendant une transition ?
