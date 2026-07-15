@@ -11,6 +11,59 @@ Aucune correction n'a été appliquée : ce document liste les constats,
 
 ---
 
+## Procédure d'arbitrage et d'application (fixée le 2026-07-15)
+
+1. **Référence normative** : `NOMENCLATURE.md` (guide de nommage fondé
+   sur le système du corpus consolidé par Oberlin 1992 — règles
+   R1–R7). Chaque correction de métadonnée cite la règle qu'elle
+   applique dans le récapitulatif de batch.
+2. **Pré-arbitrages enregistrés** (note utilisateur du 2026-07-13,
+   ex-note_tmp.txt) :
+   - A1, A2, A4, A5 : acceptés.
+   - A3, A6 : **la fonction fait foi** — les métadonnées décrivent le
+     calcul réel, on ne « ment » jamais sur ce que fait le process
+     (érigé en règle R6 du guide).
+   - B1 : les delta de durées (dt*) en absolu → jour ; les delta de
+     débits en relatif → % ; fréquences : cf. point ouvert B2.
+   - B3 : delta de volumes en relatif → %.
+   - C2 : multi-sorties ⇒ métadonnées en listes (le broadcast d'un
+     scalaire est jugé trop piégeux).
+   - C3 : renommage `median-finLF` → `median-endLF` accepté (à tracer
+     dans RENAMING.md).
+   - C4 : accepté, et **étendre le catalogue** : créer les fiches
+     évidentes manquantes (ex. critère BFI-LH ; dérivés summer/winter
+     des fiches basses eaux qui n'existent qu'en `all*`).
+   - C5, C6, C7 : acceptés. C8 : compléter si utile et non ambigu.
+   - D : `method` toujours remplissable → à remplir partout ;
+     `description` seulement quand elle apporte plus que le `name`
+     (règle R4 du guide).
+3. **Arbitrages complets rendus le 2026-07-15** — plus aucun point
+   ouvert, cf. NOMENCLATURE.md §9 (guide validé) :
+   - C1 : listes explicites de 3 (pas de template `{horizon}`) ;
+   - R2 : variante pédagogique (« inter-annuel » explicite) ;
+   - QJC : « caractéristique » banni des name ; QJCd = régime
+     journalier inter-annuel lissé sur d jours ;
+   - R (précipitations) : assumé, standard climato ;
+   - B2 : fQ*A = fraction sans unité (la fonction fait foi) ; fiches
+     « durée cumulée de dépassement » (jours/an) à créer plus tard si
+     besoin ;
+   - A3 : id et sortie **STD → STD_ratio** (α du KGE) ;
+   - A6 : id et sortie **Rc → QR_ratio** (calcul conservé) ; l'id Rc
+     est réservé à une future fiche coefficient adimensionnel avec la
+     surface en colonne d'entrée `S` (86,4 × ΣQ/ΣR / A(km²)).
+4. **Application par lots**, après le retour complet :
+   - lot 1 — métadonnées pures (risque nul) ;
+   - lot 2 — arbitrages (unit/relative, renommages d'ids tracés dans
+     RENAMING.md) ;
+   - lot 3 — remplissage method (+ description sélective) ;
+   - lot 4 — création des fiches manquantes (C4 étendu).
+   Batchs de ~10 fiches, récapitulatif avec niveau de confiance,
+   `pytest` + `python -m card.schema` après chaque lot ; le harnais R
+   croisé n'est requis que si un calcul change (a priori aucun,
+   cf. R6).
+
+---
+
 ## A. `name` ou `method` contredisant le calcul
 
 ### A1. Famille « dépassé X années sur Y » (14 fiches)
@@ -194,41 +247,20 @@ l'intention, vu l'unité déclarée.
 
 ## E. Vers une convention de nommage écrite
 
-La grammaire des ids est déjà largement cohérente et mérite d'être
-documentée (docs/dev, et en tête de CARDS.md) :
-
-- **Préfixes de dérivation** : `t` (date de), `dt` (durée), `v`
-  (volume), `f` (fréquence), `n-` (dénombrement), `delta-`
-  (changement entre périodes), `median-`/`mean-` (agrégat
-  inter-annuel), `alpha-` (pente de tendance), `hyp-` (test).
-- **Suffixes d'agrégation** : `A` (annuel), `MA` (mensuel par année),
-  `SA` (saisonnier par année), `M` (mensuel inter-annuel), `X`/`N`
-  (maximum/minimum), `-k` (période de retour k ans), `_H`/`_H0..H3`
-  (horizons), `_summer`/`_winter`, `_month`/`_season` (fan-out).
-- **Règle `name`** : décrire l'objet statistique exact (quoi, sur
-  quel pas, sur quelle période d'échantillonnage), en réservant les
-  probabilités à la desc. Bannir les formulations « X années sur Y »
-  pour des quantiles temporels (cf. A1).
-
-Standards externes : pour les grandeurs normalisées françaises
-(QMNA, VCN10, module…), reprendre les libellés du SANDRE
-(nomenclatures eaufrance) quand ils existent ; les indices climat
-(CDD, CWD, RX5day…) ont des définitions ETCCDI/climdex dont on peut
-citer l'identifiant dans la desc. L'export SKOS vers un thésaurus
-INRAE reste différé (cf. décision 2026-07-12) mais cette grammaire en
-serait la base.
+→ **Fait le 2026-07-15 : voir `NOMENCLATURE.md`** (guide complet,
+brouillon à valider). La grammaire du corpus y est documentée et
+consolidée par le système d'Oberlin (1992, transcription
+`Oberlin_1994ITCEMAGREF_1-8_edit.md`) : quatre positions hiérarchisées
+grandeur / pas de temps / représentativité / saison, préfixes-opérateurs
+CARD (soudés = dérivation intra-annuelle, à tiret = opérateur
+inter-annuel), suffixes (-k retour, _H horizons, saisons, fan-out),
+règles de rédaction R1–R7 (dont « moyenne » réservé à l'inter-annuel et
+« la fonction fait foi »), ancrages SANDRE / ETCCDI / OMM, et points
+ouverts §9 soumis à arbitrage.
 
 ---
 
-## Proposition de lots (à valider)
+## Proposition de lots
 
-1. **Lot métadonnées pures** (sans effet sur les sorties) : A1, A2,
-   A3 (name/desc/unit), A5, C4-C7, D coquilles. Risque nul.
-2. **Lot arbitrages** : B1/B2/B3 (relative vs unit — changer l'unité
-   affichée ou le calcul ?), A6 (Rc), C1/C2 (style des name multi),
-   C3 (renommage d'id median-finLF), A3 (renommage éventuel de l'id
-   STD).
-3. **Lot remplissage** : desc/method vides (110 et 53 fiches),
-   générables en grande partie depuis le bloc process (le style des
-   method est très mécanique : « 1. agrégation … - fonction »), puis
-   relecture humaine.
+→ Remplacée par la « Procédure d'arbitrage et d'application » en tête
+de document (lots 1–4, pré-arbitrages enregistrés, points ouverts).
