@@ -8,11 +8,11 @@ meta:
     variable: [delta-Q50A_H1, delta-Q50A_H2, delta-Q50A_H3]
     unit: "%"
     name:
-      - "Average change of median of annual flows between the near horizon
+      - "Average change of the annual median of daily flows between the near horizon
          and historical period"
-      - "Average change of median of annual flows between the middle horizon
+      - "Average change of the annual median of daily flows between the middle horizon
          and historical period"
-      - "Average change of median of annual flows between the distant horizon
+      - "Average change of the annual median of daily flows between the distant horizon
          and historical period"
     description: "Annual flow with an exceedance probability of 50 % (50th percentile)"
     method: |
@@ -27,11 +27,11 @@ meta:
     variable: [delta-Q50A_H1, delta-Q50A_H2, delta-Q50A_H3]
     unit: "%"
     name:
-      - "Changement moyen de la médiane des débits annuels entre l'horizon
+      - "Changement moyen de la médiane annuelle des débits journaliers entre l'horizon
          proche et la période historique"
-      - "Changement moyen de la médiane des débits annuels entre l'horizon
+      - "Changement moyen de la médiane annuelle des débits journaliers entre l'horizon
          moyen et la période historique"
-      - "Changement moyen de la médiane des débits annuels entre l'horizon
+      - "Changement moyen de la médiane annuelle des débits journaliers entre l'horizon
          lointain et la période historique"
     description: "Débit annuel avec une probabilité de dépassement de 50 % (centile 50 %)"
     method: |

@@ -7,7 +7,7 @@ meta:
   en:
     variable: median-dtBF
     unit: day
-    name: Median duration of baseflow
+    name: Inter-annual median of the duration of baseflow
     description: >-
       Median of the durations between the start and end of baseflow
     method: |
@@ -21,7 +21,7 @@ meta:
   fr:
     variable: mediane-dtQB
     unit: jour
-    name: Médiane de la durée des écoulements lents
+    name: Médiane inter-annuelle de la durée des écoulements lents
     description: >-
       Médiane des durées entre le début et la fin des écoulements lents
     method: |

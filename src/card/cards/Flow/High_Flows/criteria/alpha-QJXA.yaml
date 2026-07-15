@@ -14,7 +14,8 @@ meta:
     method: |
       1. annual aggregation [Month of minimum monthly flows] - maximum
          (extraction from the series of QJXA)
-      2. no temporal aggregation - Sen's slope
+      2. no temporal aggregation - Sen's slope of the series where the
+         Mann-Kendall test is significant at a 10 % risk level
     sampling_period: Month of minimum monthly flows
     topic: "Flow, High Flows, Intensity"
 
@@ -28,7 +29,8 @@ meta:
     method: |
       1. agrégation annuelle [Mois du minimum des débits mensuels] - maximum
          (extraction de la série des QJXA)
-      2. aucune agrégation temporelle - pente de Sen
+      2. aucune agrégation temporelle - pente de Sen de la série dont le
+         test de Mann-Kendall est significatif à un risque de 10 %
     sampling_period: Mois du minimum des débits mensuels
     topic: "Débit, Hautes Eaux, Intensité"
 

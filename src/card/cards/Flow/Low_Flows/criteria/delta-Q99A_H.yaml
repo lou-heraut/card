@@ -8,9 +8,9 @@ meta:
     variable: [delta-Q99A_H1, delta-Q99A_H2, delta-Q99A_H3]
     unit: "%"
     name:
-      - Average change of annual flow exceeded 99 years out of 100 between the near horizon and historical period
-      - Average change of annual flow exceeded 99 years out of 100 between the middle horizon and historical period
-      - Average change of annual flow exceeded 99 years out of 100 between the distant horizon and historical period
+      - Average change of the daily flow exceeded 99 % of the time within the year between the near horizon and historical period
+      - Average change of the daily flow exceeded 99 % of the time within the year between the middle horizon and historical period
+      - Average change of the daily flow exceeded 99 % of the time within the year between the distant horizon and historical period
     description: Annual flow with an exceedance probability of 99 % (1st percentile)
     method: |
       1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 99 %
@@ -23,9 +23,9 @@ meta:
     variable: [delta-Q99A_H1, delta-Q99A_H2, delta-Q99A_H3]
     unit: "%"
     name:
-      - Changement moyen du débit annuel dépassé 99 années sur 100 entre l'horizon proche et la période historique
-      - Changement moyen du débit annuel dépassé 99 années sur 100 entre l'horizon moyen et la période historique
-      - Changement moyen du débit annuel dépassé 99 années sur 100 entre l'horizon lointain et la période historique
+      - Changement moyen du débit journalier dépassé 99 % du temps de l'année entre l'horizon proche et la période historique
+      - Changement moyen du débit journalier dépassé 99 % du temps de l'année entre l'horizon moyen et la période historique
+      - Changement moyen du débit journalier dépassé 99 % du temps de l'année entre l'horizon lointain et la période historique
     description: Débit annuel avec une probabilité de dépassement de 99 % (centile 1 %)
     method: |
       1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité au dépassement de 99 %

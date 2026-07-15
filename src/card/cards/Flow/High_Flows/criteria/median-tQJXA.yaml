@@ -7,7 +7,7 @@ meta:
   en:
     variable: median-tQJXA
     unit: yearday
-    name: "Median of dates of the annual maximum daily discharge"
+    name: Inter-annual median of the dates of the annual maximum daily discharge
     description: ""
     method: |
       1. annual aggregation [Month of minimum monthly flows] - date of maximum
@@ -18,7 +18,7 @@ meta:
   fr:
     variable: mediane-tQJXA
     unit: "jour de l'année"
-    name: "Médiane des dates du débit journalier maximal annuel"
+    name: Médiane inter-annuelle des dates du débit journalier maximal annuel
     description: ""
     method: |
       1. agrégation annuelle [Mois du minimum des débits mensuels] - date du maximum

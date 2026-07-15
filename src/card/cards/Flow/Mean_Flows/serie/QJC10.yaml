@@ -7,17 +7,25 @@ meta:
   en:
     variable: QJC10
     unit: "m^{3}.s^{-1}"
-    name: Mean monthly discharge averaged over 10 days
-    description: ""
-    method: ""
+    name: Inter-annual daily flow regime smoothed over 10 days
+    description: >-
+      Mean flow of each day of the year over the whole record, then
+      10-day centered moving average (365 values)
+    method: |
+      1. aggregation by day of the year - mean
+      2. no temporal aggregation - 10-day centered moving average
     topic: "Flow, Mean Flows, Intensity"
 
   fr:
     variable: QJC10
     unit: "m^{3}.s^{-1}"
-    name: Débit moyen mensuel moyenné sur 10 jours
-    description: ""
-    method: ""
+    name: Régime journalier inter-annuel lissé sur 10 jours
+    description: >-
+      Moyenne des débits de chaque jour de l'année sur l'ensemble de la
+      chronique, puis moyenne mobile centrée sur 10 jours (365 valeurs)
+    method: |
+      1. agrégation par jour de l'année - moyenne
+      2. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
     topic: "Débit, Moyennes Eaux, Intensité"
 
   global:

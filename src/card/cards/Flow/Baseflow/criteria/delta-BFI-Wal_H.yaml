@@ -8,11 +8,11 @@ meta:
     variable: [delta-BFI-Wal_H1, delta-BFI-Wal_H2, delta-BFI-Wal_H3]
     unit: without unit
     name:
-      - "Change of baseflow index between the near horizon and historical period
+      - "Average change of the baseflow index between the near horizon and historical period
          (Wallingford)"
-      - "Change of baseflow index between the middle horizon and historical period
+      - "Average change of the baseflow index between the middle horizon and historical period
          (Wallingford)"
-      - "Change of baseflow index between the distant horizon and historical period
+      - "Average change of the baseflow index between the distant horizon and historical period
          (Wallingford)"
     description: >-
       Ratio between mean inter-annual base flow and mean inter-annual flow
@@ -27,11 +27,11 @@ meta:
     variable: [delta-BFI-Wal_H1, delta-BFI-Wal_H2, delta-BFI-Wal_H3]
     unit: sans unité
     name:
-      - "Changement de l'indice de débit de base entre l'horizon proche et la
+      - "Changement moyen de l'indice de débit de base entre l'horizon proche et la
          période historique (Wallingford)"
-      - "Changement de l'indice de débit de base entre l'horizon moyen et la
+      - "Changement moyen de l'indice de débit de base entre l'horizon moyen et la
          période historique (Wallingford)"
-      - "Changement de l'indice de débit de base entre l'horizon lointain et la
+      - "Changement moyen de l'indice de débit de base entre l'horizon lointain et la
          période historique (Wallingford)"
     description: >-
       Rapport entre débit de base moyen inter-annuel et débit moyen inter-annuel

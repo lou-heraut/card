@@ -7,8 +7,10 @@ meta:
   en:
     variable: median-QJC5
     unit: "m^{3}.s^{-1}"
-    name: 5-day centered moving average of the inter-annual median flow
-    description: ""
+    name: Inter-annual median daily flow regime smoothed over 5 days
+    description: >-
+      Median flow of each day of the year over the whole record, then
+      5-day centered moving average (365 values)
     method: |
       1. aggregation by day of the year - median
       2. no temporal aggregation - 5-day centered moving average
@@ -17,8 +19,10 @@ meta:
   fr:
     variable: mediane-QJC5
     unit: "m^{3}.s^{-1}"
-    name: Moyenne mobile sur 5 jours du débit médian inter-annuel
-    description: ""
+    name: Régime journalier médian inter-annuel lissé sur 5 jours
+    description: >-
+      Médiane des débits de chaque jour de l'année sur l'ensemble de la
+      chronique, puis moyenne mobile centrée sur 5 jours (365 valeurs)
     method: |
       1. agrégation par jour de l'année - médiane
       2. aucune agrégation temporelle - moyenne mobile centrée sur 5 jours

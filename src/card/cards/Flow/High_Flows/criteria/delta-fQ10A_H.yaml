@@ -6,7 +6,7 @@ date: "2026-04-26"
 meta:
   en:
     variable: [delta-fQ10A_H1, delta-fQ10A_H2, delta-fQ10A_H3]
-    unit: "day.year^{-1}"
+    unit: without unit
     name:
       - "Average change of the annual frequency of exceeding Q10 between
          the near horizon and historical period"
@@ -31,7 +31,7 @@ meta:
 
   fr:
     variable: [delta-fQ10A_H1, delta-fQ10A_H2, delta-fQ10A_H3]
-    unit: "jour.an^{-1}"
+    unit: sans unité
     name:
       - "Changement moyen de la fréquence annuelle de dépassement du Q10
          entre l'horizon proche et la période historique"

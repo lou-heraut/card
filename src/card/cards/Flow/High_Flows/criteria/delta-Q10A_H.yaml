@@ -8,11 +8,11 @@ meta:
     variable: [delta-Q10A_H1, delta-Q10A_H2, delta-Q10A_H3]
     unit: "%"
     name:
-      - "Average change of annual flow exceeded 1 year in 10 between
+      - "Average change of the daily flow exceeded 10 % of the time within the year between
          the near horizon and historical period"
-      - "Average change of annual flow exceeded 1 year in 10 between
+      - "Average change of the daily flow exceeded 10 % of the time within the year between
          the middle horizon and historical period"
-      - "Average change of annual flow exceeded 1 year in 10 between
+      - "Average change of the daily flow exceeded 10 % of the time within the year between
          the distant horizon and historical period"
     description: >-
       Annual flow with an exceedance probability of 10 % (90th percentile)
@@ -29,11 +29,11 @@ meta:
     variable: [delta-Q10A_H1, delta-Q10A_H2, delta-Q10A_H3]
     unit: "%"
     name:
-      - "Changement moyen du débit annuel dépassé 1 année sur 10 entre
+      - "Changement moyen du débit journalier dépassé 10 % du temps de l'année entre
          l'horizon proche et la période historique"
-      - "Changement moyen du débit annuel dépassé 1 année sur 10 entre
+      - "Changement moyen du débit journalier dépassé 10 % du temps de l'année entre
          l'horizon moyen et la période historique"
-      - "Changement moyen du débit annuel dépassé 1 année sur 10 entre
+      - "Changement moyen du débit journalier dépassé 10 % du temps de l'année entre
          l'horizon lointain et la période historique"
     description: >-
       Débit annuel avec une probabilité de dépassement de 10 % (centile 90 %)

@@ -7,7 +7,7 @@ meta:
   en:
     variable: Q05A
     unit: "m^{3}.s^{-1}"
-    name: "Annual flow exceeded 1 year in 20"
+    name: "Daily flow exceeded 5 % of the time within the year"
     description: >-
       Annual flow with an exceedance probability of 5 % (95th percentile)
     method: |
@@ -19,7 +19,7 @@ meta:
   fr:
     variable: Q05A
     unit: "m^{3}.s^{-1}"
-    name: "Débit annuel dépassé 1 année sur 20"
+    name: "Débit journalier dépassé 5 % du temps de l'année"
     description: >-
       Débit annuel avec une probabilité de dépassement de 5 % (centile 95 %)
     method: |

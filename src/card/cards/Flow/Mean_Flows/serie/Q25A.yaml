@@ -7,7 +7,7 @@ meta:
   en:
     variable: Q25A
     unit: "m^{3}.s^{-1}"
-    name: Third quartile of annual flows
+    name: Annual third quartile of daily flows
     description: Annual flow with an exceedance probability of 25 % (75th percentile)
     method: "1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 25 %"
     sampling_period: ["01-01", "12-31"]
@@ -16,7 +16,7 @@ meta:
   fr:
     variable: Q25A
     unit: "m^{3}.s^{-1}"
-    name: Troisième quartile des débits annuels
+    name: Troisième quartile annuel des débits journaliers
     description: "Débit annuel avec une probabilité de dépassement de 25 % (centile 75 %)"
     method: "1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité de dépassement de 25 %"
     sampling_period: ["01-01", "31-12"]

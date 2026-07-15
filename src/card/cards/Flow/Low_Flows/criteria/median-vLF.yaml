@@ -7,7 +7,7 @@ meta:
   en:
     variable: median-vLF
     unit: "hm^{3}"
-    name: Median of low flow deficit volumes
+    name: Inter-annual median of low-flow deficit volumes
     description: Median of sums of the differences between the 10-day average and the maximum of the VCN10, over the longest sequence below this threshold
     method: |
       1. no temporal aggregation - 10-day centered moving average
@@ -21,7 +21,7 @@ meta:
   fr:
     variable: mediane-vBE
     unit: "hm^{3}"
-    name: Médiane des volumes de déficit des basses eaux
+    name: Médiane inter-annuelle des volumes de déficit des basses eaux
     description: Médiane des sommes des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours

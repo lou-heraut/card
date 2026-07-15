@@ -7,7 +7,7 @@ meta:
   en:
     variable: median-startLF
     unit: yearday
-    name: Median start of low flows
+    name: Inter-annual median of the start of low flows
     description: Median of the dates of the first 10-day mean flow below the maximum of the annual minima of the 10-day mean flow of daily VCN10
     method: |
       1. no temporal aggregation - 10-day centered moving average
@@ -21,7 +21,7 @@ meta:
   fr:
     variable: mediane-debutBE
     unit: "jour de l'année"
-    name: Médiane du début des basses eaux
+    name: Médiane inter-annuelle du début des basses eaux
     description: Médiane des dates de la première moyenne sur 10 jours sous le maximum des minimums annuels de la moyenne sur 10 jours du débit journalier VCN10
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours

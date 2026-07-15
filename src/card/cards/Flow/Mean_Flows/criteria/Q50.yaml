@@ -7,7 +7,7 @@ meta:
   en:
     variable: Q50
     unit: "m^{3}.s^{-1}"
-    name: Flow median
+    name: Median of daily flows (whole record)
     description: "Flow with an exceedance probability of 50 %"
     method: "1. no temporal aggregation - quantile at the exceedance probability of 50 %"
     topic: "Flow, Mean Flows, Intensity"
@@ -15,7 +15,7 @@ meta:
   fr:
     variable: Q50
     unit: "m^{3}.s^{-1}"
-    name: Médiane des débits
+    name: Médiane des débits journaliers (chronique entière)
     description: "Débit avec une probabilité de dépassement de 50 %"
     method: "1. aucune agrégation temporelle - quantile à la probabilité de dépassement de 50 %"
     topic: "Débit, Moyennes Eaux, Intensité"

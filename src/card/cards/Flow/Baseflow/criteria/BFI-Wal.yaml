@@ -7,7 +7,7 @@ meta:
   en:
     variable: BFI-Wal
     unit: without unit
-    name: Baseflow index
+    name: Baseflow index (Wallingford)
     description: >-
       Ratio between mean inter-annual base flow and mean inter-annual flow
     method: |
@@ -18,7 +18,7 @@ meta:
   fr:
     variable: BFI-Wal
     unit: sans unité
-    name: Indice de débit de base
+    name: Indice de débit de base (Wallingford)
     description: >-
       Rapport entre débit de base moyen inter-annuel et débit moyen inter-annuel
     method: |

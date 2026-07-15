@@ -9,7 +9,7 @@ meta:
     unit: bool
     name: Robustness test to a variation in precipitation
     description: ""
-    method: "1. annual aggregation [09-01, 08-31] - Qref − Qsim and mean temperatures\n2. no temporal aggregation - RAT with a 10 % risk"
+    method: "1. annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow, and mean precipitation\n2. no temporal aggregation - RAT with a 5 % significance level"
     sampling_period: ["09-01", "08-31"]
     topic: "Flow / Precipitations, Sensitivity to Climate Variability"
 
@@ -18,7 +18,7 @@ meta:
     unit: bool
     name: Test de robustesse à une variation de précipitations
     description: ""
-    method: "1. agrégation annuelle [01-09, 31-08] - Qref − Qsim et températures moyennes\n2. aucune agrégation temporelle - RAT avec un risque de 10 %"
+    method: "1. agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés, et précipitations moyennes\n2. aucune agrégation temporelle - RAT avec un seuil de significativité de 5 %"
     sampling_period: ["01-09", "31-08"]
     topic: "Débit / Précipitations, Sensibilité à la variabilité climatique"
 

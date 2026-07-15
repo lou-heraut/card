@@ -9,7 +9,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Annual minimum of daily discharge
     description: ""
-    method: ""
+    method: "1. annual aggregation [Month of maximum monthly flows] - minimum"
     sampling_period: Month of maximum monthly flows
     topic: "Flow, Low Flows, Intensity"
 
@@ -18,7 +18,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Minimum annuel du débit journalier
     description: ""
-    method: ""
+    method: "1. agrégation annuelle [Mois du maximum des débits mensuels] - minimum"
     sampling_period: Mois du maximum des débits mensuels
     topic: "Débit, Basses Eaux, Intensité"
 

@@ -7,7 +7,7 @@ meta:
   en:
     variable: QSA_JJASO
     unit: "m^{3}.s^{-1}"
-    name: Seasonal annual mean daily discharge
+    name: Annual mean daily discharge from June to October
     description: ""
     method: "1. annual aggregation [06-01, 10-31] - mean"
     sampling_period: ["06-01", "10-31"]
@@ -16,7 +16,7 @@ meta:
   fr:
     variable: QSA_JJASO
     unit: "m^{3}.s^{-1}"
-    name: Moyenne saisonnière annuelle du débit journalier
+    name: Moyenne annuelle du débit journalier de juin à octobre
     description: ""
     method: "1. agrégation annuelle [01-06, 31-10] - moyenne"
     sampling_period: ["01-06", "31-10"]

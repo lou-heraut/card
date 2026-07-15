@@ -7,7 +7,13 @@ meta:
   en:
     variable: [delta-VCN3_winter_H1, delta-VCN3_winter_H2, delta-VCN3_winter_H3]
     unit: "%"
-    name: Average change of winter minimum of 3-day mean daily discharge between the {horizon} horizon and historical period
+    name:
+      - "Average change of winter minimum of 3-day mean daily discharge between
+         the near horizon and historical period"
+      - "Average change of winter minimum of 3-day mean daily discharge between
+         the middle horizon and historical period"
+      - "Average change of winter minimum of 3-day mean daily discharge between
+         the distant horizon and historical period"
     description: ""
     method: |
       1. no temporal aggregation - 3-day centered moving average
@@ -20,7 +26,13 @@ meta:
   fr:
     variable: [delta-VCN3_hiver_H1, delta-VCN3_hiver_H2, delta-VCN3_hiver_H3]
     unit: "%"
-    name: "Changement moyen du minimum hivernal de la moyenne sur 3 jours du débit journalier entre l'horizon {horizon} et la période historique"
+    name:
+      - "Changement moyen du minimum hivernal de la moyenne sur 3 jours du débit
+         journalier entre l'horizon proche et la période historique"
+      - "Changement moyen du minimum hivernal de la moyenne sur 3 jours du débit
+         journalier entre l'horizon moyen et la période historique"
+      - "Changement moyen du minimum hivernal de la moyenne sur 3 jours du débit
+         journalier entre l'horizon lointain et la période historique"
     description: ""
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 3 jours

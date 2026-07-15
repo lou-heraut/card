@@ -8,11 +8,11 @@ meta:
     variable: [delta-Q25A_H1, delta-Q25A_H2, delta-Q25A_H3]
     unit: "%"
     name:
-      - "Average change of third quartile of annual flows between the near
+      - "Average change of the annual third quartile of daily flows between the near
          horizon and historical period"
-      - "Average change of third quartile of annual flows between the middle
+      - "Average change of the annual third quartile of daily flows between the middle
          horizon and historical period"
-      - "Average change of third quartile of annual flows between the distant
+      - "Average change of the annual third quartile of daily flows between the distant
          horizon and historical period"
     description: "Annual flow with an exceedance probability of 25 % (75th percentile)"
     method: |
@@ -28,11 +28,11 @@ meta:
     variable: [delta-Q25A_H1, delta-Q25A_H2, delta-Q25A_H3]
     unit: "%"
     name:
-      - "Changement moyen du troisième quartile des débits annuels entre
+      - "Changement moyen du troisième quartile annuel des débits journaliers entre
          l'horizon proche et la période historique"
-      - "Changement moyen du troisième quartile des débits annuels entre
+      - "Changement moyen du troisième quartile annuel des débits journaliers entre
          l'horizon moyen et la période historique"
-      - "Changement moyen du troisième quartile des débits annuels entre
+      - "Changement moyen du troisième quartile annuel des débits journaliers entre
          l'horizon lointain et la période historique"
     description: "Débit annuel avec une probabilité de dépassement de 25 % (centile 75 %)"
     method: |

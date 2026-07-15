@@ -7,7 +7,7 @@ meta:
   en:
     variable: median-endBF
     unit: yearday
-    name: Median of the end of base flows
+    name: Inter-annual median of the end of base flows
     description: >-
       Median of the dates when 90 % of the annual cumulative base flow
       is reached
@@ -21,7 +21,7 @@ meta:
   fr:
     variable: mediane-finQB
     unit: "jour de l'année"
-    name: Médiane de la fin des écoulements lents
+    name: Médiane inter-annuelle de la fin des écoulements lents
     description: >-
       Médiane des dates à laquelle 90 % du cumul annuel du débit de base
       sont atteints

@@ -8,10 +8,10 @@ meta:
     variable: [mean-TSA_DJF, mean-TSA_MAM, mean-TSA_JJA, mean-TSA_SON]
     unit: "°C"
     name:
-      - "Average temperatures of each winter (months of December, January and February)"
-      - "Average temperatures of each spring (months of March, April and May)"
-      - "Average temperatures of each summer (months of June, July and August)"
-      - "Average temperatures of each fall (months of September, October and November)"
+      - "Inter-annual mean of winter mean temperatures (months of December, January and February)"
+      - "Inter-annual mean of spring mean temperatures (months of March, April and May)"
+      - "Inter-annual mean of summer mean temperatures (months of June, July and August)"
+      - "Inter-annual mean of fall mean temperatures (months of September, October and November)"
     description:
       - ""
       - ""
@@ -33,20 +33,20 @@ meta:
     variable: [moyenne-TSA_DJF, moyenne-TSA_MAM, moyenne-TSA_JJA, moyenne-TSA_SON]
     unit: "°C"
     name:
-      - Moyenne des températures de chaque hiver
-      - Moyenne des températures de chaque printemps
-      - Moyenne des températures de chaque été
-      - Moyenne des températures de chaque automne
+      - Moyenne inter-annuelle des températures moyennes d'hiver
+      - Moyenne inter-annuelle des températures moyennes de printemps
+      - Moyenne inter-annuelle des températures moyennes d'été
+      - Moyenne inter-annuelle des températures moyennes d'automne
     description:
       - "Mois de décembre, janvier et février"
       - "Mois de mars, avril et mai"
       - "Mois de juin, juillet et août"
       - "Mois de septembre, octobre et novembre"
     method:
-      - "1. agrégation annuelle saisonnalisé [01-12, 28(29)-02] - moyenne\n2. aucune agrégation temporelle - moyenne"
-      - "1. agrégation annuelle saisonnalisé [01-03, 31-05] - moyenne\n2. aucune agrégation temporelle - moyenne"
-      - "1. agrégation annuelle saisonnalisé [01-06, 31-08] - moyenne\n2. aucune agrégation temporelle - moyenne"
-      - "1. agrégation annuelle saisonnalisé [01-09, 30-11] - moyenne\n2. aucune agrégation temporelle - moyenne"
+      - "1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - moyenne\n2. aucune agrégation temporelle - moyenne"
+      - "1. agrégation annuelle saisonnalisée [01-03, 31-05] - moyenne\n2. aucune agrégation temporelle - moyenne"
+      - "1. agrégation annuelle saisonnalisée [01-06, 31-08] - moyenne\n2. aucune agrégation temporelle - moyenne"
+      - "1. agrégation annuelle saisonnalisée [01-09, 30-11] - moyenne\n2. aucune agrégation temporelle - moyenne"
     sampling_period:
       - ["01-12", "28(29)-02"]
       - ["01-03", "31-05"]

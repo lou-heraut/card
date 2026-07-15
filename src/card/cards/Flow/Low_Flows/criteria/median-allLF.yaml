@@ -8,11 +8,11 @@ meta:
     variable: [median-startLF, median-centerLF, median-endLF, median-dtLF, median-vLF]
     unit: [yearday, yearday, yearday, day, "hm^{3}"]
     name:
-      - Median of the start of low flows
-      - Median of the center of low flows
-      - Median of the end of low flows
-      - Median of the duration of low flows
-      - Median of low flow deficit volumes
+      - Inter-annual median of the start of low flows
+      - Inter-annual median of the center of low flows
+      - Inter-annual median of the end of low flows
+      - Inter-annual median of the duration of low flows
+      - Inter-annual median of low-flow deficit volumes
     description:
       - Median of the dates of the first 10-day mean flow value below the threshold set at the maximum of VCN10
       - Median of the date of the minimal 10-day mean flow value below the threshold set at the maximum of VCN10
@@ -62,11 +62,11 @@ meta:
     variable: [mediane-debutBE, mediane-centreBE, mediane-finBE, mediane-dtBE, mediane-vBE]
     unit: ["jour de l'année", "jour de l'année", "jour de l'année", jour, "hm^{3}"]
     name:
-      - Médiane du début des basses eaux
-      - Médiane du centre des basses eaux
-      - Médiane de la fin des basses eaux
-      - Médiane de la durée des basses eaux
-      - Médiane des volumes de déficit des basses eaux
+      - Médiane inter-annuelle du début des basses eaux
+      - Médiane inter-annuelle du centre des basses eaux
+      - Médiane inter-annuelle de la fin des basses eaux
+      - Médiane inter-annuelle de la durée des basses eaux
+      - Médiane inter-annuelle des volumes de déficit des basses eaux
     description:
       - Médiane des dates de la première valeur de débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10
       - Médiane des dates de la valeur minimale des débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10

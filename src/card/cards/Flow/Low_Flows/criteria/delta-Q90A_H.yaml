@@ -8,9 +8,9 @@ meta:
     variable: [delta-Q90A_H1, delta-Q90A_H2, delta-Q90A_H3]
     unit: "%"
     name:
-      - Average change of annual flow exceeded 9 years out of 10 between the near horizon and historical period
-      - Average change of annual flow exceeded 9 years out of 10 between the middle horizon and historical period
-      - Average change of annual flow exceeded 9 years out of 10 between the distant horizon and historical period
+      - Average change of the daily flow exceeded 90 % of the time within the year between the near horizon and historical period
+      - Average change of the daily flow exceeded 90 % of the time within the year between the middle horizon and historical period
+      - Average change of the daily flow exceeded 90 % of the time within the year between the distant horizon and historical period
     description: Annual flow with an exceedance probability of 90 % (10th percentile)
     method: |
       1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 90 %
@@ -23,9 +23,9 @@ meta:
     variable: [delta-Q90A_H1, delta-Q90A_H2, delta-Q90A_H3]
     unit: "%"
     name:
-      - Changement moyen du débit annuel dépassé 9 années sur 10 entre l'horizon proche et la période historique
-      - Changement moyen du débit annuel dépassé 9 années sur 10 entre l'horizon moyen et la période historique
-      - Changement moyen du débit annuel dépassé 9 années sur 10 entre l'horizon lointain et la période historique
+      - Changement moyen du débit journalier dépassé 90 % du temps de l'année entre l'horizon proche et la période historique
+      - Changement moyen du débit journalier dépassé 90 % du temps de l'année entre l'horizon moyen et la période historique
+      - Changement moyen du débit journalier dépassé 90 % du temps de l'année entre l'horizon lointain et la période historique
     description: Débit annuel avec une probabilité de dépassement de 90 % (centile 10 %)
     method: |
       1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité au dépassement de 90 %

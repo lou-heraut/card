@@ -12,7 +12,8 @@ meta:
     method: |
       1. no temporal aggregation - 10-day centered moving average
       2. annual aggregation [Month of maximum monthly flows] - minimum
-      3. no temporal aggregation - Sen's slope
+      3. no temporal aggregation - Sen's slope of the series where the
+         Mann-Kendall test is significant at a 10 % risk level
     sampling_period: Month of maximum monthly flows
     topic: "Flow, Low Flows, Intensity"
 
@@ -24,7 +25,8 @@ meta:
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
       2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum
-      3. aucune agrégation temporelle - pente de Sen
+      3. aucune agrégation temporelle - pente de Sen de la série dont le
+         test de Mann-Kendall est significatif à un risque de 10 %
     sampling_period: Mois du maximum des débits mensuels
     topic: "Débit, Basses Eaux, Intensité"
 

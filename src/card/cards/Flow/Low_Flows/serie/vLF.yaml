@@ -21,7 +21,7 @@ meta:
     variable: vBE
     unit: "hm^{3}"
     name: Volume de déficit des basses eaux
-    description: Somme des écarts entre de la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil
+    description: Somme des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
       2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum (extraction de la série des VCN10)

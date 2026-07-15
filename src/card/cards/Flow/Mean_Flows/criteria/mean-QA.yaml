@@ -7,7 +7,7 @@ meta:
   en:
     variable: mean-QA
     unit: "m^{3}.s^{-1}"
-    name: Average of annual average daily flow
+    name: Inter-annual mean of the annual mean daily flow
     description: ""
     method: |
       1. annual aggregation [09-01, 08-31] - mean
@@ -18,7 +18,7 @@ meta:
   fr:
     variable: moyenne-QA
     unit: "m^{3}.s^{-1}"
-    name: Moyenne des moyennes annuelles du débit journalier
+    name: Moyenne inter-annuelle du débit moyen annuel
     description: ""
     method: |
       1. agrégation annuelle [01-09, 31-08] - moyenne

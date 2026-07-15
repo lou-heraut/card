@@ -6,7 +6,7 @@ date: "2026-04-28"
 meta:
   en:
     variable: fQ10A
-    unit: "day.year^{-1}"
+    unit: without unit
     name: "Annual frequency of exceeding Q10"
     description: >-
       Annual frequency of exceeding Q > Q10, where Q10 is the flow exceeded
@@ -22,7 +22,7 @@ meta:
 
   fr:
     variable: fQ10A
-    unit: "jour.an^{-1}"
+    unit: sans unité
     name: "Fréquence annuelle de dépassement du Q10"
     description: >-
       Fréquence annuelle de dépassement de Q > Q10, Q10 est le débit dépassé

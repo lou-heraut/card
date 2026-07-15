@@ -7,7 +7,7 @@ meta:
   en:
     variable: median-dtLF
     unit: day
-    name: Median duration of low flows
+    name: Inter-annual median of the duration of low flows
     description: Median of the durations of the longest continuous period with 10-day mean flows below the maximum of VCN10
     method: |
       1. no temporal aggregation - 10-day centered moving average
@@ -21,7 +21,7 @@ meta:
   fr:
     variable: mediane-dtBE
     unit: jour
-    name: Médiane de la durée des basses eaux
+    name: Médiane inter-annuelle de la durée des basses eaux
     description: Médiane des durées de la plus longue période continue de la moyenne sur 10 jours sous le maximum des VCN10
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours

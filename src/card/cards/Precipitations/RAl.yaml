@@ -9,16 +9,16 @@ meta:
     unit: mm
     name: Cumulative annual liquid precipitation
     description: ""
-    method: "1. Annual aggregation [09-01, 08-31] - average"
+    method: "1. Annual aggregation [09-01, 08-31] - sum"
     sampling_period: ["09-01", "08-31"]
     topic: "Precipitations, Moderate, Intensity"
 
   fr:
     variable: RAl
     unit: mm
-    name: Cumul des précipitations liquides annuelles
+    name: Cumul annuel des précipitations liquides
     description: ""
-    method: "1. agrégation annuelle [01-09, 31-08] - moyenne"
+    method: "1. agrégation annuelle [01-09, 31-08] - somme"
     sampling_period: ["01-09", "31-08"]
     topic: "Précipitations, Modérée, Intensité"
 

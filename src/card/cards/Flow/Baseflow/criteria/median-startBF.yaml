@@ -7,7 +7,7 @@ meta:
   en:
     variable: median-startBF
     unit: yearday
-    name: Median start of baseflow
+    name: Inter-annual median of the start of baseflow
     description: >-
       Median of the dates at which 10 % of the annual cumulative baseflow
       is reached
@@ -21,7 +21,7 @@ meta:
   fr:
     variable: mediane-debutQB
     unit: "jour de l'année"
-    name: Médiane du début des écoulements lents
+    name: Médiane inter-annuelle du début des écoulements lents
     description: >-
       Médiane des dates à laquelle 10 % du cumul annuel du débit de base
       sont atteints

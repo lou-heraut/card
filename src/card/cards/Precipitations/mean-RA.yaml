@@ -7,18 +7,18 @@ meta:
   en:
     variable: mean-RA
     unit: mm
-    name: Mean of annual total precipitation accumulations
+    name: Inter-annual mean of the annual total precipitation
     description: ""
-    method: "1. annual aggregation [09-01, 08-31] - mean\n2. no temporal aggregation - average"
+    method: "1. annual aggregation [09-01, 08-31] - sum\n2. no temporal aggregation - average"
     sampling_period: ["09-01", "08-31"]
     topic: "Precipitations, Moderate, Intensity"
 
   fr:
     variable: moyenne-RA
     unit: mm
-    name: Moyenne des cumuls des précipitations totales annuelles
+    name: Moyenne inter-annuelle du cumul annuel des précipitations totales
     description: ""
-    method: "1. agrégation annuelle [01-09, 31-08] - moyenne\n2. aucune agrégation temporelle - moyenne"
+    method: "1. agrégation annuelle [01-09, 31-08] - somme\n2. aucune agrégation temporelle - moyenne"
     sampling_period: ["01-09", "31-08"]
     topic: "Précipitations, Modérée, Intensité"
 

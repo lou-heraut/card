@@ -7,7 +7,13 @@ meta:
   en:
     variable: [delta-tVCN10_winter_H1, delta-tVCN10_winter_H2, delta-tVCN10_winter_H3]
     unit: day
-    name: Average change of the date of the winter minimum of 10-day mean flows between the {horizon} horizon and historical period
+    name:
+      - "Average change of the date of the winter minimum of 10-day mean flows
+         between the near horizon and historical period"
+      - "Average change of the date of the winter minimum of 10-day mean flows
+         between the middle horizon and historical period"
+      - "Average change of the date of the winter minimum of 10-day mean flows
+         between the distant horizon and historical period"
     description: Months from November to April
     method: |
       1. no temporal aggregation - 10-day centered moving average
@@ -20,7 +26,13 @@ meta:
   fr:
     variable: [delta-tVCN10_hiver_H1, delta-tVCN10_hiver_H2, delta-tVCN10_hiver_H3]
     unit: jour
-    name: "Changement moyen de la date du minimum hivernal des débits moyens sur 10 jours entre l'horizon {horizon} et la période historique"
+    name:
+      - "Changement moyen de la date du minimum hivernal des débits moyens sur
+         10 jours entre l'horizon proche et la période historique"
+      - "Changement moyen de la date du minimum hivernal des débits moyens sur
+         10 jours entre l'horizon moyen et la période historique"
+      - "Changement moyen de la date du minimum hivernal des débits moyens sur
+         10 jours entre l'horizon lointain et la période historique"
     description: Mois de novembre à avril
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours

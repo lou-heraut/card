@@ -7,7 +7,7 @@ meta:
   en:
     variable: Q50A
     unit: "m^{3}.s^{-1}"
-    name: Median of annual flows
+    name: Annual median of daily flows
     description: Annual flow with an exceedance probability of 50 % (50th percentile)
     method: "1. annual aggregation [01-01, 12-31] - median"
     sampling_period: ["01-01", "12-31"]
@@ -16,7 +16,7 @@ meta:
   fr:
     variable: Q50A
     unit: "m^{3}.s^{-1}"
-    name: Médiane des débits annuels
+    name: Médiane annuelle des débits journaliers
     description: "Débit annuel avec une probabilité de dépassement de 50 % (centile 50 %)"
     method: "1. agrégation annuelle [01-01, 31-12] - médiane"
     sampling_period: ["01-01", "31-12"]

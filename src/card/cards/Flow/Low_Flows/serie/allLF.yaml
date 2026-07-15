@@ -67,7 +67,7 @@ meta:
       - Date de la valeur minimale des débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10
       - Date de la dernière valeur de débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10
       - Durée de la plus longue séquence continue avec des débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10
-      - Somme des écarts entre de la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil
+      - Somme des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil
     method:
       - |
         1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours

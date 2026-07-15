@@ -7,7 +7,7 @@ meta:
   en:
     variable: median-dtFlood
     unit: day
-    name: "Median duration of floods"
+    name: Inter-annual median of the duration of floods
     description: >-
       Median of the durations of floods sampled by annual maxima
     method: |
@@ -25,7 +25,7 @@ meta:
   fr:
     variable: mediane-dtCrue
     unit: jour
-    name: "Durée médiane des crues"
+    name: Médiane inter-annuelle de la durée des crues
     description: >-
       Médiane des durées des crues échantillonnées par maxima annuel
     method: |

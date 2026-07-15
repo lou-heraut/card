@@ -7,7 +7,7 @@ meta:
   en:
     variable: Q90
     unit: "m^{3}.s^{-1}"
-    name: Flow exceeded 9 years out of 10
+    name: Daily flow exceeded 90 % of the time (whole record)
     description: "Flow with an exceedance probability of 90 % (10th percentile)"
     method: "1. no temporal aggregation - quantile at the exceedance probability of 90 %"
     topic: "Flow, Low Flows, Intensity"
@@ -15,7 +15,7 @@ meta:
   fr:
     variable: Q90
     unit: "m^{3}.s^{-1}"
-    name: Débit dépassé 9 années sur 10
+    name: Débit journalier dépassé 90 % du temps (chronique entière)
     description: "Débit avec une probabilité de dépassement de 90 % (centile 10 %)"
     method: "1. aucune agrégation temporelle - quantile à la probabilité de dépassement de 90 %"
     topic: "Débit, Basses Eaux, Intensité"

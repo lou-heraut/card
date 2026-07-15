@@ -7,7 +7,7 @@ meta:
   en:
     variable: median-centerBF
     unit: yearday
-    name: Median center of baseflow
+    name: Inter-annual median of the center of baseflow
     description: >-
       Median of the dates at which 50 % of the annual cumulative baseflow
       is reached
@@ -21,7 +21,7 @@ meta:
   fr:
     variable: mediane-centreQB
     unit: "jour de l'année"
-    name: Médiane du centre des écoulements lents
+    name: Médiane inter-annuelle du centre des écoulements lents
     description: >-
       Médiane des dates à laquelle 50 % du cumul annuel du débit de base
       sont atteints

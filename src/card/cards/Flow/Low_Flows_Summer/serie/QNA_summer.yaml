@@ -9,7 +9,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Summer minimum of daily discharge
     description: ""
-    method: ""
+    method: "1. annual aggregation [05-01, 11-30] - minimum"
     sampling_period: ["05-01", "11-30"]
     topic: "Flow, Low Flows, Intensity"
 
@@ -18,7 +18,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Minimum estival du débit journalier
     description: ""
-    method: ""
+    method: "1. agrégation annuelle [01-05, 30-11] - minimum"
     sampling_period: ["01-05", "30-11"]
     topic: "Débit, Basses Eaux, Intensité"
 

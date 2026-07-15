@@ -9,7 +9,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Winter minimum of daily discharge
     description: ""
-    method: ""
+    method: "1. annual aggregation [11-01, 04-30] - minimum"
     sampling_period: ["11-01", "04-30"]
     topic: "Flow, Low Flows, Intensity"
 
@@ -18,7 +18,7 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Minimum hivernal du débit journalier
     description: ""
-    method: ""
+    method: "1. agrégation annuelle [01-11, 30-04] - minimum"
     sampling_period: ["01-11", "30-04"]
     topic: "Débit, Basses Eaux, Intensité"
 
