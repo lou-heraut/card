@@ -1,6 +1,6 @@
 # Catalogue des fiches CARD
 
-226 fiches, 607 variables. Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.
+226 fiches, 602 variables. Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.
 
 Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entrées* indique les colonnes que `data` doit contenir (cf. `rename=` pour la correspondance). Détail d'une fiche : `card.info("nom")`.
 
@@ -214,11 +214,11 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 
 | fiche | variable(s) | nom | unité | entrées | exp. |
 |---|---|---|---|---|---|
-| [FDC](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Mean_Flows/serie/FDC.yaml) | FDC_p, FDC_Q | Probabilités de dépassement de la courbe des débits classés | without unit | Q |  |
-| [FDC_H0](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Mean_Flows/serie/FDC_H0.yaml) | FDC_H0_p, FDC_H0_Q | Probabilités de dépassement de la courbe des débits classés (période historique) | without unit | Q |  |
-| [FDC_H1](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Mean_Flows/serie/FDC_H1.yaml) | FDC_H1_p, FDC_H1_Q | Probabilités de dépassement de la courbe des débits classés (horizon proche) | without unit | Q |  |
-| [FDC_H2](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Mean_Flows/serie/FDC_H2.yaml) | FDC_H2_p, FDC_H2_Q | Probabilités de dépassement de la courbe des débits classés (horizon moyen) | without unit | Q |  |
-| [FDC_H3](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Mean_Flows/serie/FDC_H3.yaml) | FDC_H3_p, FDC_H3_Q | Probabilités de dépassement de la courbe des débits classés (horizon lointain) | without unit | Q |  |
+| [FDC](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Mean_Flows/serie/FDC.yaml) | FDC | Courbe des débits classés | m^{3}.s^{-1} | Q |  |
+| [FDC_H0](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Mean_Flows/serie/FDC_H0.yaml) | FDC_H0 | Courbe des débits classés de la période historique | m^{3}.s^{-1} | Q |  |
+| [FDC_H1](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Mean_Flows/serie/FDC_H1.yaml) | FDC_H1 | Courbe des débits classés de l'horizon proche | m^{3}.s^{-1} | Q |  |
+| [FDC_H2](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Mean_Flows/serie/FDC_H2.yaml) | FDC_H2 | Courbe des débits classés de l'horizon moyen | m^{3}.s^{-1} | Q |  |
+| [FDC_H3](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Mean_Flows/serie/FDC_H3.yaml) | FDC_H3 | Courbe des débits classés de l'horizon lointain | m^{3}.s^{-1} | Q |  |
 | [Q25A](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Mean_Flows/serie/Q25A.yaml) | Q25A | Troisième quartile annuel des débits journaliers | m^{3}.s^{-1} | Q |  |
 | [Q50A](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Mean_Flows/serie/Q50A.yaml) | Q50A | Médiane annuelle des débits journaliers | m^{3}.s^{-1} | Q |  |
 | [Q75A](https://github.com/lou-heraut/card/blob/main/src/card/cards/Flow/Mean_Flows/serie/Q75A.yaml) | Q75A | Premier quartile annuel des débits journaliers | m^{3}.s^{-1} | Q |  |

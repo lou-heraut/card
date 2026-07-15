@@ -231,7 +231,16 @@ Le guide est **validé** avec les décisions suivantes :
    c'est la composante α du KGE (Gupta et al. 2009, à citer en
    description). Changement d'id et de sortie accepté, tracé dans
    RENAMING.md.
-7. **Rc → `QR_ratio`** (audit A6) : le calcul ΣQ/ΣR est conservé tel
+7. **Métadonnées listes : seulement pour de vraies variables
+   distinctes** (précision du 2026-07-16, sur retour utilisateur).
+   Une fiche dont les colonnes de sortie sont les *coordonnées d'un
+   même objet* (FDC : `FDC_p`/`FDC_Q` = le x et le y de la courbe)
+   garde un `variable`/`name`/`unit` **uniques** — le name nomme la
+   variate, pas les axes ; les colonnes sont expliquées en
+   `description`. Les listes restent la règle quand les sorties sont
+   des variables différentes (alpha- : pente + test ; RA_all : trois
+   cumuls).
+8. **Rc → `QR_ratio`** (audit A6) : le calcul ΣQ/ΣR est conservé tel
    quel sous un nom honnête (« Rapport des cumuls débit sur
    précipitations », m³·s⁻¹·mm⁻¹), proportionnel au coefficient de
    ruissellement via la surface — adapté au suivi temporel d'une

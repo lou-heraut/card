@@ -29,7 +29,10 @@ en reflète la fr : toute correction est à faire dans les deux langues.
      débits en relatif → % ; fréquences : cf. point ouvert B2.
    - B3 : delta de volumes en relatif → %.
    - C2 : multi-sorties ⇒ métadonnées en listes (le broadcast d'un
-     scalaire est jugé trop piégeux).
+     scalaire est jugé trop piégeux). **Amendé le 2026-07-16** : ne
+     vaut que pour de vraies variables distinctes ; les FDC* gardent
+     un name unique (les colonnes p/Q sont les coordonnées d'une même
+     courbe, expliquées en description) — cf. NOMENCLATURE.md §9.7.
    - C3 : renommage `median-finLF` → `median-endLF` accepté (à tracer
      dans RENAMING.md).
    - C4 : accepté, et **étendre le catalogue** : créer les fiches

@@ -5,22 +5,25 @@ date: "2026-04-30"
 
 meta:
   en:
-    variable: [FDC_p, FDC_Q]
-    unit: [without unit, "m^{3}.s^{-1}"]
-    name:
-      - "Exceedance probabilities of the flow duration curve"
-      - "Flow quantiles of the flow duration curve"
-    description: ""
+    variable: FDC
+    unit: "m^{3}.s^{-1}"
+    name: Flow duration curve
+    description: >-
+      Curve of flow quantiles as a function of exceedance probability;
+      the card outputs its two coordinates (FDC_p, unitless
+      probabilities; FDC_Q, flow quantiles)
     method: "1. no temporal aggregation - flow duration curves with 1000 points spaced according to a centered reduced normal distribution."
     topic: "Flow, Mean Flows, Intensity"
 
   fr:
-    variable: [CDC_p, CDC_Q]
-    unit: [sans unité, "m^{3}.s^{-1}"]
-    name:
-      - "Probabilités de dépassement de la courbe des débits classés"
-      - "Quantiles de débit de la courbe des débits classés"
-    description: ""
+    variable: CDC
+    unit: "m^{3}.s^{-1}"
+    name: Courbe des débits classés
+    description: >-
+      Courbe des quantiles de débit en fonction de la probabilité de
+      dépassement ;
+      la fiche produit ses deux coordonnées (FDC_p, probabilités
+      sans unité ; FDC_Q, quantiles de débit)
     method: "1. aucune agrégation temporelle - courbes des débits classés avec 1000 points espacés selon une loi normale centrée réduite"
     topic: "Débit, Moyennes Eaux, Intensité"
 
