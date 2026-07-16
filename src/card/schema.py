@@ -191,6 +191,47 @@ def _check_process(proc, issues):
             )
 
 
+# Convention des fenêtres adaptatives : le sens de l'adaptatif (couper
+# l'année là où le phénomène est absent) et la fenêtre fixe de repli
+# (preferred_sampling_period, prise par sampling_period="preferred" à
+# l'extraction) sont fixés par le PHÉNOMÈNE, pas fiche par fiche.
+_ADAPTIVE_BY_PHENOMENON = {
+    "low flows":  ("nanmax", "01-01"),
+    "high flows": ("nanmin", "09-01"),
+}
+
+
+def _check_adaptive_convention(card, issues):
+    adaptive_fns = {proc["sampling_period"]["func"]["fn_name"]
+                    for proc in card["processes"]
+                    if isinstance(proc["sampling_period"], dict)}
+    if not adaptive_fns:
+        return
+    preferred = card["meta"]["global"].get("preferred_sampling_period")
+    if not preferred:
+        issues.append(
+            "sampling_period adaptatif sans "
+            "meta.global.preferred_sampling_period : la fenêtre fixe de "
+            "repli est requise (cf. sampling_period='preferred')"
+        )
+    phen = card["meta"]["en"].get("classification", {}).get("phenomenon")
+    for p in (phen if isinstance(phen, list) else [phen] if phen else []):
+        conv = _ADAPTIVE_BY_PHENOMENON.get(p)
+        if conv is None:
+            continue
+        fn_expected, pref_expected = conv
+        if adaptive_fns != {fn_expected}:
+            issues.append(
+                f"adaptatif {sorted(adaptive_fns)} incompatible avec "
+                f"phenomenon '{p}' (convention : {fn_expected})"
+            )
+        if preferred and preferred != pref_expected:
+            issues.append(
+                f"preferred_sampling_period {preferred!r} incompatible "
+                f"avec phenomenon '{p}' (convention : '{pref_expected}')"
+            )
+
+
 _CL_KEYS = ("domain", "phenomenon", "aspect", "season", "output", "purpose")
 _CL_REQUIRED = ("domain", "season", "output")
 
@@ -263,6 +304,7 @@ def validate_card(path) -> list[str]:
         _check_process(proc, issues)
 
     _check_window_coherence(card, issues)
+    _check_adaptive_convention(card, issues)
     _check_classification(card, issues)
     _check_path_coherence(card, Path(path), issues)
     _check_inputs(card, issues)

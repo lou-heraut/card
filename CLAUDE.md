@@ -87,6 +87,12 @@ Règles clés (détail : NOMENCLATURE.md) :
   une variable amont ({lim: upLim}) résolu dynamiquement ; littéraux
   positionnels permis ; `true` final = is_date.
 - **sampling_period adaptatif** : `{type: adaptive, func: [nanmax, "Q"]}`.
+  Convention PAR PHÉNOMÈNE (linter) : low flows = nanmax + preferred
+  01-01 ; high flows = nanmin + preferred 09-01 ; toute fiche adaptative
+  doit déclarer un preferred_sampling_period. À l'exécution,
+  `card.extract(..., sampling_period="preferred"|"MM-DD")` écrase les
+  fenêtres ANNUELLES (protocole MAKAHO = "preferred") ; les fenêtres
+  partielles [début, fin] font partie de la définition, jamais écrasées.
 - **horizons** : déclarés dans meta.global.horizons, référencés `$H0..$H3`.
 - **défauts à omettre** : meta.global — is_date false, relative true,
   is_experimental false, source/palette/preferred null, input_vars "X" ;

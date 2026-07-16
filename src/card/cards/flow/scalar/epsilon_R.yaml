@@ -1,7 +1,7 @@
 id: epsilon_R
-version: "1.0"
+version: "1.0.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-26"
+date: "2026-07-16"
 
 meta:
   en:
@@ -32,6 +32,7 @@ meta:
 
   global:
     input_vars: "Q, R"
+    preferred_sampling_period: "09-01"
     source: |
       SANKARASUBRAMANIAN, A., R. M. VOGEL et J. F. LIMBRUNNER (1991). « Climate elasticity of streamflow in the United States ». In : Water Resour. Res. 37, p. 1771-1781.
 

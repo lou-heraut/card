@@ -24,6 +24,7 @@ colonnes, colonnes creuses, NA...).
 """
 
 import os
+import re
 import warnings
 from pathlib import Path
 
@@ -78,14 +79,44 @@ def _sampling_period(sp):
     return sp                       # None, "MM-DD" ou ["MM-DD", "MM-DD"]
 
 
+_MMDD_RE = re.compile(r"^\d{2}-\d{2}$")
+
+
+def _override_sampling(sp, override, preferred, card_id):
+    """Applique le paramètre sampling_period= d'extract à un process.
+
+    Seules les fenêtres ANNUELLES sont écrasées (adaptatives ou fixes
+    'MM-DD') : une fenêtre partielle [début, fin] restreint les données
+    à une sous-période et fait partie de la définition de la variable,
+    elle n'est jamais touchée. Un process sans sampling_period reste
+    sans fenêtre.
+    """
+    if override is None or sp is None or isinstance(sp, list):
+        return sp
+    if override == "preferred":
+        if preferred:
+            return preferred
+        if isinstance(sp, dict):        # adaptatif sans repli déclaré
+            raise ValueError(
+                f"sampling_period='preferred' : la fiche {card_id} a une "
+                "fenêtre adaptative mais ne déclare pas de "
+                "meta.global.preferred_sampling_period."
+            )
+        return sp                       # fenêtre fixe = déjà 'preferred'
+    return override
+
+
 def _run_process(data, proc, period_default=None, cancel_lim=False,
+                 sampling_override=None, preferred=None, card_id="",
                  verbose=False):
     period = proc["period"] if proc["period"] is not None else period_default
+    sp = _override_sampling(proc["sampling_period"], sampling_override,
+                            preferred, card_id)
     return process_extraction(
         data,
         func={e["name"]: _funct_tuple(e) for e in proc["func"]},
         time_step=proc["time_step"],
-        sampling_period=_sampling_period(proc["sampling_period"]),
+        sampling_period=_sampling_period(sp),
         period=period,
         max_na_pct=None if cancel_lim else proc["max_na_pct"],
         max_na_years=None if cancel_lim else proc["max_na_years"],
@@ -278,6 +309,7 @@ def _find_cards(CARD_path, CARD_name):
 
 def extract(data, cards=("QA", "QJXA"), path=None,
             default_period=None, ignore_na_limits=False,
+            sampling_period=None,
             simplify=False, metadata_only=False,
             rename=None, verbose=False, CARD_name=None):
     """Extrait des variables hydroclimatiques selon des fiches CARD YAML.
@@ -293,6 +325,13 @@ def extract(data, cards=("QA", "QJXA"), path=None,
     default_period : [début, fin] appliqué aux fiches sans période propre.
     ignore_na_limits : désactive les seuils de lacunes des fiches
            (max_na_pct, max_na_years).
+    sampling_period : écrase la fenêtre annuelle des fiches.
+           "preferred" : chaque fiche prend SON
+           meta.global.preferred_sampling_period (protocole MAKAHO,
+           reproductible : la fenêtre adaptative dépend des données).
+           "MM-DD" (ex. "09-01") : fenêtre imposée. Ne touche ni les
+           fenêtres partielles [début, fin] (définition de la
+           variable), ni les process sans fenêtre.
     simplify : fusionne les DataFrames de sortie en un seul.
     metadata_only : ne calcule rien, retourne seulement les métadonnées.
     rename : dict {nom_colonne_data: nom_variable_fiche} pour faire
@@ -312,6 +351,16 @@ def extract(data, cards=("QA", "QJXA"), path=None,
     period_default = default_period
     cancel_lim = ignore_na_limits
     extract_only_metadata = metadata_only
+
+    if sampling_period is not None and not (
+            sampling_period == "preferred"
+            or (isinstance(sampling_period, str)
+                and _MMDD_RE.match(sampling_period))):
+        raise ValueError(
+            f"sampling_period invalide : {sampling_period!r}. Valeurs "
+            "acceptées : 'preferred' (fenêtre fixe déclarée par chaque "
+            "fiche) ou 'MM-DD' (ex. '09-01')."
+        )
     if CARD_path is None:
         CARD_path = os.environ.get("CARD_YML_PATH", _DEFAULT_CARD_DIR)
 
@@ -339,10 +388,14 @@ def extract(data, cards=("QA", "QJXA"), path=None,
             print(f"Computes {name}")
         result = (data.rename(columns=auto_map[name])
                   if name in auto_map else data)
+        preferred = card["meta"]["global"].get("preferred_sampling_period")
         for proc in card["processes"]:
             result = _run_process(result, proc,
                                   period_default=period_default,
                                   cancel_lim=cancel_lim,
+                                  sampling_override=sampling_period,
+                                  preferred=preferred,
+                                  card_id=name,
                                   verbose=verbose)
         dataEX[name] = result
 
