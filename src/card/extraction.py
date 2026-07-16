@@ -176,6 +176,8 @@ def _meta_rows(card) -> pd.DataFrame:
         "output_fr": cfield(fr, "output"),
         "purpose_fr": cfield(fr, "purpose"),
         "operator": [operator(v) for v in _as_list(variable_en, n)],
+        "functions": [", ".join(dict.fromkeys(
+            e["fn_name"] for p in card["processes"] for e in p["func"]))] * n,
         "is_experimental": _as_list(gl.get("is_experimental"), n),
         "input_vars": _as_list(gl.get("input_vars"), n),
         "source": _as_list(gl.get("source"), n),

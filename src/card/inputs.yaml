@@ -1,0 +1,18 @@
+# Registre des variables d'entrée des fiches (unités et définitions).
+# Les unités sont des invariants du corpus : elles vivent ici, pas dans
+# les fiches. Le linter vérifie que tout input_vars est au registre ;
+# card.info() et le catalogue affichent unité et définition.
+
+Q:       {unit: "m^{3}.s^{-1}", en: mean daily discharge, fr: débit journalier moyen}
+Q_obs:   {unit: "m^{3}.s^{-1}", en: observed mean daily discharge, fr: débit journalier moyen observé}
+Q_sim:   {unit: "m^{3}.s^{-1}", en: simulated mean daily discharge, fr: débit journalier moyen simulé}
+R:       {unit: mm, en: daily total precipitation, fr: cumul journalier de précipitations}
+Rl:      {unit: mm, en: daily liquid precipitation, fr: cumul journalier de précipitations liquides}
+Rs:      {unit: mm, en: daily solid precipitation, fr: cumul journalier de précipitations solides}
+R_obs:   {unit: mm, en: observed daily total precipitation, fr: cumul journalier de précipitations observé}
+R_sim:   {unit: mm, en: simulated daily total precipitation, fr: cumul journalier de précipitations simulé}
+T:       {unit: "°C", en: mean air temperature, fr: température moyenne de l'air}
+T_obs:   {unit: "°C", en: observed mean air temperature, fr: température moyenne de l'air observée}
+ETP:     {unit: mm, en: daily potential evapotranspiration, fr: évapotranspiration potentielle journalière}
+ET0_obs: {unit: mm, en: daily reference evapotranspiration, fr: évapotranspiration de référence journalière}
+S:       {unit: "km^{2}", en: catchment area (constant column), fr: surface du bassin (colonne constante)}

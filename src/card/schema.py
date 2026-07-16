@@ -47,6 +47,8 @@ from .loader import load_card
 
 _VOCAB_PATH = Path(__file__).parent / "topics.yaml"
 _VOCAB = None
+_INPUTS_PATH = Path(__file__).parent / "inputs.yaml"
+_INPUTS = None
 
 
 def _vocab():
@@ -54,6 +56,25 @@ def _vocab():
     if _VOCAB is None:
         _VOCAB = yaml.safe_load(_VOCAB_PATH.read_text(encoding="utf-8"))
     return _VOCAB
+
+
+def input_registry():
+    """Registre {variable d'entrée: {unit, en, fr}} (inputs.yaml)."""
+    global _INPUTS
+    if _INPUTS is None:
+        _INPUTS = yaml.safe_load(_INPUTS_PATH.read_text(encoding="utf-8"))
+    return _INPUTS
+
+
+def _check_inputs(card, issues):
+    raw = card["meta"]["global"].get("input_vars", "X")
+    for var in str(raw).split(","):
+        var = var.strip()
+        if var and var != "X" and var not in input_registry():
+            issues.append(
+                f"input_vars: '{var}' absent du registre des entrées "
+                "(src/card/inputs.yaml)"
+            )
 
 _VALID_TIME_STEPS = {"year", "year-month", "month", "year-season",
                      "season", "yearday", "none"}
@@ -244,6 +265,7 @@ def validate_card(path) -> list[str]:
     _check_window_coherence(card, issues)
     _check_classification(card, issues)
     _check_path_coherence(card, Path(path), issues)
+    _check_inputs(card, issues)
     return issues
 
 

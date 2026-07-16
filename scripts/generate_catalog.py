@@ -25,6 +25,17 @@ sys.path.insert(0, str(ROOT.parent.parent / "EXstat_project" / "stase" / "src"))
 
 from card.extraction import _DEFAULT_CARD_DIR, _find_cards, _meta_rows  # noqa: E402
 from card.loader import load_card  # noqa: E402
+from card.schema import input_registry  # noqa: E402
+
+
+def _inputs_with_units(raw):
+    reg = input_registry()
+    out = []
+    for var in str(raw).split(","):
+        var = var.strip()
+        unit = reg.get(var, {}).get("unit")
+        out.append(f"{var} [{unit}]" if unit else var)
+    return ", ".join(out)
 
 OUT = ROOT / "docs" / "CARDS.md"
 
@@ -65,7 +76,7 @@ def main():
             variables = ", ".join(str(v) for v in meta["variable_en"])
             label = str(meta["name_fr"].iloc[0]) or str(meta["name_en"].iloc[0])
             unit = str(meta["unit_en"].iloc[0])
-            inputs = str(meta["input_vars"].iloc[0])
+            inputs = _inputs_with_units(meta["input_vars"].iloc[0])
             exp = "⚠" if bool(meta["is_experimental"].iloc[0]) else ""
 
             def facet(col):

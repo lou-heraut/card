@@ -65,7 +65,7 @@ def test_list_all_filters():
 def test_card_info(capsys):
     meta = info("QA")
     out = capsys.readouterr().out
-    assert meta["input_vars"] == "Q"
+    assert meta["input_vars"].startswith("Q [m^{3}.s^{-1}]")
     assert meta["id"] == "QA"
     assert "QA" in out and "input_vars" in out
 

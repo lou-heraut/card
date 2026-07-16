@@ -27,11 +27,25 @@ import pandas as pd
 
 from .extraction import _DEFAULT_CARD_DIR, _find_cards, _meta_rows
 from .loader import load_card
+from .schema import input_registry
+
+
+def _describe_inputs(raw, lang="fr"):
+    """'Q, R' -> 'Q [m^{3}.s^{-1}] (débit journalier moyen), R [mm] (...)'."""
+    if not raw:
+        return raw
+    reg = input_registry()
+    parts = []
+    for var in str(raw).split(","):
+        var = var.strip()
+        entry = reg.get(var)
+        parts.append(f"{var} [{entry['unit']}] ({entry[lang]})" if entry else var)
+    return ", ".join(parts)
 
 
 def list_cards(path=None, include_experimental=False,
                domain=None, phenomenon=None, aspect=None, season=None,
-               output=None, purpose=None, operator=None,
+               output=None, purpose=None, operator=None, function=None,
                variable=None, search=None) -> pd.DataFrame:
     """Liste toutes les fiches CARD disponibles avec leurs métadonnées.
 
@@ -48,6 +62,8 @@ def list_cards(path=None, include_experimental=False,
     purpose    : finalité ('performance', 'sensitivity').
     operator   : opérateur dérivé du préfixe de l'id ('delta', 'median',
                  'mean', 'trend slope', 'trend test', 'count').
+    function   : sous-chaîne d'un nom de fonction du process
+                 (ex. 'baseflow', 'rollmean', 'delta').
     variable   : sous-chaîne du nom de variable (ex. 'VCN').
     search     : sous-chaîne cherchée dans nom, description et variable.
     """
@@ -75,6 +91,7 @@ def list_cards(path=None, include_experimental=False,
         (output, ["output_fr", "output_en"]),
         (purpose, ["purpose_fr", "purpose_en"]),
         (operator, ["operator"]),
+        (function, ["functions"]),
     ]:
         if needle is not None:
             metaEX = metaEX[_contains(cols, needle)]
@@ -115,7 +132,7 @@ def info(name, path=None, lang="fr") -> dict:
         "method": _fmt(meta_l.get("method")),
         "sampling_period": _fmt(meta_l.get("sampling_period")),
         **{k: _fmt(v) for k, v in (meta_l.get("classification") or {}).items()},
-        "input_vars": meta_g.get("input_vars"),
+        "input_vars": _describe_inputs(meta_g.get("input_vars"), lang),
         "is_experimental": bool(meta_g.get("is_experimental", False)),
         "path": str(found[name]),
     }
