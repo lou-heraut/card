@@ -1,10 +1,13 @@
 # API — architecture de l'écosystème et ébauche du service
 
-> Réflexion du 2026-07-16, à arbitrer. L'aspect commercial est écarté
-> (décision utilisateur : les statistiques d'usage valent plus, comme
-> preuve d'impact pour les financements, que des recettes de niche) —
-> le service sera ouvert, avec clés et quotas pour la robustesse et
-> les statistiques, pas pour la facturation.
+> Réflexion du 2026-07-16, **arbitrée le jour même** : repo `card-api`,
+> service full public sans clé (modèle Hub'Eau) avec quota par IP,
+> file d'attente bornée + motif job pour les grosses demandes, clés de
+> priorité gratuites à la demande pour les besoins massifs ; extract
+> ET trend en v1, multi-stations + plage temporelle + liste de fiches ;
+> données utilisateur (POST) reportées. Aspect commercial écarté (les
+> statistiques d'usage valent plus, comme preuve d'impact pour les
+> financements, que des recettes de niche).
 
 ## 1. Où ranger quoi — la carte de l'écosystème
 
@@ -60,24 +63,35 @@ Préfixe `/v1` dès le départ.
 
 ### Calcul
 
-- `GET /v1/extract?station=H5920010&cards=QA,VCN10&start=1970&end=2020`
-  — télécharge la chronique journalière Hub'Eau
+- `GET /v1/extract?stations=H5920010,K0550010&cards=QA,VCN10&start=1970-09-01&end=2020-08-31`
+  — télécharge les chroniques journalières Hub'Eau
   (`hydrometrie/obs_elab`, QmnJ), exécute card, renvoie
-  `{meta, metaEX, dataEX}` ; `&format=csv` possible.
-- `POST /v1/extract` (corps = CSV/JSON d'une chronique fournie par
-  l'utilisateur, taille plafonnée) — même calcul sur des données
-  privées, rien n'est conservé côté serveur.
-- `GET /v1/trend?station=...&cards=QA,VCN10&mk=INDE` — enchaîne
-  extraction + `stase.trend` (Mann-Kendall/Sen) : le service rend le
-  diagnostic de stationnarité complet, à la MAKAHO.
+  `{meta, metaEX, dataEX}` ; `&format=csv` possible. `stations` est
+  une liste (plafonnée en public, déplafonnée avec clé de priorité) ;
+  `start`/`end` optionnels (défaut : chronique complète).
+- `GET /v1/trend?stations=...&cards=QA,VCN10&mk=INDE` — enchaîne
+  extraction + `stase.trend` (Mann-Kendall/Sen) : le diagnostic de
+  stationnarité complet, à la MAKAHO. Mêmes paramètres qu'extract.
+- Grosses demandes (au-delà d'un seuil stations×fiches) : motif
+  **job** — la requête renvoie `{job_id}`, résultat sur
+  `GET /v1/jobs/{id}` quand il est prêt.
+- (reporté) `POST /v1/extract` sur données fournies par l'utilisateur.
 
-### Infrastructure
+### Infrastructure — accès en trois étages (modèle Hub'Eau)
 
-- **Clés d'API** gratuites (auto-service ou sur demande), quota par
-  clé (protège la VM et Hub'Eau), en-tête `X-API-Key`.
-- **Journal d'usage** : (clé, endpoint, station, fiches, date) →
-  la matière première des bilans d'impact pour les dossiers de
-  financement.
+1. **Public sans clé** (défaut) : quota par IP (requêtes/minute) et
+   plafond de stations par appel — zéro friction.
+2. **File d'attente bornée** avec travailleurs pour les endpoints de
+   calcul : en saturation le service fait patienter (429 +
+   Retry-After, ou motif job), il ne s'écroule pas.
+3. **Clés de priorité** gratuites, attribuées à la demande (manuel au
+   début) : passage devant dans la file + plafonds levés, pour les
+   besoins massifs (en-tête `X-API-Key`). Pas d'inscription pour
+   l'usage normal.
+
+- **Journal d'usage** anonymisé (IP hachée, endpoint, stations,
+  fiches, date) → la matière première des bilans d'impact pour les
+  dossiers de financement, sans gestion de comptes.
 - **Cache à deux étages** : chroniques par station (TTL quotidien —
   les séries validées bougent peu) ; résultats d'extraction par
   (station, fiche, version de fiche) — l'invalidation est offerte par
@@ -90,7 +104,8 @@ Préfixe `/v1` dès le départ.
 1. Squelette card-api : FastAPI + `GET /v1/cards` (zéro réseau, juste
    card) — déployable immédiatement, valide la chaîne VM.
 2. Client Hub'Eau + cache + `GET /v1/extract` sur quelques fiches.
-3. Clés/quotas/journal, puis `POST /v1/extract` et `/v1/trend`.
+3. Quotas IP + file bornée + journal, puis `/v1/trend` et le motif
+   job ; clés de priorité en dernier (config manuelle).
 4. Page de doc auto (OpenAPI/Swagger, gratuite avec FastAPI) liée
    depuis les Pages card.
 
@@ -117,12 +132,14 @@ la classification, qui vit dans card (source de vérité :
 - L'API peut exposer `GET /v1/concepts` en renvoyant vers ces URIs —
   mais la vérité reste dans card.
 
-## 5. À arbitrer
+## 5. Arbitrages (rendus le 2026-07-16)
 
-1. Nom du repo service : `card-api` (nom de travail) — autre idée ?
-2. `POST /v1/extract` (données utilisateur) en v1 ou plus tard ?
-3. `/v1/trend` en v1 (c'est la valeur MAKAHO) ou v1.1 ?
-4. Clés d'API : auto-service (formulaire) ou attribution manuelle au
-   début (plus simple, suffisant pour démarrer) ?
-5. w3id.org pour les URIs SKOS : ok pour déposer la demande le moment
-   venu ?
+1. Nom du repo : **card-api**.
+2. `POST /v1/extract` (données utilisateur) : **reporté**.
+3. `/v1/trend` : **en v1** avec extract ; multi-stations, plage
+   temporelle et liste de fiches sur les deux.
+4. Accès : **full public sans clé** (quota IP bas) + file d'attente
+   bornée/motif job en cas de charge + **clés de priorité gratuites à
+   la demande** pour les besoins massifs (attribution manuelle).
+5. w3id.org pour les URIs SKOS : à confirmer le moment venu (pas
+   bloquant).
