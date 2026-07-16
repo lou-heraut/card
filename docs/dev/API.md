@@ -99,6 +99,18 @@ Préfixe `/v1` dès le départ.
 - Respecter la politique de débit Hub'Eau (taille de page, pauses) ;
   bannière de provenance des données (Licence Ouverte, eaufrance).
 
+## 2 bis. Déploiement : Docker (arbitré 2026-07-16)
+
+`docker compose` à deux services sur la VM :
+- **api** : image card-api (uvicorn+FastAPI) qui installe card et
+  stase depuis GitHub à révision épinglée (traçabilité : API x.y =
+  card @tag + stase @tag) ; concurrence bornée en-process (sémaphore
+  sur les endpoints de calcul) — pas de Redis/worker externe en v1 ;
+- **caddy** : reverse proxy, HTTPS automatique (Let's Encrypt) ;
+- volume persistant pour le cache des chroniques et le journal d'usage.
+Mise à jour = `docker compose pull && up -d` ; SKOS mis de côté pour
+l'instant (chantier indépendant, cf. §4 et CHANTIERS §6).
+
 ## 3. Étapes proposées
 
 1. Squelette card-api : FastAPI + `GET /v1/cards` (zéro réseau, juste
