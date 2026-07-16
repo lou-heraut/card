@@ -26,7 +26,7 @@ src/card/
                              #   le linter impose chemin == classification
   functions/     # fonctions hydro portées de R
   loader.py      # YAML -> processus ($Hx, tuples func, défauts)
-  extraction.py  # card.extract (chaîne P1..Pn via stase) ; metaEX
+  extraction.py  # card.extract -> {data, meta} (chaîne P1..Pn via stase)
   management.py  # list_cards (filtres par facette), info, copy_cards
   schema.py      # linter : python -m card.schema
   topics.yaml    # vocabulaire de contrôle de la classification (en/fr)
@@ -111,10 +111,18 @@ Règles clés (détail : NOMENCLATURE.md) :
   (parité R rompue documentée) + goldens re-figés.
 - Pas de PDF ni de `*~` sous git.
 
-## État (2026-07-16)
+## État (2026-07-16, soir)
 
-Audit des 215 fiches appliqué (4 lots) puis classification à facettes
-déployée (fiches, API, linter, catalogue, arborescence) ; corpus =
-226 fiches. En attente côté utilisateur : push GitHub, demande PEP 541
-(nom PyPI `card`, repli card-stase), signalement amont des 11 fiches
-cassées dans le package R. Pistes ouvertes : docs/dev/CHANTIERS.md.
+Audit des fiches appliqué (4 lots) puis classification à facettes
+déployée (fiches, API, linter, catalogue, arborescence cards/<domain>/
+<output>/) ; corpus = 226 fiches ; tout poussé sur GitHub.
+`card.extract` retourne {"data", "meta"} — les alias dataEX/metaEX
+n'existent plus (la sortie est de la donnée comme une autre : elle
+repart en entrée d'extract ou de stase.trend).
+
+**Écosystème** : le service web vit dans le repo séparé
+`../card-api/` (FastAPI + Hub'Eau + quotas + journal, conception dans
+docs/dev/API.md, son propre CLAUDE.md) — prêt à déployer sur la VM
+(make env / make up). En attente utilisateur : PEP 541 (nom PyPI
+`card`, repli card-stase), signalement amont des 11 fiches cassées
+dans le package R, déploiement VM. Pistes : docs/dev/CHANTIERS.md.
