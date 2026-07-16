@@ -27,6 +27,8 @@ src/card/
   functions/     # fonctions hydro portées de R
   loader.py      # YAML -> processus ($Hx, tuples func, défauts)
   extraction.py  # card.extract -> {data, meta} (chaîne P1..Pn via stase)
+  trend.py       # card.trend : stase.trend fiche-conscient (refus explicite
+                 #   des fiches non `output: series`, meta -> relative)
   management.py  # list_cards (filtres par facette), info, copy_cards
   schema.py      # linter : python -m card.schema
   topics.yaml    # vocabulaire de contrôle de la classification (en/fr)
@@ -110,15 +112,28 @@ Règles clés (détail : NOMENCLATURE.md) :
 - Changement de sorties = bump version majeur + trace RENAMING.md
   (parité R rompue documentée) + goldens re-figés.
 - Pas de PDF ni de `*~` sous git.
+- Pas de tiret quadratin (—) dans la prose (docs, messages, commentaires,
+  réponses) : reformuler (deux points, parenthèses, phrases séparées).
+  Perçu comme un marqueur de texte IA, rebute des utilisateurices.
 
 ## État (2026-07-16, soir)
 
 Audit des fiches appliqué (4 lots) puis classification à facettes
 déployée (fiches, API, linter, catalogue, arborescence cards/<domain>/
 <output>/) ; corpus = 226 fiches ; tout poussé sur GitHub.
-`card.extract` retourne {"data", "meta"} — les alias dataEX/metaEX
-n'existent plus (la sortie est de la donnée comme une autre : elle
-repart en entrée d'extract ou de stase.trend).
+`card.extract` retourne {"data", "meta"} (les alias dataEX/metaEX
+n'existent plus). `card.trend` (2026-07-16) prend ce retour tel quel
+(défaut AR1, refus des fiches non `series`) ; card-api l'utilise au
+lieu de recoder la glue. Revue critique de stase FAITE (2026-07-16
+soir), corrections dans stase 0.2 : seuil max_na_pct comparé au NApct
+exact, grille temporelle matérialisée (lignes absentes = NaN par
+série, résolution détectée par série avec erreur si mixte, keep='all'
+rend la grille complète, process_trend réindexe ses séries agrégées).
+Les chroniques Hub'Eau trouées sont donc sûres (max_na_years, dates
+d'extremum, fenêtres glissantes, pente de Sen : biais mesuré +38 %
+avant correction). Équivalence trouée/dense testée : stase
+tests/test_grid.py, card tests/test_gap_robustness.py. Reste une
+passe anti-quadratin sur toutes les docs (demandée, non faite).
 
 **Écosystème** : le service web vit dans le repo séparé
 `../card-api/` (FastAPI + Hub'Eau + quotas + journal, conception dans
