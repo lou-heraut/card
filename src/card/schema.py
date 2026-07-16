@@ -243,7 +243,29 @@ def validate_card(path) -> list[str]:
 
     _check_window_coherence(card, issues)
     _check_classification(card, issues)
+    _check_path_coherence(card, Path(path), issues)
     return issues
+
+
+def _check_path_coherence(card, path, issues):
+    """L'arborescence cards/<domain>/<output>/ doit refléter la
+    classification (domaine premier si liste). Ignoré hors d'un dossier
+    'cards' (fiches de test, copies utilisateur)."""
+    parts = path.resolve().parts
+    if "cards" not in parts or parts.index("cards") != len(parts) - 4:
+        return
+    cl = card["meta"]["en"].get("classification")
+    if not isinstance(cl, dict):
+        return                            # déjà signalé par ailleurs
+    dom = cl.get("domain")
+    dom = dom[0] if isinstance(dom, list) else dom
+    expected = (dom, cl.get("output"))
+    actual = (parts[-3], parts[-2])
+    if expected != actual and None not in expected:
+        issues.append(
+            f"chemin cards/{actual[0]}/{actual[1]}/ ≠ classification "
+            f"(attendu cards/{expected[0]}/{expected[1]}/)"
+        )
 
 
 def lint_cards(CARD_path=None) -> dict:

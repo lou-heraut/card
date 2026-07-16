@@ -10,3 +10,4 @@ tests/data/corpus_report*.csv
 tests/data/*.log
 .python_env/
 *.pdf
+*~
