@@ -98,6 +98,15 @@ Préfixe `/v1` dès le départ.
   la discipline de versions.
 - Respecter la politique de débit Hub'Eau (taille de page, pauses) ;
   bannière de provenance des données (Licence Ouverte, eaufrance).
+- **Formats de réponse (arbitré 2026-07-16)** : JSON `records` par
+  défaut (convention de l'écosystème, Hub'Eau compris) + option
+  `orient=columns` (colonnaire, compact, rechargeable en DataFrame) ;
+  gzip systématique. Le caractère FAIR vient de l'auto-description
+  (metaEX avec unités/labels bilingues, source, licence, versions dans
+  chaque réponse), pas de l'orientation. Évolution possible si une
+  demande d'interopérabilité géo/climat se présente : **CoverageJSON**
+  via le patron OGC API-EDR (le standard des séries temporelles
+  environnementales) — non prioritaire.
 
 ## 2 bis. Déploiement : Docker (arbitré 2026-07-16)
 
