@@ -21,7 +21,7 @@ def _daily(colname="Q"):
 def test_rename_maps_columns():
     res = extract(_daily("Qm3s"), cards=["QA"],
                   rename={"Qm3s": "Q"}, verbose=False)
-    assert len(res["dataEX"]["QA"]) > 0
+    assert len(res["data"]["QA"]) > 0
 
 
 def test_rename_unknown_column_raises():
@@ -34,7 +34,7 @@ def test_auto_assign_single_numeric_column():
     with pytest.warns(UserWarning, match="Affectation automatique"):
         res = extract(_daily("Qm3s"), cards=["QA"], verbose=False)
     ref = extract(_daily(), cards=["QA"], verbose=False)
-    pd.testing.assert_frame_equal(res["dataEX"]["QA"], ref["dataEX"]["QA"])
+    pd.testing.assert_frame_equal(res["data"]["QA"], ref["data"]["QA"])
 
 
 def test_missing_input_vars_clear_error():
@@ -84,4 +84,4 @@ def test_r_aliases_still_work():
     assert card.CARD_management is card.copy_cards
     # l'ancien paramètre CARD_name= reste accepté et prioritaire
     res = card.CARD_extraction(_daily(), CARD_name=["QA"], verbose=False)
-    assert "QA" in res["dataEX"]
+    assert "QA" in res["data"]

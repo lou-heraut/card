@@ -80,7 +80,7 @@ def main():
         CARD_name=["QA", "median-QJC5", "tQJXA", "dtLF", "delta-endLF_H"],
         verbose=False,
     )
-    dataEX = res["dataEX"]
+    dataEX = res["data"]
 
     # ── QA ──────────────────────────────────────────────────────────────
     print("\nQA")

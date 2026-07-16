@@ -118,7 +118,7 @@ def main(only=None):
         try:
             res = CARD_extraction(data, CARD_name=[name],
                                   path=yaml_cards[name].parent)
-            p_df = res["dataEX"][name]
+            p_df = res["data"][name]
             py_status = "ok"
         except Exception as e:
             p_df = None

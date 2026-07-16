@@ -302,8 +302,9 @@ def extract(data, cards=("QA", "QJXA"), path=None,
            correspondance est automatique (signalée par un warning).
     CARD_name : alias hérité du R pour `cards` (prioritaire si fourni).
 
-    Retourne {"data": {id_fiche: DataFrame}, "meta": DataFrame}. Les
-    clés héritées "dataEX" et "metaEX" pointent vers les mêmes objets.
+    Retourne {"data": {id_fiche: DataFrame}, "meta": DataFrame} — la
+    sortie est de la donnée comme une autre : elle peut repartir en
+    entrée d'une nouvelle extraction ou de stase.trend.
     """
     if CARD_name is not None:
         cards = CARD_name
@@ -349,7 +350,7 @@ def extract(data, cards=("QA", "QJXA"), path=None,
         else pd.DataFrame()
 
     if extract_only_metadata:
-        return {"meta": metaEX, "metaEX": metaEX}
+        return {"meta": metaEX}
 
     if simplify and dataEX:
         dfs = list(dataEX.values())
@@ -358,11 +359,9 @@ def extract(data, cards=("QA", "QJXA"), path=None,
             by = [c for c in merged.columns
                   if c in df.columns and not pd.api.types.is_numeric_dtype(df[c])]
             merged = merged.merge(df, on=by, how="outer")
-        return {"data": merged, "meta": metaEX,
-                "dataEX": merged, "metaEX": metaEX}
+        return {"data": merged, "meta": metaEX}
 
-    return {"data": dataEX, "meta": metaEX,
-            "dataEX": dataEX, "metaEX": metaEX}
+    return {"data": dataEX, "meta": metaEX}
 
 
 # Alias hérité du package R CARD

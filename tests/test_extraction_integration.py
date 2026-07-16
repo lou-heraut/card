@@ -27,7 +27,7 @@ def result(data):
 
 
 def station_a(result, name):
-    df = result["dataEX"][name]
+    df = result["data"][name]
     return df[df.id == "A"][df.columns[-1]]
 
 
@@ -58,12 +58,12 @@ def test_qmna_golden(result):
 
 
 def test_metaex_structure(result):
-    meta = result["metaEX"]
+    meta = result["meta"]
     assert set(meta.variable_en) >= {"QA", "tQJXA", "dtLF", "QMNA"}
     assert (meta[meta.variable_en == "QA"].unit_en == "m^{3}.s^{-1}").all()
 
 
 def test_extract_only_metadata(data):
     res = CARD_extraction(data, cards=["QA"], metadata_only=True)
-    assert "dataEX" not in res
-    assert len(res["metaEX"]) == 1
+    assert "data" not in res
+    assert len(res["meta"]) == 1
