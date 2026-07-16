@@ -18,8 +18,27 @@ renvoie les extractions card à la volée. Esquisse à structurer :
 - versionner l'API (v1) et exposer la version du package card utilisée.
 
 À décider : FastAPI simple sur la VM (uvicorn + reverse proxy), quelles
-fiches autorisées (toutes ?), formats de sortie, authentification ou
-ouvert.
+fiches autorisées (toutes ?), formats de sortie.
+
+**Modèle économique (réflexion 2026-07-16).** Le modèle « code GPL3 +
+service hébergé à accès différencié » existe et fonctionne (KEGG :
+gratuit académique / payant commercial ; OSM/Nominatim ; Plausible) :
+- la GPL gouverne le code, pas le service — API payante compatible ;
+  la contrepartie science ouverte = l'auto-hébergement reste possible
+  (on vend la commodité/dispo/SLA, pas l'exclusivité) ;
+- données Hub'Eau en Licence Ouverte : on ne vend pas les données,
+  on vend le calcul et le service ;
+- chercheur public : toute recette passe par l'établissement (INRAE
+  Transfert / prestation conventionnée) — voir la valorisation AVANT
+  de facturer ; VM = infrastructure publique ;
+- potentiel : niche (bureaux d'études hydro, hydroélectricité,
+  assureurs) — valeur surtout stratégique (stats d'usage pour les
+  dossiers de financement, porte vers des contrats d'étude).
+
+**Conséquence de conception dès v1** (gratuite pour tous) : clés
+d'API, quotas par clé, journalisation d'usage — la structure de
+paliers existe dès le départ, la facturation éventuelle s'ajoute sans
+refonte.
 
 ## 2. Références bibliographiques externes dans les fiches
 
