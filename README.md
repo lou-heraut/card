@@ -39,6 +39,15 @@ data = pd.DataFrame({
 res = card.extract(data, cards=["QA", "VCN10"])
 res["data"]["QA"]        # un DataFrame par fiche
 res["meta"]              # métadonnées (une ligne par variable)
+
+# tendance Mann-Kendall + pente de Sen sur le résultat (AR1 par défaut)
+tr = card.trend(res)
+tr["data"]["QA"]         # H, p-value, pente (absolue et relative)
+
+# fenêtre annuelle : celle des fiches (adaptative pour étiages/crues),
+# ou imposée pour la reproductibilité et la comparaison entre stations
+card.extract(data, cards=["VCN10"], sampling_period="preferred")
+card.extract(data, cards=["VCN10"], sampling_period="09-01")
 ```
 
 Les fiches référencent les colonnes d'entrée par leur nom (`Q` pour le

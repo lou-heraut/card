@@ -5,15 +5,10 @@ sort de ce fichier (l'historique est dans git).
 
 ## 1. API web FastAPI + Hub'Eau (hébergement : VM utilisateur)
 
-→ **Architecture et ébauche d'API : voir [API.md](API.md)**
-(réflexion du 2026-07-16). Décisions déjà prises : repo de service
-séparé (`card-api`, nom de travail) — card reste une bibliothèque
-pure ; service **ouvert et gratuit** (aspect commercial écarté : les
-statistiques d'usage valent plus, comme preuve d'impact pour les
-financements, que des recettes de niche) avec clés/quotas/journal
-d'usage dès la v1 pour la robustesse et les bilans ; articulation
-SKOS clarifiée (artefact publié par card, pas un service).
-Points à arbitrer : API.md §5.
+→ **RÉALISÉ** dans le repo séparé `card-api` (conception et état
+d'avancement : [API.md](API.md), notamment §6). Reste le premier
+déploiement réel sur la VM (make env / make up), qui appartient à
+l'utilisateur.
 
 ## 2. Références bibliographiques externes dans les fiches
 

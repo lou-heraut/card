@@ -164,3 +164,17 @@ la classification, qui vit dans card (source de vérité :
    la demande** pour les besoins massifs (attribution manuelle).
 5. w3id.org pour les URIs SKOS : à confirmer le moment venu (pas
    bloquant).
+
+## 6. État d'avancement (2026-07-16)
+
+Tout est réalisé dans le repo card-api sauf le déploiement VM :
+catalogue, stations, extract, trend (défaut AR1), quotas + journal
+anonymisé, paramètre `sampling=preferred|MM-JJ` (écrase la fenêtre
+annuelle des fiches, protocole MAKAHO, validé contre leurs exports à
+la précision machine), motif job PUBLIC en forme OGC API Processes
+(202 + Location, bascule automatique au-dessus des plafonds
+synchrones, résultat gelé avec bloc de provenance, seuils dans .env),
+clés de priorité (attribution manuelle via issue, quotas levés +
+plafonds relevés + tête de file), retry/504 Hub'Eau, tableau de bord
+terminal (make stats/watch). Détails : CLAUDE.md et INSTALL.md de
+card-api.
