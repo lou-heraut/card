@@ -4,6 +4,7 @@ fiches YAML et calculées par le moteur stase.
 Usage :
     import card
     res = card.extract(data, cards=["QA", "VCN10"])
+    card.trend(res)
     card.list_cards(phenomenon="basses eaux")
     card.info("VCN10")
 """
@@ -11,6 +12,7 @@ Usage :
 from .extraction import extract  # noqa: F401
 from .loader import load_card  # noqa: F401
 from .management import copy_cards, info, list_cards  # noqa: F401
+from .trend import trend  # noqa: F401
 
 # Alias hérités du package R CARD (toujours valides)
 from .extraction import CARD_extraction  # noqa: F401
@@ -22,6 +24,7 @@ from .management import (  # noqa: F401
 
 __all__ = [
     "extract",
+    "trend",
     "list_cards",
     "info",
     "copy_cards",
