@@ -5,40 +5,15 @@ sort de ce fichier (l'historique est dans git).
 
 ## 1. API web FastAPI + Hub'Eau (hébergement : VM utilisateur)
 
-Service qui va chercher les débits Banque Hydro via l'API Hub'Eau et
-renvoie les extractions card à la volée. Esquisse à structurer :
-
-- `GET /cards` — catalogue (metaEX en JSON, filtres facettes en query) ;
-- `GET /cards/{id}` — détail d'une fiche ;
-- `GET /extract?station=H5920010&cards=QA,VCN10&period=...` — télécharge
-  la chronique Hub'Eau (`hydrometrie/obs_elab`, débits journaliers QmnJ),
-  exécute card, renvoie dataEX/metaEX en JSON (ou CSV) ;
-- cache local des chroniques (les stations bougent peu — invalidation
-  quotidienne ?), limite de débit côté Hub'Eau à respecter ;
-- versionner l'API (v1) et exposer la version du package card utilisée.
-
-À décider : FastAPI simple sur la VM (uvicorn + reverse proxy), quelles
-fiches autorisées (toutes ?), formats de sortie.
-
-**Modèle économique (réflexion 2026-07-16).** Le modèle « code GPL3 +
-service hébergé à accès différencié » existe et fonctionne (KEGG :
-gratuit académique / payant commercial ; OSM/Nominatim ; Plausible) :
-- la GPL gouverne le code, pas le service — API payante compatible ;
-  la contrepartie science ouverte = l'auto-hébergement reste possible
-  (on vend la commodité/dispo/SLA, pas l'exclusivité) ;
-- données Hub'Eau en Licence Ouverte : on ne vend pas les données,
-  on vend le calcul et le service ;
-- chercheur public : toute recette passe par l'établissement (INRAE
-  Transfert / prestation conventionnée) — voir la valorisation AVANT
-  de facturer ; VM = infrastructure publique ;
-- potentiel : niche (bureaux d'études hydro, hydroélectricité,
-  assureurs) — valeur surtout stratégique (stats d'usage pour les
-  dossiers de financement, porte vers des contrats d'étude).
-
-**Conséquence de conception dès v1** (gratuite pour tous) : clés
-d'API, quotas par clé, journalisation d'usage — la structure de
-paliers existe dès le départ, la facturation éventuelle s'ajoute sans
-refonte.
+→ **Architecture et ébauche d'API : voir [API.md](API.md)**
+(réflexion du 2026-07-16). Décisions déjà prises : repo de service
+séparé (`card-api`, nom de travail) — card reste une bibliothèque
+pure ; service **ouvert et gratuit** (aspect commercial écarté : les
+statistiques d'usage valent plus, comme preuve d'impact pour les
+financements, que des recettes de niche) avec clés/quotas/journal
+d'usage dès la v1 pour la robustesse et les bilans ; articulation
+SKOS clarifiée (artefact publié par card, pas un service).
+Points à arbitrer : API.md §5.
 
 ## 2. Références bibliographiques externes dans les fiches
 
