@@ -3,7 +3,7 @@
 **card** : extraction de variables hydroclimatiques définies par des
 fiches YAML, exécutées par le moteur [stase](https://github.com/lou-heraut/stase).
 
-- **[Catalogue des fiches](CARDS.md)** : les 215 fiches (588 variables)
+- **[Catalogue des fiches](CARDS.md)** : les 226 fiches (588 variables)
   par thème, avec leurs entrées requises.
 - [Dépôt GitHub](https://github.com/lou-heraut/card) : code, fiches YAML,
   installation.
@@ -11,5 +11,5 @@ fiches YAML, exécutées par le moteur [stase](https://github.com/lou-heraut/sta
 ```python
 import card
 card.info("QA")                       # détail d'une fiche
-card.list_cards(topic="Low Flows")    # explorer par thème
+card.list_cards(phenomenon="basses eaux")   # explorer par phénomène
 ```

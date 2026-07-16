@@ -8,7 +8,7 @@
 <!-- badges: end -->
 
 **card** calcule des variables hydroclimatiques prêtes à l'emploi :
-215 fiches (étiages, crues, saisonnalité, changement climatique...)
+226 fiches (étiages, crues, saisonnalité, changement climatique...)
 définies en YAML et exécutées par le moteur
 [stase](https://github.com/lou-heraut/stase). Vous choisissez vos
 fiches, card fait le reste.
@@ -51,11 +51,14 @@ format ISO `YYYY-MM-DD` est convertie automatiquement.
 ## Trouver sa fiche
 
 ```python
-card.list_cards()                      # les 215 fiches (une ligne par variable)
-card.list_cards(topic="Low Flows")     # filtre par thème
-card.list_cards(variable="VCN")        # filtre par nom de variable
-card.list_cards(search="étiage")       # recherche plein texte fr/en
-card.info("VCN10")                     # détail : méthode, entrées, unité...
+card.list_cards()                          # les 226 fiches (une ligne par variable)
+card.list_cards(phenomenon="basses eaux")  # filtre par phénomène (fr ou en)
+card.list_cards(output="série")            # série, scalaire ou courbe
+card.list_cards(season="estivale")         # fenêtre d'échantillonnage
+card.list_cards(operator="delta")          # opérateur (delta, median, trend...)
+card.list_cards(variable="VCN")            # filtre par nom de variable
+card.list_cards(search="étiage")           # recherche plein texte fr/en
+card.info("VCN10")                         # détail : méthode, classification...
 ```
 
 Le catalogue complet est consultable en ligne :
@@ -72,7 +75,7 @@ src/card/
   extraction.py   # card.extract : chaîne P1..Pn via stase.extract
   management.py   # card.list_cards, card.info, card.copy_cards
   functions/      # fonctions hydro (baseflow, return_level, NSE, KGE...)
-  cards/          # les 215 fiches YAML (arborescence thématique)
+  cards/          # les 226 fiches YAML (cards/<domaine>/<forme>/)
 ```
 
 Toute la mécanique de données (sampling adaptatif, sorties
@@ -92,7 +95,7 @@ auteurs dans le fichier AUTHORS.
 
 ```bash
 pip install -e . && pytest              # 48 tests
-python -m card.schema                   # linter des 215 fiches YAML
+python -m card.schema                   # linter des 226 fiches YAML
 python scripts/generate_catalog.py      # régénère docs/CARDS.md
 ```
 
