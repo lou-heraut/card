@@ -63,9 +63,28 @@ card.info("VCN10")                         # détail : méthode, classification.
 
 Le catalogue complet est consultable en ligne :
 [lou-heraut.github.io/card](https://lou-heraut.github.io/card/) ou
-[docs/CARDS.md](docs/CARDS.md). Pour personnaliser une fiche, copiez-la
-dans un dossier de travail avec `card.copy_cards`, modifiez le YAML et
-passez `path=` à `card.extract`.
+[docs/CARDS.md](docs/CARDS.md).
+
+## Développer sa propre fiche
+
+```python
+card.copy_cards(["VCN10"], dest="./mes_fiches")   # partir d'un modèle
+# ... éditer mes_fiches/001_VCN10.yaml (id, func, classification...)
+card.extract(data, cards=["ma_fiche"], path="./mes_fiches")   # tester
+```
+
+Valider avant de proposer en contribution :
+
+```bash
+python -m card.schema ./mes_fiches   # structure, vocabulaire de
+                                     # classification, entrées connues
+```
+
+Les règles de nommage et de rédaction sont dans
+[docs/dev/NOMENCLATURE.md](docs/dev/NOMENCLATURE.md), la classification
+dans [docs/dev/TOPICS.md](docs/dev/TOPICS.md) ; les unités des
+variables d'entrée sont définies une fois pour toutes dans
+`src/card/inputs.yaml`.
 
 ## Architecture
 
