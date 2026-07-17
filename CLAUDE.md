@@ -143,7 +143,10 @@ passe anti-quadratin sur toutes les docs (demandée, non faite).
 
 **Écosystème** : le service web vit dans le repo séparé
 `../card-api/` (FastAPI + Hub'Eau + quotas + journal, conception dans
-docs/dev/API.md, son propre CLAUDE.md) — prêt à déployer sur la VM
-(make env / make up). En attente utilisateur : PEP 541 (nom PyPI
-`card`, repli card-stase), signalement amont des 11 fiches cassées
-dans le package R, déploiement VM. Pistes : docs/dev/CHANTIERS.md.
+docs/dev/API.md, son propre CLAUDE.md) — **DÉPLOYÉ** (2026-07-17) sur
+la VM de l'utilisateur, derrière son Apache existant (make apache,
+port local 8001, DOMAIN=IP en attendant un nom de domaine donc HTTP).
+En attente utilisateur : PEP 541 (nom PyPI `card`, repli card-stase),
+signalement amont des 11 fiches cassées dans le package R, nom de
+domaine + certbot. Pistes : docs/dev/CHANTIERS.md (§1 : questions
+jobs/RGPD).
