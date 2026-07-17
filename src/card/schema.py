@@ -152,6 +152,13 @@ def _check_window_coherence(card, issues):
         )
 
 
+# Noms d'agrégation à sémantique NaN ambiguë (numpy strict, pandas
+# skipna, builtins dépendants de l'ordre...) : les fiches doivent dire
+# ce qu'elles font, la variante nan* porte la sémantique dans son nom.
+_AMBIGUOUS_FN_NAMES = {"mean", "median", "std", "var", "sum", "max",
+                       "min", "amax", "amin", "argmax", "argmin"}
+
+
 def _check_process(proc, issues):
     name = proc["name"]
     if proc["time_step"] not in _VALID_TIME_STEPS:
@@ -180,6 +187,13 @@ def _check_process(proc, issues):
             issues.append(
                 f"{name}.func.{entry['name']}: fonction inconnue "
                 f"'{entry['fn_name']}'"
+            )
+        if entry["fn_name"] in _AMBIGUOUS_FN_NAMES:
+            issues.append(
+                f"{name}.func.{entry['name']}: '{entry['fn_name']}' a une "
+                "sémantique NaN ambiguë ; utiliser la variante "
+                f"'nan{entry['fn_name'].lstrip('a')}' (skipna explicite) "
+                "ou une fonction card.functions"
             )
     if isinstance(sp, dict):
         try:

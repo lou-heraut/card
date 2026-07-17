@@ -42,3 +42,15 @@ def test_linter_catches_unknown_function(tmp_path):
     )
     issues = validate_card(bad)
     assert any("fonction inconnue" in i for i in issues), issues
+
+
+def test_ambiguous_aggregation_names_rejected():
+    """Les fiches doivent porter la sémantique NaN dans le nom de la
+    fonction : les noms nus (mean, max...) sont refusés par le linter."""
+    from card.schema import _check_process
+    proc = {"name": "P1", "time_step": "year", "keep": None,
+            "max_na_pct": None, "sampling_period": None,
+            "func": [{"name": "X", "fn_name": "mean"}]}
+    issues = []
+    _check_process(proc, issues)
+    assert any("nanmean" in i for i in issues)
