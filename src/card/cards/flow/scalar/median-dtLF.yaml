@@ -1,7 +1,7 @@
 id: median-dtLF
-version: "1.0"
+version: "1.0.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-30"
+date: "2026-07-18"
 
 meta:
   en:
@@ -46,6 +46,8 @@ meta:
     input_vars: Q
     preferred_sampling_period: "01-01"
     relative: false
+    palette: ["#003C30", "#01665E", "#35978F", "#80CDC1", "#C7EAE5",
+              "#F6E8C3", "#DFC27D", "#BF812D", "#8C510A", "#543005"]
 
 process:
   P1:

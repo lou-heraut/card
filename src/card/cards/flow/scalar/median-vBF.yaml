@@ -1,7 +1,7 @@
 id: median-vBF
-version: "1.0"
+version: "1.0.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-26"
+date: "2026-07-18"
 
 meta:
   en:
@@ -45,6 +45,8 @@ meta:
       and estimation methods for streamflow and groundwater. Developments in water
       science 48. Netherlands : Elsevier. ISBN : 9780444516886.
     preferred_sampling_period: "09-01"
+    palette: ["#003C30", "#01665E", "#35978F", "#80CDC1", "#C7EAE5",
+              "#F6E8C3", "#DFC27D", "#BF812D", "#8C510A", "#543005"]
 
 process:
   P1:

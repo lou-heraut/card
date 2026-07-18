@@ -1,7 +1,7 @@
 id: ETPA
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-26"
+date: "2026-07-18"
 
 meta:
   en:
@@ -33,13 +33,13 @@ meta:
   global:
     input_vars: ETP
     relative: false
-    palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
-              "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
+    palette: ["#003C30", "#01665E", "#35978F", "#80CDC1", "#C7EAE5",
+              "#F6E8C3", "#DFC27D", "#BF812D", "#8C510A", "#543005"]
 
 process:
   P1:
     func:
-      ETPA: [nansum, "ETP"]
+      ETPA: [nansum_strict, "ETP"]
     sampling_period: "09-01"
     max_na_pct: 3
     max_na_years: 10

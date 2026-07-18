@@ -1,7 +1,7 @@
 id: BF-LH
-version: "1.0"
+version: "1.0.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-26"
+date: "2026-07-18"
 
 meta:
   en:
@@ -33,6 +33,8 @@ meta:
   global:
     input_vars: Q
     relative: false
+    palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
+              "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
 
 process:
   P1:

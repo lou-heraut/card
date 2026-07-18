@@ -1,7 +1,7 @@
 id: median-centerBF
-version: "1.0"
+version: "1.0.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-26"
+date: "2026-07-18"
 
 meta:
   en:
@@ -51,6 +51,8 @@ meta:
     preferred_sampling_period: "09-01"
     is_date: true
     relative: false
+    palette: ["#60265e", "#893687", "#c05fbe", "#dba3da", "#edd1ec",
+              "#f6ddd3", "#edbaa7", "#e08765", "#CD5629", "#8f3c1d"]
 
 process:
   P1:

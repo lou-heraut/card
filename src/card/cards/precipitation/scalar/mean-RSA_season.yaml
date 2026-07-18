@@ -1,11 +1,11 @@
 id: mean-RSA_season
-version: "1.0"
+version: "2.0"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-26"
+date: "2026-07-18"
 
 meta:
   en:
-    variable: [mean-RA_DJF, mean-RA_MAM, mean-RA_JJA, mean-RA_SON]
+    variable: [mean-RSA_DJF, mean-RSA_MAM, mean-RSA_JJA, mean-RSA_SON]
     unit: mm
     name:
       - "Inter-annual mean of winter total precipitation (months of December, January and February)"
@@ -34,7 +34,7 @@ meta:
       output: scalar
 
   fr:
-    variable: [moyenne-RA_DJF, moyenne-RA_MAM, moyenne-RA_JJA, moyenne-RA_SON]
+    variable: [moyenne-RSA_DJF, moyenne-RSA_MAM, moyenne-RSA_JJA, moyenne-RSA_SON]
     unit: mm
     name:
       - Moyenne inter-annuelle des précipitations totales d'hiver
@@ -71,7 +71,7 @@ meta:
 process:
   P1:
     func:
-      RA: [nansum_strict, "R"]
+      RSA: [nansum_strict, "R"]
     time_step: year-season
     seasons: [DJF, MAM, JJA, SON]
     max_na_pct: 3
@@ -79,8 +79,8 @@ process:
     compress: true
   P2:
     func:
-      mean-RA_DJF: [nanmean, "RA_DJF"]
-      mean-RA_MAM: [nanmean, "RA_MAM"]
-      mean-RA_JJA: [nanmean, "RA_JJA"]
-      mean-RA_SON: [nanmean, "RA_SON"]
+      mean-RSA_DJF: [nanmean, "RSA_DJF"]
+      mean-RSA_MAM: [nanmean, "RSA_MAM"]
+      mean-RSA_JJA: [nanmean, "RSA_JJA"]
+      mean-RSA_SON: [nanmean, "RSA_SON"]
     time_step: none
