@@ -1,0 +1,87 @@
+id: mean-QSA_season
+version: "1.0"
+authors: ["Louis Héraut (INRAE, UR RiverLy)"]
+date: "2026-07-18"
+
+meta:
+  en:
+    variable: [mean-QSA_DJF, mean-QSA_MAM, mean-QSA_JJA, mean-QSA_SON]
+    unit: "m^{3}.s^{-1}"
+    name:
+      - "Inter-annual mean of winter mean daily flows (months of December, January and February)"
+      - "Inter-annual mean of spring mean daily flows (months of March, April and May)"
+      - "Inter-annual mean of summer mean daily flows (months of June, July and August)"
+      - "Inter-annual mean of fall mean daily flows (months of September, October and November)"
+    description:
+      - ""
+      - ""
+      - ""
+      - ""
+    method:
+      - "1. seasonal annual aggregation [12-01, 02-28(29)] - mean\n2. no temporal aggregation - average"
+      - "1. seasonal annual aggregation [03-01, 05-31] - mean\n2. no temporal aggregation - average"
+      - "1. seasonal annual aggregation [06-01, 08-31] - mean\n2. no temporal aggregation - average"
+      - "1. seasonal annual aggregation [09-01, 11-30] - mean\n2. no temporal aggregation - average"
+    sampling_period:
+      - ["12-01", "02-28(29)"]
+      - ["03-01", "05-31"]
+      - ["06-01", "08-31"]
+      - ["09-01", "11-30"]
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: by season
+      output: scalar
+
+  fr:
+    variable: [moyenne-QSA_DJF, moyenne-QSA_MAM, moyenne-QSA_JJA, moyenne-QSA_SON]
+    unit: "m^{3}.s^{-1}"
+    name:
+      - Moyenne inter-annuelle des débits moyens journaliers d'hiver
+      - Moyenne inter-annuelle des débits moyens journaliers de printemps
+      - Moyenne inter-annuelle des débits moyens journaliers d'été
+      - Moyenne inter-annuelle des débits moyens journaliers d'automne
+    description:
+      - "Mois de décembre, janvier et février"
+      - "Mois de mars, avril et mai"
+      - "Mois de juin, juillet et août"
+      - "Mois de septembre, octobre et novembre"
+    method:
+      - "1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - moyenne\n2. aucune agrégation temporelle - moyenne"
+      - "1. agrégation annuelle saisonnalisée [01-03, 31-05] - moyenne\n2. aucune agrégation temporelle - moyenne"
+      - "1. agrégation annuelle saisonnalisée [01-06, 31-08] - moyenne\n2. aucune agrégation temporelle - moyenne"
+      - "1. agrégation annuelle saisonnalisée [01-09, 30-11] - moyenne\n2. aucune agrégation temporelle - moyenne"
+    sampling_period:
+      - ["01-12", "28(29)-02"]
+      - ["01-03", "31-05"]
+      - ["01-06", "31-08"]
+      - ["01-09", "30-11"]
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: par saison
+      output: scalaire
+
+  global:
+    input_vars: Q
+    palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
+              "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
+
+process:
+  P1:
+    func:
+      QSA: [nanmean, "Q"]
+    time_step: year-season
+    seasons: [DJF, MAM, JJA, SON]
+    max_na_pct: 3
+    max_na_years: 10
+    compress: true
+  P2:
+    func:
+      mean-QSA_DJF: [nanmean, "QSA_DJF"]
+      mean-QSA_MAM: [nanmean, "QSA_MAM"]
+      mean-QSA_JJA: [nanmean, "QSA_JJA"]
+      mean-QSA_SON: [nanmean, "QSA_SON"]
+    time_step: none

@@ -1,0 +1,133 @@
+id: mean-TMA_month
+version: "1.0"
+authors: ["Louis Héraut (INRAE, UR RiverLy)"]
+date: "2026-07-18"
+
+meta:
+  en:
+    variable:
+      - mean-TMA_jan
+      - mean-TMA_feb
+      - mean-TMA_mar
+      - mean-TMA_apr
+      - mean-TMA_may
+      - mean-TMA_jun
+      - mean-TMA_jul
+      - mean-TMA_aug
+      - mean-TMA_sep
+      - mean-TMA_oct
+      - mean-TMA_nov
+      - mean-TMA_dec
+    unit: "°C"
+    name:
+      - Inter-annual mean of January mean temperatures
+      - Inter-annual mean of February mean temperatures
+      - Inter-annual mean of March mean temperatures
+      - Inter-annual mean of April mean temperatures
+      - Inter-annual mean of May mean temperatures
+      - Inter-annual mean of June mean temperatures
+      - Inter-annual mean of July mean temperatures
+      - Inter-annual mean of August mean temperatures
+      - Inter-annual mean of September mean temperatures
+      - Inter-annual mean of October mean temperatures
+      - Inter-annual mean of November mean temperatures
+      - Inter-annual mean of December mean temperatures
+    description: ""
+    method: "1. monthly aggregation for each year - mean\n2. no temporal aggregation - average"
+    sampling_period:
+      - ["01-01", "01-31"]
+      - ["02-01", "02-28(29)"]
+      - ["03-01", "03-31"]
+      - ["04-01", "04-30"]
+      - ["05-01", "05-31"]
+      - ["06-01", "06-30"]
+      - ["07-01", "07-31"]
+      - ["08-01", "08-31"]
+      - ["09-01", "09-30"]
+      - ["10-01", "10-31"]
+      - ["11-01", "11-30"]
+      - ["12-01", "12-31"]
+    classification:
+      domain: temperature
+      aspect: magnitude
+      season: by month
+      output: scalar
+
+  fr:
+    variable:
+      - moyenne-TMA_janv
+      - moyenne-TMA_fevr
+      - moyenne-TMA_mars
+      - moyenne-TMA_avril
+      - moyenne-TMA_mai
+      - moyenne-TMA_juin
+      - moyenne-TMA_juil
+      - moyenne-TMA_aout
+      - moyenne-TMA_sept
+      - moyenne-TMA_oct
+      - moyenne-TMA_nov
+      - moyenne-TMA_dec
+    unit: "°C"
+    name:
+      - Moyenne inter-annuelle des températures moyennes de janvier
+      - Moyenne inter-annuelle des températures moyennes de février
+      - Moyenne inter-annuelle des températures moyennes de mars
+      - Moyenne inter-annuelle des températures moyennes d'avril
+      - Moyenne inter-annuelle des températures moyennes de mai
+      - Moyenne inter-annuelle des températures moyennes de juin
+      - Moyenne inter-annuelle des températures moyennes de juillet
+      - Moyenne inter-annuelle des températures moyennes d'août
+      - Moyenne inter-annuelle des températures moyennes de septembre
+      - Moyenne inter-annuelle des températures moyennes d'octobre
+      - Moyenne inter-annuelle des températures moyennes de novembre
+      - Moyenne inter-annuelle des températures moyennes de décembre
+    description: ""
+    method: "1. agrégation mensuelle par année - moyenne\n2. aucune agrégation temporelle - moyenne"
+    sampling_period:
+      - ["01-01", "31-01"]
+      - ["01-02", "28(29)-02"]
+      - ["01-03", "31-03"]
+      - ["01-04", "30-04"]
+      - ["01-05", "31-05"]
+      - ["01-06", "30-06"]
+      - ["01-07", "31-07"]
+      - ["01-08", "31-08"]
+      - ["01-09", "30-09"]
+      - ["01-10", "31-10"]
+      - ["01-11", "30-11"]
+      - ["01-12", "31-12"]
+    classification:
+      domain: température
+      aspect: intensité
+      season: par mois
+      output: scalaire
+
+  global:
+    input_vars: T
+    relative: false
+    palette: ["#053061", "#2166AC", "#4393C3", "#92C5DE", "#D1E5F0",
+              "#FDDBC7", "#F4A582", "#D6604D", "#B2182B", "#67001F"]
+
+process:
+  P1:
+    func:
+      TMA: [nanmean, "T"]
+    time_step: year-month
+    max_na_pct: 3
+    max_na_years: 10
+    compress: true
+  P2:
+    func:
+      mean-TMA_jan: [nanmean, "TMA_jan"]
+      mean-TMA_feb: [nanmean, "TMA_feb"]
+      mean-TMA_mar: [nanmean, "TMA_mar"]
+      mean-TMA_apr: [nanmean, "TMA_apr"]
+      mean-TMA_may: [nanmean, "TMA_may"]
+      mean-TMA_jun: [nanmean, "TMA_jun"]
+      mean-TMA_jul: [nanmean, "TMA_jul"]
+      mean-TMA_aug: [nanmean, "TMA_aug"]
+      mean-TMA_sep: [nanmean, "TMA_sep"]
+      mean-TMA_oct: [nanmean, "TMA_oct"]
+      mean-TMA_nov: [nanmean, "TMA_nov"]
+      mean-TMA_dec: [nanmean, "TMA_dec"]
+    time_step: none

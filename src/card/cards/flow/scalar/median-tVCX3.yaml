@@ -1,0 +1,68 @@
+id: median-tVCX3
+version: "1.0"
+authors: ["Louis Héraut (INRAE, UR RiverLy)"]
+date: "2026-07-18"
+
+meta:
+  en:
+    variable: median-tVCX3
+    unit: yearday
+    name: Inter-annual median of the dates of the annual maximum of 3-day mean flows
+    description: ""
+    method: |
+      1. no temporal aggregation - 3-day centered moving average
+      2. annual aggregation [Month of minimum monthly flows] - date of the maximum
+      3. no temporal aggregation - median
+    sampling_period: Month of minimum monthly flows
+    classification:
+      domain: flow
+      phenomenon: high flows
+      aspect: timing
+      season: annual
+      output: scalar
+
+  fr:
+    variable: mediane-tVCX3
+    unit: "jour de l'année"
+    name: Médiane inter-annuelle des dates du maximum annuel des débits moyens sur 3 jours
+    description: ""
+    method: |
+      1. aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
+      2. agrégation annuelle [Mois du minimum des débits mensuels] - date du maximum
+      3. aucune agrégation temporelle - médiane
+    sampling_period: Mois du minimum des débits mensuels
+    classification:
+      domain: débit
+      phenomenon: hautes eaux
+      aspect: saisonnalité
+      season: annuelle
+      output: scalaire
+
+  global:
+    input_vars: Q
+    preferred_sampling_period: "09-01"
+    is_date: true
+    relative: false
+    palette: ["#60265e", "#893687", "#c05fbe", "#dba3da", "#edd1ec",
+              "#f6ddd3", "#edbaa7", "#e08765", "#CD5629", "#8f3c1d"]
+
+process:
+  P1:
+    func:
+      VC3: [rollmean_center, "Q", {k: 3}]
+    time_step: none
+    keep: all
+    max_na_years: 10
+
+  P2:
+    func:
+      tVCX3: [nanargmax, "VC3", true]
+    sampling_period:
+      type: adaptive
+      func: [nanmin, "Q"]
+    max_na_pct: 3
+
+  P3:
+    func:
+      median-tVCX3: [circular_median, "tVCX3", {periodicity: 365.25}]
+    time_step: none

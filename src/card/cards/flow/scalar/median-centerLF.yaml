@@ -1,0 +1,87 @@
+id: median-centerLF
+version: "1.0"
+authors: ["Louis Héraut (INRAE, UR RiverLy)"]
+date: "2026-07-18"
+
+meta:
+  en:
+    variable: median-centerLF
+    unit: yearday
+    name: Inter-annual median of the center of low flows
+    description: Median of the dates of the minimal 10-day mean flow value below the threshold set at the maximum of VCN10
+    method: |
+      1. no temporal aggregation - 10-day centered moving average (series of VC10)
+      2. annual aggregation [Month of maximum monthly flows] - minimum (series of VCN10)
+      3. no temporal aggregation - the maximum of the previous series is taken as the threshold
+      4. annual aggregation [Month of maximum monthly flows] - date of the minimum of the VC10 of the longest period below the previous threshold
+      5. no temporal aggregation - median
+    sampling_period: Month of maximum monthly flows
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: timing
+      season: annual
+      output: scalar
+
+  fr:
+    variable: mediane-centreBE
+    unit: "jour de l'année"
+    name: Médiane inter-annuelle du centre des basses eaux
+    description: Médiane des dates de la valeur minimale des débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10
+    method: |
+      1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (série des VC10)
+      2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum (série des VCN10)
+      3. aucune agrégation temporelle - le maximum de la précédente série est pris comme seuil
+      4. agrégation annuelle [Mois du maximum des débits mensuels] - date du minimum des VC10 de la plus longue période sous le précédent seuil
+      5. aucune agrégation temporelle - médiane
+    sampling_period: Mois du maximum des débits mensuels
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: saisonnalité
+      season: annuelle
+      output: scalaire
+
+  global:
+    input_vars: Q
+    preferred_sampling_period: "01-01"
+    is_date: true
+    relative: false
+    palette: ["#60265e", "#893687", "#c05fbe", "#dba3da", "#edd1ec",
+              "#f6ddd3", "#edbaa7", "#e08765", "#CD5629", "#8f3c1d"]
+
+process:
+  P1:
+    func:
+      VC10: [rollmean_center, "Q", {k: 10}]
+    time_step: none
+    keep: all
+
+  P2:
+    func:
+      VCN10: [nanmin, "VC10"]
+    sampling_period:
+      type: adaptive
+      func: [nanmax, "Q"]
+    max_na_pct: 3
+    max_na_years: 10
+    keep: all
+
+  P3:
+    func:
+      upLim: [nanmax, "VCN10"]
+    time_step: none
+    keep: all
+
+  P4:
+    func:
+      centerLF: [apply_threshold, "VC10", {lim: upLim, where: "<=", what: nanargmin, select: longest}, true]
+    sampling_period:
+      type: adaptive
+      func: [nanmax, "Q"]
+    max_na_pct: 3
+
+  P5:
+    func:
+      median-centerLF: [circular_median, "centerLF", {periodicity: 365.25}]
+    time_step: none

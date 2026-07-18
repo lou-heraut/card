@@ -1,0 +1,133 @@
+id: mean-RMA_month
+version: "1.0"
+authors: ["Louis Héraut (INRAE, UR RiverLy)"]
+date: "2026-07-18"
+
+meta:
+  en:
+    variable:
+      - mean-RMA_jan
+      - mean-RMA_feb
+      - mean-RMA_mar
+      - mean-RMA_apr
+      - mean-RMA_may
+      - mean-RMA_jun
+      - mean-RMA_jul
+      - mean-RMA_aug
+      - mean-RMA_sep
+      - mean-RMA_oct
+      - mean-RMA_nov
+      - mean-RMA_dec
+    unit: mm
+    name:
+      - Inter-annual mean of January total precipitation
+      - Inter-annual mean of February total precipitation
+      - Inter-annual mean of March total precipitation
+      - Inter-annual mean of April total precipitation
+      - Inter-annual mean of May total precipitation
+      - Inter-annual mean of June total precipitation
+      - Inter-annual mean of July total precipitation
+      - Inter-annual mean of August total precipitation
+      - Inter-annual mean of September total precipitation
+      - Inter-annual mean of October total precipitation
+      - Inter-annual mean of November total precipitation
+      - Inter-annual mean of December total precipitation
+    description: ""
+    method: "1. monthly aggregation for each year - sum\n2. no temporal aggregation - average"
+    sampling_period:
+      - ["01-01", "01-31"]
+      - ["02-01", "02-28(29)"]
+      - ["03-01", "03-31"]
+      - ["04-01", "04-30"]
+      - ["05-01", "05-31"]
+      - ["06-01", "06-30"]
+      - ["07-01", "07-31"]
+      - ["08-01", "08-31"]
+      - ["09-01", "09-30"]
+      - ["10-01", "10-31"]
+      - ["11-01", "11-30"]
+      - ["12-01", "12-31"]
+    classification:
+      domain: precipitation
+      aspect: magnitude
+      season: by month
+      output: scalar
+
+  fr:
+    variable:
+      - moyenne-RMA_janv
+      - moyenne-RMA_fevr
+      - moyenne-RMA_mars
+      - moyenne-RMA_avril
+      - moyenne-RMA_mai
+      - moyenne-RMA_juin
+      - moyenne-RMA_juil
+      - moyenne-RMA_aout
+      - moyenne-RMA_sept
+      - moyenne-RMA_oct
+      - moyenne-RMA_nov
+      - moyenne-RMA_dec
+    unit: mm
+    name:
+      - Moyenne inter-annuelle des précipitations totales de janvier
+      - Moyenne inter-annuelle des précipitations totales de février
+      - Moyenne inter-annuelle des précipitations totales de mars
+      - Moyenne inter-annuelle des précipitations totales d'avril
+      - Moyenne inter-annuelle des précipitations totales de mai
+      - Moyenne inter-annuelle des précipitations totales de juin
+      - Moyenne inter-annuelle des précipitations totales de juillet
+      - Moyenne inter-annuelle des précipitations totales d'août
+      - Moyenne inter-annuelle des précipitations totales de septembre
+      - Moyenne inter-annuelle des précipitations totales d'octobre
+      - Moyenne inter-annuelle des précipitations totales de novembre
+      - Moyenne inter-annuelle des précipitations totales de décembre
+    description: ""
+    method: "1. agrégation mensuelle par année - somme\n2. aucune agrégation temporelle - moyenne"
+    sampling_period:
+      - ["01-01", "31-01"]
+      - ["01-02", "28(29)-02"]
+      - ["01-03", "31-03"]
+      - ["01-04", "30-04"]
+      - ["01-05", "31-05"]
+      - ["01-06", "30-06"]
+      - ["01-07", "31-07"]
+      - ["01-08", "31-08"]
+      - ["01-09", "30-09"]
+      - ["01-10", "31-10"]
+      - ["01-11", "30-11"]
+      - ["01-12", "31-12"]
+    classification:
+      domain: précipitations
+      aspect: intensité
+      season: par mois
+      output: scalaire
+
+  global:
+    input_vars: R
+    relative: false
+    palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
+              "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
+
+process:
+  P1:
+    func:
+      RMA: [nansum_strict, "R"]
+    time_step: year-month
+    max_na_pct: 3
+    max_na_years: 10
+    compress: true
+  P2:
+    func:
+      mean-RMA_jan: [nanmean, "RMA_jan"]
+      mean-RMA_feb: [nanmean, "RMA_feb"]
+      mean-RMA_mar: [nanmean, "RMA_mar"]
+      mean-RMA_apr: [nanmean, "RMA_apr"]
+      mean-RMA_may: [nanmean, "RMA_may"]
+      mean-RMA_jun: [nanmean, "RMA_jun"]
+      mean-RMA_jul: [nanmean, "RMA_jul"]
+      mean-RMA_aug: [nanmean, "RMA_aug"]
+      mean-RMA_sep: [nanmean, "RMA_sep"]
+      mean-RMA_oct: [nanmean, "RMA_oct"]
+      mean-RMA_nov: [nanmean, "RMA_nov"]
+      mean-RMA_dec: [nanmean, "RMA_dec"]
+    time_step: none

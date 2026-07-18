@@ -1,0 +1,118 @@
+id: ETPMA_month
+version: "1.0"
+authors: ["Louis Héraut (INRAE, UR RiverLy)"]
+date: "2026-07-18"
+
+meta:
+  en:
+    variable:
+      - ETPMA_jan
+      - ETPMA_feb
+      - ETPMA_mar
+      - ETPMA_apr
+      - ETPMA_may
+      - ETPMA_jun
+      - ETPMA_jul
+      - ETPMA_aug
+      - ETPMA_sep
+      - ETPMA_oct
+      - ETPMA_nov
+      - ETPMA_dec
+    unit: mm
+    name:
+      - Cumulative potential evapotranspiration for each January
+      - Cumulative potential evapotranspiration for each February
+      - Cumulative potential evapotranspiration for each March
+      - Cumulative potential evapotranspiration for each April
+      - Cumulative potential evapotranspiration for each May
+      - Cumulative potential evapotranspiration for each June
+      - Cumulative potential evapotranspiration for each July
+      - Cumulative potential evapotranspiration for each August
+      - Cumulative potential evapotranspiration for each September
+      - Cumulative potential evapotranspiration for each October
+      - Cumulative potential evapotranspiration for each November
+      - Cumulative potential evapotranspiration for each December
+    description: ""
+    method: "1. monthly aggregation for each year - sum"
+    sampling_period:
+      - ["01-01", "01-31"]
+      - ["02-01", "02-28(29)"]
+      - ["03-01", "03-31"]
+      - ["04-01", "04-30"]
+      - ["05-01", "05-31"]
+      - ["06-01", "06-30"]
+      - ["07-01", "07-31"]
+      - ["08-01", "08-31"]
+      - ["09-01", "09-30"]
+      - ["10-01", "10-31"]
+      - ["11-01", "11-30"]
+      - ["12-01", "12-31"]
+    classification:
+      domain: evapotranspiration
+      aspect: magnitude
+      season: by month
+      output: series
+
+  fr:
+    variable:
+      - ETPMA_janv
+      - ETPMA_fevr
+      - ETPMA_mars
+      - ETPMA_avril
+      - ETPMA_mai
+      - ETPMA_juin
+      - ETPMA_juil
+      - ETPMA_aout
+      - ETPMA_sept
+      - ETPMA_oct
+      - ETPMA_nov
+      - ETPMA_dec
+    unit: mm
+    name:
+      - Cumul de l'évapotranspiration potentielle de chaque janvier
+      - Cumul de l'évapotranspiration potentielle de chaque février
+      - Cumul de l'évapotranspiration potentielle de chaque mars
+      - Cumul de l'évapotranspiration potentielle de chaque avril
+      - Cumul de l'évapotranspiration potentielle de chaque mai
+      - Cumul de l'évapotranspiration potentielle de chaque juin
+      - Cumul de l'évapotranspiration potentielle de chaque juillet
+      - Cumul de l'évapotranspiration potentielle de chaque août
+      - Cumul de l'évapotranspiration potentielle de chaque septembre
+      - Cumul de l'évapotranspiration potentielle de chaque octobre
+      - Cumul de l'évapotranspiration potentielle de chaque novembre
+      - Cumul de l'évapotranspiration potentielle de chaque décembre
+    description: ""
+    method: "1. agrégation mensuelle par année - somme"
+    sampling_period:
+      - ["01-01", "31-01"]
+      - ["01-02", "28(29)-02"]
+      - ["01-03", "31-03"]
+      - ["01-04", "30-04"]
+      - ["01-05", "31-05"]
+      - ["01-06", "30-06"]
+      - ["01-07", "31-07"]
+      - ["01-08", "31-08"]
+      - ["01-09", "30-09"]
+      - ["01-10", "31-10"]
+      - ["01-11", "30-11"]
+      - ["01-12", "31-12"]
+    classification:
+      domain: évapotranspiration
+      aspect: intensité
+      season: par mois
+      output: série
+
+  global:
+    input_vars: ETP
+    relative: false
+    palette: ["#003C30", "#01665E", "#35978F", "#80CDC1", "#C7EAE5",
+              "#F6E8C3", "#DFC27D", "#BF812D", "#8C510A", "#543005"]
+
+process:
+  P1:
+    func:
+      ETPMA: [nansum_strict, "ETP"]
+    time_step: year-month
+    max_na_pct: 3
+    max_na_years: 10
+    compress: true

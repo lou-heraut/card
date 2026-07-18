@@ -1,0 +1,79 @@
+id: ETPSA_season
+version: "1.0"
+authors: ["Louis Héraut (INRAE, UR RiverLy)"]
+date: "2026-07-18"
+
+meta:
+  en:
+    variable: [ETPSA_DJF, ETPSA_MAM, ETPSA_JJA, ETPSA_SON]
+    unit: mm
+    name:
+      - Cumulative potential evapotranspiration of each winter
+      - Cumulative potential evapotranspiration of each spring
+      - Cumulative potential evapotranspiration of each summer
+      - Cumulative potential evapotranspiration of each autumn
+    description:
+      - "Months of December, January, and February"
+      - "Months of March, April, and May"
+      - "Months of June, July, and August"
+      - "Months of September, October, and November"
+    method:
+      - "1. seasonal annual aggregation [12-01, 02-28(29)] - sum"
+      - "1. seasonal annual aggregation [03-01, 05-31] - sum"
+      - "1. seasonal annual aggregation [06-01, 08-31] - sum"
+      - "1. seasonal annual aggregation [09-01, 11-30] - sum"
+    sampling_period:
+      - ["12-01", "02-28(29)"]
+      - ["03-01", "05-31"]
+      - ["06-01", "08-31"]
+      - ["09-01", "11-30"]
+    classification:
+      domain: evapotranspiration
+      aspect: magnitude
+      season: by season
+      output: series
+
+  fr:
+    variable: [ETPSA_DJF, ETPSA_MAM, ETPSA_JJA, ETPSA_SON]
+    unit: mm
+    name:
+      - Cumul de l'évapotranspiration potentielle de chaque hiver
+      - Cumul de l'évapotranspiration potentielle de chaque printemps
+      - Cumul de l'évapotranspiration potentielle de chaque été
+      - Cumul de l'évapotranspiration potentielle de chaque automne
+    description:
+      - "Mois de décembre, janvier et février"
+      - "Mois de mars, avril et mai"
+      - "Mois de juin, juillet et août"
+      - "Mois de septembre, octobre et novembre"
+    method:
+      - "1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - somme"
+      - "1. agrégation annuelle saisonnalisée [01-03, 31-05] - somme"
+      - "1. agrégation annuelle saisonnalisée [01-06, 31-08] - somme"
+      - "1. agrégation annuelle saisonnalisée [01-09, 30-11] - somme"
+    sampling_period:
+      - ["01-12", "28(29)-02"]
+      - ["01-03", "31-05"]
+      - ["01-06", "31-08"]
+      - ["01-09", "30-11"]
+    classification:
+      domain: évapotranspiration
+      aspect: intensité
+      season: par saison
+      output: série
+
+  global:
+    input_vars: ETP
+    relative: false
+    palette: ["#003C30", "#01665E", "#35978F", "#80CDC1", "#C7EAE5",
+              "#F6E8C3", "#DFC27D", "#BF812D", "#8C510A", "#543005"]
+
+process:
+  P1:
+    func:
+      ETPSA: [nansum_strict, "ETP"]
+    time_step: year-season
+    seasons: [DJF, MAM, JJA, SON]
+    max_na_pct: 3
+    max_na_years: 10
+    compress: true
