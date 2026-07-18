@@ -8,7 +8,7 @@
 <!-- badges: end -->
 
 **card** calcule des variables hydroclimatiques prêtes à l'emploi :
-226 fiches (étiages, crues, saisonnalité, changement climatique...)
+237 fiches (étiages, crues, saisonnalité, changement climatique...)
 définies en YAML et exécutées par le moteur
 [stase](https://github.com/lou-heraut/stase). Vous choisissez vos
 fiches, card fait le reste.
@@ -57,10 +57,16 @@ numérique et une fiche à variable unique, la correspondance est
 automatique (un warning le signale). Une colonne de dates en texte au
 format ISO `YYYY-MM-DD` est convertie automatiquement.
 
+Certaines fiches prennent en plus une entrée constante par station,
+comme le débit seuil réglementaire `Q_lim` des fiches `rp-VCN10`,
+`rp-VCN30` et `rp-QMNA` (période de retour d'un seuil donné par les
+textes, l'inverse de `VCN10-5`) : une colonne `Q_lim` de valeur
+constante dans le tableau d'entrée, un seuil par appel.
+
 ## Trouver sa fiche
 
 ```python
-card.list_cards()                          # les 226 fiches (une ligne par variable)
+card.list_cards()                          # les 237 fiches (une ligne par variable)
 card.list_cards(phenomenon="basses eaux")  # filtre par phénomène (fr ou en)
 card.list_cards(output="série")            # série, scalaire ou courbe
 card.list_cards(season="estivale")         # fenêtre d'échantillonnage
@@ -103,7 +109,7 @@ src/card/
   extraction.py   # card.extract : chaîne P1..Pn via stase.extract
   management.py   # card.list_cards, card.info, card.copy_cards
   functions/      # fonctions hydro (baseflow, return_level, NSE, KGE...)
-  cards/          # les 226 fiches YAML (cards/<domaine>/<forme>/)
+  cards/          # les 237 fiches YAML (cards/<domaine>/<forme>/)
 ```
 
 Toute la mécanique de données (sampling adaptatif, sorties
@@ -123,7 +129,7 @@ auteurs dans le fichier AUTHORS.
 
 ```bash
 pip install -e . && pytest              # 48 tests
-python -m card.schema                   # linter des 226 fiches YAML
+python -m card.schema                   # linter des 237 fiches YAML
 python scripts/generate_catalog.py      # régénère docs/CARDS.md
 ```
 

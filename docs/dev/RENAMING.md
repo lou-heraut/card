@@ -147,3 +147,46 @@ volontairement rompue pour ces sorties) :
 Correction fonctionnelle : QJC10 P1 lisait la colonne `Q_obs`
 inexistante (`input_vars: Q`) — corrigé en `Q`, la fiche est
 exécutable (audit A4).
+
+## Corrections de cohérence — 2026-07-18
+
+Sorties renommées (validé utilisateur : lever l'ambiguïté S/M avant
+distribution publique ; la parité R est rompue sur le NOM seulement,
+les valeurs sont identiques) :
+
+| Fiche | Sorties avant | Sorties après | Motif |
+|---|---|---|---|
+| mean-RSA_season (v2.0) | mean-RA_DJF..SON (fr moyenne-RA_*) | mean-RSA_DJF..SON (fr moyenne-RSA_*) | le stem doit refléter l'agrégation saisonnière, comme mean-TSA_season et mean-QSA_season |
+
+Corrections fonctionnelles sans changement de valeurs :
+
+- **ETPA (v1.1), ETPSA_season, ETPMA_month** : `nansum` → `nansum_strict`.
+  np.nansum vaut 0.0 sur une fenêtre entièrement vide (cumul nul faux) ;
+  nansum_strict y vaut NaN, comme toutes les autres fiches de cumul (R).
+  Avec `max_na_pct: 3`, les fenêtres vides étaient déjà filtrées en NaN
+  par stase : les sorties sont inchangées en pratique, c'est une défense
+  si le garde-fou est retiré d'une copie de fiche.
+- **Palette ETP** (les 3 fiches) : marron→vert (convention « plus d'eau =
+  vert » des cumuls de pluie et débits) remplacée par la palette
+  vert→marron des durées de sécheresse (dtLF, vLF) : une ETP forte
+  traduit un assèchement, pas un apport d'eau.
+
+## Correction de la loi log-normale des basses eaux — 2026-07-18
+
+Changement de **valeurs** (validé utilisateur, rupture volontaire avec
+le R historique, à signaler en amont comme les 11 fiches cassées) :
+le quantile et la CDF de la loi mixte des minima traitent désormais
+les années à débit nul par l'approche des probabilités conditionnelles
+standard (Jennings & Benson 1969) : F(x) = p0 + (1 - p0) x F_pos(x).
+Le R omettait la division par (1 - p0), ce qui biaisait les quantiles
+vers le bas (étiages annoncés plus sévères, jusqu'à -13 % mesurés pour
+p0 = 30 %) et pouvait produire des « probabilités » au-delà de 100 %.
+Identique quand p0 = 0 : seules les stations avec au moins une année
+à sec changent. Fiches concernées : VCN10-5, VCN30-2, QMNA-5,
+delta-VCN10-5_H, n-VCN10-5_H, rp-VCN10, rp-VCN30, rp-QMNA.
+Corrigé aussi (parité R conservée) : au bord exact p0 = 1/T, le port
+Python levait une exception là où R renvoie silencieusement 0 ;
+le Python renvoie maintenant 0.
+
+Nouvelle fonction : **return_period** (inverse exacte de return_level,
+même module ; seuil -> période de retour, lois log-normale et Gumbel).

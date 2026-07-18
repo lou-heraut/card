@@ -21,7 +21,7 @@ R1–R7, Oberlin), `TOPICS.md` (classification à facettes), `RENAMING.md`
 
 ```
 src/card/
-  cards/<domain>/<output>/   # 226 fiches — flow|precipitation|temperature|
+  cards/<domain>/<output>/   # 237 fiches — flow|precipitation|temperature|
                              #   evapotranspiration / series|scalar|curve ;
                              #   le linter impose chemin == classification
   functions/     # fonctions hydro portées de R
@@ -122,11 +122,30 @@ Règles clés (détail : NOMENCLATURE.md) :
   réponses) : reformuler (deux points, parenthèses, phrases séparées).
   Perçu comme un marqueur de texte IA, rebute des utilisateurices.
 
-## État (2026-07-16, soir)
+## État (2026-07-18, soir)
+
+Session du 2026-07-18 (TOUT NON COMMITÉ, card + 1 fichier stase) :
+11 fiches créées après inventaire de symétrie (mean-QSA_season,
+mean-TMA_month, mean-RMA_month, ETPSA_season, ETPMA_month,
+median-centerLF, median-tVCX3, median-tVCX10, et rp-VCN10/VCN30/QMNA
+= période de retour d'un seuil réglementaire Q_lim, inverse exact de
+VCN10-5 via la nouvelle fonction return_period). Corrections validées
+utilisateur : loi log-normale mixte passée à l'approche
+conditionnelle standard (RENAMING.md 2026-07-18, rupture R sur
+stations intermittentes), nansum_strict pour l'ETP, sorties
+mean-RSA_* renommées, palettes complétées par héritage (39 fiches) +
+palette ETP inversée, warning NaN->int de stase corrigé à la source.
+Backlogs : CHANTIERS §7 (symétries restantes), §8 (palettes), et
+SURTOUT **§9 : multi-seuils/suffix, une implémentation fan-out dans
+card.extract a été faite puis RETIRÉE le jour même (conçue sans
+inventorier le suffix= historique du R) ; lire §9 en entier avant de
+reprendre ce sujet**.
+
+## État précédent (2026-07-16, soir)
 
 Audit des fiches appliqué (4 lots) puis classification à facettes
 déployée (fiches, API, linter, catalogue, arborescence cards/<domain>/
-<output>/) ; corpus = 226 fiches ; tout poussé sur GitHub.
+<output>/) ; corpus = 237 fiches ; tout poussé sur GitHub.
 `card.extract` retourne {"data", "meta"} (les alias dataEX/metaEX
 n'existent plus). `card.trend` (2026-07-16) prend ce retour tel quel
 (défaut AR1, refus des fiches non `series`) ; card-api l'utilise au

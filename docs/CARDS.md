@@ -1,6 +1,6 @@
 # Catalogue des fiches CARD
 
-226 fiches, 602 variables. Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.
+237 fiches, 652 variables. Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.
 
 Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entrées* indique les colonnes que `data` doit contenir (cf. `rename=` pour la correspondance). Détail d'une fiche : `card.info("nom")`.
 
@@ -9,6 +9,8 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 | fiche | variable(s) | nom | phénomène | aspect | saison | unité | entrées | exp. |
 |---|---|---|---|---|---|---|---|---|
 | [ETPA](https://github.com/lou-heraut/card/blob/main/src/card/cards/evapotranspiration/series/ETPA.yaml) | ETPA | Cumul annuel de l'évapotranspiration potentielle |  | intensité | annuelle | mm | ETP [mm] |  |
+| [ETPMA_month](https://github.com/lou-heraut/card/blob/main/src/card/cards/evapotranspiration/series/ETPMA_month.yaml) | ETPMA_jan, ETPMA_feb, ETPMA_mar, ETPMA_apr, ETPMA_may, ETPMA_jun, ETPMA_jul, ETPMA_aug, ETPMA_sep, ETPMA_oct, ETPMA_nov, ETPMA_dec | Cumul de l'évapotranspiration potentielle de chaque janvier |  | intensité | par mois | mm | ETP [mm] |  |
+| [ETPSA_season](https://github.com/lou-heraut/card/blob/main/src/card/cards/evapotranspiration/series/ETPSA_season.yaml) | ETPSA_DJF, ETPSA_MAM, ETPSA_JJA, ETPSA_SON | Cumul de l'évapotranspiration potentielle de chaque hiver |  | intensité | par saison | mm | ETP [mm] |  |
 
 ## flow / curve
 
@@ -120,8 +122,10 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 | [epsilon_T](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/epsilon_T.yaml) | epsilon_T | Élasticité annuelle du débit aux températures de l'air | sensibilité climatique |  | annuelle | without unit | Q [m^{3}.s^{-1}], T [°C] |  |
 | [epsilon_T_season](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/epsilon_T_season.yaml) | epsilon_T_DJF, epsilon_T_MAM, epsilon_T_JJA, epsilon_T_SON | Élasticité hivernale du débit aux températures de l'air | sensibilité climatique |  | par saison | without unit | Q [m^{3}.s^{-1}], T [°C] |  |
 | [mean-QA](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/mean-QA.yaml) | mean-QA | Moyenne inter-annuelle du débit moyen annuel | moyennes eaux | intensité | annuelle | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
+| [mean-QSA_season](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/mean-QSA_season.yaml) | mean-QSA_DJF, mean-QSA_MAM, mean-QSA_JJA, mean-QSA_SON | Moyenne inter-annuelle des débits moyens journaliers d'hiver | moyennes eaux | intensité | par saison | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [median-allLF](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/median-allLF.yaml) | median-startLF, median-centerLF, median-endLF, median-dtLF, median-vLF | Médiane inter-annuelle du début des basses eaux | basses eaux | saisonnalité, durée, intensité | annuelle | yearday | Q [m^{3}.s^{-1}] |  |
 | [median-centerBF](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/median-centerBF.yaml) | median-centerBF | Médiane inter-annuelle du centre des écoulements lents | débit de base | saisonnalité | annuelle | yearday | Q [m^{3}.s^{-1}] |  |
+| [median-centerLF](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/median-centerLF.yaml) | median-centerLF | Médiane inter-annuelle du centre des basses eaux | basses eaux | saisonnalité | annuelle | yearday | Q [m^{3}.s^{-1}] |  |
 | [median-dtBF](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/median-dtBF.yaml) | median-dtBF | Médiane inter-annuelle de la durée des écoulements lents | débit de base | durée | annuelle | day | Q [m^{3}.s^{-1}] |  |
 | [median-dtFlood](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/median-dtFlood.yaml) | median-dtFlood | Médiane inter-annuelle de la durée des crues | hautes eaux | durée | annuelle | day | Q [m^{3}.s^{-1}] |  |
 | [median-dtLF](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/median-dtLF.yaml) | median-dtLF | Médiane inter-annuelle de la durée des basses eaux | basses eaux | durée | annuelle | day | Q [m^{3}.s^{-1}] |  |
@@ -131,10 +135,15 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 | [median-startLF](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/median-startLF.yaml) | median-startLF | Médiane inter-annuelle du début des basses eaux | basses eaux | saisonnalité | annuelle | yearday | Q [m^{3}.s^{-1}] |  |
 | [median-tQJXA](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/median-tQJXA.yaml) | median-tQJXA | Médiane inter-annuelle des dates du débit journalier maximal annuel | hautes eaux | saisonnalité | annuelle | yearday | Q [m^{3}.s^{-1}] |  |
 | [median-tVCN10](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/median-tVCN10.yaml) | median-tVCN10 | Médiane inter-annuelle des dates du minimum annuel des débits moyens sur 10 jours | basses eaux | saisonnalité | annuelle | yearday | Q [m^{3}.s^{-1}] |  |
+| [median-tVCX10](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/median-tVCX10.yaml) | median-tVCX10 | Médiane inter-annuelle des dates du maximum annuel des débits moyens sur 10 jours | hautes eaux | saisonnalité | annuelle | yearday | Q [m^{3}.s^{-1}] |  |
+| [median-tVCX3](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/median-tVCX3.yaml) | median-tVCX3 | Médiane inter-annuelle des dates du maximum annuel des débits moyens sur 3 jours | hautes eaux | saisonnalité | annuelle | yearday | Q [m^{3}.s^{-1}] |  |
 | [median-vBF](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/median-vBF.yaml) | median-vBF | Médiane inter-annuelle du volume annuel généré par les écoulements lents | débit de base | intensité | annuelle | hm^{3} | Q [m^{3}.s^{-1}] |  |
 | [median-vLF](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/median-vLF.yaml) | median-vLF | Médiane inter-annuelle des volumes de déficit des basses eaux | basses eaux | intensité | annuelle | hm^{3} | Q [m^{3}.s^{-1}] |  |
 | [n-QJXA-10_H](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/n-QJXA-10_H.yaml) | n-QJXA-10_H1, n-QJXA-10_H2, n-QJXA-10_H3 | Nombre d'années de l'horizon proche où le QJXA est supérieur au QJXA-10 de la période historique | hautes eaux | fréquence | annuelle | without unit | Q [m^{3}.s^{-1}] |  |
 | [n-VCN10-5_H](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/n-VCN10-5_H.yaml) | n-VCN10-5_H1, n-VCN10-5_H2, n-VCN10-5_H3 | Nombre d'années de l'horizon proche où le VCN10 est inférieur ou égal au VCN10-5 de la période historique | basses eaux | fréquence | annuelle | without unit | Q [m^{3}.s^{-1}] |  |
+| [rp-QMNA](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/rp-QMNA.yaml) | rp-QMNA | Période de retour du débit seuil réglementaire de la station au regard des minimums annuels des débits mensuels | basses eaux | fréquence | par mois | year | Q [m^{3}.s^{-1}], Q_lim [m^{3}.s^{-1}] |  |
+| [rp-VCN10](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/rp-VCN10.yaml) | rp-VCN10 | Période de retour du débit seuil réglementaire de la station au regard des minimums annuels des débits moyens sur 10 jours | basses eaux | fréquence | annuelle | year | Q [m^{3}.s^{-1}], Q_lim [m^{3}.s^{-1}] |  |
+| [rp-VCN30](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/rp-VCN30.yaml) | rp-VCN30 | Période de retour du débit seuil réglementaire de la station au regard des minimums annuels des débits moyens sur 30 jours | basses eaux | fréquence | annuelle | year | Q [m^{3}.s^{-1}], Q_lim [m^{3}.s^{-1}] |  |
 
 ## flow / series
 
@@ -219,7 +228,8 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 | [CRS_season](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/scalar/CRS_season.yaml) | CRS_DJF, CRS_MAM, CRS_JJA, CRS_SON | Coefficient correctif des précipitations hivernales |  | intensité | par saison | without unit | R_obs [mm], R_sim [mm] |  |
 | [RA_ratio](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/scalar/RA_ratio.yaml) | Rl_ratio, Rs_ratio | Rapport des précipitations liquides aux précipitations totales |  | intensité | annuelle | without unit | R [mm], Rl [mm], Rs [mm] |  |
 | [mean-RA](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/scalar/mean-RA.yaml) | mean-RA | Moyenne inter-annuelle du cumul annuel des précipitations totales |  | intensité | annuelle | mm | R [mm] |  |
-| [mean-RSA_season](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/scalar/mean-RSA_season.yaml) | mean-RA_DJF, mean-RA_MAM, mean-RA_JJA, mean-RA_SON | Moyenne inter-annuelle des précipitations totales d'hiver |  | intensité | par saison | mm | R [mm] |  |
+| [mean-RMA_month](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/scalar/mean-RMA_month.yaml) | mean-RMA_jan, mean-RMA_feb, mean-RMA_mar, mean-RMA_apr, mean-RMA_may, mean-RMA_jun, mean-RMA_jul, mean-RMA_aug, mean-RMA_sep, mean-RMA_oct, mean-RMA_nov, mean-RMA_dec | Moyenne inter-annuelle des précipitations totales de janvier |  | intensité | par mois | mm | R [mm] |  |
+| [mean-RSA_season](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/scalar/mean-RSA_season.yaml) | mean-RSA_DJF, mean-RSA_MAM, mean-RSA_JJA, mean-RSA_SON | Moyenne inter-annuelle des précipitations totales d'hiver |  | intensité | par saison | mm | R [mm] |  |
 
 ## precipitation / series
 
@@ -260,6 +270,7 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 | fiche | variable(s) | nom | phénomène | aspect | saison | unité | entrées | exp. |
 |---|---|---|---|---|---|---|---|---|
 | [mean-TA](https://github.com/lou-heraut/card/blob/main/src/card/cards/temperature/scalar/mean-TA.yaml) | mean-TA | Moyenne inter-annuelle de la température moyenne annuelle |  | intensité | annuelle | °C | T [°C] |  |
+| [mean-TMA_month](https://github.com/lou-heraut/card/blob/main/src/card/cards/temperature/scalar/mean-TMA_month.yaml) | mean-TMA_jan, mean-TMA_feb, mean-TMA_mar, mean-TMA_apr, mean-TMA_may, mean-TMA_jun, mean-TMA_jul, mean-TMA_aug, mean-TMA_sep, mean-TMA_oct, mean-TMA_nov, mean-TMA_dec | Moyenne inter-annuelle des températures moyennes de janvier |  | intensité | par mois | °C | T [°C] |  |
 | [mean-TSA_season](https://github.com/lou-heraut/card/blob/main/src/card/cards/temperature/scalar/mean-TSA_season.yaml) | mean-TSA_DJF, mean-TSA_MAM, mean-TSA_JJA, mean-TSA_SON | Moyenne inter-annuelle des températures moyennes d'hiver |  | intensité | par saison | °C | T [°C] |  |
 
 ## temperature / series
