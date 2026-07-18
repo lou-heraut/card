@@ -23,6 +23,7 @@ from card.functions import (
     nansum_strict,
     ratio,
     return_level,
+    return_period,
     rollmean_center,
     runoff_coefficient,
     snowmelt_timing,
@@ -123,6 +124,26 @@ def test_return_level_golden():
     low = np.array([2.0, 1.5, 1.8, 1.2, 2.2, 1.9, 1.4, 2.1, 1.7, 1.6])
     assert return_level(high, 10, "high") == pytest.approx(30.169076292728434)
     assert return_level(low, 5, "low") == pytest.approx(1.4570309500573475)
+
+
+def test_return_period_roundtrip():
+    # return_period est l'inverse exacte de return_level, quelle que
+    # soit la convention p0 de la loi mixte (invariant du binôme)
+    high = np.array([20.0, 25, 22, 30, 28, 24, 26, 31, 23, 27])
+    low = np.array([2.0, 1.5, 1.8, 1.2, 2.2, 1.9, 1.4, 2.1, 1.7, 1.6])
+    for T in (2, 5, 10, 50):
+        assert return_period(low, return_level(low, T, "low"),
+                             "low") == pytest.approx(T)
+        assert return_period(high, return_level(high, T, "high"),
+                             "high") == pytest.approx(T)
+    # seuil en colonne constante (chemin kwarg des fiches)
+    lim = np.full(10, return_level(low, 5, "low"))
+    assert return_period(low, lim, "low") == pytest.approx(5)
+    # seuil nul sur série intermittente : T = 1/p0 dans toute convention
+    inter = np.array([0.0, 0, 1.2, 1.5, 0.9, 1.1, 1.8, 1.3, 0.7, 1.6])
+    assert return_period(inter, 0.0, "low") == pytest.approx(5)
+    # seuil nul sans année nulle : indéfini sous la loi
+    assert np.isnan(return_period(low, 0.0, "low"))
 
 
 def test_performance_golden(series):

@@ -1,0 +1,67 @@
+id: rp-QMNA
+version: "1.0"
+authors: ["Louis Héraut (INRAE, UR RiverLy)"]
+date: "2026-07-18"
+
+meta:
+  en:
+    variable: rp-QMNA
+    unit: year
+    name: Return period of the station's regulatory threshold discharge with respect to the annual minima of monthly flows
+    description: Inverse of the return-level fiches (QMNA-5) - the log-normal law is fitted on the QMNA series and evaluated at the constant threshold discharge Q_lim given by regulatory texts (e.g. DOE, DCR); a threshold far below the fitted law gives an extrapolated return period, reported as is
+    method: |
+      1. monthly aggregation - mean
+      2. annual aggregation [Month of maximum monthly flows] - minimum
+      3. no temporal aggregation - return period of the threshold Q_lim with the log-normal distribution
+    sampling_period: Month of maximum monthly flows
+    classification:
+      domain: flow
+      phenomenon: low flows
+      aspect: frequency
+      season: by month
+      output: scalar
+
+  fr:
+    variable: rp-QMNA
+    unit: an
+    name: Période de retour du débit seuil réglementaire de la station au regard des minimums annuels des débits mensuels
+    description: Inverse des fiches de niveau de retour (QMNA-5) - la loi log-normale est ajustée sur la série des QMNA puis évaluée au débit seuil constant Q_lim donné par les textes réglementaires (par exemple DOE, DCR) ; un seuil loin du corps de la loi donne une période de retour extrapolée, restituée telle quelle
+    method: |
+      1. agrégation mensuelle - moyenne
+      2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum
+      3. aucune agrégation temporelle - période de retour du seuil Q_lim avec la loi log-normale
+    sampling_period: Mois du maximum des débits mensuels
+    classification:
+      domain: débit
+      phenomenon: basses eaux
+      aspect: fréquence
+      season: par mois
+      output: scalaire
+
+  global:
+    input_vars: "Q, Q_lim"
+    preferred_sampling_period: "01-01"
+
+process:
+  P1:
+    func:
+      QMA: [nanmean, "Q"]
+      QlimM: [nanmean, "Q_lim"]
+    time_step: year-month
+    max_na_pct: 3
+    max_na_years: 10
+    keep: all
+
+  P2:
+    func:
+      QMNA: [nanmin, "QMA"]
+      Qlim: [nanmean, "QlimM"]
+    sampling_period:
+      type: adaptive
+      func: [nanmax, "QMA"]
+    max_na_pct: 3
+
+  P3:
+    func:
+      rp-QMNA: [return_period, "QMNA", {threshold: Qlim, water_type: "low"}]
+    time_step: none

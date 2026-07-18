@@ -44,7 +44,7 @@ from .performance import (  # noqa: F401
     bias,
     std_ratio,
 )
-from .return_period import return_level  # noqa: F401
+from .return_period import return_level, return_period  # noqa: F401
 from .seasonal import delta  # noqa: F401
 from .threshold import apply_threshold, deficit_volume  # noqa: F401
 from .trend import (  # noqa: F401

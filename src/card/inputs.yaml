@@ -6,6 +6,7 @@
 Q:       {unit: "m^{3}.s^{-1}", en: mean daily discharge, fr: débit journalier moyen}
 Q_obs:   {unit: "m^{3}.s^{-1}", en: observed mean daily discharge, fr: débit journalier moyen observé}
 Q_sim:   {unit: "m^{3}.s^{-1}", en: simulated mean daily discharge, fr: débit journalier moyen simulé}
+Q_lim:   {unit: "m^{3}.s^{-1}", en: regulatory threshold discharge (constant column), fr: débit seuil réglementaire (colonne constante)}
 R:       {unit: mm, en: daily total precipitation, fr: cumul journalier de précipitations}
 Rl:      {unit: mm, en: daily liquid precipitation, fr: cumul journalier de précipitations liquides}
 Rs:      {unit: mm, en: daily solid precipitation, fr: cumul journalier de précipitations solides}

@@ -67,3 +67,13 @@ def test_extract_only_metadata(data):
     res = CARD_extraction(data, cards=["QA"], metadata_only=True)
     assert "data" not in res
     assert len(res["meta"]) == 1
+
+
+def test_rp_card_roundtrip(data):
+    """rp-VCN10 (mono-seuil) : le seuil égal au VCN10-5 de la même
+    série doit rendre exactement 5 ans."""
+    lvl = CARD_extraction(data, cards=["VCN10-5"])["data"]["VCN10-5"]
+    lvl_a = float(lvl[lvl.id == "A"]["VCN10-5"].iloc[0])
+    d = data[data.id == "A"].assign(Q_lim=lvl_a)
+    res = CARD_extraction(d, cards=["rp-VCN10"])
+    assert res["data"]["rp-VCN10"]["rp-VCN10"].iloc[0] == pytest.approx(5.0)
