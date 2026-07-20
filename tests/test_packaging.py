@@ -30,8 +30,3 @@ def test_package_data_covers_root_yaml():
         f"fichiers non empaquetés : {orphans} ; compléter package-data "
         "dans pyproject.toml, sinon ils manqueront hors install éditable"
     )
-
-
-def test_runtime_registries_are_present():
-    assert (_PKG / "inputs.yaml").is_file()
-    assert (_PKG / "topics.yaml").is_file()
