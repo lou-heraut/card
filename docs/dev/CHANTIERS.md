@@ -56,6 +56,30 @@ La classification (docs/dev/TOPICS.md) fournit désormais les concepts
 et les paires en/fr — chaque facette devient un concept scheme.
 Réévaluer quand le besoin Skosmos se concrétise.
 
+Le SKOS n'est pas un service : c'est un artefact de publication de la
+classification, dont la source de vérité est ici (`src/card/topics.yaml`
+et les blocs classification des fiches). Conception rapatriée le
+2026-07-20 depuis l'ancien docs/dev/API.md, parti dans card-api.
+
+- `scripts/generate_skos.py` (à écrire) : chaque facette devient un
+  `skos:ConceptScheme` (domain, phenomenon, aspect, season, output,
+  purpose) ; chaque valeur un `skos:Concept` avec `prefLabel` fr/en
+  (les paires sont déjà dans topics.yaml) et `exactMatch`/`closeMatch`
+  vers l'existant (aspect ↔ typologie IHA, fiches climat ↔ ETCCDI) ;
+  chaque fiche devient un concept rattaché à ses facettes
+  (`dcterms:subject`).
+- Publication statique : `docs/card.ttl` servi par GitHub Pages, aucun
+  serveur nécessaire pour être moissonnable.
+- URIs stables : demander un préfixe **w3id.org** (ex.
+  `https://w3id.org/card-hydro/...`) qui redirige vers les Pages,
+  gratuit, pérenne, indépendant de l'hébergement. Arbitrage du
+  2026-07-16 : à confirmer le moment venu, non bloquant.
+- Skosmos sur la VM : optionnel et purement cosmétique (navigation
+  humaine), il lit le même `card.ttl`.
+- Côté service, card-api pourrait exposer un `GET /v1/concepts` qui
+  renvoie vers ces URIs. C'est un renvoi, pas une source : la vérité
+  reste ici.
+
 ## 7. Fiches futures
 
 - **Rc** (vrai coefficient de ruissellement adimensionnel) :
