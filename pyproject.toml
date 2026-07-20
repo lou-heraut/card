@@ -29,7 +29,10 @@ Issues = "https://github.com/lou-heraut/card/issues"
 where = ["src"]
 
 [tool.setuptools.package-data]
-card = ["cards/**/*.yaml"]
+# inputs.yaml et topics.yaml vivent à la racine du package : sans le
+# second motif ils manquent en installation non éditable (image Docker),
+# et card.info() casse sur le registre des entrées.
+card = ["cards/**/*.yaml", "*.yaml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
