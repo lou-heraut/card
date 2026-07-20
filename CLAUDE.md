@@ -154,8 +154,9 @@ couche de placeholders et débloque les horizons par degré de
 réchauffement. Un arbitrage d'entrée y attend l'utilisateur.
 
 **Écosystème** : le service web vit dans le repo séparé `../card-api/`
-(FastAPI + Hub'Eau + quotas + journal, conception dans docs/dev/API.md,
-son propre CLAUDE.md), DÉPLOYÉ depuis le 2026-07-17 sur la VM de
+(FastAPI + Hub'Eau + quotas + journal, conception et chantiers dans
+`../card-api/docs/dev/`, son propre CLAUDE.md), DÉPLOYÉ depuis le
+2026-07-17 sur la VM de
 l'utilisateur derrière son Apache (make apache, port local 8001,
 DOMAIN=IP donc HTTP en attendant un nom de domaine). En attente
 utilisateur : PEP 541 (nom PyPI `card`, repli card-stase), signalement
