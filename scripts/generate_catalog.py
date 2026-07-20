@@ -23,7 +23,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT.parent.parent / "EXstat_project" / "stase" / "src"))
 
-from card.extraction import _DEFAULT_CARD_DIR, _find_cards, _meta_rows  # noqa: E402
+from card.extraction import _DEFAULT_CARD_DIR, _find_cards, _meta_frame  # noqa: E402
 from card.loader import load_card  # noqa: E402
 from card.schema import input_registry  # noqa: E402
 
@@ -47,7 +47,9 @@ def main():
     for name, path in sorted(cards.items()):
         rel = path.relative_to(_DEFAULT_CARD_DIR)
         section = " / ".join(p.replace("_", " ") for p in rel.parts[:-1])
-        meta = _meta_rows(load_card(path))
+        # _meta_frame (et non _meta_rows) : le catalogue doit montrer la
+        # forme par défaut d'une fiche à placeholders, jamais l'accolade.
+        meta = _meta_frame(load_card(path))
         sections[section].append((name, meta, rel))
 
     n_cards = len(cards)

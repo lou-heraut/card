@@ -190,3 +190,38 @@ le Python renvoie maintenant 0.
 
 Nouvelle fonction : **return_period** (inverse exacte de return_level,
 même module ; seuil -> période de retour, lois log-normale et Gumbel).
+## Suffixes de scénario et métadonnées évolutives — 2026-07-20
+
+Ajout de capacité, sans rupture de sortie : conception complète dans
+`CHANTIERS.md` §9.
+
+`card.extract` gagne **suffix=** et **suffix_delimiter=** (mêmes noms
+qu'en R et que dans `stase.trend`, une seule grammaire) : une même fiche
+s'applique à plusieurs variantes d'une entrée en un appel, plusieurs
+seuils réglementaires (`Q_lim_DOE`, `Q_lim_DCR`) ou obs/sim. Le fan-out
+des valeurs est celui de stase, au niveau colonne : les séries partagées
+ne sont lues qu'une fois, et une fiche dont aucune référence ne varie
+n'est calculée qu'une fois et sort sans suffixe.
+
+**Forme de retour modifiée** : `extract(...)["meta"]` porte une colonne
+supplémentaire **suffix** (vide pour les lignes non suffixées). Ajout de
+colonne, donc compatible avec les lecteurs existants (dont card-api),
+mais c'est un changement de schéma à connaître. Les lignes de méta sont
+désormais construites APRÈS le run, d'après les colonnes réellement
+sorties : une variable suffixée est une autre variable, donc une autre
+ligne.
+
+**Grammaire des fiches** : les champs texte de `meta.<lang>` acceptent
+les placeholders `{suffix}` (= `{suffix.short}`) et `{suffix.<champ>}`,
+résolus depuis `meta.<lang>.suffixes` (ensemble fermé), depuis l'appel
+(l'appelant gagne champ par champ), ou depuis `meta.<lang>.suffix_default`
+en l'absence de suffixe. Le linter refuse un placeholder sans défaut et
+un vocabulaire de suffixes que rien n'utilise, ce qui garantit qu'aucune
+accolade ne sort jamais non résolue et rend impossible le cas
+`horizon_labels` (champ déclaré dans 55 fiches et lu par personne).
+
+Fiches modifiées (version 1.0 -> 1.1, méta seulement) : **rp-VCN10,
+rp-VCN30, rp-QMNA**. Sans suffixe, leur `name` est inchangé au caractère
+près ; leur `method` passe de « return period of the threshold Q_lim » à
+« return period of the Q_lim threshold » (« période de retour du seuil
+Q_lim » inchangé en français). Aucune valeur numérique modifiée.

@@ -1,4 +1,4 @@
-# CHANTIERS — pistes ouvertes (mise à jour 2026-07-18)
+# CHANTIERS — pistes ouvertes (mise à jour 2026-07-20)
 
 Registre des chantiers non commencés ou différés. Un chantier terminé
 sort de ce fichier (l'historique est dans git).
@@ -109,66 +109,262 @@ vert→marron (durées/volumes d'étiage, ETP : assèchement).
   le risque de crue des dates par une palette dédiée, c'est une
   décision à part.
 
-## 9. Multi-seuils réglementaires : remise à plat suffix/renommage
+## 9. Multi-seuils réglementaires : le suffix de stase (2026-07-20)
 
-Contexte à relire ENTIER avant toute reprise (épisode du 2026-07-18,
-implémentation faite puis RETIRÉE le même jour à la demande de
-l'utilisateur, pour être reconçue posément).
+**Objectif.** Les fiches rp-VCN10, rp-VCN30, rp-QMNA donnent la période
+de retour d'UN débit seuil réglementaire par série, passé en colonne
+constante Q_lim. Une station a en pratique plusieurs seuils (DOE, DCR,
+alerte...) et on veut toutes les périodes de retour en un appel, avec
+des noms de sortie déterministes. La valeur d'un seuil étant propre à
+chaque série, elle ne peut pas vivre dans l'id d'une fiche : le nom de
+sortie doit venir d'un suffixe.
 
-**Objectif sous-jacent.** Les fiches rp-VCN10, rp-VCN30, rp-QMNA
-(créées et conservées, fonctionnelles) donnent la période de retour
-d'UN débit seuil réglementaire par station, passé en colonne constante
-Q_lim. Dans la pratique une station a PLUSIEURS seuils (DOE, DCR,
-alerte, alerte renforcée...) et on veut toutes les périodes de retour
-en un appel, avec des noms de sortie déterministes (sinon chacun
-relance l'extraction par seuil et renomme à sa façon, exactement ce
-qu'un corpus normalisé doit empêcher). La valeur d'un seuil étant
-propre à chaque station, elle ne peut pas vivre dans l'id d'une fiche
-(contrairement au « 5 » de VCN10-5, constante du corpus) : le nom de
-sortie doit venir d'un suffixe dérivé des données ou d'un mécanisme
-d'appel.
+**Ce qui a été établi le 2026-07-20** (l'inventaire demandé, qui
+corrige deux erreurs de la note précédente) :
 
-**Ce qui a été tenté puis retiré.** Un « fan-out » dans card.extract :
-plusieurs colonnes associées à la même variable d'entrée via le
-paramètre rename= existant (rename={"Q_DOE": "Q_lim", "Q_DCR":
-"Q_lim"}) exécutaient les fiches une fois par colonne avec sorties et
-métadonnées suffixées d'après la colonne source (rp-VCN10_DOE...).
-Ça fonctionnait (aller-retour exact, card.trend enchaînait dessus,
-test d'intégration vert) mais c'était conçu SANS avoir inventorié le
-mécanisme suffix historique : risque de réinvention et de double
-grammaire. Retiré de extraction.py, du README, des tests et de
-RENAMING.md ; récupérable dans l'historique de conversation ou
-réimplémentable, mais pas avant l'inventaire ci-dessous.
+- `suffix=` / `suffix_delimiter=` existent bel et bien dans
+  `stase.extract` (paramètres publics, documentés, validés contre R par
+  le scénario 20 du harnais). La note antérieure disait le contraire.
+- Le mécanisme R n'est pas un « suffixe tout » : `process_extraction.R`
+  calcule `where_no_suffix` et n'éclate que les fonctions dont au moins
+  un argument admet une variante suffixée présente dans les données ;
+  les autres sont dédupliquées et sorties sans suffixe. R sait donc déjà
+  distinguer colonnes partagées et colonnes qui varient. Sa limite est
+  la granularité : le choix se fait par FONCTION, si bien qu'une
+  fonction mêlant une série partagée et une colonne variable voit ses
+  arguments partagés partir en chaînes littérales. C'est exactement le
+  P3 de rp-VCN10 (`return_period(VCN10, threshold=Qlim)`).
 
-**Inventaire à faire avant de reconcevoir** (personne ne se fie à sa
-mémoire, la mienne comme celle de l'utilisateur) :
-- R EXstat, process_extraction : paramètre suffix= documenté
-  (EXstat_project/EXstat/R/process_extraction.R, @param suffix
-  vers les lignes 68-69, exemple vers 202-212) : funct=list(QA=mean) +
-  funct_args=list("Q") + suffix=c("obs","sim") lit Q_obs et Q_sim et
-  sort QA_obs, QA_sim ; le suffixe s'applique à TOUTES les colonnes
-  référencées, plus expand= pour éclater par suffixe.
-- stase : au grep du 2026-07-18, suffix= n'existe QUE dans stase.trend
-  (retrait des suffixes pour regrouper les extrêmes et consulter meta,
-  porté de process_trend R). PAS trouvé dans stase.process_extraction.
-  MAIS l'utilisateur se souvient d'un suffix implémenté et testé côté
-  stase pour déployer un calcul sur plusieurs colonnes proches :
-  vérifier l'historique git de stase et d'EXstat avant de conclure.
-- Suffixes structurels existants à ne pas percuter : compress
-  (_DJF, _jan...), horizons (_H1..), saisons de fiches (_summer...).
+**Ce qui est fait.** stase applique désormais la règle référence par
+référence : colonne suffixée si elle existe, colonne de base sinon,
+kwargs-colonnes compris ; sortie suffixée dès qu'une référence l'a été ;
+fonction sans référence variable émise une seule fois, sans suffixe.
+Divergence tracée dans stase `docs/dev/ORIGINE_R.md`, couverte par
+`stase/tests/test_suffix.py` (9 tests). Le comportement du cas nominal R
+est inchangé, et rien dans card n'utilisait suffix : aucune sortie
+existante n'est touchée.
 
-**Contraintes dégagées pour la conception :**
-- le suffix= R suffixe toutes les colonnes référencées ; le cas
-  multi-seuils ne fait varier QUE Q_lim pendant que Q reste fixe, et
-  les colonnes réelles s'appellent Q_DOE (pas Q_lim_DOE) : le
-  mécanisme R ne couvre donc pas ce cas tel quel ;
-- il faut UNE seule grammaire cohérente entre l'extraction (ajout de
-  suffixes) et stase.trend (retrait de suffixes), pas deux
-  vocabulaires ;
-- l'idée d'associer les colonnes de seuils à la variable d'entrée via
-  rename= plaisait en surface à l'utilisateur ; la piste « porter
-  suffix= dans stase.process_extraction pour la parité R puis faire
-  déléguer card » est l'alternative à évaluer ;
-- sorties NaN quand le seuil est hors du support de la loi (validé) ;
-  une seule variable en fan-out par appel si ce mécanisme revient
-  (pas de produit cartésien).
+Vérifié de bout en bout sur la chaîne rp-VCN10 avec deux seuils
+(Q_lim_DOE, Q_lim_DCR) : P1 sort VC10 une seule fois, P2 sort VCN10 une
+fois plus Qlim_DOE et Qlim_DCR, P3 sort rp-VCN10_DOE et rp-VCN10_DCR,
+valeurs identiques au bit près à deux extractions mono-seuil.
+
+### Conception des métadonnées évolutives (validée le 2026-07-20)
+
+Conception arrêtée après discussion, à appliquer telle quelle. Elle est
+écrite en détail parce qu'elle a déjà été perdue une fois.
+
+**Principe directeur, qui justifie tout le reste.** Le mécanisme est
+entièrement confiné aux MÉTADONNÉES. Aucun placeholder ne peut changer
+un calcul : le fan-out des valeurs reste celui de stase, au niveau
+colonne. Le pire défaut possible de ce chantier est donc une phrase
+bancale, jamais un chiffre faux. Toute évolution future doit préserver
+cette séparation.
+
+**Le fait qui structure la conception.** Les fiches horizon
+(`delta-*_H`, 55 fiches) ne sont PAS un suffixe stase : leur P2 énumère
+à la main trois entrées `func` qui diffèrent par un paramètre littéral
+(des dates substituées au chargement par `$Hx`). Le suffixe stase, lui,
+fait varier une référence de COLONNE. Deux mécanismes de fan-out
+différents qui convergent sur la même forme de sortie : N colonnes
+`X_<clé>` issues d'un seul run. On unifie donc la couche vocabulaire et
+métadonnées, PAS le fan-out (cf. §10).
+
+Ces fiches portent déjà les traces de ce besoin mal servi :
+`horizon_labels` est déclaré dans 55 fiches et lu par RIEN (ni code, ni
+linter, ni tests, ni docs), et `{horizon}` apparaît dans 110 blocs de
+méta (`method`, en et fr) sans être substitué nulle part. Le loader ne
+substitue que les `$Hx` du process, qui sont des dates.
+
+**Un suffixe est un enregistrement, pas une étiquette.** Entre `name`,
+`description` et `method`, on veut pouvoir écrire un nom court (`H1`,
+`DOE`, `rcp85`), un nom long (« horizon proche », « débit objectif
+d'étiage », « scénario d'émission 8.5 ») et des informations
+complémentaires (pour `H1`, la période « 2021-2050 »). D'où un
+enregistrement par suffixe, déclarable dans la fiche et fournissable à
+l'appel.
+
+Dans une fiche à ensemble ouvert (cas seuil) :
+
+```yaml
+meta:
+  fr:
+    name: "Période de retour du {suffix.name} sur le débit minimal sur 10 jours"
+    method: "... 3. période de retour du seuil {suffix}"
+    suffix_default:
+      name: seuil réglementaire d'étiage
+      short: seuil
+```
+
+Dans une fiche à ensemble fermé (forme cible d'une fiche horizon, cf.
+§10, à ne PAS appliquer maintenant) :
+
+```yaml
+  fr:
+    name: "Changement moyen ... entre l'{suffix.name} ({suffix.period})
+           et la période historique"
+    suffixes:
+      H1: {name: horizon proche,   period: "2021-2050"}
+      H2: {name: horizon moyen,    period: "2041-2070"}
+      H3: {name: horizon lointain, period: "2070-2099"}
+    suffix_default:
+      name: horizon futur
+      period: "toutes périodes"
+```
+
+Les enregistrements vivent par langue (dans `meta.en` et `meta.fr`),
+chacun autosuffisant : pas de règle de fusion entre `meta.global` et
+les langues, au prix d'une répétition minime des champs neutres. C'est
+le découpage que `horizon_labels` utilisait déjà.
+
+À l'appel, deux formes :
+
+```python
+card.extract(data, cards=["rp-VCN10"], suffix=["DOE", "DCR"])
+
+card.extract(data, cards=["rp-VCN10"], suffix={
+    "DOE": {"en": {"name": "low-flow target discharge"},
+            "fr": {"name": "débit objectif d'étiage"}},
+    "DCR": {"en": {"name": "crisis discharge"},
+            "fr": {"name": "débit de crise"}},
+})
+```
+
+**Les placeholders forment un espace de noms ouvert.** `{suffix}` seul
+vaut `{suffix.short}`, et `{suffix.short}` vaut la clé (`H1`, `DOE`)
+sauf si un `short` est déclaré. Tout autre champ s'écrit
+`{suffix.<champ>}`, le jeu de champs n'est pas fermé par le code : un
+besoin nouveau s'exprime dans les fiches, pas dans une nouvelle
+grammaire.
+
+**Trois règles, dans cet ordre.**
+
+1. INVARIANT : aucune accolade ne sort jamais non résolue d'un champ de
+   `meta`. La substitution a toujours lieu ; sans suffixe elle utilise
+   `suffix_default`.
+2. LINT : toute fiche utilisant `{suffix.X}` doit déclarer `X` dans son
+   `suffix_default`, dans CHAQUE langue. Vérifiable statiquement, sans
+   données. Conséquence voulue : une fiche est lisible seule, et
+   `metadata_only=True`, une extraction sans suffixe et le catalogue
+   `docs/CARDS.md` produisent tous la même phrase.
+3. REPLI quand un suffixe est fourni sans un champ : `name` et `short`
+   retombent sur LA CLÉ (`DOE`), jamais sur le `suffix_default` de la
+   fiche. Retomber sur le défaut donnerait le même `name` aux lignes
+   DOE et DCR, soit exactement l'ambiguïté qu'on veut tuer. Pour un
+   champ non standard exigé par la fiche (`period`), pas de repli
+   sensible : erreur explicite nommant la fiche, le champ et le
+   suffixe.
+
+**Fiche sans placeholder recevant un suffixe.** Le cas historique R du
+suffixe est `obs`/`sim`, applicable à N'IMPORTE LAQUELLE des 237 fiches,
+dont aucune n'a de placeholder. Règle : le `name` est complété
+automatiquement en fin de chaîne, « Débit moyen journalier annuel
+(simulation) ». Sur `name` seul, puisque c'est lui qui sert de titre de
+graphique ; `description` et `method` restent intacts. Aucune fiche à
+modifier.
+
+**Priorité fiche/appelant.** L'appelant gagne, champ par champ. La
+fiche fournit le sens par défaut, l'appelant l'adapte à son étude sans
+forker la fiche (passer « +2 °C » là où la fiche dit « horizon
+proche »). Point le moins discuté de la conception, à rouvrir si besoin :
+c'est une ligne de code.
+
+**Une ligne de `meta` par variable.** Un suffixe change le nom de la
+variable, donc c'est une autre variable, donc une autre ligne. S'ajoute
+une colonne `suffix` (vide pour les lignes non suffixées) qui lève
+l'ambiguïté sans re-parser les noms et permet le regroupement que
+`stase.trend` fait déjà avec `extremes_by_suffix=`.
+
+### Câblage côté card (à implémenter)
+
+Périmètre : les 3 fiches `rp-*` UNIQUEMENT. Aucune fiche `delta-*_H`
+n'est touchée par ce chantier.
+
+- `card.extract(..., suffix=..., suffix_delimiter="_")` propagé à chaque
+  `_run_process` (extraction.py). Accepte la liste ou le dict.
+- `_check_input_vars` : une colonne `Q_lim_DOE` doit satisfaire
+  l'exigence `Q_lim` d'une fiche.
+- `_meta_rows` construit APRÈS le run, d'après les colonnes réellement
+  sorties : pour chaque variable déclarée, `var` présente donne une
+  ligne nue, `var_DOE` donne une ligne DOE. Raison : la règle de stase
+  est conditionnelle (une fonction sans référence variable sort une
+  seule fois, sans suffixe), donc card ne peut pas savoir avant le run
+  quelles variables sont suffixées. Dans un même appel avec
+  `suffix=["DOE","DCR"]`, `rp-VCN10` donne 2 lignes et `QA` en donne 1.
+  Lire les colonnes de sortie est exact par construction et ne peut pas
+  diverger de stase, contrairement à une réimplémentation de la
+  propagation côté card. Implique d'inverser l'ordre de la boucle de
+  `extract()` (aujourd'hui `_meta_rows` est appelé avant le calcul,
+  extraction.py:384).
+- `metadata_only=True` : rien ne tourne, donc forme par défaut, qui est
+  la même que celle d'une extraction sans suffixe (règle 2).
+- Nommage des colonnes d'entrée : la grammaire impose `Q_lim_DOE`, pas
+  `Q_DOE`. Ce n'est pas cosmétique : `Q_DOE` serait capté comme la
+  variante suffixée de la série de débit `Q` et remplacerait la
+  chronique par la constante de seuil (cas figé dans
+  `test_base_column_loses_to_its_own_variant`). Le `rename=` déjà
+  présent dans `card.extract` couvre le besoin sans code nouveau.
+- Au passage, nettoyer les variables internes `metaEX_parts` / `dataEX`
+  d'extraction.py:382 : la sortie s'appelle `meta` et `data` depuis
+  2026-07-16.
+
+**Points tranchés.** Pas de liste de suffixes réservés : suffixer par
+`_DJF` ou `_H1` peut être un choix délibéré d'une fiche qui vient de
+faire un `compress`, l'interdire casserait un usage légitime ; le
+`verbose=True` de `_resolve_column_references` trace déjà la colonne
+retenue pour chaque référence. La grammaire est unique entre l'ajout de
+suffixes à l'extraction et leur retrait dans `stase.trend`
+(`suffix=`, `extremes_by_suffix=`). Sorties NaN quand le seuil est hors
+du support de la loi (validé). Pas de produit cartésien : une seule
+dimension de suffixe par appel.
+
+**Limite assumée.** Le lint protège les fiches, pas les appels : une
+étiquette mal choisie à l'appel donne une phrase bancale, dans les deux
+langues, et c'est invérifiable automatiquement. Le risque existait déjà
+avant ce chantier ; la relecture des phrases composées fait partie du
+travail sur ces fiches plus complexes.
+
+## 10. Arguments de fonction en colonnes (horizons, degrés de réchauffement)
+
+Chantier SUIVANT, à ne pas mélanger avec le §9. Idée : faire passer les
+dates des horizons en colonnes des données plutôt qu'en paramètres
+littéraux. Les fiches `delta-*_H` deviendraient structurellement
+identiques aux fiches de seuil (une colonne constante par série,
+éclatée par le suffixe stase), leur P2 passerait de trois entrées `func`
+à une seule, les noms de sortie resteraient `delta-QNA_summer_H1` (base
+plus suffixe, à l'identique), et surtout les horizons par DEGRÉ DE
+RÉCHAUFFEMENT deviendraient possibles, chaque chaîne de modèles
+atteignant +2 °C à une date différente. Cas Explore2, pas cas d'école.
+
+**Deux blocages vérifiés dans le code le 2026-07-20 :**
+
+- `delta(X, dates, past, future, relative, ...)` prend des PAIRES
+  (`functions/seasonal.py:33`, usage `past[0]`, `past[1]`). Une colonne
+  fournit une valeur par ligne, pas une paire : il faudrait deux
+  colonnes par période et une signature à quatre scalaires. Changement
+  de signature, donc RENAMING.md et 59 fiches.
+- stase ne résout en référence que les kwargs dont la valeur est une
+  chaîne UNIQUE (`extraction.py:936`, `isinstance(v, str)`). Un
+  `{past: ["H0_start", "H0_end"]}` repartirait en littéral. Il faut donc
+  soit quatre kwargs scalaires, soit ajouter la résolution de listes de
+  références dans stase.
+
+**Coût annexe.** Quatre colonnes de dates constantes répétées sur chaque
+ligne journalière (le précédent existe : `Q_lim` est déjà exactement
+ça), et la perte de l'autodocumentation des horizons de référence dans
+la fiche. Ce dernier point se rattrape : la fiche garde son
+`meta.global.horizons` et `card.extract` matérialise ces dates en
+colonnes constantes quand l'appelant n'en fournit pas. Défaut inchangé,
+override par série possible.
+
+**Déjà ouvert, vérifié.** Une sortie de process devient une colonne
+disponible au process suivant, et un kwarg nommant une colonne est
+résolu dynamiquement. Des dates CALCULÉES par un process amont et
+consommées en aval sont donc structurellement possibles sans code
+nouveau côté stase.
+
+La couche métadonnées du §9 (`suffixes`, `suffix_default`,
+placeholders, colonne `suffix`) est IDENTIQUE que les horizons restent
+des paramètres littéraux ou deviennent des colonnes. Elle ne ferme
+donc rien, et c'est la raison pour laquelle elle est construite en
+premier.

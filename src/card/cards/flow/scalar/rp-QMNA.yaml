@@ -1,18 +1,18 @@
 id: rp-QMNA
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-07-18"
+date: "2026-07-20"
 
 meta:
   en:
     variable: rp-QMNA
     unit: year
-    name: Return period of the station's regulatory threshold discharge with respect to the annual minima of monthly flows
+    name: Return period of the {suffix.name} with respect to the annual minima of monthly flows
     description: Inverse of the return-level fiches (QMNA-5) - the log-normal law is fitted on the QMNA series and evaluated at the constant threshold discharge Q_lim given by regulatory texts (e.g. DOE, DCR); a threshold far below the fitted law gives an extrapolated return period, reported as is
     method: |
       1. monthly aggregation - mean
       2. annual aggregation [Month of maximum monthly flows] - minimum
-      3. no temporal aggregation - return period of the threshold Q_lim with the log-normal distribution
+      3. no temporal aggregation - return period of the {suffix.short} threshold with the log-normal distribution
     sampling_period: Month of maximum monthly flows
     classification:
       domain: flow
@@ -20,16 +20,19 @@ meta:
       aspect: frequency
       season: by month
       output: scalar
+    suffix_default:
+      name: station's regulatory threshold discharge
+      short: Q_lim
 
   fr:
     variable: rp-QMNA
     unit: an
-    name: Période de retour du débit seuil réglementaire de la station au regard des minimums annuels des débits mensuels
+    name: Période de retour du {suffix.name} au regard des minimums annuels des débits mensuels
     description: Inverse des fiches de niveau de retour (QMNA-5) - la loi log-normale est ajustée sur la série des QMNA puis évaluée au débit seuil constant Q_lim donné par les textes réglementaires (par exemple DOE, DCR) ; un seuil loin du corps de la loi donne une période de retour extrapolée, restituée telle quelle
     method: |
       1. agrégation mensuelle - moyenne
       2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum
-      3. aucune agrégation temporelle - période de retour du seuil Q_lim avec la loi log-normale
+      3. aucune agrégation temporelle - période de retour du seuil {suffix.short} avec la loi log-normale
     sampling_period: Mois du maximum des débits mensuels
     classification:
       domain: débit
@@ -37,6 +40,9 @@ meta:
       aspect: fréquence
       season: par mois
       output: scalaire
+    suffix_default:
+      name: débit seuil réglementaire de la station
+      short: Q_lim
 
   global:
     input_vars: "Q, Q_lim"

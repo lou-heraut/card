@@ -42,6 +42,7 @@ from pathlib import Path
 
 import yaml
 
+from . import suffix as _sfx
 from .extraction import _DEFAULT_CARD_DIR, resolve
 from .loader import load_card
 
@@ -290,6 +291,65 @@ def _check_classification(card, issues):
                 )
 
 
+def _check_suffix(card, issues):
+    """Placeholders {suffix.X} et vocabulaire de suffixes.
+
+    Garantit qu'aucune accolade ne peut sortir non résolue : une fiche
+    qui utilise un placeholder déclare son défaut, dans chaque langue.
+    Une fiche reste ainsi lisible seule, et metadata_only, l'extraction
+    sans suffixe et le catalogue produisent la même phrase.
+    """
+    used_any = False
+    for lang in ("en", "fr"):
+        meta_lang = card["meta"][lang]
+        used = _sfx.card_fields_used(meta_lang)
+        declared = meta_lang.get("suffix_default")
+        used_any = used_any or bool(used)
+
+        if used and not declared:
+            issues.append(
+                f"meta.{lang}: placeholder {{suffix}} utilisé sans "
+                f"'suffix_default' (champs requis : {sorted(used)})"
+            )
+        elif used:
+            manquants = sorted(f for f in used if f not in declared)
+            if manquants:
+                issues.append(
+                    f"meta.{lang}.suffix_default: champs manquants "
+                    f"{manquants} (utilisés par un placeholder)"
+                )
+        if declared and not isinstance(declared, dict):
+            issues.append(f"meta.{lang}.suffix_default: dict attendu")
+
+        suffixes = meta_lang.get("suffixes")
+        if suffixes is not None:
+            if not isinstance(suffixes, dict):
+                issues.append(f"meta.{lang}.suffixes: dict attendu")
+            else:
+                for key, rec in suffixes.items():
+                    if not isinstance(rec, dict):
+                        issues.append(
+                            f"meta.{lang}.suffixes.{key}: dict de champs attendu"
+                        )
+
+    if not used_any:
+        for lang in ("en", "fr"):
+            for field in ("suffix_default", "suffixes"):
+                if card["meta"][lang].get(field) is not None:
+                    issues.append(
+                        f"meta.{lang}.{field}: déclaré mais aucun placeholder "
+                        "{suffix} ne l'utilise (champ mort)"
+                    )
+
+    keys_en = set((card["meta"]["en"].get("suffixes") or {}))
+    keys_fr = set((card["meta"]["fr"].get("suffixes") or {}))
+    if keys_en != keys_fr:
+        issues.append(
+            f"meta.suffixes: clés en/fr différentes "
+            f"({sorted(keys_en ^ keys_fr)})"
+        )
+
+
 def validate_card(path) -> list[str]:
     """Retourne la liste des problèmes détectés (vide si la fiche est valide)."""
     issues: list[str] = []
@@ -322,6 +382,7 @@ def validate_card(path) -> list[str]:
     _check_classification(card, issues)
     _check_path_coherence(card, Path(path), issues)
     _check_inputs(card, issues)
+    _check_suffix(card, issues)
     return issues
 
 

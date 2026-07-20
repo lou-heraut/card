@@ -33,6 +33,7 @@ import pandas as pd
 from stase import Adaptive, process_extraction
 
 from . import functions
+from . import suffix as _sfx
 from .loader import load_card
 
 _DEFAULT_CARD_DIR = Path(__file__).resolve().parent / "cards"
@@ -108,7 +109,7 @@ def _override_sampling(sp, override, preferred, card_id):
 
 def _run_process(data, proc, period_default=None, cancel_lim=False,
                  sampling_override=None, preferred=None, card_id="",
-                 verbose=False):
+                 suffix_keys=None, suffix_delimiter="_", verbose=False):
     period = proc["period"] if proc["period"] is not None else period_default
     sp = _override_sampling(proc["sampling_period"], sampling_override,
                             preferred, card_id)
@@ -124,12 +125,14 @@ def _run_process(data, proc, period_default=None, cancel_lim=False,
         keep=proc["keep"],
         compress=proc["compress"],
         expand=proc["expand"],
+        suffix=suffix_keys or None,
+        suffix_delimiter=suffix_delimiter,
         verbose=verbose,
     )
 
 
 # ---------------------------------------------------------------------------
-# metaEX
+# meta
 # ---------------------------------------------------------------------------
 
 def _as_list(x, n):
@@ -220,6 +223,68 @@ def _meta_rows(card) -> pd.DataFrame:
     })
 
 
+def _meta_frame(card, out_cols=None, keys=(), records=None, delim="_"):
+    """Lignes de méta, une par variable RÉELLEMENT sortie.
+
+    Un suffixe change le nom d'une variable, donc c'est une autre
+    variable, donc une autre ligne. On lit les colonnes sorties plutôt
+    que de raisonner sur la fiche : la règle de stase est conditionnelle
+    (une fonction dont aucune référence n'a de variante suffixée sort une
+    seule fois, sans suffixe), donc dans un même appel une fiche peut
+    donner deux lignes et sa voisine une seule. Lire la sortie est exact
+    par construction et ne peut pas diverger de stase.
+
+    out_cols None (metadata_only) : forme par défaut de la fiche, celle
+    que produit aussi une extraction sans suffixe.
+    """
+    records = records or {}
+    en, fr, gl = card["meta"]["en"], card["meta"]["fr"], card["meta"]["global"]
+    card_id = card.get("id") or card.get("path")
+
+    def frame_for(key):
+        meta = {"global": gl}
+        for lang, meta_lang in (("en", en), ("fr", fr)):
+            rec = (_sfx.default_record(meta_lang) if key is None
+                   else _sfx.record(key, lang, meta_lang, records))
+            meta[lang] = {**meta_lang,
+                          **_sfx.apply(meta_lang, rec, card_id=card_id,
+                                       lang=lang, key=key)}
+        df = _meta_rows({**card, "meta": meta})
+        if key is not None:
+            for col in ("variable_en", "variable_fr"):
+                df[col] = [f"{v}{delim}{key}" if isinstance(v, str) else v
+                           for v in df[col]]
+        df["suffix"] = key or ""
+        return df
+
+    if out_cols is None:
+        return frame_for(None)
+
+    base_vars = list(_meta_rows(card)["variable_en"])
+    parts, kept = [], set()
+
+    idx = [i for i, v in enumerate(base_vars) if v in out_cols]
+    if idx:
+        parts.append(frame_for(None).iloc[idx])
+        kept.update(idx)
+    for key in keys:
+        idx = [i for i, v in enumerate(base_vars)
+               if f"{v}{delim}{key}" in out_cols]
+        if idx:
+            parts.append(frame_for(key).iloc[idx])
+            kept.update(idx)
+
+    # Variable déclarée mais absente de la sortie : la méta décrit la
+    # fiche, on la garde sous sa forme par défaut.
+    idx = [i for i in range(len(base_vars)) if i not in kept]
+    if idx:
+        parts.append(frame_for(None).iloc[idx])
+
+    if not parts:
+        return frame_for(None)
+    return pd.concat(parts).sort_index(kind="stable").reset_index(drop=True)
+
+
 # ---------------------------------------------------------------------------
 # Vérification amont des variables d'entrée
 # ---------------------------------------------------------------------------
@@ -234,8 +299,12 @@ def _required_vars(card) -> list[str]:
     return [str(v).strip() for v in raw]
 
 
-def _check_input_vars(data: pd.DataFrame, loaded: dict) -> dict:
+def _check_input_vars(data: pd.DataFrame, loaded: dict,
+                      suffix_keys=(), delim="_") -> dict:
     """Vérifie que les colonnes requises par les fiches sont présentes.
+
+    Une exigence 'Q_lim' est satisfaite par la colonne 'Q_lim' ou par
+    n'importe quelle variante suffixée 'Q_lim_DOE'.
 
     Retourne {card_name: {col_data: var_fiche}} pour les affectations
     automatiques non ambiguës : une fiche ne requiert qu'UNE variable
@@ -250,9 +319,13 @@ def _check_input_vars(data: pd.DataFrame, loaded: dict) -> dict:
     problems: list[str] = []
     auto_msgs: set = set()
 
+    def _present(var):
+        return var in data.columns or any(
+            f"{var}{delim}{s}" in data.columns for s in suffix_keys)
+
     for name, card in loaded.items():
         required = _required_vars(card)
-        missing = [v for v in required if v not in data.columns]
+        missing = [v for v in required if not _present(v)]
         if not missing:
             continue
         if len(required) == 1 and len(numeric_cols) == 1:
@@ -311,7 +384,8 @@ def extract(data, cards=("QA", "QJXA"), path=None,
             default_period=None, ignore_na_limits=False,
             sampling_period=None,
             simplify=False, metadata_only=False,
-            rename=None, verbose=False, CARD_name=None):
+            rename=None, suffix=None, suffix_delimiter="_",
+            verbose=False, CARD_name=None):
     """Extrait des variables hydroclimatiques selon des fiches CARD YAML.
 
     data : DataFrame avec une colonne datetime, une colonne texte
@@ -339,6 +413,18 @@ def extract(data, cards=("QA", "QJXA"), path=None,
            rename={"Qm3s": "Q"}. Si les données n'ont qu'une seule
            colonne numérique et la fiche une seule variable requise, la
            correspondance est automatique (signalée par un warning).
+    suffix : applique les fiches à plusieurs variantes d'une entrée en
+           un appel (plusieurs seuils, obs/sim...). Liste de clés,
+           suffix=["DOE", "DCR"] : les colonnes 'Q_lim_DOE' et
+           'Q_lim_DCR' donnent les sorties 'rp-VCN10_DOE' et
+           'rp-VCN10_DCR', et les colonnes partagées (la chronique 'Q')
+           ne sont lues qu'une fois. Une fonction dont aucune référence
+           n'a de variante suffixée n'est calculée qu'une fois et sort
+           sans suffixe. Ou un dict pour nommer les variantes dans les
+           métadonnées, suffix={"DOE": {"fr": {"name": "débit objectif
+           d'étiage"}}} : chaque sortie a alors sa propre ligne de méta,
+           avec son nom, et la colonne 'suffix' rappelle la clé.
+    suffix_delimiter : délimiteur variable/suffixe (défaut "_").
     CARD_name : alias hérité du R pour `cards` (prioritaire si fourni).
 
     Retourne {"data": {id_fiche: DataFrame}, "meta": DataFrame} — la
@@ -376,13 +462,16 @@ def extract(data, cards=("QA", "QJXA"), path=None,
     found = _find_cards(CARD_path, list(cards) if cards else None)
     loaded = {name: load_card(path) for name, path in found.items()}
 
-    auto_map = ({} if extract_only_metadata
-                else _check_input_vars(data, loaded))
+    suffix_keys, suffix_records = _sfx.normalize(suffix)
 
-    metaEX_parts, dataEX = [], {}
+    auto_map = ({} if extract_only_metadata
+                else _check_input_vars(data, loaded, suffix_keys,
+                                       suffix_delimiter))
+
+    meta_parts, out_data = [], {}
     for name, card in loaded.items():
-        metaEX_parts.append(_meta_rows(card))
         if extract_only_metadata:
+            meta_parts.append(_meta_frame(card))
             continue
         if verbose:
             print(f"Computes {name}")
@@ -396,25 +485,31 @@ def extract(data, cards=("QA", "QJXA"), path=None,
                                   sampling_override=sampling_period,
                                   preferred=preferred,
                                   card_id=name,
+                                  suffix_keys=suffix_keys,
+                                  suffix_delimiter=suffix_delimiter,
                                   verbose=verbose)
-        dataEX[name] = result
+        out_data[name] = result
+        # Après le run : seule la sortie dit quelles variables sont
+        # suffixées (cf. _meta_frame).
+        meta_parts.append(_meta_frame(card, set(result.columns), suffix_keys,
+                                      suffix_records, suffix_delimiter))
 
-    metaEX = pd.concat(metaEX_parts, ignore_index=True) if metaEX_parts \
+    out_meta = pd.concat(meta_parts, ignore_index=True) if meta_parts \
         else pd.DataFrame()
 
     if extract_only_metadata:
-        return {"meta": metaEX}
+        return {"meta": out_meta}
 
-    if simplify and dataEX:
-        dfs = list(dataEX.values())
+    if simplify and out_data:
+        dfs = list(out_data.values())
         merged = dfs[0]
         for df in dfs[1:]:
             by = [c for c in merged.columns
                   if c in df.columns and not pd.api.types.is_numeric_dtype(df[c])]
             merged = merged.merge(df, on=by, how="outer")
-        return {"data": merged, "meta": metaEX}
+        return {"data": merged, "meta": out_meta}
 
-    return {"data": dataEX, "meta": metaEX}
+    return {"data": out_data, "meta": out_meta}
 
 
 # Alias hérité du package R CARD
