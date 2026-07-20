@@ -34,8 +34,26 @@ def _outputs_by_card(meta: pd.DataFrame) -> dict:
     return out
 
 
+def _relative_by_variable(meta: pd.DataFrame) -> dict:
+    """{variable: relative} d'après les fiches, pour stase.trend.
+
+    Les clés sont les noms de variables tels que l'extraction les a
+    produits, suffixe compris : depuis que la méta est par suffixe,
+    QA_obs et QA_sim ont chacun leur ligne, donc leur propre valeur.
+    """
+    return {str(v): bool(r)
+            for v, r in zip(meta["variable_en"], meta["relative"])}
+
+
+def _suffixes_used(meta: pd.DataFrame) -> list:
+    """Suffixes réellement présents dans l'extraction (colonne suffix)."""
+    if "suffix" not in meta.columns:
+        return []
+    return sorted({str(s) for s in meta["suffix"] if str(s)})
+
+
 def trend(extraction, level=0.1, dependency="AR1", period=None,
-          seed=None, verbose=False):
+          extremes_pool_suffixes=False, seed=None, verbose=False):
     """Tendance Mann-Kendall + pente de Sen sur un résultat de card.extract.
 
     extraction : le retour de card.extract, {"data": ..., "meta": ...} —
@@ -45,12 +63,21 @@ def trend(extraction, level=0.1, dependency="AR1", period=None,
     dependency : 'AR1' (défaut — robuste à l'autocorrélation d'ordre 1,
         fréquente sur les séries hydro annuelles ; Hamed & Rao 1998),
         'INDE' (test standard) ou 'LTP' (mémoire longue, Hamed 2008).
+    extremes_pool_suffixes : sur une extraction suffixée (obs/sim,
+        plusieurs seuils), met les bornes de quantiles en commun entre
+        les variantes d'une même variable de base, ce qui les rend
+        comparables entre elles. Défaut False : chaque variante a ses
+        propres bornes.
     period, seed, verbose : passés à stase.trend.
 
     Seules les fiches de facette `output: series` sont acceptées : la
     tendance d'un scalaire ou d'une courbe n'a pas de sens, ValueError
-    explicite sinon. La colonne `relative` de la table meta pilote le
-    calcul de a_relative (pente en % de la moyenne).
+    explicite sinon.
+
+    Le caractère relatif de chaque variable vient des fiches
+    (meta.global.relative) et pilote a_relative et change_relative dans
+    la sortie. Rien à saisir : card le traduit pour stase, qui reste
+    agnostique du format des fiches.
 
     Retourne {"data": {id_fiche: DataFrame} | DataFrame, "meta": meta} —
     même forme de data que l'entrée.
@@ -76,8 +103,12 @@ def trend(extraction, level=0.1, dependency="AR1", period=None,
             "Filtrez avec card.list_cards(output='series')."
         )
 
+    suffixes = _suffixes_used(meta)
     kw = dict(level=level, dependency=dependency, period=period,
-              seed=seed, verbose=verbose, meta=meta)
+              seed=seed, verbose=verbose,
+              relative=_relative_by_variable(meta),
+              suffix=suffixes or None,
+              extremes_pool_suffixes=extremes_pool_suffixes)
     if isinstance(data, dict):
         return {"data": {name: process_trend(df, **kw)
                          for name, df in data.items()},

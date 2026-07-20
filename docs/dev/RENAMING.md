@@ -225,3 +225,34 @@ rp-VCN30, rp-QMNA**. Sans suffixe, leur `name` est inchangé au caractère
 près ; leur `method` passe de « return period of the threshold Q_lim » à
 « return period of the Q_lim threshold » (« période de retour du seuil
 Q_lim » inchangé en français). Aucune valeur numérique modifiée.
+
+## card.trend : suffixes et unités de la sortie de tendance — 2026-07-20
+
+Suite du chantier suffixes, côté tendance. Nécessite **stase 0.4.0**.
+
+`card.trend` ne passe plus la table `meta` à stase (le paramètre `meta=`
+y a été retiré : il faisait dépendre stase du format de card et
+court-circuitait une validation). Il traduit désormais les fiches vers
+la forme générique `relative={variable: bool}`. Rien ne change pour
+l'utilisateur : le caractère relatif vient toujours de
+`meta.global.relative` des fiches, card fait la traduction.
+
+`card.trend` dérive aussi `suffix=` de la colonne `suffix` de la table
+`meta` : une extraction suffixée (`QA_obs`, `QA_sim`) est suivie sans
+avoir à répéter les suffixes, et la sortie porte `variable_no_suffix`.
+
+Nouveau paramètre **extremes_pool_suffixes** (défaut False, même nom
+qu'en stase) : met les bornes de quantiles en commun entre les variantes
+d'une même variable de base, ce qui rend `QA_obs` et `QA_sim`
+comparables sur la même échelle.
+
+**Sorties de tendance modifiées** (rupture de parité R volontaire,
+détail dans stase `docs/dev/ORIGINE_R.md`) : `a` et `change` portent
+toujours la valeur absolue, `a_relative` et `change_relative` toujours
+le pourcentage et valent NaN quand la variable n'est pas relative. Le R
+recopiait la valeur absolue dans la colonne relative, si bien que deux
+variables d'une même sortie pouvaient être dans des unités différentes
+sous le même nom de colonne. Nouvelles colonnes `a_min`/`a_max` et
+`change_min`/`change_max` (bornes de quantiles dans l'unité de la
+variable), `change_relative` et ses bornes. `mean_period` est désormais
+toujours calculée.
