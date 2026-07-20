@@ -61,7 +61,34 @@ Certaines fiches prennent en plus une entrée constante par station,
 comme le débit seuil réglementaire `Q_lim` des fiches `rp-VCN10`,
 `rp-VCN30` et `rp-QMNA` (période de retour d'un seuil donné par les
 textes, l'inverse de `VCN10-5`) : une colonne `Q_lim` de valeur
-constante dans le tableau d'entrée, un seuil par appel.
+constante dans le tableau d'entrée.
+
+Une station a souvent plusieurs seuils. `suffix=` applique la fiche à
+chacun en un appel, à partir d'une colonne par seuil (`Q_lim_DOE`,
+`Q_lim_DCR`) :
+
+```python
+card.extract(data, cards=["rp-VCN10"], suffix=["DOE", "DCR"])
+# -> colonnes rp-VCN10_DOE et rp-VCN10_DCR
+```
+
+La chronique `Q`, partagée par les deux calculs, n'est lue qu'une fois.
+Chaque sortie a sa propre ligne dans `res["meta"]`, avec une colonne
+`suffix` qui rappelle la variante. Pour que ces lignes portent un nom
+lisible plutôt que la clé brute, nommez les variantes :
+
+```python
+card.extract(data, cards=["rp-VCN10"], suffix={
+    "DOE": {"fr": {"name": "débit objectif d'étiage"}},
+    "DCR": {"fr": {"name": "débit de crise"}},
+})
+# name_fr -> "Période de retour du débit objectif d'étiage au regard [...]"
+```
+
+Le même mécanisme sert à comparer deux jeux d'une même variable sur
+n'importe quelle fiche, par exemple des colonnes `Q_obs` et `Q_sim`
+avec `suffix=["obs", "sim"]`. `card.trend` suit ensuite ces variantes
+sans qu'il faille les redéclarer.
 
 ## Trouver sa fiche
 

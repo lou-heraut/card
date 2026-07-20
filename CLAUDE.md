@@ -27,13 +27,16 @@ src/card/
   functions/     # fonctions hydro portées de R
   loader.py      # YAML -> processus ($Hx, tuples func, défauts)
   extraction.py  # card.extract -> {data, meta} (chaîne P1..Pn via stase)
+  suffix.py      # suffixes de scénario : vocabulaire {clé: enregistrement},
+                 #   placeholders {suffix.<champ>}, défauts de fiche
   trend.py       # card.trend : stase.trend fiche-conscient (refus explicite
-                 #   des fiches non `output: series`, meta -> relative)
+                 #   des fiches non `output: series` ; traduit les fiches en
+                 #   relative={variable: bool}, dérive suffix= de meta)
   management.py  # list_cards (filtres par facette), info, copy_cards
   schema.py      # linter : python -m card.schema
   topics.yaml    # vocabulaire de contrôle de la classification (en/fr)
   inputs.yaml    # unités/définitions des variables d'entrée (invariants)
-tests/           # pytest ~48 tests (goldens R, loader, lint, UX)
+tests/           # pytest 78 tests (goldens R, loader, lint, suffixes, UX)
 scripts/generate_catalog.py   # docs/CARDS.md — relancer après toute modif
 ```
 
@@ -122,50 +125,40 @@ Règles clés (détail : NOMENCLATURE.md) :
   réponses) : reformuler (deux points, parenthèses, phrases séparées).
   Perçu comme un marqueur de texte IA, rebute des utilisateurices.
 
-## État (2026-07-18, soir)
+## État (2026-07-20)
 
-Session du 2026-07-18 (TOUT NON COMMITÉ, card + 1 fichier stase) :
-11 fiches créées après inventaire de symétrie (mean-QSA_season,
-mean-TMA_month, mean-RMA_month, ETPSA_season, ETPMA_month,
-median-centerLF, median-tVCX3, median-tVCX10, et rp-VCN10/VCN30/QMNA
-= période de retour d'un seuil réglementaire Q_lim, inverse exact de
-VCN10-5 via la nouvelle fonction return_period). Corrections validées
-utilisateur : loi log-normale mixte passée à l'approche
-conditionnelle standard (RENAMING.md 2026-07-18, rupture R sur
-stations intermittentes), nansum_strict pour l'ETP, sorties
-mean-RSA_* renommées, palettes complétées par héritage (39 fiches) +
-palette ETP inversée, warning NaN->int de stase corrigé à la source.
-Backlogs : CHANTIERS §7 (symétries restantes), §8 (palettes), et
-SURTOUT **§9 : multi-seuils/suffix, une implémentation fan-out dans
-card.extract a été faite puis RETIRÉE le jour même (conçue sans
-inventorier le suffix= historique du R) ; lire §9 en entier avant de
-reprendre ce sujet**.
+Tout est commité et poussé sur les deux dépôts (card et
+`../../EXstat_project/stase/`, qui va de pair). Corpus = 237 fiches.
 
-## État précédent (2026-07-16, soir)
+**Dernier chantier livré : suffixes de scénario et métadonnées
+évolutives.** Une même fiche s'applique à plusieurs variantes d'une
+entrée en un appel, `card.extract(..., suffix=["DOE","DCR"])` sur des
+colonnes `Q_lim_DOE`/`Q_lim_DCR`, ou `obs`/`sim` sur n'importe quelle
+fiche. Le fan-out des valeurs est fait par stase au niveau colonne ;
+card n'ajoute que les métadonnées, si bien qu'aucun placeholder ne peut
+changer un calcul. Une variable suffixée est une autre variable, donc
+une autre ligne de `meta`, plus une colonne `suffix`. `card.trend` suit
+les suffixes tout seul en lisant cette colonne. Détail utilisateur dans
+RENAMING.md (deux entrées du 2026-07-20), conception dans le docstring
+de `src/card/suffix.py`, divergences R dans stase
+`docs/dev/ORIGINE_R.md`.
 
-Audit des fiches appliqué (4 lots) puis classification à facettes
-déployée (fiches, API, linter, catalogue, arborescence cards/<domain>/
-<output>/) ; corpus = 237 fiches ; tout poussé sur GitHub.
-`card.extract` retourne {"data", "meta"} (les alias dataEX/metaEX
-n'existent plus). `card.trend` (2026-07-16) prend ce retour tel quel
-(défaut AR1, refus des fiches non `series`) ; card-api l'utilise au
-lieu de recoder la glue. Revue critique de stase FAITE (2026-07-16
-soir), corrections dans stase 0.2 : seuil max_na_pct comparé au NApct
-exact, grille temporelle matérialisée (lignes absentes = NaN par
-série, résolution détectée par série avec erreur si mixte, keep='all'
-rend la grille complète, process_trend réindexe ses séries agrégées).
-Les chroniques Hub'Eau trouées sont donc sûres (max_na_years, dates
-d'extremum, fenêtres glissantes, pente de Sen : biais mesuré +38 %
-avant correction). Équivalence trouée/dense testée : stase
-tests/test_grid.py, card tests/test_gap_robustness.py. Reste une
-passe anti-quadratin sur toutes les docs (demandée, non faite).
+Au passage, stase 0.4.0 est redevenu agnostique de card (retrait du
+paramètre `meta=` de `process_trend`) et ses colonnes de tendance ne
+sont plus ambiguës : `a`/`change` toujours en absolu, `a_relative`/
+`change_relative` toujours en pourcentage et NaN sinon.
 
-**Écosystème** : le service web vit dans le repo séparé
-`../card-api/` (FastAPI + Hub'Eau + quotas + journal, conception dans
-docs/dev/API.md, son propre CLAUDE.md) — **DÉPLOYÉ** (2026-07-17) sur
-la VM de l'utilisateur, derrière son Apache existant (make apache,
-port local 8001, DOMAIN=IP en attendant un nom de domaine donc HTTP).
-En attente utilisateur : PEP 541 (nom PyPI `card`, repli card-stase),
-signalement amont des 11 fiches cassées dans le package R, nom de
-domaine + certbot. Pistes : docs/dev/CHANTIERS.md (§1 : questions
-jobs/RGPD).
+**Prochain gros chantier : CHANTIERS §9**, les fiches `delta-*_H` dont
+les dates d'horizon passeraient en colonnes. C'est ce qui rend utile la
+couche de placeholders et débloque les horizons par degré de
+réchauffement. Un arbitrage d'entrée y attend l'utilisateur.
+
+**Écosystème** : le service web vit dans le repo séparé `../card-api/`
+(FastAPI + Hub'Eau + quotas + journal, conception dans docs/dev/API.md,
+son propre CLAUDE.md), DÉPLOYÉ depuis le 2026-07-17 sur la VM de
+l'utilisateur derrière son Apache (make apache, port local 8001,
+DOMAIN=IP donc HTTP en attendant un nom de domaine). En attente
+utilisateur : PEP 541 (nom PyPI `card`, repli card-stase), signalement
+amont des 11 fiches cassées dans le package R, nom de domaine +
+certbot. Reste aussi une passe anti-quadratin sur les docs (demandée,
+non faite).
