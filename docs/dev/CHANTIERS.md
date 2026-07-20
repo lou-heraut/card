@@ -111,6 +111,15 @@ vert→marron (durées/volumes d'étiage, ETP : assèchement).
 
 ## 9. Multi-seuils réglementaires : le suffix de stase (2026-07-20)
 
+> **FAIT le 2026-07-20**, extraction et tendance. Conservé ici parce que
+> le §10 s'appuie sur cette conception, à retirer quand le §10 sera
+> traité. Ce qui a été livré : `suffix=` dans `card.extract`, le
+> vocabulaire de suffixes et les placeholders, la colonne `suffix` de
+> `meta`, la règle de lint, les 3 fiches `rp-*`, puis côté tendance le
+> retrait de `meta=` de stase et le suivi automatique des suffixes par
+> `card.trend`. Trace utilisateur dans `RENAMING.md` (deux entrées du
+> 2026-07-20) et dans stase `docs/dev/ORIGINE_R.md`.
+
 **Objectif.** Les fiches rp-VCN10, rp-VCN30, rp-QMNA donnent la période
 de retour d'UN débit seuil réglementaire par série, passé en colonne
 constante Q_lim. Une station a en pratique plusieurs seuils (DOE, DCR,
