@@ -11,7 +11,10 @@ authors = [{name = "Louis Héraut", email = "louis.heraut@inrae.fr"}]
 maintainers = [{name = "Louis Héraut", email = "louis.heraut@inrae.fr"}]
 requires-python = ">=3.10"
 dependencies = [
-    "stase",
+    # 0.4.0 : suffixes résolus référence par référence (sans quoi les
+    # fiches rp-* multi-seuils seraient silencieusement fausses) et
+    # process_trend sans meta=, avec extremes_pool_suffixes.
+    "stase>=0.4.0",
     "numpy",
     "pandas>=2.0",
     "PyYAML",
