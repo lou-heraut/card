@@ -1,11 +1,11 @@
 id: delta-VCN10_H
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-28"
+date: "2026-07-21"
 
 meta:
   en:
-    variable: [delta-VCN10_H1, delta-VCN10_H2, delta-VCN10_H3]
+    variable: delta-VCN10
     unit: "%"
     name:
       - Average change of annual minimum of 10-day mean daily discharge between the near horizon and historical period
@@ -15,8 +15,9 @@ meta:
     method: |
       1. no temporal aggregation - 10-day centered moving average
       2. annual aggregation [Month of maximum monthly flows] - minimum
-      3. no temporal aggregation - calculation of the average change between the historical period and the {horizon} horizon
-    horizon_labels: {H1: near, H2: middle, H3: distant}
+      3. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+    suffix_default:
+      name: target
     sampling_period: Month of maximum monthly flows
     classification:
       domain: flow
@@ -26,7 +27,7 @@ meta:
       output: scalar
 
   fr:
-    variable: [delta-VCN10_H1, delta-VCN10_H2, delta-VCN10_H3]
+    variable: delta-VCN10
     unit: "%"
     name:
       - Changement moyen du minimum annuel de la moyenne sur 10 jours du débit journalier entre l'horizon proche et la période historique
@@ -36,8 +37,9 @@ meta:
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
       2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum
-      3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {horizon}
-    horizon_labels: {H1: proche, H2: moyen, H3: lointain}
+      3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+    suffix_default:
+      name: cible
     sampling_period: Mois du maximum des débits mensuels
     classification:
       domain: débit
@@ -47,15 +49,10 @@ meta:
       output: scalaire
 
   global:
-    input_vars: Q
+    input_vars: "Q, ref_start, ref_end, horizon_start, horizon_end"
     preferred_sampling_period: "01-01"
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
-    horizons:
-      H0: ["1976-01-01", "2005-08-31"]
-      H1: ["2021-01-01", "2050-12-31"]
-      H2: ["2041-01-01", "2070-12-31"]
-      H3: ["2070-01-01", "2099-12-31"]
 
 process:
   P1:
@@ -75,7 +72,5 @@ process:
 
   P3:
     func:
-      delta-VCN10_H1: [delta, "VCN10", "date", {past: $H0, future: $H1, relative: true}]
-      delta-VCN10_H2: [delta, "VCN10", "date", {past: $H0, future: $H2, relative: true}]
-      delta-VCN10_H3: [delta, "VCN10", "date", {past: $H0, future: $H3, relative: true}]
+      delta-VCN10: [delta, "VCN10", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
     time_step: none

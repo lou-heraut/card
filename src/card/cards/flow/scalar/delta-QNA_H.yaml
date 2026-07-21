@@ -1,19 +1,20 @@
 id: delta-QNA_H
-version: "2.0"
+version: "2.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-28"
+date: "2026-07-21"
 
 meta:
   en:
-    variable: [delta-QNA_H1, delta-QNA_H2, delta-QNA_H3]
+    variable: delta-QNA
     unit: "%"
     name:
       - Average change of annual minimum of daily discharge between the near horizon and historical period
       - Average change of annual minimum of daily discharge between the middle horizon and historical period
       - Average change of annual minimum of daily discharge between the distant horizon and historical period
     description: ""
-    method: "1. annual aggregation [Month of maximum monthly flows] - minimum\n2. no temporal aggregation - calculation of the average change between the historical period and the {horizon} horizon"
-    horizon_labels: {H1: near, H2: middle, H3: distant}
+    method: "1. annual aggregation [Month of maximum monthly flows] - minimum\n2. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon"
+    suffix_default:
+      name: target
     sampling_period: Month of maximum monthly flows
     classification:
       domain: flow
@@ -23,15 +24,16 @@ meta:
       output: scalar
 
   fr:
-    variable: [delta-QNA_H1, delta-QNA_H2, delta-QNA_H3]
+    variable: delta-QNA
     unit: "%"
     name:
       - Changement moyen du minimum annuel du débit journalier entre l'horizon proche et la période historique
       - Changement moyen du minimum annuel du débit journalier entre l'horizon moyen et la période historique
       - Changement moyen du minimum annuel du débit journalier entre l'horizon lointain et la période historique
     description: ""
-    method: "1. agrégation annuelle [Mois du maximum des débits mensuels] - minimum\n2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {horizon}"
-    horizon_labels: {H1: proche, H2: moyen, H3: lointain}
+    method: "1. agrégation annuelle [Mois du maximum des débits mensuels] - minimum\n2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}"
+    suffix_default:
+      name: cible
     sampling_period: Mois du maximum des débits mensuels
     classification:
       domain: débit
@@ -41,16 +43,11 @@ meta:
       output: scalaire
 
   global:
-    input_vars: Q
+    input_vars: "Q, ref_start, ref_end, horizon_start, horizon_end"
     preferred_sampling_period: "01-01"
     relative: false
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
-    horizons:
-      H0: ["1976-01-01", "2005-08-31"]
-      H1: ["2021-01-01", "2050-12-31"]
-      H2: ["2041-01-01", "2070-12-31"]
-      H3: ["2070-01-01", "2099-12-31"]
 
 process:
   P1:
@@ -64,7 +61,5 @@ process:
 
   P2:
     func:
-      delta-QNA_H1: [delta, "QNA", "date", {past: $H0, future: $H1, relative: true}]
-      delta-QNA_H2: [delta, "QNA", "date", {past: $H0, future: $H2, relative: true}]
-      delta-QNA_H3: [delta, "QNA", "date", {past: $H0, future: $H3, relative: true}]
+      delta-QNA: [delta, "QNA", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
     time_step: none

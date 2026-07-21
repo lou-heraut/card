@@ -1,29 +1,22 @@
 id: n-QJXA-10_H
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-28"
+date: "2026-07-21"
 
 meta:
   en:
-    variable: [n-QJXA-10_H1, n-QJXA-10_H2, n-QJXA-10_H3]
+    variable: n-QJXA-10
     unit: "without unit"
-    name:
-      - "Number of years in the near horizon where QJXA is superior to
-         QJXA-10 from the historical period"
-      - "Number of years in the middle horizon where QJXA is superior to
-         QJXA-10 from the historical period"
-      - "Number of years in the distant horizon where QJXA is superior to
-         QJXA-10 from the historical period"
+    name: "Number of years in the {suffix.name} horizon where QJXA is superior to QJXA-10 from the historical period"
     description: ""
     method: |
       1. annual aggregation [Month of minimum monthly flows] - maximum
          (extraction from the QJXA series)
       2. no temporal aggregation - calculation of the flow with a 10-year
          return period using the Gumbel distribution from the historical
-         period (QJXA-10_H0)
+         period (QJXA-10)
       3. no temporal aggregation - counting the number of QJXA in the
-         {horizon} horizon above QJXA-10_H0
-    horizon_labels: {H1: near, H2: middle, H3: distant}
+         {suffix.name} horizon above QJXA-10
     sampling_period: Month of minimum monthly flows
     classification:
       domain: flow
@@ -31,26 +24,21 @@ meta:
       aspect: frequency
       season: annual
       output: scalar
+    suffix_default:
+      name: target
 
   fr:
-    variable: [n-QJXA-10_H1, n-QJXA-10_H2, n-QJXA-10_H3]
+    variable: n-QJXA-10
     unit: "sans unité"
-    name:
-      - "Nombre d'années de l'horizon proche où le QJXA est supérieur au
-         QJXA-10 de la période historique"
-      - "Nombre d'années de l'horizon moyen où le QJXA est supérieur au
-         QJXA-10 de la période historique"
-      - "Nombre d'années de l'horizon lointain où le QJXA est supérieur au
-         QJXA-10 de la période historique"
+    name: "Nombre d'années de l'horizon {suffix.name} où le QJXA est supérieur au QJXA-10 de la période historique"
     description: ""
     method: |
       1. agrégation annuelle [Mois du minimum des débits mensuels] - maximum
          (extraction de la série des QJXA)
       2. aucune agrégation temporelle - calcul du débit de période de retour
-         10 ans avec la loi de Gumbel sur la période historique (QJXA-10_H0)
+         10 ans avec la loi de Gumbel sur la période historique (QJXA-10)
       3. aucune agrégation temporelle - décompte du nombre de QJXA de
-         l'horizon {horizon} au dessus du QJXA-10_H0
-    horizon_labels: {H1: proche, H2: moyen, H3: lointain}
+         l'horizon {suffix.name} au dessus du QJXA-10
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: débit
@@ -58,17 +46,14 @@ meta:
       aspect: fréquence
       season: annuelle
       output: scalaire
+    suffix_default:
+      name: cible
 
   global:
-    input_vars: Q
+    input_vars: "Q, ref_start, ref_end, horizon_start, horizon_end"
     preferred_sampling_period: "09-01"
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
-    horizons:
-      H0: ["1976-01-01", "2005-08-31"]
-      H1: ["2021-01-01", "2050-12-31"]
-      H2: ["2041-01-01", "2070-12-31"]
-      H3: ["2070-01-01", "2099-12-31"]
 
 process:
   P1:
@@ -82,21 +67,16 @@ process:
 
   P2:
     func:
-      QJXA-10_H0: [return_level, "QJXA",
-                   {return_period: 10, water_type: "high", dates: "date",
-                    period: $H0}]
+      QJXA-10: [return_level, "QJXA",
+                {return_period: 10, water_type: "high", dates: "date",
+                 period_start: "ref_start", period_end: "ref_end"}]
     time_step: none
     keep: all
 
   P3:
     func:
-      n-QJXA-10_H1: [apply_threshold, "QJXA",
-                     {lim: QJXA-10_H0, where: ">=", what: length,
-                      select: all, dates: "date", period: $H1}]
-      n-QJXA-10_H2: [apply_threshold, "QJXA",
-                     {lim: QJXA-10_H0, where: ">=", what: length,
-                      select: all, dates: "date", period: $H2}]
-      n-QJXA-10_H3: [apply_threshold, "QJXA",
-                     {lim: QJXA-10_H0, where: ">=", what: length,
-                      select: all, dates: "date", period: $H3}]
+      n-QJXA-10: [apply_threshold, "QJXA",
+                  {lim: QJXA-10, where: ">=", what: length,
+                   select: all, dates: "date",
+                   period_start: "horizon_start", period_end: "horizon_end"}]
     time_step: none

@@ -34,6 +34,19 @@ CARD_YML = _DEFAULT_CARD_DIR
 RTOL = 1e-6
 ATOL = 1e-9
 
+# Fiches par horizon (delta-*_H, n-*_H) : les dates d'horizon sont désormais
+# des colonnes d'ENTRÉE (comme Q_lim pour rp-*), fournies par l'appelant, et
+# les horizons viennent du suffixe. On rejoue les mêmes valeurs qu'avant
+# (anciens meta.global.horizons, identiques dans tout le corpus) pour comparer
+# aux goldens R calculés sur ces horizons.
+HORIZON_COLS = {
+    "ref_start": "1976-01-01", "ref_end": "2005-08-31",
+    "horizon_start_H1": "2021-01-01", "horizon_end_H1": "2050-12-31",
+    "horizon_start_H2": "2041-01-01", "horizon_end_H2": "2070-12-31",
+    "horizon_start_H3": "2070-01-01", "horizon_end_H3": "2099-12-31",
+}
+HORIZON_SUFFIX = ["H1", "H2", "H3"]
+
 
 def to_float(s):
     return pd.Series(s).astype("Float64").to_numpy(dtype=float, na_value=np.nan)
@@ -116,8 +129,16 @@ def main(only=None):
         r_dir = R_ROOT / name
 
         try:
-            res = CARD_extraction(data, CARD_name=[name],
-                                  path=yaml_cards[name].parent)
+            if name.endswith("_H"):
+                d = data.copy()
+                for _c, _v in HORIZON_COLS.items():
+                    d[_c] = pd.Timestamp(_v)
+                res = CARD_extraction(d, CARD_name=[name],
+                                      path=yaml_cards[name].parent,
+                                      suffix=HORIZON_SUFFIX)
+            else:
+                res = CARD_extraction(data, CARD_name=[name],
+                                      path=yaml_cards[name].parent)
             p_df = res["data"][name]
             py_status = "ok"
         except Exception as e:

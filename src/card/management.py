@@ -39,7 +39,11 @@ def _describe_inputs(raw, lang="fr"):
     for var in str(raw).split(","):
         var = var.strip()
         entry = reg.get(var)
-        parts.append(f"{var} [{entry['unit']}] ({entry[lang]})" if entry else var)
+        if entry:
+            label = entry.get("unit") or entry.get("type") or ""
+            parts.append(f"{var} [{label}] ({entry[lang]})")
+        else:
+            parts.append(var)
     return ", ".join(parts)
 
 

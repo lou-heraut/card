@@ -66,15 +66,24 @@ def _contiguous_periods(ID: np.ndarray) -> list[np.ndarray]:
     return np.split(ID, jumps)
 
 
+def _const_date(v):
+    """Date depuis un scalaire ou une colonne constante par série."""
+    if isinstance(v, (pd.Series, np.ndarray)):
+        s = pd.Series(v).dropna()
+        v = s.iloc[0] if len(s) else np.nan
+    return pd.Timestamp(v)
+
+
 def apply_threshold(X, lim, where="<=", what="X", select="all",
-                    dates=None, period=None):
+                    dates=None, period=None, period_start=None, period_end=None):
     """Analyse des épisodes où X franchit un seuil lim (comparaison
     where : '<=', '<', '>=', '>').
 
     what : grandeur retournée — 'X' (valeurs), 'length' (durée des
     épisodes), 'first'/'last' (index 0-based de début/fin)...
     select : 'all', 'longest', 'shortest', ou une durée cible.
-    dates/period : restreint l'analyse à une sous-période.
+    dates/period (paire) ou period_start/period_end (bornes, souvent des
+    colonnes constantes par série) restreignent l'analyse à une sous-période.
     Épisode = run contigu d'indices satisfaisant la condition.
     """
     X = _to_float_array(X)
@@ -84,6 +93,8 @@ def apply_threshold(X, lim, where="<=", what="X", select="all",
     if np.all(np.isnan(lim_arr)):
         return np.nan
 
+    if period_start is not None:
+        period = [_const_date(period_start), _const_date(period_end)]
     if dates is not None and period is not None:
         d = pd.to_datetime(pd.Series(dates) if not isinstance(dates, pd.Series)
                            else dates)

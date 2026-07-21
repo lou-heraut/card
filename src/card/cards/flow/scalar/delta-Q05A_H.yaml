@@ -1,27 +1,22 @@
 id: delta-Q05A_H
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-26"
+date: "2026-07-21"
 
 meta:
   en:
-    variable: [delta-Q05A_H1, delta-Q05A_H2, delta-Q05A_H3]
+    variable: delta-Q05A
     unit: "%"
-    name:
-      - "Average change of the daily flow exceeded 5 % of the time within the year between
-         the near horizon and historical period"
-      - "Average change of the daily flow exceeded 5 % of the time within the year between
-         the middle horizon and historical period"
-      - "Average change of the daily flow exceeded 5 % of the time within the year between
-         the distant horizon and historical period"
+    name: "Average change of the daily flow exceeded 5 % of the time within the year between the {suffix.name} horizon and historical period"
     description: >-
       Annual flow with an exceedance probability of 5 % (95th percentile)
     method: |
       1. annual aggregation [01-01, 12-31] - quantile at the exceedance
          probability of 5 %
       2. no temporal aggregation - calculation of the average change between
-         the historical period and the {horizon} horizon
-    horizon_labels: {H1: near, H2: middle, H3: distant}
+         the historical period and the {suffix.name} horizon
+    suffix_default:
+      name: target
     sampling_period: ["01-01", "12-31"]
     classification:
       domain: flow
@@ -31,23 +26,18 @@ meta:
       output: scalar
 
   fr:
-    variable: [delta-Q05A_H1, delta-Q05A_H2, delta-Q05A_H3]
+    variable: delta-Q05A
     unit: "%"
-    name:
-      - "Changement moyen du débit journalier dépassé 5 % du temps de l'année entre
-         l'horizon proche et la période historique"
-      - "Changement moyen du débit journalier dépassé 5 % du temps de l'année entre
-         l'horizon moyen et la période historique"
-      - "Changement moyen du débit journalier dépassé 5 % du temps de l'année entre
-         l'horizon lointain et la période historique"
+    name: "Changement moyen du débit journalier dépassé 5 % du temps de l'année entre l'horizon {suffix.name} et la période historique"
     description: >-
       Débit annuel avec une probabilité de dépassement de 5 % (centile 95 %)
     method: |
       1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité de
          dépassement de 5 %
       2. aucune agrégation temporelle - calcul du changement moyen entre la
-         période historique et l'horizon {horizon}
-    horizon_labels: {H1: proche, H2: moyen, H3: lointain}
+         période historique et l'horizon {suffix.name}
+    suffix_default:
+      name: cible
     sampling_period: ["01-01", "31-12"]
     classification:
       domain: débit
@@ -57,15 +47,10 @@ meta:
       output: scalaire
 
   global:
-    input_vars: Q
+    input_vars: "Q, ref_start, ref_end, horizon_start, horizon_end"
     preferred_sampling_period: "01-01"
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
-    horizons:
-      H0: ["1976-01-01", "2005-08-31"]
-      H1: ["2021-01-01", "2050-12-31"]
-      H2: ["2041-01-01", "2070-12-31"]
-      H3: ["2070-01-01", "2099-12-31"]
 
 process:
   P1:
@@ -77,10 +62,5 @@ process:
 
   P2:
     func:
-      delta-Q05A_H1: [delta, "Q05A", "date",
-                      {past: $H0, future: $H1, relative: true}]
-      delta-Q05A_H2: [delta, "Q05A", "date",
-                      {past: $H0, future: $H2, relative: true}]
-      delta-Q05A_H3: [delta, "Q05A", "date",
-                      {past: $H0, future: $H3, relative: true}]
+      delta-Q05A: [delta, "Q05A", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
     time_step: none

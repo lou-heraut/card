@@ -1,264 +1,145 @@
 id: delta-QMA_month_H
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-26"
+date: "2026-07-21"
 
 meta:
   en:
     variable:
-      - delta-QMA_jan_H1
-      - delta-QMA_jan_H2
-      - delta-QMA_jan_H3
-      - delta-QMA_feb_H1
-      - delta-QMA_feb_H2
-      - delta-QMA_feb_H3
-      - delta-QMA_mar_H1
-      - delta-QMA_mar_H2
-      - delta-QMA_mar_H3
-      - delta-QMA_apr_H1
-      - delta-QMA_apr_H2
-      - delta-QMA_apr_H3
-      - delta-QMA_may_H1
-      - delta-QMA_may_H2
-      - delta-QMA_may_H3
-      - delta-QMA_jun_H1
-      - delta-QMA_jun_H2
-      - delta-QMA_jun_H3
-      - delta-QMA_jul_H1
-      - delta-QMA_jul_H2
-      - delta-QMA_jul_H3
-      - delta-QMA_aug_H1
-      - delta-QMA_aug_H2
-      - delta-QMA_aug_H3
-      - delta-QMA_sep_H1
-      - delta-QMA_sep_H2
-      - delta-QMA_sep_H3
-      - delta-QMA_oct_H1
-      - delta-QMA_oct_H2
-      - delta-QMA_oct_H3
-      - delta-QMA_nov_H1
-      - delta-QMA_nov_H2
-      - delta-QMA_nov_H3
-      - delta-QMA_dec_H1
-      - delta-QMA_dec_H2
-      - delta-QMA_dec_H3
-    unit: "%"
+    - delta-QMA_jan
+    - delta-QMA_feb
+    - delta-QMA_mar
+    - delta-QMA_apr
+    - delta-QMA_may
+    - delta-QMA_jun
+    - delta-QMA_jul
+    - delta-QMA_aug
+    - delta-QMA_sep
+    - delta-QMA_oct
+    - delta-QMA_nov
+    - delta-QMA_dec
+    unit: '%'
     name:
-      - "Average change of average daily discharge for each January between the near horizon and historical period"
-      - "Average change of average daily discharge for each January between the middle horizon and historical period"
-      - "Average change of average daily discharge for each January between the distant horizon and historical period"
-      - "Average change of average daily discharge for each February between the near horizon and historical period"
-      - "Average change of average daily discharge for each February between the middle horizon and historical period"
-      - "Average change of average daily discharge for each February between the distant horizon and historical period"
-      - "Average change of average daily discharge for each March between the near horizon and historical period"
-      - "Average change of average daily discharge for each March between the middle horizon and historical period"
-      - "Average change of average daily discharge for each March between the distant horizon and historical period"
-      - "Average change of average daily discharge for each April between the near horizon and historical period"
-      - "Average change of average daily discharge for each April between the middle horizon and historical period"
-      - "Average change of average daily discharge for each April between the distant horizon and historical period"
-      - "Average change of average daily discharge for each May between the near horizon and historical period"
-      - "Average change of average daily discharge for each May between the middle horizon and historical period"
-      - "Average change of average daily discharge for each May between the distant horizon and historical period"
-      - "Average change of average daily discharge for each June between the near horizon and historical period"
-      - "Average change of average daily discharge for each June between the middle horizon and historical period"
-      - "Average change of average daily discharge for each June between the distant horizon and historical period"
-      - "Average change of average daily discharge for each July between the near horizon and historical period"
-      - "Average change of average daily discharge for each July between the middle horizon and historical period"
-      - "Average change of average daily discharge for each July between the distant horizon and historical period"
-      - "Average change of average daily discharge for each August between the near horizon and historical period"
-      - "Average change of average daily discharge for each August between the middle horizon and historical period"
-      - "Average change of average daily discharge for each August between the distant horizon and historical period"
-      - "Average change of average daily discharge for each September between the near horizon and historical period"
-      - "Average change of average daily discharge for each September between the middle horizon and historical period"
-      - "Average change of average daily discharge for each September between the distant horizon and historical period"
-      - "Average change of average daily discharge for each October between the near horizon and historical period"
-      - "Average change of average daily discharge for each October between the middle horizon and historical period"
-      - "Average change of average daily discharge for each October between the distant horizon and historical period"
-      - "Average change of average daily discharge for each November between the near horizon and historical period"
-      - "Average change of average daily discharge for each November between the middle horizon and historical period"
-      - "Average change of average daily discharge for each November between the distant horizon and historical period"
-      - "Average change of average daily discharge for each December between the near horizon and historical period"
-      - "Average change of average daily discharge for each December between the middle horizon and historical period"
-      - "Average change of average daily discharge for each December between the distant horizon and historical period"
-    description: ""
-    method: "1. monthly aggregation for each year - mean\n2. no temporal aggregation - calculation of the average change between the historical period and the {horizon} horizon"
+    - Average change of average daily discharge for each January between the {suffix.name} horizon and historical period
+    - Average change of average daily discharge for each February between the {suffix.name} horizon and historical period
+    - Average change of average daily discharge for each March between the {suffix.name} horizon and historical period
+    - Average change of average daily discharge for each April between the {suffix.name} horizon and historical period
+    - Average change of average daily discharge for each May between the {suffix.name} horizon and historical period
+    - Average change of average daily discharge for each June between the {suffix.name} horizon and historical period
+    - Average change of average daily discharge for each July between the {suffix.name} horizon and historical period
+    - Average change of average daily discharge for each August between the {suffix.name} horizon and historical period
+    - Average change of average daily discharge for each September between the {suffix.name} horizon and historical period
+    - Average change of average daily discharge for each October between the {suffix.name} horizon and historical period
+    - Average change of average daily discharge for each November between the {suffix.name} horizon and historical period
+    - Average change of average daily discharge for each December between the {suffix.name} horizon and historical period
+    description: ''
+    method: |-
+      1. monthly aggregation for each year - mean
+      2. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     sampling_period:
-      - ["01-01", "01-31"]
-      - ["01-01", "01-31"]
-      - ["01-01", "01-31"]
-      - ["02-01", "02-28(29)"]
-      - ["02-01", "02-28(29)"]
-      - ["02-01", "02-28(29)"]
-      - ["03-01", "03-31"]
-      - ["03-01", "03-31"]
-      - ["03-01", "03-31"]
-      - ["04-01", "04-30"]
-      - ["04-01", "04-30"]
-      - ["04-01", "04-30"]
-      - ["05-01", "05-31"]
-      - ["05-01", "05-31"]
-      - ["05-01", "05-31"]
-      - ["06-01", "06-30"]
-      - ["06-01", "06-30"]
-      - ["06-01", "06-30"]
-      - ["07-01", "07-31"]
-      - ["07-01", "07-31"]
-      - ["07-01", "07-31"]
-      - ["08-01", "08-31"]
-      - ["08-01", "08-31"]
-      - ["08-01", "08-31"]
-      - ["09-01", "09-30"]
-      - ["09-01", "09-30"]
-      - ["09-01", "09-30"]
-      - ["10-01", "10-31"]
-      - ["10-01", "10-31"]
-      - ["10-01", "10-31"]
-      - ["11-01", "11-30"]
-      - ["11-01", "11-30"]
-      - ["11-01", "11-30"]
-      - ["12-01", "12-31"]
-      - ["12-01", "12-31"]
-      - ["12-01", "12-31"]
-    horizon_labels: {H1: near, H2: middle, H3: distant}
+    - - 01-01
+      - 01-31
+    - - 02-01
+      - 02-28(29)
+    - - 03-01
+      - 03-31
+    - - 04-01
+      - 04-30
+    - - 05-01
+      - 05-31
+    - - 06-01
+      - 06-30
+    - - 07-01
+      - 07-31
+    - - 08-01
+      - 08-31
+    - - 09-01
+      - 09-30
+    - - 10-01
+      - 10-31
+    - - 11-01
+      - 11-30
+    - - 12-01
+      - 12-31
     classification:
       domain: flow
       phenomenon: mean flows
       aspect: magnitude
       season: by month
       output: scalar
+    suffix_default:
+      name: target
 
   fr:
     variable:
-      - delta-QMA_janv_H1
-      - delta-QMA_janv_H2
-      - delta-QMA_janv_H3
-      - delta-QMA_fevr_H1
-      - delta-QMA_fevr_H2
-      - delta-QMA_fevr_H3
-      - delta-QMA_mars_H1
-      - delta-QMA_mars_H2
-      - delta-QMA_mars_H3
-      - delta-QMA_avril_H1
-      - delta-QMA_avril_H2
-      - delta-QMA_avril_H3
-      - delta-QMA_mai_H1
-      - delta-QMA_mai_H2
-      - delta-QMA_mai_H3
-      - delta-QMA_juin_H1
-      - delta-QMA_juin_H2
-      - delta-QMA_juin_H3
-      - delta-QMA_juil_H1
-      - delta-QMA_juil_H2
-      - delta-QMA_juil_H3
-      - delta-QMA_aout_H1
-      - delta-QMA_aout_H2
-      - delta-QMA_aout_H3
-      - delta-QMA_sept_H1
-      - delta-QMA_sept_H2
-      - delta-QMA_sept_H3
-      - delta-QMA_oct_H1
-      - delta-QMA_oct_H2
-      - delta-QMA_oct_H3
-      - delta-QMA_nov_H1
-      - delta-QMA_nov_H2
-      - delta-QMA_nov_H3
-      - delta-QMA_dec_H1
-      - delta-QMA_dec_H2
-      - delta-QMA_dec_H3
-    unit: "%"
+    - delta-QMA_janv
+    - delta-QMA_fevr
+    - delta-QMA_mars
+    - delta-QMA_avril
+    - delta-QMA_mai
+    - delta-QMA_juin
+    - delta-QMA_juil
+    - delta-QMA_aout
+    - delta-QMA_sept
+    - delta-QMA_oct
+    - delta-QMA_nov
+    - delta-QMA_dec
+    unit: '%'
     name:
-      - "Changement moyen de la moyenne des débits journaliers de chaque janvier entre l'horizon proche et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque janvier entre l'horizon moyen et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque janvier entre l'horizon lointain et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque février entre l'horizon proche et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque février entre l'horizon moyen et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque février entre l'horizon lointain et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque mars entre l'horizon proche et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque mars entre l'horizon moyen et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque mars entre l'horizon lointain et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque avril entre l'horizon proche et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque avril entre l'horizon moyen et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque avril entre l'horizon lointain et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque mai entre l'horizon proche et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque mai entre l'horizon moyen et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque mai entre l'horizon lointain et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque juin entre l'horizon proche et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque juin entre l'horizon moyen et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque juin entre l'horizon lointain et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque juillet entre l'horizon proche et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque juillet entre l'horizon moyen et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque juillet entre l'horizon lointain et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque août entre l'horizon proche et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque août entre l'horizon moyen et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque août entre l'horizon lointain et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque septembre entre l'horizon proche et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque septembre entre l'horizon moyen et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque septembre entre l'horizon lointain et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque octobre entre l'horizon proche et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque octobre entre l'horizon moyen et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque octobre entre l'horizon lointain et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque novembre entre l'horizon proche et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque novembre entre l'horizon moyen et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque novembre entre l'horizon lointain et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque décembre entre l'horizon proche et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque décembre entre l'horizon moyen et la période historique"
-      - "Changement moyen de la moyenne des débits journaliers de chaque décembre entre l'horizon lointain et la période historique"
-    description: ""
-    method: "1. agrégation mensuelle par année - moyenne\n2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {horizon}"
+    - Changement moyen de la moyenne des débits journaliers de chaque janvier entre l'horizon {suffix.name} et la période historique
+    - Changement moyen de la moyenne des débits journaliers de chaque février entre l'horizon {suffix.name} et la période historique
+    - Changement moyen de la moyenne des débits journaliers de chaque mars entre l'horizon {suffix.name} et la période historique
+    - Changement moyen de la moyenne des débits journaliers de chaque avril entre l'horizon {suffix.name} et la période historique
+    - Changement moyen de la moyenne des débits journaliers de chaque mai entre l'horizon {suffix.name} et la période historique
+    - Changement moyen de la moyenne des débits journaliers de chaque juin entre l'horizon {suffix.name} et la période historique
+    - Changement moyen de la moyenne des débits journaliers de chaque juillet entre l'horizon {suffix.name} et la période historique
+    - Changement moyen de la moyenne des débits journaliers de chaque août entre l'horizon {suffix.name} et la période historique
+    - Changement moyen de la moyenne des débits journaliers de chaque septembre entre l'horizon {suffix.name} et la période historique
+    - Changement moyen de la moyenne des débits journaliers de chaque octobre entre l'horizon {suffix.name} et la période historique
+    - Changement moyen de la moyenne des débits journaliers de chaque novembre entre l'horizon {suffix.name} et la période historique
+    - Changement moyen de la moyenne des débits journaliers de chaque décembre entre l'horizon {suffix.name} et la période historique
+    description: ''
+    method: |-
+      1. agrégation mensuelle par année - moyenne
+      2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     sampling_period:
-      - ["01-01", "31-01"]
-      - ["01-01", "31-01"]
-      - ["01-01", "31-01"]
-      - ["01-02", "28(29)-02"]
-      - ["01-02", "28(29)-02"]
-      - ["01-02", "28(29)-02"]
-      - ["01-03", "31-03"]
-      - ["01-03", "31-03"]
-      - ["01-03", "31-03"]
-      - ["01-04", "30-04"]
-      - ["01-04", "30-04"]
-      - ["01-04", "30-04"]
-      - ["01-05", "31-05"]
-      - ["01-05", "31-05"]
-      - ["01-05", "31-05"]
-      - ["01-06", "30-06"]
-      - ["01-06", "30-06"]
-      - ["01-06", "30-06"]
-      - ["01-07", "31-07"]
-      - ["01-07", "31-07"]
-      - ["01-07", "31-07"]
-      - ["01-08", "31-08"]
-      - ["01-08", "31-08"]
-      - ["01-08", "31-08"]
-      - ["01-09", "30-09"]
-      - ["01-09", "30-09"]
-      - ["01-09", "30-09"]
-      - ["01-10", "31-10"]
-      - ["01-10", "31-10"]
-      - ["01-10", "31-10"]
-      - ["01-11", "30-11"]
-      - ["01-11", "30-11"]
-      - ["01-11", "30-11"]
-      - ["01-12", "31-12"]
-      - ["01-12", "31-12"]
-      - ["01-12", "31-12"]
-    horizon_labels: {H1: proche, H2: moyen, H3: lointain}
+    - - 01-01
+      - 31-01
+    - - 01-02
+      - 28(29)-02
+    - - 01-03
+      - 31-03
+    - - 01-04
+      - 30-04
+    - - 01-05
+      - 31-05
+    - - 01-06
+      - 30-06
+    - - 01-07
+      - 31-07
+    - - 01-08
+      - 31-08
+    - - 01-09
+      - 30-09
+    - - 01-10
+      - 31-10
+    - - 01-11
+      - 30-11
+    - - 01-12
+      - 31-12
     classification:
       domain: débit
       phenomenon: moyennes eaux
       aspect: intensité
       season: par mois
       output: scalaire
+    suffix_default:
+      name: cible
 
   global:
-    input_vars: Q
+    input_vars: "Q, ref_start, ref_end, horizon_start, horizon_end"
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
-    horizons:
-      H0: ["1976-01-01", "2005-08-31"]
-      H1: ["2021-01-01", "2050-12-31"]
-      H2: ["2041-01-01", "2070-12-31"]
-      H3: ["2070-01-01", "2099-12-31"]
 
 process:
   P1:
@@ -271,40 +152,16 @@ process:
 
   P2:
     func:
-      delta-QMA_jan_H1: [delta, "QMA_jan", "date", {past: $H0, future: $H1, relative: true}]
-      delta-QMA_jan_H2: [delta, "QMA_jan", "date", {past: $H0, future: $H2, relative: true}]
-      delta-QMA_jan_H3: [delta, "QMA_jan", "date", {past: $H0, future: $H3, relative: true}]
-      delta-QMA_feb_H1: [delta, "QMA_feb", "date", {past: $H0, future: $H1, relative: true}]
-      delta-QMA_feb_H2: [delta, "QMA_feb", "date", {past: $H0, future: $H2, relative: true}]
-      delta-QMA_feb_H3: [delta, "QMA_feb", "date", {past: $H0, future: $H3, relative: true}]
-      delta-QMA_mar_H1: [delta, "QMA_mar", "date", {past: $H0, future: $H1, relative: true}]
-      delta-QMA_mar_H2: [delta, "QMA_mar", "date", {past: $H0, future: $H2, relative: true}]
-      delta-QMA_mar_H3: [delta, "QMA_mar", "date", {past: $H0, future: $H3, relative: true}]
-      delta-QMA_apr_H1: [delta, "QMA_apr", "date", {past: $H0, future: $H1, relative: true}]
-      delta-QMA_apr_H2: [delta, "QMA_apr", "date", {past: $H0, future: $H2, relative: true}]
-      delta-QMA_apr_H3: [delta, "QMA_apr", "date", {past: $H0, future: $H3, relative: true}]
-      delta-QMA_may_H1: [delta, "QMA_may", "date", {past: $H0, future: $H1, relative: true}]
-      delta-QMA_may_H2: [delta, "QMA_may", "date", {past: $H0, future: $H2, relative: true}]
-      delta-QMA_may_H3: [delta, "QMA_may", "date", {past: $H0, future: $H3, relative: true}]
-      delta-QMA_jun_H1: [delta, "QMA_jun", "date", {past: $H0, future: $H1, relative: true}]
-      delta-QMA_jun_H2: [delta, "QMA_jun", "date", {past: $H0, future: $H2, relative: true}]
-      delta-QMA_jun_H3: [delta, "QMA_jun", "date", {past: $H0, future: $H3, relative: true}]
-      delta-QMA_jul_H1: [delta, "QMA_jul", "date", {past: $H0, future: $H1, relative: true}]
-      delta-QMA_jul_H2: [delta, "QMA_jul", "date", {past: $H0, future: $H2, relative: true}]
-      delta-QMA_jul_H3: [delta, "QMA_jul", "date", {past: $H0, future: $H3, relative: true}]
-      delta-QMA_aug_H1: [delta, "QMA_aug", "date", {past: $H0, future: $H1, relative: true}]
-      delta-QMA_aug_H2: [delta, "QMA_aug", "date", {past: $H0, future: $H2, relative: true}]
-      delta-QMA_aug_H3: [delta, "QMA_aug", "date", {past: $H0, future: $H3, relative: true}]
-      delta-QMA_sep_H1: [delta, "QMA_sep", "date", {past: $H0, future: $H1, relative: true}]
-      delta-QMA_sep_H2: [delta, "QMA_sep", "date", {past: $H0, future: $H2, relative: true}]
-      delta-QMA_sep_H3: [delta, "QMA_sep", "date", {past: $H0, future: $H3, relative: true}]
-      delta-QMA_oct_H1: [delta, "QMA_oct", "date", {past: $H0, future: $H1, relative: true}]
-      delta-QMA_oct_H2: [delta, "QMA_oct", "date", {past: $H0, future: $H2, relative: true}]
-      delta-QMA_oct_H3: [delta, "QMA_oct", "date", {past: $H0, future: $H3, relative: true}]
-      delta-QMA_nov_H1: [delta, "QMA_nov", "date", {past: $H0, future: $H1, relative: true}]
-      delta-QMA_nov_H2: [delta, "QMA_nov", "date", {past: $H0, future: $H2, relative: true}]
-      delta-QMA_nov_H3: [delta, "QMA_nov", "date", {past: $H0, future: $H3, relative: true}]
-      delta-QMA_dec_H1: [delta, "QMA_dec", "date", {past: $H0, future: $H1, relative: true}]
-      delta-QMA_dec_H2: [delta, "QMA_dec", "date", {past: $H0, future: $H2, relative: true}]
-      delta-QMA_dec_H3: [delta, "QMA_dec", "date", {past: $H0, future: $H3, relative: true}]
+      delta-QMA_jan: [delta, "QMA_jan", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
+      delta-QMA_feb: [delta, "QMA_feb", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
+      delta-QMA_mar: [delta, "QMA_mar", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
+      delta-QMA_apr: [delta, "QMA_apr", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
+      delta-QMA_may: [delta, "QMA_may", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
+      delta-QMA_jun: [delta, "QMA_jun", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
+      delta-QMA_jul: [delta, "QMA_jul", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
+      delta-QMA_aug: [delta, "QMA_aug", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
+      delta-QMA_sep: [delta, "QMA_sep", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
+      delta-QMA_oct: [delta, "QMA_oct", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
+      delta-QMA_nov: [delta, "QMA_nov", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
+      delta-QMA_dec: [delta, "QMA_dec", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: true}]
     time_step: none

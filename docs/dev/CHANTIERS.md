@@ -3,6 +3,14 @@
 Registre des chantiers non commencés ou différés. Un chantier terminé
 sort de ce fichier (l'historique est dans git).
 
+Sorti le 2026-07-21 : « Fiches delta par horizon » (dates d'horizon en
+colonnes d'entrée fournies par l'appelant, 59 fiches _H collapsées avec
+suffixe d'horizon, `delta` à quatre bornes, `return_level`/
+`apply_threshold` avec `period_start`/`period_end`, rôle `param_cols`
+dans stase, `inputs.yaml type: date`, `$H` retiré). Nouveau == ancien
+vérifié à l'exact sur les 59 fiches. Trace : RENAMING.md 2026-07-21.
+Reste ouvert : §10 (goldens injouables des fiches divergentes de R).
+
 Sorti le 2026-07-20 : « Multi-seuils réglementaires et métadonnées
 évolutives » (suffix= dans card.extract et card.trend, vocabulaire de
 suffixes, placeholders, colonne suffix de meta, règle de lint, fiches
@@ -139,86 +147,58 @@ vert→marron (durées/volumes d'étiage, ETP : assèchement).
   le risque de crue des dates par une palette dédiée, c'est une
   décision à part.
 
-## 9. Fiches delta par horizon : paramètres de fonction en colonnes
+## 10. Goldens injouables des fiches volontairement divergentes de R
 
-Le gros chantier suivant. Il rend enfin utile la couche de métadonnées
-évolutives livrée le 2026-07-20 (suffixes et placeholders, cf. la
-section « Suffixes de scénario » de RENAMING.md et le docstring de
-`src/card/suffix.py`), et il débloque les horizons par degré de
-réchauffement.
+Question soulevée le 2026-07-21 par l'utilisateur pendant le chantier horizons (sorti le 2026-07-21),
+à traiter APRÈS lui. À quoi servent des tests qui ne peuvent jamais
+passer (diff permanent) parce que la sortie Python a volontairement
+divergé de R ? Faut-il les garder, à quelle condition pour être non
+ambigu, ou les jeter ?
 
-### Le problème
+### Constat mesuré (ancien code, corpus contre R, 59 fiches `_H`)
 
-Les 55 fiches `delta-*_H` énumèrent leurs horizons À LA MAIN. Le P2 de
-`delta-QNA_summer_H` contient trois entrées `func` qui ne diffèrent que
-par des dates littérales, substituées au chargement par `$Hx` :
+48 fiches passent (ok, == R), 12 divergent (diff permanent) :
+- 8 divergences DOCUMENTÉES (bascule `relative` B1/B3, RENAMING.md,
+  parité R rompue volontairement pour aligner la valeur sur l'unité
+  « % ») : delta-QNA_H/_summer/_winter, delta-allLF_H/_summer/_winter,
+  delta-dtBF_H, delta-dtFlood_H. Cause racine côté R : la fiche R
+  déclare unit « % » mais `to_normalise = FALSE`, donc R sort de
+  l'absolu mal étiqueté ; Python a corrigé (relatif).
+- 4 divergences NON documentées, à comprendre AVANT toute décision :
+  delta-VCN10_summer_H, delta-VCN30_summer_H, delta-VCN3_winter_H,
+  delta-tVCN10_summer_H.
 
-```yaml
-P2:
-  func:
-    delta-QNA_summer_H1: [delta, "QNA_summer", "date", {past: $H0, future: $H1, ...}]
-    delta-QNA_summer_H2: [delta, "QNA_summer", "date", {past: $H0, future: $H2, ...}]
-    delta-QNA_summer_H3: [delta, "QNA_summer", "date", {past: $H0, future: $H3, ...}]
-```
+### Le vrai problème (analyse)
 
-Trois conséquences : trois `name` écrits à la main dans chaque langue,
-un `{horizon}` jamais substitué qui traîne dans 110 blocs `method`, et
-surtout des dates d'horizon IDENTIQUES pour toutes les séries.
+Le corpus mélange deux rôles dans une seule comparaison :
+1. **parité R** : Python reproduit-il R ? (pertinent pour les 48 qui
+   VEULENT la parité) ;
+2. **non-régression** : Python produit-il encore ce qu'il produisait
+   hier ? (pertinent pour TOUTES, y compris les divergentes).
 
-### La cible
+Pour une fiche qui diverge de R par décision, le rôle 1 est mort (diff
+par design), mais le rôle 2 reste précieux. Or le corpus ne fait que le
+rôle 1 (comparer à R), d'où le « diff » permanent, sans distinguer
+« diff attendu » d'une « nouvelle régression ». Et le CLAUDE.md impose
+déjà « goldens re-figés » sur changement de sorties : ça n'a pas été
+appliqué à ces 12 fiches, d'où le trou.
 
-Passer les dates en colonnes des données. Les fiches `delta` deviennent
-structurellement identiques aux fiches de seuil `rp-*` : une colonne
-constante par série, éclatée par le suffixe stase. Le P2 tombe à UNE
-entrée `func`, les noms de sortie restent `delta-QNA_summer_H1` (base
-plus suffixe, à l'identique), les trois phrases deviennent une seule
-phrase à placeholder, et les **horizons par degré de réchauffement**
-deviennent exprimables : chaque chaîne de modèles atteint +2 °C à une
-date différente, ce qui est le cas Explore2, pas un cas d'école.
+### Pistes de résolution
 
-### Deux blocages, vérifiés dans le code le 2026-07-20
+- **A (recommandée)** : figer un golden « Python attendu » pour les
+  fiches divergentes (applique la règle existante). La fiche est jugée
+  contre CE golden (== exact), plus contre R. Chaque test redevient
+  jouable ; R reste la référence de parité là où la parité est voulue.
+  Coût : générer + maintenir ces goldens Python.
+- **B** : un manifeste des divergences attendues (max_diff ou valeurs
+  par fiche) ; le test passe si le diff est INCHANGÉ (pas si diff==0).
+  Plus léger, moins précis.
+- **C** : signaler en amont le bug des fiches R (unit vs to_normalise)
+  et régénérer les goldens une fois R corrigé, dans le sillage de la
+  tâche « signalement amont des 11 fiches R cassées ». Lent, externe, R
+  est en maintenance/référence seule.
+- **D (préalable)** : comprendre les 4 divergences VCN non documentées
+  (bug Python ? bug R ? ok_approx basculé ?) avant de choisir leur
+  golden.
 
-- `delta(X, dates, past, future, relative, ...)` prend des PAIRES
-  (`functions/seasonal.py:33`, usage `past[0]`, `past[1]`). Une colonne
-  donne une valeur par ligne, pas une paire. Il faut donc deux colonnes
-  par période et une signature à quatre scalaires : changement de
-  signature, donc trace RENAMING.md et 59 fiches à reprendre.
-- stase ne résout en référence que les kwargs dont la valeur est une
-  chaîne UNIQUE (`extraction.py:936`, `isinstance(v, str)`). Un
-  `{past: ["H0_start", "H0_end"]}` repartirait en littéral. Soit quatre
-  kwargs scalaires, soit apprendre à stase à résoudre une liste de
-  références (code moteur, profite à tout le monde, élargit la
-  grammaire des kwargs).
-
-C'est l'arbitrage d'entrée du chantier, et il revient à l'utilisateur.
-
-### Ce qui est déjà ouvert, vérifié
-
-- Une sortie de process devient une colonne disponible au process
-  suivant, et un kwarg nommant une colonne est résolu dynamiquement.
-  Des dates CALCULÉES par un process amont et consommées en aval sont
-  donc possibles sans code nouveau côté stase.
-- La couche métadonnées ne bouge pas : `suffixes`, `suffix_default`,
-  les placeholders `{suffix.<champ>}` et la colonne `suffix` de `meta`
-  fonctionnent à l'identique que les horizons restent des littéraux ou
-  deviennent des colonnes. `horizon_labels` (champ mort dans 55 fiches)
-  devient `suffixes`, et `{horizon}` devient `{suffix.name}`.
-- `card.trend` suit déjà les suffixes tout seul.
-
-### Coût annexe
-
-Quatre colonnes de dates constantes répétées sur chaque ligne
-journalière. Le précédent existe : `Q_lim` est déjà exactement ça.
-Perte apparente de l'autodocumentation des horizons de référence dans
-la fiche, qui se rattrape : la fiche garde son `meta.global.horizons`
-et `card.extract` matérialise ces dates en colonnes constantes quand
-l'appelant n'en fournit pas. Défaut inchangé, override par série
-possible.
-
-### Migration des métadonnées
-
-Indépendante du reste et faisable seule : remplacer dans les 55 fiches
-les trois `name` par une phrase à `{suffix.name}`, `horizon_labels` par
-`suffixes`, et `{horizon}` par `{suffix.name}` dans les `method`.
-Aucune valeur numérique modifiée, donc bump de version mineur. À faire
-en batch séparé du changement de mécanisme.
+Recommandation : D d'abord, puis A. B en repli si A trop coûteux.

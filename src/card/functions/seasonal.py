@@ -30,21 +30,33 @@ def _nanmean_or_nan(x):
     return np.nanmean(x)
 
 
-def delta(X, dates, past, future, relative,
-          return_period=None, water_type="low", Q_for_BFI=None):
-    """Différence de X entre deux périodes.
+def _one_date(v):
+    """Une date depuis un scalaire (str/Timestamp) ou une colonne constante
+    par série (Series/ndarray, cas des paramètres d'horizon en entrée)."""
+    if isinstance(v, (pd.Series, np.ndarray)):
+        s = pd.Series(v).dropna()
+        v = s.iloc[0] if len(s) else np.nan
+    return pd.Timestamp(v)
 
-    X est agrégé sur `past` puis sur `future` (moyenne par défaut ; niveau
-    de retour si `return_period` est donné ; BFI si `Q_for_BFI` est donné),
-    et la fonction retourne future − past (`relative=False`) ou le
-    changement relatif en % (`relative=True`).
+
+def delta(X, dates, ref_start, ref_end, horizon_start, horizon_end, relative,
+          return_period=None, water_type="low", Q_for_BFI=None):
+    """Différence de X entre une période de référence et une période d'horizon.
+
+    Les quatre bornes sont des dates, scalaires ou colonnes constantes par
+    série (paramètres d'horizon fournis en entrée, dont on extrait la valeur
+    constante). X est agrégé sur [ref_start, ref_end] puis sur
+    [horizon_start, horizon_end] (moyenne par défaut ; niveau de retour si
+    `return_period` ; BFI si `Q_for_BFI`), et la fonction retourne
+    horizon − référence (`relative=False`) ou le changement relatif en %
+    (`relative=True`).
     """
     x = _to_float_array(X)
     d = pd.to_datetime(pd.Series(dates) if not isinstance(dates, pd.Series)
                        else dates)
 
-    p0, p1 = pd.Timestamp(past[0]), pd.Timestamp(past[1])
-    f0, f1 = pd.Timestamp(future[0]), pd.Timestamp(future[1])
+    p0, p1 = _one_date(ref_start), _one_date(ref_end)
+    f0, f1 = _one_date(horizon_start), _one_date(horizon_end)
     ok_past = ((p0 <= d) & (d <= p1)).to_numpy()
     ok_future = ((f0 <= d) & (d <= f1)).to_numpy()
     x_past = x[ok_past]

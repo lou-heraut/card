@@ -125,12 +125,12 @@ Règles clés (détail : NOMENCLATURE.md) :
   réponses) : reformuler (deux points, parenthèses, phrases séparées).
   Perçu comme un marqueur de texte IA, rebute des utilisateurices.
 
-## État (2026-07-20)
+## État (2026-07-21)
 
 Tout est commité et poussé sur les deux dépôts (card et
 `../../EXstat_project/stase/`, qui va de pair). Corpus = 237 fiches.
 
-**Dernier chantier livré : suffixes de scénario et métadonnées
+**Chantier du 2026-07-20 : suffixes de scénario et métadonnées
 évolutives.** Une même fiche s'applique à plusieurs variantes d'une
 entrée en un appel, `card.extract(..., suffix=["DOE","DCR"])` sur des
 colonnes `Q_lim_DOE`/`Q_lim_DCR`, ou `obs`/`sim` sur n'importe quelle
@@ -148,10 +148,22 @@ paramètre `meta=` de `process_trend`) et ses colonnes de tendance ne
 sont plus ambiguës : `a`/`change` toujours en absolu, `a_relative`/
 `change_relative` toujours en pourcentage et NaN sinon.
 
-**Prochain gros chantier : CHANTIERS §9**, les fiches `delta-*_H` dont
-les dates d'horizon passeraient en colonnes. C'est ce qui rend utile la
-couche de placeholders et débloque les horizons par degré de
-réchauffement. Un arbitrage d'entrée y attend l'utilisateur.
+**Dernier chantier livré (2026-07-21) : fiches delta par horizon.** Les
+59 fiches `_H` reçoivent leurs dates d'horizon comme colonnes d'entrée
+(comme Q_lim), au lieu de `$H` écrit en dur. `delta` prend quatre bornes
+(`ref_start/ref_end/horizon_start/horizon_end`), `return_level`/
+`apply_threshold` gagnent `period_start`/`period_end`, stase gagne le
+rôle `param_cols` (colonnes de paramètre constantes par série, portées
+et CONSERVÉES à travers les process, hors canal numérique, axe détecté
+par élimination), `inputs.yaml` gagne `type: date`. Fiches collapsées
+(P2 à une entrée + suffixe d'horizon, la fiche ne fige plus 3 horizons).
+Sorties inchangées (nouveau == ancien vérifié à l'exact sur les 59),
+`$H`/`_substitute_horizons` retirés du loader. Trace RENAMING.md
+2026-07-21, conception dans le docstring de `stase` extraction.py.
+Débloque les horizons par degré de réchauffement (bornes variables par
+série). Reste ouvert (CHANTIERS §10) : les goldens injouables des fiches
+volontairement divergentes de R, dont comprendre 4 divergences VCN non
+documentées.
 
 **Écosystème** : le service web vit dans le repo séparé `../card-api/`
 (FastAPI + Hub'Eau + quotas + journal, conception et chantiers dans

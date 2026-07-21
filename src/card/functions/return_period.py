@@ -148,11 +148,24 @@ def _subset_period(x, dates, period):
     return x[((p0 <= d) & (d <= p1)).to_numpy()]
 
 
-def return_level(X, return_period, water_type="low", dates=None, period=None):
+def _const_date(v):
+    """Date depuis un scalaire ou une colonne constante par série (Series/
+    ndarray, cas des bornes de période fournies en colonnes)."""
+    if isinstance(v, (pd.Series, np.ndarray)):
+        s = pd.Series(v).dropna()
+        v = s.iloc[0] if len(s) else np.nan
+    return pd.Timestamp(v)
+
+
+def return_level(X, return_period, water_type="low", dates=None, period=None,
+                 period_start=None, period_end=None):
     """Valeur de période de retour `return_period` (années) :
     loi de Gumbel pour les hautes eaux (`water_type="high"`, maxima),
     loi log-normale pour les basses eaux (`water_type="low"`, minima).
-    `dates`/`period` permettent de restreindre à une sous-période."""
+    `dates`/`period` (paire) ou `period_start`/`period_end` (bornes,
+    souvent des colonnes constantes par série) restreignent l'ajustement."""
+    if period_start is not None:
+        period = [_const_date(period_start), _const_date(period_end)]
     x = _subset_period(_to_float_array(X), dates, period)
     if water_type == "high":
         a, b = _gumbel_params(x)

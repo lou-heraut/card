@@ -1,19 +1,13 @@
 id: delta-fQ01A_H
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-26"
+date: "2026-07-21"
 
 meta:
   en:
-    variable: [delta-fQ01A_H1, delta-fQ01A_H2, delta-fQ01A_H3]
+    variable: delta-fQ01A
     unit: without unit
-    name:
-      - "Average change of the annual frequency of exceeding Q01 between
-         the near horizon and historical period"
-      - "Average change of the annual frequency of exceeding Q01 between
-         the middle horizon and historical period"
-      - "Average change of the annual frequency of exceeding Q01 between
-         the distant horizon and historical period"
+    name: "Average change of the annual frequency of exceeding Q01 between the {suffix.name} horizon and historical period"
     description: >-
       Annual frequency of exceeding Q > Q01, where Q01 is the flow exceeded
       1 % of the time, extracted from the ranked flow curve
@@ -24,8 +18,9 @@ meta:
          number of days with flow exceeding the threshold to the number of
          days in the year
       3. no temporal aggregation - calculation of the average change between
-         the historical period and the {horizon} horizon
-    horizon_labels: {H1: near, H2: middle, H3: distant}
+         the historical period and the {suffix.name} horizon
+    suffix_default:
+      name: target
     sampling_period: Month of minimum monthly flows
     classification:
       domain: flow
@@ -35,15 +30,9 @@ meta:
       output: scalar
 
   fr:
-    variable: [delta-fQ01A_H1, delta-fQ01A_H2, delta-fQ01A_H3]
+    variable: delta-fQ01A
     unit: sans unité
-    name:
-      - "Changement moyen de la fréquence annuelle de dépassement du Q01
-         entre l'horizon proche et la période historique"
-      - "Changement moyen de la fréquence annuelle de dépassement du Q01
-         entre l'horizon moyen et la période historique"
-      - "Changement moyen de la fréquence annuelle de dépassement du Q01
-         entre l'horizon lointain et la période historique"
+    name: "Changement moyen de la fréquence annuelle de dépassement du Q01 entre l'horizon {suffix.name} et la période historique"
     description: >-
       Fréquence annuelle de dépassement de Q > Q01, Q01 est le débit dépassé
       1 % du temps, extrait de la courbe des débits classés
@@ -54,8 +43,9 @@ meta:
          du nombre de jours où le débit dépasse le seuil par le nombre de
          jours dans l'année
       3. aucune agrégation temporelle - calcul du changement moyen entre la
-         période historique et l'horizon {horizon}
-    horizon_labels: {H1: proche, H2: moyen, H3: lointain}
+         période historique et l'horizon {suffix.name}
+    suffix_default:
+      name: cible
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: débit
@@ -65,16 +55,11 @@ meta:
       output: scalaire
 
   global:
-    input_vars: Q
+    input_vars: "Q, ref_start, ref_end, horizon_start, horizon_end"
     preferred_sampling_period: "09-01"
     relative: false
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
-    horizons:
-      H0: ["1976-01-01", "2005-08-31"]
-      H1: ["2021-01-01", "2050-12-31"]
-      H2: ["2041-01-01", "2070-12-31"]
-      H3: ["2070-01-01", "2099-12-31"]
 
 process:
   P1:
@@ -94,10 +79,5 @@ process:
 
   P3:
     func:
-      delta-fQ01A_H1: [delta, "fQ01A", "date",
-                       {past: $H0, future: $H1, relative: false}]
-      delta-fQ01A_H2: [delta, "fQ01A", "date",
-                       {past: $H0, future: $H2, relative: false}]
-      delta-fQ01A_H3: [delta, "fQ01A", "date",
-                       {past: $H0, future: $H3, relative: false}]
+      delta-fQ01A: [delta, "fQ01A", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: false}]
     time_step: none

@@ -2,6 +2,7 @@
 validation croisée R↔Python (2026-07-12)."""
 
 import numpy as np
+import pandas as pd
 import pytest
 
 from card.functions import (
@@ -76,9 +77,25 @@ def test_apply_threshold_no_event_is_nan():
 def test_delta_absolute_and_relative():
     x = np.array([10.0] * 5 + [15.0] * 5)
     d = np.array(["2000-06-01"] * 5 + ["2050-06-01"] * 5, dtype="datetime64[D]")
-    past, future = ("2000-01-01", "2000-12-31"), ("2050-01-01", "2050-12-31")
-    assert delta(x, d, past, future, relative=False) == pytest.approx(5.0)
-    assert delta(x, d, past, future, relative=True) == pytest.approx(50.0)
+    # bornes scalaires : référence 2000, horizon 2050
+    assert delta(x, d, "2000-01-01", "2000-12-31",
+                 "2050-01-01", "2050-12-31", relative=False) == pytest.approx(5.0)
+    assert delta(x, d, "2000-01-01", "2000-12-31",
+                 "2050-01-01", "2050-12-31", relative=True) == pytest.approx(50.0)
+
+
+def test_delta_constant_columns_equal_scalars():
+    """Bornes fournies en colonnes constantes (paramètres d'horizon éclatés
+    par série) : résultat identique aux bornes scalaires."""
+    x = np.array([10.0] * 5 + [15.0] * 5)
+    d = pd.Series(pd.to_datetime(["2000-06-01"] * 5 + ["2050-06-01"] * 5))
+
+    def col(v, n=10):
+        return pd.Series([pd.Timestamp(v)] * n)
+
+    got = delta(x, d, col("2000-01-01"), col("2000-12-31"),
+                col("2050-01-01"), col("2050-12-31"), relative=True)
+    assert got == pytest.approx(50.0)
 
 
 def test_nansum_strict_all_nan_is_nan():

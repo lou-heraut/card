@@ -256,3 +256,33 @@ sous le même nom de colonne. Nouvelles colonnes `a_min`/`a_max` et
 `change_min`/`change_max` (bornes de quantiles dans l'unité de la
 variable), `change_relative` et ses bornes. `mean_period` est désormais
 toujours calculée.
+
+## Horizons en colonnes d'entrée (2026-07-21)
+
+Les 59 fiches `_H` (57 delta + n-VCN10-5_H, n-QJXA-10_H) reçoivent leurs
+dates d'horizon comme colonnes d'ENTRÉE fournies par l'appelant (comme
+Q_lim pour rp-*), et non plus écrites en dur via `$H`. Les SORTIES ne
+changent pas : nouveau == ancien vérifié à l'exact sur le corpus des 59
+(255 comparaisons), parité R inchangée, ce n'est donc pas une rupture.
+Changements :
+
+- `delta(X, dates, ref_start, ref_end, horizon_start, horizon_end,
+  relative, return_period=None, water_type="low", Q_for_BFI=None)` :
+  les deux paires `past`/`future` deviennent quatre bornes scalaires,
+  extraites d'une colonne constante par série si besoin ; filtrage sur
+  de vraies dates.
+- `return_level` et `apply_threshold` gagnent `period_start`/`period_end`
+  (rétrocompatibles avec `period`), pour porter la période en colonnes
+  (fiches n-count par horizon).
+- `inputs.yaml` : nouvelles entrées `ref_start`/`ref_end`/`horizon_start`/
+  `horizon_end` avec une clé `type: date`. `type` distingue les
+  paramètres-dates (routés comme covariables, ni axe ni mesure) des
+  mesures numériques ; défaut `numeric` implicite.
+- Fiches collapsées : P2 à une entrée + suffixe d'horizon (la fiche ne
+  fige plus 3 horizons, leur nombre et identité viennent de `suffix=`),
+  variable de base + `suffix_default`, `{horizon}` → `{suffix.name}`.
+- `$H`, `meta.global.horizons` et `_substitute_horizons` retirés du loader.
+- Moteur : stase gagne `param_cols` (colonnes de paramètre constantes par
+  série, portées et CONSERVÉES à travers les process, hors canal
+  numérique, détection de l'axe par élimination). Détail dans le
+  docstring de `stase/src/stase/extraction.py`.

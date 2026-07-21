@@ -1,25 +1,19 @@
 id: n-VCN10-5_H
-version: "1.0.1"
+version: "1.1.0"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-07-18"
+date: "2026-07-21"
 
 meta:
   en:
-    variable: [n-VCN10-5_H1, n-VCN10-5_H2, n-VCN10-5_H3]
+    variable: n-VCN10-5
     unit: without unit
-    name:
-      - "Number of years in the near horizon where VCN10 is below or equal to
-         VCN10-5 from the historical period"
-      - "Number of years in the middle horizon where VCN10 is below or equal to
-         VCN10-5 from the historical period"
-      - "Number of years in the distant horizon where VCN10 is below or equal to
-         VCN10-5 from the historical period"
+    name: "Number of years in the {suffix.name} horizon where VCN10 is below or equal to VCN10-5 from the historical period"
     description: ""
     method: |
       1. no temporal aggregation - 10-day centered moving average
       2. annual aggregation [Month of maximum monthly flows] - minimum (VCN10)
-      3. no temporal aggregation - calculation of the 5-year return period flow with the log-normal distribution from the historical period (VCN10-5_H0)
-      4. no temporal aggregation - counting the number of VCN10 in the {horizon} horizon below or equal to VCN10-5_H0
+      3. no temporal aggregation - calculation of the 5-year return period flow with the log-normal distribution from the historical period (VCN10-5)
+      4. no temporal aggregation - counting the number of VCN10 in the {suffix.name} horizon below or equal to VCN10-5
     sampling_period: Month of maximum monthly flows
     classification:
       domain: flow
@@ -27,24 +21,19 @@ meta:
       aspect: frequency
       season: annual
       output: scalar
-    horizon_labels: {H1: near, H2: middle, H3: distant}
+    suffix_default:
+      name: target
 
   fr:
-    variable: [nVCN10-5_H1, nVCN10-5_H2, nVCN10-5_H3]
+    variable: nVCN10-5
     unit: sans unité
-    name:
-      - "Nombre d'années de l'horizon proche où le VCN10 est inférieur ou égal
-         au VCN10-5 de la période historique"
-      - "Nombre d'années de l'horizon moyen où le VCN10 est inférieur ou égal au
-         VCN10-5 de la période historique"
-      - "Nombre d'années de l'horizon lointain où le VCN10 est inférieur ou égal
-         au VCN10-5 de la période historique"
+    name: "Nombre d'années de l'horizon {suffix.name} où le VCN10 est inférieur ou égal au VCN10-5 de la période historique"
     description: ""
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
       2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum (VCN10)
-      3. aucune agrégation temporelle - calcul du débit de période de retour 5 ans avec la loi log-normal sur la période historique (VCN10-5_H0)
-      4. aucune agrégation temporelle - décompte du nombre de VCN10 de l'horizon {horizon} inférieurs ou égaux au VCN10-5_H0
+      3. aucune agrégation temporelle - calcul du débit de période de retour 5 ans avec la loi log-normal sur la période historique (VCN10-5)
+      4. aucune agrégation temporelle - décompte du nombre de VCN10 de l'horizon {suffix.name} inférieurs ou égaux au VCN10-5
     sampling_period: Mois du maximum des débits mensuels
     classification:
       domain: débit
@@ -52,16 +41,12 @@ meta:
       aspect: fréquence
       season: annuelle
       output: scalaire
-    horizon_labels: {H1: proche, H2: moyen, H3: lointain}
+    suffix_default:
+      name: cible
 
   global:
-    input_vars: Q
+    input_vars: "Q, ref_start, ref_end, horizon_start, horizon_end"
     preferred_sampling_period: "01-01"
-    horizons:
-      H0: ["1976-01-01", "2005-08-31"]
-      H1: ["2021-01-01", "2050-12-31"]
-      H2: ["2041-01-01", "2070-12-31"]
-      H3: ["2070-01-01", "2099-12-31"]
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
 
@@ -83,13 +68,11 @@ process:
 
   P3:
     func:
-      VCN10-5_H0: [return_level, "VCN10", {return_period: 5, water_type: "low", dates: "date", period: $H0}]
+      VCN10-5: [return_level, "VCN10", {return_period: 5, water_type: "low", dates: "date", period_start: "ref_start", period_end: "ref_end"}]
     time_step: none
     keep: all
 
   P4:
     func:
-      n-VCN10-5_H1: [apply_threshold, "VCN10", {lim: VCN10-5_H0, where: "<=", what: length, select: all, dates: "date", period: $H1}]
-      n-VCN10-5_H2: [apply_threshold, "VCN10", {lim: VCN10-5_H0, where: "<=", what: length, select: all, dates: "date", period: $H2}]
-      n-VCN10-5_H3: [apply_threshold, "VCN10", {lim: VCN10-5_H0, where: "<=", what: length, select: all, dates: "date", period: $H3}]
+      n-VCN10-5: [apply_threshold, "VCN10", {lim: VCN10-5, where: "<=", what: length, select: all, dates: "date", period_start: "horizon_start", period_end: "horizon_end"}]
     time_step: none

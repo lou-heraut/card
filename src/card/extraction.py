@@ -30,6 +30,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import yaml
 from stase import Adaptive, process_extraction
 
 from . import functions
@@ -109,7 +110,8 @@ def _override_sampling(sp, override, preferred, card_id):
 
 def _run_process(data, proc, period_default=None, cancel_lim=False,
                  sampling_override=None, preferred=None, card_id="",
-                 suffix_keys=None, suffix_delimiter="_", verbose=False):
+                 suffix_keys=None, suffix_delimiter="_", param_cols=None,
+                 verbose=False):
     period = proc["period"] if proc["period"] is not None else period_default
     sp = _override_sampling(proc["sampling_period"], sampling_override,
                             preferred, card_id)
@@ -127,6 +129,7 @@ def _run_process(data, proc, period_default=None, cancel_lim=False,
         expand=proc["expand"],
         suffix=suffix_keys or None,
         suffix_delimiter=suffix_delimiter,
+        param_cols=param_cols or None,
         verbose=verbose,
     )
 
@@ -297,6 +300,38 @@ def _required_vars(card) -> list[str]:
     if isinstance(raw, str):
         return [v.strip() for v in raw.split(",") if v.strip()]
     return [str(v).strip() for v in raw]
+
+
+_INPUTS_PATH = Path(__file__).resolve().parent / "inputs.yaml"
+_INPUTS_CACHE = None
+
+
+def _input_registry():
+    """Registre des variables d'entrée (inputs.yaml). Chargé une fois.
+
+    Copie locale volontaire : schema.py importe extraction, donc importer
+    schema ici créerait un cycle. La source de vérité reste inputs.yaml."""
+    global _INPUTS_CACHE
+    if _INPUTS_CACHE is None:
+        _INPUTS_CACHE = yaml.safe_load(_INPUTS_PATH.read_text(encoding="utf-8"))
+    return _INPUTS_CACHE
+
+
+def _date_param_cols(card, data_cols, suffix_keys, delim) -> list[str]:
+    """Colonnes de paramètre présentes dans les données : les input_vars de
+    type date (inputs.yaml), sous leur nom bare ou suffixé. Ce sont les
+    colonnes que stase met de côté (param_cols) : ni axe, ni mesure,
+    conservées à travers les process."""
+    reg = _input_registry()
+    date_vars = [v for v in _required_vars(card)
+                 if reg.get(v, {}).get("type") == "date"]
+    data_cols = set(data_cols)
+    cols: list[str] = []
+    for v in date_vars:
+        for cand in [v] + [f"{v}{delim}{s}" for s in (suffix_keys or [])]:
+            if cand in data_cols and cand not in cols:
+                cols.append(cand)
+    return cols
 
 
 def _check_input_vars(data: pd.DataFrame, loaded: dict,
@@ -478,6 +513,10 @@ def extract(data, cards=("QA", "QJXA"), path=None,
         result = (data.rename(columns=auto_map[name])
                   if name in auto_map else data)
         preferred = card["meta"]["global"].get("preferred_sampling_period")
+        # colonnes de paramètre (dates d'horizon...) : mises de côté par stase,
+        # conservées à travers les process, puis retirées de la sortie finale.
+        param_cols = _date_param_cols(card, result.columns, suffix_keys,
+                                      suffix_delimiter)
         for proc in card["processes"]:
             result = _run_process(result, proc,
                                   period_default=period_default,
@@ -487,7 +526,11 @@ def extract(data, cards=("QA", "QJXA"), path=None,
                                   card_id=name,
                                   suffix_keys=suffix_keys,
                                   suffix_delimiter=suffix_delimiter,
+                                  param_cols=param_cols,
                                   verbose=verbose)
+        if param_cols:
+            result = result.drop(columns=[c for c in param_cols
+                                          if c in result.columns])
         out_data[name] = result
         # Après le run : seule la sortie dit quelles variables sont
         # suffixées (cf. _meta_frame).

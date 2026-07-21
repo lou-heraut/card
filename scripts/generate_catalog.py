@@ -33,7 +33,7 @@ def _inputs_with_units(raw):
     out = []
     for var in str(raw).split(","):
         var = var.strip()
-        unit = reg.get(var, {}).get("unit")
+        unit = reg.get(var, {}).get("unit") or reg.get(var, {}).get("type")
         out.append(f"{var} [{unit}]" if unit else var)
     return ", ".join(out)
 

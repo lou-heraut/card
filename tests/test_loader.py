@@ -36,14 +36,6 @@ def test_defaults_applied():
     assert gl["is_experimental"] is False
 
 
-def test_horizon_substitution():
-    card = load_card(path_of("delta-QA_H"))
-    p_last = card["processes"][-1]
-    kwargs = p_last["func"][0]["kwargs"]
-    assert kwargs["past"] == ["1976-01-01", "2005-08-31"]
-    assert kwargs["future"] == ["2021-01-01", "2050-12-31"]
-
-
 def test_adaptive_sampling_parsed():
     card = load_card(path_of("QMNA"))
     sp = card["processes"][1]["sampling_period"]
@@ -67,12 +59,3 @@ def test_positional_literal():
     assert ("lit", 2) in entries[0]["pos_args"]
 
 
-def test_unknown_horizon_raises(tmp_path):
-    bad = tmp_path / "bad.yaml"
-    bad.write_text(
-        "id: bad\nmeta: {en: {}, fr: {}, global: {}}\n"
-        "process:\n  P1:\n    func:\n"
-        "      x: [delta, \"Q\", \"date\", {past: $H9, future: $H1, relative: true}]\n"
-    )
-    with pytest.raises(ValueError, match="H9"):
-        load_card(bad)

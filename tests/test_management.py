@@ -8,7 +8,9 @@ from card import CARD_list_all, CARD_management
 def test_list_all_covers_corpus():
     meta = CARD_list_all()
     assert meta.script_path.nunique() >= 210
-    assert len(meta) >= 580                    # une ligne par variable
+    # une ligne par variable ; les fiches _H collapsées exposent leur
+    # variable de base (l'horizon est devenu un suffixe), d'où ~482
+    assert len(meta) >= 470
     assert not meta.variable_en.isna().any()
 
 

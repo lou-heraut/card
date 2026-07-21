@@ -1,26 +1,21 @@
 id: delta-BFI-Wal_H
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-04-26"
+date: "2026-07-21"
 
 meta:
   en:
-    variable: [delta-BFI-Wal_H1, delta-BFI-Wal_H2, delta-BFI-Wal_H3]
+    variable: delta-BFI-Wal
     unit: without unit
-    name:
-      - "Average change of the baseflow index between the near horizon and historical period
-         (Wallingford)"
-      - "Average change of the baseflow index between the middle horizon and historical period
-         (Wallingford)"
-      - "Average change of the baseflow index between the distant horizon and historical period
-         (Wallingford)"
+    name: "Average change of the baseflow index between the {suffix.name} horizon and historical period (Wallingford)"
     description: >-
       Ratio between mean inter-annual base flow and mean inter-annual flow
     method: |
       1. no temporal aggregation - extraction of the base flow (Wallingford)
       2. no temporal aggregation - calculation of the BFI change between the
-         historical period and the {horizon} horizon
-    horizon_labels: {H1: near, H2: middle, H3: distant}
+         historical period and the {suffix.name} horizon
+    suffix_default:
+      name: target
     classification:
       domain: flow
       phenomenon: baseflow
@@ -29,22 +24,17 @@ meta:
       output: scalar
 
   fr:
-    variable: [delta-BFI-Wal_H1, delta-BFI-Wal_H2, delta-BFI-Wal_H3]
+    variable: delta-BFI-Wal
     unit: sans unité
-    name:
-      - "Changement moyen de l'indice de débit de base entre l'horizon proche et la
-         période historique (Wallingford)"
-      - "Changement moyen de l'indice de débit de base entre l'horizon moyen et la
-         période historique (Wallingford)"
-      - "Changement moyen de l'indice de débit de base entre l'horizon lointain et la
-         période historique (Wallingford)"
+    name: "Changement moyen de l'indice de débit de base entre l'horizon {suffix.name} et la période historique (Wallingford)"
     description: >-
       Rapport entre débit de base moyen inter-annuel et débit moyen inter-annuel
     method: |
       1. aucune agrégation temporelle - extraction du débit de base (Wallingford)
       2. aucune agrégation temporelle - calcul du changement de BFI entre la
-         période historique et l'horizon {horizon}
-    horizon_labels: {H1: proche, H2: moyen, H3: lointain}
+         période historique et l'horizon {suffix.name}
+    suffix_default:
+      name: cible
     classification:
       domain: débit
       phenomenon: débit de base
@@ -53,17 +43,12 @@ meta:
       output: scalaire
 
   global:
-    input_vars: Q
+    input_vars: "Q, ref_start, ref_end, horizon_start, horizon_end"
     source: >-
       TALLAKSEN, L. et H. VAN LANEN, éd. (2004). Hydrological drought. Processes
       and estimation methods for streamflow and groundwater. Developments in water
       science 48. Netherlands : Elsevier. ISBN : 9780444516886.
     relative: false
-    horizons:
-      H0: ["1976-01-01", "2005-08-31"]
-      H1: ["2021-01-01", "2050-12-31"]
-      H2: ["2041-01-01", "2070-12-31"]
-      H3: ["2070-01-01", "2099-12-31"]
 
 process:
   P1:
@@ -75,10 +60,5 @@ process:
 
   P2:
     func:
-      delta-BFI-Wal_H1: [delta, "BF-Wal", "date",
-                          {past: $H0, future: $H1, relative: false, Q_for_BFI: "Q"}]
-      delta-BFI-Wal_H2: [delta, "BF-Wal", "date",
-                          {past: $H0, future: $H2, relative: false, Q_for_BFI: "Q"}]
-      delta-BFI-Wal_H3: [delta, "BF-Wal", "date",
-                          {past: $H0, future: $H3, relative: false, Q_for_BFI: "Q"}]
+      delta-BFI-Wal: [delta, "BF-Wal", "date", {ref_start: "ref_start", ref_end: "ref_end", horizon_start: "horizon_start", horizon_end: "horizon_end", relative: false, Q_for_BFI: "Q"}]
     time_step: none
