@@ -1,0 +1,28 @@
+delta-QNA_H: 'bascule relative (RENAMING 2026-07-15, B1/B3) : sortie Python en % cohérente
+  avec l unite, R sort de l absolu mal etiquete « % »'
+delta-QNA_summer_H: 'bascule relative (RENAMING 2026-07-15, B1/B3) : sortie Python
+  en % cohérente avec l unite, R sort de l absolu mal etiquete « % »'
+delta-QNA_winter_H: 'bascule relative (RENAMING 2026-07-15, B1/B3) : sortie Python
+  en % cohérente avec l unite, R sort de l absolu mal etiquete « % »'
+delta-VCN10_summer_H: 'moyenne mobile fenetre paire k=10 (pandas center=True vs RcppRoll
+  align=center) : le min de la fenetre saisonniere bascule d un jour au bord ; prouve
+  le 2026-07-21 (decalage -1 == golden R)'
+delta-VCN30_summer_H: 'moyenne mobile fenetre paire k=10 (pandas center=True vs RcppRoll
+  align=center) : le min de la fenetre saisonniere bascule d un jour au bord ; prouve
+  le 2026-07-21 (decalage -1 == golden R)'
+delta-VCN3_winter_H: 'moyenne mobile fenetre paire k=10 (pandas center=True vs RcppRoll
+  align=center) : le min de la fenetre saisonniere bascule d un jour au bord ; prouve
+  le 2026-07-21 (decalage -1 == golden R)'
+delta-allLF_H: 'bascule relative (RENAMING 2026-07-15, B1/B3) : sortie Python en %
+  cohérente avec l unite, R sort de l absolu mal etiquete « % »'
+delta-allLF_summer_H: 'bascule relative (RENAMING 2026-07-15, B1/B3) : sortie Python
+  en % cohérente avec l unite, R sort de l absolu mal etiquete « % »'
+delta-allLF_winter_H: 'bascule relative (RENAMING 2026-07-15, B1/B3) : sortie Python
+  en % cohérente avec l unite, R sort de l absolu mal etiquete « % »'
+delta-dtBF_H: 'bascule relative (RENAMING 2026-07-15, B1/B3) : sortie Python en %
+  cohérente avec l unite, R sort de l absolu mal etiquete « % »'
+delta-dtFlood_H: 'bascule relative (RENAMING 2026-07-15, B1/B3) : sortie Python en
+  % cohérente avec l unite, R sort de l absolu mal etiquete « % »'
+delta-tVCN10_summer_H: 'moyenne mobile fenetre paire k=10 (pandas center=True vs RcppRoll
+  align=center) : le min de la fenetre saisonniere bascule d un jour au bord ; prouve
+  le 2026-07-21 (decalage -1 == golden R)'

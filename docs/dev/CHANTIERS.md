@@ -147,13 +147,17 @@ vert→marron (durées/volumes d'étiage, ETP : assèchement).
   le risque de crue des dates par une palette dédiée, c'est une
   décision à part.
 
-## 10. Goldens injouables des fiches volontairement divergentes de R
+## 10. Goldens injouables des fiches divergentes de R — RÉSOLU le 2026-07-21
 
-Question soulevée le 2026-07-21 par l'utilisateur pendant le chantier horizons (sorti le 2026-07-21),
-à traiter APRÈS lui. À quoi servent des tests qui ne peuvent jamais
-passer (diff permanent) parce que la sortie Python a volontairement
-divergé de R ? Faut-il les garder, à quelle condition pour être non
-ambigu, ou les jeter ?
+Question soulevée puis traitée le 2026-07-21. À quoi servent des tests
+qui ne peuvent jamais passer (diff permanent) parce que la sortie Python
+a volontairement/connument divergé de R ? Résolution appliquée (option A
+ci-dessous) : les 12 fiches divergentes sont sorties de la comparaison à
+R et validées contre un golden PYTHON (non-régression), avec leur raison
+documentée dans `tests/data/known_divergences.yaml`. Le corpus les
+étiquette « divergence » (attendu) ou « RÉGRESSION » (la sortie Python a
+changé, à investiguer). Plus de « diff » ambigu. Historique conservé
+ci-dessous.
 
 ### Constat mesuré (ancien code, corpus contre R, 59 fiches `_H`)
 
@@ -164,9 +168,19 @@ ambigu, ou les jeter ?
   delta-dtBF_H, delta-dtFlood_H. Cause racine côté R : la fiche R
   déclare unit « % » mais `to_normalise = FALSE`, donc R sort de
   l'absolu mal étiqueté ; Python a corrigé (relatif).
-- 4 divergences NON documentées, à comprendre AVANT toute décision :
-  delta-VCN10_summer_H, delta-VCN30_summer_H, delta-VCN3_winter_H,
-  delta-tVCN10_summer_H.
+- 4 divergences NUMÉRIQUES, cause prouvée le 2026-07-21
+  (delta-VCN10_summer_H, delta-VCN30_summer_H, delta-VCN3_winter_H,
+  delta-tVCN10_summer_H) : la convention de moyenne mobile pour fenêtre
+  PAIRE (k=10). `rollmean_center` suit pandas `center=True` ; R
+  (RcppRoll) centre une fenêtre paire une position à côté. Décaler la
+  série d'UNE position fait matcher R à la 6e décimale (vérifié sur
+  S001 : -8.362608 pandas → -7.179383 décalé -1 == golden R). Ce
+  décalage d'un jour ne change pas le min ANNUEL (même valeur) mais
+  bascule le min de la fenêtre SAISONNIÈRE quand il tombe au bord, d'où
+  annuel ok / été-hiver diff, sur les stations où ce jour de bord
+  compte. Divergence connue EN CATÉGORIE (pandas vs RcppRoll k pair,
+  ok_approx) mais non rattachée à ces fiches jusqu'ici. Pas une erreur :
+  choix d'implémentation pandas assumé.
 
 ### Le vrai problème (analyse)
 

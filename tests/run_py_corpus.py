@@ -19,6 +19,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import yaml
 
 sys.path.insert(0, str(Path(__file__).parent))
 import conftest  # noqa: F401  (chemins card/stase sans installation)
@@ -46,6 +47,15 @@ HORIZON_COLS = {
     "horizon_start_H3": "2070-01-01", "horizon_end_H3": "2099-12-31",
 }
 HORIZON_SUFFIX = ["H1", "H2", "H3"]
+
+# Fiches dont la sortie Python diverge VOLONTAIREMENT/CONNUEMENT de R
+# (raison dans le manifeste tests/data/known_divergences.yaml). Elles sont
+# validées contre un golden PYTHON (tests/data/py_golden/, non-régression),
+# pas contre le golden R (parité impossible par décision). Voir CHANTIERS §10.
+PY_GOLDEN = TESTS / "data" / "py_golden"
+_div_path = TESTS / "data" / "known_divergences.yaml"
+KNOWN_DIVERGENCES = (yaml.safe_load(_div_path.read_text(encoding="utf-8"))
+                     if _div_path.exists() else {})
 
 
 def to_float(s):
@@ -145,6 +155,24 @@ def main(only=None):
             p_df = None
             py_status = f"py_error: {type(e).__name__}: {e}"
 
+        # Divergence connue de R : on juge contre le golden PYTHON
+        # (non-régression), pas contre R. 'divergence' = attendu (matche le
+        # golden Python) ; 'RÉGRESSION' = la sortie Python a changé.
+        if name in KNOWN_DIVERGENCES:
+            if p_df is None:
+                rows.append({"card": name, "variable": "", "status": "py_error",
+                             "detail": py_status[:200]})
+                traceback.print_exc()
+                continue
+            pygold = pd.read_csv(PY_GOLDEN / f"{name}.csv")
+            for cmp_row in compare_frames(pygold, p_df):
+                cmp_row["status"] = ("divergence" if cmp_row["status"] == "ok"
+                                     else "RÉGRESSION")
+                rows.append({"card": name, **cmp_row,
+                             "detail": KNOWN_DIVERGENCES[name][:70]})
+            print(f"[div]  {name}")
+            continue
+
         if not r_ok:
             msg = r_status.loc[name, "message"] if name in r_status.index else "absent"
             rows.append({"card": name, "variable": "", "status": "r_error",
@@ -185,7 +213,12 @@ def main(only=None):
 
     print("\n=== Synthèse ===")
     print(report["status"].value_counts().to_string())
-    bad = report[report["status"].isin(["diff", "py_error", "no_common_cols"])]
+    print("  ('divergence' = écart connu et documenté avec R, validé contre "
+          "le golden Python ; voir known_divergences.yaml)")
+    # 'diff' = écart R sur une fiche censée matcher R ; 'RÉGRESSION' = une
+    # fiche à divergence connue a changé de sortie Python. Les deux à investiguer.
+    bad = report[report["status"].isin(
+        ["diff", "RÉGRESSION", "py_error", "no_common_cols"])]
     if len(bad):
         print("\n=== À investiguer ===")
         print(bad.to_string(index=False, max_colwidth=80))
