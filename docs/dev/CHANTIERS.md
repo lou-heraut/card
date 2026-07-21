@@ -216,3 +216,28 @@ appliqué à ces 12 fiches, d'où le trou.
   golden.
 
 Recommandation : D d'abord, puis A. B en repli si A trop coûteux.
+(D fait le 2026-07-21 : cause prouvée = moyenne mobile k pair ; A fait :
+goldens Python + manifeste. §10 RÉSOLU, cf. en-tête.)
+
+## 11. Grand nettoyage docs / uniformisation (card, stase, card-api)
+
+Ouvert le 2026-07-21. Plan détaillé et exécutable :
+`docs/dev/PLAN_nettoyage.md`. Nettoyage transverse des 3 packages (docs
+dev, README, pages, métadonnées, cloisonnement) pour réduire le coût
+token du re-chargement de contexte des futurs Claude, et garantir un
+contenu exclusif par fichier.
+
+Deux points DÉJÀ appris (pour ne pas les reperdre) :
+- **Historique NON supprimable tel quel** : ROADMAP (card), PLAN et
+  CONVERSION_R (stase) sont référencés par des docs vivantes (README,
+  CLAUDE.md...) et portent du contenu à valeur. Il faut une carte
+  source-de-vérité d'abord, puis re-router les renvois avant tout
+  retrait. Propre, pas grossier (cf. Phase 0/1 du plan).
+- **Métadonnées à placeholder : cohérence VÉRIFIÉE** (62 fiches, 0
+  anomalie). La forme générique par défaut (« the target/cible horizon »)
+  est VOULUE (métadonnée publique de metadata_only) ; le suffixe la
+  clarifie avec le contexte. Reste l'avis utilisateur sur le terme
+  générique + la doc d'usage (cf. Phase 4 du plan).
+
+Ordre conseillé : Phase 0 (carte) puis 1 (élaguer proprement) et 4
+(métadonnées, tant que le sujet est frais).
