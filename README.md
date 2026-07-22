@@ -201,7 +201,7 @@ card.list_cards(season="estivale")         # 28 : fenêtre d'échantillonnage
 card.list_cards(operator="delta")          # 83 : opérateur (delta, median...)
 card.list_cards(variable="VCN")            # 33 : filtre par nom de variable
 card.list_cards(search="minimum annuel")   # recherche dans les noms fr et en
-card.info("VCN10")                         # détail : méthode, classification...
+card.info("VCN10")                         # la fiche, dessinée (voir plus bas)
 ```
 
 Les facettes acceptent le français comme l'anglais (`output="série"` ou
@@ -214,6 +214,47 @@ que « étiage », qui n'est pas un mot du corpus).
 Le catalogue complet est consultable en ligne :
 [lou-heraut.github.io/card](https://lou-heraut.github.io/card/) ou
 [docs/CARDS.md](docs/CARDS.md).
+
+## Lire une fiche
+
+`card.info` dessine ce que la fiche calcule, plutôt que d'en lister les
+champs : la chaîne des étapes, les fonctions et leurs réglages, la
+fenêtre d'échantillonnage sur douze mois, et ce qui est produit.
+
+```
+VCN10  Minimum annuel de la moyenne sur 10 jours du débit journalier
+       m³·s⁻¹ · basses eaux · annuelle · série
+
+  Q
+   │
+   ├─ rollmean_center(Q)   k=10
+   │    Moyenne mobile centrée de fenêtre k (convention pandas
+   │    center=True ; fenêtre contenant un NaN → NaN)
+   │  transforme la série sans l'agréger, une valeur par jour
+   ▼
+  VC10
+   │
+   ├─ nanmin(VC10)
+   │  une valeur par année · max 3 % de lacunes
+   │  J  F  M  A  M  J  J  A  S  O  N  D
+   │  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+   │  départ propre à chaque série (adaptatif), année complète
+   ▼
+  VCN10
+
+  sortie : une série, une valeur par année
+  VCN10 v1.0  ·  flow/series/VCN10.yaml
+  swh:1:cnt:ccf7e81b4fad5fdfa3028996f952694502527b51
+```
+
+Dans la bande de douze mois, `▓` marque un mois retenu, `·` un mois
+écarté et `┃` une borne : une fenêtre estivale donne
+`············┃▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓┃···`. La figure suit la forme de
+sortie : une série montre son axe de temps, un changement montre les deux
+fenêtres qu'il compare, une courbe annonce l'axe qui l'indexe.
+
+`card.info` retourne par ailleurs le dict des champs, inchangé, pour le
+code qui en dépend.
 
 ## Développer sa propre fiche
 
@@ -290,7 +331,7 @@ auteurs dans le fichier AUTHORS.
 ## Développement
 
 ```bash
-pip install -e . && pytest              # 95 tests
+pip install -e . && pytest              # 105 tests
 python -m card.schema                   # linter des 225 fiches YAML
 python scripts/generate_catalog.py      # régénère docs/CARDS.md
 ```

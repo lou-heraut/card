@@ -45,6 +45,25 @@ des deux endroits.
 
 ## Non publié
 
+### Ajouté
+
+- **`card.info` dessine la fiche au lieu d'en lister les champs.** Une
+  fiche contient tout ce qu'il faut pour comprendre son calcul, mais
+  aplati en liste cela se lit mal. La figure montre la chaîne des étapes,
+  les fonctions et leurs réglages, la fenêtre d'échantillonnage sur douze
+  mois, et ce qui est produit. Le dict retourné ne change pas : c'est lui
+  que consomme le code appelant.
+
+  Trois principes. La figure suit la **forme de sortie**, déjà une
+  facette de la classification : une série montre son axe de temps, un
+  changement la frise des deux fenêtres qu'il compare, une courbe l'axe
+  qui l'indexe. Un kwarg qui nomme une colonne est une **référence**, pas
+  un réglage, et s'affiche comme telle. Une **enveloppe se déplie** :
+  `over_period` cacherait que la fiche calcule une médiane.
+
+  Généré depuis le YAML, jamais écrit à la main ; un test vérifie que les
+  225 fiches du corpus se rendent sans exception.
+
 ### Modifié
 
 - **Douze fiches à horizon fixe disparaissent, sans en créer aucune.**

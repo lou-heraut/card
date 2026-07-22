@@ -67,7 +67,10 @@ def test_card_info(capsys):
     out = capsys.readouterr().out
     assert meta["input_vars"].startswith("Q [m^{3}.s^{-1}]")
     assert meta["id"] == "QA"
-    assert "QA" in out and "input_vars" in out
+    # info() imprime désormais une FIGURE (la chaîne de calcul et sa
+    # fenêtre) et non plus une liste de champs ; le dict, lui, ne change
+    # pas et reste ce que consomme le code appelant.
+    assert "QA" in out and "nanmean(Q)" in out and "swh:1:cnt:" in out
 
 
 def test_card_info_unknown_raises():

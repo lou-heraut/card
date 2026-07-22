@@ -154,10 +154,17 @@ def info(name, path=None, lang="fr") -> dict:
         "version": card.get("version"),
         "swhid": card.get("swhid"),
     }
-    width = max(len(k) for k in info)
-    for k, v in info.items():
-        if v not in (None, ""):
-            print(f"{k.ljust(width)}  {v}")
+    # Ce qui s'imprime est une FIGURE, pas une liste de champs : elle
+    # montre la chaîne de calcul, ses paramètres et sa fenêtre. Les
+    # champs bruts restent dans le dict retourné, c'est son rôle.
+    from .render import figure
+    try:
+        print(figure(name, path=path, lang=lang))
+    except Exception:                       # une fiche hors norme reste lisible
+        width = max(len(k) for k in info)
+        for k, v in info.items():
+            if v not in (None, ""):
+                print(f"{k.ljust(width)}  {v}")
     return info
 
 
