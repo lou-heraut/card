@@ -83,3 +83,24 @@ def test_ambiguous_aggregation_names_rejected():
     issues = []
     _check_process(proc, issues)
     assert any("nanmean" in i for i in issues)
+
+
+def test_swhid_de_fiche_est_le_hash_git_du_fichier():
+    """Le SWHID de contenu d'un fichier est son hash de blob git : on le
+    calcule donc sans réseau ni dépôt. C'est ce qui permet de retrouver
+    la DÉFINITION exacte employée dans un résultat archivé."""
+    import hashlib
+
+    from card.extraction import extract
+    from card.loader import load_card
+
+    src = next(_DEFAULT_CARD_DIR.rglob("QA.yaml"))
+    octets = src.read_bytes()
+    attendu = hashlib.sha1(b"blob %d\0" % len(octets) + octets).hexdigest()
+
+    assert load_card(src)["swhid"] == f"swh:1:cnt:{attendu}"
+
+    meta = extract(None, cards=["QA"], metadata_only=True)["meta"]
+    assert meta["swhid"].iloc[0] == f"swh:1:cnt:{attendu}"
+    # le chemin publié est celui du corpus, pas celui de la machine
+    assert meta["script_path"].iloc[0] == "flow/series/QA.yaml"

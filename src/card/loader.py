@@ -37,6 +37,9 @@ Le sampling_period adaptatif {type: adaptive, func: [...]} est parsé de la
 même façon qu'un tuple func.
 """
 
+import hashlib
+from pathlib import Path
+
 import yaml
 
 _GLOBAL_DEFAULTS = {
@@ -119,8 +122,15 @@ def load_card(path):
     tuples func prêts pour stase.
     Retourne un dict {id, path, meta, processes}.
     """
-    with open(path, encoding="utf-8") as f:
-        raw = yaml.safe_load(f)
+    octets = Path(path).read_bytes()
+    raw = yaml.safe_load(octets.decode("utf-8"))
+    # SWHID de contenu du FICHIER de fiche. Software Heritage identifie un
+    # contenu par son hash git de blob : on le calcule donc localement,
+    # sans réseau ni dépôt git. Il désigne la DÉFINITION exacte employée,
+    # indépendamment du dépôt et de la révision d'où elle vient, et reste
+    # le même tant que le fichier ne change pas.
+    swhid = "swh:1:cnt:" + hashlib.sha1(
+        b"blob %d\0" % len(octets) + octets).hexdigest()
 
     meta = raw.get("meta", {})
     meta_global = {**_GLOBAL_DEFAULTS, **meta.get("global", {})}
@@ -154,6 +164,7 @@ def load_card(path):
         # La version de la fiche voyage avec elle : c'est ce qui permet à un
         # résultat de dire avec quelle définition il a été calculé.
         "version": raw.get("version"),
+        "swhid": swhid,
         "meta": {
             "en": meta.get("en", {}),
             "fr": meta.get("fr", {}),

@@ -43,6 +43,25 @@ des deux endroits.
 4. **Le seul geste manuel régulier, c'est ce fichier.** Un changement
    qui mérite d'être retenu s'écrit sous `## Non publié`.
 
+## Non publié
+
+### Ajouté
+
+- **Chaque fiche porte son identifiant pérenne**, colonne `swhid` des
+  métadonnées. Le SWHID de contenu d'un fichier est son hash de blob
+  git : il se calcule donc localement, sans réseau ni dépôt, et désigne
+  la **définition** exacte employée, indépendamment du dépôt et de la
+  révision d'où elle vient. Un résultat archivé permet ainsi de
+  retrouver la fiche telle qu'elle était, en ouvrant
+  `https://archive.softwareheritage.org/swh:1:cnt:...`. Vérifié de bout
+  en bout : la fiche est bien récupérable depuis l'archive.
+
+### Modifié
+
+- `script_path` publie le chemin dans le corpus (`flow/series/QA.yaml`)
+  et non plus le chemin absolu sur la machine, qui n'apprenait rien à
+  personne et exposait l'arborescence du serveur.
+
 ## 0.2.0 (2026-07-22)
 
 ### Ajouté

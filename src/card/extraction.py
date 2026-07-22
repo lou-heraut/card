@@ -154,6 +154,16 @@ def _join_sp(sp):
     return sp
 
 
+def _corpus_path(path):
+    """Chemin de la fiche relatif à la racine du corpus (`flow/series/
+    QA.yaml`), ou son nom si elle vit ailleurs (fiche personnelle)."""
+    p = Path(path)
+    try:
+        return p.relative_to(_DEFAULT_CARD_DIR).as_posix()
+    except ValueError:
+        return p.name
+
+
 def _meta_rows(card) -> pd.DataFrame:
     en, fr, gl = card["meta"]["en"], card["meta"]["fr"], card["meta"]["global"]
 
@@ -223,7 +233,11 @@ def _meta_rows(card) -> pd.DataFrame:
         "relative": _as_list(gl.get("relative"), n),
         "palette": _as_list(palette, n),
         "version": [card.get("version")] * n,
-        "script_path": [card["path"]] * n,
+        # Identifiant pérenne du fichier de fiche, et son chemin DANS le
+        # corpus (pas sur la machine : un chemin absolu de serveur
+        # n'apprend rien à personne et expose son arborescence).
+        "swhid": [card.get("swhid")] * n,
+        "script_path": [_corpus_path(card["path"])] * n,
     })
 
 

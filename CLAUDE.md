@@ -170,7 +170,11 @@ Doctrine complète : « Versions, en quatre phrases », en tête de
   et SWH revisite tout seul ensuite. Rien à refaire par version.
 - **Ne pas confondre** avec la version d'une FICHE (champ `version:` de
   son YAML, majeur si ses SORTIES changent) : elle voyage dans les
-  métadonnées de sortie, une par variable.
+  métadonnées de sortie, une par variable, à côté de la colonne `swhid`
+  qui identifie le FICHIER de fiche (`swh:1:cnt:` + son hash de blob
+  git, calculé à la lecture). Trois niveaux de traçabilité, donc : la
+  définition (swhid de fiche), le corpus (commit de card), le moteur
+  (commit de stase).
 
 
 ## État (2026-07-22)
