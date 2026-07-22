@@ -126,3 +126,21 @@ def test_fdc_horizon_couvre_ses_deux_coordonnees():
     unites = dict(zip(res["meta"]["variable_en"], res["meta"]["unit_en"]))
     assert unites["FDC_p"] == "without unit"
     assert unites["FDC_Q_H1"] == "m^{3}.s^{-1}"
+
+
+def test_info_montre_la_forme_generique_pas_l_accolade():
+    """`card.info` est une lecture humaine : elle doit rendre la fiche
+    telle qu'elle se lit par défaut, comme le catalogue, et non exposer
+    le placeholder brut. Défaut préexistant, corrigé le 2026-07-22."""
+    from card.management import info
+    for nom in ("QM", "delta-QA_H"):
+        for lang in ("fr", "en"):
+            i = info(nom, lang=lang)
+            assert "{suffix" not in i["name"], (nom, lang, i["name"])
+            assert "{suffix" not in str(i["method"]), (nom, lang)
+
+
+def test_info_signale_une_entree_facultative():
+    from card.management import info
+    assert "facultatif" in info("QM", lang="fr")["input_vars"]
+    assert "optional" in info("QM", lang="en")["input_vars"]

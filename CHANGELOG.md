@@ -89,6 +89,9 @@ des deux endroits.
 
 ### Corrigé
 
+- `card.info()` affichait le placeholder brut (`{suffix.name}`) au lieu
+  de la forme générique, là où le catalogue la résout depuis toujours.
+  Défaut préexistant, visible sur les 62 fiches à placeholder.
 - **Les cinq fiches FDC plantaient depuis l'origine du portage.**
   `fdc_probabilities` ne déclare aucune colonne d'entrée, or le moteur
   affecte d'office la première colonne numérique à une telle fonction :

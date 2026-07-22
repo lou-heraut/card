@@ -290,7 +290,7 @@ auteurs dans le fichier AUTHORS.
 ## Développement
 
 ```bash
-pip install -e . && pytest              # 93 tests
+pip install -e . && pytest              # 95 tests
 python -m card.schema                   # linter des 225 fiches YAML
 python scripts/generate_catalog.py      # régénère docs/CARDS.md
 ```

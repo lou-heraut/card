@@ -26,6 +26,7 @@ from pathlib import Path
 import pandas as pd
 
 from .extraction import _DEFAULT_CARD_DIR, _corpus_path, _find_cards, _meta_rows
+from . import suffix as _sfx
 from .loader import load_card
 from .schema import input_registry
 
@@ -41,7 +42,7 @@ def _describe_inputs(raw, lang="fr"):
         opt = var.endswith("?")                 # entrée facultative
         var = var.rstrip("?").strip()
         entry = reg.get(var)
-        suite = (" facultatif" if lang == "fr" else " optional") if opt else ""
+        suite = (", facultatif" if lang == "fr" else ", optional") if opt else ""
         if entry:
             label = entry.get("unit") or entry.get("type") or ""
             parts.append(f"{var} [{label}] ({entry[lang]}{suite})")
@@ -124,8 +125,13 @@ def info(name, path=None, lang="fr") -> dict:
         raise ValueError(f"lang='{lang}' invalide : 'fr' ou 'en'.")
     found = _find_cards(path, [name])
     card = load_card(found[name])
-    meta_l = card["meta"][lang]
     meta_g = card["meta"]["global"]
+    # Forme par défaut d'une fiche à placeholders, jamais l'accolade :
+    # info() est une lecture humaine, comme le catalogue.
+    meta_l = {**card["meta"][lang],
+              **_sfx.apply(card["meta"][lang],
+                           _sfx.default_record(card["meta"][lang]),
+                           card_id=card.get("id"), lang=lang, key=None)}
 
     def _fmt(v):
         return ", ".join(str(x) for x in v) if isinstance(v, list) else v
