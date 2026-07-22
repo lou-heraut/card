@@ -23,5 +23,7 @@ S:       {unit: "km^{2}", en: catchment area (constant column), fr: surface du b
 # ni axe temporel ni mesure ; ils sont conservés à travers les process.
 ref_start:     {type: date, en: reference-period start, fr: début de la période de référence}
 ref_end:       {type: date, en: reference-period end,   fr: fin de la période de référence}
+period_start:  {type: date, en: period start,          fr: début de la période}
+period_end:    {type: date, en: period end,            fr: fin de la période}
 horizon_start: {type: date, en: horizon-period start,   fr: début de la période d'horizon}
 horizon_end:   {type: date, en: horizon-period end,     fr: fin de la période d'horizon}

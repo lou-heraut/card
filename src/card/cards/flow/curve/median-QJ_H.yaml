@@ -7,11 +7,11 @@ meta:
   en:
     variable: median-QJ
     unit: "m^{3}.s^{-1}"
-    name: Median inter-annual flow over the {suffix.name} horizon
+    name: Median inter-annual flow over the {suffix.name} period
     description: ""
-    method: "1. aggregation by day of the year restricted to the {suffix.name} horizon - median"
+    method: "1. aggregation by day of the year restricted to the {suffix.name} period - median"
     suffix_default:
-      name: target
+      name: study
     classification:
       domain: flow
       phenomenon: mean flows
@@ -22,11 +22,11 @@ meta:
   fr:
     variable: mediane-QJ
     unit: "m^{3}.s^{-1}"
-    name: "Débit médian inter-annuel sur l'horizon {suffix.name}"
+    name: "Débit médian inter-annuel sur la période {suffix.name}"
     description: ""
-    method: "1. agrégation par jour de l'année restreinte à l'horizon {suffix.name} - médiane"
+    method: "1. agrégation par jour de l'année restreinte à la période {suffix.name} - médiane"
     suffix_default:
-      name: cible
+      name: étudiée
     classification:
       domain: débit
       phenomenon: moyennes eaux
@@ -35,12 +35,12 @@ meta:
       output: courbe
 
   global:
-    input_vars: "Q, horizon_start, horizon_end"
+    input_vars: "Q, period_start, period_end"
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
 
 process:
   P1:
     func:
-      median-QJ: [over_period, "Q", {func: nanmedian, dates: "date", period_start: "horizon_start", period_end: "horizon_end"}]
+      median-QJ: [over_period, "Q", {func: nanmedian, dates: "date", period_start: "period_start", period_end: "period_end"}]
     time_step: yearday

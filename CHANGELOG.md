@@ -56,6 +56,13 @@ des deux endroits.
   ne vit dans le corpus. À période égale, le résultat est identique à
   l'ancien, vérifié valeur par valeur sur les trois familles et sur les
   quatre horizons, soit 16 sorties sur 16. Détail : `docs/dev/RENAMING.md`.
+- Le vocabulaire de ces trois fiches parle de **période**, non
+  d'horizon : elles calculent un régime mensuel ou une courbe des débits
+  classés sur n'importe quelle fenêtre, observée comprise, et « horizon »
+  n'y désignait qu'un cas particulier. Leurs colonnes d'entrée deviennent
+  `period_start` et `period_end`, et leur forme générique se lit « sur la
+  période étudiée ». Les 59 fiches `delta-` gardent « horizon », qui y est
+  exact puisqu'elles comparent une référence à une projection.
 - Famille FDC : les deux coordonnées de la courbe deviennent deux
   variables déclarées, avec chacune son unité (sans unité pour les
   probabilités, m³/s pour les quantiles). Une seule ligne de métadonnées

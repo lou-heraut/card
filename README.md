@@ -119,10 +119,10 @@ card.extract(d, cards=["rp-VCN10"], suffix={
 # name_fr -> "Période de retour du débit objectif d'étiage au regard [...]"
 ```
 
-Les fiches `_H` comparent une période de référence à un horizon futur.
-Leurs quatre bornes sont des colonnes d'entrée, ce qui permet des
-horizons propres à chaque station, par exemple définis par un degré de
-réchauffement :
+Une période, de même, se fournit en colonnes plutôt que d'être figée dans
+la fiche. Les fiches `delta-` comparent une référence à un horizon et
+prennent donc quatre bornes, ce qui permet des horizons propres à chaque
+station, par exemple définis par un degré de réchauffement :
 
 ```python
 h = data.assign(ref_start="1970-01-01", ref_end="2000-12-31",
@@ -143,6 +143,21 @@ h = data.assign(
 card.extract(h, cards=["delta-QA_H"], suffix=["H1", "H2"])["data"]["delta-QA_H"]
 #         id  delta-QA_H1  delta-QA_H2
 # ma_station    -11.51997   -18.173351
+```
+
+D'autres fiches ne comparent rien : elles calculent sur **une** période,
+qu'elle soit future ou observée. Elles prennent alors `period_start` et
+`period_end`, et leur métadonnée parle de période et non d'horizon :
+
+```python
+p = data.assign(period_start_obs="1976-01-01", period_end_obs="2005-12-31",
+                period_start_fin="2070-01-01", period_end_fin="2099-12-31")
+card.extract(p, cards=["QM_H"], suffix={
+    "obs": {"fr": {"name": "observée 1976-2005"}},
+    "fin": {"fr": {"name": "du futur lointain (2070-2099)"}},
+})
+# -> colonnes QM_obs et QM_fin
+# name_fr -> "Débit moyen mensuel sur la période observée 1976-2005"
 ```
 
 Le même mécanisme sert à comparer deux jeux d'une même variable sur

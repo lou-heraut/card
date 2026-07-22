@@ -54,9 +54,9 @@ def test_fiche_horizon_suit_les_bornes_fournies(fiche, variable, lignes):
     """Deux horizons différents doivent donner deux résultats différents,
     et la sortie garder sa forme."""
     d = _serie()
-    a = extract(d.assign(horizon_start="2001-01-01", horizon_end="2020-12-31"),
+    a = extract(d.assign(period_start="2001-01-01", period_end="2020-12-31"),
                 cards=[fiche])["data"][fiche]
-    b = extract(d.assign(horizon_start="2041-01-01", horizon_end="2060-12-31"),
+    b = extract(d.assign(period_start="2041-01-01", period_end="2060-12-31"),
                 cards=[fiche])["data"][fiche]
     assert len(a) == len(b) == lignes
     assert not np.allclose(a[variable].to_numpy(), b[variable].to_numpy(),
@@ -65,8 +65,8 @@ def test_fiche_horizon_suit_les_bornes_fournies(fiche, variable, lignes):
 
 def test_fiche_horizon_se_decline_par_suffixe():
     d = _serie().assign(
-        horizon_start_H1="2001-01-01", horizon_end_H1="2020-12-31",
-        horizon_start_H3="2041-01-01", horizon_end_H3="2060-12-31")
+        period_start_H1="2001-01-01", period_end_H1="2020-12-31",
+        period_start_H3="2041-01-01", period_end_H3="2060-12-31")
     res = extract(d, cards=["QM_H"], suffix=["H1", "H3"])
     assert set(res["data"]["QM_H"].columns) >= {"QM_H1", "QM_H3"}
     assert set(res["meta"]["variable_en"]) == {"QM_H1", "QM_H3"}
@@ -76,7 +76,7 @@ def test_sans_bornes_la_fiche_calcule_sur_tout():
     """L'appelant qui ne fournit pas d'horizon obtient la chronique
     entière plutôt qu'un refus."""
     d = _serie()
-    entier = extract(d.assign(horizon_start=None, horizon_end=None),
+    entier = extract(d.assign(period_start=None, period_end=None),
                      cards=["QM_H"])["data"]["QM_H"]
     assert entier["QM"].notna().all()
 
@@ -98,8 +98,8 @@ def test_fdc_horizon_couvre_ses_deux_coordonnees():
     par horizon. Chaque colonne de données doit avoir sa ligne de méta,
     avec son unité propre."""
     d = _serie().assign(
-        horizon_start_H1="2001-01-01", horizon_end_H1="2020-12-31",
-        horizon_start_H3="2041-01-01", horizon_end_H3="2060-12-31")
+        period_start_H1="2001-01-01", period_end_H1="2020-12-31",
+        period_start_H3="2041-01-01", period_end_H3="2060-12-31")
     res = extract(d, cards=["FDC_H"], suffix=["H1", "H3"])
 
     colonnes = {c for c in res["data"]["FDC_H"].columns if c != "id"}

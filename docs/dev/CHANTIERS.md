@@ -214,6 +214,30 @@ défaut à recommander pour la période de référence, aujourd'hui écrite
 dans les fiches H0 (`1976-01-01` à `2005-08-31`, un début calendaire
 pour une fin hydrologique).
 
+## Entrées optionnelles, et le sort des trois fiches de période
+
+Ouvert le 2026-07-22. `QM_H`, `FDC_H` et `median-QJ_H` calculent la même
+chose que `QM`, `FDC` et `median-QJ`, restreinte à une période. Or
+`over_period` traite déjà une borne absente comme un côté ouvert : sans
+bornes, il calcule sur toute la chronique. Les trois fiches restreintes
+et les trois fiches entières pourraient donc n'en faire que **trois**,
+la période devenant une entrée facultative.
+
+Ce qui manque : card exige toutes les `input_vars` déclarées, sans
+notion d'entrée facultative (vérifié le 2026-07-22, aucun mécanisme). Il
+faudrait pouvoir écrire quelque chose comme
+`input_vars: "Q, period_start?, period_end?"`, ou un champ séparé, et
+que la vérification amont ne réclame que les obligatoires.
+
+**Question de nomenclature liée, à trancher par l'utilisateur.** Le
+suffixe `_H` de ces trois fiches signifie « horizons de projection »
+(NOMENCLATURE.md), or elles acceptent désormais n'importe quelle période,
+observée comprise, et leur métadonnée dit « période » depuis le
+2026-07-22. Trois voies : garder `_H` malgré l'inexactitude, choisir un
+autre suffixe, ou faire disparaître la question en fusionnant avec les
+fiches de base comme ci-dessus. La troisième est la plus propre, elle
+suppose seulement les entrées facultatives.
+
 ## Export SKOS / thésaurus (différé de longue date)
 
 La classification (`TOPICS.md`) fournit désormais les concepts et les

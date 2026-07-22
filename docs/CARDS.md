@@ -18,11 +18,11 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 |---|---|---|---|---|---|---|---|---|
 | [BFM](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/BFM.yaml) | BFM | Magnitude du débit de base | débit de base | intensité | chronique | without unit | Q [m^{3}.s^{-1}] |  |
 | [FDC](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/FDC.yaml) | FDC_p, FDC_Q | Courbe des débits classés | moyennes eaux | intensité | chronique | without unit | Q [m^{3}.s^{-1}] |  |
-| [FDC_H](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/FDC_H.yaml) | FDC_p, FDC_Q | Courbe des débits classés sur l'horizon cible | moyennes eaux | intensité | chronique | without unit | Q [m^{3}.s^{-1}], horizon_start [date], horizon_end [date] |  |
+| [FDC_H](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/FDC_H.yaml) | FDC_p, FDC_Q | Courbe des débits classés sur la période étudiée | moyennes eaux | intensité | chronique | without unit | Q [m^{3}.s^{-1}], period_start [date], period_end [date] |  |
 | [QJC10](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJC10.yaml) | QJC10 | Régime journalier inter-annuel lissé sur 10 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [median-QJ](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/median-QJ.yaml) | median-QJ | Débit médian inter-annuel | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [median-QJC5](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/median-QJC5.yaml) | median-QJC5 | Régime journalier médian inter-annuel lissé sur 5 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
-| [median-QJ_H](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/median-QJ_H.yaml) | median-QJ | Débit médian inter-annuel sur l'horizon cible | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], horizon_start [date], horizon_end [date] |  |
+| [median-QJ_H](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/median-QJ_H.yaml) | median-QJ | Débit médian inter-annuel sur la période étudiée | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start [date], period_end [date] |  |
 
 ## flow / scalar
 
@@ -160,7 +160,7 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 | [QMNA](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/series/QMNA.yaml) | QMNA | Minimum annuel des débits mensuels | basses eaux | intensité | par mois | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [QMNA_summer](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/series/QMNA_summer.yaml) | QMNA_summer | Minimum estival des débits mensuels | basses eaux | intensité | estivale | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [QMNA_winter](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/series/QMNA_winter.yaml) | QMNA_winter | Minimum hivernal des débits mensuels | basses eaux | intensité | hivernale | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
-| [QM_H](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/series/QM_H.yaml) | QM | Débit moyen mensuel sur l'horizon cible | moyennes eaux | intensité | par mois | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], horizon_start [date], horizon_end [date] |  |
+| [QM_H](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/series/QM_H.yaml) | QM | Débit moyen mensuel sur la période étudiée | moyennes eaux | intensité | par mois | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start [date], period_end [date] |  |
 | [QNA](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/series/QNA.yaml) | QNA | Minimum annuel du débit journalier | basses eaux | intensité | annuelle | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [QNA_summer](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/series/QNA_summer.yaml) | QNA_summer | Minimum estival du débit journalier | basses eaux | intensité | estivale | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [QNA_winter](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/series/QNA_winter.yaml) | QNA_winter | Minimum hivernal du débit journalier | basses eaux | intensité | hivernale | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |

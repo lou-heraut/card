@@ -7,14 +7,14 @@ meta:
   en:
     variable: [FDC_p, FDC_Q]
     unit: ["without unit", "m^{3}.s^{-1}"]
-    name: Flow duration curve over the {suffix.name} horizon
+    name: Flow duration curve over the {suffix.name} period
     description: >-
       Curve of flow quantiles as a function of exceedance probability,
-      restricted to the {suffix.name} horizon; the card outputs its two
+      restricted to the {suffix.name} period; the card outputs its two
       coordinates (FDC_p, unitless probabilities; FDC_Q, flow quantiles)
-    method: "1. no temporal aggregation, restricted to the {suffix.name} horizon - flow duration curve with 1000 points spaced according to a centered reduced normal distribution"
+    method: "1. no temporal aggregation, restricted to the {suffix.name} period - flow duration curve with 1000 points spaced according to a centered reduced normal distribution"
     suffix_default:
-      name: target
+      name: study
     classification:
       domain: flow
       phenomenon: mean flows
@@ -25,15 +25,15 @@ meta:
   fr:
     variable: [CDC_p, CDC_Q]
     unit: ["sans unité", "m^{3}.s^{-1}"]
-    name: "Courbe des débits classés sur l'horizon {suffix.name}"
+    name: "Courbe des débits classés sur la période {suffix.name}"
     description: >-
       Courbe des quantiles de débit en fonction de la probabilité de
-      dépassement, restreinte à l'horizon {suffix.name} ; la fiche produit
+      dépassement, restreinte à la période {suffix.name} ; la fiche produit
       ses deux coordonnées (FDC_p, probabilités sans unité ; FDC_Q,
       quantiles de débit)
-    method: "1. aucune agrégation temporelle, restreinte à l'horizon {suffix.name} - courbe des débits classés avec 1000 points espacés selon une loi normale centrée réduite"
+    method: "1. aucune agrégation temporelle, restreinte à la période {suffix.name} - courbe des débits classés avec 1000 points espacés selon une loi normale centrée réduite"
     suffix_default:
-      name: cible
+      name: étudiée
     classification:
       domain: débit
       phenomenon: moyennes eaux
@@ -42,7 +42,7 @@ meta:
       output: courbe
 
   global:
-    input_vars: "Q, horizon_start, horizon_end"
+    input_vars: "Q, period_start, period_end"
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
 
@@ -50,6 +50,6 @@ process:
   P1:
     func:
       FDC_p: [fdc_probabilities, "Q", {n: 1000, norm_spacing: true}]
-      FDC_Q: [over_period, "Q", {func: fdc_quantiles, n: 1000, norm_spacing: true, dates: "date", period_start: "horizon_start", period_end: "horizon_end"}]
+      FDC_Q: [over_period, "Q", {func: fdc_quantiles, n: 1000, norm_spacing: true, dates: "date", period_start: "period_start", period_end: "period_end"}]
     time_step: none
     max_na_years: 10
