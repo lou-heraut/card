@@ -61,6 +61,75 @@ complexité (kwargs-colonnes, colonnes creuses, fan-out).
   exemple complet de fiche commentée ligne à ligne ?
 - Pages : tutoriel pas-à-pas avec données réelles.
 
+## Donner une fiche à LIRE : rendu ASCII de la chaîne de calcul
+
+Ouvert le 2026-07-22. Demande de fond de l'utilisateur, la même que
+celle du chantier card-api sur la lisibilité du catalogue, mais prise
+par le bon bout : la matière est dans les fiches, donc le rendu se fait
+ici, et le service ne fait que le relayer.
+
+**Le problème.** Une fiche contient tout ce qu'il faut pour comprendre
+ce qu'elle calcule : colonne d'entrée, fonction et ses paramètres, pas
+de temps, fenêtre d'échantillonnage, seuils de lacunes, et le chaînage
+(une variable produite par P1 est consommée par P2). `card.info()`
+aplatit tout ça en une liste de champs, et `method` en une phrase
+numérotée. On peut le lire, mais on ne le VOIT pas, et l'ambiguïté reste
+possible sur ce que fait exactement chaque étape.
+
+**Ce qu'on veut.** Un rendu texte qui montre la chaîne, ses étapes, ce
+qui entre et ce qui sort de chacune, et la fenêtre annuelle sur douze
+mois. Lisible dans un terminal, dans un notebook, et relayable par
+l'API. Sans dépendance graphique.
+
+**Première esquisse, à retravailler** (VCN10, deux étapes, fenêtre
+adaptative) :
+
+```
+VCN10   Minimum annuel de la moyenne sur 10 jours du débit journalier
+        m³·s⁻¹  ·  série  ·  annuelle  ·  basses eaux
+
+   Q   débit journalier moyen [m³·s⁻¹]
+   │
+   P1  rollmean_center(Q, k=10)        moyenne mobile centrée sur 10 jours
+   │   pas de temps : aucun, la série journalière est conservée
+   │   écarte une série trouée de plus de 10 années consécutives
+   │
+   VC10
+   │
+   P2  nanmin(VC10)                    minimum
+   │   pas de temps : année
+   │   fenêtre : adaptative, départ au mois du maximum des débits mensuels
+   │   écarte une année à plus de 3 % de lacunes
+   │
+   VCN10
+
+   fenêtre           J  F  M  A  M  J  J  A  S  O  N  D
+   annuelle          ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+   (QNA_summer)            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+```
+
+**Questions à trancher avant d'écrire.**
+
+- Où vit le rendu : `card.info(..., render=True)` ? une fonction
+  dédiée `card.show()` ? Le retour dict actuel de `info()` ne doit pas
+  changer de forme, du code en dépend.
+- Comment le relayer par l'API sans alourdir : un champ `render` dans
+  `/v1/cards/{id}` ? un `format=txt` ? Décider une fois le rendu stable,
+  pas avant.
+- Que faire des fiches à fan-out (12 mois, 4 saisons) et des courbes
+  (FDC), dont la sortie n'est pas une série annuelle.
+- Jusqu'où décrire une fonction : `rollmean_center` mérite une glose,
+  `nanmin` non. La source serait les docstrings de `card.functions`,
+  qui existent déjà.
+- Unicode ou ASCII strict : les barres et flèches passent mal dans
+  certains terminaux Windows. Prévoir un repli.
+
+**Prendre le temps.** L'utilisateur demande explicitement une phase de
+réflexion et de recherche de forme sur ce chantier, pas une première
+version expédiée : c'est de la communication scientifique, l'objet doit
+être juste ET agréable. Référence de goût maison : le tableau de bord
+`make stats` de card-api (sparklines, heatmap façon contributions).
+
 ## Export SKOS / thésaurus (différé de longue date)
 
 La classification (`TOPICS.md`) fournit désormais les concepts et les
