@@ -44,6 +44,35 @@ def test_linter_catches_unknown_function(tmp_path):
     assert any("fonction inconnue" in i for i in issues), issues
 
 
+def test_linter_catches_malformed_version(tmp_path):
+    """La version d'une fiche est majeur.mineur[.patch], et citée : sans
+    guillemets, YAML lit 1.10 comme le nombre 1.1 et deux versions
+    distinctes se confondent."""
+    base = ("id: X\nmeta: {en: {variable: X}, fr: {variable: X}, global: {}}\n"
+            "process:\n  P1:\n    func:\n      X: [nanmean, \"Q\"]\n")
+    cas = {
+        "version: 1.10\n": "non citée",        # nombre, pas chaîne
+        'version: "1.1.0"\n': "patch nul",     # .0 explicite
+        'version: "v2"\n': "mal formée",
+        "": "manquant",
+    }
+    for ligne, attendu in cas.items():
+        bad = tmp_path / "X.yaml"
+        bad.write_text(ligne + base)
+        issues = validate_card(bad)
+        assert any(attendu in i for i in issues), (ligne, issues)
+
+
+def test_card_version_reaches_the_metadata():
+    """La version d'une fiche doit voyager jusqu'aux métadonnées de
+    sortie : sinon un résultat ne peut pas dire avec quelle définition il
+    a été calculé, et la discipline de version ne sert à rien."""
+    from card.extraction import extract
+    meta = extract(None, cards=["QA", "KGE"], metadata_only=True)["meta"]
+    assert "version" in meta.columns
+    assert meta["version"].notna().all()
+
+
 def test_ambiguous_aggregation_names_rejected():
     """Les fiches doivent porter la sémantique NaN dans le nom de la
     fonction : les noms nus (mean, max...) sont refusés par le linter."""

@@ -222,6 +222,7 @@ def _meta_rows(card) -> pd.DataFrame:
         "is_date": _as_list(gl.get("is_date"), n),
         "relative": _as_list(gl.get("relative"), n),
         "palette": _as_list(palette, n),
+        "version": [card.get("version")] * n,
         "script_path": [card["path"]] * n,
     })
 

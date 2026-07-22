@@ -4,19 +4,50 @@
 bibliothèque. Format inspiré de [Keep a
 Changelog](https://keepachangelog.com/fr/1.1.0/).
 
-Le paquet n'a pas encore été publié (installation depuis GitHub, nom PyPI
-en attente d'une demande PEP 541) : les sections ci-dessous sont donc
-datées, et deviendront des numéros de version au premier tag. Le moteur
-`stase` tient son propre journal.
+**Numérotation.** SemVer avec la convention du 0.x : tant que le premier
+chiffre vaut 0, un changement incompatible incrémente le **deuxième**
+(0.1 vers 0.2), le reste incrémente le troisième. Chaque version est
+étiquetée dans git (`vX.Y.Z`) : un numéro qui ne correspond à aucun tag
+ne désigne rien d'installable, donc rien d'épinglable. Les sections
+antérieures à 0.2.0 restent datées, elles n'ont jamais porté de numéro.
+
+Ne pas confondre avec la version d'une **fiche** (champ `version:` de son
+YAML) : la fiche versionne une définition, le paquet versionne le code et
+le corpus. Une fiche passe au majeur quand ses **sorties** changent, au
+mineur pour sa méthode ou sa description, au patch pour le reste ; sa
+version voyage dans les métadonnées de sortie, si bien qu'un résultat dit
+avec quelle définition il a été calculé.
+
+Le paquet n'est pas encore publié sur PyPI (installation depuis GitHub,
+nom en attente d'une demande PEP 541). Le moteur `stase` tient son propre
+journal.
 
 Chaque entrée dit ce qui a changé et renvoie au document qui l'explique.
 Rien n'est recopié ici : une information recopiée finit par mentir à un
 des deux endroits.
 
-## 2026-07-22
+## 0.2.0 (2026-07-22)
+
+### Ajouté
+
+- La **version d'une fiche** atteint enfin les métadonnées de sortie,
+  comme une colonne `version`. Un résultat dit désormais avec quelle
+  définition il a été calculé, ce qui est la condition pour qu'un export
+  soit reproductible et citable. Le champ existait dans les 237 fiches et
+  la règle d'incrémentation était tenue depuis des semaines, mais
+  `load_card` ne lisait pas le champ : il n'atteignait ni les
+  métadonnées, ni le service web, ni personne.
+- Le linter contrôle ce champ, ce qu'il ne faisait pas du tout : présence,
+  format `majeur.mineur[.patch]`, et chaîne citée. Sans guillemets, YAML
+  lit `1.10` comme le nombre `1.1`, et deux versions distinctes se
+  confondent silencieusement.
 
 ### Modifié
 
+- Dépendance montée à `stase>=0.5.0`, la version qui apporte le rôle
+  `param_cols` dont les fiches `_H` dépendent depuis le 2026-07-21. La
+  contrainte précédente était satisfaite par une version qui n'avait pas
+  la fonctionnalité.
 - Documentation de développement restructurée : un rôle par fichier, un
   bandeau de statut en tête, les documents d'époque rangés dans
   `docs/dev/archive/` au lieu d'être supprimés. Ce qui est daté vit ici,
@@ -35,6 +66,8 @@ des deux endroits.
 - Décompte des fiches recopié dans trois documents et faux dans les
   trois. `scripts/generate_catalog.py` resynchronise désormais celui de
   `docs/index.md`, la dérive ne peut plus revenir.
+- `n-VCN10-5_H` portait la version « 1.1.0 » quand les 236 autres fiches
+  écrivent « 1.1 ». Sans contrôle du format, personne ne pouvait le voir.
 
 ## 2026-07-21
 

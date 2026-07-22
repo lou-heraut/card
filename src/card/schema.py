@@ -350,6 +350,37 @@ def _check_suffix(card, issues):
         )
 
 
+_VERSION_RE = re.compile(r"^\d+\.\d+(\.\d+)?$")
+
+
+def _check_version(card, issues):
+    """La version d'une fiche est `majeur.mineur`, plus un `.patch`
+    optionnel. Majeur = les SORTIES ont changé, mineur = method ou
+    description, patch = le reste. Le champ doit être une chaîne : sans
+    guillemets, YAML lit 1.10 comme le nombre 1.1, et deux versions
+    distinctes deviennent la même."""
+    v = card.get("version")
+    if v is None:
+        issues.append("champ 'version' manquant")
+        return
+    if not isinstance(v, str):
+        issues.append(
+            f"version {v!r} non citée : mettre des guillemets, sinon YAML la "
+            "lit comme un nombre et 1.10 devient 1.1"
+        )
+        return
+    if not _VERSION_RE.match(v):
+        issues.append(
+            f"version '{v}' mal formée : attendu majeur.mineur[.patch], "
+            "chiffres uniquement"
+        )
+    elif v.endswith(".0") and v.count(".") == 2:
+        issues.append(
+            f"version '{v}' : un patch nul ne s'écrit pas, "
+            f"utiliser '{v[:-2]}'"
+        )
+
+
 def validate_card(path) -> list[str]:
     """Retourne la liste des problèmes détectés (vide si la fiche est valide)."""
     issues: list[str] = []
@@ -364,6 +395,7 @@ def validate_card(path) -> list[str]:
         issues.append(
             f"id '{card.get('id')}' ≠ nom de fichier '{Path(path).stem}'"
         )
+    _check_version(card, issues)
 
     for lang in ("en", "fr"):
         _check_meta_lists(card["meta"][lang], f"meta.{lang}", issues)

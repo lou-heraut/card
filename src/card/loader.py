@@ -151,6 +151,9 @@ def load_card(path):
 
     return {
         "id": raw.get("id"),
+        # La version de la fiche voyage avec elle : c'est ce qui permet à un
+        # résultat de dire avec quelle définition il a été calculé.
+        "version": raw.get("version"),
         "meta": {
             "en": meta.get("en", {}),
             "fr": meta.get("fr", {}),
