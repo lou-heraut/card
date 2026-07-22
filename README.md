@@ -196,10 +196,7 @@ Le catalogue complet est consultable en ligne :
 ## Développer sa propre fiche
 
 ```python
-# partir d'un modèle. numbered=False : le linter exige que l'identifiant
-# de la fiche soit aussi son nom de fichier, un préfixe 001_ le ferait
-# échouer. La numérotation ne sert qu'à ordonner un dossier de travail.
-card.copy_cards(["VCN10"], dest="./mes_fiches", numbered=False)
+card.copy_cards(["VCN10"], dest="./mes_fiches")   # partir d'un modèle
 
 # ... éditer mes_fiches/VCN10.yaml : renommer l'id ET le fichier,
 # ajuster func, classification, métadonnées des deux langues

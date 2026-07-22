@@ -153,7 +153,7 @@ def info(name, path=None, lang="fr") -> dict:
 
 
 def copy_cards(cards=("QA", "QJXA"), dest="./WIP",
-               source=None, numbered=True, overwrite=False,
+               source=None, numbered=False, overwrite=False,
                verbose=False):
     """Copie des fiches YAML dans un dossier de travail pour personnalisation.
 
@@ -161,7 +161,10 @@ def copy_cards(cards=("QA", "QJXA"), dest="./WIP",
                pour organiser en sous-dossiers numérotés.
     dest     : dossier de destination.
     source   : dossier source des fiches (défaut : fiches embarquées).
-    numbered : préfixe les fichiers copiés (001_, 002_, ...).
+    numbered : préfixe les fichiers copiés (001_, 002_, ...). Faux par
+               défaut : le linter exige que l'identifiant d'une fiche soit
+               aussi son nom de fichier, et un préfixe le ferait échouer.
+               N'a d'intérêt que pour ordonner un dossier de travail.
     """
     if source is None:
         source = _DEFAULT_CARD_DIR

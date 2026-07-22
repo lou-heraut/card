@@ -45,6 +45,22 @@ des deux endroits.
 
 ## Non publié
 
+### Modifié
+
+- `copy_cards` ne numérote plus les fichiers par défaut. Le linter exige
+  que l'identifiant d'une fiche soit aussi son nom de fichier : une copie
+  nommée `001_VCN10.yaml` échouait donc au premier contrôle, et le
+  parcours « copier un modèle puis valider » se contredisait de bout en
+  bout. `numbered=True` reste disponible pour ordonner un dossier de
+  travail.
+
+### Corrigé
+
+- CI en échec depuis le 2026-07-21 : un import `pytest` devenu orphelin
+  dans `tests/test_loader.py` faisait échouer `ruff`, donc le job de
+  lint, donc un mail d'échec à chaque push. La routine de vérification
+  ignorait `ruff`, elle est corrigée dans CLAUDE.md.
+
 ### Ajouté
 
 - **Chaque fiche porte son identifiant pérenne**, colonne `swhid` des

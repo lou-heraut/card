@@ -1,7 +1,5 @@
 """Tests du chargement des fiches YAML."""
 
-import pytest
-
 from card.extraction import _DEFAULT_CARD_DIR
 from card.loader import load_card
 
