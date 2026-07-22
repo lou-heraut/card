@@ -25,7 +25,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from .extraction import _DEFAULT_CARD_DIR, _find_cards, _meta_rows
+from .extraction import _DEFAULT_CARD_DIR, _corpus_path, _find_cards, _meta_rows
 from .loader import load_card
 from .schema import input_registry
 
@@ -138,7 +138,12 @@ def info(name, path=None, lang="fr") -> dict:
         **{k: _fmt(v) for k, v in (meta_l.get("classification") or {}).items()},
         "input_vars": _describe_inputs(meta_g.get("input_vars"), lang),
         "is_experimental": bool(meta_g.get("is_experimental", False)),
-        "path": str(found[name]),
+        # chemin DANS le corpus, et identifiant pérenne du fichier :
+        # un chemin absolu de machine n'apprend rien et expose son
+        # arborescence (cf. _corpus_path dans extraction.py)
+        "path": _corpus_path(found[name]),
+        "version": card.get("version"),
+        "swhid": card.get("swhid"),
     }
     width = max(len(k) for k in info)
     for k, v in info.items():
