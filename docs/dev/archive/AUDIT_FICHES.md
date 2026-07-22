@@ -1,3 +1,9 @@
+> **Statut : archive.** Document d'époque, non maintenu, conservé pour
+> retracer les constats et les arbitrages de l'audit des métadonnées.
+> Tous appliqués le 2026-07-15. La norme en vigueur est
+> `../NOMENCLATURE.md` ; les renommages de sorties sont tracés dans
+> `../RENAMING.md`.
+
 # AUDIT_FICHES — Noms et métadonnées des fiches (2026-07-13)
 
 Audit des 215 fiches YAML : croisement de `name`, `description`,

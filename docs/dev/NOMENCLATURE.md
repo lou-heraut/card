@@ -1,10 +1,14 @@
+> **Statut : norme en vigueur.** Seule référence pour nommer une
+> variable et rédiger ses métadonnées. Toute correction de fiche cite la
+> règle qu'elle applique.
+
 # NOMENCLATURE — Guide de nommage des variables CARD
 
 > **Validé par l'utilisateur le 2026-07-15** (arbitrages en §9).
-> Référence normative pour l'application de AUDIT_FICHES.md et pour
-> toute création de fiche. Fondé sur le système du corpus CARD,
-> consolidé par Oberlin (1992) — transcription :
-> `Oberlin_1994ITCEMAGREF_1-8_edit.md`.
+> Référence normative pour toute création de fiche, et pour
+> l'application de l'audit (`archive/AUDIT_FICHES.md`). Fondé sur le
+> système du corpus CARD consolidé par Oberlin (1992), dont la
+> transcription est dans `Oberlin_1994ITCEMAGREF_1-8_edit.md`.
 
 ## 1. Fondement : le système Oberlin
 

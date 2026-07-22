@@ -15,6 +15,7 @@ Usage (depuis la racine du repo) :
 À relancer après tout ajout/modification de fiche YAML.
 """
 
+import re
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -38,6 +39,20 @@ def _inputs_with_units(raw):
     return ", ".join(out)
 
 OUT = ROOT / "docs" / "CARDS.md"
+# La landing Pages annonce le même décompte : on le resynchronise ici pour
+# qu'il ne puisse pas dériver du catalogue.
+INDEX = ROOT / "docs" / "index.md"
+INDEX_COUNT = re.compile(r"les \d+ fiches \(\d+ variables\)")
+
+
+def _sync_index(n_cards, n_vars):
+    if not INDEX.exists():
+        return
+    text = INDEX.read_text(encoding="utf-8")
+    new = INDEX_COUNT.sub(f"les {n_cards} fiches ({n_vars} variables)", text)
+    if new != text:
+        INDEX.write_text(new, encoding="utf-8")
+        print(f"{INDEX} : décompte resynchronisé")
 
 
 def main():
@@ -101,6 +116,7 @@ def main():
     OUT.write_text("\n".join(lines), encoding="utf-8")
     print(f"{OUT} : {n_cards} fiches, {n_vars} variables, "
           f"{len(sections)} sections")
+    _sync_index(n_cards, n_vars)
 
 
 if __name__ == "__main__":

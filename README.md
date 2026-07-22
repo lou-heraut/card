@@ -149,17 +149,18 @@ card est le port Python du package R
 [CARD](https://github.com/lou-heraut/CARD) (INRAE, UR RiverLy), validé
 par comparaison croisée avec R sur le corpus complet des fiches. Le
 détail de la validation et les divergences documentées sont dans
-[docs/dev/VALIDATION_R.md](docs/dev/VALIDATION_R.md). Licence GPL-3,
+[docs/dev/ORIGINE_R.md](docs/dev/ORIGINE_R.md). Licence GPL-3,
 auteurs dans le fichier AUTHORS.
 
 ## Développement
 
 ```bash
-pip install -e . && pytest              # 48 tests
+pip install -e . && pytest              # 76 tests
 python -m card.schema                   # linter des 237 fiches YAML
 python scripts/generate_catalog.py      # régénère docs/CARDS.md
 ```
 
 CI : `.github/workflows/tests.yml` (pytest, linter de fiches, ruff).
-Historique de la refonte : `docs/dev/ROADMAP.md`. Correspondance des
-noms R vers Python : `docs/dev/RENAMING.md`.
+Ce qui a changé et quand : [CHANGELOG.md](CHANGELOG.md). Correspondance
+des noms R vers Python : `docs/dev/RENAMING.md`. Pistes ouvertes :
+`docs/dev/CHANTIERS.md`.

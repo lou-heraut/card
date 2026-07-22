@@ -1,6 +1,13 @@
+> **Statut : norme en vigueur.** Deux rôles : la table de correspondance
+> des noms R vers Python (elle fait foi, tout nouveau renommage passe par
+> l'utilisateur), et le journal daté des changements de **sorties** de
+> fiches, c'est-à-dire des ruptures assumées de parité avec R. Le journal
+> des livraisons du paquet est `CHANGELOG.md`, à la racine.
+
 # Table de correspondance R → Python — APPLIQUÉE le 2026-07-12
 
-Phase B de la ROADMAP. La partie « numpy natif » est déjà appliquée
+Phase B de la refonte (`archive/ROADMAP.md`). La partie « numpy natif »
+est déjà appliquée
 (2026-07-11, pré-validée) : `mean/median/sum/minNA/maxNA/which.*NA` →
 `nanmean/nanmedian/nansum/nanmin/nanmax/nanargmin/nanargmax`, le kwarg
 `{skipna: true}` a disparu des fiches, le registre est supprimé
@@ -99,8 +106,9 @@ voir stase/docs/dev/RENAMING_PY.md.
 
 ## Clés de retour de card.extract
 
-`{"data": ..., "meta": ...}` ; les clés héritées `dataEX` / `metaEX`
-pointent vers les mêmes objets (transition, retrait possible plus tard).
+`{"data": ..., "meta": ...}`. Les clés héritées `dataEX` / `metaEX` ont
+été acceptées en transition, puis purgées de tout l'écosystème le
+2026-07-16 : la sortie d'une extraction est de la donnée comme une autre.
 
 ## Clés des fiches YAML (215 fiches réécrites)
 
@@ -112,8 +120,11 @@ pointent vers les mêmes objets (transition, retrait possible plus tard).
 | Seasons | seasons |
 | to_normalise (meta global) | relative |
 
-La colonne metaEX correspondante s'appelle aussi `relative`
-(consommée par stase.trend via meta=).
+La colonne de métadonnées correspondante s'appelle aussi `relative`.
+C'est `card.trend` qui la traduit pour le moteur, sous la forme
+`relative={variable: bool}` (le paramètre `meta=` de `stase.trend`, qui
+lisait directement la table de métadonnées, a été retiré en stase 0.4.0 ;
+voir l'entrée du 2026-07-20 plus bas).
 
 ## Note de validation
 
@@ -123,7 +134,7 @@ ne change sur les vraies variables ; seules disparaissent 11 lignes
 étaient comparées à elles-mêmes par coïncidence de nom (les colonnes
 Python sont désormais en snake_case).
 
-## Renommages de fiches — audit 2026-07-15 (AUDIT_FICHES.md, NOMENCLATURE.md)
+## Renommages de fiches, audit 2026-07-15 (archive/AUDIT_FICHES.md, NOMENCLATURE.md)
 
 Ids et sorties, validés par l'utilisateur :
 

@@ -1,29 +1,33 @@
-# CHANTIERS — pistes ouvertes (mise à jour 2026-07-20)
+> **Statut : registre vivant.** Ce fichier ne contient que des pistes
+> **ouvertes**. Un chantier livré en sort et devient une entrée de
+> `CHANGELOG.md`, à la racine du dépôt, qui renvoie au document
+> expliquant le détail. Les sections portent des titres et non des
+> numéros : le registre bouge, un numéro ne se cite pas durablement.
 
-Registre des chantiers non commencés ou différés. Un chantier terminé
-sort de ce fichier (l'historique est dans git).
+# CHANTIERS : pistes ouvertes (mise à jour 2026-07-22)
 
-Sorti le 2026-07-21 : « Fiches delta par horizon » (dates d'horizon en
-colonnes d'entrée fournies par l'appelant, 59 fiches _H collapsées avec
-suffixe d'horizon, `delta` à quatre bornes, `return_level`/
-`apply_threshold` avec `period_start`/`period_end`, rôle `param_cols`
-dans stase, `inputs.yaml type: date`, `$H` retiré). Nouveau == ancien
-vérifié à l'exact sur les 59 fiches. Trace : RENAMING.md 2026-07-21.
-Reste ouvert : §10 (goldens injouables des fiches divergentes de R).
+## Nom PyPI de card (PEP 541)
 
-Sorti le 2026-07-20 : « Multi-seuils réglementaires et métadonnées
-évolutives » (suffix= dans card.extract et card.trend, vocabulaire de
-suffixes, placeholders, colonne suffix de meta, règle de lint, fiches
-rp-* ; retrait de meta= de stase). Trace : RENAMING.md 2026-07-20 et
-stase docs/dev/ORIGINE_R.md.
+Le nom `card` sur PyPI est un squat manifeste : release unique 0.0.1 du
+2019-08-23, résumé « card », page d'accueil github.com/pipname/card.
+Plan validé le 2026-07-12, en attente d'action de l'utilisateur :
 
-Sorti le 2026-07-18 : « card-api : suivi des jobs, identité et RGPD »
-(jetons hachés affichés une fois, préfixe pseudonyme dans le journal
-et sur les jobs, GET /v1/jobs par clé, tickets 64 bits, mention RGPD
-dans le template d'issue ; clés conservées tant qu'actives, effacées
-à la révocation).
+1. déposer une demande PEP 541 (transfert de nom pour squatting) sur
+   github.com/pypi/support, depuis le compte PyPI de l'utilisateur ;
+2. ne rien publier sur PyPI en attendant (installation depuis GitHub),
+   pour pouvoir publier directement sous `card` si la demande aboutit ;
+3. `card-stase` reste le nom de repli dans `pyproject.toml`, l'import
+   étant `card` dans tous les cas.
 
-## 2. Références bibliographiques externes dans les fiches
+## Signalement amont des fiches R cassées
+
+11 fiches plantent dans le paquet R lui-même (CR, CRS_season, FDC x5,
+QJC10, RA_ratio, RAl_ratio, RAs_ratio) : leurs versions Python
+fonctionnent, aucune référence de validation croisée n'est possible. À
+signaler en amont, le paquet R étant en maintenance. Liste et contexte :
+`ORIGINE_R.md`.
+
+## Références bibliographiques externes dans les fiches
 
 Ancrer les fiches standardisées sur leurs références : identifiants
 climdex/ETCCDI (RCXA1 ↔ RX1day, RCXA5 ↔ RX5day, dtCDDA ↔ CDD,
@@ -32,42 +36,40 @@ dtCWDA ↔ CWD...), libellés SANDRE/eaufrance (QMNA, VCNd, module).
 l'utilisateur** (ne pas inventer un format de citation avant d'avoir
 vu le sien).
 
-## 3. Lint temps réel sous Emacs
+## Lint temps réel sous Emacs
 
 Objectif : valider les YAML pendant l'édition. Deux voies :
 - générer un **JSON Schema** des fiches (depuis schema.py) et brancher
-  `yaml-language-server` (paquet Emacs `lsp-mode` ou `eglot`) — la voie
+  `yaml-language-server` (paquet Emacs `lsp-mode` ou `eglot`), la voie
   standard, autocomplétion incluse ;
 - ou un checker flycheck maison qui appelle
   `python -m card.schema <fichier>` (déjà supporté en CLI, plus simple
   mais sans autocomplétion).
 
-## 4. Revue de code du package (lisibilité, dé-boîte-noire)
+## Revue de code du package (lisibilité, dé-boîte-noire)
 
-Crainte utilisateur : code trop compliqué/alambiqué par endroits.
-À son initiative, mais aides possibles : un `docs/dev/ARCHITECTURE.md`
-qui explique le pipeline en langage simple (loader → stase →
-compactage), et une passe de simplification ciblée (/simplify) sur
-extraction.py qui concentre la complexité (kwargs-colonnes, sparse,
-fan-out).
+Crainte utilisateur : code trop compliqué ou alambiqué par endroits.
+À son initiative, mais aides possibles : un `ARCHITECTURE.md` qui
+explique le pipeline en langage simple (loader, stase, compactage), et
+une passe de simplification ciblée sur `extraction.py`, qui concentre la
+complexité (kwargs-colonnes, colonnes creuses, fan-out).
 
-## 5. Documentation utilisateur étendue
+## Documentation utilisateur étendue
 
-- README : section « développer sa fiche » faite (copy_cards →
-  extract(path=...) → python -m card.schema) ; à étoffer d'un exemple
-  complet de fiche commentée ligne à ligne ?
-- Pages : tutoriel pas-à-pas avec données réelles (lié au chantier 1 ?).
+- README : section « développer sa fiche » faite (copy_cards puis
+  extract(path=...) puis `python -m card.schema`) ; à étoffer d'un
+  exemple complet de fiche commentée ligne à ligne ?
+- Pages : tutoriel pas-à-pas avec données réelles.
 
-## 6. Export SKOS / thésaurus (différé de longue date)
+## Export SKOS / thésaurus (différé de longue date)
 
-La classification (docs/dev/TOPICS.md) fournit désormais les concepts
-et les paires en/fr — chaque facette devient un concept scheme.
+La classification (`TOPICS.md`) fournit désormais les concepts et les
+paires français/anglais : chaque facette devient un concept scheme.
 Réévaluer quand le besoin Skosmos se concrétise.
 
 Le SKOS n'est pas un service : c'est un artefact de publication de la
 classification, dont la source de vérité est ici (`src/card/topics.yaml`
-et les blocs classification des fiches). Conception rapatriée le
-2026-07-20 depuis l'ancien docs/dev/API.md, parti dans card-api.
+et les blocs classification des fiches).
 
 - `scripts/generate_skos.py` (à écrire) : chaque facette devient un
   `skos:ConceptScheme` (domain, phenomenon, aspect, season, output,
@@ -88,7 +90,7 @@ et les blocs classification des fiches). Conception rapatriée le
   renvoie vers ces URIs. C'est un renvoi, pas une source : la vérité
   reste ici.
 
-## 7. Fiches futures
+## Fiches futures
 
 - **Rc** (vrai coefficient de ruissellement adimensionnel) :
   86,4 × ΣQ/ΣR / S, avec la surface S en colonne constante d'entrée
@@ -125,13 +127,14 @@ confirme :
   hautes eaux (VCX*_summer...), ratios annuels uniquement, famille
   alpha- limitée au trio MAKAHO (QA, QJXA, VCN10).
 
-## 8. Palettes : questions ouvertes (2026-07-18)
+## Palettes : questions ouvertes (2026-07-18)
 
 État : les fiches à grandeur non ambiguë sont toutes équipées (héritage
 de la fiche mère ; voir RENAMING.md 2026-07-18 pour l'orientation ETP).
-Quatre palettes sémantiques en usage : marron→vert (quantités d'eau),
-bleu→rouge (température), violet→orange (dates et durées de crue),
-vert→marron (durées/volumes d'étiage, ETP : assèchement).
+Quatre palettes sémantiques en usage : marron vers vert (quantités
+d'eau), bleu vers rouge (température), violet vers orange (dates et
+durées de crue), vert vers marron (durées et volumes d'étiage, ETP :
+assèchement).
 
 - **Scores de performance et indices sans unité** (KGE, NSE et
   variantes, Bias, STD_ratio, epsilon_R/T, RAT_*, QR_ratio, RA_ratio,
@@ -139,105 +142,43 @@ vert→marron (durées/volumes d'étiage, ETP : assèchement).
   volontairement. Si on les équipe un jour, il faudra une palette
   divergente centrée sur la valeur de référence (1 pour KGE/NSE, 0 pour
   les deltas de BFI), décision non prise.
-- **dtFlood** : partage la palette violet→orange avec les dates, et non
-  la palette d'assèchement de dtLF/dtBF. Examiné le 2026-07-18 et
+- **dtFlood** : partage la palette violet vers orange avec les dates, et
+  non la palette d'assèchement de dtLF/dtBF. Examiné le 2026-07-18 et
   conservé : une durée de crue représente un risque (dégâts), pas un
   assèchement, et une crue plus longue n'est pas « plus d'eau » ; la
   dynamique diffère de celle des étiages. Si on veut un jour distinguer
   le risque de crue des dates par une palette dédiée, c'est une
   décision à part.
 
-## 10. Goldens injouables des fiches divergentes de R — RÉSOLU le 2026-07-21
+## Passe anti-quadratin sur les docs
 
-Question soulevée puis traitée le 2026-07-21. À quoi servent des tests
-qui ne peuvent jamais passer (diff permanent) parce que la sortie Python
-a volontairement/connument divergé de R ? Résolution appliquée (option A
-ci-dessous) : les 12 fiches divergentes sont sorties de la comparaison à
-R et validées contre un golden PYTHON (non-régression), avec leur raison
-documentée dans `tests/data/known_divergences.yaml`. Le corpus les
-étiquette « divergence » (attendu) ou « RÉGRESSION » (la sortie Python a
-changé, à investiguer). Plus de « diff » ambigu. Historique conservé
-ci-dessous.
+Demandée le 2026-07-16, faite au fil de l'eau seulement. Restent environ
+85 tirets quadratins dans `TOPICS.md`, `NOMENCLATURE.md` et
+`RENAMING.md` (les fichiers de `archive/` sont gelés, on n'y touche pas).
+Chacun demande une reformulation, pas un remplacement mécanique : deux
+points, parenthèses ou phrase séparée selon le cas.
 
-### Constat mesuré (ancien code, corpus contre R, 59 fiches `_H`)
+## Grand nettoyage docs et uniformisation (card, stase, card-api)
 
-48 fiches passent (ok, == R), 12 divergent (diff permanent) :
-- 8 divergences DOCUMENTÉES (bascule `relative` B1/B3, RENAMING.md,
-  parité R rompue volontairement pour aligner la valeur sur l'unité
-  « % ») : delta-QNA_H/_summer/_winter, delta-allLF_H/_summer/_winter,
-  delta-dtBF_H, delta-dtFlood_H. Cause racine côté R : la fiche R
-  déclare unit « % » mais `to_normalise = FALSE`, donc R sort de
-  l'absolu mal étiqueté ; Python a corrigé (relatif).
-- 4 divergences NUMÉRIQUES, cause prouvée le 2026-07-21
-  (delta-VCN10_summer_H, delta-VCN30_summer_H, delta-VCN3_winter_H,
-  delta-tVCN10_summer_H) : la convention de moyenne mobile pour fenêtre
-  PAIRE (k=10). `rollmean_center` suit pandas `center=True` ; R
-  (RcppRoll) centre une fenêtre paire une position à côté. Décaler la
-  série d'UNE position fait matcher R à la 6e décimale (vérifié sur
-  S001 : -8.362608 pandas → -7.179383 décalé -1 == golden R). Ce
-  décalage d'un jour ne change pas le min ANNUEL (même valeur) mais
-  bascule le min de la fenêtre SAISONNIÈRE quand il tombe au bord, d'où
-  annuel ok / été-hiver diff, sur les stations où ce jour de bord
-  compte. Divergence connue EN CATÉGORIE (pandas vs RcppRoll k pair,
-  ok_approx) mais non rattachée à ces fiches jusqu'ici. Pas une erreur :
-  choix d'implémentation pandas assumé.
+Ouvert le 2026-07-21, plan exécutable dans `PLAN_nettoyage.md`.
+Cloisonnement des trois paquets (ce qui traite de card dans card, du
+moteur dans stase, du service dans card-api), un rôle exclusif par
+fichier, et un `CHANGELOG.md` par paquet pour que la trace des
+livraisons ne repose pas seulement sur git.
 
-### Le vrai problème (analyse)
+**Fait pour card le 2026-07-22** : carte des rôles, CHANGELOG, archive
+badgée, ORIGINE_R renommé, ce registre purgé. **Reste** : la même passe
+sur stase et sur card-api, puis la relecture des métadonnées à
+placeholder (phase 4 du plan) et les README (phase 3).
 
-Le corpus mélange deux rôles dans une seule comparaison :
-1. **parité R** : Python reproduit-il R ? (pertinent pour les 48 qui
-   VEULENT la parité) ;
-2. **non-régression** : Python produit-il encore ce qu'il produisait
-   hier ? (pertinent pour TOUTES, y compris les divergentes).
-
-Pour une fiche qui diverge de R par décision, le rôle 1 est mort (diff
-par design), mais le rôle 2 reste précieux. Or le corpus ne fait que le
-rôle 1 (comparer à R), d'où le « diff » permanent, sans distinguer
-« diff attendu » d'une « nouvelle régression ». Et le CLAUDE.md impose
-déjà « goldens re-figés » sur changement de sorties : ça n'a pas été
-appliqué à ces 12 fiches, d'où le trou.
-
-### Pistes de résolution
-
-- **A (recommandée)** : figer un golden « Python attendu » pour les
-  fiches divergentes (applique la règle existante). La fiche est jugée
-  contre CE golden (== exact), plus contre R. Chaque test redevient
-  jouable ; R reste la référence de parité là où la parité est voulue.
-  Coût : générer + maintenir ces goldens Python.
-- **B** : un manifeste des divergences attendues (max_diff ou valeurs
-  par fiche) ; le test passe si le diff est INCHANGÉ (pas si diff==0).
-  Plus léger, moins précis.
-- **C** : signaler en amont le bug des fiches R (unit vs to_normalise)
-  et régénérer les goldens une fois R corrigé, dans le sillage de la
-  tâche « signalement amont des 11 fiches R cassées ». Lent, externe, R
-  est en maintenance/référence seule.
-- **D (préalable)** : comprendre les 4 divergences VCN non documentées
-  (bug Python ? bug R ? ok_approx basculé ?) avant de choisir leur
-  golden.
-
-Recommandation : D d'abord, puis A. B en repli si A trop coûteux.
-(D fait le 2026-07-21 : cause prouvée = moyenne mobile k pair ; A fait :
-goldens Python + manifeste. §10 RÉSOLU, cf. en-tête.)
-
-## 11. Grand nettoyage docs / uniformisation (card, stase, card-api)
-
-Ouvert le 2026-07-21. Plan détaillé et exécutable :
-`docs/dev/PLAN_nettoyage.md`. Nettoyage transverse des 3 packages (docs
-dev, README, pages, métadonnées, cloisonnement) pour réduire le coût
-token du re-chargement de contexte des futurs Claude, et garantir un
-contenu exclusif par fichier.
-
-Deux points DÉJÀ appris (pour ne pas les reperdre) :
-- **Historique NON supprimable tel quel** : ROADMAP (card), PLAN et
-  CONVERSION_R (stase) sont référencés par des docs vivantes (README,
-  CLAUDE.md...) et portent du contenu à valeur. Il faut une carte
-  source-de-vérité d'abord, puis re-router les renvois avant tout
-  retrait. Propre, pas grossier (cf. Phase 0/1 du plan).
-- **Métadonnées à placeholder : cohérence VÉRIFIÉE** (62 fiches, 0
-  anomalie). La forme générique par défaut (« the target/cible horizon »)
-  est VOULUE (métadonnée publique de metadata_only) ; le suffixe la
-  clarifie avec le contexte. Reste l'avis utilisateur sur le terme
-  générique + la doc d'usage (cf. Phase 4 du plan).
-
-Ordre conseillé : Phase 0 (carte) puis 1 (élaguer proprement) et 4
-(métadonnées, tant que le sujet est frais).
+Deux points déjà appris, à ne pas reperdre :
+- **un historique n'est pas supprimable tel quel** : ces documents sont
+  référencés par des docs vivantes et portent du contenu à valeur. Il
+  faut la carte des rôles d'abord, puis re-router les renvois, et
+  archiver plutôt que supprimer ;
+- **métadonnées à placeholder : cohérence vérifiée** (62 fiches, 0
+  anomalie). La forme générique par défaut (« the target horizon »,
+  « l'horizon cible ») est **voulue** : c'est la métadonnée publique de
+  `metadata_only`, que le suffixe vient clarifier avec le contexte.
+  Reste l'avis de l'utilisateur sur ce terme générique, et la
+  documentation de son usage.

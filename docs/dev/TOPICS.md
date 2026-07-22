@@ -1,3 +1,7 @@
+> **Statut : norme en vigueur.** Modèle de classification et vocabulaire
+> autorisé. Le vocabulaire exécutable est `src/card/topics.yaml`, vérifié
+> par le linter ; ce document en porte le modèle et les arbitrages.
+
 # TOPICS — Facettes à vocabulaire contrôlé pour les fiches CARD
 
 > Proposition du 2026-07-16, arbitrée le jour même avec l'utilisateur

@@ -3,7 +3,7 @@
 **card** : extraction de variables hydroclimatiques définies par des
 fiches YAML, exécutées par le moteur [stase](https://github.com/lou-heraut/stase).
 
-- **[Catalogue des fiches](CARDS.md)** : les 226 fiches (588 variables)
+- **[Catalogue des fiches](CARDS.md)** : les 237 fiches (482 variables)
   par thème, avec leurs entrées requises.
 - [Dépôt GitHub](https://github.com/lou-heraut/card) : code, fiches YAML,
   installation.

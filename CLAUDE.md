@@ -1,4 +1,4 @@
-# CLAUDE.md — card
+# CLAUDE.md : card
 
 ## Contexte
 
@@ -11,17 +11,23 @@ packages R `CARD`/`EXstat` ; les repos R (`../CARD-R/`,
 uniquement, sans fichiers IA. Port validé R↔Python sur corpus complet
 (552 comparaisons, tol 1e-6).
 
-Docs de référence (docs/dev/) : `NOMENCLATURE.md` (nommage, règles
-R1–R7, Oberlin), `TOPICS.md` (classification à facettes), `RENAMING.md`
-(renommages R→Python + sorties modifiées volontairement),
-`AUDIT_FICHES.md` (audit 2026-07 appliqué), `VALIDATION_R.md`,
-`ROADMAP.md` (historique), `CHANTIERS.md` (pistes ouvertes).
+Où lire quoi. Un rôle par fichier, chacun l'annonce dans un bandeau de
+statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
+- `CHANGELOG.md` (racine) : ce qui a changé, quand, et où lire le détail.
+- docs/dev/, normes en vigueur : `NOMENCLATURE.md` (nommage, règles
+  R1-R7, Oberlin), `TOPICS.md` (classification à facettes),
+  `RENAMING.md` (noms R vers Python, et sorties modifiées
+  volontairement), `ORIGINE_R.md` (origine, validation croisée,
+  divergences assumées).
+- docs/dev/`CHANTIERS.md` : pistes ouvertes seulement.
+- docs/dev/archive/ : documents d'époque, non maintenus (`ROADMAP.md`,
+  `AUDIT_FICHES.md`).
 
 ## Structure
 
 ```
 src/card/
-  cards/<domain>/<output>/   # 237 fiches — flow|precipitation|temperature|
+  cards/<domain>/<output>/   # 237 fiches : flow|precipitation|temperature|
                              #   evapotranspiration / series|scalar|curve ;
                              #   le linter impose chemin == classification
   functions/     # fonctions hydro portées de R
@@ -36,8 +42,8 @@ src/card/
   schema.py      # linter : python -m card.schema
   topics.yaml    # vocabulaire de contrôle de la classification (en/fr)
   inputs.yaml    # unités/définitions des variables d'entrée (invariants)
-tests/           # pytest 78 tests (goldens R, loader, lint, suffixes, UX)
-scripts/generate_catalog.py   # docs/CARDS.md — relancer après toute modif
+tests/           # pytest 76 tests (goldens R, loader, lint, suffixes, UX)
+scripts/generate_catalog.py   # docs/CARDS.md, relancer après toute modif
 ```
 
 Env : venv `.python_env/` ; `tests/conftest.py` rend card+stase
@@ -63,10 +69,10 @@ meta:
     sampling_period: ["09-01", "08-31"]     # MM-DD en en, DD-MM en fr
     classification:         # labels MINUSCULES, validés contre topics.yaml
       domain: flow          #   (liste si plusieurs grandeurs)
-      phenomenon: mean flows  # scalaire/liste/absent — jamais forcé
+      phenomenon: mean flows  # scalaire/liste/absent, jamais forcé
       aspect: magnitude     # IHA ; interdit si purpose présent
       season: annual        # annual|summer|winter|by season|by month|record
-      output: series        # series|scalar|curve — doit matcher le dossier
+      output: series        # series|scalar|curve, doit matcher le dossier
       # purpose: model performance | climate sensitivity (optionnel)
   fr:
     ...                     # mêmes champs, labels français appariés
@@ -97,9 +103,9 @@ Règles clés (détail : NOMENCLATURE.md) :
   fenêtres ANNUELLES (protocole MAKAHO = "preferred") ; les fenêtres
   partielles [début, fin] font partie de la définition, jamais écrasées.
 - **horizons** : déclarés dans meta.global.horizons, référencés `$H0..$H3`.
-- **défauts à omettre** : meta.global — is_date false, relative true,
+- **défauts à omettre** : dans meta.global, is_date false, relative true,
   is_experimental false, source/palette/preferred null, input_vars "X" ;
-  process — time_step "year", sampling_period/period/max_na_* null,
+  dans process, time_step "year", sampling_period/period/max_na_* null,
   seasons [DJF,MAM,JJA,SON], keep null, compress/expand false. Exception :
   un kwarg explicite dans la source reste explicite.
 - **multi-sorties** : métadonnées en listes si les sorties sont des
@@ -125,53 +131,32 @@ Règles clés (détail : NOMENCLATURE.md) :
   réponses) : reformuler (deux points, parenthèses, phrases séparées).
   Perçu comme un marqueur de texte IA, rebute des utilisateurices.
 
-## État (2026-07-21)
+## État (2026-07-22)
 
-Tout est commité et poussé sur les deux dépôts (card et
-`../../EXstat_project/stase/`, qui va de pair). Corpus = 237 fiches.
+Tout est commité et poussé sur card et sur `../../EXstat_project/stase/`,
+qui va de pair. Corpus = 237 fiches, 482 variables, 76 tests verts.
 
-**Chantier du 2026-07-20 : suffixes de scénario et métadonnées
-évolutives.** Une même fiche s'applique à plusieurs variantes d'une
-entrée en un appel, `card.extract(..., suffix=["DOE","DCR"])` sur des
-colonnes `Q_lim_DOE`/`Q_lim_DCR`, ou `obs`/`sim` sur n'importe quelle
-fiche. Le fan-out des valeurs est fait par stase au niveau colonne ;
-card n'ajoute que les métadonnées, si bien qu'aucun placeholder ne peut
-changer un calcul. Une variable suffixée est une autre variable, donc
-une autre ligne de `meta`, plus une colonne `suffix`. `card.trend` suit
-les suffixes tout seul en lisant cette colonne. Détail utilisateur dans
-RENAMING.md (deux entrées du 2026-07-20), conception dans le docstring
-de `src/card/suffix.py`, divergences R dans stase
-`docs/dev/ORIGINE_R.md`.
+Ce qui a été livré et quand se lit dans `CHANGELOG.md`, ce qui reste
+ouvert dans `docs/dev/CHANTIERS.md`. Ces deux fichiers font foi : ne pas
+les paraphraser ici, cette section ne doit pas regonfler à chaque
+chantier.
 
-Au passage, stase 0.4.0 est redevenu agnostique de card (retrait du
-paramètre `meta=` de `process_trend`) et ses colonnes de tendance ne
-sont plus ambiguës : `a`/`change` toujours en absolu, `a_relative`/
-`change_relative` toujours en pourcentage et NaN sinon.
+Deux acquis récents à ne pas reperdre, parce qu'ils changent la façon
+d'écrire une fiche :
+- **suffixes de scénario** : le fan-out des valeurs est fait par stase au
+  niveau colonne, card n'ajoute que les métadonnées, donc aucun
+  placeholder ne peut changer un calcul. Une variable suffixée est une
+  autre variable, donc une autre ligne de `meta` et une colonne
+  `suffix`. Conception : docstring de `src/card/suffix.py`.
+- **paramètres externes en colonnes d'entrée** : seuils réglementaires et
+  bornes d'horizon arrivent comme des colonnes (rôle `param_cols` côté
+  stase), une fiche ne fige plus ni un seuil ni une date. Conception :
+  docstring de l'extraction de stase.
 
-**Dernier chantier livré (2026-07-21) : fiches delta par horizon.** Les
-59 fiches `_H` reçoivent leurs dates d'horizon comme colonnes d'entrée
-(comme Q_lim), au lieu de `$H` écrit en dur. `delta` prend quatre bornes
-(`ref_start/ref_end/horizon_start/horizon_end`), `return_level`/
-`apply_threshold` gagnent `period_start`/`period_end`, stase gagne le
-rôle `param_cols` (colonnes de paramètre constantes par série, portées
-et CONSERVÉES à travers les process, hors canal numérique, axe détecté
-par élimination), `inputs.yaml` gagne `type: date`. Fiches collapsées
-(P2 à une entrée + suffixe d'horizon, la fiche ne fige plus 3 horizons).
-Sorties inchangées (nouveau == ancien vérifié à l'exact sur les 59),
-`$H`/`_substitute_horizons` retirés du loader. Trace RENAMING.md
-2026-07-21, conception dans le docstring de `stase` extraction.py.
-Débloque les horizons par degré de réchauffement (bornes variables par
-série). Reste ouvert (CHANTIERS §10) : les goldens injouables des fiches
-volontairement divergentes de R, dont comprendre 4 divergences VCN non
-documentées.
+Écosystème : le service web vit dans le dépôt séparé `../card-api/`, qui
+a son propre CLAUDE.md, ses chantiers et son état de déploiement. Ne rien
+en consigner ici, et réciproquement.
 
-**Écosystème** : le service web vit dans le repo séparé `../card-api/`
-(FastAPI + Hub'Eau + quotas + journal, conception et chantiers dans
-`../card-api/docs/dev/`, son propre CLAUDE.md), DÉPLOYÉ depuis le
-2026-07-17 sur la VM de
-l'utilisateur derrière son Apache (make apache, port local 8001,
-DOMAIN=IP donc HTTP en attendant un nom de domaine). En attente
-utilisateur : PEP 541 (nom PyPI `card`, repli card-stase), signalement
-amont des 11 fiches cassées dans le package R, nom de domaine +
-certbot. Reste aussi une passe anti-quadratin sur les docs (demandée,
-non faite).
+En attente de l'utilisateur, côté card seulement : demande PEP 541 pour
+le nom PyPI, et signalement amont des 11 fiches cassées du paquet R
+(détail des deux dans CHANTIERS).

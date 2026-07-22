@@ -1,3 +1,7 @@
+> **Statut : référence externe.** Publication d'origine (OCR relu), non
+> modifiable. C'est la source scientifique du système de nommage ; sa
+> transposition à CARD est dans `NOMENCLATURE.md`.
+
 # Normalisation des variables dans les modèles hydrologiques descriptifs
 
 **G. Oberlin** — Informations Techniques du CEMAGREF, mars 1992, n° 85,

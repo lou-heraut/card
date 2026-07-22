@@ -1,12 +1,36 @@
+> **Statut : norme en vigueur.** Origine R du corpus de fiches, principes
+> de la conversion, validation croisée et divergences assumées. Le
+> fichier de même nom dans stase traite du moteur. Journal daté des
+> livraisons : `CHANGELOG.md` à la racine du dépôt.
+
 # Origine : conversion depuis le package R CARD
 
 card est le port Python du package R
 [CARD](https://github.com/lou-heraut/CARD) (INRAE, UR RiverLy). Les
 fiches YAML de `src/card/cards/` sont la source de vérité ; les fiches R
-de l'ancien package servent de référence de validation croisée.
-L'historique de la refonte et les décisions associées sont dans
-[ROADMAP.md](ROADMAP.md), la correspondance des noms de fonctions R vers
-Python dans [RENAMING.md](RENAMING.md).
+de l'ancien package servent de référence de validation croisée. La
+correspondance des noms R vers Python est dans
+[RENAMING.md](RENAMING.md), le déroulé de la refonte dans
+[archive/ROADMAP.md](archive/ROADMAP.md).
+
+## Principes de la conversion (actés le 2026-07-11)
+
+- **Python natif d'abord** : une fonction R custom est remplacée par son
+  équivalent numpy, scipy ou pandas dès que le résultat est identique ou
+  très proche. Pas de wrapper cosmétique, la fiche référence le vrai nom
+  Python (`nanmean`, `nanargmax`), et la résolution se fait par espace de
+  noms (`card.functions` puis numpy).
+- **Corrections bienvenues** : franglais, documentation, noms de
+  paramètres flous. Python a vocation à remplacer R, la refonte est
+  l'occasion d'assainir plutôt que de recopier.
+- **Frontière card / stase** : card porte les métadonnées, les fiches et
+  les fonctions hydrologiques ; stase porte toute la gestion de données
+  et d'agrégation, y compris l'échantillonnage adaptatif et les sorties
+  vectorielles. Un mécanisme de moteur qui remonte dans card est un
+  signe que la frontière a été franchie au mauvais endroit.
+- **Anciennes fiches R** : pas de réparation. Elles servent à la
+  vérification croisée, ce n'est pas une fin en soi (11 d'entre elles
+  plantent dans le paquet R lui-même, voir plus bas).
 
 ## Validation croisée R / Python (2026-07-11)
 
@@ -51,6 +75,5 @@ autonome et n'en a pas besoin.
 ## Noms hérités du R
 
 L'API canonique est `card.extract`, `card.list_cards`, `card.info`,
-`card.copy_cards`. Les noms du R restent valides en alias :
-`CARD_extraction` (avec son paramètre `CARD_name`), `CARD_list_all`,
-`CARD_info`, `CARD_management`.
+`card.copy_cards` ; les noms du R restent valides en alias. Table
+complète, paramètres compris : [RENAMING.md](RENAMING.md).
