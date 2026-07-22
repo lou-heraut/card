@@ -115,6 +115,18 @@ Règles clés (détail : NOMENCLATURE.md) :
   toujours explicite pour mean-/median-. Quantiles temporels : « dépassé
   p % du temps », jamais « X années sur Y ».
 
+> ## À NE JAMAIS FAIRE
+>
+> - **`note.txt` (et tout fichier de notes de l'utilisateur) : NE PAS
+>   L'OUVRIR.** Ni Read, ni `cat`, ni `grep`, ni au détour d'un `git add`.
+>   C'est son brouillon personnel : pas de lecture, pas de résumé, pas de
+>   « au passage j'ai vu que ». Il n'entre dans aucune tâche sans une
+>   demande explicite de sa part, fichier par fichier. Un en-tête qui dit
+>   de ne pas lire est un ordre, pas une mise en garde à évaluer.
+> - **Pas de `git add -A` ni de `git add .`** : stager nommément les
+>   fichiers que l'on a soi-même modifiés. Ce qui traîne dans l'arbre de
+>   travail appartient à l'utilisateur.
+
 ## Règles de travail
 
 - Lire la fiche complète avant modification ; la fonction fait foi (les

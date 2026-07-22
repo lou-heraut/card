@@ -11,3 +11,7 @@ tests/data/*.log
 .python_env/
 *.pdf
 *~
+
+# brouillon personnel de l'utilisateur : hors git, et Claude ne l'ouvre pas
+note.txt
+notes.txt
