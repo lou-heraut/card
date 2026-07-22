@@ -132,45 +132,52 @@ version expédiée : c'est de la communication scientifique, l'objet doit
 
 ## Convertir les 12 fiches à horizon figé au modèle suffixe
 
-Ouvert le 2026-07-22, demandé par l'utilisateur. Douze fiches figent
-encore leurs dates d'horizon **dans le fichier**, alors que le chantier
-du 2026-07-21 a sorti ces bornes des 59 autres :
+Ouvert le 2026-07-22, demandé par l'utilisateur. Douze fiches figent leur
+période **dans le fichier**, alors que le chantier du 2026-07-21 a sorti
+ces bornes des 59 autres. Une famille par type, déclinée quatre fois :
 
-| famille | fiches | période figée |
+| famille | fiches | ce que fait le process |
 |---|---|---|
-| `QM_H0..H3` | 4 | H0 1976-01-01 à 2005-08-31, puis DRIAS 2021-2050, 2041-2070, 2070-2099 |
-| `FDC_H0..H3` | 4 | idem |
-| `median-QJ_H0..H3` | 4 | idem |
-
-Conséquence mesurée : sur des observations 1970-2020, `QM_H1` rend zéro
-ligne et un avertissement. Ces fiches ne servent qu'à des projections
-DRIAS, et à celles-là seulement, ce que rien n'annonce.
+| `QM_H0..H3` | 4 | `nanmean(Q)`, `time_step: month` |
+| `FDC_H0..H3` | 4 | `fdc_probabilities` / `fdc_quantiles`, `time_step: none` |
+| `median-QJ_H0..H3` | 4 | `nanmedian(Q)`, `time_step: yearday` |
 
 **Cible** : trois fiches, `QM_H`, `FDC_H` et `median-QJ_H`, recevant
-`horizon_start` et `horizon_end` en colonnes d'entrée, avec
-`{suffix.name}` dans les métadonnées. Exactement le modèle des 45 fiches
-delta, et ce qui débloque les horizons par degré de réchauffement.
+leurs bornes en colonnes d'entrée et se déclinant par suffixe, comme les
+fiches delta. L'appelant choisit ses horizons, autant qu'il veut, sans
+qu'aucune date ne vive dans le corpus.
 
-**Verrou technique, à lever d'abord dans stase.** Ces fiches restreignent
-la période avec le champ `period` d'un process, et le `period` de
-`process_extraction` est un filtre **global** à dates littérales,
-identique pour toutes les séries : il n'accepte pas de nom de colonne et
-ne peut pas varier d'une série à l'autre (extraction.py, bloc « Filtre
-period »). Les fiches delta, elles, passent leurs bornes en **kwargs de
-fonction**, ce qui marche déjà. Il faut donc soit étendre `period` aux
-colonnes de paramètre, soit un mécanisme dédié. Chantier ouvert côté
-stase, à faire avant la conversion.
+**Le principe est déjà en place**, et c'est ce qui rend le chantier
+simple : la période ne doit pas être portée par le champ `period` du
+process, qui est un filtre global du moteur, mais par la **fonction**,
+comme le font déjà `return_level` et `apply_threshold` depuis le
+2026-07-21 :
 
-**À arbitrer au passage** : la fenêtre H0 vaut `1976-01-01` à
-`2005-08-31`, une date de début calendaire pour une date de fin
-hydrologique (30 années hydrologiques auraient commencé au 1975-09-01).
-Les trois autres horizons finissent en 12-31. Une fois les bornes
-fournies par l'appelant la question sort des fiches, mais la valeur
-recommandée pour DRIAS mérite d'être écrite quelque part.
+```yaml
+[return_level, "VCN10", {dates: "date", period_start: "ref_start",
+                         period_end: "ref_end", ...}]
+```
 
-**Coût annexe** : 12 identifiants disparaissent au profit de 3. C'est un
-changement de sorties, donc trace dans RENAMING.md, bump majeur, et le
-catalogue comme le service en sont affectés.
+Rien à changer dans stase, donc. Il s'agit de donner le même traitement
+aux fonctions employées par ces douze fiches.
+
+**Question de conception, à trancher avant d'écrire** : une fonction
+générique qui restreint puis délègue, du type
+`over_period(X, dates, period_start, period_end, func: nanmean)`, qui
+couvre les trois familles d'un coup ; ou les kwargs `dates`,
+`period_start` et `period_end` ajoutés à chaque fonction concernée,
+comme cela a été fait pour `return_level`. La première mutualise mais
+introduit une fonction qui en appelle une autre par son nom ; la seconde
+reste dans le motif existant mais se répète. Le cas `fdc_quantiles`
+tranche peut-être : il rend un vecteur, la solution retenue doit le
+laisser passer.
+
+**Coût annexe** : douze identifiants disparaissent au profit de trois.
+Changement de sorties, donc trace dans RENAMING.md, bump majeur, et le
+catalogue comme le service en sont affectés. Prévoir aussi la valeur par
+défaut à recommander pour la période de référence, aujourd'hui écrite
+dans les fiches H0 (`1976-01-01` à `2005-08-31`, un début calendaire
+pour une fin hydrologique).
 
 ## Export SKOS / thésaurus (différé de longue date)
 
