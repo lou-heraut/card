@@ -7,7 +7,7 @@
 # card is free software: you can redistribute it and/or modify it under
 # the terms of the license in the LICENSE file of this repository.
 
-"""Génère docs/CARDS.md — catalogue des fiches CARD, consultable sur GitHub.
+"""Génère docs/CARDS.md, catalogue des fiches CARD, consultable sur GitHub.
 
 Usage (depuis la racine du repo) :
     .python_env/bin/python scripts/generate_catalog.py

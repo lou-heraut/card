@@ -4,7 +4,7 @@
 > `../NOMENCLATURE.md` ; les renommages de sorties sont tracés dans
 > `../RENAMING.md`.
 
-# AUDIT_FICHES — Noms et métadonnées des fiches (2026-07-13)
+# AUDIT_FICHES : Noms et métadonnées des fiches (2026-07-13)
 
 Audit des 215 fiches YAML : croisement de `name`, `description`,
 `method` et `unit` (version fr) avec le bloc `process` réellement
@@ -12,7 +12,7 @@ exécuté. Les identifiants courts (ids) sont considérés comme stables ;
 l'audit porte sur les métadonnées, sauf mention contraire. La version
 en reflète la fr : toute correction est à faire dans les deux langues.
 
-> **APPLIQUÉ le 2026-07-15** — tous les constats ci-dessous ont été
+> **APPLIQUÉ le 2026-07-15** : tous les constats ci-dessous ont été
 > arbitrés puis traités en 4 lots (commits b693fef, c3ccc94, 07a6931,
 > c27fea9 ; règles : NOMENCLATURE.md ; renommages : RENAMING.md).
 > Le document est conservé comme trace des constats et des décisions.
@@ -22,13 +22,13 @@ en reflète la fr : toute correction est à faire dans les deux langues.
 ## Procédure d'arbitrage et d'application (fixée le 2026-07-15)
 
 1. **Référence normative** : `NOMENCLATURE.md` (guide de nommage fondé
-   sur le système du corpus consolidé par Oberlin 1992 — règles
+   sur le système du corpus consolidé par Oberlin 1992, règles
    R1–R7). Chaque correction de métadonnée cite la règle qu'elle
    applique dans le récapitulatif de batch.
 2. **Pré-arbitrages enregistrés** (note utilisateur du 2026-07-13,
    ex-note_tmp.txt) :
    - A1, A2, A4, A5 : acceptés.
-   - A3, A6 : **la fonction fait foi** — les métadonnées décrivent le
+   - A3, A6 : **la fonction fait foi** : les métadonnées décrivent le
      calcul réel, on ne « ment » jamais sur ce que fait le process
      (érigé en règle R6 du guide).
    - B1 : les delta de durées (dt*) en absolu → jour ; les delta de
@@ -38,7 +38,7 @@ en reflète la fr : toute correction est à faire dans les deux langues.
      scalaire est jugé trop piégeux). **Amendé le 2026-07-16** : ne
      vaut que pour de vraies variables distinctes ; les FDC* gardent
      un name unique (les colonnes p/Q sont les coordonnées d'une même
-     courbe, expliquées en description) — cf. NOMENCLATURE.md §9.7.
+     courbe, expliquées en description) : cf. NOMENCLATURE.md §9.7.
    - C3 : renommage `median-finLF` → `median-endLF` accepté (à tracer
      dans RENAMING.md).
    - C4 : accepté, et **étendre le catalogue** : créer les fiches
@@ -48,7 +48,7 @@ en reflète la fr : toute correction est à faire dans les deux langues.
    - D : `method` toujours remplissable → à remplir partout ;
      `description` seulement quand elle apporte plus que le `name`
      (règle R4 du guide).
-3. **Arbitrages complets rendus le 2026-07-15** — plus aucun point
+3. **Arbitrages complets rendus le 2026-07-15** : plus aucun point
    ouvert, cf. NOMENCLATURE.md §9 (guide validé) :
    - C1 : listes explicites de 3 (pas de template `{horizon}`) ;
    - R2 : variante pédagogique (« inter-annuel » explicite) ;
@@ -63,11 +63,11 @@ en reflète la fr : toute correction est à faire dans les deux langues.
      est réservé à une future fiche coefficient adimensionnel avec la
      surface en colonne d'entrée `S` (86,4 × ΣQ/ΣR / A(km²)).
 4. **Application par lots**, après le retour complet :
-   - lot 1 — métadonnées pures (risque nul) ;
-   - lot 2 — arbitrages (unit/relative, renommages d'ids tracés dans
+   - lot 1 : métadonnées pures (risque nul) ;
+   - lot 2 : arbitrages (unit/relative, renommages d'ids tracés dans
      RENAMING.md) ;
-   - lot 3 — remplissage method (+ description sélective) ;
-   - lot 4 — création des fiches manquantes (C4 étendu).
+   - lot 3 : remplissage method (+ description sélective) ;
+   - lot 4 : création des fiches manquantes (C4 étendu).
    Batchs de ~10 fiches, récapitulatif avec niveau de confiance,
    `pytest` + `python -m card.schema` après chaque lot ; le harnais R
    croisé n'est requis que si un calcul change (a priori aucun,
@@ -101,7 +101,7 @@ Les fiches fQ01A/fQ05A/fQ10A décrivent correctement le même objet
 débits classés ») : reprendre cette formulation.
 
 Dans la même veine, Q25A/Q50A/Q75A (+ deltas) : « Premier quartile /
-Médiane / Troisième quartile **des débits annuels** » — ce sont des
+Médiane / Troisième quartile **des débits annuels** », ce sont des
 quantiles des débits **journaliers** de chaque année (« quartile
 annuel des débits journaliers »), pas des quantiles de la série des
 débits annuels.
@@ -112,7 +112,7 @@ débits annuels.
 VCN10-5 » ; le process compte avec `where: '<='` les années où le
 VCN10 est **inférieur ou égal** au VCN10-5 historique (ce qui est le
 comptage hydrologiquement pertinent en étiage). Le nom dit l'inverse
-du calcul — probable copier-coller de n-QJXA-10_H (où `>=` et
+du calcul : probable copier-coller de n-QJXA-10_H (où `>=` et
 « supérieur » concordent). Corriger le nom, pas le calcul.
 
 ### A3. STD : ce n'est pas un écart-type
@@ -120,16 +120,16 @@ du calcul — probable copier-coller de n-QJXA-10_H (où `>=` et
 `name` « Écart-type des données journalières », `unit` m³/s ; la
 fonction `std_ratio` retourne le **rapport** sd(sim)/sd(obs), sans
 unité. Le nom, la desc (qui parle de « capacité des modèles à
-reproduire la variabilité » — cohérente avec un ratio) et l'unité
+reproduire la variabilité » : cohérente avec un ratio) et l'unité
 sont à réaligner sur « Rapport des écarts-types simulé/référence »,
-sans unité. L'id `STD` lui-même est trompeur (STD_ratio ?) — à
+sans unité. L'id `STD` lui-même est trompeur (STD_ratio ?), à
 arbitrer car il touche aux sorties.
 
 ### A4. QJC10 : nom faux ET fiche cassée
 
 - `name` « Débit moyen **mensuel** moyenné sur 10 jours » : le
   process agrège par **jour de l'année** (`time_step: yearday`) puis
-  lisse sur 10 jours — c'est le régime journalier inter-annuel lissé,
+  lisse sur 10 jours : c'est le régime journalier inter-annuel lissé,
   pas du mensuel.
 - Bug fonctionnel : `input_vars: Q` mais P1 référence `Q_obs`
   (`QJ: [nanmean, "Q_obs"]`). La fiche ne peut pas tourner avec
@@ -152,8 +152,8 @@ arbitrer car il touche aux sorties.
 surface de bassin → unité affichée m³·s⁻¹·mm⁻¹. Un « coefficient de
 ruissellement » est normalement sans unité (lame écoulée / lame
 précipitée). Soit renommer (« rapport débit/précipitations », en
-assumant l'unité hybride), soit prévoir la conversion avec surface —
-décision à prendre, le calcul est peut-être voulu tel quel.
+assumant l'unité hybride), soit prévoir la conversion avec surface.
+Décision à prendre, le calcul est peut-être voulu tel quel.
 
 ---
 
@@ -175,14 +175,14 @@ discordants :
 Référence interne cohérente : delta-dtLF_H (False + jour),
 delta-vBF_H (True + %).
 
-**B2 — unité des fréquences fQ*A** : `exceedance_frequency` retourne
+**B2 : unité des fréquences fQ*A** : `exceedance_frequency` retourne
 n/N, une fraction sans unité (la method le dit : « rapport du nombre
 de jours … par le nombre de jours dans l'année »). L'unité affichée
 « jour.an⁻¹ » supposerait une multiplication par 365 qui n'existe
 pas. Corriger l'unité (série et deltas), ou le calcul si c'est un
 nombre de jours qui était voulu.
 
-**B3 — delta-vLF_H : deux calculs différents sous le même nom de
+**B3 : delta-vLF_H : deux calculs différents sous le même nom de
 sortie.** La fiche individuelle delta-vLF_H utilise
 `relative: True` ; la fiche groupée delta-allLF_H calcule les mêmes
 sorties `delta-vLF_H1/2/3` avec `relative: False` (tout en affichant
@@ -203,7 +203,7 @@ l'intention, vu l'unité déclarée.
    substituent.
 2. **`name` scalaire pour fiches multi-sorties** (23 fiches) :
    alpha-* (2 sorties : pente + test), FDC* (p + Q), RA_all (3),
-   RA_ratio (2), n-VCN10-5_H (3) — aligner `name`/`desc`/`unit` en
+   RA_ratio (2), n-VCN10-5_H (3) : aligner `name`/`desc`/`unit` en
    listes sur les sorties, comme le font QMA_month, QSA_season, etc.
    Pour alpha-*, l'unité m³·s⁻¹·an⁻¹ ne vaut que pour la pente, pas
    pour le booléen du test.
@@ -230,26 +230,26 @@ l'intention, vu l'unité déclarée.
    « annuelles » sur le mauvais mot). Même remarque grammaticale pour
    RA/RAl/RAs (« Cumul des précipitations totales annuelles »).
 7. **QSA_JJASO** : name « Moyenne saisonnière annuelle du débit
-   journalier » ne dit pas la saison (juin–octobre) — la seule info
+   journalier » ne dit pas la saison (juin–octobre), la seule info
    distinctive de la fiche.
 8. **QMNA/VCN et sampling adaptatif** : les fiches série QNA, QMNA,
    VCN* documentent bien « Mois du maximum des débits mensuels » dans
    sampling_period(fr) mais QNA et QNA_summer/winter ont `method`
-   vide — la seule fiche de la famille sans méthode.
+   vide : la seule fiche de la famille sans méthode.
 
 ---
 
 ## D. Champs vides et coquilles
 
 - `description` vide : **110/215** fiches.
-- `method` vide : **53/215** fiches — ETPA, QNA (+summer/winter,
+- `method` vide : **53/215** fiches : ETPA, QNA (+summer/winter,
   + leurs deltas), delta-QMA_month_H, QJC10, QM, QMA_month, QM_H0-H3,
   median-QJ (+H0-H3), CR, CRS_season, RA_all, RA_ratio, RAl_ratio,
   RAs_ratio, RCXA1, RCXA5, RMA*_month, RSA*_season, dtCDD*, dtCWD*,
   dtR*mm*, Rc, TA, TMA_month, TSA_season.
 - Coquilles : « Somme des écarts entre **de** la moyenne » (vLF,
   allLF, delta-allLF_H) ; « agrégation annuelle **saisonnalisé** »
-  (delta-QSA_season_H, mean-RSA_season, mean-TSA_season — ailleurs
+  (delta-QSA_season_H, mean-RSA_season, mean-TSA_season, ailleurs
   « saisonnalisée ») ; desc de délta-BFI-* décrit le BFI, pas le
   changement (convention assumée ? à trancher, la plupart des deltas
   font pareil).

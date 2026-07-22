@@ -57,7 +57,7 @@ def list_cards(path=None, include_experimental=False,
     sont lues directement depuis les blocs meta des YAML.
 
     Filtres optionnels (insensibles à la casse, fr et en confondus pour
-    les facettes de classification — cf. docs/dev/TOPICS.md) :
+    les facettes de classification, cf. docs/dev/TOPICS.md) :
     domain     : grandeur ('débit', 'flow', 'precipitation'...).
     phenomenon : phénomène ('basses eaux', 'baseflow', 'snow'...).
     aspect     : dimension IHA ('intensité', 'timing', 'duration'...).

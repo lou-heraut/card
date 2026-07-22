@@ -153,7 +153,7 @@ le dit « suivi à jour » alors qu'il est clôturé, et l. 53 qui s'appuie
 dessus pour justifier les exceptions au gel de `tools.py` : renvoyer aux
 tests d'équivalence) et card-api.
 
-## Phase 2 — CLAUDE.md et mémoire (budget token)
+## Phase 2 : CLAUDE.md et mémoire (budget token)
 
 - Les 3 CLAUDE.md : garder l'essentiel non dérivable (format, règles de
   travail, état COURT). Sortir tout ce qui est détaillé dans docs/dev en
@@ -164,7 +164,7 @@ tests d'équivalence) et card-api.
 - Mémoire (`~/.claude/.../memory/`) : élaguer les entrées obsolètes
   (project-state.md date du 2026-07-16, très en retard sur le code).
 
-## Phase 3 — README utilisateur (donner envie)
+## Phase 3 : README utilisateur (donner envie)
 
 Pour chacun des 3 README, parcours « pourquoi -> quoi -> comment », UN
 exemple exécuté par capacité :
@@ -178,7 +178,7 @@ exemple exécuté par capacité :
 - Vérifier chaque exemple par EXÉCUTION (motif scratchpad apitest déjà
   utilisé pour card-api).
 
-## Phase 4 — Métadonnées à placeholder (cohérence, PAS un « trou »)
+## Phase 4 : Métadonnées à placeholder (cohérence, PAS un « trou »)
 
 Cadrage (précisé par l'utilisateur le 2026-07-21) : la forme PAR DÉFAUT
 (sans suffixe, placeholders résolus par `suffix_default`) est VOULUE
@@ -202,7 +202,7 @@ doc d'usage.
 Le travail n'est donc pas de figer du contexte dans la fiche, mais de
 VÉRIFIER la cohérence :
 - Fournir à l'utilisateur des EXEMPLES rendus (forme générique par défaut
-  vs avec records riches near/2021-2050) pour qu'il juge — il ne les a
+  vs avec records riches near/2021-2050) pour qu'il juge : il ne les a
   pas encore lus. Un éventuel `suffixes:` par défaut ne se déciderait que
   SI les exemples montraient le générique incohérent, pas par principe.
 - Vérifier que CHAQUE `{suffix.X}` forme une phrase cohérente EN et FR,
@@ -213,7 +213,7 @@ VÉRIFIER la cohérence :
 - Documenter côté utilisateur : comment et quand fournir des records
   riches (horizons fixes DRIAS vs par degré de réchauffement).
 
-## Phase 5 — Pages web / publication
+## Phase 5 : Pages web / publication
 
 - card `docs/index.md` (15 lignes, stub) : décider son rôle (landing ?
   renvoi vers CARDS.md + README + SKOS). Étoffer ou assumer minimal.
@@ -221,7 +221,7 @@ VÉRIFIER la cohérence :
 - card-api : vérifier que la doc API (README + API.md) reflète l'état
   déployé.
 
-## Phase 6 — Uniformisation inter-packages
+## Phase 6 : Uniformisation inter-packages
 
 - Conventions communes aux 3 repos : structure `docs/dev/`, format
   CLAUDE.md, structure README, style des renvois croisés

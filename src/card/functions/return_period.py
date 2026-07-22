@@ -87,7 +87,7 @@ def _lognormal_params(X):
 
 
 # NOTE p0 : approche des probabilités conditionnelles (Jennings &
-# Benson 1969) — F(x) = p0 + (1 - p0) * F_pos(x). Le R historique
+# Benson 1969) : F(x) = p0 + (1 - p0) * F_pos(x). Le R historique
 # omettait la division par (1 - p0) (quantiles biaisés bas jusqu'à
 # -13 % sur stations intermittentes, parité volontairement rompue le
 # 2026-07-18, cf. RENAMING.md). Identique quand p0 = 0. Les DEUX

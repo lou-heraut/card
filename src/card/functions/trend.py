@@ -14,7 +14,7 @@
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.
 
-"""Tendances Mann-Kendall — délègue au GeneralMannKendall de stase."""
+"""Tendances Mann-Kendall : délègue au GeneralMannKendall de stase."""
 
 from stase import GeneralMannKendall
 

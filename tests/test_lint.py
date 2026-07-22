@@ -1,4 +1,4 @@
-"""Le corpus complet des fiches doit passer le linter — et le linter doit
+"""Le corpus complet des fiches doit passer le linter, et le linter doit
 détecter les défauts qu'il prétend détecter."""
 
 
@@ -21,7 +21,7 @@ def test_corpus_loads_completely():
 
 def test_linter_catches_lost_window_bound(tmp_path):
     """Reproduit le bug historique des 29 fiches : borne de fin de fenêtre
-    perdue dans le process — le linter doit le signaler."""
+    perdue dans le process : le linter doit le signaler."""
     src = next(_DEFAULT_CARD_DIR.rglob("QNA_summer.yaml"))
     damaged = src.read_text().replace(
         'sampling_period: ["05-01", "11-30"]\n    max_na_pct',

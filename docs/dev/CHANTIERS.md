@@ -150,14 +150,6 @@ assèchement).
   le risque de crue des dates par une palette dédiée, c'est une
   décision à part.
 
-## Passe anti-quadratin sur les docs
-
-Demandée le 2026-07-16, faite au fil de l'eau seulement. Restent environ
-85 tirets quadratins dans `TOPICS.md`, `NOMENCLATURE.md` et
-`RENAMING.md` (les fichiers de `archive/` sont gelés, on n'y touche pas).
-Chacun demande une reformulation, pas un remplacement mécanique : deux
-points, parenthèses ou phrase séparée selon le cas.
-
 ## Grand nettoyage docs et uniformisation (card, stase, card-api)
 
 Ouvert le 2026-07-21, plan exécutable dans `PLAN_nettoyage.md`.

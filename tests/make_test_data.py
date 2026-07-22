@@ -2,7 +2,7 @@
 R vs Python (2 stations, 1970-2100 pour couvrir les horizons H0-H3).
 
 Colonnes : date, id, Q, Q_obs, Q_sim, R, Rl, Rs, R_obs, R_sim, T, T_obs,
-ETP, ET0_obs — l'ensemble des input_vars utilisés par les fiches CARD.
+ETP, ET0_obs : l'ensemble des input_vars utilisés par les fiches CARD.
 """
 
 from pathlib import Path

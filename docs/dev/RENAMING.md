@@ -4,7 +4,7 @@
 > fiches, c'est-à-dire des ruptures assumées de parité avec R. Le journal
 > des livraisons du paquet est `CHANGELOG.md`, à la racine.
 
-# Table de correspondance R → Python — APPLIQUÉE le 2026-07-12
+# Table de correspondance R → Python : APPLIQUÉE le 2026-07-12
 
 Phase B de la refonte (`archive/ROADMAP.md`). La partie « numpy natif »
 est déjà appliquée
@@ -22,12 +22,12 @@ majuscules, pas de préfixe verbal (compute_/get_)**.
 | Actuel | Usage | Proposition | Renommage des paramètres |
 |---|---|---|---|
 | get_deltaX | 249 | **delta** (validé utilisateur : direct et non ambigu, cohérent avec les variables delta-*) | futur→future, to_normalise→relative |
-| apply_threshold | 63 | apply_threshold (inchangé) | — |
+| apply_threshold | 63 | apply_threshold (inchangé) |  |
 | rollmean_center | 61 | rollmean_center (inchangé) | isCyclical→cyclical |
 | compute_Qp | 27 | **exceedance_quantile** | p (inchangé, proba de dépassement) |
 | sumNA | 25 | **nansum_strict** | (NaN si tout-NaN, ≠ nansum) |
 | divided | 12 | **ratio** | first (inchangé) |
-| circular_median | 10 | circular_median (inchangé) | — |
+| circular_median | 10 | circular_median (inchangé) |  |
 | compute_VolDef | 10 | **deficit_volume** | upLim→threshold ; kwarg fantôme `select` supprimé des fiches |
 | compute_elasticity | 10 | elasticity | Q, X (inchangés) |
 | compute_tVolSnowmelt | 9 | **snowmelt_timing** | p→fraction |
@@ -37,24 +37,24 @@ majuscules, pas de préfixe verbal (compute_/get_)**.
 | compute_FDC_p | 5 | **fdc_probabilities** | isNormLaw→norm_spacing |
 | compute_FDC_Q | 5 | **fdc_quantiles** | idem |
 | compute_Biais | 5 | **bias** | sim_minus_obs (inchangé) |
-| dBFS | 3 | **quickflow** (Q − débit de base) | — |
+| dBFS | 3 | **quickflow** (Q − débit de base) |  |
 | compute_tSnowmelt | 3 | **snowmelt_duration** | p1/p2→fraction1/fraction2 |
-| compute_VolSnowmelt | 3 | **snowmelt_volume** | — |
+| compute_VolSnowmelt | 3 | **snowmelt_volume** |  |
 | get_MKalpha | 3 | **mannkendall_slope** (pente de Sen) | level (inchangé) |
 | get_MKH | 3 | **mannkendall_test** | idem |
 | compute_RAT_X | 3 | **RAT** | thresh (inchangé) |
-| compute_NSE | 1 | **NSE** | — |
-| compute_NSElog | 1 | **NSE_log** | — |
-| compute_NSEi | 1 | **NSE_inverse** | — |
-| compute_NSEracine | 1 | **NSE_sqrt** | — |
+| compute_NSE | 1 | **NSE** |  |
+| compute_NSElog | 1 | **NSE_log** |  |
+| compute_NSEi | 1 | **NSE_inverse** |  |
+| compute_NSEracine | 1 | **NSE_sqrt** |  |
 | compute_KGE | 1 | **KGE** | method (inchangé) |
-| compute_KGEracine | 1 | **KGE_sqrt** | — |
-| compute_STD | 1 | **std_ratio** (c'est sd(sim)/sd(obs)) | — |
-| compute_Rc | 1 | **runoff_coefficient** | — |
-| get_BFI | 1 | **BFI** | — |
-| get_BFM | 1 | **BFM** | — |
+| compute_KGEracine | 1 | **KGE_sqrt** |  |
+| compute_STD | 1 | **std_ratio** (c'est sd(sim)/sd(obs)) |  |
+| compute_Rc | 1 | **runoff_coefficient** |  |
+| get_BFI | 1 | **BFI** |  |
+| get_BFM | 1 | **BFM** |  |
 | fdc_slope | 1 | fdc_slope (inchangé) | p (inchangé) |
-| rollsum_center | 1 | rollsum_center (inchangé) | — |
+| rollsum_center | 1 | rollsum_center (inchangé) |  |
 
 ## B. Non utilisées dans les fiches (bibliothèque, renommées par cohérence)
 
@@ -140,26 +140,26 @@ Ids et sorties, validés par l'utilisateur :
 
 | Ancien id | Nouveau id | Sorties | Motif |
 |---|---|---|---|
-| STD | STD_ratio | STD → STD_ratio | la fonction retourne sd(sim)/sd(obs), sans unité (composante α du KGE) — audit A3 |
-| Rc | QR_ratio | Rc → QR_ratio | ΣQ/ΣR n'est pas un coefficient de ruissellement (unité m³·s⁻¹·mm⁻¹) ; l'id Rc est réservé à la future fiche adimensionnelle avec surface en entrée `S` — audit A6 |
-| median-finLF | median-endLF | inchangées (median-endLF) | id franglais, sorties déjà en anglais — audit C3 |
+| STD | STD_ratio | STD → STD_ratio | la fonction retourne sd(sim)/sd(obs), sans unité (composante α du KGE), audit A3 |
+| Rc | QR_ratio | Rc → QR_ratio | ΣQ/ΣR n'est pas un coefficient de ruissellement (unité m³·s⁻¹·mm⁻¹) ; l'id Rc est réservé à la future fiche adimensionnelle avec surface en entrée `S`, audit A6 |
+| median-finLF | median-endLF | inchangées (median-endLF) | id franglais, sorties déjà en anglais, audit C3 |
 
 Changements de **valeurs** de sorties (bascules du kwarg `relative` de
-`delta`, décisions B1/B3 — la parité avec le R historique est
-volontairement rompue pour ces sorties) :
+`delta`, décisions B1/B3 ; la parité avec le R historique
+est volontairement rompue pour ces sorties) :
 
 | Fiche | Sorties | relative | Avant | Après |
 |---|---|---|---|---|
 | delta-dtBF_H | delta-dtBF_H1..H3 | true → false | % implicite | jours (cohérent avec l'unité) |
 | delta-dtFlood_H | delta-dtFlood_H1..H3 | true → false | % implicite | jours |
 | delta-QNA_H (+ _summer, _winter) | delta-QNA*_H1..H3 | false → true | m³/s | % (cohérent avec l'unité) |
-| delta-allLF_H (+ _summer, _winter) | delta-vLF*_H1..H3 uniquement | false → true | m³ | % — aligne les bundles sur la fiche individuelle delta-vLF_H |
+| delta-allLF_H (+ _summer, _winter) | delta-vLF*_H1..H3 uniquement | false → true | m³ | %, aligne les bundles sur la fiche individuelle delta-vLF_H |
 
 Correction fonctionnelle : QJC10 P1 lisait la colonne `Q_obs`
-inexistante (`input_vars: Q`) — corrigé en `Q`, la fiche est
+inexistante (`input_vars: Q`), corrigé en `Q`, la fiche est
 exécutable (audit A4).
 
-## Corrections de cohérence — 2026-07-18
+## Corrections de cohérence : 2026-07-18
 
 Sorties renommées (validé utilisateur : lever l'ambiguïté S/M avant
 distribution publique ; la parité R est rompue sur le NOM seulement,
@@ -182,7 +182,7 @@ Corrections fonctionnelles sans changement de valeurs :
   vert→marron des durées de sécheresse (dtLF, vLF) : une ETP forte
   traduit un assèchement, pas un apport d'eau.
 
-## Correction de la loi log-normale des basses eaux — 2026-07-18
+## Correction de la loi log-normale des basses eaux : 2026-07-18
 
 Changement de **valeurs** (validé utilisateur, rupture volontaire avec
 le R historique, à signaler en amont comme les 11 fiches cassées) :
@@ -201,7 +201,7 @@ le Python renvoie maintenant 0.
 
 Nouvelle fonction : **return_period** (inverse exacte de return_level,
 même module ; seuil -> période de retour, lois log-normale et Gumbel).
-## Suffixes de scénario et métadonnées évolutives — 2026-07-20
+## Suffixes de scénario et métadonnées évolutives : 2026-07-20
 
 Ajout de capacité, sans rupture de sortie : conception complète dans
 `CHANTIERS.md` §9.
@@ -237,7 +237,7 @@ près ; leur `method` passe de « return period of the threshold Q_lim » à
 « return period of the Q_lim threshold » (« période de retour du seuil
 Q_lim » inchangé en français). Aucune valeur numérique modifiée.
 
-## card.trend : suffixes et unités de la sortie de tendance — 2026-07-20
+## card.trend : suffixes et unités de la sortie de tendance : 2026-07-20
 
 Suite du chantier suffixes, côté tendance. Nécessite **stase 0.4.0**.
 

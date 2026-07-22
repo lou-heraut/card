@@ -2,7 +2,7 @@
 > autorisé. Le vocabulaire exécutable est `src/card/topics.yaml`, vérifié
 > par le linter ; ce document en porte le modèle et les arbitrages.
 
-# TOPICS — Facettes à vocabulaire contrôlé pour les fiches CARD
+# TOPICS : Facettes à vocabulaire contrôlé pour les fiches CARD
 
 > Proposition du 2026-07-16, arbitrée le jour même avec l'utilisateur
 > en plusieurs itérations. Modèle final : **labels bilingues dans les
@@ -21,7 +21,7 @@
 ## 1. Le modèle
 
 Un bloc `classification` dans **chaque bloc de langue** (`meta.en`,
-`meta.fr`), avec les labels de la langue — les fiches restent
+`meta.fr`), avec les labels de la langue ; les fiches restent
 autoportantes et les métadonnées d'extraction (metaEX) sont
 directement traçables sur les graphiques, comme le reste des
 métadonnées bilingues :
@@ -54,12 +54,12 @@ capitalisent au besoin).
   contrôle**, pas une jointure : il liste, pour chaque concept, la
   paire (label_en, label_fr), la définition et l'ancrage externe
   (IHA, ETCCDI). Le linter vérifie chaque valeur ET l'appariement
-  en/fr entre les deux blocs — une divergence (la cause des ~15 bugs
+  en/fr entre les deux blocs : une divergence (la cause des ~15 bugs
   de l'ancien `topic` en texte libre) devient une erreur de lint,
   plus jamais un bug silencieux.
 - **Règle de complétude** (linter) : `domain`, `aspect`, `season`,
   `output` requis pour les fiches descriptives ; `purpose`
-  (performance | sensitivity) optionnel — s'il est présent, `aspect`
+  (performance | sensitivity) optionnel : s'il est présent, `aspect`
   est interdit (la ligne purpose explique son absence) ; `tags` libre
   (0..n).
 - `card.list_cards()` expose chaque facette en colonne dans les deux
@@ -74,7 +74,7 @@ capitalisent au besoin).
 
 ## 2. Les facettes et leur vocabulaire
 
-### domain — la grandeur (liste autorisée)
+### domain : la grandeur (liste autorisée)
 
 | Slug | en | fr |
 |---|---|---|
@@ -86,15 +86,15 @@ capitalisent au besoin).
 Les fiches de sensibilité croisée déclarent une liste :
 `domain: [flow, precipitation]` (ex. QR_ratio, epsilon_R, RAT_R).
 
-### phenomenon — le phénomène hydro-climatique visé (scalaire ou liste)
+### phenomenon : le phénomène hydro-climatique visé (scalaire ou liste)
 
 L'ex-« régime », correctement nommé : basses eaux, débit de base,
-périodes sèches, neige... sont des **phénomènes** — mot valable pour
+périodes sèches, neige... sont des **phénomènes**, mot valable pour
 tous les domaines. Champ scalaire dans le cas courant, **liste si une
 fiche relève réellement de plusieurs phénomènes** (même polymorphisme
 que name/palette ; ex. futur : fonte des neiges → `[neige, hautes
 eaux]`), **absent** quand il n'y a pas de phénomène particulier (RA,
-TA, performance, sensibilité) — l'absence est non ambiguë car le
+TA, performance, sensibilité) : l'absence est non ambiguë car le
 vocabulaire est fermé et le linter contrôle les valeurs.
 
 | en | fr | Couvre les topics actuels | Domaine typique |
@@ -104,32 +104,32 @@ vocabulaire est fermé et le linter contrôle les valeurs.
 | high flows | hautes eaux | High Flows | flow |
 | baseflow | débit de base | Baseflow / Base Flow (unifiés) | flow |
 | dry spells | périodes sèches | Dry Period | precipitation |
-| wet days | jours pluvieux | Low (précip ≥ 1 mm — reclassé) | precipitation |
+| wet days | jours pluvieux | Low (précip ≥ 1 mm, reclassé) | precipitation |
 | heavy rain | pluies fortes | Heavy | precipitation |
-| snow | neige | (précip solides Rs/RAs — nouveau) | precipitation |
+| snow | neige | (précip solides Rs/RAs, nouveau) | precipitation |
 
 Les anciens « Moderate » (précip) et « Average/Mean » (température,
-ETP) ne deviennent pas des phénomènes : ils ne disaient rien — ces
+ETP) ne deviennent pas des phénomènes : ils ne disaient rien, et ces
 fiches n'ont pas de ligne phenomenon.
 
-### aspect — la dimension analysée (typologie IHA/EFC ; optionnel)
+### aspect : la dimension analysée (typologie IHA/EFC ; optionnel)
 
 Ancrage : *Indicators of Hydrologic Alteration* (Richter et al. 1996 ;
-Olden & Poff 2003) — magnitude, timing, duration, frequency, rate of
+Olden & Poff 2003) : magnitude, timing, duration, frequency, rate of
 change.
 
 | Slug | en | fr | Couvre les topics actuels |
 |---|---|---|---|
-| magnitude | Magnitude | Intensité | Intensity, Ratio, Parameterization (a-FDC — la pente de la FDC est un indicateur de variabilité, classé magnitude comme en IHA) |
+| magnitude | Magnitude | Intensité | Intensity, Ratio, Parameterization (a-FDC : la pente de la FDC est un indicateur de variabilité, classé magnitude comme en IHA) |
 | timing | Timing | Saisonnalité | Seasonality |
 | duration | Duration | Durée | Duration |
 | frequency | Frequency | Fréquence | Frequency, Occurrence (n-* : décomptes d'années) |
-| rate-of-change | Rate of change | Taux de variation | (aucune fiche actuelle — réservé) |
+| rate-of-change | Rate of change | Taux de variation | (aucune fiche actuelle, réservé) |
 
 `aspect` requis pour toutes les fiches descriptives ; interdit quand
 `purpose` est présent (performance, sensibilité).
 
-### season — la fenêtre d'échantillonnage (obligatoire ; position 4 d'Oberlin)
+### season : la fenêtre d'échantillonnage (obligatoire ; position 4 d'Oberlin)
 
 Axe fermé, une valeur par fiche, déterminable mécaniquement depuis le
 process :
@@ -143,7 +143,7 @@ process :
 | By month | Par mois | fan-out 12 mois | QMA_month, RMA_month |
 | Record | Chronique | chronique entière, pas de découpage | Q90, FDC, KGE, deltas _H |
 
-### output — la forme du résultat (obligatoire, nouvelle information)
+### output : la forme du résultat (obligatoire, nouvelle information)
 
 | Slug | en | fr | Définition | Usage type |
 |---|---|---|---|---|
@@ -155,11 +155,11 @@ Exemples : QA/VCN10/QMA_month → series ; delta-*/median-*/KGE/QMNA-5 →
 scalar ; FDC*/QJC10/median-QJ* → curve. Contrôle de cohérence
 facette↔process ajouté au linter (`python -m card.schema`).
 
-### purpose — la finalité (optionnel, défaut `description`)
+### purpose : la finalité (optionnel, défaut `description`)
 
 | Slug | en | fr | Fiches |
 |---|---|---|---|
-| (description) | — | — | défaut, omis — décrire le comportement observé |
+| (description) |  |  | défaut, omis : décrit le comportement observé |
 | performance | Model performance | Performance de modèle | NSE*, KGE*, Bias*, STD_ratio, CR, CRS_season |
 | sensitivity | Climate sensitivity | Sensibilité climatique | epsilon_*, RAT_*, QR_ratio, Rc futur |
 
@@ -169,17 +169,17 @@ Les chaînes actuelles se projettent mécaniquement :
 
 | Topic actuel (en) | domain | tags | aspect | purpose |
 |---|---|---|---|---|
-| Flow, Low/Mean/High Flows, X | Flow | [Low/Mean/High flows] | X | — |
-| Flow, Baseflow ou Base Flow, X | Flow | [Baseflow] | X | — |
+| Flow, Low/Mean/High Flows, X | Flow | [Low/Mean/High flows] | X |  |
+| Flow, Baseflow ou Base Flow, X | Flow | [Baseflow] | X |  |
 | Flow, Performance | Flow | [] | (interdit) | Model performance |
 | Flow / Precipitations, Sensitivity... | [Flow, Precipitation] | [] | (interdit) | Climate sensitivity |
-| Precipitations, Moderate, X | Precipitation | [] | X | — |
-| Precipitations, Heavy, X | Precipitation | [Heavy rain] | X | — |
-| Precipitations, Low, Duration | Precipitation | [Wet days] | Duration | — |
-| Precipitations, Dry Period, Duration | Precipitation | [Dry spells] | Duration | — |
-| Rs/RAs/RMAs (précip solides) | Precipitation | [Snow] | selon fiche | — |
-| Temperature, Average/Mean, Intensity | Temperature | [] | Magnitude | — |
-| Evapotranspiration, Average, Intensity | Evapotranspiration | [] | Magnitude | — |
+| Precipitations, Moderate, X | Precipitation | [] | X |  |
+| Precipitations, Heavy, X | Precipitation | [Heavy rain] | X |  |
+| Precipitations, Low, Duration | Precipitation | [Wet days] | Duration |  |
+| Precipitations, Dry Period, Duration | Precipitation | [Dry spells] | Duration |  |
+| Rs/RAs/RMAs (précip solides) | Precipitation | [Snow] | selon fiche |  |
+| Temperature, Average/Mean, Intensity | Temperature | [] | Magnitude |  |
+| Evapotranspiration, Average, Intensity | Evapotranspiration | [] | Magnitude |  |
 
 (labels anglais montrés ; les blocs fr reçoivent les labels français
 appariés du vocabulaire ; `season` et `output` attribués fiche par
@@ -204,7 +204,7 @@ avant application.
    des débits classés mesure la variabilité des débits, classée avec
    la magnitude comme en IHA.
 4. **`regime` abandonné comme axe** (révisé deux fois le 2026-07-16,
-   décision finale) : ce n'était pas une facette mais un mélange —
+   décision finale) : ce n'était pas une facette mais un mélange :
    remplacé par **`tags`**, mots-clés multiples non forcés à
    vocabulaire recommandé ; le filtre par « régime » reste un filtre
    par tag, et une fiche peut appartenir à plusieurs groupes.
@@ -216,9 +216,9 @@ avant application.
    vient du vocabulaire fermé + lint d'appariement en/fr, pas de la
    centralisation du stockage. topics.yaml = référence de contrôle.
 8. **Nouvel axe `season`** (fenêtre d'échantillonnage, position 4
-   d'Oberlin) : annual, summer, winter, by season, by month, record —
+   d'Oberlin) : annual, summer, winter, by season, by month, record :
    fermé, mécaniquement déterminable.
-9. **Minuscules partout** (convention thésaurus, 2026-07-16) — les
+9. **Minuscules partout** (convention thésaurus, 2026-07-16) : les
    outils d'affichage capitalisent au besoin.
 10. **`tags` renommé `phenomenon`** (2026-07-16) : le mot précis que
     « tags » n'était pas ; scalaire dans le cas courant, liste si

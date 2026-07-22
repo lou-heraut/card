@@ -27,7 +27,7 @@ FAILURES = []
 
 def check(label, ok, detail=""):
     status = "OK " if ok else "FAIL"
-    print(f"  [{status}] {label}" + (f" — {detail}" if detail else ""))
+    print(f"  [{status}] {label}" + (f" : {detail}" if detail else ""))
     if not ok:
         FAILURES.append(f"{label}: {detail}")
 
@@ -104,7 +104,7 @@ def main():
                    m["median-QJC5_R"], m["median-QJC5_py"])
 
     # ── tQJXA (is_date : fonctions 0-based + conversion EXstat_py
-    #    reproduisent exactement les valeurs R — vérifié empiriquement) ──
+    #    reproduisent exactement les valeurs R, vérifié empiriquement) ──
     print("\ntQJXA")
     r = pd.read_csv(R_OUT / "tQJXA.csv")
     r_v, p_v, _ = align_yearly(r, dataEX["tQJXA"], "tQJXA", "tQJXA")

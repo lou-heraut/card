@@ -5,7 +5,7 @@
 > `../CHANTIERS.md`. Journal daté des livraisons : `CHANGELOG.md` à la
 > racine du dépôt.
 
-# ROADMAP — refonte card / stase (clarifiée avec l'utilisateur le 2026-07-11)
+# ROADMAP : refonte card / stase (clarifiée avec l'utilisateur le 2026-07-11)
 
 > **Phase A TERMINÉE (2026-07-11)** : packages `stase` (alors `exstat`) et `card` créés en
 > repos séparés (git init, pas de commit initial), moteur remonté dans
@@ -16,7 +16,7 @@
 > corpus validé sous ces versions).
 >
 > **Phase B TERMINÉE (2026-07-12)** : numpy natif appliqué (150 fiches,
-> {skipna: true} disparu, registre supprimé — résolution par namespace
+> {skipna: true} disparu, registre supprimé, résolution par namespace
 > card.functions → numpy) puis renommages customs validés par
 > l'utilisateur et appliqués (get_deltaX→delta, get_Xn→return_level,
 > compute_Biais→bias, BFS/dBFS→baseflow/quickflow, kwargs
@@ -24,7 +24,7 @@
 > Table de correspondance : RENAMING.md. Corpus revalidé : 552 ok.
 >
 > **Phase C TERMINÉE (2026-07-12)** : suites pytest (`pytest` dans chaque
-> repo — stase 14 tests moteur, card 40 tests : goldens figés depuis la
+> repo : stase 14 tests moteur, card 40 tests : goldens figés depuis la
 > validation R, loader, intégration mini-jeu, lint, management) ;
 > `card/schema.py` = linter sans dépendance (`python -m card.schema`),
 > corpus 215 fiches valide, et le linter détecte bien le bug historique
@@ -37,7 +37,7 @@
 > sources), commits initiaux des deux repos (branche main) et nettoyage
 > commité du repo CARD R (retour au R pur). L'incohérence héritée des
 > repos R (fichier LICENSE en texte AGPL-3 vs DESCRIPTION GPL-3) a été
-> tranchée par l'utilisateur : **GPL-3 partout** — LICENSE = texte
+> tranchée par l'utilisateur : **GPL-3 partout** : LICENSE = texte
 > GPL-3, pyproject = GPL-3.0-or-later (les LICENSE des repos R restent
 > à corriger côté utilisateur). Reste : remotes GitHub + push
 > (réflexion sur les noms de repos en cours : GitHub est insensible à
@@ -52,7 +52,7 @@
   Le registre-table disparaît (résolution par namespace :
   card.functions puis numpy).
 - **Corrections bienvenues** : franglais, doc, nomenclature des
-  paramètres, noms de fonctions flous (ex. `get_Xn`) — Python a
+  paramètres, noms de fonctions flous (ex. `get_Xn`) : Python a
   vocation à remplacer R, on en profite pour assainir.
 - **Séparation nette ancien/nouveau** :
   - `EXstat_project/stase/` = nouveau package Python (moteur de
@@ -63,11 +63,11 @@
 - **Frontière** : card = au maximum la gestion des métadonnées et le
   chargement des fiches ; stase = TOUTE la gestion de données et
   d'agrégation (y compris sampling adaptatif, transform, ragged,
-  keep, colonnes creuses — actuellement hackés côté CARD_py).
+  keep, colonnes creuses, actuellement hackés côté CARD_py).
 - **Anciennes fiches R** : pas de réparation (utiles seulement pour la
   vérification croisée R↔Python, pas une fin en soi).
 
-## Phase A — Squelette des deux packages
+## Phase A : Squelette des deux packages
 
 1. Créer `EXstat_project/stase/` : pyproject, déplacement/adaptation de
    process_extraction.py + tools.py (depuis EXstat_Claude/EXstat_py),
@@ -81,7 +81,7 @@
    partie du nouveau package) + les tests. L'ancien `CARD/CARD_py/`
    disparaît ; le repo CARD redevient purement R + fiches R.
 
-## Phase B — Fonctions : Python natif d'abord
+## Phase B : les fonctions, Python natif d'abord
 
 4. **Audit des ~50 fonctions** : pour chacune, équivalent natif ?
    Tableau livrable : nom R actuel → décision (natif direct / custom
@@ -90,7 +90,7 @@
    - `which.minNA`/`which.maxNA` → `np.nanargmin`/`np.nanargmax`
      (0-based natif, déjà la convention du pipeline is_date)
    - `mean/min/max/median` + `{skipna: true}` → `nanmean/nanmin/
-     nanmax/nanmedian` — le kwarg skipna disparaît des YAML
+     nanmax/nanmedian` : le kwarg skipna disparaît des YAML
    - ⚠ `np.nansum(tout-NaN) = 0.0` ≠ `sumNA = NA` → décision explicite
    - `minNA/maxNA(div=)` : vérifier si `div` est réellement utilisé
      dans les fiches ; sinon natif direct
@@ -104,7 +104,7 @@
 6. Mise à jour mécanique de tous les YAML (tuples funct) vers les
    nouveaux noms ; résolution par namespace, suppression du registre.
 
-## Phase C — Non-régression et qualité
+## Phase C : Non-régression et qualité
 
 7. Re-exécution du harnais croisé complet (fiches R inchangées ↔
    card/stase sur YAML renommés) : mêmes classes de résultats que la
@@ -115,11 +115,12 @@
 9. Schéma de validation YAML (pydantic/jsonschema) + linter (aurait
    attrapé le bug des 29 sampling_period).
 
-## Phase D — Finitions
+## Phase D : Finitions
 
 10. README/doc des deux packages, exemples d'usage.
 11. Commits de clôture côté repo CARD R (l'en-cours non commité).
-12. Pas de réparation des fiches R cassées (CR, FDC, etc.) — documentées.
+12. Pas de réparation des fiches R cassées (CR, FDC, etc.), elles sont
+    seulement documentées.
 
 ## Ordre
 
@@ -127,7 +128,7 @@ A (squelettes + frontière stase) → B (audit puis renommage puis YAML)
 → C (non-régression) → D. La table d'audit/renommage de la phase B est
 soumise à validation utilisateur avant application.
 
-## Nom PyPI de card — plan PEP 541 (2026-07-12)
+## Nom PyPI de card : plan PEP 541 (2026-07-12)
 
 Le nom `card` sur PyPI est un squat manifeste (release unique 0.0.1 du
 2019-08-23, résumé « card », homepage github.com/pipname/card).

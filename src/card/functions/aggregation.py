@@ -60,7 +60,7 @@ def _squeeze_scalar(x):
 def difference(a, b, first=False):
     """Différence a - b (élément par élément, scalaire si possible).
 
-    first=True : différence des valeurs dominantes (rle) de a et b —
+    first=True : différence des valeurs dominantes (rle) de a et b,
     utile quand a et b sont des colonnes constantes par groupe.
     Tout-NaN d'un côté → NaN.
     """
@@ -94,7 +94,7 @@ def ratio(a, b, first=False):
 # div= jamais utilisé dans les fiches). Seul nansum_strict subsiste :
 # np.nansum(tout-NaN) vaut 0.0 alors que la sémantique voulue est NaN
 # (année sans aucune donnée ≠ cumul nul). NB : le `sum` R avec na.rm=TRUE
-# vaut aussi 0 — les fiches qui utilisaient `sum` sont passées à nansum,
+# vaut aussi 0 ; les fiches qui utilisaient `sum` sont passées à nansum,
 # celles qui utilisaient nansum_strict gardent la version stricte.
 
 def nansum_strict(X, div=1):
@@ -151,7 +151,7 @@ def rollmean_center(X, k, cyclical=False):
 
 
 def rollsum_center(X, k, cyclical=False):
-    """Somme mobile centrée de fenêtre k — mêmes conventions que
+    """Somme mobile centrée de fenêtre k, mêmes conventions que
     rollmean_center. Sortie de même longueur que X (transform).
     """
     x = _to_float_array(X)
@@ -203,7 +203,7 @@ def circular_ratio(X, Y, periodicity):
 
 def circular_median(X, periodicity):
     """Médiane circulaire de X sur une période donnée (arctangente des
-    médianes de sin/cos) — ex. date médiane d'un événement annuel.
+    médianes de sin/cos), ex. date médiane d'un événement annuel.
     """
     x = _to_float_array(X)
     scaling = 2 * np.pi / periodicity

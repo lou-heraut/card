@@ -1,5 +1,5 @@
 """Tests d'intégration CARD_extraction sur un mini jeu de données (12 ans,
-2 stations) — valeurs golden figées le 2026-07-12 (pile validée contre R)."""
+2 stations), valeurs golden figées le 2026-07-12 (pile validée contre R)."""
 
 import numpy as np
 import pandas as pd

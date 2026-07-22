@@ -1,4 +1,4 @@
-"""Tests unitaires des fonctions hydro — valeurs golden figées lors de la
+"""Tests unitaires des fonctions hydro : valeurs golden figées lors de la
 validation croisée R↔Python (2026-07-12)."""
 
 import numpy as np

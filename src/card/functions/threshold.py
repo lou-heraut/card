@@ -17,7 +17,7 @@
 """Port Python de R/threshold.R (apply_threshold, compute_VolDef).
 
 Les index retournés (what='first'/'last' ou fonction) sont 0-based
-(R : 1-based) — cohérent avec le pipeline is_date d'EXstat_py.
+(R : 1-based), cohérent avec le pipeline is_date d'EXstat_py.
 """
 
 import operator
@@ -79,7 +79,7 @@ def apply_threshold(X, lim, where="<=", what="X", select="all",
     """Analyse des épisodes où X franchit un seuil lim (comparaison
     where : '<=', '<', '>=', '>').
 
-    what : grandeur retournée — 'X' (valeurs), 'length' (durée des
+    what : grandeur retournée : 'X' (valeurs), 'length' (durée des
     épisodes), 'first'/'last' (index 0-based de début/fin)...
     select : 'all', 'longest', 'shortest', ou une durée cible.
     dates/period (paire) ou period_start/period_end (bornes, souvent des

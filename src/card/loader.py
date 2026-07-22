@@ -14,7 +14,7 @@
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.
 
-"""Lecture des fiches CARD YAML — remplace sourceProcess() du package R.
+"""Lecture des fiches CARD YAML : remplace sourceProcess() du package R.
 
 Une fiche chargée est un dict :
     {
@@ -77,7 +77,7 @@ def _parse_funct_tuple(name, raw):
         kwargs = rest.pop()
 
     # arguments positionnels : str = nom de colonne, numérique = littéral
-    # (ex. [divided, "dQXA", 2, {first: true}] — cf. delta-dtFlood_H)
+    # (ex. [divided, "dQXA", 2, {first: true}], cf. delta-dtFlood_H)
     pos_args = []
     for item in rest:
         if isinstance(item, str):

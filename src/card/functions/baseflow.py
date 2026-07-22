@@ -14,7 +14,7 @@
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.
 
-"""Port Python de R/baseflow.R — séparation de débit de base
+"""Port Python de R/baseflow.R : séparation de débit de base
 (Wallingford et Lyne & Hollick) et indicateurs dérivés."""
 
 import numpy as np

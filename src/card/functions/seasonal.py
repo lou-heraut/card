@@ -14,7 +14,7 @@
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.
 
-"""delta — changement d'une variable entre deux périodes (ex R get_deltaX)."""
+"""delta : changement d'une variable entre deux périodes (ex R get_deltaX)."""
 
 import numpy as np
 import pandas as pd

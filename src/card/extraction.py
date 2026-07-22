@@ -462,7 +462,7 @@ def extract(data, cards=("QA", "QJXA"), path=None,
     suffix_delimiter : délimiteur variable/suffixe (défaut "_").
     CARD_name : alias hérité du R pour `cards` (prioritaire si fourni).
 
-    Retourne {"data": {id_fiche: DataFrame}, "meta": DataFrame} — la
+    Retourne {"data": {id_fiche: DataFrame}, "meta": DataFrame}, où la
     sortie est de la donnée comme une autre : elle peut repartir en
     entrée d'une nouvelle extraction ou de stase.trend.
     """
