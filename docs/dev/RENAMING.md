@@ -332,3 +332,14 @@ l'appel. **Les cinq fiches FDC plantaient donc depuis l'origine du
 portage**, trois d'entre elles masquant le défaut par une période sans
 données. Aucun test ne les couvrait, et le corpus de validation les
 excluait puisqu'elles plantent aussi dans le paquet R.
+
+**Complément du 2026-07-22, famille FDC.** Les deux fiches déclaraient
+une variable unique (`FDC`) pour deux colonnes de sortie (`FDC_p` et
+`FDC_Q`). Une seule ligne de métadonnées décrivait donc la courbe
+entière, et sous suffixe elle ne pouvait plus rattacher `FDC_Q_H1` à son
+horizon : la métadonnée retombait sur la forme générique. Les variables
+sont désormais déclarées distinctes (`[FDC_p, FDC_Q]`), le `name` restant
+unique comme le veut la règle des coordonnées d'un même objet. L'unité
+suit : sans unité pour les probabilités, m³/s pour les quantiles, là où
+les deux héritaient du débit. Sous suffixe, `FDC_p` est émis une seule
+fois, l'axe des probabilités étant le même pour tous les horizons.

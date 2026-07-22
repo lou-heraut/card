@@ -5,8 +5,8 @@ date: "2026-07-22"
 
 meta:
   en:
-    variable: FDC
-    unit: "m^{3}.s^{-1}"
+    variable: [FDC_p, FDC_Q]
+    unit: ["without unit", "m^{3}.s^{-1}"]
     name: Flow duration curve over the {suffix.name} horizon
     description: >-
       Curve of flow quantiles as a function of exceedance probability,
@@ -23,8 +23,8 @@ meta:
       output: curve
 
   fr:
-    variable: CDC
-    unit: "m^{3}.s^{-1}"
+    variable: [CDC_p, CDC_Q]
+    unit: ["sans unité", "m^{3}.s^{-1}"]
     name: "Courbe des débits classés sur l'horizon {suffix.name}"
     description: >-
       Courbe des quantiles de débit en fonction de la probabilité de
@@ -49,7 +49,7 @@ meta:
 process:
   P1:
     func:
-      FDC_p: [fdc_probabilities, {n: 1000, norm_spacing: true}]
+      FDC_p: [fdc_probabilities, "Q", {n: 1000, norm_spacing: true}]
       FDC_Q: [over_period, "Q", {func: fdc_quantiles, n: 1000, norm_spacing: true, dates: "date", period_start: "horizon_start", period_end: "horizon_end"}]
     time_step: none
     max_na_years: 10

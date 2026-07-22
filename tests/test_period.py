@@ -90,3 +90,22 @@ def test_une_borne_absente_laisse_son_cote_ouvert():
                        period_start=depuis, period_end=vide) == 7.0
     assert over_period(x, func="nanmean", dates=d,
                        period_start=vide, period_end=depuis) == 2.5
+
+
+def test_fdc_horizon_couvre_ses_deux_coordonnees():
+    """Une courbe a deux coordonnées : l'axe des probabilités, partagé par
+    tous les horizons donc émis une seule fois, et les quantiles, un jeu
+    par horizon. Chaque colonne de données doit avoir sa ligne de méta,
+    avec son unité propre."""
+    d = _serie().assign(
+        horizon_start_H1="2001-01-01", horizon_end_H1="2020-12-31",
+        horizon_start_H3="2041-01-01", horizon_end_H3="2060-12-31")
+    res = extract(d, cards=["FDC_H"], suffix=["H1", "H3"])
+
+    colonnes = {c for c in res["data"]["FDC_H"].columns if c != "id"}
+    assert colonnes == {"FDC_p", "FDC_Q_H1", "FDC_Q_H3"}
+    assert set(res["meta"]["variable_en"]) == colonnes
+
+    unites = dict(zip(res["meta"]["variable_en"], res["meta"]["unit_en"]))
+    assert unites["FDC_p"] == "without unit"
+    assert unites["FDC_Q_H1"] == "m^{3}.s^{-1}"

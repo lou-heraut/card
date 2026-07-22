@@ -54,8 +54,14 @@ des deux endroits.
   se déclinent par suffixe, comme les fiches delta depuis le 2026-07-21.
   L'appelant choisit ses horizons, autant qu'il veut, et plus aucune date
   ne vit dans le corpus. À période égale, le résultat est identique à
-  l'ancien, vérifié valeur par valeur sur les trois familles. Détail :
-  `docs/dev/RENAMING.md`.
+  l'ancien, vérifié valeur par valeur sur les trois familles et sur les
+  quatre horizons, soit 16 sorties sur 16. Détail : `docs/dev/RENAMING.md`.
+- Famille FDC : les deux coordonnées de la courbe deviennent deux
+  variables déclarées, avec chacune son unité (sans unité pour les
+  probabilités, m³/s pour les quantiles). Une seule ligne de métadonnées
+  décrivait jusqu'ici les deux colonnes, ce qui empêchait de rattacher
+  `FDC_Q_H1` à son horizon sous suffixe. Le `name` reste unique, la règle
+  des coordonnées d'un même objet étant conservée.
 
 ### Ajouté
 

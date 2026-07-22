@@ -172,7 +172,7 @@ définition qui va avec.
 ## Trouver sa fiche
 
 ```python
-card.list_cards()                          # 473 variables, une par ligne
+card.list_cards()                          # 475 variables, une par ligne
 card.list_cards(phenomenon="basses eaux")  # 114 : filtre par phénomène (fr ou en)
 card.list_cards(output="série")            # 276 : série, scalaire ou courbe
 card.list_cards(season="estivale")         # 28 : fenêtre d'échantillonnage
@@ -268,7 +268,7 @@ auteurs dans le fichier AUTHORS.
 ## Développement
 
 ```bash
-pip install -e . && pytest              # 91 tests
+pip install -e . && pytest              # 92 tests
 python -m card.schema                   # linter des 228 fiches YAML
 python scripts/generate_catalog.py      # régénère docs/CARDS.md
 ```

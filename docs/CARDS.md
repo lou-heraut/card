@@ -1,6 +1,6 @@
 # Catalogue des fiches CARD
 
-228 fiches, 473 variables. Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.
+228 fiches, 475 variables. Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.
 
 Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entrées* indique les colonnes que `data` doit contenir (cf. `rename=` pour la correspondance). Détail d'une fiche : `card.info("nom")`.
 
@@ -17,8 +17,8 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 | fiche | variable(s) | nom | phénomène | aspect | saison | unité | entrées | exp. |
 |---|---|---|---|---|---|---|---|---|
 | [BFM](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/BFM.yaml) | BFM | Magnitude du débit de base | débit de base | intensité | chronique | without unit | Q [m^{3}.s^{-1}] |  |
-| [FDC](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/FDC.yaml) | FDC | Courbe des débits classés | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
-| [FDC_H](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/FDC_H.yaml) | FDC | Courbe des débits classés sur l'horizon cible | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], horizon_start [date], horizon_end [date] |  |
+| [FDC](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/FDC.yaml) | FDC_p, FDC_Q | Courbe des débits classés | moyennes eaux | intensité | chronique | without unit | Q [m^{3}.s^{-1}] |  |
+| [FDC_H](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/FDC_H.yaml) | FDC_p, FDC_Q | Courbe des débits classés sur l'horizon cible | moyennes eaux | intensité | chronique | without unit | Q [m^{3}.s^{-1}], horizon_start [date], horizon_end [date] |  |
 | [QJC10](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJC10.yaml) | QJC10 | Régime journalier inter-annuel lissé sur 10 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [median-QJ](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/median-QJ.yaml) | median-QJ | Débit médian inter-annuel | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [median-QJC5](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/median-QJC5.yaml) | median-QJC5 | Régime journalier médian inter-annuel lissé sur 5 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
