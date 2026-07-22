@@ -161,16 +161,39 @@ comme le font déjà `return_level` et `apply_threshold` depuis le
 Rien à changer dans stase, donc. Il s'agit de donner le même traitement
 aux fonctions employées par ces douze fiches.
 
-**Question de conception, à trancher avant d'écrire** : une fonction
-générique qui restreint puis délègue, du type
-`over_period(X, dates, period_start, period_end, func: nanmean)`, qui
-couvre les trois familles d'un coup ; ou les kwargs `dates`,
-`period_start` et `period_end` ajoutés à chaque fonction concernée,
-comme cela a été fait pour `return_level`. La première mutualise mais
-introduit une fonction qui en appelle une autre par son nom ; la seconde
-reste dans le motif existant mais se répète. Le cas `fdc_quantiles`
-tranche peut-être : il rend un vecteur, la solution retenue doit le
-laisser passer.
+### Conception : trois voies, dont une écartée par la mesure
+
+**Écartée : masquer puis agréger.** L'idée la plus élégante était une
+fonction `mask_period` rendant la série avec des NaN hors fenêtre, suivie
+des agrégations habituelles inchangées, vecteur vers vecteur comme
+`rollmean_center`. Elle marche, mais les NaN du masque **sont comptés
+comme des lacunes** : mesuré le 2026-07-22, une agrégation mensuelle
+avec `max_na_pct=3` sur une série masquée à 20 ans sur 51 rend **0 mois
+sur 12** au lieu de 12. Les douze fiches actuelles n'utilisent pas ce
+seuil et n'en souffriraient pas, mais toute fiche future en hériterait
+en silence. Fondation trop piégeuse, on n'y revient pas.
+
+**Retenue : restreindre DANS la fonction d'agrégation.** C'est déjà le
+motif de `return_level` et `apply_threshold`, la restriction restant
+invisible au comptage des lacunes. Deux formes possibles :
+
+- une fonction générique `over_period(X, dates, func, period_start,
+  period_end, **kw)` qui restreint puis délègue à `func`. Elle couvre les
+  trois familles d'un coup, et surtout les deux qui appellent `nanmean`
+  et `nanmedian` : ce sont des fonctions **numpy**, on ne peut pas leur
+  ajouter de kwargs, il faut de toute façon passer par une fonction card.
+  Vérifié le 2026-07-22 : un kwarg dont la valeur est une chaîne ne
+  devient une référence de colonne que si la colonne existe, sinon il est
+  passé en littéral ; `{func: nanmean}` arrive donc bien comme le nom à
+  résoudre.
+- ou les kwargs de période ajoutés à `fdc_quantiles` comme ils l'ont été
+  à `return_level`, la générique ne servant qu'aux deux agrégations numpy.
+
+Points à régler dans les deux cas : les kwargs de la fonction enveloppée
+partagent le même dictionnaire plat que ceux de l'enveloppe (`n`,
+`norm_spacing` pour `fdc_quantiles`), donc réserver et documenter les
+noms de l'enveloppe ; et `fdc_probabilities` ne lit aucune donnée, il
+n'a pas besoin de période, seul `fdc_quantiles` en veut une.
 
 **Coût annexe** : douze identifiants disparaissent au profit de trois.
 Changement de sorties, donc trace dans RENAMING.md, bump majeur, et le
