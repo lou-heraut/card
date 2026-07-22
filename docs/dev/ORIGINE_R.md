@@ -43,8 +43,21 @@ R CARD sur données synthétiques (2 stations sur 131 ans) :
   mobiles (R rend les NA invisibles au NApct après un rolling, RcppRoll
   convertit NA en NaN ; Python compte honnêtement, il est plus strict) ;
 - 11 fiches plantent dans le package R lui-même (CR, CRS_season, FDC x5,
-  QJC10, RA_ratio, RAl/RAs_ratio) : versions Python fonctionnelles,
-  pas de référence possible.
+  QJC10, RA_ratio, RAl/RAs_ratio) : pas de référence croisée possible.
+  **Cause diagnostiquée le 2026-07-22** (R 4.x, dplyr 1.2.1), deux
+  familles :
+  - *retour vectoriel* (FDC x5, QJC10, RAl_ratio, RAs_ratio) : la
+    fonction rend plus d'une valeur par groupe, et `dplyr::summarise`
+    exige une taille 1 depuis dplyr 1.1, en renvoyant vers `reframe()`.
+    Ces fiches ONT fonctionné : `summarise` acceptait un retour
+    multi-lignes avant cette version. Elles ne sont pas mal écrites, le
+    moteur R a vieilli sous elles ;
+  - *`get()` sur un premier argument incorrect* (CR, CRS_season,
+    RA_ratio), dans la résolution des arguments du moteur R.
+
+  Côté Python, seules les FDC plantaient, pour une raison sans rapport
+  (colonne imposée par le moteur à une fonction qui n'en déclare aucune),
+  corrigée le 2026-07-22. Les autres tournent.
 
 ```bash
 cd tests

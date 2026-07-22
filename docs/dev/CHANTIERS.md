@@ -21,11 +21,23 @@ Plan validé le 2026-07-12, en attente d'action de l'utilisateur :
 
 ## Signalement amont des fiches R cassées
 
-11 fiches plantent dans le paquet R lui-même (CR, CRS_season, FDC x5,
-QJC10, RA_ratio, RAl_ratio, RAs_ratio) : leurs versions Python
-fonctionnent, aucune référence de validation croisée n'est possible. À
-signaler en amont, le paquet R étant en maintenance. Liste et contexte :
-`ORIGINE_R.md`.
+11 fiches plantent dans le paquet R lui-même. Le signalement est
+désormais actionnable, la cause ayant été diagnostiquée le 2026-07-22
+(R 4.x, dplyr 1.2.1) en deux familles :
+
+- **retour vectoriel** (FDC, FDC_H0..H3, QJC10, RAl_ratio, RAs_ratio) :
+  la fonction rend plus d'une valeur par groupe, et `dplyr::summarise`
+  exige une taille 1 depuis dplyr 1.1, qui renvoie vers `reframe()`. Ces
+  fiches **fonctionnaient** avec les versions antérieures de dplyr : ce
+  n'est pas une erreur d'écriture, c'est le moteur R qui a vieilli sous
+  elles. Correctif probable côté EXstat : basculer l'appel concerné de
+  `summarise` vers `reframe` quand la fonction rend un vecteur ;
+- **`get()` sur un premier argument incorrect** (CR, CRS_season,
+  RA_ratio), dans la résolution des arguments du moteur R. À creuser
+  séparément, cause non établie.
+
+Le diagnostic vaut pour la version installée ici ; le vérifier sur
+l'environnement de l'utilisateur avant d'ouvrir le signalement.
 
 ## Références bibliographiques externes dans les fiches
 
