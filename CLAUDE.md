@@ -142,14 +142,12 @@ Règles clés (détail : NOMENCLATURE.md) :
     goldens re-figés), mineur pour method/description, patch sinon. Elle
     part dans les métadonnées de sortie : un résultat dit avec quelle
     définition il a été calculé.
-  - Celle du **paquet** (`pyproject.toml`) : on n'y touche PAS à chaque
-    commit. On la bump et on l'étiquette (`vX.Y.Z`) seulement pour figer
-    un état dont autre chose va dépendre. Recette : section « Publier une
-    version » du CHANGELOG.
-  **Déclencheur à ne pas rater** : card-api n'installe que des TAGS. Si
-  l'utilisateur veut déployer une fiche corrigée, il faut d'abord une
-  nouvelle version de card taguée et poussée, sinon le service ne peut
-  pas la prendre. Le proposer soi-même, il ne le demandera pas.
+  - Celle du **paquet** (`pyproject.toml`) : on n'y touche pas au
+    quotidien, elle ne sert qu'à publier. Le service suit `main` et
+    identifie ce qu'il exécute par le commit, pas par ce numéro.
+  **Le seul geste à ne pas oublier** : écrire l'entrée `## Non publié`
+  du CHANGELOG quand un changement mérite d'être retenu. Le proposer
+  soi-même, l'utilisateur ne le demandera pas.
 - Pas de PDF ni de `*~` sous git.
 - Pas de tiret quadratin (—) dans la prose (docs, messages, commentaires,
   réponses) : reformuler (deux points, parenthèses, phrases séparées).
