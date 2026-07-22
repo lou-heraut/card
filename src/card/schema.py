@@ -118,6 +118,21 @@ def _check_meta_lists(meta_lang, prefix, issues):
                         f"{prefix}.{field}: liste de longueur {len(v)} "
                         f"pour {n} variables"
                     )
+        return
+
+    # Variable unique : une métadonnée en liste ne peut pas être publiée
+    # en entier, seul son premier élément le serait. C'est ce qui a fait
+    # annoncer « l'horizon proche » à 14 fiches d'horizon quel que soit
+    # l'horizon calculé, après leur passage à une sortie unique
+    # (2026-07-22). Un choix entre plusieurs libellés se fait par
+    # placeholder {suffix.X}, pas par liste.
+    for field in ("name", "description", "method"):
+        v = meta_lang.get(field)
+        if isinstance(v, list):
+            issues.append(
+                f"{prefix}.{field}: liste de {len(v)} éléments pour une "
+                f"variable unique ; seul le premier serait publié"
+            )
 
 
 def _windows_in_processes(processes):

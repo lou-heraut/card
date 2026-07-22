@@ -1,5 +1,5 @@
 id: delta-vLF_H
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -7,10 +7,7 @@ meta:
   en:
     variable: delta-vLF
     unit: "%"
-    name:
-      - Average change of low flow deficit volume between the near horizon and historical period
-      - Average change of low flow deficit volume between the middle horizon and historical period
-      - Average change of low flow deficit volume between the distant horizon and historical period
+    name: Average change of low flow deficit volume between the {suffix.name} horizon and historical period
     description: Sum of the differences between the 10-day average and the maximum of the VCN10, over the longest sequence below this threshold
     method: |
       1. no temporal aggregation - 10-day centered moving average
@@ -31,10 +28,7 @@ meta:
   fr:
     variable: delta-vBE
     unit: "%"
-    name:
-      - Changement moyen du volume de déficit des basses eaux entre l'horizon proche et la période historique
-      - Changement moyen du volume de déficit des basses eaux entre l'horizon moyen et la période historique
-      - Changement moyen du volume de déficit des basses eaux entre l'horizon lointain et la période historique
+    name: Changement moyen du volume de déficit des basses eaux entre l'horizon {suffix.name} et la période historique
     description: Somme des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours

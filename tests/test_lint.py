@@ -104,3 +104,21 @@ def test_swhid_de_fiche_est_le_hash_git_du_fichier():
     assert meta["swhid"].iloc[0] == f"swh:1:cnt:{attendu}"
     # le chemin publié est celui du corpus, pas celui de la machine
     assert meta["script_path"].iloc[0] == "flow/series/QA.yaml"
+
+
+def test_linter_refuse_une_metadonnee_en_liste_pour_une_variable_unique(tmp_path):
+    """Le défaut du 2026-07-22 : 14 fiches d'horizon avaient gardé un
+    `name` en liste de trois après leur passage à une sortie unique. Seul
+    le premier était publié, donc elles annonçaient « l'horizon proche »
+    quel que soit l'horizon calculé."""
+    bad = tmp_path / "X.yaml"
+    bad.write_text(
+        'id: X\nversion: "1.0"\n'
+        "meta:\n"
+        "  en: {variable: X, name: [premier, deuxieme, troisieme]}\n"
+        "  fr: {variable: X, name: [premier, deuxieme, troisieme]}\n"
+        "  global: {}\n"
+        'process:\n  P1:\n    func:\n      X: [nanmean, "Q"]\n'
+    )
+    issues = validate_card(bad)
+    assert any("seul le premier serait publié" in i for i in issues), issues

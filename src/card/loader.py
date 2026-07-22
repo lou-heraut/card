@@ -38,6 +38,7 @@ même façon qu'un tuple func.
 """
 
 import hashlib
+import re
 from pathlib import Path
 
 import yaml
@@ -116,6 +117,34 @@ def _parse_sampling_period(raw):
     return raw  # "MM-DD" ou ["MM-DD", "MM-DD"]
 
 
+_WRAP = re.compile(r"\n[ \t]+")
+_TEXTES = ("name", "description", "method")
+
+
+def _unwrap(meta_lang):
+    """Replie les coupures de confort d'un bloc YAML littéral.
+
+    Les `method` s'écrivent en bloc `|`, une ligne par étape numérotée.
+    Quand une étape est trop longue, l'auteur la replie dans le fichier
+    pour rester lisible, et `|` conserve ce retour à la ligne suivi de
+    son indentation : la valeur publiée porte alors une coupure au milieu
+    d'une phrase (53 variables du corpus en 2026-07-22). Un retour suivi
+    d'espaces est une commodité d'écriture, on le rend à l'espace unique
+    qu'il représente ; un retour suivi d'un caractère non blanc sépare
+    deux étapes, on le garde.
+    """
+    out = {}
+    for cle, val in meta_lang.items():
+        if cle in _TEXTES and isinstance(val, str):
+            out[cle] = _WRAP.sub(" ", val).strip()
+        elif cle in _TEXTES and isinstance(val, list):
+            out[cle] = [_WRAP.sub(" ", v).strip() if isinstance(v, str) else v
+                        for v in val]
+        else:
+            out[cle] = val
+    return out
+
+
 def load_card(path):
     """Charge une fiche CARD YAML et la normalise : méta fr/en/global
     complétées par les défauts, processus P1..Pn ordonnés avec leurs
@@ -166,8 +195,8 @@ def load_card(path):
         "version": raw.get("version"),
         "swhid": swhid,
         "meta": {
-            "en": meta.get("en", {}),
-            "fr": meta.get("fr", {}),
+            "en": _unwrap(meta.get("en", {})),
+            "fr": _unwrap(meta.get("fr", {})),
             "global": meta_global,
         },
         "processes": processes,

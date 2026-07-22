@@ -1,5 +1,5 @@
 id: delta-VCN3_H
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -7,10 +7,7 @@ meta:
   en:
     variable: delta-VCN3
     unit: "%"
-    name:
-      - Average change of annual minimum of 3-day mean daily discharge between the near horizon and historical period
-      - Average change of annual minimum of 3-day mean daily discharge between the middle horizon and historical period
-      - Average change of annual minimum of 3-day mean daily discharge between the distant horizon and historical period
+    name: Average change of annual minimum of 3-day mean daily discharge between the {suffix.name} horizon and historical period
     description: ""
     method: |
       1. no temporal aggregation - 3-day centered moving average
@@ -29,10 +26,7 @@ meta:
   fr:
     variable: delta-VCN3
     unit: "%"
-    name:
-      - Changement moyen du minimum annuel de la moyenne sur 3 jours du débit journalier entre l'horizon proche et la période historique
-      - Changement moyen du minimum annuel de la moyenne sur 3 jours du débit journalier entre l'horizon moyen et la période historique
-      - Changement moyen du minimum annuel de la moyenne sur 3 jours du débit journalier entre l'horizon lointain et la période historique
+    name: Changement moyen du minimum annuel de la moyenne sur 3 jours du débit journalier entre l'horizon {suffix.name} et la période historique
     description: ""
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 3 jours

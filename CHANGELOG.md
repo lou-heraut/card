@@ -45,7 +45,34 @@ des deux endroits.
 
 ## Non publié
 
+### Corrigé
+
+- **14 fiches d'horizon annonçaient le mauvais horizon.** Le chantier du
+  2026-07-21 les a rendues mono-sortie, l'horizon étant choisi par
+  l'appelant, mais leur `name` était resté une **liste de trois**
+  libellés, un par horizon. Seul le premier pouvant être publié, elles
+  annonçaient « l'horizon proche » quelle que soit la période demandée :
+  un résultat calculé sur 2071-2100 était étiqueté futur proche. Leur
+  `method` utilisait déjà correctement le placeholder. Les libellés sont
+  repliés en un seul, mot pour mot, avec `{suffix.name}` à la place du
+  mot d'horizon. Aucune valeur calculée ne change, vérifié sur les 14.
+  Concernées : delta-Q90A, Q95A, Q99A, QMNA, QNA, VCN10-5, VCN10, VCN30,
+  VCN3, centerLF, dtLF, startLF, tVCN10, vLF.
+- Le linter ne pouvait pas voir ce défaut : il ne vérifiait la longueur
+  des métadonnées en liste que pour les fiches à sorties multiples. Une
+  métadonnée en liste sur une variable unique est désormais refusée,
+  puisque seul son premier élément serait publié.
+- Les `method` de 53 variables portaient un retour à la ligne au milieu
+  d'une phrase, artefact d'un repli de confort dans le YAML que le bloc
+  littéral `|` conserve. Replié à la lecture, donc réglé aussi pour les
+  fiches à venir.
+
 ### Modifié
+
+- `card.extract(metadata_only=True, suffix=[...])` ignorait le suffixe en
+  silence. Il le signale désormais : sans données, le nombre de sorties
+  suffixées ne peut pas être connu, la règle de fan-out de stase étant
+  conditionnelle.
 
 - `copy_cards` ne numérote plus les fichiers par défaut. Le linter exige
   que l'identifiant d'une fiche soit aussi son nom de fichier : une copie

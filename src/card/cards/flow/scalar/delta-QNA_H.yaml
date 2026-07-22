@@ -1,5 +1,5 @@
 id: delta-QNA_H
-version: "2.1"
+version: "2.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -7,10 +7,7 @@ meta:
   en:
     variable: delta-QNA
     unit: "%"
-    name:
-      - Average change of annual minimum of daily discharge between the near horizon and historical period
-      - Average change of annual minimum of daily discharge between the middle horizon and historical period
-      - Average change of annual minimum of daily discharge between the distant horizon and historical period
+    name: Average change of annual minimum of daily discharge between the {suffix.name} horizon and historical period
     description: ""
     method: "1. annual aggregation [Month of maximum monthly flows] - minimum\n2. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon"
     suffix_default:
@@ -26,10 +23,7 @@ meta:
   fr:
     variable: delta-QNA
     unit: "%"
-    name:
-      - Changement moyen du minimum annuel du débit journalier entre l'horizon proche et la période historique
-      - Changement moyen du minimum annuel du débit journalier entre l'horizon moyen et la période historique
-      - Changement moyen du minimum annuel du débit journalier entre l'horizon lointain et la période historique
+    name: Changement moyen du minimum annuel du débit journalier entre l'horizon {suffix.name} et la période historique
     description: ""
     method: "1. agrégation annuelle [Mois du maximum des débits mensuels] - minimum\n2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}"
     suffix_default:

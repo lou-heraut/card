@@ -1,5 +1,5 @@
 id: delta-Q90A_H
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -7,10 +7,7 @@ meta:
   en:
     variable: delta-Q90A
     unit: "%"
-    name:
-      - Average change of the daily flow exceeded 90 % of the time within the year between the near horizon and historical period
-      - Average change of the daily flow exceeded 90 % of the time within the year between the middle horizon and historical period
-      - Average change of the daily flow exceeded 90 % of the time within the year between the distant horizon and historical period
+    name: Average change of the daily flow exceeded 90 % of the time within the year between the {suffix.name} horizon and historical period
     description: Annual flow with an exceedance probability of 90 % (10th percentile)
     method: |
       1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 90 %
@@ -28,10 +25,7 @@ meta:
   fr:
     variable: delta-Q90A
     unit: "%"
-    name:
-      - Changement moyen du débit journalier dépassé 90 % du temps de l'année entre l'horizon proche et la période historique
-      - Changement moyen du débit journalier dépassé 90 % du temps de l'année entre l'horizon moyen et la période historique
-      - Changement moyen du débit journalier dépassé 90 % du temps de l'année entre l'horizon lointain et la période historique
+    name: Changement moyen du débit journalier dépassé 90 % du temps de l'année entre l'horizon {suffix.name} et la période historique
     description: Débit annuel avec une probabilité de dépassement de 90 % (centile 10 %)
     method: |
       1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité au dépassement de 90 %

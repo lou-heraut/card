@@ -1,5 +1,5 @@
 id: delta-centerLF_H
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -7,10 +7,7 @@ meta:
   en:
     variable: delta-centerLF
     unit: day
-    name:
-      - Average change of the center of low flows between the near horizon and historical period
-      - Average change of the center of low flows between the middle horizon and historical period
-      - Average change of the center of low flows between the distant horizon and historical period
+    name: Average change of the center of low flows between the {suffix.name} horizon and historical period
     description: Date of the minimal 10-day mean flow value below the threshold set at the maximum of VCN10
     method: |
       1. no temporal aggregation - 10-day centered moving average (series of VC10)
@@ -31,10 +28,7 @@ meta:
   fr:
     variable: delta-centreBE
     unit: jour
-    name:
-      - Changement moyen du centre des basses eaux entre l'horizon proche et la période historique
-      - Changement moyen du centre des basses eaux entre l'horizon moyen et la période historique
-      - Changement moyen du centre des basses eaux entre l'horizon lointain et la période historique
+    name: Changement moyen du centre des basses eaux entre l'horizon {suffix.name} et la période historique
     description: Date de la valeur minimale des débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (série des VC10)

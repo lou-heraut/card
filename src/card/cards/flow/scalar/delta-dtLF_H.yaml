@@ -1,5 +1,5 @@
 id: delta-dtLF_H
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -7,10 +7,7 @@ meta:
   en:
     variable: delta-dtLF
     unit: day
-    name:
-      - Average change of duration of low flows between the near horizon and historical period
-      - Average change of duration of low flows between the middle horizon and historical period
-      - Average change of duration of low flows between the distant horizon and historical period
+    name: Average change of duration of low flows between the {suffix.name} horizon and historical period
     description: Duration of the longest continuous sequence with 10-day mean flows below the threshold set at the maximum of VCN10
     method: |
       1. no temporal aggregation - 10-day centered moving average
@@ -31,10 +28,7 @@ meta:
   fr:
     variable: delta-dtBE
     unit: jour
-    name:
-      - Changement moyen de la durée des basses eaux entre l'horizon proche et la période historique
-      - Changement moyen de la durée des basses eaux entre l'horizon moyen et la période historique
-      - Changement moyen de la durée des basses eaux entre l'horizon lointain et la période historique
+    name: Changement moyen de la durée des basses eaux entre l'horizon {suffix.name} et la période historique
     description: Durée de la plus longue séquence continue avec des débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10
     method: |
       1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours

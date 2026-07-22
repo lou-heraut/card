@@ -457,7 +457,12 @@ def extract(data, cards=("QA", "QJXA"), path=None,
            fenêtres partielles [début, fin] (définition de la
            variable), ni les process sans fenêtre.
     simplify : fusionne les DataFrames de sortie en un seul.
-    metadata_only : ne calcule rien, retourne seulement les métadonnées.
+    metadata_only : ne calcule rien, retourne seulement les métadonnées,
+           sous leur forme GÉNÉRIQUE : les placeholders {suffix.X} sont
+           résolus par le suffix_default de la fiche. Un suffix= passé
+           en même temps est ignoré, et signalé par un warning : sans
+           données, on ne peut pas savoir quelles fonctions vont
+           réellement éclater, la règle de stase étant conditionnelle.
     rename : dict {nom_colonne_data: nom_variable_fiche} pour faire
            correspondre vos colonnes aux noms attendus, ex.
            rename={"Qm3s": "Q"}. Si les données n'ont qu'une seule
@@ -513,6 +518,14 @@ def extract(data, cards=("QA", "QJXA"), path=None,
     loaded = {name: load_card(path) for name, path in found.items()}
 
     suffix_keys, suffix_records = _sfx.normalize(suffix)
+
+    if extract_only_metadata and suffix:
+        warnings.warn(
+            "metadata_only=True ignore suffix= : les métadonnées sont "
+            "rendues sous leur forme générique (suffix_default de chaque "
+            "fiche). Le nombre de sorties suffixées dépend des colonnes "
+            "présentes dans les données, donc d'une extraction réelle.",
+            stacklevel=2)
 
     auto_map = ({} if extract_only_metadata
                 else _check_input_vars(data, loaded, suffix_keys,
