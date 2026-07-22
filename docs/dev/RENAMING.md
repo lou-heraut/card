@@ -343,3 +343,30 @@ unique comme le veut la règle des coordonnées d'un même objet. L'unité
 suit : sans unité pour les probabilités, m³/s pour les quantiles, là où
 les deux héritaient du débit. Sous suffixe, `FDC_p` est émis une seule
 fois, l'axe des probabilités étant le même pour tous les horizons.
+
+**Fusion finale du 2026-07-22.** Les trois fiches de période intermédiaires
+(`QM_H`, `FDC_H`, `median-QJ_H`) disparaissent à leur tour : la période
+devient une **entrée facultative** de `QM`, `FDC` et `median-QJ`.
+
+| Retirées | Absorbées par |
+|---|---|
+| QM_H0..H3 puis QM_H | `QM` |
+| FDC_H0..H3 puis FDC_H | `FDC` |
+| median-QJ_H0..H3 puis median-QJ_H | `median-QJ` |
+
+Douze fiches deviennent donc zéro : la capacité rejoint les trois fiches
+qui existaient déjà. Sans bornes, elles calculent sur toute la chronique
+comme avant ; avec, elles restreignent. Vérifié : identique aux fiches de
+base d'avant fusion sans période (4 sorties sur 4), et identique aux
+douze fiches à horizon figé avec période (16 sur 16).
+
+Mécanismes introduits :
+- `input_vars: "Q, period_start?, period_end?"` : le `?` marque une
+  entrée facultative, que la vérification amont n'exige pas mais que le
+  moteur route en colonne de paramètre si elle est là ;
+- le placeholder porte le **groupe nominal entier** (`sur {suffix.name}`)
+  et non un qualificatif après un nom figé. Le gabarit « sur la période
+  {suffix.name} » imposait un accord de genre impossible : « la période
+  futur lointain ». L'appelant fournit désormais l'article ;
+- défaut générique « la chronique entière », qui dit ce que la fiche
+  calcule réellement quand aucune borne n'est donnée.

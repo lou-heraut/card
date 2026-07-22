@@ -1,5 +1,5 @@
 id: FDC
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -7,12 +7,14 @@ meta:
   en:
     variable: [FDC_p, FDC_Q]
     unit: ["without unit", "m^{3}.s^{-1}"]
-    name: Flow duration curve
+    name: Flow duration curve over {suffix.name}
     description: >-
       Curve of flow quantiles as a function of exceedance probability;
       the card outputs its two coordinates (FDC_p, unitless
       probabilities; FDC_Q, flow quantiles)
-    method: "1. no temporal aggregation - flow duration curves with 1000 points spaced according to a centered reduced normal distribution."
+    method: "1. no temporal aggregation over {suffix.name} - flow duration curves with 1000 points spaced according to a centered reduced normal distribution."
+    suffix_default:
+      name: the whole record
     classification:
       domain: flow
       phenomenon: mean flows
@@ -23,13 +25,15 @@ meta:
   fr:
     variable: [CDC_p, CDC_Q]
     unit: ["sans unité", "m^{3}.s^{-1}"]
-    name: Courbe des débits classés
+    name: "Courbe des débits classés sur {suffix.name}"
     description: >-
       Courbe des quantiles de débit en fonction de la probabilité de
       dépassement ;
       la fiche produit ses deux coordonnées (FDC_p, probabilités
       sans unité ; FDC_Q, quantiles de débit)
-    method: "1. aucune agrégation temporelle - courbes des débits classés avec 1000 points espacés selon une loi normale centrée réduite"
+    method: "1. aucune agrégation temporelle sur {suffix.name} - courbes des débits classés avec 1000 points espacés selon une loi normale centrée réduite"
+    suffix_default:
+      name: la chronique entière
     classification:
       domain: débit
       phenomenon: moyennes eaux
@@ -38,7 +42,7 @@ meta:
       output: courbe
 
   global:
-    input_vars: Q
+    input_vars: "Q, period_start?, period_end?"
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
 
@@ -46,6 +50,6 @@ process:
   P1:
     func:
       FDC_p: [fdc_probabilities, "Q", {n: 1000, norm_spacing: true}]
-      FDC_Q: [fdc_quantiles, "Q", {n: 1000, norm_spacing: true}]
+      FDC_Q: [over_period, "Q", {func: fdc_quantiles, n: 1000, norm_spacing: true, dates: "date", period_start: "period_start", period_end: "period_end"}]
     time_step: none
     max_na_years: 10

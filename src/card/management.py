@@ -38,10 +38,13 @@ def _describe_inputs(raw, lang="fr"):
     parts = []
     for var in str(raw).split(","):
         var = var.strip()
+        opt = var.endswith("?")                 # entrée facultative
+        var = var.rstrip("?").strip()
         entry = reg.get(var)
+        suite = (" facultatif" if lang == "fr" else " optional") if opt else ""
         if entry:
             label = entry.get("unit") or entry.get("type") or ""
-            parts.append(f"{var} [{label}] ({entry[lang]})")
+            parts.append(f"{var} [{label}] ({entry[lang]}{suite})")
         else:
             parts.append(var)
     return ", ".join(parts)

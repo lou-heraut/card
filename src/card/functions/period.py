@@ -25,16 +25,31 @@ lacunes porter sur ce qui est réellement calculé.
 en ont besoin (`return_level`, `apply_threshold`, `over_period`).
 """
 
+import re
+
 import numpy as np
 import pandas as pd
 
 
+_IDENTIFIANT = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+
+
 def _const_date(v):
     """Date depuis un scalaire ou une colonne constante par série (Series
-    ou ndarray, cas des bornes de période fournies en colonnes)."""
+    ou ndarray, cas des bornes de période fournies en colonnes).
+
+    Une entrée FACULTATIVE absente des données arrive telle quelle, sous
+    la forme du nom de colonne non résolu : le moteur passe en littéral
+    une référence qu'il n'a pas trouvée. Un identifiant est donc traité
+    comme une borne absente. Une chaîne qui ressemble à une date sans en
+    être une reste une erreur : sans cette distinction, `2020-13-45`
+    passerait pour « pas de borne » et fausserait le résultat en silence.
+    """
     if isinstance(v, (pd.Series, np.ndarray)):
         s = pd.Series(v).dropna()
         v = s.iloc[0] if len(s) else np.nan
+    if isinstance(v, str) and _IDENTIFIANT.match(v):
+        return pd.NaT
     return pd.Timestamp(v)
 
 

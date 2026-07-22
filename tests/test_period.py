@@ -46,9 +46,9 @@ def test_fdc_probabilities_accepte_la_colonne_imposee():
 
 
 @pytest.mark.parametrize("fiche,variable,lignes", [
-    ("QM_H", "QM", 12),
-    ("median-QJ_H", "median-QJ", 365),
-    ("FDC_H", "FDC_Q", 1000),
+    ("QM", "QM", 12),
+    ("median-QJ", "median-QJ", 365),
+    ("FDC", "FDC_Q", 1000),
 ])
 def test_fiche_horizon_suit_les_bornes_fournies(fiche, variable, lignes):
     """Deux horizons différents doivent donner deux résultats différents,
@@ -67,18 +67,35 @@ def test_fiche_horizon_se_decline_par_suffixe():
     d = _serie().assign(
         period_start_H1="2001-01-01", period_end_H1="2020-12-31",
         period_start_H3="2041-01-01", period_end_H3="2060-12-31")
-    res = extract(d, cards=["QM_H"], suffix=["H1", "H3"])
-    assert set(res["data"]["QM_H"].columns) >= {"QM_H1", "QM_H3"}
+    res = extract(d, cards=["QM"], suffix=["H1", "H3"])
+    assert set(res["data"]["QM"].columns) >= {"QM_H1", "QM_H3"}
     assert set(res["meta"]["variable_en"]) == {"QM_H1", "QM_H3"}
 
 
-def test_sans_bornes_la_fiche_calcule_sur_tout():
-    """L'appelant qui ne fournit pas d'horizon obtient la chronique
-    entière plutôt qu'un refus."""
+def test_les_bornes_sont_facultatives():
+    """La période est une entrée facultative : absente, la fiche calcule
+    sur toute la chronique. C'est ce qui permet à une seule fiche de
+    remplacer la version libre et la version restreinte."""
     d = _serie()
-    entier = extract(d.assign(period_start=None, period_end=None),
-                     cards=["QM_H"])["data"]["QM_H"]
+    entier = extract(d, cards=["QM"])["data"]["QM"]          # colonnes absentes
+    vides = extract(d.assign(period_start=None, period_end=None),
+                    cards=["QM"])["data"]["QM"]              # colonnes vides
+    restreint = extract(d.assign(period_start="2001-01-01",
+                                 period_end="2020-12-31"),
+                        cards=["QM"])["data"]["QM"]
     assert entier["QM"].notna().all()
+    assert np.allclose(entier["QM"], vides["QM"])
+    assert not np.allclose(entier["QM"], restreint["QM"])
+
+
+def test_une_date_invalide_reste_une_erreur():
+    """Une borne absente arrive sous la forme du nom de colonne non
+    résolu. La tolérer ne doit pas faire passer une date fautive pour
+    une absence de borne."""
+    from card.functions.period import _const_date
+    assert pd.isna(_const_date("period_start"))       # colonne absente
+    with pytest.raises(Exception):
+        _const_date("2020-13-45")                     # date impossible
 
 
 def test_une_borne_absente_laisse_son_cote_ouvert():
@@ -100,9 +117,9 @@ def test_fdc_horizon_couvre_ses_deux_coordonnees():
     d = _serie().assign(
         period_start_H1="2001-01-01", period_end_H1="2020-12-31",
         period_start_H3="2041-01-01", period_end_H3="2060-12-31")
-    res = extract(d, cards=["FDC_H"], suffix=["H1", "H3"])
+    res = extract(d, cards=["FDC"], suffix=["H1", "H3"])
 
-    colonnes = {c for c in res["data"]["FDC_H"].columns if c != "id"}
+    colonnes = {c for c in res["data"]["FDC"].columns if c != "id"}
     assert colonnes == {"FDC_p", "FDC_Q_H1", "FDC_Q_H3"}
     assert set(res["meta"]["variable_en"]) == colonnes
 

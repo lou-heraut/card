@@ -47,7 +47,15 @@ des deux endroits.
 
 ### Modifié
 
-- **Douze fiches à horizon fixe deviennent trois.** `QM_H0..H3`,
+- **Douze fiches à horizon fixe disparaissent, sans en créer aucune.**
+  La période devient une entrée **facultative** de `QM`, `FDC` et
+  `median-QJ`, qui existaient déjà : sans bornes elles calculent sur
+  toute la chronique comme avant, avec bornes elles restreignent. Le
+  vocabulaire parle de période et non d'horizon, ces fiches servant aussi
+  bien une fenêtre observée qu'une projection. Vérifié des deux côtés :
+  identique aux fiches de base sans période, identique aux douze fiches à
+  horizon figé avec période.
+- Étape intermédiaire de la même journée, remplacée par la fusion : `QM_H0..H3`,
   `FDC_H0..H3` et `median-QJ_H0..H3` figeaient leur période dans le
   fichier. Elles sont remplacées par `QM_H`, `FDC_H` et `median-QJ_H`,
   qui reçoivent `horizon_start` et `horizon_end` en colonnes d'entrée et

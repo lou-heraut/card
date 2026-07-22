@@ -70,7 +70,7 @@ def input_registry():
 def _check_inputs(card, issues):
     raw = card["meta"]["global"].get("input_vars", "X")
     for var in str(raw).split(","):
-        var = var.strip()
+        var = var.strip().rstrip("?").strip()      # `?` = entrée facultative
         if var and var != "X" and var not in input_registry():
             issues.append(
                 f"input_vars: '{var}' absent du registre des entrées "

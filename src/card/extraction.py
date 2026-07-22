@@ -307,14 +307,24 @@ def _meta_frame(card, out_cols=None, keys=(), records=None, delim="_"):
 # Vérification amont des variables d'entrée
 # ---------------------------------------------------------------------------
 
-def _required_vars(card) -> list[str]:
-    """Variables d'entrée requises par une fiche (meta global input_vars)."""
+def _declared_vars(card) -> list[tuple[str, bool]]:
+    """Variables d'entrée déclarées : [(nom, facultative)].
+
+    Un nom suivi de `?` est FACULTATIF : la fiche sait travailler sans.
+    C'est le cas d'une période de restriction, dont l'absence signifie
+    « toute la chronique » plutôt qu'une erreur.
+    """
     raw = card["meta"]["global"].get("input_vars")
     if not raw:
         return []
-    if isinstance(raw, str):
-        return [v.strip() for v in raw.split(",") if v.strip()]
-    return [str(v).strip() for v in raw]
+    bruts = ([v.strip() for v in raw.split(",")] if isinstance(raw, str)
+             else [str(v).strip() for v in raw])
+    return [(v.rstrip("?").strip(), v.endswith("?")) for v in bruts if v]
+
+
+def _required_vars(card) -> list[str]:
+    """Variables d'entrée qu'une fiche exige (les facultatives exclues)."""
+    return [v for v, opt in _declared_vars(card) if not opt]
 
 
 _INPUTS_PATH = Path(__file__).resolve().parent / "inputs.yaml"
@@ -338,7 +348,7 @@ def _date_param_cols(card, data_cols, suffix_keys, delim) -> list[str]:
     colonnes que stase met de côté (param_cols) : ni axe, ni mesure,
     conservées à travers les process."""
     reg = _input_registry()
-    date_vars = [v for v in _required_vars(card)
+    date_vars = [v for v, _ in _declared_vars(card)
                  if reg.get(v, {}).get("type") == "date"]
     data_cols = set(data_cols)
     cols: list[str] = []

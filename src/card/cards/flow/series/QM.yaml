@@ -1,5 +1,5 @@
 id: QM
-version: "1.0.1"
+version: "1.1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -7,9 +7,11 @@ meta:
   en:
     variable: QM
     unit: "m^{3}.s^{-1}"
-    name: Mean monthly discharge
+    name: Mean monthly discharge over {suffix.name}
     description: ""
-    method: "1. monthly aggregation - mean"
+    method: "1. monthly aggregation over {suffix.name} - mean"
+    suffix_default:
+      name: the whole record
     classification:
       domain: flow
       phenomenon: mean flows
@@ -20,9 +22,11 @@ meta:
   fr:
     variable: QM
     unit: "m^{3}.s^{-1}"
-    name: Débit moyen mensuel
+    name: "Débit moyen mensuel sur {suffix.name}"
     description: ""
-    method: "1. agrégation mensuelle - moyenne"
+    method: "1. agrégation mensuelle sur {suffix.name} - moyenne"
+    suffix_default:
+      name: la chronique entière
     classification:
       domain: débit
       phenomenon: moyennes eaux
@@ -31,14 +35,14 @@ meta:
       output: série
 
   global:
-    input_vars: Q
+    input_vars: "Q, period_start?, period_end?"
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
 
 process:
   P1:
     func:
-      QM: [nanmean, "Q"]
+      QM: [over_period, "Q", {func: nanmean, dates: "date", period_start: "period_start", period_end: "period_end"}]
     time_step: month
     max_na_pct: 3
     max_na_years: 10

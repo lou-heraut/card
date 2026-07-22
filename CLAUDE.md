@@ -27,7 +27,7 @@ statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
 
 ```
 src/card/
-  cards/<domain>/<output>/   # 228 fiches : flow|precipitation|temperature|
+  cards/<domain>/<output>/   # 225 fiches : flow|precipitation|temperature|
                              #   evapotranspiration / series|scalar|curve ;
                              #   le linter impose chemin == classification
   functions/     # fonctions hydro portées de R
@@ -42,7 +42,7 @@ src/card/
   schema.py      # linter : python -m card.schema
   topics.yaml    # vocabulaire de contrôle de la classification (en/fr)
   inputs.yaml    # unités/définitions des variables d'entrée (invariants)
-tests/           # pytest 92 tests (goldens R, loader, lint, suffixes, UX)
+tests/           # pytest 93 tests (goldens R, loader, lint, suffixes, UX)
 scripts/generate_catalog.py   # docs/CARDS.md, relancer après toute modif
 ```
 
@@ -183,7 +183,7 @@ Doctrine complète : « Versions, en quatre phrases », en tête de
 ## État (2026-07-22)
 
 Tout est commité et poussé sur card et sur `../../EXstat_project/stase/`,
-qui va de pair. Corpus = 228 fiches, 475 variables, 92 tests verts.
+qui va de pair. Corpus = 225 fiches, 471 variables, 93 tests verts.
 
 Ce qui a été livré et quand se lit dans `CHANGELOG.md`, ce qui reste
 ouvert dans `docs/dev/CHANTIERS.md`. Ces deux fichiers font foi : ne pas

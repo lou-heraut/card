@@ -34,8 +34,10 @@ def _inputs_with_units(raw):
     out = []
     for var in str(raw).split(","):
         var = var.strip()
+        marque = "?" if var.endswith("?") else ""      # entrée facultative
+        var = var.rstrip("?").strip()
         unit = reg.get(var, {}).get("unit") or reg.get(var, {}).get("type")
-        out.append(f"{var} [{unit}]" if unit else var)
+        out.append(f"{var}{marque} [{unit}]" if unit else f"{var}{marque}")
     return ", ".join(out)
 
 OUT = ROOT / "docs" / "CARDS.md"

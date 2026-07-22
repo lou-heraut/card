@@ -1,5 +1,5 @@
 id: median-QJ
-version: "1.0.1"
+version: "1.1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -7,9 +7,11 @@ meta:
   en:
     variable: median-QJ
     unit: "m^{3}.s^{-1}"
-    name: Median inter-annual flow
+    name: Median inter-annual flow over {suffix.name}
     description: ""
-    method: "1. aggregation by day of the year - median"
+    method: "1. aggregation by day of the year over {suffix.name} - median"
+    suffix_default:
+      name: the whole record
     classification:
       domain: flow
       phenomenon: mean flows
@@ -20,9 +22,11 @@ meta:
   fr:
     variable: mediane-QJ
     unit: "m^{3}.s^{-1}"
-    name: Débit médian inter-annuel
+    name: "Débit médian inter-annuel sur {suffix.name}"
     description: ""
-    method: "1. agrégation par jour de l'année - médiane"
+    method: "1. agrégation par jour de l'année sur {suffix.name} - médiane"
+    suffix_default:
+      name: la chronique entière
     classification:
       domain: débit
       phenomenon: moyennes eaux
@@ -31,12 +35,12 @@ meta:
       output: courbe
 
   global:
-    input_vars: Q
+    input_vars: "Q, period_start?, period_end?"
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
 
 process:
   P1:
     func:
-      median-QJ: [nanmedian, "Q"]
+      median-QJ: [over_period, "Q", {func: nanmedian, dates: "date", period_start: "period_start", period_end: "period_end"}]
     time_step: yearday

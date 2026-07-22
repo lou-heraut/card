@@ -8,7 +8,7 @@
 <!-- badges: end -->
 
 **card** calcule des variables hydroclimatiques prêtes à l'emploi :
-228 fiches (étiages, crues, saisonnalité, changement climatique...)
+225 fiches (étiages, crues, saisonnalité, changement climatique...)
 définies en YAML et exécutées par le moteur
 [stase](https://github.com/lou-heraut/stase). Vous choisissez vos
 fiches, card fait le reste.
@@ -151,14 +151,21 @@ qu'elle soit future ou observée. Elles prennent alors `period_start` et
 
 ```python
 p = data.assign(period_start_obs="1976-01-01", period_end_obs="2005-12-31",
-                period_start_fin="2070-01-01", period_end_fin="2099-12-31")
-card.extract(p, cards=["QM_H"], suffix={
-    "obs": {"fr": {"name": "observée 1976-2005"}},
-    "fin": {"fr": {"name": "du futur lointain (2070-2099)"}},
+                period_start_fin="2001-01-01", period_end_fin="2020-12-31")
+card.extract(p, cards=["QM"], suffix={
+    "obs": {"fr": {"name": "la période observée 1976-2005"}},
+    "fin": {"fr": {"name": "la période récente 2001-2020"}},
 })
 # -> colonnes QM_obs et QM_fin
 # name_fr -> "Débit moyen mensuel sur la période observée 1976-2005"
 ```
+
+Ces bornes sont **facultatives** (`period_start?` dans les entrées de la
+fiche) : sans elles, la même fiche calcule sur toute la chronique et
+l'annonce, « Débit moyen mensuel sur la chronique entière ». Une fiche
+suffit donc là où il en fallait une par période. Le nom que vous donnez à
+une variante est repris tel quel, article compris : écrivez « la période
+observée » ou « le futur lointain » selon ce qui se lit le mieux.
 
 Le même mécanisme sert à comparer deux jeux d'une même variable sur
 n'importe quelle fiche, par exemple des colonnes `Q_obs` et `Q_sim` avec
@@ -187,7 +194,7 @@ définition qui va avec.
 ## Trouver sa fiche
 
 ```python
-card.list_cards()                          # 475 variables, une par ligne
+card.list_cards()                          # 471 variables, une par ligne
 card.list_cards(phenomenon="basses eaux")  # 114 : filtre par phénomène (fr ou en)
 card.list_cards(output="série")            # 276 : série, scalaire ou courbe
 card.list_cards(season="estivale")         # 28 : fenêtre d'échantillonnage
@@ -241,7 +248,7 @@ src/card/
   extraction.py   # card.extract : chaîne P1..Pn via stase.extract
   management.py   # card.list_cards, card.info, card.copy_cards
   functions/      # fonctions hydro (baseflow, return_level, NSE, KGE...)
-  cards/          # les 228 fiches YAML (cards/<domaine>/<forme>/)
+  cards/          # les 225 fiches YAML (cards/<domaine>/<forme>/)
 ```
 
 Toute la mécanique de données (sampling adaptatif, sorties
@@ -283,8 +290,8 @@ auteurs dans le fichier AUTHORS.
 ## Développement
 
 ```bash
-pip install -e . && pytest              # 92 tests
-python -m card.schema                   # linter des 228 fiches YAML
+pip install -e . && pytest              # 93 tests
+python -m card.schema                   # linter des 225 fiches YAML
 python scripts/generate_catalog.py      # régénère docs/CARDS.md
 ```
 
