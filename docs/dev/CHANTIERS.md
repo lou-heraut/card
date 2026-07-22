@@ -130,6 +130,48 @@ version expédiée : c'est de la communication scientifique, l'objet doit
 être juste ET agréable. Référence de goût maison : le tableau de bord
 `make stats` de card-api (sparklines, heatmap façon contributions).
 
+## Convertir les 12 fiches à horizon figé au modèle suffixe
+
+Ouvert le 2026-07-22, demandé par l'utilisateur. Douze fiches figent
+encore leurs dates d'horizon **dans le fichier**, alors que le chantier
+du 2026-07-21 a sorti ces bornes des 59 autres :
+
+| famille | fiches | période figée |
+|---|---|---|
+| `QM_H0..H3` | 4 | H0 1976-01-01 à 2005-08-31, puis DRIAS 2021-2050, 2041-2070, 2070-2099 |
+| `FDC_H0..H3` | 4 | idem |
+| `median-QJ_H0..H3` | 4 | idem |
+
+Conséquence mesurée : sur des observations 1970-2020, `QM_H1` rend zéro
+ligne et un avertissement. Ces fiches ne servent qu'à des projections
+DRIAS, et à celles-là seulement, ce que rien n'annonce.
+
+**Cible** : trois fiches, `QM_H`, `FDC_H` et `median-QJ_H`, recevant
+`horizon_start` et `horizon_end` en colonnes d'entrée, avec
+`{suffix.name}` dans les métadonnées. Exactement le modèle des 45 fiches
+delta, et ce qui débloque les horizons par degré de réchauffement.
+
+**Verrou technique, à lever d'abord dans stase.** Ces fiches restreignent
+la période avec le champ `period` d'un process, et le `period` de
+`process_extraction` est un filtre **global** à dates littérales,
+identique pour toutes les séries : il n'accepte pas de nom de colonne et
+ne peut pas varier d'une série à l'autre (extraction.py, bloc « Filtre
+period »). Les fiches delta, elles, passent leurs bornes en **kwargs de
+fonction**, ce qui marche déjà. Il faut donc soit étendre `period` aux
+colonnes de paramètre, soit un mécanisme dédié. Chantier ouvert côté
+stase, à faire avant la conversion.
+
+**À arbitrer au passage** : la fenêtre H0 vaut `1976-01-01` à
+`2005-08-31`, une date de début calendaire pour une date de fin
+hydrologique (30 années hydrologiques auraient commencé au 1975-09-01).
+Les trois autres horizons finissent en 12-31. Une fois les bornes
+fournies par l'appelant la question sort des fiches, mais la valeur
+recommandée pour DRIAS mérite d'être écrite quelque part.
+
+**Coût annexe** : 12 identifiants disparaissent au profit de 3. C'est un
+changement de sorties, donc trace dans RENAMING.md, bump majeur, et le
+catalogue comme le service en sont affectés.
+
 ## Export SKOS / thésaurus (différé de longue date)
 
 La classification (`TOPICS.md`) fournit désormais les concepts et les
