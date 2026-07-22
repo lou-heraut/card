@@ -242,17 +242,18 @@ Phase 1 :
 - [x] **card** : CHANGELOG écrit, ROADMAP et AUDIT_FICHES archivés,
       VALIDATION_R renommé ORIGINE_R, CHANTIERS purgé, bandeaux de
       statut posés, renvois re-routés.
-- [ ] **stase** : CHANGELOG (0.1 à 0.4.0, jamais écrit), PLAN archivé,
-      CONVERSION_R laissé en archive, renvois de CLAUDE.md corrigés.
-- [ ] **card-api** : CHANGELOG, tri de API.md (conception durable contre
-      ébauche datée), renvois.
+- [x] **stase** : CHANGELOG écrit, PLAN et harnais R archivés, renvois
+      de CLAUDE.md corrigés.
+- [x] **card-api** : CHANGELOG écrit, API.md trié (état d'avancement et
+      étapes retirés), renvois corrigés.
 
 Phase 2 :
 - [x] card CLAUDE.md : État réduit à un pointeur vers CHANGELOG et
       CHANTIERS, déploiement de card-api renvoyé chez lui.
-- [ ] stase et card-api CLAUDE.md élagués et uniformisés.
-- [ ] mémoire élaguée (project-state.md date du 2026-07-16, très en
-      retard sur le code).
+- [x] stase et card-api CLAUDE.md élagués et uniformisés (même section
+      « où lire quoi », même bloc « versions et citation »).
+- [x] mémoire élaguée (project-state réécrit, feedback-private-files
+      ajouté).
 
 Phase 3 :
 - [ ] README card/stase/card-api : un exemple exécuté par capacité.
@@ -263,7 +264,9 @@ Phase 4 :
 - [ ] `suffix_default` relu (le générique se lit bien).
 
 Phase 5 :
-- [ ] rôle de docs/index.md tranché ; doc API à jour.
+- [ ] rôle de docs/index.md tranché (Phase 5).
+- [x] doc API à jour : provenance documentée dans le README de card-api,
+      liens yaml et archive dans /v1/cards/{id}.
 
 Phase 6 :
 - [ ] conventions communes appliquées ; renvois croisés cohérents.
