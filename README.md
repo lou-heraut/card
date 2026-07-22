@@ -8,7 +8,7 @@
 <!-- badges: end -->
 
 **card** calcule des variables hydroclimatiques prêtes à l'emploi :
-237 fiches (étiages, crues, saisonnalité, changement climatique...)
+228 fiches (étiages, crues, saisonnalité, changement climatique...)
 définies en YAML et exécutées par le moteur
 [stase](https://github.com/lou-heraut/stase). Vous choisissez vos
 fiches, card fait le reste.
@@ -172,7 +172,7 @@ définition qui va avec.
 ## Trouver sa fiche
 
 ```python
-card.list_cards()                          # 482 variables, une par ligne
+card.list_cards()                          # 473 variables, une par ligne
 card.list_cards(phenomenon="basses eaux")  # 114 : filtre par phénomène (fr ou en)
 card.list_cards(output="série")            # 276 : série, scalaire ou courbe
 card.list_cards(season="estivale")         # 28 : fenêtre d'échantillonnage
@@ -226,7 +226,7 @@ src/card/
   extraction.py   # card.extract : chaîne P1..Pn via stase.extract
   management.py   # card.list_cards, card.info, card.copy_cards
   functions/      # fonctions hydro (baseflow, return_level, NSE, KGE...)
-  cards/          # les 237 fiches YAML (cards/<domaine>/<forme>/)
+  cards/          # les 228 fiches YAML (cards/<domaine>/<forme>/)
 ```
 
 Toute la mécanique de données (sampling adaptatif, sorties
@@ -268,8 +268,8 @@ auteurs dans le fichier AUTHORS.
 ## Développement
 
 ```bash
-pip install -e . && pytest              # 80 tests
-python -m card.schema                   # linter des 237 fiches YAML
+pip install -e . && pytest              # 91 tests
+python -m card.schema                   # linter des 228 fiches YAML
 python scripts/generate_catalog.py      # régénère docs/CARDS.md
 ```
 

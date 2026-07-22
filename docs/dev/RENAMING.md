@@ -297,3 +297,38 @@ Changements :
   série, portées et CONSERVÉES à travers les process, hors canal
   numérique, détection de l'axe par élimination). Détail dans le
   docstring de `stase/src/stase/extraction.py`.
+
+## Fiches à horizon fixe converties au modèle suffixe (2026-07-22)
+
+Douze fiches figeaient leur période dans le fichier. Elles deviennent
+trois, dont l'appelant choisit l'horizon, comme les fiches delta depuis
+le 2026-07-21.
+
+| Retirées | Remplacées par | Variable produite |
+|---|---|---|
+| QM_H0, QM_H1, QM_H2, QM_H3 | `QM_H` | `QM`, suffixée par horizon |
+| FDC_H0..H3 | `FDC_H` | `FDC_p` et `FDC_Q` |
+| median-QJ_H0..H3 | `median-QJ_H` | `median-QJ` |
+
+Les bornes arrivent en colonnes `horizon_start` et `horizon_end`, et une
+déclinaison `suffix=["H1", "H3"]` reproduit exactement les anciens noms
+de sortie (`QM_H1`, `QM_H3`). Vérifié valeur par valeur sur les trois
+familles : à période égale, le résultat est identique à l'ancien.
+
+Les dates figées disparaissent du corpus. Celles qui y étaient, pour
+mémoire : H0 du 1976-01-01 au 2005-08-31, puis 2021-2050, 2041-2070 et
+2070-2099. La fenêtre H0 mélangeait un début calendaire et une fin
+hydrologique, incohérence qui sort du corpus avec elle.
+
+Mécanisme : `over_period(X, func, dates, period_start, period_end)`,
+qui restreint puis délègue. La restriction se fait dans la fonction et
+non par un masque en amont, un masque étant compté comme des lacunes
+(mesuré : `max_na_pct=3` sur une série masquée ne rend plus aucun mois).
+
+Corrigé au passage : `fdc_probabilities` ne déclare aucune colonne, or le
+moteur affecte d'office la première colonne numérique à une fonction qui
+n'en déclare pas. La valeur se liait au paramètre `n` et faisait échouer
+l'appel. **Les cinq fiches FDC plantaient donc depuis l'origine du
+portage**, trois d'entre elles masquant le défaut par une période sans
+données. Aucun test ne les couvrait, et le corpus de validation les
+excluait puisqu'elles plantent aussi dans le paquet R.

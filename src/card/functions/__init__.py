@@ -26,6 +26,7 @@ from .baseflow import (  # noqa: F401
     snowmelt_volume,
 )
 from .climate import elasticity, runoff_coefficient  # noqa: F401
+from .period import over_period  # noqa: F401
 from .fdc import (  # noqa: F401
     exceedance_frequency,
     exceedance_quantile,

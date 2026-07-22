@@ -22,6 +22,8 @@ Les index retournés (what='first'/'last' ou fonction) sont 0-based
 
 import operator
 
+from .period import _const_date
+
 import numpy as np
 import pandas as pd
 
@@ -64,14 +66,6 @@ def _contiguous_periods(ID: np.ndarray) -> list[np.ndarray]:
         return []
     jumps = np.flatnonzero(np.diff(ID) != 1) + 1
     return np.split(ID, jumps)
-
-
-def _const_date(v):
-    """Date depuis un scalaire ou une colonne constante par série."""
-    if isinstance(v, (pd.Series, np.ndarray)):
-        s = pd.Series(v).dropna()
-        v = s.iloc[0] if len(s) else np.nan
-    return pd.Timestamp(v)
 
 
 def apply_threshold(X, lim, where="<=", what="X", select="all",

@@ -31,6 +31,8 @@ même série.
 
 from statistics import NormalDist
 
+from .period import _const_date, _subset_period
+
 import numpy as np
 import pandas as pd
 
@@ -138,24 +140,6 @@ def _lognormal_period(X, threshold):
 
 
 # ── API fiches ─────────────────────────────────────────────────────────────
-
-def _subset_period(x, dates, period):
-    if dates is None or period is None:
-        return x
-    d = pd.to_datetime(pd.Series(dates) if not isinstance(dates, pd.Series)
-                       else dates)
-    p0, p1 = pd.Timestamp(period[0]), pd.Timestamp(period[1])
-    return x[((p0 <= d) & (d <= p1)).to_numpy()]
-
-
-def _const_date(v):
-    """Date depuis un scalaire ou une colonne constante par série (Series/
-    ndarray, cas des bornes de période fournies en colonnes)."""
-    if isinstance(v, (pd.Series, np.ndarray)):
-        s = pd.Series(v).dropna()
-        v = s.iloc[0] if len(s) else np.nan
-    return pd.Timestamp(v)
-
 
 def return_level(X, return_period, water_type="low", dates=None, period=None,
                  period_start=None, period_end=None):

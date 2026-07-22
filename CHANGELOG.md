@@ -45,7 +45,36 @@ des deux endroits.
 
 ## Non publié
 
+### Modifié
+
+- **Douze fiches à horizon fixe deviennent trois.** `QM_H0..H3`,
+  `FDC_H0..H3` et `median-QJ_H0..H3` figeaient leur période dans le
+  fichier. Elles sont remplacées par `QM_H`, `FDC_H` et `median-QJ_H`,
+  qui reçoivent `horizon_start` et `horizon_end` en colonnes d'entrée et
+  se déclinent par suffixe, comme les fiches delta depuis le 2026-07-21.
+  L'appelant choisit ses horizons, autant qu'il veut, et plus aucune date
+  ne vit dans le corpus. À période égale, le résultat est identique à
+  l'ancien, vérifié valeur par valeur sur les trois familles. Détail :
+  `docs/dev/RENAMING.md`.
+
+### Ajouté
+
+- `over_period(X, func, dates, period_start, period_end)` : restreint un
+  calcul à une sous-période puis délègue. Nécessaire parce que `nanmean`
+  et `nanmedian` sont des fonctions numpy, auxquelles on ne peut pas
+  ajouter de paramètres. Une borne absente laisse son côté ouvert.
+  `_const_date` et `_subset_period`, jusque-là dupliqués dans deux
+  modules, y sont rassemblés.
+
 ### Corrigé
+
+- **Les cinq fiches FDC plantaient depuis l'origine du portage.**
+  `fdc_probabilities` ne déclare aucune colonne d'entrée, or le moteur
+  affecte d'office la première colonne numérique à une telle fonction :
+  la valeur se liait au paramètre `n` et l'appel échouait. Trois des cinq
+  masquaient le défaut par une période hors données, donc sans calcul.
+  Aucun test ne les couvrait, et le corpus de validation les excluait
+  puisqu'elles plantent aussi dans le paquet R.
 
 - **14 fiches d'horizon annonçaient le mauvais horizon.** Le chantier du
   2026-07-21 les a rendues mono-sortie, l'horizon étant choisi par

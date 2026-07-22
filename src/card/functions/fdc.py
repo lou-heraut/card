@@ -60,9 +60,18 @@ def _fdc_p(n, norm_spacing):
     return np.linspace(0, 1, n)
 
 
-def fdc_probabilities(n=1000, norm_spacing=False):
+def fdc_probabilities(X=None, n=1000, norm_spacing=False):
     """Probabilités de la courbe des débits classés : n points uniformes,
-    ou espacés selon une loi normale centrée réduite (norm_spacing)."""
+    ou espacés selon une loi normale centrée réduite (norm_spacing).
+
+    `X` est accepté et ignoré : cette fonction ne dépend d'aucune donnée,
+    elle produit l'axe des abscisses de la courbe. Mais le moteur affecte
+    d'office la première colonne numérique à une fonction qui ne déclare
+    aucune colonne, et cette valeur doit bien atterrir quelque part. Sans
+    ce paramètre, elle se liait à `n` et faisait échouer l'appel : les
+    cinq fiches FDC plantaient depuis l'origine du portage, trois d'entre
+    elles le masquant par une période sans données (corrigé 2026-07-22).
+    """
     return _fdc_p(n, norm_spacing)
 
 

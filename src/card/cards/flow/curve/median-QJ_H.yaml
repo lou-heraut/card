@@ -1,0 +1,46 @@
+id: median-QJ_H
+version: "2.0"
+authors: ["Louis Héraut (INRAE, UR RiverLy)"]
+date: "2026-07-22"
+
+meta:
+  en:
+    variable: median-QJ
+    unit: "m^{3}.s^{-1}"
+    name: Median inter-annual flow over the {suffix.name} horizon
+    description: ""
+    method: "1. aggregation by day of the year restricted to the {suffix.name} horizon - median"
+    suffix_default:
+      name: target
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: record
+      output: curve
+
+  fr:
+    variable: mediane-QJ
+    unit: "m^{3}.s^{-1}"
+    name: "Débit médian inter-annuel sur l'horizon {suffix.name}"
+    description: ""
+    method: "1. agrégation par jour de l'année restreinte à l'horizon {suffix.name} - médiane"
+    suffix_default:
+      name: cible
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: chronique
+      output: courbe
+
+  global:
+    input_vars: "Q, horizon_start, horizon_end"
+    palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
+              "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
+
+process:
+  P1:
+    func:
+      median-QJ: [over_period, "Q", {func: nanmedian, dates: "date", period_start: "horizon_start", period_end: "horizon_end"}]
+    time_step: yearday

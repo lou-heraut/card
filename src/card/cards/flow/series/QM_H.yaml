@@ -1,15 +1,17 @@
-id: QM_H2
-version: "1.0.1"
+id: QM_H
+version: "2.0"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-07-18"
+date: "2026-07-22"
 
 meta:
   en:
-    variable: QM_H2
+    variable: QM
     unit: "m^{3}.s^{-1}"
-    name: Mean monthly discharge of middle horizon
+    name: Mean monthly discharge over the {suffix.name} horizon
     description: ""
-    method: "1. monthly aggregation over the middle horizon [2041-01-01, 2070-12-31] - mean"
+    method: "1. monthly aggregation restricted to the {suffix.name} horizon - mean"
+    suffix_default:
+      name: target
     classification:
       domain: flow
       phenomenon: mean flows
@@ -18,11 +20,13 @@ meta:
       output: series
 
   fr:
-    variable: QM_H2
+    variable: QM
     unit: "m^{3}.s^{-1}"
-    name: "Débit moyen mensuel de l'horizon moyen"
+    name: "Débit moyen mensuel sur l'horizon {suffix.name}"
     description: ""
-    method: "1. agrégation mensuelle sur l'horizon moyen [2041-01-01, 2070-12-31] - moyenne"
+    method: "1. agrégation mensuelle restreinte à l'horizon {suffix.name} - moyenne"
+    suffix_default:
+      name: cible
     classification:
       domain: débit
       phenomenon: moyennes eaux
@@ -31,13 +35,12 @@ meta:
       output: série
 
   global:
-    input_vars: Q
+    input_vars: "Q, horizon_start, horizon_end"
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
 
 process:
   P1:
     func:
-      QM_H2: [nanmean, "Q"]
-    period: ["2041-01-01", "2070-12-31"]
+      QM: [over_period, "Q", {func: nanmean, dates: "date", period_start: "horizon_start", period_end: "horizon_end"}]
     time_step: month
