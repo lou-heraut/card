@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+message: >-
+  Si vous utilisez ce recueil de fiches ou son code, merci de citer ce
+  dépôt. Un identifiant pérenne (dépôt HAL adossé à Software Heritage)
+  viendra compléter cette référence.
+type: software
+title: "card : recueil de fiches hydroclimatiques CARD"
+abstract: >-
+  Recueil de fiches YAML décrivant l'extraction de variables
+  hydroclimatiques (débit, précipitations, température,
+  évapotranspiration) à partir de séries journalières : étiages, crues,
+  saisonnalité, indices climatiques et changements par horizon. Chaque
+  fiche est autoportante, bilingue et classée par facettes ; leur
+  exécution est déléguée au moteur stase. Port Python du paquet R CARD,
+  validé nombre à nombre contre lui.
+authors:
+  - family-names: "Héraut"
+    given-names: "Louis"
+    email: "louis.heraut@inrae.fr"
+    affiliation: "INRAE, UR RiverLy, Villeurbanne, France"
+  - family-names: "Dorchies"
+    given-names: "David"
+    email: "david.dorchies@inrae.fr"
+    affiliation: "INRAE, UMR G-Eau, Montpellier, France"
+  - family-names: "Sauquet"
+    given-names: "Éric"
+    email: "eric.sauquet@inrae.fr"
+    affiliation: "INRAE, UR RiverLy, Villeurbanne, France"
+  - family-names: "Vidal"
+    given-names: "Jean-Philippe"
+    email: "jean-philippe.vidal@inrae.fr"
+    affiliation: "INRAE, UR RiverLy, Villeurbanne, France"
+  - family-names: "Horner"
+    given-names: "Ivan"
+  - family-names: "Santos"
+    given-names: "Leonard"
+version: "0.2.0"
+date-released: "2026-07-22"
+repository-code: "https://github.com/lou-heraut/card"
+license: "GPL-3.0-or-later"
+keywords:
+  - hydrologie
+  - hydroclimatologie
+  - étiage
+  - crue
+  - changement climatique
+  - métadonnées
