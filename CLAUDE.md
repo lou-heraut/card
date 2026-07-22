@@ -136,22 +136,42 @@ Règles clés (détail : NOMENCLATURE.md) :
   (grammaire, casse, cohérence) ; réécriture scientifique = validation.
 - Noms de fonctions/paramètres : RENAMING.md fait foi, tout nouveau
   renommage validé par l'utilisateur.
-- **Deux versions à ne pas confondre.**
-  - Celle d'une **fiche** (champ `version:` de son YAML) : majeur si ses
-    SORTIES changent (+ trace RENAMING.md, parité R rompue documentée,
-    goldens re-figés), mineur pour method/description, patch sinon. Elle
-    part dans les métadonnées de sortie : un résultat dit avec quelle
-    définition il a été calculé.
-  - Celle du **paquet** (`pyproject.toml`) : on n'y touche pas au
-    quotidien, elle ne sert qu'à publier. Le service suit `main` et
-    identifie ce qu'il exécute par le commit, pas par ce numéro.
-  **Le seul geste à ne pas oublier** : écrire l'entrée `## Non publié`
-  du CHANGELOG quand un changement mérite d'être retenu. Le proposer
-  soi-même, l'utilisateur ne le demandera pas.
+- **Version d'une fiche** (champ `version:` de son YAML) : majeur si ses
+  SORTIES changent (+ trace RENAMING.md, parité R rompue documentée,
+  goldens re-figés), mineur pour method/description, patch sinon. Elle
+  part dans les métadonnées de sortie.
+- **Chaînage à ne pas rater**, rappelé ici exprès : une modif notable se
+  note sous `## Non publié` du CHANGELOG ; publier une version se fait
+  par `scripts/set_version.py`, jamais à la main ; un changement de
+  moteur nécessaire à card impose de remonter `stase>=` dans le
+  pyproject. Détail : « Versions et citation » plus bas.
 - Pas de PDF ni de `*~` sous git.
 - Pas de tiret quadratin (—) dans la prose (docs, messages, commentaires,
   réponses) : reformuler (deux points, parenthèses, phrases séparées).
   Perçu comme un marqueur de texte IA, rebute des utilisateurices.
+
+## Versions et citation
+
+Doctrine complète : « Versions, en quatre phrases », en tête de
+`CHANGELOG.md`. Ce qu'il ne faut pas rater :
+
+- **Au quotidien : rien.** La production suit `main`, le service publie
+  le commit et le SWHID de card et de stase dans chaque réponse. Le seul
+  geste régulier est l'entrée `## Non publié` du CHANGELOG. **Le
+  proposer soi-même**, l'utilisateur ne le demandera pas.
+- **Publier une version** (rare : PyPI, dépôt citable) :
+  `python scripts/set_version.py 0.3.0` accorde `pyproject.toml`,
+  `CITATION.cff` et `codemeta.json`. Ne JAMAIS y écrire un numéro à la
+  main : `tests/test_citation.py` refuse le désaccord. Puis section de
+  CHANGELOG, commit, `git tag -a vX.Y.Z`, `git push --tags`.
+- **SWHID** : `swh:1:rev:<hash du commit>` EST l'identifiant Software
+  Heritage d'une révision git, calculable sans aucun appel d'API. Il ne
+  résout que si le dépôt est archivé : fait le 2026-07-22 pour les trois,
+  et SWH revisite tout seul ensuite. Rien à refaire par version.
+- **Ne pas confondre** avec la version d'une FICHE (champ `version:` de
+  son YAML, majeur si ses SORTIES changent) : elle voyage dans les
+  métadonnées de sortie, une par variable.
+
 
 ## État (2026-07-22)
 

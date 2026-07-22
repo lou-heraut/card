@@ -143,6 +143,29 @@ Toute la mécanique de données (sampling adaptatif, sorties
 vectorielles, filtres de lacunes) est portée par le moteur stase.
 card ne gère que les fiches et leurs métadonnées.
 
+## Citer
+
+Ce recueil est un logiciel scientifique : merci de le citer si vous
+l'utilisez dans un travail publié.
+
+```
+Héraut L., Dorchies D., Sauquet É., Vidal J.-P., Horner I., Santos L.
+(2026). card : recueil de fiches hydroclimatiques CARD (version 0.2.0).
+Software Heritage : swh:1:rev:<commit>
+https://github.com/lou-heraut/card
+```
+
+Le dépôt est archivé sur [Software
+Heritage](https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/lou-heraut/card),
+qui donne un identifiant pérenne par révision. Métadonnées lisibles par
+machine : `CITATION.cff` et `codemeta.json` à la racine ; GitHub propose
+d'ailleurs « Cite this repository » à partir du premier.
+
+Si vous citez un résultat produit par le service
+[card-api](https://github.com/lou-heraut/card-api), chaque réponse porte
+déjà le commit et le SWHID exacts du code qui l'a calculé, ainsi que la
+version de chaque fiche employée : reprenez-les plutôt que ce modèle.
+
 ## Origine
 
 card est le port Python du package R
@@ -155,7 +178,7 @@ auteurs dans le fichier AUTHORS.
 ## Développement
 
 ```bash
-pip install -e . && pytest              # 76 tests
+pip install -e . && pytest              # 79 tests
 python -m card.schema                   # linter des 237 fiches YAML
 python scripts/generate_catalog.py      # régénère docs/CARDS.md
 ```

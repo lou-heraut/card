@@ -10,8 +10,13 @@ token du re-chargement de contexte des futurs Claude.
 
 ## Principes directeurs
 
-1. **Une info, un seul endroit (source de vérité).** Les autres fichiers
-   RENVOIENT, ne recopient pas. Toute duplication est un futur mensonge.
+1. **Une VALEUR, un seul endroit (source de vérité).** Un nombre, un
+   décompte, une affirmation vérifiable : les autres fichiers RENVOIENT,
+   ne recopient pas, sinon l'un des deux finira faux. En revanche un
+   **rappel de procédure** gagne à être répété là où on travaille
+   (arbitrage utilisateur du 2026-07-22) : il ne peut pas mentir, et sa
+   redondance est précisément ce qui évite l'oubli. Doubler une consigne,
+   oui ; doubler un numéro de version, jamais.
 2. **Budget token.** Ce qui est chargé chaque session (les 3 CLAUDE.md,
    MEMORY.md) doit être concis, factuel, non dérivable du code, et
    pointer vers les docs détaillées plutôt que les inclure.
