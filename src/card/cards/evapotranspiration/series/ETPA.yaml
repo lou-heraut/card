@@ -1,5 +1,5 @@
 id: ETPA
-version: "1.1"
+version: "1.1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -13,6 +13,7 @@ meta:
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: evapotranspiration
+      phenomenon: evaporative demand
       aspect: magnitude
       season: annual
       output: series
@@ -26,6 +27,7 @@ meta:
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: évapotranspiration
+      phenomenon: demande évaporative
       aspect: intensité
       season: annuelle
       output: série

@@ -1,5 +1,5 @@
 id: mean-RSA_season
-version: "2.0"
+version: "2.0.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -29,6 +29,7 @@ meta:
       - ["09-01", "11-30"]
     classification:
       domain: precipitation
+      phenomenon: mean precipitation
       aspect: magnitude
       season: by season
       output: scalar
@@ -58,6 +59,7 @@ meta:
       - ["01-09", "30-11"]
     classification:
       domain: précipitations
+      phenomenon: précipitations moyennes
       aspect: intensité
       season: par saison
       output: scalaire

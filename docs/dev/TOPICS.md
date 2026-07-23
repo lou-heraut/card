@@ -93,9 +93,18 @@ périodes sèches, neige... sont des **phénomènes**, mot valable pour
 tous les domaines. Champ scalaire dans le cas courant, **liste si une
 fiche relève réellement de plusieurs phénomènes** (même polymorphisme
 que name/palette ; ex. futur : fonte des neiges → `[neige, hautes
-eaux]`), **absent** quand il n'y a pas de phénomène particulier (RA,
-TA, performance, sensibilité) : l'absence est non ambiguë car le
-vocabulaire est fermé et le linter contrôle les valeurs.
+eaux]`), **absent uniquement quand un `purpose` prend sa place** (les
+scores de performance et de sensibilité climatique ne sont pas des
+régimes hydro-climatiques). Le vocabulaire est fermé et le linter
+contrôle les valeurs.
+
+**Toute variate a désormais un phénomène** (décision du 2026-07-24,
+pour ranger le corpus par régime observé, cf. `phenomenon` en tête du
+chemin des dossiers et du catalogue). La magnitude moyenne de chaque
+domaine est un phénomène à part entière, pendant de « moyennes eaux »
+côté débit : les cumuls de pluie, les températures moyennes et la
+demande évaporative avaient l'air « sans régime » seulement parce que le
+corpus est mince pour ces domaines.
 
 | en | fr | Couvre les topics actuels | Domaine typique |
 |---|---|---|---|
@@ -106,11 +115,15 @@ vocabulaire est fermé et le linter contrôle les valeurs.
 | dry spells | périodes sèches | Dry Period | precipitation |
 | wet days | jours pluvieux | Low (précip ≥ 1 mm, reclassé) | precipitation |
 | heavy rain | pluies fortes | Heavy | precipitation |
-| snow | neige | (précip solides Rs/RAs, nouveau) | precipitation |
+| snow | neige | précip solides Rs/RAs, fractions liquide/solide | precipitation |
+| mean precipitation | précipitations moyennes | cumuls RA/RMA/RSA (ex-sans-phénomène) | precipitation |
+| mean temperatures | températures moyennes | TA/TMA/TSA (ex-sans-phénomène) | temperature |
+| evaporative demand | demande évaporative | ETPA/ETPMA/ETPSA (ex-sans-phénomène) | evapotranspiration |
 
-Les anciens « Moderate » (précip) et « Average/Mean » (température,
-ETP) ne deviennent pas des phénomènes : ils ne disaient rien, et ces
-fiches n'ont pas de ligne phenomenon.
+Places réservées mais vides tant qu'aucune fiche ne les peuple :
+extrêmes de température (fortes chaleurs, gel) par analogie avec les
+pluies fortes et les périodes sèches. La grille anticipe, on n'ajoute au
+vocabulaire que ce qui a des fiches.
 
 ### aspect : la dimension analysée (typologie IHA/EFC ; optionnel)
 

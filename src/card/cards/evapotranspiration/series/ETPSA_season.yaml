@@ -1,5 +1,5 @@
 id: ETPSA_season
-version: "1.0"
+version: "1.0.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -29,6 +29,7 @@ meta:
       - ["09-01", "11-30"]
     classification:
       domain: evapotranspiration
+      phenomenon: evaporative demand
       aspect: magnitude
       season: by season
       output: series
@@ -58,6 +59,7 @@ meta:
       - ["01-09", "30-11"]
     classification:
       domain: évapotranspiration
+      phenomenon: demande évaporative
       aspect: intensité
       season: par saison
       output: série

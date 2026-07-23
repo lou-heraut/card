@@ -19,6 +19,10 @@ phenomenon:
   wet days: {fr: jours pluvieux}
   heavy rain: {fr: pluies fortes}
   snow: {fr: neige}
+  # magnitudes moyennes des autres grandeurs (pendants de « moyennes eaux »)
+  mean precipitation: {fr: précipitations moyennes}
+  mean temperatures: {fr: températures moyennes}
+  evaporative demand: {fr: demande évaporative}
 
 aspect:
   # typologie IHA/EFC (Richter et al. 1996 ; Olden & Poff 2003)

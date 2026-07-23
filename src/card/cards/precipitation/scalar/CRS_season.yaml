@@ -1,5 +1,5 @@
 id: CRS_season
-version: "1.0"
+version: "1.0.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -21,9 +21,9 @@ meta:
       - ["09-01", "11-30"]
     classification:
       domain: precipitation
-      aspect: magnitude
       season: by season
       output: scalar
+      purpose: model performance
 
   fr:
     variable: [CRS_DJF, CRS_MAM, CRS_JJA, CRS_SON]
@@ -42,9 +42,9 @@ meta:
       - ["01-09", "30-11"]
     classification:
       domain: précipitations
-      aspect: intensité
       season: par saison
       output: scalaire
+      purpose: performance de modèle
 
   global:
     input_vars: "R_obs, R_sim"

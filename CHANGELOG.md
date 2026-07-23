@@ -66,6 +66,21 @@ des deux endroits.
 
 ### Ajouté
 
+- **Toute variate a désormais un phénomène** (23 fiches complétées).
+  Les cumuls de pluie (`RA`, `RMA`, `RSA`…), les températures moyennes
+  (`TA`, `TMA`, `TSA`) et l'évapotranspiration (`ETPA`…) semblaient
+  « sans régime » ; en réalité leur magnitude moyenne est un phénomène à
+  part entière, pendant de « moyennes eaux » côté débit. Trois phénomènes
+  ajoutés à `topics.yaml` : `mean precipitation` / précipitations
+  moyennes, `mean temperatures` / températures moyennes,
+  `evaporative demand` / demande évaporative. Les fractions liquide/solide
+  (`RA_ratio`, `RAl_ratio`) rejoignent `neige` ; `CR`/`CRS_season` (rapport
+  simulé/observé des précipitations) deviennent `purpose: model
+  performance`, comme `Bias`. Renverse une décision antérieure de
+  `TOPICS.md` (« mean ne devient pas un phénomène »), pour permettre de
+  ranger le corpus par régime observé. Métadonnée seule, valeurs
+  inchangées, patch de version sur les 23. Détail : `docs/dev/TOPICS.md`.
+
 - **`QJ`, le régime journalier moyen brut, complète la famille.** Il
   existait comme intermédiaire de `QJC10` mais pas comme fiche : le
   régime moyen non lissé n'était pas extractible seul, alors que sa

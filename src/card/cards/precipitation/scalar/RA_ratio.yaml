@@ -1,5 +1,5 @@
 id: RA_ratio
-version: "1.0"
+version: "1.0.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -15,6 +15,7 @@ meta:
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: precipitation
+      phenomenon: snow
       aspect: magnitude
       season: annual
       output: scalar
@@ -30,6 +31,7 @@ meta:
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: précipitations
+      phenomenon: neige
       aspect: intensité
       season: annuelle
       output: scalaire

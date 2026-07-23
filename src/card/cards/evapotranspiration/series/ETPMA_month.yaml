@@ -1,5 +1,5 @@
 id: ETPMA_month
-version: "1.0"
+version: "1.0.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -49,6 +49,7 @@ meta:
       - ["12-01", "12-31"]
     classification:
       domain: evapotranspiration
+      phenomenon: evaporative demand
       aspect: magnitude
       season: by month
       output: series
@@ -98,6 +99,7 @@ meta:
       - ["01-12", "31-12"]
     classification:
       domain: évapotranspiration
+      phenomenon: demande évaporative
       aspect: intensité
       season: par mois
       output: série
