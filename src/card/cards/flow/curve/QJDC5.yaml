@@ -1,11 +1,11 @@
-id: median-QJC5
-version: "2.1"
+id: QJDC5
+version: "3.0"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-07-18"
+date: "2026-07-23"
 
 meta:
   en:
-    variable: median-QJC5
+    variable: QJDC5
     unit: "m^{3}.s^{-1}"
     name: Inter-annual median daily flow regime over {suffix.name} smoothed over 5 days
     description: >-
@@ -24,7 +24,7 @@ meta:
       output: curve
 
   fr:
-    variable: mediane-QJC5
+    variable: QJDC5
     unit: "m^{3}.s^{-1}"
     name: Régime journalier médian inter-annuel sur {suffix.name} lissé sur 5 jours
     description: >-
@@ -50,11 +50,11 @@ meta:
 process:
   P1:
     func:
-      median-QJ: [over_period, "Q", {func: nanmedian, dates: "date", period_start: "period_start", period_end: "period_end"}]
+      QJD: [over_period, "Q", {func: nanmedian, dates: "date", period_start: "period_start", period_end: "period_end"}]
     time_step: yearday
 
   P2:
     func:
-      median-QJC5: [rollmean_center, "median-QJ", {k: 5, cyclical: true}]
+      QJDC5: [rollmean_center, "QJD", {k: 5, cyclical: true}]
     time_step: none
-    keep: [median-QJC5]
+    keep: [QJDC5]

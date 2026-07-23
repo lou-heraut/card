@@ -1,13 +1,13 @@
-id: median-QJ
-version: "1.1.1"
+id: QJD
+version: "2.0"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
-date: "2026-07-18"
+date: "2026-07-23"
 
 meta:
   en:
-    variable: median-QJ
+    variable: QJD
     unit: "m^{3}.s^{-1}"
-    name: Median inter-annual flow over {suffix.name}
+    name: Inter-annual median daily flow regime over {suffix.name}
     description: ""
     method: "1. aggregation by day of the year over {suffix.name} - median"
     suffix_default:
@@ -20,9 +20,9 @@ meta:
       output: curve
 
   fr:
-    variable: mediane-QJ
+    variable: QJD
     unit: "m^{3}.s^{-1}"
-    name: "Débit médian inter-annuel sur {suffix.name}"
+    name: "Régime journalier médian inter-annuel sur {suffix.name}"
     description: ""
     method: "1. agrégation par jour de l'année sur {suffix.name} - médiane"
     suffix_default:
@@ -42,5 +42,5 @@ meta:
 process:
   P1:
     func:
-      median-QJ: [over_period, "Q", {func: nanmedian, dates: "date", period_start: "period_start", period_end: "period_end"}]
+      QJD: [over_period, "Q", {func: nanmedian, dates: "date", period_start: "period_start", period_end: "period_end"}]
     time_step: yearday

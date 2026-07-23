@@ -18,8 +18,8 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 |---|---|---|---|---|---|---|---|---|
 | [FDC](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/FDC.yaml) | FDC_p, FDC_Q | Courbe des débits classés sur la chronique entière | moyennes eaux | intensité | chronique | without unit | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
 | [QJC10](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJC10.yaml) | QJC10 | Régime journalier inter-annuel lissé sur 10 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
-| [median-QJ](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/median-QJ.yaml) | median-QJ | Débit médian inter-annuel sur la chronique entière | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
-| [median-QJC5](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/median-QJC5.yaml) | median-QJC5 | Régime journalier médian inter-annuel sur la chronique entière lissé sur 5 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
+| [QJD](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJD.yaml) | QJD | Régime journalier médian inter-annuel sur la chronique entière | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
+| [QJDC5](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJDC5.yaml) | QJDC5 | Régime journalier médian inter-annuel sur la chronique entière lissé sur 5 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
 
 ## flow / scalar
 

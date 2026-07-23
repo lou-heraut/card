@@ -77,7 +77,7 @@ def main():
 
     res = CARD_extraction(
         data,
-        CARD_name=["QA", "median-QJC5", "tQJXA", "dtLF", "delta-endLF_H"],
+        CARD_name=["QA", "QJDC5", "tQJXA", "dtLF", "delta-endLF_H"],
         verbose=False,
     )
     dataEX = res["data"]
@@ -88,20 +88,19 @@ def main():
     r_v, p_v, _ = align_yearly(r, dataEX["QA"], "QA", "QA")
     compare_series("QA (moyenne annuelle)", r_v, p_v)
 
-    # ── median-QJC5 ─────────────────────────────────────────────────────
-    print("\nmedian-QJC5")
+    # ── QJDC5 (ex median-QJC5, renommée) ────────────────────────────────
+    # Le golden R garde le nom R (median-QJC5) et ses deux colonnes ;
+    # la fiche Python sort la seule QJDC5, à comparer à la colonne R
+    # median-QJC5 (même calcul, cf. ORIGINE_R.md).
+    print("\nQJDC5")
     r = pd.read_csv(R_OUT / "median-QJC5.csv")
-    p = dataEX["median-QJC5"]
-    # sortie R : 'Yearday' ; sortie Python : 'yearday' (snake_case)
-    p = p.rename(columns={"yearday": "Yearday"})
-    m = r[["id", "Yearday", "median-QJ", "median-QJC5"]].merge(
-        p[["id", "Yearday", "median-QJ", "median-QJC5"]],
-        on=["id", "Yearday"], suffixes=("_R", "_py"), how="outer",
+    p = dataEX["QJDC5"].rename(columns={"yearday": "Yearday"})
+    m = r[["id", "Yearday", "median-QJC5"]].merge(
+        p[["id", "Yearday", "QJDC5"]],
+        on=["id", "Yearday"], how="outer",
     )
-    compare_series("median-QJ (médiane par yearday)",
-                   m["median-QJ_R"], m["median-QJ_py"])
-    compare_series("median-QJC5 (rollmean cyclique k=5)",
-                   m["median-QJC5_R"], m["median-QJC5_py"])
+    compare_series("QJDC5 (rollmean cyclique k=5)",
+                   m["median-QJC5"], m["QJDC5"])
 
     # ── tQJXA (is_date : fonctions 0-based + conversion EXstat_py
     #    reproduisent exactement les valeurs R, vérifié empiriquement) ──

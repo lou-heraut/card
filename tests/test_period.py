@@ -47,7 +47,7 @@ def test_fdc_probabilities_accepte_la_colonne_imposee():
 
 @pytest.mark.parametrize("fiche,variable,lignes", [
     ("QM", "QM", 12),
-    ("median-QJ", "median-QJ", 365),
+    ("QJD", "QJD", 365),
     ("FDC", "FDC_Q", 1000),
 ])
 def test_fiche_horizon_suit_les_bornes_fournies(fiche, variable, lignes):

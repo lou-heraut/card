@@ -84,15 +84,16 @@ autonome et n'en a pas besoin.
 - **Index 0-based** (`which.*NA`, apply_threshold first/last) : la
   chaîne complète avec la conversion is_date de stase redonne
   exactement les valeurs R.
-- **`median-QJC5` ne sort plus son intermédiaire** : la fiche R utilise
-  `keep = "all"` et son résultat porte deux colonnes, `median-QJ` (le
-  régime médian brut) et `median-QJC5` (sa version lissée sur 5 jours).
-  Le régime brut a sa propre fiche, `median-QJ` : `median-QJC5` n'a pas
-  à le recracher. Elle passe à `keep: [median-QJC5]`, comme `QJC10` le
-  fait déjà, et ne sort que sa colonne (fiche v2.0, cf. RENAMING.md). Le
-  golden R conserve les deux colonnes ; la comparaison de corpus signale
-  donc l'absence de `median-QJ` côté Python, attendue. Les valeurs de
-  `median-QJC5` sont inchangées, seule la colonne surnuméraire disparaît.
+- **Régime médian renommé `median-QJ`/`median-QJC5` → `QJD`/`QJDC5`** :
+  le préfixe `median-` est réservé aux réductions `f(série) → scalaire`,
+  la médiane d'un régime devient la statistique d'ordre `D` en position 3
+  (NOMENCLATURE §4, §6). R garde ses noms (`median-QJ`, `median-QJC5`),
+  donc la comparaison de corpus apparie `QJD`↔`median-QJ` et
+  `QJDC5`↔`median-QJC5` par le calcul, pas par le nom ; les valeurs sont
+  identiques. De plus, la fiche R `median-QJC5` utilise `keep = "all"` et
+  son golden porte deux colonnes (`median-QJ` brut + lissé) ; la fiche
+  Python `QJDC5` ne sort que sa colonne (le régime brut a sa fiche `QJD`),
+  donc le golden R garde une colonne de plus, écart attendu et voulu.
 
 ## Noms hérités du R
 

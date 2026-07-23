@@ -63,36 +63,66 @@ les positions 2–4.
 | A | année (pdt annuel) | QA, RA, TA |
 | M | mois | QMNA, QMA_month, TMA_month |
 | S | saison (pdt saisonnier) | QSA_season, TSA_season, RSA_season |
-| J | jour | QJXA, median-QJ |
+| J | jour | QJXA, QJD |
 | I | instantané | (réservé, non utilisé actuellement) |
 | *k* en suffixe de VCN/VCX | durée mobile continue de k jours | VCN10, VCX3 |
 
 Les **VCNd / VCXd** sont les « variates spécialisées » d'Oberlin :
 V = valeur moyenne sur une durée continue (Volume), C =
-Caractéristique, N/X = représentativité, d = durée en jours. Même
-famille : DC (durées cumulées) et QC (débits-seuils), disponibles si
-besoin futur.
+Caractéristique, N/X = représentativité, d = durée en jours. Oberlin
+prévoit deux sœurs, **QC** (débits-seuils tenus continûment d jours) et
+**DC** (durées cumulées : débit sur un total de d jours non
+consécutifs) ; **CARD n'en fait aucune fiche et ne réserve pas leurs
+sigles**. Les débits caractéristiques d'Oberlin (DC1, DC6, DCE... =
+débit dépassé 1, 6, 11 mois par an) sont des **points de la courbe des
+débits classés**, que CARD fournit en entier avec la fiche `FDC` : le
+besoin est couvert par la courbe, pas par des variates discrètes. `D` et
+`Q` restent donc libres pour d'autres rôles (cf. §4, `D` = médiane).
 
-Par analogie, **QJC** (QJC10, median-QJC5) se lit « débit Journalier
-Caractéristique » : le régime inter-annuel par jour de l'année, lissé
-sur d jours. ⚠️ Interprétation à confirmer par l'utilisateur : si c'est
-bien cela, le `name` de QJC10 (« débit moyen mensuel... », faux, cf.
-audit A4) devient « Régime journalier inter-annuel lissé sur 10 jours ».
+Par analogie avec V-C, **QJCd** se lit « débit Journalier lissé sur d
+jours » : le régime moyen par jour de l'année (moyenne inter-annuelle
+implicite, cf. §4), lissé sur d jours. `name` « Régime journalier
+inter-annuel lissé sur d jours » (l'ancien « débit moyen mensuel » était
+faux, audit A4). La variante médiane du régime se sigle `QJDCd`
+(cf. §4).
 
 Indices climatologiques (dtCDD, dtCWD, RCXA, dtRA01mm...) : la grandeur
 et la durée sont dans le sigle ETCCDI d'origine (CDD = consecutive dry
 days) ; on conserve les sigles internationaux tels quels (cf. §8).
 
-## 4. Position 3 : Représentativité
+## 4. Position 3 : statistique d'ordre (représentativité)
 
-Norme OMM reprise par Oberlin, seuls deux cas existent :
+Position 3 dit **quelle statistique d'ordre résume l'échantillon** que
+le sigle définit. Oberlin ne nommait que les extrêmes ; CARD étend
+proprement la case à la médiane, sans toucher aux standards :
 
-- **X** = maXimal(e) : QJXA, VCX10, RCXA5
-- **N** = miNimal(e) : QMNA, VCN10, QNA
+| Statistique | Percentile | Jeton | Exemples |
+|---|---|---|---|
+| minimum | P0 | **N** | QMNA, VCN10, QNA |
+| médiane | P50 | **D** | QJD, QDA |
+| maximum | P100 | **X** | QJXA, VCX10, RCXA5 |
+| **moyenne** | — | **absence** | QA, QM, RA |
+| autre quantile | Pq | **Pq** | QJP10, QJP90 |
 
-**Absence de lettre = intégrale/moyenne triviale sur le pas de temps**
-(QA, QM, RA). C'est le corollaire de la règle « moyenne » : ne jamais
-écrire de lettre ni de mot pour la moyenne intra-pdt.
+Trois règles tiennent tout :
+
+- **La moyenne est le fantôme.** Ce n'est pas une statistique d'ordre
+  mais l'espérance ; elle ne s'écrit jamais en position 3 (corollaire de
+  la règle « moyenne » du §1). `QA`, `QJ`, `QM` = moyenne implicite.
+- **`N`/`D`/`X` sont les trois statistiques d'ordre nommées** (min,
+  médiane, max). Un autre percentile s'écrit `Pq` (q = probabilité en
+  %). `P0`, `P50`, `P100` sont **interdits** comme jetons : ce sont
+  `N`, `D`, `X`, sans quoi on aurait deux écritures pour un même calcul.
+  `D` est libre (cf. §3 : ni `DC` ni `QC` ne sont réservés).
+- **L'axe de la statistique suit la granularité de sortie, pas la
+  lettre.** Une sortie **par-année** (lettre de saison `A` présente)
+  agrège *dans* l'année : `QNA` = min des jours de l'année → une valeur
+  par an (série). Une sortie **régime** (pas de `A`, résolution
+  sous-annuelle gardée) agrège *sur les années* par sous-période :
+  `QJD` = médiane des années pour chaque jour → 365 valeurs (courbe).
+  Le même jeton, `D`, vaut donc intra-année dans `QDA` et inter-annuel
+  dans `QJD` ; c'est déjà le cas pour le fantôme (`QA` vs `QJ`) et pour
+  `N`/`X`. **Régime = pas de `A` = sortie `curve`.**
 
 ## 5. Position 4 : Saison d'échantillonnage
 
@@ -121,13 +151,15 @@ résultat reste une série annuelle, dérivée de l'événement) :
 | f | fréquence de dépassement | sans unité (fraction) | fQ01A |
 | start/end/center | position de l'événement | jour de l'année | startLF, endBF, centerLF |
 
-**Préfixes à tiret, opérateurs inter-annuels ou inter-périodes** (le
-résultat réduit la série annuelle à un scalaire ou compare des
-périodes) :
+**Préfixes à tiret, opérateurs `f(série) → scalaire` ou comparaison de
+périodes.** Un préfixe applique une fonction **par-dessus une série
+par-année déjà nommée**, et la réduit à un scalaire (ou compare deux
+périodes). Il ne modifie jamais *comment* la variable de base est
+construite :
 
 | Préfixe | Sens | Exemple |
 |---|---|---|
-| median- / mean- | médiane / moyenne inter-annuelle | median-tVCN10, mean-QA |
+| median- / mean- | médiane / moyenne inter-annuelle **d'une série** | median-tVCN10, mean-QA |
 | alpha- | pente de tendance (Sen) | alpha-QJXA |
 | hyp- | test de stationnarité (Mann-Kendall) | hyp-alpha-QA |
 | delta- | changement entre période historique et horizon | delta-QA_H |
@@ -136,6 +168,16 @@ périodes) :
 Lecture par composition, de gauche à droite = de l'extérieur vers
 l'intérieur : `median-tVCN10` = médiane inter-annuelle ( date de (
 minimum annuel ( moyenne mobile 10 j ( Q )))).
+
+**Ne pas confondre le préfixe `median-` et le jeton `D` (§4).** Le
+préfixe est un `f(x)` posé sur une série : `median-tVCN10` = médiane de
+la série `tVCN10`, résultat scalaire. Le jeton `D` est la statistique
+**intrinsèque** qui construit la variable : `QJD` est le régime médian,
+pas « la médiane de `QJ` » (prendre la médiane d'un régime moyen n'a pas
+de sens). D'où deux objets bien distincts, jamais synonymes : `QDA`
+(médiane des jours de l'année → série) contre `median-QA` (médiane sur
+les années de la série `QA` → scalaire). La forme (`curve`/`scalar`)
+lève toute ambiguïté.
 
 **Suffixes** (dans cet ordre s'ils se cumulent) :
 

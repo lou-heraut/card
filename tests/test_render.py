@@ -130,7 +130,7 @@ def test_la_bande_marque_les_bornes():
 def test_l_enveloppe_de_periode_est_depliee():
     """over_period sert à restreindre ; afficher son nom cacherait que
     la fiche calcule une médiane."""
-    f = figure("median-QJ")
+    f = figure("QJD")
     assert "nanmedian(Q)" in f
     assert "over_period" not in f
 
@@ -143,7 +143,7 @@ def test_la_figure_suit_la_forme_de_sortie():
 def test_la_figure_n_invente_pas_l_axe_d_une_courbe():
     """Il n'est écrit nulle part dans la fiche : le deviner du nom de la
     variable rendait « jour de l'année » sur toute courbe non-FDC."""
-    for nom in ("FDC", "BFM", "QJC10", "median-QJ", "median-QJC5"):
+    for nom in ("FDC", "BFM", "QJC10", "QJD", "QJDC5"):
         assert "indexée par" not in figure(nom)
 
 
@@ -152,7 +152,7 @@ def test_la_granularite_n_est_annoncee_que_si_la_fiche_la_determine():
     pour FDC : la fiche ne le dit pas, la figure non plus."""
     for nom in ("BFM", "QJC10", "FDC"):
         assert "ligne par" not in figure(nom)
-    assert "une ligne par jour de l'année" in figure("median-QJ")
+    assert "une ligne par jour de l'année" in figure("QJD")
     assert "les mois en colonnes" in figure("QMA_month")
     assert "une ligne par mois" in figure("QM")
 

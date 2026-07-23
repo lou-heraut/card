@@ -159,22 +159,33 @@ Correction fonctionnelle : QJC10 P1 lisait la colonne `Q_obs`
 inexistante (`input_vars: Q`), corrigé en `Q`, la fiche est
 exécutable (audit A4).
 
-## median-QJC5 ne sort plus son intermédiaire (2026-07-23)
+## Régime médian : `D` en position 3, fin du préfixe `median-` sur les régimes (2026-07-23)
 
-`median-QJC5` cumulait deux fiches en une : elle produisait le régime
-médian brut `median-QJ` **et** sa version lissée sur 5 jours. Le régime
-brut a déjà sa fiche autonome `median-QJ` (valeurs identiques à
-l'intermédiaire, vérifié : écart nul). `median-QJC5` passe de `keep: all`
-à `keep: [median-QJC5]`, comme `QJC10` le fait déjà, et ne sort que sa
-propre colonne.
+Le préfixe `median-`/`mean-` désigne une réduction `f(série) → scalaire`
+(cf. NOMENCLATURE §6) : `median-tVCN10` = médiane de la série `tVCN10`.
+`median-QJ`/`median-QJC5` détournaient ce préfixe pour la statistique
+**intrinsèque** d'un régime (médiane par jour de l'année, résultat
+courbe), un usage incohérent avec les 24 autres fiches préfixées. La
+médiane devient une **statistique d'ordre en position 3**, jeton `D`,
+sœur de `N`/`X` (NOMENCLATURE §4). Le sigle `D` est libre : Oberlin le
+prend pour les durées cumulées, mais CARD ne réserve pas cette famille
+(les débits caractéristiques passent par la courbe `FDC`, §3).
 
-| Fiche | Version | Sorties avant | Sorties après |
+| Ancien id | Nouveau id | Version | Sorties |
 |---|---|---|---|
-| median-QJC5 | 1.0.1 → 2.0 | median-QJ, median-QJC5 | median-QJC5 |
+| median-QJ | **QJD** | 1.1.1 → 2.0 | mediane-QJ → QJD |
+| median-QJC5 | **QJDC5** | 2.1 → 3.0 | mediane-QJC5 → QJDC5 |
 
-Parité R volontairement rompue : la fiche R utilise `keep = "all"` et son
-golden porte les deux colonnes (cf. ORIGINE_R.md). Les valeurs de
-`median-QJC5` sont inchangées.
+Le calcul ne change pas, seuls l'id et le nom de la colonne de sortie.
+Le sigle est identique en français et en anglais (comme `VCN10`), la
+variante `mediane-` disparaît. Parité R rompue sur le **nom** (R garde
+`median-QJ`/`median-QJC5`), valeurs identiques ; cf. ORIGINE_R.md. Étape
+précédente du même jour : `median-QJC5` avait déjà cessé de recracher son
+intermédiaire (`keep: all` → `keep: [QJDC5]`), et gagné la période
+facultative comme `QJD`.
+
+Régimes moyens inchangés (`QJ`, `QJC10`, `QM`) : la moyenne reste le
+fantôme du §4, aucun préfixe.
 
 ## Corrections de cohérence : 2026-07-18
 

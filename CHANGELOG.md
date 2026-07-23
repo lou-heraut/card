@@ -45,15 +45,32 @@ des deux endroits.
 
 ## Non publié
 
+### Modifié
+
+- **Le régime médian se sigle `D`, plus le préfixe `median-`.**
+  `median-QJ` et `median-QJC5` deviennent **`QJD`** et **`QJDC5`**. Le
+  préfixe `median-`/`mean-` désigne une réduction d'une série à un
+  scalaire (`median-tVCN10` = médiane de la série `tVCN10`) ; l'appliquer
+  à un régime, qui produit une courbe et dont la médiane est
+  *intrinsèque* au calcul, était incohérent avec les 24 autres fiches
+  préfixées. La médiane rejoint donc `N` (min) et `X` (max) comme
+  **statistique d'ordre en position 3** : `N`/`D`/`X` = min/médiane/max,
+  la moyenne restant implicite, `Pq` pour les autres percentiles. Le
+  sigle `D` est libre car CARD ne réserve pas les durées cumulées
+  d'Oberlin (`DC`) : les débits caractéristiques passent par la courbe
+  `FDC`. Calcul inchangé, seuls id et nom de colonne changent ; parité R
+  sur le nom seulement. Conception : NOMENCLATURE §3–§4–§6, trace
+  RENAMING.md et ORIGINE_R.md.
+
 ### Ajouté
 
-- **`median-QJC5` accepte une période, comme son homologue `median-QJ`.**
-  Le régime médian lissé peut désormais se calculer sur une fenêtre
-  donnée : `period_start` et `period_end` deviennent des entrées
+- **Le régime médian accepte une période, comme son homologue `QJD`.**
+  `QJDC5` (régime médian lissé) peut désormais se calculer sur une
+  fenêtre donnée : `period_start` et `period_end` deviennent des entrées
   facultatives et son P1 passe par `over_period`, exactement comme la
-  fiche du régime brut. Sans période, le résultat est inchangé (version
-  2.1). Reste ouvert : `QJC10`, le régime moyen lissé, est dans le même
-  cas et n'a pas encore de période.
+  fiche du régime brut `QJD`. Sans période, le résultat est inchangé.
+  Reste ouvert : `QJC10`, le régime moyen lissé, est dans le même cas et
+  n'a pas encore de période.
 
 - **`card.info` dessine la fiche au lieu d'en lister les champs.** Une
   fiche contient tout ce qu'il faut pour comprendre son calcul, mais
@@ -134,14 +151,13 @@ des deux endroits.
   version passe à 1.1. La valeur calculée ne change pas, seule
   l'étiquette de forme qui voyage dans les métadonnées de sortie. Repéré
   en mesurant la sortie réelle pendant la reprise de `card.info`.
-- **`median-QJC5` était deux fiches en une.** Elle sortait le régime
-  médian brut `median-QJ` **et** sa version lissée sur 5 jours, alors
-  que le régime brut a déjà sa fiche autonome `median-QJ`. Elle passe de
-  `keep: all` à `keep: [median-QJC5]`, comme `QJC10` le fait déjà, et ne
-  produit plus que sa colonne (version 2.0, une sortie retirée). Les
-  valeurs de `median-QJC5` sont inchangées ; parité R volontairement
-  rompue (le golden R garde les deux colonnes). Détail :
-  `docs/dev/RENAMING.md` et `docs/dev/ORIGINE_R.md`.
+- **Le régime médian lissé (`QJDC5`) était deux fiches en une.** Il
+  sortait le régime médian brut **et** sa version lissée sur 5 jours,
+  alors que le régime brut a déjà sa fiche autonome (`QJD`). Il passe de
+  `keep: all` à `keep: [QJDC5]`, comme `QJC10` le fait déjà, et ne
+  produit plus que sa colonne (une sortie retirée). Les valeurs sont
+  inchangées ; parité R volontairement rompue (le golden R garde les deux
+  colonnes). Détail : `docs/dev/RENAMING.md` et `docs/dev/ORIGINE_R.md`.
 
 ### Corrigé
 
@@ -164,7 +180,7 @@ des deux endroits.
 
 - **Douze fiches à horizon fixe disparaissent, sans en créer aucune.**
   La période devient une entrée **facultative** de `QM`, `FDC` et
-  `median-QJ`, qui existaient déjà : sans bornes elles calculent sur
+  `QJD` (alors nommée `median-QJ`), qui existaient déjà : sans bornes elles calculent sur
   toute la chronique comme avant, avec bornes elles restreignent. Le
   vocabulaire parle de période et non d'horizon, ces fiches servant aussi
   bien une fenêtre observée qu'une projection. Vérifié des deux côtés :

@@ -299,7 +299,7 @@ def periodes_comparees(c):
 
 # (time_step, compress) du dernier process -> granularité des lignes.
 # Chaque entrée a été vérifiée par une extraction réelle, pas déduite :
-# QA 13 lignes pour 12 années, QM 12, median-QJ 365, QMA_month et
+# QA 13 lignes pour 12 années, QM 12, QJD 365, QMA_month et
 # QSA_season une ligne par année, Bias_season une seule ligne.
 _LIGNES = {
     ("year", False): "l_annee",
