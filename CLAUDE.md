@@ -27,7 +27,7 @@ statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
 
 ```
 src/card/
-  cards/<domain>/<output>/   # 225 fiches : flow|precipitation|temperature|
+  cards/<domain>/<output>/   # les fiches : flow|precipitation|temperature|
                              #   evapotranspiration / series|scalar|curve ;
                              #   le linter impose chemin == classification
   functions/     # fonctions hydro portées de R
@@ -183,7 +183,13 @@ Doctrine complète : « Versions, en quatre phrases », en tête de
 ## État (2026-07-22)
 
 Tout est commité et poussé sur card et sur `../../EXstat_project/stase/`,
-qui va de pair. Corpus = 225 fiches, 471 variables, 105 tests verts.
+qui va de pair.
+
+**Décompte du corpus (fiches, variables) : un seul endroit, le README**,
+entre les balises `<!-- cards:count -->`, tenu à jour par
+`scripts/generate_catalog.py`. Ne JAMAIS l'écrire à la main ailleurs (ici,
+les docs, un About GitHub) : ça finit toujours périmé. Relancer le script
+après toute modif de fiche le resynchronise.
 
 Ce qui a été livré et quand se lit dans `CHANGELOG.md`, ce qui reste
 ouvert dans `docs/dev/CHANTIERS.md`. Ces deux fichiers font foi : ne pas

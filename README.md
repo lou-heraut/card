@@ -8,10 +8,13 @@
 <!-- badges: end -->
 
 **card** calcule des variables hydroclimatiques prêtes à l'emploi :
-225 fiches (étiages, crues, saisonnalité, changement climatique...)
-définies en YAML et exécutées par le moteur
-[stase](https://github.com/lou-heraut/stase). Vous choisissez vos
-fiches, card fait le reste.
+<!-- cards:count -->226 fiches, 472 variables<!-- /cards:count -->
+(étiages, crues, saisonnalité, changement climatique...) définies en YAML
+et exécutées par le moteur [stase](https://github.com/lou-heraut/stase).
+Vous choisissez vos fiches, card fait le reste.
+
+<sub>Le décompte ci-dessus est le seul du dépôt : `scripts/generate_catalog.py`
+le tient à jour, ne l'écrivez nulle part ailleurs à la main.</sub>
 
 ## Installation
 
@@ -194,12 +197,12 @@ définition qui va avec.
 ## Trouver sa fiche
 
 ```python
-card.list_cards()                          # 471 variables, une par ligne
-card.list_cards(phenomenon="basses eaux")  # 114 : filtre par phénomène (fr ou en)
-card.list_cards(output="série")            # 276 : série, scalaire ou courbe
-card.list_cards(season="estivale")         # 28 : fenêtre d'échantillonnage
-card.list_cards(operator="delta")          # 83 : opérateur (delta, median...)
-card.list_cards(variable="VCN")            # 33 : filtre par nom de variable
+card.list_cards()                          # toutes les variables, une par ligne
+card.list_cards(phenomenon="basses eaux")  # filtre par phénomène (fr ou en)
+card.list_cards(output="série")            # série, scalaire ou courbe
+card.list_cards(season="estivale")         # fenêtre d'échantillonnage
+card.list_cards(operator="delta")          # opérateur (delta, median...)
+card.list_cards(variable="VCN")            # filtre par nom de variable
 card.list_cards(search="minimum annuel")   # recherche dans les noms fr et en
 card.info("VCN10")                         # la fiche, dessinée (voir plus bas)
 ```
@@ -297,7 +300,7 @@ src/card/
   extraction.py   # card.extract : chaîne P1..Pn via stase.extract
   management.py   # card.list_cards, card.info, card.copy_cards
   functions/      # fonctions hydro (baseflow, return_level, NSE, KGE...)
-  cards/          # les 225 fiches YAML (cards/<domaine>/<forme>/)
+  cards/          # les fiches YAML (cards/<domaine>/<forme>/)
 ```
 
 Toute la mécanique de données (sampling adaptatif, sorties
@@ -340,7 +343,7 @@ auteurs dans le fichier AUTHORS.
 
 ```bash
 pip install -e . && pytest              # 105 tests
-python -m card.schema                   # linter des 225 fiches YAML
+python -m card.schema                   # linter des fiches YAML
 python scripts/generate_catalog.py      # régénère docs/CARDS.md
 ```
 

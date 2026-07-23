@@ -1,6 +1,6 @@
 # Catalogue des fiches CARD
 
-226 fiches, 472 variables. Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.
+Généré par `scripts/generate_catalog.py`, ne pas éditer à la main. Le décompte du corpus est dans le README.
 
 Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entrées* indique les colonnes que `data` doit contenir (cf. `rename=` pour la correspondance). Détail d'une fiche : `card.info("nom")`.
 
@@ -18,9 +18,9 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 |---|---|---|---|---|---|---|---|---|
 | [FDC](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/FDC.yaml) | FDC_p, FDC_Q | Courbe des débits classés sur la chronique entière | moyennes eaux | intensité | chronique | without unit | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
 | [QJ](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJ.yaml) | QJ | Régime journalier inter-annuel sur la chronique entière | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
-| [QJC10](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJC10.yaml) | QJC10 | Régime journalier inter-annuel lissé sur 10 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
+| [QJC10](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJC10.yaml) | QJC10 | Régime journalier inter-annuel sur la chronique entière lissé sur 10 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
 | [QJD](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJD.yaml) | QJD | Régime journalier médian inter-annuel sur la chronique entière | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
-| [QJDC5](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJDC5.yaml) | QJDC5 | Régime journalier médian inter-annuel sur la chronique entière lissé sur 5 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
+| [QJDC10](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJDC10.yaml) | QJDC10 | Régime journalier médian inter-annuel sur la chronique entière lissé sur 10 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
 | [QM](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QM.yaml) | QM | Débit moyen mensuel sur la chronique entière | moyennes eaux | intensité | par mois | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
 
 ## flow / scalar
@@ -32,6 +32,7 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 | [BFI-Wal](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/BFI-Wal.yaml) | BFI-Wal | Indice de débit de base (Wallingford) | débit de base | intensité | chronique | without unit | Q [m^{3}.s^{-1}] |  |
 | [BFM](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/BFM.yaml) | BFM | Magnitude du débit de base | débit de base | intensité | chronique | without unit | Q [m^{3}.s^{-1}] |  |
 | [Bias](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/Bias.yaml) | Bias | Biais | performance de modèle |  | chronique | without unit | Q_obs [m^{3}.s^{-1}], Q_sim [m^{3}.s^{-1}] |  |
+| [Bias_season](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/Bias_season.yaml) | Bias_DJF, Bias_MAM, Bias_JJA, Bias_SON | Biais hivernal | performance de modèle |  | chronique | without unit | Q_obs [m^{3}.s^{-1}], Q_sim [m^{3}.s^{-1}] |  |
 | [KGE](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/KGE.yaml) | KGE | Coefficient de performance de Kling-Gupta | performance de modèle |  | chronique | without unit | Q_obs [m^{3}.s^{-1}], Q_sim [m^{3}.s^{-1}] |  |
 | [KGEsqrt](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/KGEsqrt.yaml) | KGEsqrt | Coefficient d'efficience de Kling-Gupta de la racine carrée des données | performance de modèle |  | chronique | without unit | Q_obs [m^{3}.s^{-1}], Q_sim [m^{3}.s^{-1}] |  |
 | [NSE](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/NSE.yaml) | NSE | Coefficient d'efficience de Nash-Sutcliffe | performance de modèle |  | chronique | without unit | Q_obs [m^{3}.s^{-1}], Q_sim [m^{3}.s^{-1}] |  |
@@ -143,7 +144,6 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 
 | fiche | variable(s) | nom | phénomène | aspect | saison | unité | entrées | exp. |
 |---|---|---|---|---|---|---|---|---|
-| [Bias_season](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/series/Bias_season.yaml) | Bias_DJF, Bias_MAM, Bias_JJA, Bias_SON | Biais hivernal | performance de modèle |  | chronique | without unit | Q_obs [m^{3}.s^{-1}], Q_sim [m^{3}.s^{-1}] |  |
 | [Q01A](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/series/Q01A.yaml) | Q01A | Débit journalier dépassé 1 % du temps de l'année | hautes eaux | intensité | annuelle | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [Q05A](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/series/Q05A.yaml) | Q05A | Débit journalier dépassé 5 % du temps de l'année | hautes eaux | intensité | annuelle | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [Q10A](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/series/Q10A.yaml) | Q10A | Débit journalier dépassé 10 % du temps de l'année | hautes eaux | intensité | annuelle | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |

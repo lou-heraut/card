@@ -41,20 +41,24 @@ def _inputs_with_units(raw):
     return ", ".join(out)
 
 OUT = ROOT / "docs" / "CARDS.md"
-# La landing Pages annonce le même décompte : on le resynchronise ici pour
-# qu'il ne puisse pas dériver du catalogue.
-INDEX = ROOT / "docs" / "index.md"
-INDEX_COUNT = re.compile(r"les \d+ fiches \(\d+ variables\)")
+# Le décompte du corpus (fiches, variables) ne vit qu'à UN endroit : le
+# README, entre les balises ci-dessous, resynchronisé ici pour qu'il ne
+# puisse jamais dériver. Ne jamais l'écrire à la main ailleurs (ni dans
+# CLAUDE.md, ni dans les docs) : ça finit toujours périmé.
+README = ROOT / "README.md"
+README_COUNT = re.compile(
+    r"(<!-- cards:count -->).*?(<!-- /cards:count -->)", re.S)
 
 
-def _sync_index(n_cards, n_vars):
-    if not INDEX.exists():
+def _sync_readme(n_cards, n_vars):
+    if not README.exists():
         return
-    text = INDEX.read_text(encoding="utf-8")
-    new = INDEX_COUNT.sub(f"les {n_cards} fiches ({n_vars} variables)", text)
+    text = README.read_text(encoding="utf-8")
+    new = README_COUNT.sub(
+        rf"\g<1>{n_cards} fiches, {n_vars} variables\g<2>", text)
     if new != text:
-        INDEX.write_text(new, encoding="utf-8")
-        print(f"{INDEX} : décompte resynchronisé")
+        README.write_text(new, encoding="utf-8")
+        print(f"{README} : décompte resynchronisé ({n_cards}, {n_vars})")
 
 
 def main():
@@ -75,8 +79,8 @@ def main():
     lines = [
         "# Catalogue des fiches CARD",
         "",
-        f"{n_cards} fiches, {n_vars} variables. "
-        "Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.",
+        "Généré par `scripts/generate_catalog.py`, ne pas éditer à la main. "
+        "Le décompte du corpus est dans le README.",
         "",
         "Chaque fiche s'exécute via "
         "`card.extract(data, cards=[...])` ; la colonne *entrées* "
@@ -118,7 +122,7 @@ def main():
     OUT.write_text("\n".join(lines), encoding="utf-8")
     print(f"{OUT} : {n_cards} fiches, {n_vars} variables, "
           f"{len(sections)} sections")
-    _sync_index(n_cards, n_vars)
+    _sync_readme(n_cards, n_vars)
 
 
 if __name__ == "__main__":
