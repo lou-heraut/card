@@ -1,5 +1,5 @@
 id: BFM
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -18,7 +18,7 @@ meta:
       phenomenon: baseflow
       aspect: magnitude
       season: record
-      output: curve
+      output: scalar
 
   fr:
     variable: BFM
@@ -34,7 +34,7 @@ meta:
       phenomenon: débit de base
       aspect: intensité
       season: chronique
-      output: courbe
+      output: scalaire
 
   global:
     input_vars: Q

@@ -16,7 +16,6 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 
 | fiche | variable(s) | nom | phénomène | aspect | saison | unité | entrées | exp. |
 |---|---|---|---|---|---|---|---|---|
-| [BFM](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/BFM.yaml) | BFM | Magnitude du débit de base | débit de base | intensité | chronique | without unit | Q [m^{3}.s^{-1}] |  |
 | [FDC](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/FDC.yaml) | FDC_p, FDC_Q | Courbe des débits classés sur la chronique entière | moyennes eaux | intensité | chronique | without unit | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
 | [QJC10](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJC10.yaml) | QJC10 | Régime journalier inter-annuel lissé sur 10 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [median-QJ](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/median-QJ.yaml) | median-QJ | Débit médian inter-annuel sur la chronique entière | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
@@ -29,6 +28,7 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 | [BF-LH](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/BF-LH.yaml) | BF-LH | Débit de base (Lyne et Hollick) | débit de base | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [BFI-LH](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/BFI-LH.yaml) | BFI-LH | Indice de débit de base (Lyne et Hollick) | débit de base | intensité | chronique | without unit | Q [m^{3}.s^{-1}] |  |
 | [BFI-Wal](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/BFI-Wal.yaml) | BFI-Wal | Indice de débit de base (Wallingford) | débit de base | intensité | chronique | without unit | Q [m^{3}.s^{-1}] |  |
+| [BFM](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/BFM.yaml) | BFM | Magnitude du débit de base | débit de base | intensité | chronique | without unit | Q [m^{3}.s^{-1}] |  |
 | [Bias](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/Bias.yaml) | Bias | Biais | performance de modèle |  | chronique | without unit | Q_obs [m^{3}.s^{-1}], Q_sim [m^{3}.s^{-1}] |  |
 | [KGE](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/KGE.yaml) | KGE | Coefficient de performance de Kling-Gupta | performance de modèle |  | chronique | without unit | Q_obs [m^{3}.s^{-1}], Q_sim [m^{3}.s^{-1}] |  |
 | [KGEsqrt](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/scalar/KGEsqrt.yaml) | KGEsqrt | Coefficient d'efficience de Kling-Gupta de la racine carrée des données | performance de modèle |  | chronique | without unit | Q_obs [m^{3}.s^{-1}], Q_sim [m^{3}.s^{-1}] |  |

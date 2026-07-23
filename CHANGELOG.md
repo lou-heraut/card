@@ -118,6 +118,17 @@ des deux endroits.
 
 ### Corrigé
 
+- **`BFM` était classée `output: curve`, elle produit un scalaire.** Sa
+  fonction rend `(max - min) / max` des débits de base agrégés, soit une
+  seule valeur par série ; l'extraction donne une ligne et une colonne.
+  La classification passe à `scalaire`, la fiche quitte `flow/curve/`
+  pour `flow/scalar/` (le linter impose chemin == classification), et la
+  version passe à 1.1. La valeur calculée ne change pas, seule
+  l'étiquette de forme qui voyage dans les métadonnées de sortie. Repéré
+  en mesurant la sortie réelle pendant la reprise de `card.info`.
+
+### Corrigé
+
 - **La figure annonçait l'unité et la description de la première sortie
   comme celles de la fiche entière.** `allLF` se disait « jour de l'année »
   alors qu'elle produit aussi une durée et un volume ; `QSA_season`
