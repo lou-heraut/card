@@ -180,5 +180,5 @@ def test_les_metadonnees_brutes_sont_accessibles_par_nom():
     from card import load_card
     c = load_card("QA")
     assert c["id"] == "QA" and c["meta"]["fr"]["variable"] == "QA"
-    assert str(c["path"]).endswith("flow/series/QA.yaml")
+    assert str(c["path"]).endswith("flow/mean-flows/series/QA.yaml")
     assert load_card(c["path"])["swhid"] == c["swhid"]

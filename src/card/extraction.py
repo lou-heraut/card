@@ -155,8 +155,9 @@ def _join_sp(sp):
 
 
 def _corpus_path(path):
-    """Chemin de la fiche relatif à la racine du corpus (`flow/series/
-    QA.yaml`), ou son nom si elle vit ailleurs (fiche personnelle)."""
+    """Chemin de la fiche relatif à la racine du corpus
+    (`flow/mean-flows/series/QA.yaml`), ou son nom si elle vit ailleurs
+    (fiche personnelle)."""
     p = Path(path)
     try:
         return p.relative_to(_DEFAULT_CARD_DIR).as_posix()

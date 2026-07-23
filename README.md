@@ -182,8 +182,8 @@ définition qui l'a produite :
 
 ```python
 res["meta"][["variable_fr", "version", "swhid", "script_path"]]
-# variable_fr version                                              swhid         script_path
-#          QA     1.0 swh:1:cnt:f3dc458a789138d81f0868cddfffc19f42aca462 flow/series/QA.yaml
+# variable_fr version                                              swhid              script_path
+#          QA     1.0 swh:1:cnt:f3dc458a789138d81f0868cddfffc19f42aca462 flow/mean-flows/series/QA.yaml
 ```
 
 `version` est celle de la fiche, qui change dès que ses sorties changent.
@@ -287,7 +287,7 @@ VCN10  Minimum annuel de la moyenne sur 10 jours du débit journalier
 
   sortie : VCN10 · une ligne par année
 
-  VCN10 v1.0 · flow/series/VCN10.yaml
+  VCN10 v1.0 · flow/low-flows/series/VCN10.yaml
   https://archive.softwareheritage.org/swh:1:cnt:ccf7e81b4fad5fdfa3028996f952694502527b51
 ```
 
@@ -339,7 +339,8 @@ src/card/
   extraction.py   # card.extract : chaîne P1..Pn via stase.extract
   management.py   # card.list_cards, card.info, card.copy_cards
   functions/      # fonctions hydro (baseflow, return_level, NSE, KGE...)
-  cards/          # les fiches YAML (cards/<domaine>/<forme>/)
+  cards/          # les fiches YAML, rangées par régime
+                  #   (cards/<domaine>/<phénomène>/<forme>/)
 ```
 
 Toute la mécanique de données (sampling adaptatif, sorties

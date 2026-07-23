@@ -482,6 +482,11 @@ def figure(nom, path=None, lang="fr"):
     # dans un terminal, un swh:1:cnt: nu ne dit pas où le porter.
     if not pied:
         pied = [""]
-    pied += ["", f"  {c['id']} v{c.get('version')}{SEP}{_corpus_path(c['path'])}",
-             f"  {SWH}{c.get('swhid')}"]
+    # Provenance. Un chemin de corpus (comme une URL) ne se coupe pas :
+    # si `id v… · chemin` déborde, on met le chemin sur sa propre ligne.
+    ident = f"{c['id']} v{c.get('version')}"
+    chemin = _corpus_path(c["path"])
+    prov = (f"  {ident}{SEP}{chemin}" if len(ident) + len(SEP) + len(chemin) + 2 <= LARGEUR
+            else f"  {ident}\n  {chemin}")
+    pied += ["", prov, f"  {SWH}{c.get('swhid')}"]
     return corps + "\n".join(pied)

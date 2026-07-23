@@ -27,9 +27,11 @@ statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
 
 ```
 src/card/
-  cards/<domain>/<output>/   # les fiches : flow|precipitation|temperature|
-                             #   evapotranspiration / series|scalar|curve ;
+  cards/<domain>/<phenomenon>/<output>/   # les fiches, rangées par régime :
+                             #   flow|precipitation|temperature|evapotranspiration
+                             #   / low-flows|high-flows|… / series|scalar|curve ;
                              #   le linter impose chemin == classification
+                             #   (domaine / phénomène-ou-purpose / forme)
   functions/     # fonctions hydro portées de R
   loader.py      # YAML -> processus ($Hx, tuples func, défauts)
   extraction.py  # card.extract -> {data, meta} (chaîne P1..Pn via stase)

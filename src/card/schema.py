@@ -433,24 +433,32 @@ def validate_card(path) -> list[str]:
     return issues
 
 
+def _slug(s):
+    """Étiquette de classification -> nom de dossier (anglais, minuscules,
+    espaces en tirets)."""
+    return s.replace(" ", "-").replace("'", "") if isinstance(s, str) else s
+
+
 def _check_path_coherence(card, path, issues):
-    """L'arborescence cards/<domain>/<output>/ doit refléter la
-    classification (domaine premier si liste). Ignoré hors d'un dossier
-    'cards' (fiches de test, copies utilisateur)."""
+    """L'arborescence cards/<domain>/<phénomène-ou-purpose>/<output>/ doit
+    refléter la classification (domaine et groupe premiers si listes).
+    Ignoré hors d'un dossier 'cards' (fiches de test, copies utilisateur)."""
     parts = path.resolve().parts
-    if "cards" not in parts or parts.index("cards") != len(parts) - 4:
+    if "cards" not in parts or parts.index("cards") != len(parts) - 5:
         return
     cl = card["meta"]["en"].get("classification")
     if not isinstance(cl, dict):
         return                            # déjà signalé par ailleurs
     dom = cl.get("domain")
     dom = dom[0] if isinstance(dom, list) else dom
-    expected = (dom, cl.get("output"))
-    actual = (parts[-3], parts[-2])
+    grp = cl.get("phenomenon") or cl.get("purpose")
+    grp = grp[0] if isinstance(grp, list) else grp
+    expected = (dom, _slug(grp), cl.get("output"))
+    actual = parts[-4:-1]
     if expected != actual and None not in expected:
         issues.append(
-            f"chemin cards/{actual[0]}/{actual[1]}/ ≠ classification "
-            f"(attendu cards/{expected[0]}/{expected[1]}/)"
+            f"chemin cards/{'/'.join(actual)}/ ≠ classification "
+            f"(attendu cards/{'/'.join(str(e) for e in expected)}/)"
         )
 
 

@@ -61,13 +61,26 @@ def _sync_readme(n_cards, n_vars):
         print(f"{README} : décompte resynchronisé ({n_cards}, {n_vars})")
 
 
+# Ordre des domaines dans le catalogue (le débit en premier, le plus
+# fourni) ; les phénomènes sont ensuite alphabétiques dans chaque domaine.
+_DOMAIN_ORDER = ["flow", "precipitation", "temperature", "evapotranspiration"]
+_FORM_ORDER = {"série": 0, "scalaire": 1, "courbe": 2}
+
+
+def _anchor(section):
+    """Ancre GitHub d'un titre : minuscules, non-alphanumériques retirés,
+    espaces en tirets."""
+    return re.sub(r"[^\w\s-]", "", section.lower()).replace(" ", "-")
+
+
 def main():
     cards = _find_cards(_DEFAULT_CARD_DIR, None)
-    sections = defaultdict(list)   # chemin thématique -> [(nom, meta_df, path)]
+    sections = defaultdict(list)   # "domaine / phénomène" -> [(nom, meta, rel)]
 
     for name, path in sorted(cards.items()):
         rel = path.relative_to(_DEFAULT_CARD_DIR)
-        section = " / ".join(p.replace("_", " ") for p in rel.parts[:-1])
+        # rel.parts = (domaine, phénomène-ou-purpose, forme, fichier)
+        section = " / ".join(p.replace("-", " ") for p in rel.parts[:2])
         # _meta_frame (et non _meta_rows) : le catalogue doit montrer la
         # forme par défaut d'une fiche à placeholders, jamais l'accolade.
         meta = _meta_frame(load_card(path))
@@ -76,26 +89,44 @@ def main():
     n_cards = len(cards)
     n_vars = sum(len(m) for grp in sections.values() for _, m, _ in grp)
 
+    def _sect_key(section):
+        dom = section.split(" / ")[0]
+        return (_DOMAIN_ORDER.index(dom) if dom in _DOMAIN_ORDER else 99, section)
+
+    ordered = sorted(sections, key=_sect_key)
+
     lines = [
         "# Catalogue des fiches CARD",
         "",
         "Généré par `scripts/generate_catalog.py`, ne pas éditer à la main. "
         "Le décompte du corpus est dans le README.",
         "",
-        "Chaque fiche s'exécute via "
-        "`card.extract(data, cards=[...])` ; la colonne *entrées* "
-        "indique les colonnes que `data` doit contenir "
-        "(cf. `rename=` pour la correspondance). Détail d'une fiche : "
-        "`card.info(\"nom\")`.",
+        "Rangé par **domaine / phénomène** (le régime observé) ; la colonne "
+        "*forme* distingue série, scalaire et courbe. Chaque fiche s'exécute "
+        "via `card.extract(data, cards=[...])` ; *entrées* indique les "
+        "colonnes que `data` doit contenir (cf. `rename=`). Détail d'une "
+        "fiche : `card.info(\"nom\")`.",
+        "",
+        "## Sommaire",
         "",
     ]
+    for section in ordered:
+        lines.append(f"- [{section}](#{_anchor(section)}) "
+                     f"({len(sections[section])})")
+    lines.append("")
 
-    for section in sorted(sections):
+    for section in ordered:
         lines += [f"## {section}", ""]
-        lines += ["| fiche | variable(s) | nom | phénomène | aspect | saison "
+        lines += ["| fiche | variable(s) | nom | forme | aspect | saison "
                   "| unité | entrées | exp. |",
                   "|---|---|---|---|---|---|---|---|---|"]
-        for name, meta, rel in sections[section]:
+
+        def _form(row):
+            return str(row[1]["output_fr"].iloc[0])
+
+        for name, meta, rel in sorted(
+                sections[section],
+                key=lambda r: (_FORM_ORDER.get(_form(r), 9), r[0])):
             variables = ", ".join(str(v) for v in meta["variable_en"])
             label = str(meta["name_fr"].iloc[0]) or str(meta["name_en"].iloc[0])
             unit = str(meta["unit_en"].iloc[0])
@@ -107,13 +138,13 @@ def main():
                 uniq = sorted(set(vals), key=vals.index)
                 return ", ".join(uniq)
 
-            phen = facet("phenomenon_fr") or facet("purpose_fr")
+            forme = facet("output_fr")
             aspect = facet("aspect_fr")
             season = facet("season_fr")
             link = (f"[{name}](https://github.com/lou-heraut/card/"
                     f"blob/main/src/card/cards/{rel.as_posix()})")
             lines.append(
-                f"| {link} | {variables} | {label} | {phen} | {aspect} "
+                f"| {link} | {variables} | {label} | {forme} | {aspect} "
                 f"| {season} | {unit} | {inputs} | {exp} |"
             )
         lines.append("")

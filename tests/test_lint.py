@@ -103,7 +103,7 @@ def test_swhid_de_fiche_est_le_hash_git_du_fichier():
     meta = extract(None, cards=["QA"], metadata_only=True)["meta"]
     assert meta["swhid"].iloc[0] == f"swh:1:cnt:{attendu}"
     # le chemin publié est celui du corpus, pas celui de la machine
-    assert meta["script_path"].iloc[0] == "flow/series/QA.yaml"
+    assert meta["script_path"].iloc[0] == "flow/mean-flows/series/QA.yaml"
 
 
 def test_linter_refuse_une_metadonnee_en_liste_pour_une_variable_unique(tmp_path):

@@ -236,15 +236,18 @@ avant application.
 10. **`tags` renommé `phenomenon`** (2026-07-16) : le mot précis que
     « tags » n'était pas ; scalaire dans le cas courant, liste si
     réellement multiple, absent si aucun phénomène particulier.
-11. **Arborescence physique `cards/<domain>/<output>/`** (2026-07-16) :
-    remplace l'arbre thématique historique. Ces deux facettes sont les
-    seules fermées, obligatoires et mono-valuées → l'arborescence est
-    dérivable de la classification et le linter vérifie
-    `chemin == f(domain, output)` (fiches bi-domaines : rangées sous le
-    domaine premier de la liste). Dossiers en anglais : flow,
-    precipitation, temperature, evapotranspiration × series, scalar,
-    curve. Navigation humaine : ~10 dossiers de 15 à 90 fiches, et le
-    catalogue pour le tri fin.
+11. **Arborescence physique `cards/<domain>/<phénomène|purpose>/<output>/`**
+    (2026-07-16, étendue au phénomène le 2026-07-24) : remplace l'arbre
+    thématique historique, et range désormais par **régime observé**.
+    Domaine, phénomène (ou purpose à défaut) et forme sont fermés,
+    obligatoires (le phénomène l'est devenu, cf. plus haut) et
+    mono-valués → l'arborescence est dérivable de la classification et le
+    linter vérifie `chemin == f(domain, phénomène|purpose, output)`
+    (fiches bi-domaines : rangées sous le domaine premier ; bi-phénomènes
+    éventuels : sous le premier). Dossiers en anglais et en slug :
+    `flow/low-flows/scalar/`, `precipitation/mean-precipitation/series/`…
+    Navigation humaine : 22 dossiers feuilles de 1 à 85 fiches, et le
+    catalogue (rangé domaine → phénomène, colonne forme) pour le tri fin.
 6. **Le champ `topic` est supprimé à la migration** : toute
    l'information vient de `classification` (labels en/fr générés depuis
    le vocabulaire central pour le catalogue et card.info).

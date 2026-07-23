@@ -47,6 +47,18 @@ des deux endroits.
 
 ### Modifié
 
+- **Le corpus est rangé par régime observé.** L'arborescence passe de
+  `cards/<domaine>/<forme>/` à
+  `cards/<domaine>/<phénomène>/<forme>/` : les 226 fiches sont
+  déplacées sous leur phénomène (ou `purpose` à défaut). Fini le dossier
+  `flow/scalar/` de 112 fiches : 22 dossiers feuilles de 1 à 85, qu'on
+  parcourt par type d'étude (`flow/low-flows/`, `precipitation/heavy-rain/`…).
+  Le linter contrôle désormais `chemin == (domaine, phénomène|purpose,
+  forme)`. Le **catalogue** suit : rangé domaine → phénomène, avec un
+  sommaire cliquable et une colonne *forme*. Aucun calcul touché, que des
+  déplacements et des métadonnées. Prérequis livré juste avant : toute
+  fiche a un phénomène (voir plus bas). Détail : `docs/dev/TOPICS.md`.
+
 - **Le régime médian se sigle `D`, plus le préfixe `median-`.**
   `median-QJ` et `median-QJC5` deviennent **`QJD`** et **`QJDC10`**. Le
   préfixe `median-`/`mean-` désigne une réduction d'une série à un
