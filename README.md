@@ -218,6 +218,45 @@ Le catalogue complet est consultable en ligne :
 [lou-heraut.github.io/card](https://lou-heraut.github.io/card/) ou
 [docs/CARDS.md](docs/CARDS.md).
 
+## Décoder un nom de fiche
+
+Les identifiants ne sont pas arbitraires : ils se lisent de gauche à
+droite, position par position (système Oberlin). Une fois la grille en
+tête, un nom se déchiffre sans ouvrir la fiche.
+
+```
+  Q      J        D          A            (+ préfixe, + suffixe)
+grandeur pas-de-temps  statistique   saison
+```
+
+- **Grandeur** : `Q` débit, `R` précipitations, `T` température, `ETP`
+  évapotranspiration.
+- **Pas de temps** : `A` année, `M` mois, `S` saison, `J` jour.
+- **Statistique d'ordre** : `N` minimum, `D` médiane, `X` maximum,
+  *rien* = moyenne (implicite), `Pq` = percentile *q* %.
+- **Préfixe** (opération en plus, transforme la sortie) : `delta-`
+  changement entre deux périodes, `mean-`/`median-` moyenne/médiane
+  inter-annuelle d'une série, `rp-` période de retour, `alpha-` pente de
+  tendance, `n-` dénombrement d'années.
+- **Suffixe** : `-10` période de retour 10 ans, `_summer`/`_winter`
+  saison restreinte, `_H` horizon de projection, `_month`/`_season`
+  déclinaison (une sortie par mois / saison).
+
+Quelques noms décodés :
+
+| Nom | Lecture |
+|---|---|
+| `QA` | débit, annuel, moyenne (implicite) : moyenne annuelle du débit |
+| `QJXA` | débit, journalier, maximum, annuel : débit journalier maximal annuel |
+| `QMNA` | débit, mensuel, minimum, annuel : minimum annuel des débits mensuels |
+| `VCN10` | volume (moyenne sur durée continue), min, 10 jours : min annuel du débit moyen sur 10 j |
+| `QJDC10` | débit, journalier, médiane, lissé 10 j : régime journalier médian lissé sur 10 jours |
+| `delta-QA_H` | changement de `QA` entre historique et horizon `H` |
+| `rp-VCN10` | période de retour d'un `VCN10` au regard d'un seuil fourni |
+
+La grille complète, avec les cas particuliers, est dans
+[docs/dev/NOMENCLATURE.md](docs/dev/NOMENCLATURE.md).
+
 ## Lire une fiche
 
 `card.info` dessine ce que la fiche calcule, plutôt que d'en lister les
