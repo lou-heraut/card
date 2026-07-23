@@ -143,6 +143,13 @@ des deux endroits.
 
 ### Corrigé
 
+- **`QM` était classée `series`, c'est un régime donc une `curve`.** Le
+  débit moyen mensuel collapse les années par mois civil : 12 valeurs
+  indexées par mois, une courbe, comme le régime journalier `QJC10`. Elle
+  passe en `courbe` et rejoint `flow/curve/` (version 1.2, valeur
+  inchangée, seule l'étiquette de forme change). Reste ouvert :
+  `Bias_season` est classée `series` mais produit 4 biais saisonniers
+  scalaires (critère de performance, pas un régime) : à trancher à part.
 - **`BFM` était classée `output: curve`, elle produit un scalaire.** Sa
   fonction rend `(max - min) / max` des débits de base agrégés, soit une
   seule valeur par série ; l'extraction donne une ligne et une colonne.

@@ -1,5 +1,5 @@
 id: QM
-version: "1.1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -17,7 +17,7 @@ meta:
       phenomenon: mean flows
       aspect: magnitude
       season: by month
-      output: series
+      output: curve
 
   fr:
     variable: QM
@@ -32,7 +32,7 @@ meta:
       phenomenon: moyennes eaux
       aspect: intensité
       season: par mois
-      output: série
+      output: courbe
 
   global:
     input_vars: "Q, period_start?, period_end?"
