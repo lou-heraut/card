@@ -43,3 +43,16 @@ card = ["cards/**/*.yaml", "*.yaml"]
 testpaths = ["tests"]
 addopts = "-q"
 filterwarnings = ["ignore::RuntimeWarning", "ignore::FutureWarning", "ignore::UserWarning"]
+
+[tool.ruff]
+# Fige le jeu de règles. Sans cette section, `ruff check` applique les
+# défauts de la VERSION installée ; or le CI fait `pip install ruff` (non
+# épinglé) et prend la dernière, dont les défauts s'élargissent au fil des
+# versions. Résultat : le lint passe en local et casse en CI (mails
+# d'échec à répétition). On déclare donc explicitement les règles, pour
+# que « passe en local » implique « passe en CI » quelle que soit la
+# version. Élargir ce jeu (imports triés, etc.) est une décision à part.
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

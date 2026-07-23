@@ -40,5 +40,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install ruff
+      # Version épinglée : le jeu de règles est figé dans pyproject.toml,
+      # mais on épingle aussi la version pour que le comportement soit
+      # exactement celui vérifié en local (cf. [tool.ruff] du pyproject).
+      - run: pip install ruff==0.15.22
       - run: ruff check src tests scripts
