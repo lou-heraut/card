@@ -1,5 +1,5 @@
 id: median-QJC5
-version: "2.0"
+version: "2.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -7,13 +7,15 @@ meta:
   en:
     variable: median-QJC5
     unit: "m^{3}.s^{-1}"
-    name: Inter-annual median daily flow regime smoothed over 5 days
+    name: Inter-annual median daily flow regime over {suffix.name} smoothed over 5 days
     description: >-
-      Median flow of each day of the year over the whole record, then
+      Median flow of each day of the year over {suffix.name}, then
       5-day centered moving average (365 values)
     method: |
-      1. aggregation by day of the year - median
+      1. aggregation by day of the year over {suffix.name} - median
       2. no temporal aggregation - 5-day centered moving average
+    suffix_default:
+      name: the whole record
     classification:
       domain: flow
       phenomenon: mean flows
@@ -24,13 +26,15 @@ meta:
   fr:
     variable: mediane-QJC5
     unit: "m^{3}.s^{-1}"
-    name: Régime journalier médian inter-annuel lissé sur 5 jours
+    name: Régime journalier médian inter-annuel sur {suffix.name} lissé sur 5 jours
     description: >-
-      Médiane des débits de chaque jour de l'année sur l'ensemble de la
-      chronique, puis moyenne mobile centrée sur 5 jours (365 valeurs)
+      Médiane des débits de chaque jour de l'année sur {suffix.name},
+      puis moyenne mobile centrée sur 5 jours (365 valeurs)
     method: |
-      1. agrégation par jour de l'année - médiane
+      1. agrégation par jour de l'année sur {suffix.name} - médiane
       2. aucune agrégation temporelle - moyenne mobile centrée sur 5 jours
+    suffix_default:
+      name: la chronique entière
     classification:
       domain: débit
       phenomenon: moyennes eaux
@@ -39,14 +43,14 @@ meta:
       output: courbe
 
   global:
-    input_vars: Q
+    input_vars: "Q, period_start?, period_end?"
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
 
 process:
   P1:
     func:
-      median-QJ: [nanmedian, "Q"]
+      median-QJ: [over_period, "Q", {func: nanmedian, dates: "date", period_start: "period_start", period_end: "period_end"}]
     time_step: yearday
 
   P2:

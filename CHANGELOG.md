@@ -47,6 +47,14 @@ des deux endroits.
 
 ### Ajouté
 
+- **`median-QJC5` accepte une période, comme son homologue `median-QJ`.**
+  Le régime médian lissé peut désormais se calculer sur une fenêtre
+  donnée : `period_start` et `period_end` deviennent des entrées
+  facultatives et son P1 passe par `over_period`, exactement comme la
+  fiche du régime brut. Sans période, le résultat est inchangé (version
+  2.1). Reste ouvert : `QJC10`, le régime moyen lissé, est dans le même
+  cas et n'a pas encore de période.
+
 - **`card.info` dessine la fiche au lieu d'en lister les champs.** Une
   fiche contient tout ce qu'il faut pour comprendre son calcul, mais
   aplati en liste cela se lit mal. La figure montre la chaîne des étapes,
