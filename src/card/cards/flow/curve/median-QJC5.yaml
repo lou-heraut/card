@@ -1,5 +1,5 @@
 id: median-QJC5
-version: "1.0.1"
+version: "2.0"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -53,4 +53,4 @@ process:
     func:
       median-QJC5: [rollmean_center, "median-QJ", {k: 5, cyclical: true}]
     time_step: none
-    keep: all
+    keep: [median-QJC5]

@@ -126,6 +126,14 @@ des deux endroits.
   version passe à 1.1. La valeur calculée ne change pas, seule
   l'étiquette de forme qui voyage dans les métadonnées de sortie. Repéré
   en mesurant la sortie réelle pendant la reprise de `card.info`.
+- **`median-QJC5` était deux fiches en une.** Elle sortait le régime
+  médian brut `median-QJ` **et** sa version lissée sur 5 jours, alors
+  que le régime brut a déjà sa fiche autonome `median-QJ`. Elle passe de
+  `keep: all` à `keep: [median-QJC5]`, comme `QJC10` le fait déjà, et ne
+  produit plus que sa colonne (version 2.0, une sortie retirée). Les
+  valeurs de `median-QJC5` sont inchangées ; parité R volontairement
+  rompue (le golden R garde les deux colonnes). Détail :
+  `docs/dev/RENAMING.md` et `docs/dev/ORIGINE_R.md`.
 
 ### Corrigé
 

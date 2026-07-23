@@ -159,6 +159,23 @@ Correction fonctionnelle : QJC10 P1 lisait la colonne `Q_obs`
 inexistante (`input_vars: Q`), corrigé en `Q`, la fiche est
 exécutable (audit A4).
 
+## median-QJC5 ne sort plus son intermédiaire (2026-07-23)
+
+`median-QJC5` cumulait deux fiches en une : elle produisait le régime
+médian brut `median-QJ` **et** sa version lissée sur 5 jours. Le régime
+brut a déjà sa fiche autonome `median-QJ` (valeurs identiques à
+l'intermédiaire, vérifié : écart nul). `median-QJC5` passe de `keep: all`
+à `keep: [median-QJC5]`, comme `QJC10` le fait déjà, et ne sort que sa
+propre colonne.
+
+| Fiche | Version | Sorties avant | Sorties après |
+|---|---|---|---|
+| median-QJC5 | 1.0.1 → 2.0 | median-QJ, median-QJC5 | median-QJC5 |
+
+Parité R volontairement rompue : la fiche R utilise `keep = "all"` et son
+golden porte les deux colonnes (cf. ORIGINE_R.md). Les valeurs de
+`median-QJC5` sont inchangées.
+
 ## Corrections de cohérence : 2026-07-18
 
 Sorties renommées (validé utilisateur : lever l'ambiguïté S/M avant
