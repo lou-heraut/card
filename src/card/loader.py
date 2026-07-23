@@ -150,7 +150,17 @@ def load_card(path):
     complétées par les défauts, processus P1..Pn ordonnés avec leurs
     tuples func prêts pour stase.
     Retourne un dict {id, path, meta, processes}.
+
+    `path` accepte un chemin de fichier ou, plus simplement, un NOM de
+    fiche ('QA', 'VCN10'), cherché dans le corpus embarqué. C'est la
+    porte d'entrée vers les métadonnées telles qu'écrites, quand
+    `card.info` (qui dessine la fiche et retourne un dict aplati, dans
+    une seule langue) n'est pas ce qu'on cherche.
     """
+    p = Path(path)
+    if not p.exists() and p.suffix != ".yaml":
+        from .extraction import _DEFAULT_CARD_DIR, _find_cards
+        path = _find_cards(_DEFAULT_CARD_DIR, [str(path)])[str(path)]
     octets = Path(path).read_bytes()
     raw = yaml.safe_load(octets.decode("utf-8"))
     # SWHID de contenu du FICHIER de fiche. Software Heritage identifie un

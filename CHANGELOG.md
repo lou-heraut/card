@@ -64,6 +64,75 @@ des deux endroits.
   Généré depuis le YAML, jamais écrit à la main ; un test vérifie que les
   225 fiches du corpus se rendent sans exception.
 
+- **La figure parle les deux langues.** La prose de la figure (pas de
+  temps, fenêtre, lacunes, forme de sortie) était française en dur :
+  `info(lang="en")` échouait en silence et retombait sur l'ancienne liste
+  de champs. Elle passe par une table de traduction, et les 225 fiches se
+  rendent désormais dans les deux langues, dates comprises (MM-DD en
+  anglais, DD-MM en français, comme les métadonnées). Le défaut par
+  défaut reste `lang="fr"` : aucun appelant n'est touché.
+
+### Modifié
+
+- **La figure nomme les variables par leur identifiant**, celui des
+  colonnes produites, et non par leur nom traduit : une fiche annonçait
+  « 2 sorties : CDC_p, CDC_Q » là où les données portent `FDC_p` et
+  `FDC_Q`. Le nom traduit reste affiché entre parenthèses. La prose se
+  traduit, les identifiants non.
+- **Un symbole, un rôle** dans la figure : le point médian sépare des
+  informations sur une même ligne (et signe les unités), une puce ouvre
+  un item de liste. Le même caractère servait aux deux.
+- **L'identifiant pérenne s'affiche en URL** cliquable vers l'archive
+  Software Heritage, au lieu du `swh:1:cnt:` nu que personne ne savait où
+  porter. Il ne résout qu'après le passage suivant de SWH sur le dépôt :
+  une fiche modifiée depuis la dernière visite renvoie une 404 en
+  attendant.
+- **Une fonction à seuil se lit par sa condition.** `where='<='` et
+  `lim=upLim` s'affichaient en réglages séparés, suivis d'une glose qui
+  énumérait les valeurs possibles de `where` alors que la fiche en avait
+  choisi une : `apply_threshold` se lit maintenant `VC10 <= upLim, plus
+  long épisode, premier jour`. Une glose répétée à l'identique dans un
+  même process ne s'affiche plus qu'une fois.
+- **Chaque sortie dit de quelle fonction elle vient** dès qu'un process
+  en produit plusieurs : `allLF` alignait cinq appels puis cinq noms, à
+  charge du lecteur de les apparier.
+- **La figure ne dit plus que ce que la fiche détermine.** Elle annonçait
+  l'axe d'une courbe, deviné de la présence de « FDC » dans un nom de
+  variable, et une granularité de lignes déduite du pas de temps. Mesure
+  faite par extraction réelle, `time_step: none` rend une ligne pour
+  `BFM`, 365 pour `QJC10` et 1000 pour `FDC` : cela dépend de ce que la
+  fonction retourne, pas de la fiche. L'axe n'est plus annoncé du tout,
+  la granularité l'est pour les six couples (pas de temps, compress)
+  vérifiés un par un, et les colonnes démultipliées par `compress` sont
+  nommées (`QMA_month` déclare `QMA` et produit `QMA_jan … QMA_dec`).
+- `card.load_card` accepte un **nom de fiche** et pas seulement un chemin :
+  `card.load_card("QA")` rend la fiche telle qu'écrite, les deux langues
+  et tous les processus, là où `card.info` en dessine une lecture et
+  retourne un dict aplati d'une seule langue.
+
+### Retiré
+
+- Le mode `compact` du rendu, qui masquait les descriptions de fonctions.
+  Seule la fonction interne l'exposait, `card.info` ne le passait jamais :
+  personne ne pouvait s'en servir.
+
+### Corrigé
+
+- **La figure annonçait l'unité et la description de la première sortie
+  comme celles de la fiche entière.** `allLF` se disait « jour de l'année »
+  alors qu'elle produit aussi une durée et un volume ; `QSA_season`
+  affichait « Mois de décembre, janvier et février », qui ne décrit que
+  DJF. L'unité monte en facette si elle vaut pour toutes les sorties et
+  descend par sortie sinon ; la description ne s'affiche que si elle est
+  commune.
+- La figure datait ses fenêtres en MM-DD y compris en français, où les
+  métadonnées écrivent DD-MM depuis toujours.
+- Un titre long était tronqué (`[...]`) au lieu d'être replié sur une
+  seconde ligne, ce qui perdait la moitié du nom des fiches `delta-`.
+- Une valeur réduite puis diffusée sur toute la série (un seuil comme
+  `upLim`) s'annonçait « transforme la série sans l'agréger, une valeur
+  par jour », ce qui donnait à croire qu'elle variait chaque jour.
+
 ### Modifié
 
 - **Douze fiches à horizon fixe disparaissent, sans en créer aucune.**

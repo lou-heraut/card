@@ -225,12 +225,13 @@ fenêtre d'échantillonnage sur douze mois, et ce qui est produit.
 VCN10  Minimum annuel de la moyenne sur 10 jours du débit journalier
        m³·s⁻¹ · basses eaux · annuelle · série
 
-  Q
+  Q [m³·s⁻¹]
    │
    ├─ rollmean_center(Q)   k=10
-   │    Moyenne mobile centrée de fenêtre k (convention pandas
-   │    center=True ; fenêtre contenant un NaN → NaN)
-   │  transforme la série sans l'agréger, une valeur par jour
+   │    Moyenne mobile centrée de fenêtre k (convention pandas center=True ;
+   │    fenêtre contenant un NaN → NaN)
+   │  transforme la série sans l'agréger, une valeur par jour · max 10 ans de
+   │  trou
    ▼
   VC10
    │
@@ -242,19 +243,26 @@ VCN10  Minimum annuel de la moyenne sur 10 jours du débit journalier
    ▼
   VCN10
 
-  sortie : une série, une valeur par année
-  VCN10 v1.0  ·  flow/series/VCN10.yaml
-  swh:1:cnt:ccf7e81b4fad5fdfa3028996f952694502527b51
+  sortie : VCN10 · une ligne par année
+
+  VCN10 v1.0 · flow/series/VCN10.yaml
+  https://archive.softwareheritage.org/swh:1:cnt:ccf7e81b4fad5fdfa3028996f952694502527b51
 ```
 
 Dans la bande de douze mois, `▓` marque un mois retenu, `·` un mois
 écarté et `┃` une borne : une fenêtre estivale donne
-`············┃▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓┃···`. La figure suit la forme de
-sortie : une série montre son axe de temps, un changement montre les deux
-fenêtres qu'il compare, une courbe annonce l'axe qui l'indexe.
+`············┃▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓┃···`. Les identifiants affichés sont
+ceux des colonnes produites ; le nom traduit, quand il diffère, suit
+entre parenthèses. La figure ne dit que ce que la fiche détermine : la
+granularité des lignes n'est annoncée que pour les pas de temps où elle
+en découle, et jamais pour `time_step: none`, où elle dépend de ce que
+la fonction retourne.
 
-`card.info` retourne par ailleurs le dict des champs, inchangé, pour le
-code qui en dépend.
+`card.info` accepte `lang="en"` et retourne par ailleurs le dict des
+champs, inchangé, pour le code qui en dépend. Pour lire une fiche telle
+qu'elle est écrite, `card.load_card("VCN10")` rend le dict complet
+(les deux langues, tous les processus, le SWHID et le chemin du
+fichier).
 
 ## Développer sa propre fiche
 
