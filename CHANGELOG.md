@@ -64,6 +64,14 @@ des deux endroits.
 
 ### Ajouté
 
+- **`QJ`, le régime journalier moyen brut, complète la famille.** Il
+  existait comme intermédiaire de `QJC10` mais pas comme fiche : le
+  régime moyen non lissé n'était pas extractible seul, alors que sa
+  variante médiane (`QJD`) l'était. La famille est désormais complète et
+  symétrique : `QJ`/`QJD` non lissés (moyen/médian), `QJC10`/`QJDC5`
+  lissés. `QJ` reçoit la période facultative comme `QJD`. La moyenne
+  reste implicite (aucun préfixe, NOMENCLATURE §4).
+
 - **Le régime médian accepte une période, comme son homologue `QJD`.**
   `QJDC5` (régime médian lissé) peut désormais se calculer sur une
   fenêtre donnée : `period_start` et `period_end` deviennent des entrées

@@ -1,0 +1,46 @@
+id: QJ
+version: "1.0"
+authors: ["Louis Héraut (INRAE, UR RiverLy)"]
+date: "2026-07-23"
+
+meta:
+  en:
+    variable: QJ
+    unit: "m^{3}.s^{-1}"
+    name: Inter-annual daily flow regime over {suffix.name}
+    description: ""
+    method: "1. aggregation by day of the year over {suffix.name} - mean"
+    suffix_default:
+      name: the whole record
+    classification:
+      domain: flow
+      phenomenon: mean flows
+      aspect: magnitude
+      season: record
+      output: curve
+
+  fr:
+    variable: QJ
+    unit: "m^{3}.s^{-1}"
+    name: "Régime journalier inter-annuel sur {suffix.name}"
+    description: ""
+    method: "1. agrégation par jour de l'année sur {suffix.name} - moyenne"
+    suffix_default:
+      name: la chronique entière
+    classification:
+      domain: débit
+      phenomenon: moyennes eaux
+      aspect: intensité
+      season: chronique
+      output: courbe
+
+  global:
+    input_vars: "Q, period_start?, period_end?"
+    palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
+              "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
+
+process:
+  P1:
+    func:
+      QJ: [over_period, "Q", {func: nanmean, dates: "date", period_start: "period_start", period_end: "period_end"}]
+    time_step: yearday

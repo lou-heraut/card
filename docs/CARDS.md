@@ -1,6 +1,6 @@
 # Catalogue des fiches CARD
 
-225 fiches, 471 variables. Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.
+226 fiches, 472 variables. Généré par `scripts/generate_catalog.py`, ne pas éditer à la main.
 
 Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entrées* indique les colonnes que `data` doit contenir (cf. `rename=` pour la correspondance). Détail d'une fiche : `card.info("nom")`.
 
@@ -17,6 +17,7 @@ Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; la colonne *entr
 | fiche | variable(s) | nom | phénomène | aspect | saison | unité | entrées | exp. |
 |---|---|---|---|---|---|---|---|---|
 | [FDC](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/FDC.yaml) | FDC_p, FDC_Q | Courbe des débits classés sur la chronique entière | moyennes eaux | intensité | chronique | without unit | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
+| [QJ](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJ.yaml) | QJ | Régime journalier inter-annuel sur la chronique entière | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
 | [QJC10](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJC10.yaml) | QJC10 | Régime journalier inter-annuel lissé sur 10 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}] |  |
 | [QJD](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJD.yaml) | QJD | Régime journalier médian inter-annuel sur la chronique entière | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
 | [QJDC5](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/curve/QJDC5.yaml) | QJDC5 | Régime journalier médian inter-annuel sur la chronique entière lissé sur 5 jours | moyennes eaux | intensité | chronique | m^{3}.s^{-1} | Q [m^{3}.s^{-1}], period_start? [date], period_end? [date] |  |
