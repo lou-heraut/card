@@ -48,7 +48,7 @@ des deux endroits.
 ### Modifié
 
 - **Le régime médian se sigle `D`, plus le préfixe `median-`.**
-  `median-QJ` et `median-QJC5` deviennent **`QJD`** et **`QJDC5`**. Le
+  `median-QJ` et `median-QJC5` deviennent **`QJD`** et **`QJDC10`**. Le
   préfixe `median-`/`mean-` désigne une réduction d'une série à un
   scalaire (`median-tVCN10` = médiane de la série `tVCN10`) ; l'appliquer
   à un régime, qui produit une courbe et dont la médiane est
@@ -58,9 +58,11 @@ des deux endroits.
   la moyenne restant implicite, `Pq` pour les autres percentiles. Le
   sigle `D` est libre car CARD ne réserve pas les durées cumulées
   d'Oberlin (`DC`) : les débits caractéristiques passent par la courbe
-  `FDC`. Calcul inchangé, seuls id et nom de colonne changent ; parité R
-  sur le nom seulement. Conception : NOMENCLATURE §3–§4–§6, trace
-  RENAMING.md et ORIGINE_R.md.
+  `FDC`. `QJD` : calcul inchangé, seuls id et nom de colonne changent.
+  `QJDC10` : au passage sa fenêtre de lissage passe de 5 à 10 jours,
+  harmonisée sur `QJC10` (les valeurs changent, cf. RENAMING.md). Parité
+  R sur le nom, plus la fenêtre pour `QJDC10`. Conception : NOMENCLATURE
+  §3–§4–§6, trace RENAMING.md et ORIGINE_R.md.
 
 ### Ajouté
 
@@ -68,17 +70,17 @@ des deux endroits.
   existait comme intermédiaire de `QJC10` mais pas comme fiche : le
   régime moyen non lissé n'était pas extractible seul, alors que sa
   variante médiane (`QJD`) l'était. La famille est désormais complète et
-  symétrique : `QJ`/`QJD` non lissés (moyen/médian), `QJC10`/`QJDC5`
-  lissés. `QJ` reçoit la période facultative comme `QJD`. La moyenne
-  reste implicite (aucun préfixe, NOMENCLATURE §4).
+  symétrique : `QJ`/`QJD` non lissés (moyen/médian), `QJC10`/`QJDC10`
+  lissés sur 10 jours. `QJ` reçoit la période facultative comme `QJD`. La
+  moyenne reste implicite (aucun préfixe, NOMENCLATURE §4).
 
-- **Le régime médian accepte une période, comme son homologue `QJD`.**
-  `QJDC5` (régime médian lissé) peut désormais se calculer sur une
-  fenêtre donnée : `period_start` et `period_end` deviennent des entrées
-  facultatives et son P1 passe par `over_period`, exactement comme la
-  fiche du régime brut `QJD`. Sans période, le résultat est inchangé.
-  Reste ouvert : `QJC10`, le régime moyen lissé, est dans le même cas et
-  n'a pas encore de période.
+- **La période facultative gagne `QJC10` et le régime médian.** `QJC10`
+  (régime moyen lissé) et `QJDC10` (régime médian lissé) reçoivent
+  `period_start`/`period_end` en entrées facultatives, comme `QJD` et
+  `QM` : leur P1 passe par `over_period`. Sans période, le résultat est
+  inchangé (vérifié à 3·10⁻¹⁵ près sur `QJC10`, fiche protégée). Les deux
+  fiches lissées ne diffèrent plus que par moyenne/médiane, mêmes fenêtre
+  (10 j) et seuils de lacunes.
 
 - **`card.info` dessine la fiche au lieu d'en lister les champs.** Une
   fiche contient tout ce qu'il faut pour comprendre son calcul, mais
@@ -155,9 +157,12 @@ des deux endroits.
   débit moyen mensuel collapse les années par mois civil : 12 valeurs
   indexées par mois, une courbe, comme le régime journalier `QJC10`. Elle
   passe en `courbe` et rejoint `flow/curve/` (version 1.2, valeur
-  inchangée, seule l'étiquette de forme change). Reste ouvert :
-  `Bias_season` est classée `series` mais produit 4 biais saisonniers
-  scalaires (critère de performance, pas un régime) : à trancher à part.
+  inchangée, seule l'étiquette de forme change).
+- **`Bias_season` était classée `series`, elle produit des scalaires.**
+  Elle rend 4 biais saisonniers (`Bias_DJF..SON`), un par saison, une
+  valeur par série : un critère de performance, pas un régime ni une
+  série temporelle. Elle passe en `scalaire` et rejoint `flow/scalar/`
+  (version 1.1, valeur inchangée).
 - **`BFM` était classée `output: curve`, elle produit un scalaire.** Sa
   fonction rend `(max - min) / max` des débits de base agrégés, soit une
   seule valeur par série ; l'extraction donne une ligne et une colonne.
@@ -166,13 +171,13 @@ des deux endroits.
   version passe à 1.1. La valeur calculée ne change pas, seule
   l'étiquette de forme qui voyage dans les métadonnées de sortie. Repéré
   en mesurant la sortie réelle pendant la reprise de `card.info`.
-- **Le régime médian lissé (`QJDC5`) était deux fiches en une.** Il
-  sortait le régime médian brut **et** sa version lissée sur 5 jours,
-  alors que le régime brut a déjà sa fiche autonome (`QJD`). Il passe de
-  `keep: all` à `keep: [QJDC5]`, comme `QJC10` le fait déjà, et ne
-  produit plus que sa colonne (une sortie retirée). Les valeurs sont
-  inchangées ; parité R volontairement rompue (le golden R garde les deux
-  colonnes). Détail : `docs/dev/RENAMING.md` et `docs/dev/ORIGINE_R.md`.
+- **Le régime médian lissé (désormais `QJDC10`) était deux fiches en
+  une.** Il sortait le régime médian brut **et** sa version lissée, alors
+  que le régime brut a déjà sa fiche autonome (`QJD`). Il passe de
+  `keep: all` à `keep: [QJDC10]`, comme `QJC10` le fait déjà, et ne
+  produit plus que sa colonne (une sortie retirée). Parité R volontairement
+  rompue (le golden R garde les deux colonnes). Détail :
+  `docs/dev/RENAMING.md` et `docs/dev/ORIGINE_R.md`.
 
 ### Corrigé
 

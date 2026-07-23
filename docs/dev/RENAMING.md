@@ -171,21 +171,24 @@ sœur de `N`/`X` (NOMENCLATURE §4). Le sigle `D` est libre : Oberlin le
 prend pour les durées cumulées, mais CARD ne réserve pas cette famille
 (les débits caractéristiques passent par la courbe `FDC`, §3).
 
-| Ancien id | Nouveau id | Version | Sorties |
+| Ancien id | Nouveau id | Version | Note |
 |---|---|---|---|
-| median-QJ | **QJD** | 1.1.1 → 2.0 | mediane-QJ → QJD |
-| median-QJC5 | **QJDC5** | 2.1 → 3.0 | mediane-QJC5 → QJDC5 |
+| median-QJ | **QJD** | 1.1.1 → 2.0 | régime médian brut, calcul inchangé |
+| median-QJC5 | **QJDC10** | 2.1 → 4.0 | régime médian lissé, **fenêtre 5 → 10 jours** |
 
-Le calcul ne change pas, seuls l'id et le nom de la colonne de sortie.
-Le sigle est identique en français et en anglais (comme `VCN10`), la
-variante `mediane-` disparaît. Parité R rompue sur le **nom** (R garde
-`median-QJ`/`median-QJC5`), valeurs identiques ; cf. ORIGINE_R.md. Étape
-précédente du même jour : `median-QJC5` avait déjà cessé de recracher son
-intermédiaire (`keep: all` → `keep: [QJDC5]`), et gagné la période
-facultative comme `QJD`.
+`QJD` : seuls l'id et le nom de colonne changent, valeurs identiques.
+`QJDC10` : en plus du renommage, sa fenêtre de lissage est harmonisée sur
+`QJC10` (10 jours au lieu de 5), et son P1 gagne les mêmes seuils de
+lacunes (`max_na_pct: 3`, `max_na_years: 10`), pour que `{QJC10, QJDC10}`
+ne diffèrent que par moyenne/médiane. Les valeurs de `QJDC10` changent
+donc (fenêtre), c'est un majeur. Le sigle est identique en fr et en
+(comme `VCN10`), la variante `mediane-` disparaît. Parité R rompue sur le
+nom **et** la fenêtre (R : `median-QJC5`, 5 jours), cf. ORIGINE_R.md.
 
-Régimes moyens inchangés (`QJ`, `QJC10`, `QM`) : la moyenne reste le
-fantôme du §4, aucun préfixe.
+La famille des régimes journaliers est complète et symétrique : `QJ`
+(moyen brut, fiche créée), `QJD` (médian brut), `QJC10` (moyen lissé
+10 j), `QJDC10` (médian lissé 10 j). La moyenne reste le fantôme du §4,
+aucun préfixe ; `QJC10` gagne aussi la période facultative.
 
 ## Corrections de cohérence : 2026-07-18
 

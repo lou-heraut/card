@@ -1,19 +1,19 @@
-id: QJDC5
-version: "3.0"
+id: QJDC10
+version: "4.0"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-23"
 
 meta:
   en:
-    variable: QJDC5
+    variable: QJDC10
     unit: "m^{3}.s^{-1}"
-    name: Inter-annual median daily flow regime over {suffix.name} smoothed over 5 days
+    name: Inter-annual median daily flow regime over {suffix.name} smoothed over 10 days
     description: >-
       Median flow of each day of the year over {suffix.name}, then
-      5-day centered moving average (365 values)
+      10-day centered moving average (365 values)
     method: |
       1. aggregation by day of the year over {suffix.name} - median
-      2. no temporal aggregation - 5-day centered moving average
+      2. no temporal aggregation - 10-day centered moving average
     suffix_default:
       name: the whole record
     classification:
@@ -24,15 +24,15 @@ meta:
       output: curve
 
   fr:
-    variable: QJDC5
+    variable: QJDC10
     unit: "m^{3}.s^{-1}"
-    name: Régime journalier médian inter-annuel sur {suffix.name} lissé sur 5 jours
+    name: Régime journalier médian inter-annuel sur {suffix.name} lissé sur 10 jours
     description: >-
       Médiane des débits de chaque jour de l'année sur {suffix.name},
-      puis moyenne mobile centrée sur 5 jours (365 valeurs)
+      puis moyenne mobile centrée sur 10 jours (365 valeurs)
     method: |
       1. agrégation par jour de l'année sur {suffix.name} - médiane
-      2. aucune agrégation temporelle - moyenne mobile centrée sur 5 jours
+      2. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
     suffix_default:
       name: la chronique entière
     classification:
@@ -52,9 +52,11 @@ process:
     func:
       QJD: [over_period, "Q", {func: nanmedian, dates: "date", period_start: "period_start", period_end: "period_end"}]
     time_step: yearday
+    max_na_pct: 3
+    max_na_years: 10
 
   P2:
     func:
-      QJDC5: [rollmean_center, "QJD", {k: 5, cyclical: true}]
+      QJDC10: [rollmean_center, "QJD", {k: 10, cyclical: true}]
     time_step: none
-    keep: [QJDC5]
+    keep: [QJDC10]

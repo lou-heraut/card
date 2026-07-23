@@ -143,7 +143,7 @@ def test_la_figure_suit_la_forme_de_sortie():
 def test_la_figure_n_invente_pas_l_axe_d_une_courbe():
     """Il n'est écrit nulle part dans la fiche : le deviner du nom de la
     variable rendait « jour de l'année » sur toute courbe non-FDC."""
-    for nom in ("FDC", "BFM", "QJC10", "QJD", "QJDC5"):
+    for nom in ("FDC", "BFM", "QJC10", "QJD", "QJDC10"):
         assert "indexée par" not in figure(nom)
 
 

@@ -77,7 +77,7 @@ def main():
 
     res = CARD_extraction(
         data,
-        CARD_name=["QA", "QJDC5", "tQJXA", "dtLF", "delta-endLF_H"],
+        CARD_name=["QA", "tQJXA", "dtLF", "delta-endLF_H"],
         verbose=False,
     )
     dataEX = res["data"]
@@ -88,19 +88,9 @@ def main():
     r_v, p_v, _ = align_yearly(r, dataEX["QA"], "QA", "QA")
     compare_series("QA (moyenne annuelle)", r_v, p_v)
 
-    # ── QJDC5 (ex median-QJC5, renommée) ────────────────────────────────
-    # Le golden R garde le nom R (median-QJC5) et ses deux colonnes ;
-    # la fiche Python sort la seule QJDC5, à comparer à la colonne R
-    # median-QJC5 (même calcul, cf. ORIGINE_R.md).
-    print("\nQJDC5")
-    r = pd.read_csv(R_OUT / "median-QJC5.csv")
-    p = dataEX["QJDC5"].rename(columns={"yearday": "Yearday"})
-    m = r[["id", "Yearday", "median-QJC5"]].merge(
-        p[["id", "Yearday", "QJDC5"]],
-        on=["id", "Yearday"], how="outer",
-    )
-    compare_series("QJDC5 (rollmean cyclique k=5)",
-                   m["median-QJC5"], m["QJDC5"])
+    # QJDC10 (ex median-QJC5) n'a plus de golden R comparable : sa fenêtre
+    # de lissage est passée de 5 à 10 jours (harmonisée sur QJC10), et son
+    # id a changé. Divergence R assumée, cf. ORIGINE_R.md et RENAMING.md.
 
     # ── tQJXA (is_date : fonctions 0-based + conversion EXstat_py
     #    reproduisent exactement les valeurs R, vérifié empiriquement) ──

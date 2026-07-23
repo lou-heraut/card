@@ -1,5 +1,5 @@
 id: Bias_season
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -42,7 +42,7 @@ meta:
     classification:
       domain: flow
       season: record
-      output: series
+      output: scalar
       purpose: model performance
 
   fr:
@@ -84,7 +84,7 @@ meta:
     classification:
       domain: débit
       season: chronique
-      output: série
+      output: scalaire
       purpose: performance de modèle
 
   global:
