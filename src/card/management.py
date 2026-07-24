@@ -28,7 +28,7 @@ import pandas as pd
 from .extraction import _DEFAULT_CARD_DIR, _corpus_path, _find_cards, _meta_rows
 from . import suffix as _sfx
 from .loader import load_card
-from .schema import input_registry
+from .schema import _vocab, input_registry
 
 
 def _describe_inputs(raw, lang="fr"):
@@ -60,8 +60,11 @@ def list_cards(path=None, include_experimental=False,
     Contrairement au package R (qui lit un CSV pré-généré), les métadonnées
     sont lues directement depuis les blocs meta des YAML.
 
-    Filtres optionnels (insensibles à la casse, fr et en confondus pour
-    les facettes de classification, cf. docs/dev/TOPICS.md) :
+    Filtres optionnels (insensibles à la casse ; pour les facettes de
+    classification, le slug du vocabulaire et les libellés fr/en sont
+    équivalents : `phenomenon='low-flows'`, `'low flows'` et
+    `'basses eaux'` donnent le même résultat, cf. `card.vocabulary()` et
+    docs/dev/TOPICS.md) :
     domain     : grandeur ('débit', 'flow', 'precipitation'...).
     phenomenon : phénomène ('basses eaux', 'baseflow', 'snow'...).
     aspect     : dimension IHA ('intensité', 'timing', 'duration'...).
@@ -91,18 +94,31 @@ def list_cards(path=None, include_experimental=False,
                          .str.contains(needle, case=False, regex=False))
         return mask
 
-    for needle, cols in [
-        (domain, ["domain_fr", "domain_en"]),
-        (phenomenon, ["phenomenon_fr", "phenomenon_en"]),
-        (aspect, ["aspect_fr", "aspect_en"]),
-        (season, ["season_fr", "season_en"]),
-        (output, ["output_fr", "output_en"]),
-        (purpose, ["purpose_fr", "purpose_en"]),
-        (operator, ["operator"]),
-        (function, ["functions"]),
+    def _needles(facette, needle):
+        """Un filtre accepte le SLUG du vocabulaire autant que les
+        libellés : `card.vocabulary()` (et /v1/vocabulary) annoncent les
+        slugs, il serait piégeux qu'ils ne filtrent pas. 'low-flows'
+        cherche donc aussi 'low flows' et 'basses eaux'."""
+        entry = _vocab().get(facette, {}).get(needle) if facette else None
+        if entry:
+            return [v for k, v in entry.items() if k in ("en", "fr")]
+        return [needle]
+
+    for needle, cols, facette in [
+        (domain, ["domain_fr", "domain_en"], "domain"),
+        (phenomenon, ["phenomenon_fr", "phenomenon_en"], "phenomenon"),
+        (aspect, ["aspect_fr", "aspect_en"], "aspect"),
+        (season, ["season_fr", "season_en"], "season"),
+        (output, ["output_fr", "output_en"], "output"),
+        (purpose, ["purpose_fr", "purpose_en"], "purpose"),
+        (operator, ["operator"], None),
+        (function, ["functions"], None),
     ]:
         if needle is not None:
-            metaEX = metaEX[_contains(cols, needle)]
+            mask = pd.Series(False, index=metaEX.index)
+            for n in _needles(facette, needle):
+                mask |= _contains(cols, n)
+            metaEX = metaEX[mask]
     if variable is not None:
         metaEX = metaEX[_contains(["variable_fr", "variable_en"], variable)]
     if search is not None:

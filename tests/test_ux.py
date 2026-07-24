@@ -115,3 +115,17 @@ def test_le_slug_du_vocabulaire_est_celui_des_dossiers():
     assert _slug_of("phenomenon", "pas un concept") is None
     p = next(_DEFAULT_CARD_DIR.rglob("VCN10.yaml"))
     assert p.parent.parent.name == "low-flows"
+
+
+def test_le_slug_annonce_par_le_vocabulaire_filtre_vraiment():
+    """Piège à éviter : vocabulary() annonce des slugs comme clés ; s'ils
+    ne filtraient pas, un client qui les lit se retrouverait à zéro."""
+    v = card.vocabulary()
+    for facette, param in (("phenomenon", "phenomenon"), ("output", "output"),
+                           ("purpose", "purpose")):
+        for slug, labels in v[facette].items():
+            par_slug = len(list_cards(**{param: slug}))
+            par_en = len(list_cards(**{param: labels["en"]}))
+            par_fr = len(list_cards(**{param: labels["fr"]}))
+            assert par_slug == par_en == par_fr, (facette, slug,
+                                                  par_slug, par_en, par_fr)
