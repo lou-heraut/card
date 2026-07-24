@@ -12,6 +12,11 @@ Usage :
 from .extraction import extract  # noqa: F401
 from .loader import load_card  # noqa: F401
 from .management import copy_cards, info, list_cards  # noqa: F401
+# figure() rend la fiche dessinée en CHAÎNE, sans rien imprimer : c'est ce
+# qu'il faut pour la servir (web, notebook), là où info() imprime pour un
+# humain devant un terminal et retourne le dict.
+from .render import figure  # noqa: F401
+from .schema import vocabulary  # noqa: F401
 from .trend import trend  # noqa: F401
 
 # Alias hérités du package R CARD (toujours valides)
@@ -27,6 +32,8 @@ __all__ = [
     "trend",
     "list_cards",
     "info",
+    "figure",
+    "vocabulary",
     "copy_cards",
     "load_card",
     # alias héritage R

@@ -306,6 +306,20 @@ qu'elle est écrite, `card.load_card("VCN10")` rend le dict complet
 (les deux langues, tous les processus, le SWHID et le chemin du
 fichier).
 
+Trois entrées selon l'usage :
+
+```python
+card.info("VCN10")               # imprime la figure, retourne le dict
+card.info("VCN10", quiet=True)   # ne rien imprimer : juste le dict
+card.figure("VCN10")             # la figure en CHAÎNE, pour la servir
+card.vocabulary()                # valeurs valides des facettes (fr/en)
+```
+
+`card.figure` est ce qu'il faut pour afficher une fiche ailleurs qu'un
+terminal (page web, notebook) ; `card.vocabulary` donne la liste fermée
+des valeurs que `list_cards` accepte en filtre, de quoi peupler un menu
+sans les deviner.
+
 ## Développer sa propre fiche
 
 ```python

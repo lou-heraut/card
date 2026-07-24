@@ -112,12 +112,15 @@ def list_cards(path=None, include_experimental=False,
     return metaEX.reset_index(drop=True)
 
 
-def info(name, path=None, lang="fr") -> dict:
-    """Affiche la description complète d'une fiche CARD et retourne ses
-    métadonnées sous forme de dict.
+def info(name, path=None, lang="fr", quiet=False) -> dict:
+    """Dessine la fiche CARD et retourne ses métadonnées sous forme de dict.
 
     name : nom de la fiche (ex. 'QA', 'VCN10', 'dtLF').
     lang : 'fr' (défaut) ou 'en'.
+    quiet : n'imprime rien, retourne seulement le dict. Pour un appel
+        programmatique (un service web n'a pas de terminal : la figure y
+        partirait dans les logs à chaque requête, calculée pour rien).
+        Pour obtenir la figure en tant que CHAÎNE, voir `card.figure`.
     """
     if path is None:
         path = _DEFAULT_CARD_DIR
@@ -157,14 +160,15 @@ def info(name, path=None, lang="fr") -> dict:
     # Ce qui s'imprime est une FIGURE, pas une liste de champs : elle
     # montre la chaîne de calcul, ses paramètres et sa fenêtre. Les
     # champs bruts restent dans le dict retourné, c'est son rôle.
-    from .render import figure
-    try:
-        print(figure(name, path=path, lang=lang))
-    except Exception:                       # une fiche hors norme reste lisible
-        width = max(len(k) for k in info)
-        for k, v in info.items():
-            if v not in (None, ""):
-                print(f"{k.ljust(width)}  {v}")
+    if not quiet:
+        from .render import figure
+        try:
+            print(figure(name, path=path, lang=lang))
+        except Exception:                   # une fiche hors norme reste lisible
+            width = max(len(k) for k in info)
+            for k, v in info.items():
+                if v not in (None, ""):
+                    print(f"{k.ljust(width)}  {v}")
     return info
 
 

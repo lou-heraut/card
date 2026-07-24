@@ -182,3 +182,23 @@ def test_les_metadonnees_brutes_sont_accessibles_par_nom():
     assert c["id"] == "QA" and c["meta"]["fr"]["variable"] == "QA"
     assert str(c["path"]).endswith("flow/mean-flows/series/QA.yaml")
     assert load_card(c["path"])["swhid"] == c["swhid"]
+
+
+def test_figure_est_publique_et_muette(capsys):
+    """Servir la figure (web, notebook) demande une CHAÎNE, pas un print :
+    info() imprime pour un humain, figure() rend pour un programme."""
+    import card
+    f = card.figure("QA")
+    assert isinstance(f, str) and "QA" in f and "▼" in f
+    assert capsys.readouterr().out == "", "figure() ne doit rien imprimer"
+
+
+def test_info_quiet_rend_le_dict_sans_imprimer(capsys):
+    """Un service web n'a pas de terminal : la figure partirait dans les
+    logs à chaque requête, calculée pour rien."""
+    import card
+    d = card.info("QA", quiet=True)
+    assert d["id"] == "QA"
+    assert capsys.readouterr().out == ""
+    card.info("QA")                       # défaut inchangé : ça imprime
+    assert "▼" in capsys.readouterr().out

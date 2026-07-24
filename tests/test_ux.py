@@ -88,3 +88,15 @@ def test_r_aliases_still_work():
     # l'ancien paramètre CARD_name= reste accepté et prioritaire
     res = card.CARD_extraction(_daily(), CARD_name=["QA"], verbose=False)
     assert "QA" in res["data"]
+
+
+def test_vocabulaire_public_pour_construire_une_requete():
+    """Un client (formulaire, service web) doit pouvoir proposer les
+    valeurs de facette valides au lieu de les deviner."""
+    v = card.vocabulary()
+    assert {"domain", "phenomenon", "aspect", "season", "output"} <= set(v)
+    assert v["phenomenon"]["low flows"]["fr"] == "basses eaux"
+    # les phénomènes ajoutés le 2026-07-24 en font partie
+    assert "mean precipitation" in v["phenomenon"]
+    v["phenomenon"].pop("low flows")      # une copie : le registre est protégé
+    assert "low flows" in card.vocabulary()["phenomenon"]

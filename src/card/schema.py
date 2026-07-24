@@ -36,6 +36,7 @@ Contrôles :
   interdit quand purpose est présent.
 """
 
+import copy
 import datetime as _dt
 import re
 from pathlib import Path
@@ -57,6 +58,18 @@ def _vocab():
     if _VOCAB is None:
         _VOCAB = yaml.safe_load(_VOCAB_PATH.read_text(encoding="utf-8"))
     return _VOCAB
+
+
+def vocabulary():
+    """Vocabulaire de contrôle de la classification (topics.yaml).
+
+    {facette: {étiquette anglaise: {'fr': étiquette française, ...}}}.
+    C'est la liste fermée des valeurs qu'un `classification` peut prendre,
+    donc aussi celle des filtres valides de `list_cards`. Publique pour
+    qu'un client (le service web, un formulaire) puisse proposer les bonnes
+    valeurs au lieu de les deviner.
+    """
+    return copy.deepcopy(_vocab())
 
 
 def input_registry():

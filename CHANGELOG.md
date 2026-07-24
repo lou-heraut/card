@@ -78,6 +78,19 @@ des deux endroits.
 
 ### Ajouté
 
+- **`card.figure`, `card.vocabulary` et `card.info(quiet=True)`**, pour
+  servir card ailleurs qu'un terminal. `info` imprimait la figure et
+  retournait le dict : parfait pour un humain, inutilisable pour un
+  programme, qui veut soit la figure en **chaîne**, soit le dict **sans
+  rien imprimer** (un service web n'a pas de terminal et voyait la figure
+  partir dans ses logs à chaque requête, calculée pour rien).
+  `card.figure(nom)` rend la chaîne sans imprimer, `card.info(quiet=True)`
+  rend le seul dict, et `card.info(nom)` ne change pas d'un iota.
+  `card.vocabulary()` expose la liste fermée des valeurs de facette
+  (fr/en), c'est-à-dire les filtres valides de `list_cards` : un client
+  peut les proposer au lieu de les deviner. Demandé par la revue FAIR de
+  card-api, qui sert désormais la figure et le vocabulaire.
+
 - **Toute variate a désormais un phénomène** (23 fiches complétées).
   Les cumuls de pluie (`RA`, `RMA`, `RSA`…), les températures moyennes
   (`TA`, `TMA`, `TSA`) et l'évapotranspiration (`ETPA`…) semblaient
