@@ -179,6 +179,29 @@ Le SKOS n'est pas un service : c'est un artefact de publication de la
 classification, dont la source de vérité est ici (`src/card/topics.yaml`
 et les blocs classification des fiches).
 
+## Unités machine-lisibles (UCUM) (différé)
+
+Les unités sont des chaînes LaTeX-ish (`m^{3}.s^{-1}`, `hm^{3}`, `jour de
+l'année`, `sans unité`). Lisibles pour un humain, mais pas
+interopérables : un client ne peut pas convertir ni comparer sans parser.
+Piste : ajouter un code **UCUM** (`m3/s`, `Cel`, `mm`…) à côté de chaque
+unité, dans `inputs.yaml` pour les entrées et dans un registre pour les
+sorties, exposé tel quel par card-api. Amélioration FAIR-Interopérabilité,
+sans urgence (même famille que l'export SKOS). Noté depuis la revue FAIR
+de card-api du 2026-07-24.
+
+## Tendance des régimes mensuels et saisonniers (limite structurelle)
+
+`card.trend` ne s'applique qu'aux fiches `output: series` (une valeur par
+année). `QM` (régime mensuel, `curve`) et `QSA_season` (agrégat saisonnier)
+ne sont donc pas tendançables, alors qu'une tendance du régime mensuel
+aurait du sens. Ce n'est pas un bug : ces fiches collapsent ou indexent le
+temps autrement que par année, ce que le modèle série-annuelle de stase ne
+couvre pas. Piste future : une variante `output: series` par mois/saison
+(le fan-out `_month`/`_season` existe déjà côté valeurs), ou un mode trend
+qui accepte un axe sous-annuel. Noté à la revue card-api du 2026-07-24, à
+ne pas traiter maintenant.
+
 - `scripts/generate_skos.py` (à écrire) : chaque facette devient un
   `skos:ConceptScheme` (domain, phenomenon, aspect, season, output,
   purpose) ; chaque valeur un `skos:Concept` avec `prefLabel` fr/en
