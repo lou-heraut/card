@@ -95,8 +95,23 @@ def test_vocabulaire_public_pour_construire_une_requete():
     valeurs de facette valides au lieu de les deviner."""
     v = card.vocabulary()
     assert {"domain", "phenomenon", "aspect", "season", "output"} <= set(v)
-    assert v["phenomenon"]["low flows"]["fr"] == "basses eaux"
+    # la clé est un slug neutre, en et fr sont deux étiquettes à égalité
+    assert v["phenomenon"]["low-flows"] == {"en": "low flows",
+                                            "fr": "basses eaux"}
     # les phénomènes ajoutés le 2026-07-24 en font partie
-    assert "mean precipitation" in v["phenomenon"]
-    v["phenomenon"].pop("low flows")      # une copie : le registre est protégé
-    assert "low flows" in card.vocabulary()["phenomenon"]
+    assert "mean-precipitation" in v["phenomenon"]
+    v["phenomenon"].pop("low-flows")      # une copie : le registre est protégé
+    assert "low-flows" in card.vocabulary()["phenomenon"]
+
+
+def test_le_slug_du_vocabulaire_est_celui_des_dossiers():
+    """Le slug est déclaré, plus dérivé de l'anglais : c'est lui qui nomme
+    le dossier, donc reformuler un libellé ne déplace aucune fiche."""
+    from card.extraction import _DEFAULT_CARD_DIR
+    from card.schema import _slug_of
+    assert _slug_of("phenomenon", "low flows") == "low-flows"
+    assert _slug_of("phenomenon", "basses eaux") == "low-flows"   # par le fr
+    assert _slug_of("purpose", "model performance") == "model-performance"
+    assert _slug_of("phenomenon", "pas un concept") is None
+    p = next(_DEFAULT_CARD_DIR.rglob("VCN10.yaml"))
+    assert p.parent.parent.name == "low-flows"

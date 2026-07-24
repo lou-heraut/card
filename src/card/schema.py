@@ -63,13 +63,29 @@ def _vocab():
 def vocabulary():
     """Vocabulaire de contrôle de la classification (topics.yaml).
 
-    {facette: {étiquette anglaise: {'fr': étiquette française, ...}}}.
-    C'est la liste fermée des valeurs qu'un `classification` peut prendre,
-    donc aussi celle des filtres valides de `list_cards`. Publique pour
-    qu'un client (le service web, un formulaire) puisse proposer les bonnes
+    `{facette: {slug: {'en': étiquette, 'fr': étiquette, ...}}}`. La clé
+    est un slug neutre : l'identifiant du concept, stable si un libellé est
+    reformulé, utilisable dans un chemin de dossier et demain dans une URI.
+    `en` et `fr` sont deux étiquettes à égalité, aucune langue n'est
+    l'identifiant. C'est la liste fermée des valeurs qu'un `classification`
+    peut prendre, donc aussi celle des filtres valides de `list_cards`.
+    Publique pour qu'un client (service web, formulaire) propose les bonnes
     valeurs au lieu de les deviner.
     """
     return copy.deepcopy(_vocab())
+
+
+def _slug_of(facette, etiquette):
+    """Slug déclaré d'une étiquette (quelle que soit sa langue), ou None.
+
+    Le slug n'est plus dérivé du libellé anglais : il est déclaré dans
+    topics.yaml, donc un libellé peut être reformulé sans déplacer les
+    dossiers ni changer l'identité du concept.
+    """
+    for slug, entry in _vocab().get(facette, {}).items():
+        if etiquette in (slug, entry.get("en"), entry.get("fr")):
+            return slug
+    return None
 
 
 def input_registry():
@@ -309,7 +325,10 @@ def _check_classification(card, issues):
             continue
         pairs = zip(ven, vfr) if len_ else [(ven, vfr)]
         for e, f in pairs:
-            entry = vocab.get(key, {}).get(e)
+            # La clé du vocabulaire est un slug : on retrouve le concept par
+            # son étiquette anglaise, pas par la clé.
+            entry = next((v for v in vocab.get(key, {}).values()
+                          if v.get("en") == e), None)
             if entry is None:
                 issues.append(f"classification.{key}: '{e}' hors vocabulaire")
             elif entry["fr"] != f:
@@ -446,10 +465,20 @@ def validate_card(path) -> list[str]:
     return issues
 
 
-def _slug(s):
-    """Étiquette de classification -> nom de dossier (anglais, minuscules,
-    espaces en tirets)."""
-    return s.replace(" ", "-").replace("'", "") if isinstance(s, str) else s
+def _slug(s, facette=None):
+    """Étiquette de classification -> nom de dossier.
+
+    Le slug est DÉCLARÉ dans topics.yaml (clé du concept) : on le lit là,
+    on ne le recalcule pas depuis l'anglais. Repli sur une slugification
+    naïve seulement si le concept est hors vocabulaire (le linter le
+    signale par ailleurs)."""
+    if not isinstance(s, str):
+        return s
+    if facette:
+        declared = _slug_of(facette, s)
+        if declared:
+            return declared
+    return s.replace(" ", "-").replace("'", "")
 
 
 def _check_path_coherence(card, path, issues):
@@ -464,9 +493,10 @@ def _check_path_coherence(card, path, issues):
         return                            # déjà signalé par ailleurs
     dom = cl.get("domain")
     dom = dom[0] if isinstance(dom, list) else dom
+    facette = "phenomenon" if cl.get("phenomenon") else "purpose"
     grp = cl.get("phenomenon") or cl.get("purpose")
     grp = grp[0] if isinstance(grp, list) else grp
-    expected = (dom, _slug(grp), cl.get("output"))
+    expected = (dom, _slug(grp, facette), cl.get("output"))
     actual = parts[-4:-1]
     if expected != actual and None not in expected:
         issues.append(

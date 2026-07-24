@@ -78,6 +78,19 @@ des deux endroits.
 
 ### Ajouté
 
+- **La clé du vocabulaire devient un slug neutre.** Dans `topics.yaml`,
+  un concept s'identifiait par son libellé **anglais**, le français
+  n'étant qu'une propriété : l'anglais faisait office d'identité, et le
+  nom des dossiers se *dérivait* de sa formulation (reformuler un libellé
+  aurait déplacé des fiches). La clé est désormais un slug déclaré
+  (`low-flows: {en: low flows, fr: basses eaux}`) : il identifie le
+  concept, nomme le dossier, et fournira l'URI d'un futur export SKOS où
+  `en` et `fr` sont deux étiquettes **à égalité**. Le linter retrouve un
+  concept par son étiquette, dans n'importe quelle langue.
+  `card.vocabulary()` rend `{facette: {slug: {en, fr, ...}}}`. Aucun
+  dossier déplacé (les slugs déclarés valent les noms existants), aucune
+  fiche modifiée. Détail : `docs/dev/TOPICS.md`.
+
 - **`card.figure`, `card.vocabulary` et `card.info(quiet=True)`**, pour
   servir card ailleurs qu'un terminal. `info` imprimait la figure et
   retournait le dict : parfait pour un humain, inutilisable pour un

@@ -86,6 +86,30 @@ capitalisent au besoin).
 Les fiches de sensibilité croisée déclarent une liste :
 `domain: [flow, precipitation]` (ex. QR_ratio, epsilon_R, RAT_R).
 
+### La clé du vocabulaire est un slug, pas une étiquette (2026-07-24)
+
+Dans `topics.yaml`, la clé d'un concept est un **slug neutre**
+(`low-flows`, `mean-precipitation`, `rate-of-change`) et `en`/`fr` sont
+deux **étiquettes à égalité** :
+
+```yaml
+phenomenon:
+  low-flows: {en: low flows, fr: basses eaux}
+```
+
+Avant, la clé était le libellé anglais et le français une simple
+propriété : l'anglais servait donc d'identifiant, et le nom des dossiers
+se **dérivait** de sa formulation. Reformuler un libellé anglais aurait
+déplacé des fiches. Désormais le slug est **déclaré** : il identifie le
+concept, nomme le dossier
+(`cards/<domaine>/<phénomène>/<forme>/`) et fournira l'URI d'un futur
+export SKOS, où `prefLabel@fr` et `prefLabel@en` sont deux étiquettes
+d'un même concept, aucune n'étant l'identité.
+
+Conséquence pratique : `card.vocabulary()` rend
+`{facette: {slug: {en, fr, ...}}}`, et le linter retrouve un concept par
+son étiquette (dans n'importe quelle langue), plus par la clé.
+
 ### phenomenon : le phénomène hydro-climatique visé (scalaire ou liste)
 
 L'ex-« régime », correctement nommé : basses eaux, débit de base,

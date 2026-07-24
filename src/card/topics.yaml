@@ -2,50 +2,57 @@
 # docs/dev/TOPICS.md). Référence de validation du linter : chaque
 # valeur utilisée dans un bloc `classification` doit exister ici, et
 # la paire en/fr des deux blocs de langue doit correspondre.
-# Convention thésaurus : labels en minuscules.
+#
+# La CLÉ est un slug neutre, pas une étiquette : c'est l'identifiant du
+# concept, stable même si on reformule un libellé, utilisable tel quel
+# dans un chemin de dossier (cards/<domaine>/<phénomène>/<forme>/) et
+# demain dans une URI SKOS. `en` et `fr` sont deux étiquettes à égalité,
+# aucune langue ne sert d'identifiant.
+# Convention thésaurus : libellés en minuscules, slugs en minuscules et
+# tirets.
 
 domain:
-  flow: {fr: débit}
-  precipitation: {fr: précipitations}
-  temperature: {fr: température}
-  evapotranspiration: {fr: évapotranspiration}
+  flow: {en: flow, fr: débit}
+  precipitation: {en: precipitation, fr: précipitations}
+  temperature: {en: temperature, fr: température}
+  evapotranspiration: {en: evapotranspiration, fr: évapotranspiration}
 
 phenomenon:
-  low flows: {fr: basses eaux}
-  mean flows: {fr: moyennes eaux}
-  high flows: {fr: hautes eaux}
-  baseflow: {fr: débit de base}
-  dry spells: {fr: périodes sèches}
-  wet days: {fr: jours pluvieux}
-  heavy rain: {fr: pluies fortes}
-  snow: {fr: neige}
+  low-flows: {en: low flows, fr: basses eaux}
+  mean-flows: {en: mean flows, fr: moyennes eaux}
+  high-flows: {en: high flows, fr: hautes eaux}
+  baseflow: {en: baseflow, fr: débit de base}
+  dry-spells: {en: dry spells, fr: périodes sèches}
+  wet-days: {en: wet days, fr: jours pluvieux}
+  heavy-rain: {en: heavy rain, fr: pluies fortes}
+  snow: {en: snow, fr: neige}
   # magnitudes moyennes des autres grandeurs (pendants de « moyennes eaux »)
-  mean precipitation: {fr: précipitations moyennes}
-  mean temperatures: {fr: températures moyennes}
-  evaporative demand: {fr: demande évaporative}
+  mean-precipitation: {en: mean precipitation, fr: précipitations moyennes}
+  mean-temperatures: {en: mean temperatures, fr: températures moyennes}
+  evaporative-demand: {en: evaporative demand, fr: demande évaporative}
 
 aspect:
   # typologie IHA/EFC (Richter et al. 1996 ; Olden & Poff 2003)
-  magnitude: {fr: intensité, iha: magnitude}
-  timing: {fr: saisonnalité, iha: timing}
-  duration: {fr: durée, iha: duration}
-  frequency: {fr: fréquence, iha: frequency}
-  rate of change: {fr: taux de variation, iha: rate of change}
+  magnitude: {en: magnitude, fr: intensité, iha: magnitude}
+  timing: {en: timing, fr: saisonnalité, iha: timing}
+  duration: {en: duration, fr: durée, iha: duration}
+  frequency: {en: frequency, fr: fréquence, iha: frequency}
+  rate-of-change: {en: rate of change, fr: taux de variation, iha: rate of change}
 
 season:
   # position 4 d'Oberlin (1992) : la fenêtre d'échantillonnage
-  annual: {fr: annuelle}
-  summer: {fr: estivale}
-  winter: {fr: hivernale}
-  by season: {fr: par saison}
-  by month: {fr: par mois}
-  record: {fr: chronique}
+  annual: {en: annual, fr: annuelle}
+  summer: {en: summer, fr: estivale}
+  winter: {en: winter, fr: hivernale}
+  by-season: {en: by season, fr: par saison}
+  by-month: {en: by month, fr: par mois}
+  record: {en: record, fr: chronique}
 
 output:
-  series: {fr: série}
-  scalar: {fr: scalaire}
-  curve: {fr: courbe}
+  series: {en: series, fr: série}
+  scalar: {en: scalar, fr: scalaire}
+  curve: {en: curve, fr: courbe}
 
 purpose:
-  model performance: {fr: performance de modèle}
-  climate sensitivity: {fr: sensibilité climatique}
+  model-performance: {en: model performance, fr: performance de modèle}
+  climate-sensitivity: {en: climate sensitivity, fr: sensibilité climatique}
