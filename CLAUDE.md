@@ -40,11 +40,18 @@ src/card/
   trend.py       # card.trend : stase.trend fiche-conscient (refus explicite
                  #   des fiches non `output: series` ; traduit les fiches en
                  #   relative={variable: bool}, dérive suffix= de meta)
-  management.py  # list_cards (filtres par facette), info, copy_cards
-  schema.py      # linter : python -m card.schema
-  topics.yaml    # vocabulaire de contrôle de la classification (en/fr)
+  management.py  # list_cards (filtres par facette : slug OU libellé fr/en),
+                 #   info (imprime la figure ; quiet=True pour le seul dict),
+                 #   copy_cards
+  render.py      # figure() : la fiche DESSINÉE, rendue en chaîne, sans
+                 #   rien imprimer (c'est ce que sert card-api)
+  schema.py      # linter : python -m card.schema ; vocabulary() public
+  topics.yaml    # vocabulaire de contrôle : la CLÉ est un slug neutre,
+                 #   `en` et `fr` sont deux étiquettes à égalité ; le slug
+                 #   nomme aussi le dossier (cf. docs/dev/TOPICS.md)
   inputs.yaml    # unités/définitions des variables d'entrée (invariants)
-tests/           # pytest 105 tests (goldens R, loader, lint, suffixes, UX)
+tests/           # pytest (goldens R, loader, lint, suffixes, UX, rendu)
+                 #   pas de décompte ici : il périme, cf. README
 scripts/generate_catalog.py   # docs/CARDS.md, relancer après toute modif
 ```
 
