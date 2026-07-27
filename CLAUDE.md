@@ -158,6 +158,11 @@ Règles clés (détail : NOMENCLATURE.md) :
   moteur nécessaire à card impose de remonter `stase>=` dans le
   pyproject. Détail : « Versions et citation » plus bas.
 - Pas de PDF ni de `*~` sous git.
+- **Jamais de fenêtre de choix à cocher** (outil de question à options).
+  Elle coupe la conversation au lieu de la nourrir. Une décision à
+  prendre s'expose dans la réponse, en prose : le constat, les options,
+  celle qu'on recommande et pourquoi. L'utilisateur répond dans le fil,
+  ou dit qu'il ne sait pas et on en discute.
 - Pas de tiret quadratin (—) dans la prose (docs, messages, commentaires,
   réponses) : reformuler (deux points, parenthèses, phrases séparées).
   Perçu comme un marqueur de texte IA, rebute des utilisateurices.
