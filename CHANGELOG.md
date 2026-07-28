@@ -47,6 +47,12 @@ des deux endroits.
 
 ### Modifié
 
+- **`card.trend()` rend `h` et non plus `H` (2026-07-28),** en suivant
+  stase. La majuscule était le dernier reste du portage R au milieu de
+  `level`, `p`, `a`, `b`, `period_start` : dans le même dictionnaire de
+  sortie, `P`, `STAT` et `TREND` avaient déjà été mis en minuscules. Le
+  détail et l'arbitrage sont dans le CHANGELOG de stase.
+
 - **Le corpus est rangé par régime observé.** L'arborescence passe de
   `cards/<domaine>/<forme>/` à
   `cards/<domaine>/<phénomène>/<forme>/` : les 226 fiches sont

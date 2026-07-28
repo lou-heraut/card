@@ -58,12 +58,12 @@ au format ISO `YYYY-MM-DD` est convertie automatiquement.
 
 ```python
 tr = card.trend(res)
-tr["data"]["VCN10"][["id", "H", "p", "a", "a_relative"]]
-#         id    H        p         a  a_relative
+tr["data"]["VCN10"][["id", "h", "p", "a", "a_relative"]]
+#         id    h        p         a  a_relative
 # ma_station True 0.017107 -0.010074   -0.440127
 ```
 
-`H` dit si la tendance est significative au seuil demandé, `a` est la
+`h` dit si la tendance est significative au seuil demandé, `a` est la
 pente de Sen dans l'unité de la variable et par an, `a_relative` la même
 en pourcentage de la moyenne. Le test tient compte de l'autocorrélation
 d'ordre 1 par défaut, les séries d'étiage en présentant le plus souvent.

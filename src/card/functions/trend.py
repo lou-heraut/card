@@ -34,7 +34,7 @@ def mannkendall_test(X, level=0.1, time_dependency_option="AR1"):
     res = GeneralMannKendall(_to_float_array(X), level=level,
                              time_dependency_option=time_dependency_option,
                              do_detrending=True)
-    return res["H"]
+    return res["h"]
 
 
 def mannkendall_pvalue(X, level=0.1, time_dependency_option="AR1"):

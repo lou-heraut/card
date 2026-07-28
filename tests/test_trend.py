@@ -23,7 +23,7 @@ def test_trend_on_series_card():
     assert set(tr) == {"data", "meta"}
     df = tr["data"]["QA"]
     assert set(df["variable"]) == {"QA"}
-    assert df["H"].iloc[0]                       # tendance imposée détectée
+    assert df["h"].iloc[0]                       # tendance imposée détectée
     assert df["a"].iloc[0] == pytest.approx(0.05, rel=0.3)
 
 
