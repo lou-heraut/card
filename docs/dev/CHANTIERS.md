@@ -39,6 +39,42 @@ désormais actionnable, la cause ayant été diagnostiquée le 2026-07-22
 Le diagnostic vaut pour la version installée ici ; le vérifier sur
 l'environnement de l'utilisateur avant d'ouvrir le signalement.
 
+## Classer les fonctions au lieu de deviner leur nature (test de garde)
+
+Ouvert le 2026-07-30, en aval du correctif de `render.py` livré le même
+jour (voir CHANGELOG).
+
+`decoupe()` lit désormais `is_transform`, propriété déclarée à côté de la
+fonction, au lieu de deviner d'après le préfixe `nan` et deux noms écrits
+en dur. Ce qui manque est le **garde-fou** : rien n'oblige une fonction
+nouvelle, ou renommée, à se classer.
+
+Ce que l'incident a montré : `compute_Qp` est devenu
+`exceedance_quantile` (RENAMING.md), la chaîne `"quantile"` de la liste
+en dur est restée en arrière, et six fiches (`fQ01A`, `fQ05A`, `fQ10A` et
+leurs `delta-*_H`) ont annoncé « une valeur par jour » à propos d'un
+seuil unique. **La suite de tests était verte avant le correctif et
+l'est restée après** : elle ne couvrait pas le comportement, donc elle
+ne pouvait rien signaler. C'est le signal d'arrêt habituel.
+
+À faire :
+
+1. un test qui parcourt le corpus, collecte les fonctions employées dans
+   le cas `time_step: none` / `keep: all`, et **refuse** celle qui ne
+   porte pas de décision explicite. Il aurait été rouge le jour du
+   renommage ;
+2. décider `is_transform` pour les 41 fonctions employées, pas seulement
+   les 4 déclarées aujourd'hui (`baseflow`, `quickflow`,
+   `rollmean_center`, `rollsum_center`). Le défaut retenu est « réduit » :
+   transformer est le cas rare et délibéré, donc celui qui se déclare ;
+3. même traitement, sans urgence, pour la seconde liste en dur,
+   `glose()` : `nom_fn.startswith("nan") or nom_fn in ("ratio",
+   "difference")`. Moins grave, elle ne fait qu'omettre une glose, elle
+   n'en invente pas de fausse.
+
+Règle générale qui en découle, inscrite au CLAUDE.md : une chaîne de
+caractères qui nomme une fonction est un lien que rien ne vérifie.
+
 ## Références bibliographiques externes dans les fiches
 
 Ancrer les fiches standardisées sur leurs références : identifiants

@@ -45,6 +45,24 @@ des deux endroits.
 
 ## Non publié
 
+### Corrigé
+
+- **Six figures annonçaient l'inverse de ce qu'elles calculaient
+  (2026-07-30).** `fQ01A`, `fQ05A`, `fQ10A` et leurs `delta-*_H`
+  affichaient « transforme la série sans l'agréger, une valeur par jour »
+  sous un `exceedance_quantile` qui réduit toute la chronique à un seuil
+  unique. `decoupe()` de `render.py` devinait la nature d'une fonction
+  d'après son nom, en cherchant le préfixe `nan` et deux noms écrits en
+  dur, dont `quantile` : le renommage `compute_Qp` vers
+  `exceedance_quantile` (RENAMING.md) avait laissé la chaîne derrière
+  lui. La nature se lit désormais dans `is_transform`, propriété déclarée
+  à côté de la fonction, qui existait déjà et que personne ne lisait. Le
+  défaut est « réduit », transformer étant le cas rare et délibéré.
+  Vérifié par capture des 452 figures du corpus (226 fiches, deux
+  langues) avant et après : seules les six fiches annoncées changent,
+  d'une ligne chacune. La suite de tests était verte avant comme après,
+  d'où le test de garde ouvert dans `docs/dev/CHANTIERS.md`.
+
 ### Modifié
 
 - **`card.trend()` rend `h` et non plus `H` (2026-07-28),** en suivant

@@ -173,10 +173,19 @@ def decoupe(p, lang="fr"):
     if ts != "none":
         return t(ts, lang)
     if p["keep"] == "all":
-        reduit = all(e["fn_name"].startswith("nan")
-                     or e["fn_name"] in ("quantile", "return_level")
-                     for e in p["func"])
-        return t("diffuse" if reduit else "transforme", lang)
+        # Réduire ou transformer se DÉCLARE (`is_transform`, posé à côté de
+        # la fonction), cela ne se devine pas d'un nom. La version devinée
+        # cherchait le préfixe `nan` et deux noms écrits en dur, dont
+        # `quantile` : le renommage compute_Qp -> exceedance_quantile
+        # (RENAMING.md) a laissé la chaîne derrière lui, et six fiches ont
+        # annoncé « une valeur par jour » pour un seuil unique. Une chaîne
+        # qui nomme une fonction est un lien que rien ne vérifie.
+        # Le défaut est « réduit » : transformer est le cas rare et
+        # délibéré, donc celui qui se déclare.
+        transforme = bool(p["func"]) and all(
+            getattr(resolve(e["fn_name"]), "is_transform", False)
+            for e in p["func"])
+        return t("transforme" if transforme else "diffuse", lang)
     return t("unique", lang)
 
 
