@@ -26,8 +26,12 @@ from .aggregation import _rle_most_frequent, _to_float_array
 
 
 def exceedance_quantile(Q, p):
-    """Quantile de probabilité de dépassement p : quantile(Q, 1-p),
-    interpolation linéaire (type 7 R = défaut numpy)."""
+    """Débit dépassé une fraction p du temps, lu sur la courbe des débits
+    classés.
+
+    Vaut quantile(Q, 1-p), interpolation linéaire (type 7 R = défaut
+    numpy). Les lacunes sont écartées avant le calcul.
+    """
     q = _to_float_array(Q)
     q = q[~np.isnan(q)]
     p = np.asarray(p, dtype=float)
@@ -36,8 +40,15 @@ def exceedance_quantile(Q, p):
 
 
 def exceedance_frequency(Q, threshold):
-    """Fréquence de dépassement du seuil : n(Q > threshold) / N
-    (N inclut les NaN, comme en R)."""
+    """Fréquence de dépassement du seuil : part du temps où Q est
+    strictement supérieur à threshold.
+
+    Vaut n(Q > threshold) / N. Le numérateur écarte les lacunes, le
+    dénominateur N les compte (parité R) : une chronique trouée abaisse
+    donc la fréquence, exactement de sa part de lacunes. Divergence avec
+    exceedance_quantile ci-dessus, qui les écarte des deux côtés.
+    Arbitrage en attente, cf. docs/dev/CHANTIERS.md.
+    """
     q = _to_float_array(Q)
     lim_arr = _to_float_array(threshold) if np.ndim(threshold) > 0 else \
         np.asarray([threshold], dtype=float)

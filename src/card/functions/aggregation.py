@@ -139,10 +139,13 @@ def _roll_cyclical(x: np.ndarray, k: int, stat: str) -> np.ndarray:
 
 
 def rollmean_center(X, k, cyclical=False):
-    """Moyenne mobile centrée de fenêtre k (convention pandas
-    center=True ; fenêtre contenant un NaN → NaN). cyclical=True :
-    la série est considérée circulaire (régimes interannuels).
-    Sortie de même longueur que X (transform).
+    """Moyenne mobile centrée de fenêtre k : lisse la série sans la
+    décaler dans le temps.
+
+    Fenêtre alignée sur son centre (pandas center=True), lacunes
+    propagées strictement : une fenêtre contenant un NaN vaut NaN.
+    cyclical=True : la série est considérée circulaire (régimes
+    interannuels). Sortie de même longueur que X (transform).
     """
     x = _to_float_array(X)
     if cyclical:
@@ -151,8 +154,11 @@ def rollmean_center(X, k, cyclical=False):
 
 
 def rollsum_center(X, k, cyclical=False):
-    """Somme mobile centrée de fenêtre k, mêmes conventions que
-    rollmean_center. Sortie de même longueur que X (transform).
+    """Somme mobile centrée de fenêtre k : cumul glissant sur k pas de
+    temps, sans décalage.
+
+    Mêmes conventions que rollmean_center. Sortie de même longueur que X
+    (transform).
     """
     x = _to_float_array(X)
     if cyclical:

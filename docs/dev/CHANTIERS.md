@@ -75,6 +75,68 @@ ne pouvait rien signaler. C'est le signal d'arrêt habituel.
 Règle générale qui en découle, inscrite au CLAUDE.md : une chaîne de
 caractères qui nomme une fonction est un lien que rien ne vérifie.
 
+## Découpeur de phrases de `glose()` : abréviations et seuil
+
+Ouvert le 2026-07-30. `glose()` coupe la docstring à la première phrase,
+en cherchant un point suivi d'une espace. Trois façons de se tromper, sur
+le corpus actuel :
+
+- **« et al. »** est pris pour une fin de phrase. `RAT` n'affiche plus
+  que `RAT` (le reste tombe, parenthèse ouverte non refermée puis
+  tronquée) ; `elasticity` s'arrête sur « de Sankarasubramanian et al ».
+- **« ex. »** laisse un moignon : `circular_median` finit sur
+  « (arctangente des médianes de sin/cos), ex ». Le code connaît déjà le
+  cas « (ex. » et le traite ; « , ex. » lui échappe.
+- **le seuil de 120 caractères** rend une glose vide plutôt qu'une glose
+  longue. Trois fonctions n'expliquent donc rien du tout dans la figure :
+  `fdc_probabilities` (premier paragraphe de 649 caractères),
+  `return_level` (338), `snowmelt_duration` (130, qui rate de peu).
+
+Deux décisions à prendre : traiter les abréviations dans le découpeur
+(plutôt que d'interdire « et al. » dans les docstrings, ce qui reviendrait
+à plier le code à la faiblesse de son afficheur), et choisir entre
+raccourcir ces trois docstrings ou relever le seuil.
+
+Point connexe repéré au passage, à trancher séparément : **les gloses ne
+sont pas traduites**. Elles viennent des docstrings, écrites en français,
+et s'affichent telles quelles dans la figure anglaise. Le reste de la
+prose passe par `_T`.
+
+## Fréquence de dépassement : les lacunes au dénominateur
+
+Ouvert le 2026-07-30, sur question de l'utilisateur. `exceedance_frequency`
+(`functions/fdc.py`) rend `n(Q > seuil) / N` où le numérateur écarte les
+lacunes et où `N` les compte, par parité R. Conséquence exacte, pas
+approchée : la fréquence rendue vaut la vraie fréquence multipliée par la
+part de données présentes. Une année à 3 % de lacunes rend une fréquence
+3 % trop basse.
+
+Trois raisons de changer, une de se méfier.
+
+- **Statistique** : `n / N_observé` estime P(Q > seuil) sans biais sous
+  données manquantes aléatoires. `n / N_total` traite un jour absent
+  comme un jour de non-dépassement, ce qu'il n'est pas.
+- **Cohérence interne** : `exceedance_quantile`, dix lignes plus haut
+  dans le même fichier, écarte les lacunes des deux côtés. Les deux
+  moitiés de la fiche `fQ01A` ne comptent pas de la même façon.
+- **Tendances** : la complétude des chroniques Hub'Eau s'améliore avec le
+  temps. Un biais proportionnel aux lacunes est donc corrélé au temps, et
+  se lit comme une tendance à la hausse là où il n'y a que du remplissage
+  de trous. Précédent connu du projet : la pente de Sen biaisée de +38 %
+  sur chronique trouée, corrigée en imposant des chroniques denses.
+- **La méfiance** : les stations sont justement moins fiables en crue,
+  donc les lacunes des fiches `fQ*` ne sont probablement pas aléatoires.
+  `n / N_observé` n'est pas non plus sans biais dans ce cas. Il reste le
+  meilleur des deux, mais il ne faut pas le vendre comme exact.
+
+Portée : six fiches (`fQ01A`, `fQ05A`, `fQ10A`, `delta-fQ01A_H`,
+`delta-fQ05A_H`, `delta-fQ10A_H`), toutes plafonnées à 3 % de lacunes, ce
+qui borne l'écart. Changement de RÉSULTAT, donc : commit séparé, rupture
+de parité R à documenter dans `RENAMING.md` et `ORIGINE_R.md`, et un test
+qui fixe le nouveau comportement sur une chronique trouée construite pour
+ça. Rien n'est à faire côté card-api : ce qui identifie un résultat est
+le commit de card résolu à la construction, publié dans chaque réponse.
+
 ## Références bibliographiques externes dans les fiches
 
 Ancrer les fiches standardisées sur leurs références : identifiants

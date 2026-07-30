@@ -65,6 +65,17 @@ des deux endroits.
 
 ### Modifié
 
+- **Cinq docstrings parlaient au lecteur du code, pas au lecteur d'une
+  fiche (2026-07-30).** La première phrase d'une docstring est reprise
+  telle quelle dans la figure par `glose()` : `center=True`, « type 7 R =
+  défaut numpy » et « convention du pipeline is_date » y arrivaient
+  intacts. Première phrase recentrée sur ce que la fonction calcule,
+  détails d'implémentation descendus d'un paragraphe, rien supprimé, pour
+  `rollmean_center`, `rollsum_center`, `exceedance_quantile`,
+  `exceedance_frequency` et `snowmelt_timing`. Cette dernière décrivait un
+  paramètre `p` absent de sa signature. Aucun calcul modifié, diff des 452
+  figures limité aux cinq gloses.
+
 - **`card.trend()` rend `h` et non plus `H` (2026-07-28),** en suivant
   stase. La majuscule était le dernier reste du portage R au milieu de
   `level`, `p`, `a`, `b`, `period_start` : dans le même dictionnaire de

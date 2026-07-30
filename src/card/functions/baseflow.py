@@ -165,8 +165,12 @@ def snowmelt_volume(Q, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
 
 
 def snowmelt_timing(Q, fraction, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
-    """Index (0-based, convention du pipeline is_date) où la fraction p du
-    volume total de fonte est atteinte."""
+    """Moment où le volume de fonte cumulé atteint la fraction demandée du
+    total.
+
+    La fraction visée est `fraction`. Rendu comme un index 0-based dans la
+    série, que le pipeline convertit en date (convention is_date).
+    """
     BF = baseflow(Q, d=d, w=w, a=a, passes=passes, method=method)
     vol = np.cumsum(BF)
     if np.all(np.isnan(vol)):
