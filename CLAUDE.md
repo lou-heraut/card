@@ -138,6 +138,14 @@ Règles clés (détail : NOMENCLATURE.md) :
 > - **Pas de `git add -A` ni de `git add .`** : stager nommément les
 >   fichiers que l'on a soi-même modifiés. Ce qui traîne dans l'arbre de
 >   travail appartient à l'utilisateur.
+> - **Ne JAMAIS signaler un fichier non suivi.** Un fichier non suivi est
+>   à l'utilisateur : brouillon, essai, sortie jetable. Il a le droit d'en
+>   avoir, il n'a pas à s'en justifier, et le lui rappeler est une
+>   nuisance. Pas de « au passage, j'ai vu que », pas de « je n'y touche
+>   pas », pas de récapitulatif en fin de réponse. On n'en parle que s'il
+>   en parle le premier. Le répertoire `bac/` est ignoré par git : c'est
+>   là qu'on lui propose de déposer ce qu'il veut faire disparaître du
+>   `git status`, une fois, sans y revenir.
 
 ## Règles de travail
 
@@ -166,6 +174,24 @@ Règles clés (détail : NOMENCLATURE.md) :
 - Pas de tiret quadratin (—) dans la prose (docs, messages, commentaires,
   réponses) : reformuler (deux points, parenthèses, phrases séparées).
   Perçu comme un marqueur de texte IA, rebute des utilisateurices.
+- **Aucun nombre écrit à la main s'il vit ailleurs.** Nombre de fiches, de
+  variables, de tests, de fonctions : la phrase reste, la valeur bouge, et
+  la doc ment sans que rien ne rougisse. Le SEUL décompte du dépôt est
+  celui du README entre les marqueurs `<!-- cards:count -->`, tenu par
+  `scripts/generate_catalog.py`. Partout ailleurs on dit la RÈGLE, pas la
+  valeur, ou on renvoie à la commande qui la donne. Constaté le
+  2026-07-30 : le README annonçait « 105 tests » pour 126 réels, dans la
+  ligne juste au-dessus de la commande qui affiche le vrai chiffre. Même
+  règle dans card-api, même raison.
+- **Une chaîne de caractères qui nomme une fonction est un lien que rien
+  ne vérifie.** Ni l'import, ni le linter, ni les tests ne suivent un nom
+  de fonction écrit en dur dans une liste (`if nom in ("quantile", ...)`).
+  `RENAMING.md` acte les renommages, il ne sait pas qui les cite en
+  toutes lettres. Préférer une propriété DÉCLARÉE à côté de la fonction
+  (`is_transform`) et un test qui refuse une fonction du corpus non
+  classée. Constaté le 2026-07-30 : `compute_Qp` renommé
+  `exceedance_quantile`, la liste restée en arrière, six figures
+  annonçant « une valeur par jour » pour un seuil unique, suite verte.
 
 ## Versions et citation
 

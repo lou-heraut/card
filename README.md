@@ -13,9 +13,6 @@
 et exécutées par le moteur [stase](https://github.com/lou-heraut/stase).
 Vous choisissez vos fiches, card fait le reste.
 
-<sub>Le décompte ci-dessus est le seul du dépôt : `scripts/generate_catalog.py`
-le tient à jour, ne l'écrivez nulle part ailleurs à la main.</sub>
-
 ## Installation
 
 ```bash
@@ -396,7 +393,7 @@ auteurs dans le fichier AUTHORS.
 ## Développement
 
 ```bash
-pip install -e . && pytest              # 105 tests
+pip install -e . && pytest              # suite complète
 python -m card.schema                   # linter des fiches YAML
 python scripts/generate_catalog.py      # régénère docs/CARDS.md
 ```
