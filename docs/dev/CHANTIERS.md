@@ -39,41 +39,39 @@ désormais actionnable, la cause ayant été diagnostiquée le 2026-07-22
 Le diagnostic vaut pour la version installée ici ; le vérifier sur
 l'environnement de l'utilisateur avant d'ouvrir le signalement.
 
-## Classer les fonctions au lieu de deviner leur nature (test de garde)
+## `ratio` et `difference` : une nature qui dépend des arguments
 
-Ouvert le 2026-07-30, en aval du correctif de `render.py` livré le même
-jour (voir CHANGELOG).
+Ouvert le 2026-07-30, trouvé par le test de mesure de
+`tests/test_nature_fonctions.py` (voir CHANGELOG pour le reste du
+chantier, livré).
 
-`decoupe()` lit désormais `is_transform`, propriété déclarée à côté de la
-fonction, au lieu de deviner d'après le préfixe `nan` et deux noms écrits
-en dur. Ce qui manque est le **garde-fou** : rien n'oblige une fonction
-nouvelle, ou renommée, à se classer.
+Les deux fonctions suivent la forme de leurs entrées : `ratio(a, b)` rend
+une série quand a et b sont des séries, un scalaire quand ils sont
+scalaires ou quand `first=True`. **Aucun booléen posé sur la fonction ne
+dit le vrai dans les deux cas**, ce qui les met à part des quatre
+transformations franches (`baseflow`, `quickflow`, `rollmean_center`,
+`rollsum_center`).
 
-Ce que l'incident a montré : `compute_Qp` est devenu
-`exceedance_quantile` (RENAMING.md), la chaîne `"quantile"` de la liste
-en dur est restée en arrière, et six fiches (`fQ01A`, `fQ05A`, `fQ10A` et
-leurs `delta-*_H`) ont annoncé « une valeur par jour » à propos d'un
-seuil unique. **La suite de tests était verte avant le correctif et
-l'est restée après** : elle ne couvrait pas le comportement, donc elle
-ne pouvait rien signaler. C'est le signal d'arrêt habituel.
+Sans conséquence aujourd'hui : ni l'une ni l'autre ne sert en
+`time_step: none` / `keep: all`, le seul cas où `decoupe()` consulte la
+nature. Un test veille à ce que cela reste vrai et rougira le jour où
+l'une y servira. Il faudra alors décider ce que la figure annonce, sans
+doute en regardant `first` et le nombre de colonnes de l'appel.
 
-À faire :
+## Seconde liste en dur de `render.py`, dans `glose()`
 
-1. un test qui parcourt le corpus, collecte les fonctions employées dans
-   le cas `time_step: none` / `keep: all`, et **refuse** celle qui ne
-   porte pas de décision explicite. Il aurait été rouge le jour du
-   renommage ;
-2. décider `is_transform` pour les 41 fonctions employées, pas seulement
-   les 4 déclarées aujourd'hui (`baseflow`, `quickflow`,
-   `rollmean_center`, `rollsum_center`). Le défaut retenu est « réduit » :
-   transformer est le cas rare et délibéré, donc celui qui se déclare ;
-3. même traitement, sans urgence, pour la seconde liste en dur,
-   `glose()` : `nom_fn.startswith("nan") or nom_fn in ("ratio",
-   "difference")`. Moins grave, elle ne fait qu'omettre une glose, elle
-   n'en invente pas de fausse.
+Ouvert le 2026-07-30, reste du chantier des listes en dur.
 
-Règle générale qui en découle, inscrite au CLAUDE.md : une chaîne de
-caractères qui nomme une fonction est un lien que rien ne vérifie.
+`glose()` décide quelles fonctions n'ont pas besoin d'explication par
+`nom_fn.startswith("nan") or nom_fn in ("ratio", "difference")`. Même
+faiblesse que celle corrigée dans `decoupe()`, mais bien moins grave :
+au pire une glose manque, elle ne dit jamais le faux.
+
+Différence de fond avec `decoupe()` : « cette fonction se passe
+d'explication » est un jugement éditorial, pas une propriété du calcul.
+Rien ne se mesure ici, donc le remède ne peut pas être le même. Piste :
+l'absence de docstring, ou une docstring d'une ligne, dit déjà ce que la
+liste dit.
 
 ## Découpeur de phrases de `glose()` : abréviations et seuil
 

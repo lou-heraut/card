@@ -63,6 +63,29 @@ des deux endroits.
   d'une ligne chacune. La suite de tests était verte avant comme après,
   d'où le test de garde ouvert dans `docs/dev/CHANTIERS.md`.
 
+### Ajouté
+
+- **`tests/test_nature_fonctions.py` : la nature d'une fonction est
+  désormais MESURÉE, plus déclarée sur parole (2026-07-30).** Sept tests
+  appellent chaque fonction avec les arguments que le corpus lui passe
+  vraiment, sur une chronique de synthèse, et comparent la longueur de la
+  sortie à celle de l'entrée. Le test central ne demande pas à
+  `decoupe()` d'où elle tient son verdict, il demande si son verdict est
+  vrai : c'est le seul qui aurait rougi le jour du renommage. Aucune
+  liste de noms à tenir à jour ; les sept fonctions qu'on ne peut pas
+  appeler hors du moteur, leurs arguments désignant des colonnes, sont
+  classées à la main dans `HORS_MESURE` avec leur raison, et un test
+  refuse que cette liste garde une fonction devenue mesurable. Éprouvé
+  par quatre mutations, chacune vue rouge sur le test attendu : le bug
+  d'origine réintroduit, une déclaration oubliée, une déclaration fausse,
+  et `decoupe()` ignorant la déclaration.
+
+  Deux trouvailles du test lui-même, sans conséquence sur les figures
+  actuelles et ouvertes dans `docs/dev/CHANTIERS.md` : `ratio` et
+  `difference` suivent la forme de leurs entrées, donc aucun booléen ne
+  décrit leur nature ; `return_level` a été classée à la main après
+  lecture, elle ajuste une loi et rend une valeur.
+
 ### Modifié
 
 - **Cinq docstrings parlaient au lecteur du code, pas au lecteur d'une
