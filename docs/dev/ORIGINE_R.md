@@ -96,6 +96,33 @@ autonome et n'en a pas besoin.
   (brut + lissé) ; la fiche Python n'en sort qu'une. Trois divergences
   assumées, donc : nom, fenêtre, colonne unique.
 
+- **`exceedance_frequency` ne compte plus les lacunes au dénominateur**
+  (2026-07-30). Le R rend `n(Q > seuil) / N` avec `N` = tous les pas de
+  temps, alors que le numérateur écarte déjà les lacunes. La fréquence
+  rendue valait donc la vraie fréquence multipliée par la part de données
+  présentes : une année à 3 % de lacunes rendait une fréquence 3 % trop
+  basse, exactement. Trois raisons de rompre :
+  - un jour manquant est un jour dont on ne sait rien, pas un jour de
+    non-dépassement ; `n / N_observé` estime P(Q > seuil) sans biais sous
+    données manquantes aléatoires, `n / N_total` non ;
+  - `exceedance_quantile`, dans le même fichier, écarte les lacunes des
+    deux côtés. Les fiches `fQ*` tirent leur seuil de l'une et leur
+    fréquence de l'autre : elles se contredisaient au milieu ;
+  - la complétude des chroniques Hub'Eau s'améliore avec le temps, donc
+    un biais proportionnel aux lacunes est corrélé au temps et se lit
+    comme une tendance à la hausse. Même famille que la pente de Sen
+    biaisée sur chronique trouée.
+
+  Réserve à ne pas escamoter : les stations sont moins fiables en crue,
+  donc les lacunes des fiches `fQ*` ne sont probablement pas aléatoires.
+  `n / N_observé` n'est pas sans biais dans ce cas non plus ; il reste le
+  meilleur des deux et n'ajoute pas un second biais purement
+  arithmétique. Effet borné en pratique : les six fiches concernées
+  (`fQ01A`, `fQ05A`, `fQ10A` et leurs `delta-*_H`) plafonnent à 3 % de
+  lacunes. Au passage, une série entièrement absente rend NaN et non plus
+  0, qui se lisait comme « aucun dépassement observé » au lieu de « rien
+  d'observé ». Tests : `test_gap_robustness.py`.
+
 ## Noms hérités du R
 
 L'API canonique est `card.extract`, `card.list_cards`, `card.info`,

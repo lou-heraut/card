@@ -40,21 +40,26 @@ def exceedance_quantile(Q, p):
 
 
 def exceedance_frequency(Q, threshold):
-    """Fréquence de dépassement du seuil : part du temps où Q est
+    """Fréquence de dépassement du seuil : part du temps OBSERVÉ où Q est
     strictement supérieur à threshold.
 
-    Vaut n(Q > threshold) / N. Le numérateur écarte les lacunes, le
-    dénominateur N les compte (parité R) : une chronique trouée abaisse
-    donc la fréquence, exactement de sa part de lacunes. Divergence avec
-    exceedance_quantile ci-dessus, qui les écarte des deux côtés.
-    Arbitrage en attente, cf. docs/dev/CHANTIERS.md.
+    Vaut n(Q > threshold) / N, où N ne compte que les pas de temps
+    renseignés, comme le numérateur. Un jour manquant est un jour dont on
+    ne sait rien, pas un jour de non-dépassement : le compter au
+    dénominateur abaissait la fréquence exactement de la part de lacunes
+    de la chronique, et cette part diminuant avec les années, le biais se
+    lisait comme une tendance à la hausse. Rupture de parité R assumée le
+    2026-07-30, cf. docs/dev/ORIGINE_R.md. Série entièrement manquante :
+    NaN, et non plus 0.
     """
     q = _to_float_array(Q)
     lim_arr = _to_float_array(threshold) if np.ndim(threshold) > 0 else \
         np.asarray([threshold], dtype=float)
     lim = _rle_most_frequent(lim_arr[~np.isnan(lim_arr)])
-    n = np.sum(q[~np.isnan(q)] > lim)
-    return float(n) / len(q)
+    observes = ~np.isnan(q)
+    if not observes.any():
+        return np.nan
+    return float(np.sum(q[observes] > lim)) / int(observes.sum())
 
 
 def fdc_slope(Q, p=(0.33, 0.66)):

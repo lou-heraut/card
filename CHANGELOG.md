@@ -88,6 +88,26 @@ des deux endroits.
 
 ### Modifié
 
+- **`exceedance_frequency` ne compte plus les lacunes au dénominateur
+  (2026-07-30).** Le numérateur les écartait déjà, le dénominateur les
+  comptait par parité R : la fréquence rendue valait la vraie fréquence
+  multipliée par la part de données présentes, une année à 3 % de lacunes
+  rendant une fréquence 3 % trop basse. Un jour manquant est un jour dont
+  on ne sait rien, pas un jour de non-dépassement. Trois raisons de
+  rompre : l'estimateur `n / N_observé` est le seul non biaisé sous
+  données manquantes aléatoires ; `exceedance_quantile`, dans le même
+  fichier, écarte les lacunes des deux côtés, si bien que les fiches
+  `fQ*`, qui tirent leur seuil de l'une et leur fréquence de l'autre, se
+  contredisaient au milieu ; et la complétude des chroniques Hub'Eau
+  s'améliorant avec le temps, ce biais était corrélé au temps et se
+  lisait comme une tendance à la hausse. Une série entièrement absente
+  rend NaN au lieu de 0, qui se lisait comme « aucun dépassement
+  observé ». Six fiches touchées (`fQ01A`, `fQ05A`, `fQ10A` et leurs
+  `delta-*_H`), toutes plafonnées à 3 % de lacunes, ce qui borne l'écart.
+  Rupture de parité R assumée, avec sa réserve (les lacunes des fiches de
+  hautes eaux ne sont probablement pas aléatoires) :
+  `docs/dev/ORIGINE_R.md`.
+
 - **La seconde liste de noms en dur de `render.py` disparaît à son tour
   (2026-07-30).** `glose()` décidait de museler une explication d'après
   le NOM de la fonction (`startswith("nan")`, plus `ratio` et

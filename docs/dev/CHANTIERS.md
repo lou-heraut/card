@@ -69,41 +69,6 @@ sont pas traduites**. Elles viennent des docstrings, écrites en français,
 et s'affichent telles quelles dans la figure anglaise. Le reste de la
 prose passe par `_T`.
 
-## Fréquence de dépassement : les lacunes au dénominateur
-
-Ouvert le 2026-07-30, sur question de l'utilisateur. `exceedance_frequency`
-(`functions/fdc.py`) rend `n(Q > seuil) / N` où le numérateur écarte les
-lacunes et où `N` les compte, par parité R. Conséquence exacte, pas
-approchée : la fréquence rendue vaut la vraie fréquence multipliée par la
-part de données présentes. Une année à 3 % de lacunes rend une fréquence
-3 % trop basse.
-
-Trois raisons de changer, une de se méfier.
-
-- **Statistique** : `n / N_observé` estime P(Q > seuil) sans biais sous
-  données manquantes aléatoires. `n / N_total` traite un jour absent
-  comme un jour de non-dépassement, ce qu'il n'est pas.
-- **Cohérence interne** : `exceedance_quantile`, dix lignes plus haut
-  dans le même fichier, écarte les lacunes des deux côtés. Les deux
-  moitiés de la fiche `fQ01A` ne comptent pas de la même façon.
-- **Tendances** : la complétude des chroniques Hub'Eau s'améliore avec le
-  temps. Un biais proportionnel aux lacunes est donc corrélé au temps, et
-  se lit comme une tendance à la hausse là où il n'y a que du remplissage
-  de trous. Précédent connu du projet : la pente de Sen biaisée de +38 %
-  sur chronique trouée, corrigée en imposant des chroniques denses.
-- **La méfiance** : les stations sont justement moins fiables en crue,
-  donc les lacunes des fiches `fQ*` ne sont probablement pas aléatoires.
-  `n / N_observé` n'est pas non plus sans biais dans ce cas. Il reste le
-  meilleur des deux, mais il ne faut pas le vendre comme exact.
-
-Portée : six fiches (`fQ01A`, `fQ05A`, `fQ10A`, `delta-fQ01A_H`,
-`delta-fQ05A_H`, `delta-fQ10A_H`), toutes plafonnées à 3 % de lacunes, ce
-qui borne l'écart. Changement de RÉSULTAT, donc : commit séparé, rupture
-de parité R à documenter dans `RENAMING.md` et `ORIGINE_R.md`, et un test
-qui fixe le nouveau comportement sur une chronique trouée construite pour
-ça. Rien n'est à faire côté card-api : ce qui identifie un résultat est
-le commit de card résolu à la construction, publié dans chaque réponse.
-
 ## Références bibliographiques externes dans les fiches
 
 Ancrer les fiches standardisées sur leurs références : identifiants
