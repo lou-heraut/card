@@ -202,3 +202,52 @@ def test_info_quiet_rend_le_dict_sans_imprimer(capsys):
     assert capsys.readouterr().out == ""
     card.info("QA")                       # défaut inchangé : ça imprime
     assert "▼" in capsys.readouterr().out
+
+
+def _fonctions_du_corpus():
+    from card.extraction import _find_cards
+    fns = set()
+    for chemin in _find_cards(_DEFAULT_CARD_DIR, None).values():
+        for proc in load_card(chemin)["processes"]:
+            fns |= {e["fn_name"] for e in proc["func"]}
+    return sorted(fns)
+
+
+def test_aucune_glose_ne_vient_dune_docstring_etrangere():
+    """La figure ne doit jamais servir la prose de référence de numpy.
+
+    La règle cherchait le préfixe `nan` dans le NOM, ce qui visait juste
+    par accident : elle muselait au passage `nansum_strict`, qui est de
+    card. Elle regarde désormais à QUI appartient la fonction.
+    """
+    from card.extraction import resolve
+    from card.render import glose
+
+    fuites = []
+    for nom in _fonctions_du_corpus():
+        module = getattr(resolve(nom), "__module__", "")
+        if not module.startswith("card") and glose(nom):
+            fuites.append(f"{nom} ({module}) : {glose(nom)!r}")
+    assert not fuites, "\n".join(fuites)
+
+
+def test_les_fonctions_de_card_ne_sont_muselees_que_sciemment():
+    """Museler une glose est un choix éditorial, donc il se DÉCLARE.
+
+    `glose_inutile` se pose à côté de la fonction : un renommage emporte
+    la déclaration avec lui, là où une liste de noms dans render.py
+    serait restée en arrière sans que rien ne rougisse.
+    """
+    from card.extraction import resolve
+    from card.render import glose
+
+    for nom in _fonctions_du_corpus():
+        fn = resolve(nom)
+        if not getattr(fn, "__module__", "").startswith("card"):
+            continue
+        if getattr(fn, "glose_inutile", False):
+            assert glose(nom) == "", f"{nom} est déclarée muette et parle"
+            continue
+        # Les autres peuvent rendre une glose vide (docstring trop longue,
+        # cf. CHANTIERS), mais jamais parce qu'un nom figure quelque part.
+        assert fn.__doc__, f"{nom} n'a pas de docstring et n'est pas déclarée muette"

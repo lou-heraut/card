@@ -271,9 +271,18 @@ def glose(nom_fn):
     """Première phrase de la docstring, moins l'énumération des valeurs
     possibles d'un paramètre : la fiche en a déjà choisi une, lister les
     autres n'apprend rien sur ce qu'elle calcule."""
-    if nom_fn.startswith("nan") or nom_fn in ("ratio", "difference"):
+    fn = resolve(nom_fn)
+    # Une docstring que card n'a pas écrite (numpy) est de l'anglais de
+    # référence, sans rapport avec ce que la fiche calcule. La règle
+    # cherchait auparavant le préfixe `nan` dans le NOM, ce qui muselait
+    # au passage `nansum_strict`, qui est de card et a sa propre prose.
+    if not getattr(fn, "__module__", "").startswith("card"):
         return ""
-    doc = (resolve(nom_fn).__doc__ or "").strip()
+    # Choix éditorial, déclaré à côté de la fonction et non listé ici :
+    # pour `ratio(a, b)`, l'appel affiché dit déjà tout.
+    if getattr(fn, "glose_inutile", False):
+        return ""
+    doc = (fn.__doc__ or "").strip()
     doc = re.sub(r"\s+", " ", doc.split("\n\n")[0])
     # Couper à la première phrase, mais « (ex. » n'en termine pas une :
     # BFM s'affichait « ... des débits de base agrégés (ex », parenthèse

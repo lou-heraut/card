@@ -88,6 +88,19 @@ des deux endroits.
 
 ### Modifié
 
+- **La seconde liste de noms en dur de `render.py` disparaît à son tour
+  (2026-07-30).** `glose()` décidait de museler une explication d'après
+  le NOM de la fonction (`startswith("nan")`, plus `ratio` et
+  `difference`). Elle regarde désormais à QUI appartient la fonction :
+  une docstring que card n'a pas écrite est de l'anglais de référence
+  numpy, sans rapport avec ce que la fiche calcule. Le silence éditorial,
+  lui, se déclare à côté de la fonction (`glose_inutile`), donc un
+  renommage l'emporte avec lui. Aucune figure ne change. Le préfixe
+  muselait au passage `nansum_strict`, qui est de card et a sa propre
+  prose : elle reste invisible pour l'autre raison, sa première phrase
+  dépassant le seuil de 120 caractères, ouvert dans
+  `docs/dev/CHANTIERS.md`.
+
 - **Cinq docstrings parlaient au lecteur du code, pas au lecteur d'une
   fiche (2026-07-30).** La première phrase d'une docstring est reprise
   telle quelle dans la figure par `glose()` : `center=True`, « type 7 R =

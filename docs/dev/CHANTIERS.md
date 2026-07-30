@@ -39,40 +39,6 @@ désormais actionnable, la cause ayant été diagnostiquée le 2026-07-22
 Le diagnostic vaut pour la version installée ici ; le vérifier sur
 l'environnement de l'utilisateur avant d'ouvrir le signalement.
 
-## `ratio` et `difference` : une nature qui dépend des arguments
-
-Ouvert le 2026-07-30, trouvé par le test de mesure de
-`tests/test_nature_fonctions.py` (voir CHANGELOG pour le reste du
-chantier, livré).
-
-Les deux fonctions suivent la forme de leurs entrées : `ratio(a, b)` rend
-une série quand a et b sont des séries, un scalaire quand ils sont
-scalaires ou quand `first=True`. **Aucun booléen posé sur la fonction ne
-dit le vrai dans les deux cas**, ce qui les met à part des quatre
-transformations franches (`baseflow`, `quickflow`, `rollmean_center`,
-`rollsum_center`).
-
-Sans conséquence aujourd'hui : ni l'une ni l'autre ne sert en
-`time_step: none` / `keep: all`, le seul cas où `decoupe()` consulte la
-nature. Un test veille à ce que cela reste vrai et rougira le jour où
-l'une y servira. Il faudra alors décider ce que la figure annonce, sans
-doute en regardant `first` et le nombre de colonnes de l'appel.
-
-## Seconde liste en dur de `render.py`, dans `glose()`
-
-Ouvert le 2026-07-30, reste du chantier des listes en dur.
-
-`glose()` décide quelles fonctions n'ont pas besoin d'explication par
-`nom_fn.startswith("nan") or nom_fn in ("ratio", "difference")`. Même
-faiblesse que celle corrigée dans `decoupe()`, mais bien moins grave :
-au pire une glose manque, elle ne dit jamais le faux.
-
-Différence de fond avec `decoupe()` : « cette fonction se passe
-d'explication » est un jugement éditorial, pas une propriété du calcul.
-Rien ne se mesure ici, donc le remède ne peut pas être le même. Piste :
-l'absence de docstring, ou une docstring d'une ligne, dit déjà ce que la
-liste dit.
-
 ## Découpeur de phrases de `glose()` : abréviations et seuil
 
 Ouvert le 2026-07-30. `glose()` coupe la docstring à la première phrase,
@@ -88,7 +54,10 @@ le corpus actuel :
 - **le seuil de 120 caractères** rend une glose vide plutôt qu'une glose
   longue. Trois fonctions n'expliquent donc rien du tout dans la figure :
   `fdc_probabilities` (premier paragraphe de 649 caractères),
-  `return_level` (338), `snowmelt_duration` (130, qui rate de peu).
+  `return_level` (338), `snowmelt_duration` (130, qui rate de peu), et
+  `nansum_strict` (129), qui ne se taisait plus par accident depuis que
+  `glose()` regarde à qui appartient la fonction, mais que le seuil
+  retient à sa place.
 
 Deux décisions à prendre : traiter les abréviations dans le découpeur
 (plutôt que d'interdire « et al. » dans les docstrings, ce qui reviendrait

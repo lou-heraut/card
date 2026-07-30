@@ -169,6 +169,21 @@ def rollsum_center(X, k, cyclical=False):
 rollmean_center.is_transform = True
 rollsum_center.is_transform = True
 
+# `ratio(a, b)` et `difference(a, b)` : l'appel affiché dans la figure dit
+# déjà tout, la glose ne ferait que le répéter en toutes lettres. Déclaré
+# ici, à côté des fonctions, et non listé dans render.py : un renommage
+# emporte la déclaration avec lui.
+ratio.glose_inutile = True
+difference.glose_inutile = True
+
+# Pas de `is_transform` sur ces deux-là, et c'est délibéré : leur nature
+# dépend de l'appel. `ratio(RAl, RA)` rend une série, `ratio(dQXA, 2,
+# first=True)` rend une valeur, et le corpus emploie les DEUX formes.
+# Aucun booléen posé sur la fonction ne serait vrai dans les deux cas.
+# Elles ne servent jamais en `time_step: none` / `keep: all`, le seul cas
+# où render.decoupe consulte la nature, et un test veille à ce que cela
+# reste vrai.
+
 
 # ── 4. CIRCULAR STAT ────────────────────────────────────────────────────────
 
