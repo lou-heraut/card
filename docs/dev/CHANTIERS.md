@@ -69,6 +69,21 @@ sont pas traduites**. Elles viennent des docstrings, écrites en français,
 et s'affichent telles quelles dans la figure anglaise. Le reste de la
 prose passe par `_T`.
 
+## La figure tait les arguments positionnels littéraux
+
+Repéré le 2026-07-31. `render.appel` n'affiche que les COLONNES d'un
+appel, jamais ses littéraux positionnels. `[ratio_longest_run, "dQXA", 2]`
+se rend donc `ratio_longest_run(dQXA)`, et le lecteur ne voit pas que le
+seuil de crue de `dtFlood` vaut la moitié du maximum annuel d'écoulement
+rapide. L'information la plus utile de la ligne est celle qui manque.
+
+Antérieur à la scission du drapeau `first`, qui n'a fait que déplacer le
+problème sans le créer : `ratio(dQXA) first=True` le taisait déjà. Le
+loader garde pourtant le littéral, dans `pos_args` sous la forme
+`('lit', 2)` à côté de `('col', 'dQXA')` : il n'y a rien à retrouver, juste
+à afficher. Attention en le faisant à ne pas allonger les lignes au point
+de casser le repli.
+
 ## Références bibliographiques externes dans les fiches
 
 Ancrer les fiches standardisées sur leurs références : identifiants

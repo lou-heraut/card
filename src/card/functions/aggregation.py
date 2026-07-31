@@ -57,35 +57,66 @@ def _squeeze_scalar(x):
     return x
 
 
-def difference(a, b, first=False):
-    """Différence a - b (élément par élément, scalaire si possible).
+# Ces quatre fonctions arithmétiques gardent la longueur de leur entrée :
+# une valeur d'entrée, une valeur de sortie. Leurs jumelles `*_longest_run`,
+# plus bas, réduisent au contraire à UNE valeur. Une fonction ne peut avoir
+# qu'une de ces deux natures, sans quoi `is_transform` ne veut rien dire et
+# la figure ne peut pas annoncer ce que produit une étape : c'est pourquoi
+# le drapeau `first` a été scindé le 2026-07-31 (cf. RENAMING.md).
 
-    first=True : différence des valeurs dominantes (rle) de a et b,
-    utile quand a et b sont des colonnes constantes par groupe.
-    Tout-NaN d'un côté → NaN.
+def difference(a, b):
+    """Différence a - b, terme à terme.
+
+    Tout-NaN d'un côté → NaN. Un résultat de longueur 1 est rendu comme
+    un nombre, par commodité de type : c'est toujours une valeur par pas
+    de temps.
     """
     a = _to_float_array(a)
     b = _to_float_array(b)
     if np.all(np.isnan(a)) or np.all(np.isnan(b)):
         return np.nan
-    if first:
-        return _rle_most_frequent(a) - _rle_most_frequent(b)
     return _squeeze_scalar(a - b)
 
 
-def ratio(a, b, first=False):
-    """Rapport a / b (élément par élément, scalaire si possible).
+def ratio(a, b):
+    """Rapport a / b, terme à terme.
 
-    first=True : rapport des valeurs dominantes (rle) de a et b.
+    Mêmes conventions que difference.
+    """
+    a = _to_float_array(a)
+    b = _to_float_array(b)
+    if np.all(np.isnan(a)) or np.all(np.isnan(b)):
+        return np.nan
+    return _squeeze_scalar(a / b)
+
+
+def difference_longest_run(a, b):
+    """Différence des valeurs du plus long palier de a et de b : UNE valeur.
+
+    Sert quand a et b sont des colonnes constantes sur le groupe (un seuil
+    rediffusé par un `keep: all` en amont) et qu'on en veut la valeur, une
+    seule fois. Le plus long palier est retenu après avoir écarté les
+    lacunes, si bien qu'un trou dans la colonne ne contamine pas le
+    résultat, là où la soustraction terme à terme rendrait NaN ce jour-là.
     Tout-NaN d'un côté → NaN.
     """
     a = _to_float_array(a)
     b = _to_float_array(b)
     if np.all(np.isnan(a)) or np.all(np.isnan(b)):
         return np.nan
-    if first:
-        return _rle_most_frequent(a) / _rle_most_frequent(b)
-    return _squeeze_scalar(a / b)
+    return _rle_most_frequent(a) - _rle_most_frequent(b)
+
+
+def ratio_longest_run(a, b):
+    """Rapport des valeurs du plus long palier de a et de b : UNE valeur.
+
+    Mêmes conventions que difference_longest_run.
+    """
+    a = _to_float_array(a)
+    b = _to_float_array(b)
+    if np.all(np.isnan(a)) or np.all(np.isnan(b)):
+        return np.nan
+    return _rle_most_frequent(a) / _rle_most_frequent(b)
 
 
 # ── 1. SOMME STRICTE ────────────────────────────────────────────────────────
@@ -166,25 +197,6 @@ def rollsum_center(X, k, cyclical=False):
     return _roll_center(x, k, "sum")
 
 
-rollmean_center.is_transform = True
-rollsum_center.is_transform = True
-
-# `ratio(a, b)` et `difference(a, b)` : l'appel affiché dans la figure dit
-# déjà tout, la glose ne ferait que le répéter en toutes lettres. Déclaré
-# ici, à côté des fonctions, et non listé dans render.py : un renommage
-# emporte la déclaration avec lui.
-ratio.glose_inutile = True
-difference.glose_inutile = True
-
-# Pas de `is_transform` sur ces deux-là, et c'est délibéré : leur nature
-# dépend de l'appel. `ratio(RAl, RA)` rend une série, `ratio(dQXA, 2,
-# first=True)` rend une valeur, et le corpus emploie les DEUX formes.
-# Aucun booléen posé sur la fonction ne serait vrai dans les deux cas.
-# Elles ne servent jamais en `time_step: none` / `keep: all`, le seul cas
-# où render.decoupe consulte la nature, et un test veille à ce que cela
-# reste vrai.
-
-
 # ── 4. CIRCULAR STAT ────────────────────────────────────────────────────────
 
 def _circular_tweak(X, Y, periodicity):
@@ -234,3 +246,29 @@ def circular_median(X, periodicity):
     if np.isnan(med):
         return np.nan
     return med if med >= 0 else med + periodicity
+
+
+# ── PROPRIÉTÉS DÉCLARÉES ────────────────────────────────────────────────────
+# Rassemblées en fin de fichier, après toutes les définitions, pour qu'on
+# lise d'un coup d'œil la nature de chacune.
+
+# TRANSFORME : une valeur d'entrée, une valeur de sortie. C'est le cas RARE
+# et délibéré, donc celui qui se déclare ; l'absence vaut « réduit ».
+# `render.decoupe` s'en sert pour dire ce que produit une étape
+# `time_step: none` / `keep: all`, et un test le MESURE (voir
+# tests/test_nature_fonctions.py) : une déclaration fausse rougit.
+rollmean_center.is_transform = True
+rollsum_center.is_transform = True
+difference.is_transform = True
+ratio.is_transform = True
+circular_difference.is_transform = True
+circular_ratio.is_transform = True
+# Rien pour difference_longest_run ni ratio_longest_run : elles réduisent.
+
+# GLOSE MUETTE : choix éditorial, pas propriété du calcul. Pour
+# `ratio(a, b)`, l'appel affiché dans la figure dit déjà tout et la glose
+# ne ferait que le répéter. Déclaré ici plutôt que listé dans render.py :
+# un renommage emporte la déclaration avec lui. Les jumelles
+# `*_longest_run` ont, elles, quelque chose à expliquer, et le font.
+ratio.glose_inutile = True
+difference.glose_inutile = True

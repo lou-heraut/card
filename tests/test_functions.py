@@ -23,6 +23,7 @@ from card.functions import (
     mannkendall_slope,
     nansum_strict,
     ratio,
+    ratio_longest_run,
     return_level,
     return_period,
     rollmean_center,
@@ -106,10 +107,14 @@ def test_nansum_strict_all_nan_is_nan():
     assert nansum_strict(np.array([1.0, np.nan, 2.0])) == pytest.approx(3.0)
 
 
-def test_ratio_first_mode_uses_dominant_value():
+def test_ratio_longest_run_reduces_to_one_value():
+    # Le drapeau `first` de ratio a été scindé le 2026-07-31 : une
+    # fonction transforme ou elle réduit, jamais les deux (RENAMING.md).
     a = np.array([4.0, 4, 4, 8])
     b = np.array([2.0, 2, 2, 1])
-    assert ratio(a, b, first=True) == pytest.approx(2.0)
+    assert ratio_longest_run(a, b) == pytest.approx(2.0)
+    # La jumelle garde la longueur de l'entrée : c'est tout l'écart.
+    assert len(ratio(a, b)) == len(a)
 
 
 def test_rollmean_center_pandas_convention():

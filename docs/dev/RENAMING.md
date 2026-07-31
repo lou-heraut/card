@@ -26,7 +26,7 @@ majuscules, pas de préfixe verbal (compute_/get_)**.
 | rollmean_center | 61 | rollmean_center (inchangé) | isCyclical→cyclical |
 | compute_Qp | 27 | **exceedance_quantile** | p (inchangé, proba de dépassement) |
 | sumNA | 25 | **nansum_strict** | (NaN si tout-NaN, ≠ nansum) |
-| divided | 12 | **ratio** | first (inchangé) |
+| divided | 12 | **ratio** et **ratio_longest_run** (scission du 2026-07-31, section plus bas) | drapeau `first` supprimé |
 | circular_median | 10 | circular_median (inchangé) |  |
 | compute_VolDef | 10 | **deficit_volume** | upLim→threshold ; kwarg fantôme `select` supprimé des fiches |
 | compute_elasticity | 10 | elasticity | Q, X (inchangés) |
@@ -401,3 +401,47 @@ Mécanismes introduits :
   futur lointain ». L'appelant fournit désormais l'article ;
 - défaut générique « la chronique entière », qui dit ce que la fiche
   calcule réellement quand aucune borne n'est donnée.
+
+## Scission du drapeau `first` (2026-07-31)
+
+`minus` et `divided` du R portaient un argument `first`, conservé tel quel
+au portage sous `difference(a, b, first=)` et `ratio(a, b, first=)`. Ce
+drapeau ne réglait pas un détail : il changeait **ce que la fonction
+produit**.
+
+| appel | ce qu'il rend |
+|---|---|
+| `ratio(a, b)` | une valeur par pas de temps, terme à terme |
+| `ratio(a, b, first=True)` | UNE valeur, celle du plus long palier de chacun |
+
+Deux fonctions dans une. Tant que le drapeau existait, la question
+« cette fonction transforme-t-elle la chronique ou la réduit-elle ? »
+n'avait pas de réponse, et `render.decoupe` ne pouvait pas annoncer à un
+lecteur ce que produit une étape `time_step: none` / `keep: all`. Arbitrage
+de l'utilisateur : **une fonction ne peut avoir qu'une seule de ces deux
+natures**, et cette nature vit dans la fonction, jamais dans la fiche, qui
+pourrait la déclarer fausse (doctrine « la fonction fait foi »).
+
+| avant | après |
+|---|---|
+| `ratio(a, b)` | `ratio(a, b)`, transforme |
+| `ratio(a, b, first=True)` | **`ratio_longest_run(a, b)`**, réduit |
+| `difference(a, b)` | `difference(a, b)`, transforme |
+| `difference(a, b, first=True)` | **`difference_longest_run(a, b)`**, réduit |
+
+Le nom retenu dit le mécanisme réel, la valeur du plus long palier au sens
+de `_rle_most_frequent`. « dominant » a été écarté : le mot évoque une
+hiérarchie en français plus qu'une valeur qui se maintient. `ratio_constant`
+aussi, et pour une raison précise : dans le seul appel du corpus,
+`ratio(dQXA, 2)`, le second opérande **est** littéralement une constante,
+si bien que le nom aurait désigné le mauvais terme.
+
+Trois fiches employaient `first`, toutes pour le même seuil de crue
+(`lowLim = dQXA / 2`) : `dtFlood`, `median-dtFlood`, `delta-dtFlood_H`.
+Version mineure montée sur les trois, la méthode changeant de nom. **Aucune
+valeur calculée ne bouge** : c'est la même arithmétique, vérifié par
+extraction des trois fiches sur le jeu de test avant et après, fichiers
+identiques.
+
+Parité R : le paquet R garde son `first`, donc les noms Python n'ont plus
+de correspondance un pour un. Divergence de forme, pas de résultat.

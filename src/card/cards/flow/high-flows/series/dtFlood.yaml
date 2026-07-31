@@ -1,5 +1,5 @@
 id: dtFlood
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -81,7 +81,7 @@ process:
 
   P3:
     func:
-      lowLim: [ratio, "dQXA", 2, {first: true}]
+      lowLim: [ratio_longest_run, "dQXA", 2]
     sampling_period:
       type: adaptive
       func: [nanmin, "Q"]

@@ -1,5 +1,5 @@
 id: delta-dtFlood_H
-version: "2.1"
+version: "2.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -89,7 +89,7 @@ process:
 
   P3:
     func:
-      lowLim: [ratio, "dQXA", 2, {first: true}]
+      lowLim: [ratio_longest_run, "dQXA", 2]
     sampling_period:
       type: adaptive
       func: [nanmin, "Q"]

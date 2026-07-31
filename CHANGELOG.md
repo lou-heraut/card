@@ -80,13 +80,31 @@ des deux endroits.
   d'origine réintroduit, une déclaration oubliée, une déclaration fausse,
   et `decoupe()` ignorant la déclaration.
 
-  Deux trouvailles du test lui-même, sans conséquence sur les figures
-  actuelles et ouvertes dans `docs/dev/CHANTIERS.md` : `ratio` et
-  `difference` suivent la forme de leurs entrées, donc aucun booléen ne
-  décrit leur nature ; `return_level` a été classée à la main après
-  lecture, elle ajuste une loi et rend une valeur.
+  Deux trouvailles du test lui-même. `ratio` et `difference` n'avaient pas
+  de nature définissable, leur drapeau `first` en faisant deux fonctions :
+  résolu par la scission, voir plus bas. `return_level` a été classée à la
+  main après lecture, elle ajuste une loi et rend une valeur.
 
 ### Modifié
+
+- **Le drapeau `first` de `ratio` et `difference` est scindé en deux
+  fonctions (2026-07-31).** Il ne réglait pas un détail, il changeait ce
+  que la fonction produit : `ratio(a, b)` rend une valeur par pas de
+  temps, `ratio(a, b, first=True)` en rend UNE, celle du plus long
+  palier. Deux fonctions dans une, donc une nature indéfinissable, donc
+  une figure incapable d'annoncer ce que produit une étape. Arbitrage de
+  l'utilisateur : une fonction ne peut avoir qu'une seule de ces deux
+  natures, et cette nature vit dans la fonction, jamais dans la fiche qui
+  pourrait la déclarer fausse. D'où **`ratio_longest_run`** et
+  **`difference_longest_run`**, et `is_transform` désormais posé sur les
+  quatre fonctions arithmétiques, `circular_ratio` et
+  `circular_difference` comprises. Trois fiches employaient le drapeau,
+  toutes pour le même seuil de crue : `dtFlood`, `median-dtFlood`,
+  `delta-dtFlood_H`, version mineure montée. **Aucune valeur ne change**,
+  vérifié par extraction avant et après sur le jeu de test. Le test de
+  nature devient total, sans exception : un nouveau test refuse qu'une
+  fonction change de nature d'un appel à l'autre, et il a été vu rouge en
+  réintroduisant le drapeau. Détail : `docs/dev/RENAMING.md`.
 
 - **`exceedance_frequency` ne compte plus les lacunes au dénominateur
   (2026-07-30).** Le numérateur les écartait déjà, le dénominateur les

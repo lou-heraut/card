@@ -21,7 +21,6 @@ tenue à jour à la main.
 """
 
 import numpy as np
-import pytest
 
 from card.extraction import _DEFAULT_CARD_DIR, _find_cards, resolve
 from card.loader import load_card
@@ -33,14 +32,19 @@ _jours = np.arange(N)
 # valeur rendue, seulement sa FORME.
 SERIE = 10 + 8 * np.sin(2 * np.pi * _jours / 365.25) + 0.5 * ((_jours * 37) % 11)
 
-# Fonctions dont la nature dépend des ARGUMENTS, pas de la fonction :
-# `ratio(a, b)` et `difference(a, b)` rendent une série quand on leur
-# donne deux séries, un scalaire quand on leur donne deux scalaires ou
-# quand `first=True`. Aucun booléen posé sur la fonction ne dirait le
-# vrai dans les deux cas. Elles ne servent jamais en `none`/`all`
-# aujourd'hui, où l'ambiguïté compterait : le test du bas veille à ce
-# que cela reste vrai.
-NATURE_VARIABLE = {"ratio", "difference"}
+# Le corpus n'emploie pas toutes les fonctions du paquet, alors qu'elles
+# sont publiques (`card.functions`) et disponibles à qui écrit ses propres
+# fiches. Celles-là n'ont pas d'appel réel dont s'inspirer : on donne ici
+# de quoi les appeler, (kwargs, arguments positionnels). C'est le prix pour
+# le test reste TOTAL, sans quoi une déclaration posée sur une fonction
+# inemployée ne serait jamais confrontée à la réalité.
+DEUX_SERIES = [("col", "a"), ("col", "b")]
+RECETTES_HORS_CORPUS = {
+    "difference": ({}, DEUX_SERIES),
+    "difference_longest_run": ({}, DEUX_SERIES),
+    "circular_difference": ({"periodicity": 365.25}, DEUX_SERIES),
+    "circular_ratio": ({"periodicity": 365.25}, DEUX_SERIES),
+}
 
 # Fonctions qu'on ne peut pas appeler hors du moteur : leurs arguments
 # désignent des COLONNES (seuils, bornes de période, dates), que seule
@@ -64,7 +68,7 @@ HORS_MESURE = {
 def _usages():
     """Chaque appel DISTINCT du corpus, avec son contexte.
 
-    On dédoublonne sur (fonction, arguments, nombre de colonnes) : 226
+    On dédoublonne sur (fonction, kwargs, arguments positionnels) : 226
     fiches font beaucoup d'appels identiques, et c'est l'appel qui se
     mesure, pas la fiche.
     """
@@ -83,8 +87,8 @@ def _usages():
                             if isinstance(v, str)
                             and (v in connues or v.lower() == "date")}
                 cle = (e["fn_name"], repr(sorted(e["kwargs"].items())),
-                       len(e["cols"]), bool(colonnes))
-                vus.setdefault(cle, (dict(e["kwargs"]), len(e["cols"]),
+                       repr(e["pos_args"]), bool(colonnes))
+                vus.setdefault(cle, (dict(e["kwargs"]), list(e["pos_args"]),
                                      bool(colonnes), set()))
                 vus[cle][3].add(nom)
                 if none_all:
@@ -93,14 +97,25 @@ def _usages():
     return [(cle[0], *reste) for cle, reste in sorted(vus.items())]
 
 
-def _mesure(fn_name, kwargs, ncols):
+def _mesure(fn_name, kwargs, pos_args):
     """Longueur de sortie contre longueur d'entrée, en vrai.
+
+    `pos_args` vient de la fiche : ('col', nom) devient une chronique,
+    ('lit', valeur) reste le littéral. Passer les littéraux compte : sans
+    eux, `ratio(dQXA, 2, first=True)` ne s'appelait pas, la mesure rendait
+    None, et l'ambiguïté de nature passait sous le radar.
 
     Rend True (transforme), False (réduit), ou None si la fonction n'a
     pas pu être appelée telle quelle.
     """
     fn = resolve(fn_name)
-    args = [SERIE.copy() * (1 + 0.1 * i) for i in range(max(ncols, 1))]
+    args, i = [], 0
+    for genre, valeur in (pos_args or [("col", "X")]):
+        if genre == "col":
+            args.append(SERIE.copy() * (1 + 0.1 * i))
+            i += 1
+        else:
+            args.append(valeur)
     try:
         sortie = fn(*args, **kwargs)
     except Exception:                                # noqa: BLE001
@@ -128,7 +143,7 @@ def test_decoupe_annonce_la_nature_reellement_mesuree():
             if not (str(proc.get("time_step")) == "none"
                     and str(proc.get("keep")) == "all"):
                 continue
-            mesures = [_mesure(e["fn_name"], dict(e["kwargs"]), len(e["cols"]))
+            mesures = [_mesure(e["fn_name"], dict(e["kwargs"]), e["pos_args"])
                        for e in proc["func"]]
             if any(m is None for m in mesures):
                 continue        # hors de portée, couvert par le test suivant
@@ -149,10 +164,10 @@ def test_les_natures_declarees_sont_confirmees_par_la_mesure():
     que celles qui le sont soient d'accord avec leur déclaration.
     """
     desaccords = []
-    for fn_name, kwargs, ncols, ref_colonne, fiches in USAGES:
-        if ref_colonne or fn_name in NATURE_VARIABLE:
+    for fn_name, kwargs, pos_args, ref_colonne, fiches in USAGES:
+        if ref_colonne:
             continue
-        mesure = _mesure(fn_name, kwargs, ncols)
+        mesure = _mesure(fn_name, kwargs, pos_args)
         if mesure is None:
             continue
         declare = bool(getattr(resolve(fn_name), "is_transform", False))
@@ -174,12 +189,12 @@ def test_toute_fonction_employee_en_none_all_a_un_verdict_verifie():
     n'atteint pas, doit être classée à la main ICI, sciemment.
     """
     aveugles = []
-    for fn_name, kwargs, ncols, ref_colonne, fiches in USAGES:
+    for fn_name, kwargs, pos_args, ref_colonne, fiches in USAGES:
         if not any(f.endswith("[none/all]") for f in fiches):
             continue
         if fn_name in HORS_MESURE:
             continue
-        if ref_colonne or _mesure(fn_name, kwargs, ncols) is None:
+        if ref_colonne or _mesure(fn_name, kwargs, pos_args) is None:
             aveugles.append(
                 f"{fn_name}{kwargs} sert en none/all (ex. "
                 f"{sorted(fiches)[0]}) sans que la mesure l'atteigne. "
@@ -205,21 +220,37 @@ def test_hors_mesure_ne_contient_que_des_fonctions_reellement_hors_mesure():
         f"{perimees} se mesurent maintenant : les retirer de HORS_MESURE.")
 
 
-@pytest.mark.parametrize("fn_name", sorted(NATURE_VARIABLE))
-def test_les_fonctions_a_nature_variable_ne_servent_pas_en_none_all(fn_name):
-    """`ratio` et `difference` suivent la forme de leurs entrées.
+def test_une_fonction_na_quune_seule_nature_quels_que_soient_ses_arguments():
+    """Une fonction transforme, ou elle réduit. Jamais les deux.
 
-    Tant qu'elles ne servent pas en `none`/`all`, la figure n'a pas à
-    trancher. Le jour où l'une y sert, ce test rougit et il faudra
-    décider ce qu'on affiche, en regardant les arguments de l'appel.
+    C'est la règle qui rend `is_transform` énonçable : un booléen posé sur
+    une fonction ne peut pas décrire deux comportements. `ratio` en avait
+    deux, séparés par un drapeau `first`, et il a fallu le scinder en
+    `ratio` et `ratio_longest_run` (2026-07-31, RENAMING.md).
+
+    Le test ne nomme personne : il mesure chaque fonction avec CHACUN des
+    jeux d'arguments que le corpus lui passe, et refuse qu'une même
+    fonction change de nature d'un appel à l'autre. Un drapeau du même
+    genre, réintroduit demain sous un autre nom, rougirait ici.
     """
-    coupables = [sorted(fiches)[0] for nom, _, _, _, fiches in USAGES
-                 if nom == fn_name
-                 and any(f.endswith("[none/all]") for f in fiches)]
-    assert not coupables, (
-        f"{fn_name} sert en time_step=none/keep=all ({coupables}), où sa "
-        f"nature dépend des arguments. Décider ce que la figure annonce "
-        f"avant d'aller plus loin.")
+    natures = {}
+    for fn_name, kwargs, pos_args, ref_colonne, fiches in USAGES:
+        if ref_colonne:
+            continue
+        mesure = _mesure(fn_name, kwargs, pos_args)
+        if mesure is None:
+            continue
+        natures.setdefault(fn_name, {}).setdefault(mesure, []).append(
+            f"{kwargs} (ex. {sorted(fiches)[0]})")
+
+    ambigues = []
+    for fn_name, par_nature in sorted(natures.items()):
+        if len(par_nature) > 1:
+            ambigues.append(
+                f"{fn_name} transforme avec {par_nature[True]} et réduit "
+                f"avec {par_nature[False]}. Scinder en deux fonctions : "
+                f"la nature ne peut pas dépendre d'un argument.")
+    assert not ambigues, "\n".join(ambigues)
 
 
 def test_les_transformations_declarees_le_sont_a_bon_escient():
@@ -243,10 +274,16 @@ def test_les_transformations_declarees_le_sont_a_bon_escient():
                     and getattr(obj, "is_transform", False)):
                 continue
             # On la mesure avec les arguments que le corpus lui donne ;
-            # à défaut d'usage, avec ses seuls défauts.
-            essais = [(u[1], u[2]) for u in USAGES if u[0] == nom] or [({}, 1)]
-            if not any(_mesure(nom, kw, n) is True for kw, n in essais):
-                non_verifiees.append(f"{module_nom}.{nom}")
+            # à défaut d'usage, avec la recette déclarée ci-dessus.
+            essais = ([(u[1], u[2]) for u in USAGES if u[0] == nom]
+                      or ([RECETTES_HORS_CORPUS[nom]]
+                          if nom in RECETTES_HORS_CORPUS else []))
+            if not essais:
+                non_verifiees.append(
+                    f"{module_nom}.{nom} (aucun usage du corpus, aucune "
+                    f"recette : en ajouter une à RECETTES_HORS_CORPUS)")
+            elif not any(_mesure(nom, kw, n) is True for kw, n in essais):
+                non_verifiees.append(f"{module_nom}.{nom} (mesure démentie)")
     assert not non_verifiees, (
         f"{sorted(set(non_verifiees))} déclarent is_transform = True sans "
         f"qu'aucune mesure ne le confirme.")
