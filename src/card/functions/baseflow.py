@@ -183,8 +183,10 @@ def snowmelt_timing(Q, fraction, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
 
 
 def snowmelt_duration(Q, fraction1, fraction2, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
-    """Durée (en pas de temps, bornes incluses) entre les atteintes des
-    fractions fraction1 puis fraction2 du volume de fonte cumulé.
+    """Durée séparant deux étapes du volume de fonte cumulé.
+
+    Entre l'atteinte de la fraction `fraction1` et celle de `fraction2`,
+    comptée en pas de temps, bornes incluses.
     """
     BF = baseflow(Q, d=d, w=w, a=a, passes=passes, method=method)
     vol = np.cumsum(BF)

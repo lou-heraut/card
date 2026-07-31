@@ -77,8 +77,10 @@ def _fdc_p(n, norm_spacing):
 
 
 def fdc_probabilities(X=None, n=1000, norm_spacing=False):
-    """Probabilités de la courbe des débits classés : n points uniformes,
-    ou espacés selon une loi normale centrée réduite (norm_spacing).
+    """Axe des probabilités de la courbe des débits classés, en n points.
+
+    Points uniformément répartis, ou espacés selon une loi normale
+    centrée réduite si norm_spacing.
 
     `X` est accepté et ignoré : cette fonction ne dépend d'aucune donnée,
     elle produit l'axe des abscisses de la courbe. Mais le moteur affecte

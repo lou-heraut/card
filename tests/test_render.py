@@ -251,3 +251,51 @@ def test_les_fonctions_de_card_ne_sont_muselees_que_sciemment():
         # Les autres peuvent rendre une glose vide (docstring trop longue,
         # cf. CHANTIERS), mais jamais parce qu'un nom figure quelque part.
         assert fn.__doc__, f"{nom} n'a pas de docstring et n'est pas déclarée muette"
+
+
+def test_le_decoupeur_ne_coupe_pas_sur_une_abreviation():
+    """« et al. » ne termine pas une phrase, « ex. » non plus.
+
+    Le découpeur cherchait un point suivi d'une espace : la glose de RAT
+    s'arrêtait après « (Nicolle et al », la parenthèse ouverte était
+    tranchée de force, et il ne restait que le sigle.
+    """
+    from card.render import _premiere_phrase
+
+    assert _premiere_phrase(
+        "Truc (Nicolle et al. 2020) : machin. Suite."
+    ) == "Truc (Nicolle et al. 2020) : machin"
+    assert _premiere_phrase(
+        "Médiane cyclique, ex. une date. Suite."
+    ) == "Médiane cyclique, ex. une date"
+    assert _premiere_phrase("Sans point final") == "Sans point final"
+    assert _premiere_phrase("Une phrase. Une autre.") == "Une phrase"
+
+
+def test_toute_fonction_de_card_employee_par_le_corpus_a_une_glose():
+    """Une figure qui n'explique rien ne sert à rien.
+
+    Une glose vide ne se remarque pas : la ligne manque, et personne ne
+    sait qu'elle devrait être là. Trois causes l'ont produite, toutes
+    corrigées le 2026-07-31 : un point pris dans une abréviation, une
+    première phrase qui était en fait un paragraphe, et le musellement
+    accidentel des fonctions dont le nom commence par `nan`. Le seul
+    silence acceptable est celui qu'on a déclaré.
+    """
+    from card.extraction import resolve
+    from card.render import glose
+
+    muettes = []
+    for nom in _fonctions_du_corpus():
+        fn = resolve(nom)
+        if not getattr(fn, "__module__", "").startswith("card"):
+            continue
+        if getattr(fn, "glose_inutile", False):
+            continue
+        if not glose(nom):
+            premiere = len((fn.__doc__ or "").strip().split("\n\n")[0])
+            muettes.append(
+                f"{nom} : glose vide (premier paragraphe de {premiere} "
+                f"caractères). Raccourcir sa PREMIÈRE phrase, ou la "
+                f"déclarer `glose_inutile` si l'appel se suffit.")
+    assert not muettes, "\n".join(muettes)

@@ -39,35 +39,18 @@ désormais actionnable, la cause ayant été diagnostiquée le 2026-07-22
 Le diagnostic vaut pour la version installée ici ; le vérifier sur
 l'environnement de l'utilisateur avant d'ouvrir le signalement.
 
-## Découpeur de phrases de `glose()` : abréviations et seuil
+## Les gloses ne sont pas traduites
 
-Ouvert le 2026-07-30. `glose()` coupe la docstring à la première phrase,
-en cherchant un point suivi d'une espace. Trois façons de se tromper, sur
-le corpus actuel :
+Repéré le 2026-07-30, laissé ouvert. Les gloses viennent des docstrings,
+écrites en français, et s'affichent telles quelles dans la figure
+anglaise. Tout le reste de la prose passe par la table `_T` de
+`render.py`.
 
-- **« et al. »** est pris pour une fin de phrase. `RAT` n'affiche plus
-  que `RAT` (le reste tombe, parenthèse ouverte non refermée puis
-  tronquée) ; `elasticity` s'arrête sur « de Sankarasubramanian et al ».
-- **« ex. »** laisse un moignon : `circular_median` finit sur
-  « (arctangente des médianes de sin/cos), ex ». Le code connaît déjà le
-  cas « (ex. » et le traite ; « , ex. » lui échappe.
-- **le seuil de 120 caractères** rend une glose vide plutôt qu'une glose
-  longue. Trois fonctions n'expliquent donc rien du tout dans la figure :
-  `fdc_probabilities` (premier paragraphe de 649 caractères),
-  `return_level` (338), `snowmelt_duration` (130, qui rate de peu), et
-  `nansum_strict` (129), qui ne se taisait plus par accident depuis que
-  `glose()` regarde à qui appartient la fonction, mais que le seuil
-  retient à sa place.
-
-Deux décisions à prendre : traiter les abréviations dans le découpeur
-(plutôt que d'interdire « et al. » dans les docstrings, ce qui reviendrait
-à plier le code à la faiblesse de son afficheur), et choisir entre
-raccourcir ces trois docstrings ou relever le seuil.
-
-Point connexe repéré au passage, à trancher séparément : **les gloses ne
-sont pas traduites**. Elles viennent des docstrings, écrites en français,
-et s'affichent telles quelles dans la figure anglaise. Le reste de la
-prose passe par `_T`.
+Ce n'est pas un oubli mécanique : traduire une docstring veut dire la
+dédoubler, donc décider où vit la version anglaise. Trois voies, aucune
+tranchée : un second champ dans la docstring, une entrée par fonction
+dans `_T`, ou l'acceptation assumée que la glose reste en français avec
+une mention dans la doc publique.
 
 ## La figure tait les arguments positionnels littéraux
 

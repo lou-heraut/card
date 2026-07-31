@@ -98,6 +98,23 @@ des deux endroits.
   résolu par la scission, voir plus bas. `return_level` a été classée à la
   main après lecture, elle ajuste une loi et rend une valeur.
 
+### Corrigé
+
+- **Sept fonctions n'expliquaient rien, ou expliquaient un moignon, dans
+  les figures (2026-07-31).** `glose()` coupait la docstring au premier
+  point suivi d'une espace : `RAT` n'affichait plus que son sigle, coupé
+  après « (Nicolle et al », et `circular_median` finissait sur « , ex ».
+  Le découpeur connaît maintenant les abréviations courantes, plutôt que
+  d'obliger le code à écrire sans « et al. » pour ménager son afficheur.
+  Quatre autres rendaient une glose vide, leur première phrase dépassant
+  le seuil de 120 caractères : c'étaient des paragraphes déguisés en
+  phrases (`return_level` en faisait 186), raccourcis sans rien perdre,
+  le détail descendant d'un cran. `RAT` et `circular_median` ont eu le
+  même traitement une fois le découpeur réparé. **Plus aucune fonction de
+  card employée par le corpus ne reste muette**, sauf celles qui le
+  déclarent, et un test le vérifie. `BFM` gagne au passage l'exemple que
+  la troncature lui mangeait.
+
 ### Modifié
 
 - **Le drapeau `first` de `ratio` et `difference` est scindé en deux

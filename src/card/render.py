@@ -267,6 +267,31 @@ def appel(e, connues, lang="fr"):
     return f"{nom}({', '.join(e['cols'])})", refs, regl, mention
 
 
+# Un point qui suit l'une de ces abréviations ne termine pas une phrase.
+# La liste est petite à dessein : ce sont celles que le corpus emploie
+# vraiment, et une abréviation oubliée se voit tout de suite, la glose
+# s'arrêtant au milieu d'un mot. `ex` couvre « (ex. » comme « , ex. ».
+ABREVIATIONS = ("al", "ex", "cf", "etc", "env", "resp", "cad", "p")
+
+
+def _premiere_phrase(doc):
+    """Coupe au premier point qui termine VRAIMENT une phrase.
+
+    Chercher un point suivi d'une espace tranchait `RAT (Nicolle et al.
+    2020) : ...` juste après « et al », et il ne restait plus que le
+    sigle une fois la parenthèse ouverte refermée de force. Plier les
+    docstrings à cette faiblesse aurait voulu dire interdire « et al. »
+    dans tout le code, ce qui est le monde à l'envers : c'est l'afficheur
+    qui doit savoir lire.
+    """
+    for m in re.finditer(r"\.(?=\s|$)", doc):
+        mot = re.search(r"(\w+)$", doc[:m.start()])
+        if mot and mot.group(1).lower() in ABREVIATIONS:
+            continue
+        return doc[:m.start()]
+    return doc
+
+
 def glose(nom_fn):
     """Première phrase de la docstring, moins l'énumération des valeurs
     possibles d'un paramètre : la fiche en a déjà choisi une, lister les
@@ -284,10 +309,7 @@ def glose(nom_fn):
         return ""
     doc = (fn.__doc__ or "").strip()
     doc = re.sub(r"\s+", " ", doc.split("\n\n")[0])
-    # Couper à la première phrase, mais « (ex. » n'en termine pas une :
-    # BFM s'affichait « ... des débits de base agrégés (ex », parenthèse
-    # ouverte et phrase tranchée au milieu.
-    coupe = re.split(r"\.(?:\s|$)", doc)[0]
+    coupe = _premiere_phrase(doc)
     if coupe.count("(") > coupe.count(")"):
         coupe = coupe[:coupe.rfind("(")]
     doc = re.sub(r"\s*\([^()]*['\"][^()]*\)", "", coupe).strip(" .")

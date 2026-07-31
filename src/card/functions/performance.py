@@ -135,9 +135,14 @@ def std_ratio(obs, sim):
 
 
 def RAT(Bias, X, thresh=0.05):
-    """RAT (Nicolle et al. 2020) : corrélation de Spearman significative entre
-    un critère de performance et une variable explicative → manque de
-    robustesse. p-value asymptotique (equiv. R cor.test exact=FALSE)."""
+    """Signale un manque de robustesse du modèle.
+
+    Vrai quand la corrélation de Spearman entre un critère de performance
+    et une variable explicative est significative au seuil `thresh` : le
+    critère dépend alors de la variable, donc le modèle ne se comporte pas
+    pareil partout (Nicolle et al. 2020). p-value asymptotique (equiv. R
+    cor.test exact=FALSE).
+    """
     b = _to_float_array(Bias)
     x = _to_float_array(X)
     ok = ~(np.isnan(b) | np.isnan(x))

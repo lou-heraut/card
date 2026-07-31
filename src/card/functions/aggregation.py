@@ -129,9 +129,10 @@ def ratio_longest_run(a, b):
 # celles qui utilisaient nansum_strict gardent la version stricte.
 
 def nansum_strict(X, div=1):
-    """Somme ignorant les NaN, mais NaN si TOUT est NaN (≠ np.nansum
-    qui vaut 0.0) : une année sans aucune donnée n'est pas un cumul
-    nul. Résultat divisé par div.
+    """Somme ignorant les lacunes, mais NaN si tout est lacune.
+
+    Une période sans aucune donnée n'est pas un cumul nul, alors que
+    np.nansum y répond 0.0. Résultat divisé par div.
     """
     x = _to_float_array(X)
     if np.all(np.isnan(x)):
@@ -235,8 +236,11 @@ def circular_ratio(X, Y, periodicity):
 
 
 def circular_median(X, periodicity):
-    """Médiane circulaire de X sur une période donnée (arctangente des
-    médianes de sin/cos), ex. date médiane d'un événement annuel.
+    """Médiane d'une grandeur cyclique, par exemple une date dans l'année.
+
+    Calculée par l'arctangente des médianes du sinus et du cosinus, sur
+    un axe de période `periodicity` : la moyenne ordinaire placerait au
+    1er juillet la médiane de deux dates encadrant le 1er janvier.
     """
     x = _to_float_array(X)
     scaling = 2 * np.pi / periodicity

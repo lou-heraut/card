@@ -143,11 +143,14 @@ def _lognormal_period(X, threshold):
 
 def return_level(X, return_period, water_type="low", dates=None, period=None,
                  period_start=None, period_end=None):
-    """Valeur de période de retour `return_period` (années) :
-    loi de Gumbel pour les hautes eaux (`water_type="high"`, maxima),
-    loi log-normale pour les basses eaux (`water_type="low"`, minima).
-    `dates`/`period` (paire) ou `period_start`/`period_end` (bornes,
-    souvent des colonnes constantes par série) restreignent l'ajustement."""
+    """Valeur atteinte en moyenne une fois tous les `return_period` ans.
+
+    Ajustement par une loi de Gumbel sur les hautes eaux
+    (`water_type="high"`, maxima) ou log-normale sur les basses eaux
+    (`water_type="low"`, minima). `dates`/`period` (paire) ou
+    `period_start`/`period_end` (bornes, souvent des colonnes constantes
+    par série) restreignent l'ajustement.
+    """
     if period_start is not None:
         period = [_const_date(period_start), _const_date(period_end)]
     x = _subset_period(_to_float_array(X), dates, period)
