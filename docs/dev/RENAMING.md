@@ -17,6 +17,21 @@ Reste ci-dessous : les fonctions hydro custom. Règle de nommage proposée :
 **nom de la quantité calculée, snake_case, acronymes hydrologiques en
 majuscules, pas de préfixe verbal (compute_/get_)**.
 
+Deux critères ajoutés le 2026-07-31, en arbitrant `ratio_longest_run` :
+
+- **pas de faux ami avec le français.** Les noms sont en anglais, mais
+  lus par des hydrologues francophones. « dominant » a été écarté pour
+  cela : le mot existe en français et y évoque une hiérarchie plutôt
+  qu'une valeur qui se maintient. Un terme technique explicite, même plus
+  long, vaut mieux qu'un mot court qui se lit de travers.
+- **pas de collision avec le vocabulaire du domaine.** « plateau », qui
+  aurait pourtant traversé les deux langues sans dommage, désigne déjà le
+  palier d'un hydrogramme.
+
+Corollaire pratique : vérifier qu'un qualificatif ne désigne pas le
+mauvais terme de l'appel. `ratio_constant` a sauté pour cette raison,
+dans `ratio(dQXA, 2)` le second opérande **étant** une constante.
+
 ## A. Renommages proposés (usage = nb d'occurrences dans les fiches)
 
 | Actuel | Usage | Proposition | Renommage des paramètres |
