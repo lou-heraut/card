@@ -65,6 +65,19 @@ des deux endroits.
 
 ### Ajouté
 
+- **`tests/test_py_golden.py` : les fiches qui divergent volontairement du
+  R sont enfin tenues par la CI (2026-07-31).** `tests/data/py_golden/`
+  fige la sortie Python des fiches dont la parité R est rompue sciemment,
+  seules fiches qu'aucun golden R ne peut juger. Ces fichiers n'étaient
+  lus que par `tests/run_py_corpus.py`, un script que la CI ne lance pas :
+  ils ne gardaient rien. Constaté en cherchant ce qui protégeait les
+  fiches `fQ*` après le changement de dénominateur, réponse : rien. Les
+  dix-huit fiches concernées sont maintenant vérifiées par `pytest`, dont
+  les six `fQ*` dont le golden est posé à cette occasion, et un test
+  refuse qu'un golden existe sans motif déclaré dans
+  `known_divergences.yaml` ou l'inverse. Éprouvé en remettant l'ancien
+  dénominateur : les six rougissent.
+
 - **`tests/test_nature_fonctions.py` : la nature d'une fonction est
   désormais MESURÉE, plus déclarée sur parole (2026-07-30).** Sept tests
   appellent chaque fonction avec les arguments que le corpus lui passe

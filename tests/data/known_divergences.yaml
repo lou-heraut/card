@@ -26,3 +26,21 @@ delta-dtFlood_H: 'bascule relative (RENAMING 2026-07-15, B1/B3) : sortie Python 
 delta-tVCN10_summer_H: 'moyenne mobile fenetre paire k=10 (pandas center=True vs RcppRoll
   align=center) : le min de la fenetre saisonniere bascule d un jour au bord ; prouve
   le 2026-07-21 (decalage -1 == golden R)'
+delta-fQ01A_H: 'denominateur de exceedance_frequency (2026-07-30, ORIGINE_R.md) :
+  le R compte les lacunes au denominateur alors que le numerateur les ecarte, Python
+  ne compte que le temps observe'
+delta-fQ05A_H: 'denominateur de exceedance_frequency (2026-07-30, ORIGINE_R.md) :
+  le R compte les lacunes au denominateur alors que le numerateur les ecarte, Python
+  ne compte que le temps observe'
+delta-fQ10A_H: 'denominateur de exceedance_frequency (2026-07-30, ORIGINE_R.md) :
+  le R compte les lacunes au denominateur alors que le numerateur les ecarte, Python
+  ne compte que le temps observe'
+fQ01A: 'denominateur de exceedance_frequency (2026-07-30, ORIGINE_R.md) : le R compte
+  les lacunes au denominateur alors que le numerateur les ecarte, Python ne compte
+  que le temps observe'
+fQ05A: 'denominateur de exceedance_frequency (2026-07-30, ORIGINE_R.md) : le R compte
+  les lacunes au denominateur alors que le numerateur les ecarte, Python ne compte
+  que le temps observe'
+fQ10A: 'denominateur de exceedance_frequency (2026-07-30, ORIGINE_R.md) : le R compte
+  les lacunes au denominateur alors que le numerateur les ecarte, Python ne compte
+  que le temps observe'
