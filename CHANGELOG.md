@@ -100,6 +100,15 @@ des deux endroits.
 
 ### Corrigé
 
+- **La figure taisait les arguments positionnels littéraux
+  (2026-08-01).** `render.appel` n'affichait que les colonnes :
+  `[ratio_longest_run, "dQXA", 2]` se rendait `ratio_longest_run(dQXA)`,
+  et rien ne disait que le seuil de crue de `dtFlood` vaut la **moitié**
+  du maximum annuel d'écoulement rapide. L'information la plus utile de
+  la ligne était celle qui manquait. Trois fiches concernées, une ligne
+  chacune. Un entier s'affiche sans décimale, sinon la fiche semble
+  annoncer une précision qu'elle n'a pas.
+
 - **Sept fonctions n'expliquaient rien, ou expliquaient un moignon, dans
   les figures (2026-07-31).** `glose()` coupait la docstring au premier
   point suivi d'une espace : `RAT` n'affichait plus que son sigle, coupé

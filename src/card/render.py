@@ -242,6 +242,27 @@ def _seuil(nom, e, kwargs, lang):
     return bouts
 
 
+def _arguments(e):
+    """Les arguments positionnels de l'appel, colonnes ET littéraux.
+
+    Ne montrer que les colonnes faisait disparaître le reste du calcul :
+    `[ratio_longest_run, "dQXA", 2]` s'affichait `ratio_longest_run(dQXA)`,
+    et rien ne disait plus que le seuil de crue de dtFlood vaut la MOITIÉ
+    du maximum annuel. C'était l'information la plus utile de la ligne.
+    Un entier s'écrit sans décimale, `2` et non `2.0`, sinon la fiche
+    semble dire une précision qu'elle n'a pas.
+    """
+    bouts = []
+    for genre, valeur in e["pos_args"]:
+        if genre == "col":
+            bouts.append(str(valeur))
+        elif isinstance(valeur, float) and valeur.is_integer():
+            bouts.append(str(int(valeur)))
+        else:
+            bouts.append(str(valeur))
+    return bouts
+
+
 def appel(e, connues, lang="fr"):
     """(appel, références de colonnes, réglages, mention).
 
@@ -264,7 +285,7 @@ def appel(e, connues, lang="fr"):
             refs.append(v)
         else:
             regl.append(f"{k}={v}")
-    return f"{nom}({', '.join(e['cols'])})", refs, regl, mention
+    return f"{nom}({', '.join(_arguments(e))})", refs, regl, mention
 
 
 # Un point qui suit l'une de ces abréviations ne termine pas une phrase.
@@ -292,7 +313,39 @@ def _premiere_phrase(doc):
     return doc
 
 
-def glose(nom_fn):
+# Marqueur de la version anglaise, en tête d'un paragraphe de docstring.
+# Les deux langues vivent CÔTE À CÔTE dans la docstring, comme les
+# métadonnées bilingues vivent dans la fiche : une traduction rangée
+# ailleurs dérive de son original sans que personne ne le voie. Elles ne
+# vont pas non plus dans `_T`, indexée sur des CONCEPTS et non sur des
+# noms de fonctions, qui redeviendrait la table distante dont ce module
+# s'est débarrassé. Rien à installer, rien à compiler : `help()` rend la
+# fonction bilingue au passage.
+MARQUEUR_EN = "EN:"
+
+
+def _paragraphe(doc, lang):
+    """Le paragraphe de la langue demandée, replié sur une ligne.
+
+    L'anglais est un paragraphe préfixé `EN:` ; le français est le
+    premier paragraphe, celui qu'on lit d'abord dans le code. Si
+    l'anglais manque, on rend le français plutôt que rien : une phrase
+    non traduite renseigne encore, une ligne absente n'apprend rien. Un
+    test exige la traduction pour toute fonction employée par le corpus,
+    donc ce repli ne sert que pour les fonctions écrites par des tiers.
+    """
+    paras = [re.sub(r"\s+", " ", p).strip() for p in doc.split("\n\n")]
+    paras = [p for p in paras if p]
+    if not paras:
+        return ""
+    if lang == "en":
+        for p in paras:
+            if p.startswith(MARQUEUR_EN):
+                return p[len(MARQUEUR_EN):].strip()
+    return paras[0]
+
+
+def glose(nom_fn, lang="fr"):
     """Première phrase de la docstring, moins l'énumération des valeurs
     possibles d'un paramètre : la fiche en a déjà choisi une, lister les
     autres n'apprend rien sur ce qu'elle calcule."""
@@ -307,8 +360,7 @@ def glose(nom_fn):
     # pour `ratio(a, b)`, l'appel affiché dit déjà tout.
     if getattr(fn, "glose_inutile", False):
         return ""
-    doc = (fn.__doc__ or "").strip()
-    doc = re.sub(r"\s+", " ", doc.split("\n\n")[0])
+    doc = _paragraphe((fn.__doc__ or "").strip(), lang)
     coupe = _premiere_phrase(doc)
     if coupe.count("(") > coupe.count(")"):
         coupe = coupe[:coupe.rfind("(")]
@@ -469,7 +521,7 @@ def rendu(c, meta, lang="fr"):
                 annexes.append(mention)
             if refs:
                 annexes.append(t("dapres", lang, ", ".join(refs)))
-            gl = glose(ap.split("(")[0])
+            gl = glose(ap.split("(")[0], lang)
             if gl:
                 annexes.append(gl)
             for a in annexes:
