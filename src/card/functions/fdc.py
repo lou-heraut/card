@@ -29,6 +29,9 @@ def exceedance_quantile(Q, p):
     """Débit dépassé une fraction p du temps, lu sur la courbe des débits
     classés.
 
+    EN: Discharge exceeded a fraction p of the time, read off the flow
+    duration curve.
+
     Vaut quantile(Q, 1-p), interpolation linéaire (type 7 R = défaut
     numpy). Les lacunes sont écartées avant le calcul.
     """
@@ -42,6 +45,9 @@ def exceedance_quantile(Q, p):
 def exceedance_frequency(Q, threshold):
     """Fréquence de dépassement du seuil : part du temps OBSERVÉ où Q est
     strictement supérieur à threshold.
+
+    EN: Exceedance frequency of the threshold: share of the OBSERVED time
+    when Q is strictly above threshold.
 
     Vaut n(Q > threshold) / N, où N ne compte que les pas de temps
     renseignés, comme le numérateur. Un jour manquant est un jour dont on
@@ -63,7 +69,10 @@ def exceedance_frequency(Q, threshold):
 
 
 def fdc_slope(Q, p=(0.33, 0.66)):
-    """Pente du segment médian de la courbe des débits classés."""
+    """Pente du segment médian de la courbe des débits classés.
+
+    EN: Slope of the middle segment of the flow duration curve.
+    """
     p = np.asarray(p, dtype=float)
     qp = exceedance_quantile(Q, p)
     return -(np.log10(qp[0]) - np.log10(qp[1])) / (p[1] - p[0])
@@ -78,6 +87,8 @@ def _fdc_p(n, norm_spacing):
 
 def fdc_probabilities(X=None, n=1000, norm_spacing=False):
     """Axe des probabilités de la courbe des débits classés, en n points.
+
+    EN: Probability axis of the flow duration curve, over n points.
 
     Points uniformément répartis, ou espacés selon une loi normale
     centrée réduite si norm_spacing.

@@ -39,6 +39,9 @@ def _clean_pair(obs, sim, skipna=True):
 def bias(obs, sim, sim_minus_obs=True):
     """Biais relatif Σ(sim-obs)/Σobs (ou obs-sim si
     sim_minus_obs=False). Paires contenant un NaN écartées.
+
+    EN: Relative bias sum(sim-obs)/sum(obs), or obs-sim if
+    sim_minus_obs=False.
     """
     obs, sim = _clean_pair(obs, sim)
     if sim_minus_obs:
@@ -49,6 +52,9 @@ def bias(obs, sim, sim_minus_obs=True):
 def NSE(obs, sim):
     """Efficience de Nash-Sutcliffe (1 = parfait, < 0 = pire que la
     moyenne des observations). Paires contenant un NaN écartées.
+
+    EN: Nash-Sutcliffe efficiency (1 = perfect, < 0 = worse than the mean of
+    the observations).
     """
     obs, sim = _clean_pair(obs, sim)
     return 1 - np.sum((sim - obs) ** 2) / np.sum((obs - np.mean(obs)) ** 2)
@@ -71,6 +77,8 @@ def NSE_log(obs, sim, log_method="inf.na"):
     """NSE sur les logarithmes (sensible aux basses valeurs).
     log_method : 'inf.na' (log(0) → NaN), 'Pushpalatha2012'
     (décalage +mean/100) ou une constante à ajouter avant le log.
+
+    EN: NSE on the logarithms (sensitive to low values).
     """
     obs = _to_float_array(obs)
     sim = _to_float_array(sim)
@@ -82,6 +90,8 @@ def NSE_log(obs, sim, log_method="inf.na"):
 
 def NSE_inverse(obs, sim):
     """NSE sur les inverses 1/X (très sensible aux étiages).
+
+    EN: NSE on the inverses 1/X (very sensitive to low flows).
     """
     obs = _to_float_array(obs)
     sim = _to_float_array(sim)
@@ -93,6 +103,8 @@ def NSE_inverse(obs, sim):
 
 def NSE_sqrt(obs, sim):
     """NSE sur les racines carrées (compromis hautes/basses valeurs).
+
+    EN: NSE on the square roots (compromise between high and low values).
     """
     return NSE(np.sqrt(_to_float_array(obs)),
                        np.sqrt(_to_float_array(sim)))
@@ -106,6 +118,9 @@ def KGE(obs, sim, method=1):
     """Efficience de Kling-Gupta (1 = parfait) : corrélation, rapport
     de variabilité et biais. method=1 : α = sd(sim)/sd(obs)
     (Gupta 2009) ; method=2 : γ = CV(sim)/CV(obs) (Kling 2012).
+
+    EN: Kling-Gupta efficiency (1 = perfect): correlation, variability ratio
+    and bias.
     """
     obs, sim = _clean_pair(obs, sim)
     mobs, msim = np.mean(obs), np.mean(sim)
@@ -120,13 +135,18 @@ def KGE(obs, sim, method=1):
 
 def KGE_sqrt(obs, sim):
     """KGE sur les racines carrées des débits.
+
+    EN: KGE on the square roots of the discharges.
     """
     return KGE(np.sqrt(_to_float_array(obs)),
                        np.sqrt(_to_float_array(sim)))
 
 
 def std_ratio(obs, sim):
-    """Rapport des écarts-types sd(sim)/sd(obs)."""
+    """Rapport des écarts-types sd(sim)/sd(obs).
+
+    EN: Ratio of the standard deviations sd(sim)/sd(obs).
+    """
     obs = _to_float_array(obs)
     sim = _to_float_array(sim)
     sd_obs = np.std(obs[~np.isnan(obs)], ddof=1)
@@ -136,6 +156,8 @@ def std_ratio(obs, sim):
 
 def RAT(Bias, X, thresh=0.05):
     """Signale un manque de robustesse du modèle.
+
+    EN: Flags a lack of robustness of the model.
 
     Vrai quand la corrélation de Spearman entre un critère de performance
     et une variable explicative est significative au seuil `thresh` : le

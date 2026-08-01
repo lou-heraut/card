@@ -98,6 +98,26 @@ des deux endroits.
   résolu par la scission, voir plus bas. `return_level` a été classée à la
   main après lecture, elle ajuste une loi et rend une valeur.
 
+### Ajouté
+
+- **Les gloses des figures sont bilingues (2026-08-01).** Elles venaient
+  des docstrings, écrites en français, et s'affichaient telles quelles
+  dans la figure anglaise : c'était le dernier morceau à ne pas passer
+  par la table `_T`. La traduction vit désormais **dans la docstring**,
+  en paragraphe préfixé `EN:`, à côté du français. Aucun standard Python
+  n'existe pour cela : `gettext` ne sait pas envelopper un `__doc__`, qui
+  doit rester un littéral, et `sphinx-intl` traduit à la construction de
+  la doc, pas à l'exécution. Le choix suit donc la doctrine du dépôt,
+  celle des métadonnées bilingues qui vivent dans la fiche : une
+  traduction rangée ailleurs dérive de son original sans que personne ne
+  le voie. Elle n'entre pas non plus dans `_T`, indexée sur des concepts
+  et non sur des noms de fonctions, qui redeviendrait la table distante
+  dont `render.py` s'est débarrassé cette semaine. 35 fonctions
+  traduites, 202 figures anglaises complétées, **aucune figure française
+  modifiée**. `help()` rend la fonction bilingue au passage. Trois tests,
+  éprouvés par mutation : la traduction manquante, la traduction recopiée
+  du français, et `glose()` ignorant la langue demandée.
+
 ### Corrigé
 
 - **La figure taisait les arguments positionnels littéraux

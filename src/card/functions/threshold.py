@@ -73,6 +73,8 @@ def apply_threshold(X, lim, where="<=", what="X", select="all",
     """Analyse des épisodes où X franchit un seuil lim (comparaison
     where : '<=', '<', '>=', '>').
 
+    EN: Analysis of the episodes where X crosses a threshold lim.
+
     what : grandeur retournée : 'X' (valeurs), 'length' (durée des
     épisodes), 'first'/'last' (index 0-based de début/fin)...
     select : 'all', 'longest', 'shortest', ou une durée cible.
@@ -169,7 +171,11 @@ def _extract_what(X: np.ndarray, idx: np.ndarray, what: str):
 
 def deficit_volume(Q, threshold):
     """Volume de déficit (hm³) sous le seuil, sur le plus long épisode
-    continu : somme des débits sous le seuil × 86400 / 10^6."""
+    continu : somme des débits sous le seuil × 86400 / 10^6.
+
+    EN: Deficit volume (hm³) below the threshold, over the longest
+    continuous episode.
+    """
     Qdef = apply_threshold(Q, lim=threshold, where="<=", what="X",
                            select="longest")
     if np.ndim(Qdef) == 0 and np.isnan(Qdef):

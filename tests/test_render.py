@@ -299,3 +299,59 @@ def test_toute_fonction_de_card_employee_par_le_corpus_a_une_glose():
                 f"caractères). Raccourcir sa PREMIÈRE phrase, ou la "
                 f"déclarer `glose_inutile` si l'appel se suffit.")
     assert not muettes, "\n".join(muettes)
+
+
+def test_chaque_fonction_de_card_a_sa_glose_dans_les_deux_langues():
+    """Une figure anglaise ne doit pas servir de la prose française.
+
+    Les gloses viennent des docstrings, écrites en français : sans
+    traduction, la figure anglaise les affichait telles quelles, seul
+    morceau de la figure à ne pas passer par la table `_T`. La version
+    anglaise vit dans la docstring, marquée `EN:`, à côté du français
+    plutôt que dans une table indexée sur des noms de fonctions.
+
+    `glose(lang="en")` retombe sur le français quand la traduction
+    manque, ce qui rend service à une fonction écrite par un tiers mais
+    passerait inaperçu dans le corpus : d'où ce test.
+    """
+    from card.extraction import resolve
+    from card.render import MARQUEUR_EN, glose
+
+    manquantes = []
+    for nom in _fonctions_du_corpus():
+        fn = resolve(nom)
+        if not getattr(fn, "__module__", "").startswith("card"):
+            continue
+        if getattr(fn, "glose_inutile", False):
+            continue
+        paragraphes = (fn.__doc__ or "").split("\n\n")
+        if not any(p.strip().startswith(MARQUEUR_EN) for p in paragraphes):
+            manquantes.append(
+                f"{nom} : pas de paragraphe `{MARQUEUR_EN} ...` dans sa "
+                f"docstring, la figure anglaise affichera du français")
+        elif not glose(nom, "en"):
+            manquantes.append(f"{nom} : traduction présente mais glose vide")
+    assert not manquantes, "\n".join(manquantes)
+
+
+def test_la_glose_anglaise_diffère_bien_de_la_française():
+    """Un `EN:` recopié du français est un oubli, pas une traduction."""
+    from card.extraction import resolve
+    from card.render import glose
+
+    identiques = []
+    for nom in _fonctions_du_corpus():
+        fn = resolve(nom)
+        if not getattr(fn, "__module__", "").startswith("card"):
+            continue
+        if getattr(fn, "glose_inutile", False):
+            continue
+        fr, en = glose(nom, "fr"), glose(nom, "en")
+        # Quelques gloses sont légitimement identiques (formules pures) ;
+        # aucune ne l'est aujourd'hui, et si cela arrive un jour c'est une
+        # décision à prendre, pas un état à subir en silence.
+        if fr and en and fr == en:
+            identiques.append(nom)
+    assert not identiques, (
+        f"{identiques} : glose anglaise identique à la française. Traduire, "
+        f"ou déclarer la fonction `glose_inutile` si l'appel se suffit.")

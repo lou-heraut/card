@@ -87,6 +87,8 @@ def over_period(X, func=None, dates=None, period=None,
                 period_start=None, period_end=None, **kwargs):
     """Applique `func` aux seules valeurs de X situées dans la période.
 
+    EN: Applies `func` to the values of X falling inside the period only.
+
     Enveloppe générique, pour les agrégations qui ne peuvent pas recevoir
     elles-mêmes des bornes : `nanmean` et `nanmedian` sont des fonctions
     numpy, on ne leur ajoute pas de paramètres.

@@ -145,6 +145,8 @@ def return_level(X, return_period, water_type="low", dates=None, period=None,
                  period_start=None, period_end=None):
     """Valeur atteinte en moyenne une fois tous les `return_period` ans.
 
+    EN: Value reached on average once every `return_period` years.
+
     Ajustement par une loi de Gumbel sur les hautes eaux
     (`water_type="high"`, maxima) ou log-normale sur les basses eaux
     (`water_type="low"`, minima). `dates`/`period` (paire) ou
@@ -164,6 +166,8 @@ def return_level(X, return_period, water_type="low", dates=None, period=None,
 
 def return_period(X, threshold, water_type="low", dates=None, period=None):
     """Période de retour T (années) d'un seuil : inverse de return_level.
+
+    EN: Return period T (years) of a threshold: the inverse of return_level.
 
     Basses eaux (`water_type="low"`) : T = 1/P(X <= threshold), loi
     log-normale mixte ajustée sur X (minima annuels). Hautes eaux

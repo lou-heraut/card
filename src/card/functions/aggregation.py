@@ -110,6 +110,8 @@ def difference_longest_run(a, b):
 def ratio_longest_run(a, b):
     """Rapport des valeurs du plus long palier de a et de b : UNE valeur.
 
+    EN: Ratio of the longest-run values of a and b: ONE value.
+
     Mêmes conventions que difference_longest_run.
     """
     a = _to_float_array(a)
@@ -130,6 +132,8 @@ def ratio_longest_run(a, b):
 
 def nansum_strict(X, div=1):
     """Somme ignorant les lacunes, mais NaN si tout est lacune.
+
+    EN: Sum ignoring the gaps, but NaN when everything is a gap.
 
     Une période sans aucune donnée n'est pas un cumul nul, alors que
     np.nansum y répond 0.0. Résultat divisé par div.
@@ -174,6 +178,9 @@ def rollmean_center(X, k, cyclical=False):
     """Moyenne mobile centrée de fenêtre k : lisse la série sans la
     décaler dans le temps.
 
+    EN: Centred rolling mean over a window of k: smooths the series without
+    shifting it in time.
+
     Fenêtre alignée sur son centre (pandas center=True), lacunes
     propagées strictement : une fenêtre contenant un NaN vaut NaN.
     cyclical=True : la série est considérée circulaire (régimes
@@ -188,6 +195,9 @@ def rollmean_center(X, k, cyclical=False):
 def rollsum_center(X, k, cyclical=False):
     """Somme mobile centrée de fenêtre k : cumul glissant sur k pas de
     temps, sans décalage.
+
+    EN: Centred rolling sum over a window of k: running total over k time
+    steps, without shift.
 
     Mêmes conventions que rollmean_center. Sortie de même longueur que X
     (transform).
@@ -237,6 +247,8 @@ def circular_ratio(X, Y, periodicity):
 
 def circular_median(X, periodicity):
     """Médiane d'une grandeur cyclique, par exemple une date dans l'année.
+
+    EN: Median of a cyclic quantity, for instance a date within the year.
 
     Calculée par l'arctangente des médianes du sinus et du cosinus, sur
     un axe de période `periodicity` : la moyenne ordinaire placerait au

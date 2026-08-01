@@ -43,6 +43,8 @@ def delta(X, dates, ref_start, ref_end, horizon_start, horizon_end, relative,
           return_period=None, water_type="low", Q_for_BFI=None):
     """Différence de X entre une période de référence et une période d'horizon.
 
+    EN: Change in X between a reference period and a horizon period.
+
     Les quatre bornes sont des dates, scalaires ou colonnes constantes par
     série (paramètres d'horizon fournis en entrée, dont on extrait la valeur
     constante). X est agrégé sur [ref_start, ref_end] puis sur
