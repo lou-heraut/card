@@ -24,11 +24,14 @@ from .aggregation import _to_float_array
 
 
 def elasticity(Q, X):
-    """Élasticité bivariée de Sankarasubramanian et al. (2001) :
-    médiane de ((Q-Qmean)/(X-Xmean)) * Xmean/Qmean.
+    """
+    en: Bivariate elasticity of Sankarasubramanian et al. (2001).
 
-    EN: Bivariate elasticity of Sankarasubramanian et al. (2001): median of
-    ((Q-Qmean)/(X-Xmean)) * Xmean/Qmean.
+        Median of ((Q-Qmean)/(X-Xmean)) * Xmean/Qmean.
+
+    fr: Élasticité bivariée de Sankarasubramanian et al. (2001).
+
+        Médiane de ((Q-Qmean)/(X-Xmean)) * Xmean/Qmean.
     """
     q = _to_float_array(Q)
     x = _to_float_array(X)
@@ -40,9 +43,10 @@ def elasticity(Q, X):
 
 
 def runoff_coefficient(Q, R):
-    """Coefficient de ruissellement : somme(Q) / somme(R).
+    """
+    en: Runoff coefficient: sum(Q) / sum(R).
 
-    EN: Runoff coefficient: sum(Q) / sum(R).
+    fr: Coefficient de ruissellement : somme(Q) / somme(R).
     """
     q = _to_float_array(Q)
     r = _to_float_array(R)

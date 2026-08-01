@@ -108,13 +108,19 @@ def _bfs_lyne_hollick(Q, a=0.925, passes=3):
 
 
 def baseflow(Q, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
-    """Débit de base par séparation d'hydrogramme. method='Wal'
-    (Wallingford / smoothed minima : blocs de d jours, points
-    pivots au facteur w) ou 'LH' (filtre de Lyne & Hollick,
-    paramètre a, nombre de passes). Sortie de même longueur que Q
-    (transform).
+    """
+    en: Base flow from hydrograph separation.
 
-    EN: Base flow from hydrograph separation.
+        method='Wal' (Wallingford, smoothed minima: blocks of d days, pivot
+        points at factor w) or 'LH' (Lyne & Hollick filter, parameter a,
+        number of passes). Output has the same length as Q (transform).
+
+    fr: Débit de base par séparation d'hydrogramme.
+
+        method='Wal' (Wallingford / smoothed minima : blocs de d jours,
+        points pivots au facteur w) ou 'LH' (filtre de Lyne & Hollick,
+        paramètre a, nombre de passes). Sortie de même longueur que Q
+        (transform).
     """
     q = _to_float_array(Q)
     if method == "Wal":
@@ -125,10 +131,14 @@ def baseflow(Q, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
 
 
 def quickflow(Q, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
-    """Écoulement rapide : Q - baseflow(Q) (mêmes paramètres).
-    Sortie de même longueur que Q (transform).
+    """
+    en: Quick flow: Q minus baseflow(Q), same parameters.
 
-    EN: Quick flow: Q minus baseflow(Q), same parameters.
+        Output has the same length as Q (transform).
+
+    fr: Écoulement rapide : Q - baseflow(Q), mêmes paramètres.
+
+        Sortie de même longueur que Q (transform).
     """
     q = _to_float_array(Q)
     return q - baseflow(q, d=d, w=w, a=a, passes=passes, method=method)
@@ -139,11 +149,14 @@ quickflow.is_transform = True
 
 
 def BFI(Q, BF):
-    """Base Flow Index : somme du débit de base / somme du débit
-    total (NaN ignorés).
+    """
+    en: Base Flow Index: sum of the base flow over sum of the total flow.
 
-    EN: Base Flow Index: sum of the base flow over sum of the total flow
-    (NaN ignored).
+        NaN ignored on both sums.
+
+    fr: Base Flow Index : somme du débit de base sur somme du débit total.
+
+        NaN ignorés des deux sommes.
     """
     q = _to_float_array(Q)
     bf = _to_float_array(BF)
@@ -154,11 +167,14 @@ def BFI(Q, BF):
 
 
 def BFM(BFA):
-    """Base Flow Magnitude : (max - min) / max des débits de base
-    agrégés (ex. régime mensuel interannuel).
+    """
+    en: Base Flow Magnitude: (max - min) / max of the aggregated base flows.
 
-    EN: Base Flow Magnitude: (max - min) / max of the aggregated base flows
-    (for instance a mean monthly regime).
+        Aggregated over a regime, for instance a mean monthly one.
+
+    fr: Base Flow Magnitude : (max - min) / max des débits de base agrégés.
+
+        Agrégés sur un régime, par exemple mensuel interannuel.
     """
     x = _to_float_array(BFA)
     bfa_max = np.nanmax(x)
@@ -167,25 +183,34 @@ def BFM(BFA):
 
 
 def snowmelt_volume(Q, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
-    """Volume de fonte (hm³) : somme du débit de base (m³/s) convertie
-    en volume journalier (× 86 400 s / 10⁶).
+    """
+    en: Snowmelt volume (hm³), from the sum of the base flow.
 
-    EN: Snowmelt volume (hm³): sum of the base flow (m³/s) converted to a
-    daily volume.
+        The base flow (m³/s) is converted to a daily volume
+        (× 86 400 s / 10⁶).
+
+    fr: Volume de fonte (hm³), depuis la somme du débit de base.
+
+        Le débit de base (m³/s) est converti en volume journalier
+        (× 86 400 s / 10⁶).
     """
     BF = baseflow(Q, d=d, w=w, a=a, passes=passes, method=method)
     return np.nansum(BF) * 24 * 3600 / 1e6
 
 
 def snowmelt_timing(Q, fraction, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
-    """Moment où le volume de fonte cumulé atteint la fraction demandée du
-    total.
+    """
+    en: Moment when the cumulative snowmelt volume reaches the requested
+        fraction of the total.
 
-    EN: Moment when the cumulative snowmelt volume reaches the requested
-    fraction of the total.
+        The target is `fraction`. Returned as a 0-based index into the
+        series, which the pipeline converts to a date (is_date convention).
 
-    La fraction visée est `fraction`. Rendu comme un index 0-based dans la
-    série, que le pipeline convertit en date (convention is_date).
+    fr: Moment où le volume de fonte cumulé atteint la fraction demandée du
+        total.
+
+        La fraction visée est `fraction`. Rendu comme un index 0-based dans
+        la série, que le pipeline convertit en date (convention is_date).
     """
     BF = baseflow(Q, d=d, w=w, a=a, passes=passes, method=method)
     vol = np.cumsum(BF)
@@ -199,12 +224,16 @@ def snowmelt_timing(Q, fraction, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
 
 
 def snowmelt_duration(Q, fraction1, fraction2, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
-    """Durée séparant deux étapes du volume de fonte cumulé.
+    """
+    en: Duration between two stages of the cumulative snowmelt volume.
 
-    EN: Duration between two stages of the cumulative snowmelt volume.
+        Between the moment fraction `fraction1` is reached and the moment
+        `fraction2` is, counted in time steps, bounds included.
 
-    Entre l'atteinte de la fraction `fraction1` et celle de `fraction2`,
-    comptée en pas de temps, bornes incluses.
+    fr: Durée séparant deux étapes du volume de fonte cumulé.
+
+        Entre l'atteinte de la fraction `fraction1` et celle de `fraction2`,
+        comptée en pas de temps, bornes incluses.
     """
     BF = baseflow(Q, d=d, w=w, a=a, passes=passes, method=method)
     vol = np.cumsum(BF)

@@ -22,9 +22,10 @@ from .aggregation import _to_float_array
 
 
 def mannkendall_slope(X, level=0.1, time_dependency_option="AR1"):
-    """Pente de Sen-Theil (tendance) du test de Mann-Kendall généralisé.
+    """
+    en: Sen-Theil slope (trend) of the generalised Mann-Kendall test.
 
-    EN: Sen-Theil slope (trend) of the generalised Mann-Kendall test.
+    fr: Pente de Sen-Theil (tendance) du test de Mann-Kendall généralisé.
     """
     res = GeneralMannKendall(_to_float_array(X), level=level,
                              time_dependency_option=time_dependency_option,
@@ -33,9 +34,11 @@ def mannkendall_slope(X, level=0.1, time_dependency_option="AR1"):
 
 
 def mannkendall_test(X, level=0.1, time_dependency_option="AR1"):
-    """Résultat du test (True si tendance significative au niveau `level`).
+    """
+    en: Test outcome, true when the trend is significant at level `level`.
 
-    EN: Test outcome, true when the trend is significant at level `level`.
+    fr: Résultat du test, vrai si la tendance est significative au niveau
+        `level`.
     """
     res = GeneralMannKendall(_to_float_array(X), level=level,
                              time_dependency_option=time_dependency_option,

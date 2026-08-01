@@ -301,21 +301,48 @@ def test_toute_fonction_de_card_employee_par_le_corpus_a_une_glose():
     assert not muettes, "\n".join(muettes)
 
 
-def test_chaque_fonction_de_card_a_sa_glose_dans_les_deux_langues():
+def test_les_blocs_de_langue_se_decoupent_comme_annonce():
+    """La règle de lecture doit tenir sur un cas construit.
+
+    Un marqueur en marge ouvre un bloc, les lignes indentées le
+    continuent, une ligne revenue en marge sans marqueur est une note
+    hors langue.
+    """
+    from card.render import _blocs
+
+    b = _blocs("""
+    en: First sentence.
+
+        Second paragraph.
+
+    fr: Première phrase.
+
+        Second paragraphe.
+
+    Note hors langue.
+    """)
+    assert set(b) == {"en", "fr"}
+    assert b["en"] == "First sentence.\n\nSecond paragraph."
+    assert b["fr"] == "Première phrase.\n\nSecond paragraphe."
+    # Une docstring sans marqueur reste lisible : pas de bloc, et le
+    # texte sert pour toutes les langues (fonction écrite par un tiers).
+    assert _blocs("Juste une phrase.") == {}
+
+
+def test_chaque_fonction_de_card_a_ses_deux_blocs_de_langue():
     """Une figure anglaise ne doit pas servir de la prose française.
 
-    Les gloses viennent des docstrings, écrites en français : sans
-    traduction, la figure anglaise les affichait telles quelles, seul
-    morceau de la figure à ne pas passer par la table `_T`. La version
-    anglaise vit dans la docstring, marquée `EN:`, à côté du français
-    plutôt que dans une table indexée sur des noms de fonctions.
+    Les gloses viennent des docstrings : sans traduction, la figure
+    anglaise les affichait telles quelles, seul morceau de la figure à ne
+    pas passer par la table `_T`. Les deux langues vivent maintenant dans
+    la docstring, `en:` puis `fr:` comme dans les fiches, à égalité.
 
-    `glose(lang="en")` retombe sur le français quand la traduction
-    manque, ce qui rend service à une fonction écrite par un tiers mais
-    passerait inaperçu dans le corpus : d'où ce test.
+    `glose(lang="en")` retombe sur l'autre langue quand un bloc manque,
+    ce qui rend service à une fonction écrite par un tiers mais passerait
+    inaperçu dans le corpus : d'où ce test.
     """
     from card.extraction import resolve
-    from card.render import MARQUEUR_EN, glose
+    from card.render import LANGUES, _blocs, glose
 
     manquantes = []
     for nom in _fonctions_du_corpus():
@@ -324,18 +351,19 @@ def test_chaque_fonction_de_card_a_sa_glose_dans_les_deux_langues():
             continue
         if getattr(fn, "glose_inutile", False):
             continue
-        paragraphes = (fn.__doc__ or "").split("\n\n")
-        if not any(p.strip().startswith(MARQUEUR_EN) for p in paragraphes):
+        blocs = _blocs(fn.__doc__ or "")
+        absents = [x for x in LANGUES if x not in blocs]
+        if absents:
             manquantes.append(
-                f"{nom} : pas de paragraphe `{MARQUEUR_EN} ...` dans sa "
-                f"docstring, la figure anglaise affichera du français")
-        elif not glose(nom, "en"):
-            manquantes.append(f"{nom} : traduction présente mais glose vide")
+                f"{nom} : pas de bloc {absents} dans sa docstring, la figure "
+                f"affichera l'autre langue")
+        elif not all(glose(nom, x) for x in LANGUES):
+            manquantes.append(f"{nom} : un bloc présent mais glose vide")
     assert not manquantes, "\n".join(manquantes)
 
 
 def test_la_glose_anglaise_diffère_bien_de_la_française():
-    """Un `EN:` recopié du français est un oubli, pas une traduction."""
+    """Un bloc `en:` recopié du français est un oubli, pas une traduction."""
     from card.extraction import resolve
     from card.render import glose
 

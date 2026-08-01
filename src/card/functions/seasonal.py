@@ -41,17 +41,27 @@ def _one_date(v):
 
 def delta(X, dates, ref_start, ref_end, horizon_start, horizon_end, relative,
           return_period=None, water_type="low", Q_for_BFI=None):
-    """Différence de X entre une période de référence et une période d'horizon.
+    """
+    en: Change in X between a reference period and a horizon period.
 
-    EN: Change in X between a reference period and a horizon period.
+        The four bounds are dates, scalars or columns constant per series
+        (horizon parameters supplied as input, from which the constant value
+        is taken). X is aggregated over [ref_start, ref_end] then over
+        [horizon_start, horizon_end] (mean by default; return level if
+        `return_period`; BFI if `Q_for_BFI`), and the function returns
+        horizon minus reference (`relative=False`) or the relative change in
+        per cent (`relative=True`).
 
-    Les quatre bornes sont des dates, scalaires ou colonnes constantes par
-    série (paramètres d'horizon fournis en entrée, dont on extrait la valeur
-    constante). X est agrégé sur [ref_start, ref_end] puis sur
-    [horizon_start, horizon_end] (moyenne par défaut ; niveau de retour si
-    `return_period` ; BFI si `Q_for_BFI`), et la fonction retourne
-    horizon − référence (`relative=False`) ou le changement relatif en %
-    (`relative=True`).
+    fr: Différence de X entre une période de référence et une période
+        d'horizon.
+
+        Les quatre bornes sont des dates, scalaires ou colonnes constantes
+        par série (paramètres d'horizon fournis en entrée, dont on extrait la
+        valeur constante). X est agrégé sur [ref_start, ref_end] puis sur
+        [horizon_start, horizon_end] (moyenne par défaut ; niveau de retour
+        si `return_period` ; BFI si `Q_for_BFI`), et la fonction retourne
+        horizon − référence (`relative=False`) ou le changement relatif en %
+        (`relative=True`).
     """
     x = _to_float_array(X)
     d = pd.to_datetime(pd.Series(dates) if not isinstance(dates, pd.Series)

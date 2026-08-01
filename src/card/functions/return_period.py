@@ -143,15 +143,21 @@ def _lognormal_period(X, threshold):
 
 def return_level(X, return_period, water_type="low", dates=None, period=None,
                  period_start=None, period_end=None):
-    """Valeur atteinte en moyenne une fois tous les `return_period` ans.
+    """
+    en: Value reached on average once every `return_period` years.
 
-    EN: Value reached on average once every `return_period` years.
+        Fitted with a Gumbel law on high flows (`water_type="high"`, maxima)
+        or a log-normal one on low flows (`water_type="low"`, minima).
+        `dates`/`period` (pair) or `period_start`/`period_end` (bounds, often
+        columns constant per series) restrict the fit.
 
-    Ajustement par une loi de Gumbel sur les hautes eaux
-    (`water_type="high"`, maxima) ou log-normale sur les basses eaux
-    (`water_type="low"`, minima). `dates`/`period` (paire) ou
-    `period_start`/`period_end` (bornes, souvent des colonnes constantes
-    par série) restreignent l'ajustement.
+    fr: Valeur atteinte en moyenne une fois tous les `return_period` ans.
+
+        Ajustement par une loi de Gumbel sur les hautes eaux
+        (`water_type="high"`, maxima) ou log-normale sur les basses eaux
+        (`water_type="low"`, minima). `dates`/`period` (paire) ou
+        `period_start`/`period_end` (bornes, souvent des colonnes constantes
+        par série) restreignent l'ajustement.
     """
     if period_start is not None:
         period = [_const_date(period_start), _const_date(period_end)]
@@ -165,19 +171,31 @@ def return_level(X, return_period, water_type="low", dates=None, period=None,
 
 
 def return_period(X, threshold, water_type="low", dates=None, period=None):
-    """Période de retour T (années) d'un seuil : inverse de return_level.
+    """
+    en: Return period T (years) of a threshold: the inverse of return_level.
 
-    EN: Return period T (years) of a threshold: the inverse of return_level.
+        Low flows (`water_type="low"`): T = 1/P(X <= threshold), mixed
+        log-normal law fitted on X (annual minima). High flows
+        (`water_type="high"`): T = 1/P(X > threshold), Gumbel law (annual
+        maxima). T is a float >= 1; a threshold far from the body of the law
+        gives an extrapolated T, returned as is.
 
-    Basses eaux (`water_type="low"`) : T = 1/P(X <= threshold), loi
-    log-normale mixte ajustée sur X (minima annuels). Hautes eaux
-    (`water_type="high"`) : T = 1/P(X > threshold), loi de Gumbel
-    (maxima annuels). T est un flottant >= 1 ; un seuil loin du corps
-    de la loi donne un T extrapolé, restitué brut.
+        `threshold`: scalar, or a column constant per station (the most
+        frequent value is kept, NaN if all are missing). `dates`/`period`
+        restrict the fit to a sub-period.
 
-    `threshold` : scalaire, ou colonne constante par station (la
-    valeur la plus fréquente est retenue, NaN si toutes manquantes).
-    `dates`/`period` restreignent l'ajustement à une sous-période."""
+    fr: Période de retour T (années) d'un seuil : inverse de return_level.
+
+        Basses eaux (`water_type="low"`) : T = 1/P(X <= threshold), loi
+        log-normale mixte ajustée sur X (minima annuels). Hautes eaux
+        (`water_type="high"`) : T = 1/P(X > threshold), loi de Gumbel
+        (maxima annuels). T est un flottant >= 1 ; un seuil loin du corps de
+        la loi donne un T extrapolé, restitué brut.
+
+        `threshold` : scalaire, ou colonne constante par station (la valeur
+        la plus fréquente est retenue, NaN si toutes manquantes).
+        `dates`/`period` restreignent l'ajustement à une sous-période.
+    """
     lim_arr = _to_float_array(threshold) \
         if np.ndim(threshold) > 0 or isinstance(threshold, pd.Series) \
         else np.asarray([threshold], dtype=np.float64)

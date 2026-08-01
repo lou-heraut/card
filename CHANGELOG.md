@@ -100,23 +100,36 @@ des deux endroits.
 
 ### Ajouté
 
-- **Les gloses des figures sont bilingues (2026-08-01).** Elles venaient
-  des docstrings, écrites en français, et s'affichaient telles quelles
-  dans la figure anglaise : c'était le dernier morceau à ne pas passer
-  par la table `_T`. La traduction vit désormais **dans la docstring**,
-  en paragraphe préfixé `EN:`, à côté du français. Aucun standard Python
-  n'existe pour cela : `gettext` ne sait pas envelopper un `__doc__`, qui
-  doit rester un littéral, et `sphinx-intl` traduit à la construction de
-  la doc, pas à l'exécution. Le choix suit donc la doctrine du dépôt,
-  celle des métadonnées bilingues qui vivent dans la fiche : une
-  traduction rangée ailleurs dérive de son original sans que personne ne
-  le voie. Elle n'entre pas non plus dans `_T`, indexée sur des concepts
-  et non sur des noms de fonctions, qui redeviendrait la table distante
-  dont `render.py` s'est débarrassé cette semaine. 35 fonctions
-  traduites, 202 figures anglaises complétées, **aucune figure française
-  modifiée**. `help()` rend la fonction bilingue au passage. Trois tests,
-  éprouvés par mutation : la traduction manquante, la traduction recopiée
-  du français, et `glose()` ignorant la langue demandée.
+- **Les docstrings des fonctions hydro sont bilingues, et se lisent comme
+  une fiche (2026-08-01).** Les gloses de la figure viennent des
+  docstrings, écrites en français, et s'affichaient telles quelles dans
+  la figure anglaise : c'était le dernier morceau de la figure à ne pas
+  passer par la table `_T`. Une docstring porte désormais un bloc `en:`
+  puis un bloc `fr:`, à égalité et dans cet ordre, plus ce qui n'a pas de
+  langue en dehors des blocs : c'est le découpage de `meta.en` /
+  `meta.fr` / `meta.global` d'une fiche, appliqué au code, avec les mêmes
+  codes ISO 639-1 en minuscules. Un marqueur en marge ouvre un bloc, les
+  lignes indentées le continuent, une ligne revenue en marge sans
+  marqueur est une note hors langue (parité R, dates, renvois internes),
+  qu'on ne traduit pas sous peine d'entretenir deux versions d'un même
+  fait daté.
+
+  Aucun standard Python n'existe pour cela, vérifié : `gettext` ne sait
+  pas envelopper un `__doc__`, qui doit rester un littéral, et
+  `sphinx-intl` traduit à la construction de la documentation, quand le
+  lecteur est ici une figure rendue à l'exécution. Le choix suit donc la
+  doctrine du dépôt, celle des métadonnées bilingues qui vivent dans la
+  fiche : une traduction rangée ailleurs dérive de son original sans que
+  personne ne le voie. Elle n'entre pas non plus dans `_T`, indexée sur
+  des concepts et non sur des noms de fonctions, qui redeviendrait la
+  table distante dont `render.py` s'est débarrassé deux fois cette
+  semaine.
+
+  40 fonctions récrites, description **complète** dans les deux langues
+  et non un résumé anglais greffé sur un corps français. `help()` rend la
+  fonction bilingue au passage. Quatre tests, éprouvés par mutation : un
+  bloc absent, un bloc recopié de l'autre langue, `glose()` ignorant la
+  langue demandée, et la continuation par indentation désactivée.
 
 ### Corrigé
 

@@ -26,14 +26,18 @@ from .aggregation import _rle_most_frequent, _to_float_array
 
 
 def exceedance_quantile(Q, p):
-    """Débit dépassé une fraction p du temps, lu sur la courbe des débits
-    classés.
+    """
+    en: Discharge exceeded a fraction p of the time, read off the flow
+        duration curve.
 
-    EN: Discharge exceeded a fraction p of the time, read off the flow
-    duration curve.
+        Equals quantile(Q, 1-p), linear interpolation (R type 7, the numpy
+        default). Gaps are dropped before the computation.
 
-    Vaut quantile(Q, 1-p), interpolation linéaire (type 7 R = défaut
-    numpy). Les lacunes sont écartées avant le calcul.
+    fr: Débit dépassé une fraction p du temps, lu sur la courbe des débits
+        classés.
+
+        Vaut quantile(Q, 1-p), interpolation linéaire (type 7 R = défaut
+        numpy). Les lacunes sont écartées avant le calcul.
     """
     q = _to_float_array(Q)
     q = q[~np.isnan(q)]
@@ -43,20 +47,27 @@ def exceedance_quantile(Q, p):
 
 
 def exceedance_frequency(Q, threshold):
-    """Fréquence de dépassement du seuil : part du temps OBSERVÉ où Q est
-    strictement supérieur à threshold.
+    """
+    en: Exceedance frequency of the threshold: share of the OBSERVED time
+        when Q is strictly above threshold.
 
-    EN: Exceedance frequency of the threshold: share of the OBSERVED time
-    when Q is strictly above threshold.
+        Equals n(Q > threshold) / N, where N counts only the recorded time
+        steps, like the numerator. A missing day is a day nothing is known
+        about, not a day without exceedance. A fully missing series gives
+        NaN, no longer 0.
 
-    Vaut n(Q > threshold) / N, où N ne compte que les pas de temps
-    renseignés, comme le numérateur. Un jour manquant est un jour dont on
-    ne sait rien, pas un jour de non-dépassement : le compter au
-    dénominateur abaissait la fréquence exactement de la part de lacunes
-    de la chronique, et cette part diminuant avec les années, le biais se
-    lisait comme une tendance à la hausse. Rupture de parité R assumée le
-    2026-07-30, cf. docs/dev/ORIGINE_R.md. Série entièrement manquante :
-    NaN, et non plus 0.
+    fr: Fréquence de dépassement du seuil : part du temps OBSERVÉ où Q est
+        strictement supérieur à threshold.
+
+        Vaut n(Q > threshold) / N, où N ne compte que les pas de temps
+        renseignés, comme le numérateur. Un jour manquant est un jour dont on
+        ne sait rien, pas un jour de non-dépassement. Série entièrement
+        manquante : NaN, et non plus 0.
+
+    Compter les lacunes au dénominateur abaissait la fréquence exactement de
+    leur part, et cette part diminuant avec les années, le biais se lisait
+    comme une tendance à la hausse. Rupture de parité R assumée le
+    2026-07-30, cf. docs/dev/ORIGINE_R.md.
     """
     q = _to_float_array(Q)
     lim_arr = _to_float_array(threshold) if np.ndim(threshold) > 0 else \
@@ -69,9 +80,10 @@ def exceedance_frequency(Q, threshold):
 
 
 def fdc_slope(Q, p=(0.33, 0.66)):
-    """Pente du segment médian de la courbe des débits classés.
+    """
+    en: Slope of the middle segment of the flow duration curve.
 
-    EN: Slope of the middle segment of the flow duration curve.
+    fr: Pente du segment médian de la courbe des débits classés.
     """
     p = np.asarray(p, dtype=float)
     qp = exceedance_quantile(Q, p)
@@ -86,20 +98,24 @@ def _fdc_p(n, norm_spacing):
 
 
 def fdc_probabilities(X=None, n=1000, norm_spacing=False):
-    """Axe des probabilités de la courbe des débits classés, en n points.
+    """
+    en: Probability axis of the flow duration curve, over n points.
 
-    EN: Probability axis of the flow duration curve, over n points.
+        Points evenly spread, or spaced along a standard normal law if
+        norm_spacing.
 
-    Points uniformément répartis, ou espacés selon une loi normale
-    centrée réduite si norm_spacing.
+    fr: Axe des probabilités de la courbe des débits classés, en n points.
+
+        Points uniformément répartis, ou espacés selon une loi normale
+        centrée réduite si norm_spacing.
 
     `X` est accepté et ignoré : cette fonction ne dépend d'aucune donnée,
     elle produit l'axe des abscisses de la courbe. Mais le moteur affecte
     d'office la première colonne numérique à une fonction qui ne déclare
-    aucune colonne, et cette valeur doit bien atterrir quelque part. Sans
-    ce paramètre, elle se liait à `n` et faisait échouer l'appel : les
-    cinq fiches FDC plantaient depuis l'origine du portage, trois d'entre
-    elles le masquant par une période sans données (corrigé 2026-07-22).
+    aucune colonne, et cette valeur doit bien atterrir quelque part. Sans ce
+    paramètre, elle se liait à `n` et faisait échouer l'appel : les cinq
+    fiches FDC plantaient depuis l'origine du portage, trois d'entre elles le
+    masquant par une période sans données (corrigé 2026-07-22).
     """
     return _fdc_p(n, norm_spacing)
 

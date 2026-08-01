@@ -65,11 +65,17 @@ def _squeeze_scalar(x):
 # le drapeau `first` a été scindé le 2026-07-31 (cf. RENAMING.md).
 
 def difference(a, b):
-    """Différence a - b, terme à terme.
+    """
+    en: Difference a - b, term by term.
 
-    Tout-NaN d'un côté → NaN. Un résultat de longueur 1 est rendu comme
-    un nombre, par commodité de type : c'est toujours une valeur par pas
-    de temps.
+        NaN if either side is all NaN. A result of length 1 is returned as a
+        number, for convenience of type: it is still one value per time step.
+
+    fr: Différence a - b, terme à terme.
+
+        Tout-NaN d'un côté → NaN. Un résultat de longueur 1 est rendu comme
+        un nombre, par commodité de type : c'est toujours une valeur par pas
+        de temps.
     """
     a = _to_float_array(a)
     b = _to_float_array(b)
@@ -79,9 +85,14 @@ def difference(a, b):
 
 
 def ratio(a, b):
-    """Rapport a / b, terme à terme.
+    """
+    en: Ratio a / b, term by term.
 
-    Mêmes conventions que difference.
+        Same conventions as difference.
+
+    fr: Rapport a / b, terme à terme.
+
+        Mêmes conventions que difference.
     """
     a = _to_float_array(a)
     b = _to_float_array(b)
@@ -91,14 +102,23 @@ def ratio(a, b):
 
 
 def difference_longest_run(a, b):
-    """Différence des valeurs du plus long palier de a et de b : UNE valeur.
+    """
+    en: Difference between the longest-run values of a and b: ONE value.
 
-    Sert quand a et b sont des colonnes constantes sur le groupe (un seuil
-    rediffusé par un `keep: all` en amont) et qu'on en veut la valeur, une
-    seule fois. Le plus long palier est retenu après avoir écarté les
-    lacunes, si bien qu'un trou dans la colonne ne contamine pas le
-    résultat, là où la soustraction terme à terme rendrait NaN ce jour-là.
-    Tout-NaN d'un côté → NaN.
+        For columns that are constant over the group (a threshold broadcast
+        by an upstream `keep: all`) whose value is wanted once. The longest
+        run is taken after dropping the gaps, so a hole in the column does
+        not contaminate the result, where a term-by-term subtraction would
+        return NaN on that day. NaN if either side is all NaN.
+
+    fr: Différence des valeurs du plus long palier de a et de b : UNE valeur.
+
+        Sert quand a et b sont des colonnes constantes sur le groupe (un seuil
+        rediffusé par un `keep: all` en amont) et qu'on en veut la valeur, une
+        seule fois. Le plus long palier est retenu après avoir écarté les
+        lacunes, si bien qu'un trou dans la colonne ne contamine pas le
+        résultat, là où la soustraction terme à terme rendrait NaN ce jour-là.
+        Tout-NaN d'un côté → NaN.
     """
     a = _to_float_array(a)
     b = _to_float_array(b)
@@ -108,11 +128,14 @@ def difference_longest_run(a, b):
 
 
 def ratio_longest_run(a, b):
-    """Rapport des valeurs du plus long palier de a et de b : UNE valeur.
+    """
+    en: Ratio of the longest-run values of a and b: ONE value.
 
-    EN: Ratio of the longest-run values of a and b: ONE value.
+        Same conventions as difference_longest_run.
 
-    Mêmes conventions que difference_longest_run.
+    fr: Rapport des valeurs du plus long palier de a et de b : UNE valeur.
+
+        Mêmes conventions que difference_longest_run.
     """
     a = _to_float_array(a)
     b = _to_float_array(b)
@@ -131,12 +154,16 @@ def ratio_longest_run(a, b):
 # celles qui utilisaient nansum_strict gardent la version stricte.
 
 def nansum_strict(X, div=1):
-    """Somme ignorant les lacunes, mais NaN si tout est lacune.
+    """
+    en: Sum ignoring the gaps, but NaN when everything is a gap.
 
-    EN: Sum ignoring the gaps, but NaN when everything is a gap.
+        A period without any data is not a zero total, whereas np.nansum
+        answers 0.0. Result divided by div.
 
-    Une période sans aucune donnée n'est pas un cumul nul, alors que
-    np.nansum y répond 0.0. Résultat divisé par div.
+    fr: Somme ignorant les lacunes, mais NaN si tout est lacune.
+
+        Une période sans aucune donnée n'est pas un cumul nul, alors que
+        np.nansum y répond 0.0. Résultat divisé par div.
     """
     x = _to_float_array(X)
     if np.all(np.isnan(x)):
@@ -175,16 +202,22 @@ def _roll_cyclical(x: np.ndarray, k: int, stat: str) -> np.ndarray:
 
 
 def rollmean_center(X, k, cyclical=False):
-    """Moyenne mobile centrée de fenêtre k : lisse la série sans la
-    décaler dans le temps.
+    """
+    en: Centred rolling mean over a window of k: smooths the series without
+        shifting it in time.
 
-    EN: Centred rolling mean over a window of k: smooths the series without
-    shifting it in time.
+        Window aligned on its centre (pandas center=True), gaps propagated
+        strictly: a window containing a NaN is NaN. cyclical=True: the series
+        is taken as circular (interannual regimes). Output has the same
+        length as X (transform).
 
-    Fenêtre alignée sur son centre (pandas center=True), lacunes
-    propagées strictement : une fenêtre contenant un NaN vaut NaN.
-    cyclical=True : la série est considérée circulaire (régimes
-    interannuels). Sortie de même longueur que X (transform).
+    fr: Moyenne mobile centrée de fenêtre k : lisse la série sans la décaler
+        dans le temps.
+
+        Fenêtre alignée sur son centre (pandas center=True), lacunes
+        propagées strictement : une fenêtre contenant un NaN vaut NaN.
+        cyclical=True : la série est considérée circulaire (régimes
+        interannuels). Sortie de même longueur que X (transform).
     """
     x = _to_float_array(X)
     if cyclical:
@@ -193,14 +226,18 @@ def rollmean_center(X, k, cyclical=False):
 
 
 def rollsum_center(X, k, cyclical=False):
-    """Somme mobile centrée de fenêtre k : cumul glissant sur k pas de
-    temps, sans décalage.
+    """
+    en: Centred rolling sum over a window of k: running total over k time
+        steps, without shift.
 
-    EN: Centred rolling sum over a window of k: running total over k time
-    steps, without shift.
+        Same conventions as rollmean_center. Output has the same length as X
+        (transform).
 
-    Mêmes conventions que rollmean_center. Sortie de même longueur que X
-    (transform).
+    fr: Somme mobile centrée de fenêtre k : cumul glissant sur k pas de
+        temps, sans décalage.
+
+        Mêmes conventions que rollmean_center. Sortie de même longueur que X
+        (transform).
     """
     x = _to_float_array(X)
     if cyclical:
@@ -229,30 +266,49 @@ def _circular_tweak(X, Y, periodicity):
 
 
 def circular_difference(X, Y, periodicity):
-    """Différence X - Y sur un axe circulaire de période donnée (ex.
-    jours de l'année, periodicity=365.25) : quand l'écart dépasse une
-    demi-période, le plus petit terme est décalé d'une période.
+    """
+    en: Difference X - Y on a circular axis of the given period.
+
+        When the gap exceeds half a period, the smaller term is shifted by
+        one period (for instance days of the year, periodicity=365.25).
+
+    fr: Différence X - Y sur un axe circulaire de période donnée.
+
+        Quand l'écart dépasse une demi-période, le plus petit terme est
+        décalé d'une période (par exemple des jours de l'année,
+        periodicity=365.25).
     """
     X, Y = _circular_tweak(X, Y, periodicity)
     return _squeeze_scalar(X - Y)
 
 
 def circular_ratio(X, Y, periodicity):
-    """Rapport X / Y après recalage circulaire des deux termes
-    (cf. circular_difference).
+    """
+    en: Ratio X / Y after circular realignment of both terms.
+
+        Same realignment as circular_difference.
+
+    fr: Rapport X / Y après recalage circulaire des deux termes.
+
+        Même recalage que circular_difference.
     """
     X, Y = _circular_tweak(X, Y, periodicity)
     return _squeeze_scalar(X / Y)
 
 
 def circular_median(X, periodicity):
-    """Médiane d'une grandeur cyclique, par exemple une date dans l'année.
+    """
+    en: Median of a cyclic quantity, for instance a date within the year.
 
-    EN: Median of a cyclic quantity, for instance a date within the year.
+        Computed as the arctangent of the medians of the sine and the cosine,
+        on an axis of period `periodicity`: a plain mean would place on 1 July
+        the median of two dates straddling 1 January.
 
-    Calculée par l'arctangente des médianes du sinus et du cosinus, sur
-    un axe de période `periodicity` : la moyenne ordinaire placerait au
-    1er juillet la médiane de deux dates encadrant le 1er janvier.
+    fr: Médiane d'une grandeur cyclique, par exemple une date dans l'année.
+
+        Calculée par l'arctangente des médianes du sinus et du cosinus, sur
+        un axe de période `periodicity` : la moyenne ordinaire placerait au
+        1er juillet la médiane de deux dates encadrant le 1er janvier.
     """
     x = _to_float_array(X)
     scaling = 2 * np.pi / periodicity

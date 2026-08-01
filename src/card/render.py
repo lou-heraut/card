@@ -56,6 +56,7 @@ fiches du corpus passent, dans les deux langues.
 """
 
 import datetime as _dt
+import inspect
 import re
 import textwrap
 
@@ -313,36 +314,68 @@ def _premiere_phrase(doc):
     return doc
 
 
-# Marqueur de la version anglaise, en tête d'un paragraphe de docstring.
-# Les deux langues vivent CÔTE À CÔTE dans la docstring, comme les
-# métadonnées bilingues vivent dans la fiche : une traduction rangée
-# ailleurs dérive de son original sans que personne ne le voie. Elles ne
-# vont pas non plus dans `_T`, indexée sur des CONCEPTS et non sur des
-# noms de fonctions, qui redeviendrait la table distante dont ce module
-# s'est débarrassé. Rien à installer, rien à compiler : `help()` rend la
-# fonction bilingue au passage.
-MARQUEUR_EN = "EN:"
+# Une docstring de fonction hydro se lit comme une FICHE : `en:` puis
+# `fr:` portent la description, à égalité et dans cet ordre, et ce qui
+# n'a pas de langue reste hors bloc. C'est le découpage de `meta.en` /
+# `meta.fr` / `meta.global`, appliqué au code, et les codes sont ceux des
+# fiches, ISO 639-1 en minuscules.
+#
+# Pourquoi dans la docstring plutôt qu'ailleurs. Aucun standard Python ne
+# traduit un `__doc__` à l'exécution : `gettext` ne peut pas l'envelopper
+# dans `_()`, qui l'empêcherait d'être un littéral, et `sphinx-intl`
+# traduit à la construction de la doc, quand notre lecteur est une figure
+# rendue à la volée. Restait à choisir, et une traduction rangée loin de
+# son original dérive sans que personne ne le voie. `_T` est exclue pour
+# une autre raison : elle est indexée sur des CONCEPTS, pas sur des noms
+# de fonctions, et y verser 35 gloses rebâtirait la table distante dont
+# ce module s'est débarrassé deux fois.
+LANGUES = ("en", "fr")
+_MARQUEUR = re.compile(r"^(" + "|".join(LANGUES) + r"):[ \t]*(.*)$")
+
+
+def _blocs(doc):
+    """Découpe une docstring en {langue: texte} + notes hors langue.
+
+    Un marqueur en marge ouvre un bloc ; les lignes INDENTÉES sous lui le
+    continuent, paragraphes compris. Une ligne revenue en marge sans
+    marqueur clôt le bloc : c'est une note, qui n'a pas de langue (parité
+    R, dates, renvois vers docs/dev/), et qu'on ne traduit donc pas, sous
+    peine d'entretenir deux versions d'un même fait daté.
+
+    Le `\"\"\"` seul sur sa ligne n'est pas une coquetterie : il donne à
+    TOUS les blocs la même indentation, donc une seule règle sans
+    exception. Une exception dans une règle de lecture est ce qui produit
+    les bugs que ce module a passé la semaine à corriger.
+    """
+    lignes = inspect.cleandoc(doc or "").split("\n")
+    blocs, notes, courant = {}, [], None
+    for ligne in lignes:
+        m = _MARQUEUR.match(ligne)
+        if m:
+            courant = m.group(1)
+            blocs.setdefault(courant, []).append(m.group(2))
+            continue
+        if ligne.strip() and not ligne[:1].isspace():
+            courant = None                    # retour en marge : note
+        (blocs[courant] if courant else notes).append(ligne.strip())
+    return {k: "\n".join(v).strip() for k, v in blocs.items()}
 
 
 def _paragraphe(doc, lang):
-    """Le paragraphe de la langue demandée, replié sur une ligne.
+    """Le premier paragraphe de la langue demandée, replié sur une ligne.
 
-    L'anglais est un paragraphe préfixé `EN:` ; le français est le
-    premier paragraphe, celui qu'on lit d'abord dans le code. Si
-    l'anglais manque, on rend le français plutôt que rien : une phrase
-    non traduite renseigne encore, une ligne absente n'apprend rien. Un
-    test exige la traduction pour toute fonction employée par le corpus,
-    donc ce repli ne sert que pour les fonctions écrites par des tiers.
+    Sans bloc de langue (fonction écrite par un tiers), on rend le début
+    de la docstring telle quelle : une phrase non traduite renseigne
+    encore, une ligne absente n'apprend rien. Un test exige les deux
+    blocs pour toute fonction du corpus, donc ce repli ne joue que
+    dehors.
     """
-    paras = [re.sub(r"\s+", " ", p).strip() for p in doc.split("\n\n")]
-    paras = [p for p in paras if p]
-    if not paras:
-        return ""
-    if lang == "en":
-        for p in paras:
-            if p.startswith(MARQUEUR_EN):
-                return p[len(MARQUEUR_EN):].strip()
-    return paras[0]
+    blocs = _blocs(doc)
+    if blocs:
+        texte = blocs.get(lang) or next(iter(blocs.values()))
+    else:
+        texte = inspect.cleandoc(doc or "")
+    return re.sub(r"\s+", " ", texte.split("\n\n")[0]).strip()
 
 
 def glose(nom_fn, lang="fr"):

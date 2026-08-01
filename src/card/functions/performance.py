@@ -37,11 +37,15 @@ def _clean_pair(obs, sim, skipna=True):
 
 
 def bias(obs, sim, sim_minus_obs=True):
-    """Biais relatif Σ(sim-obs)/Σobs (ou obs-sim si
-    sim_minus_obs=False). Paires contenant un NaN écartées.
+    """
+    en: Relative bias sum(sim-obs)/sum(obs), or obs-sim if
+        sim_minus_obs=False.
 
-    EN: Relative bias sum(sim-obs)/sum(obs), or obs-sim if
-    sim_minus_obs=False.
+        Pairs containing a NaN are dropped.
+
+    fr: Biais relatif Σ(sim-obs)/Σobs, ou obs-sim si sim_minus_obs=False.
+
+        Paires contenant un NaN écartées.
     """
     obs, sim = _clean_pair(obs, sim)
     if sim_minus_obs:
@@ -50,11 +54,16 @@ def bias(obs, sim, sim_minus_obs=True):
 
 
 def NSE(obs, sim):
-    """Efficience de Nash-Sutcliffe (1 = parfait, < 0 = pire que la
-    moyenne des observations). Paires contenant un NaN écartées.
+    """
+    en: Nash-Sutcliffe efficiency (1 = perfect, < 0 = worse than the mean of
+        the observations).
 
-    EN: Nash-Sutcliffe efficiency (1 = perfect, < 0 = worse than the mean of
-    the observations).
+        Pairs containing a NaN are dropped.
+
+    fr: Efficience de Nash-Sutcliffe (1 = parfait, < 0 = pire que la moyenne
+        des observations).
+
+        Paires contenant un NaN écartées.
     """
     obs, sim = _clean_pair(obs, sim)
     return 1 - np.sum((sim - obs) ** 2) / np.sum((obs - np.mean(obs)) ** 2)
@@ -74,11 +83,16 @@ def _hsa_log(x, method="inf.na"):
 
 
 def NSE_log(obs, sim, log_method="inf.na"):
-    """NSE sur les logarithmes (sensible aux basses valeurs).
-    log_method : 'inf.na' (log(0) → NaN), 'Pushpalatha2012'
-    (décalage +mean/100) ou une constante à ajouter avant le log.
+    """
+    en: NSE on the logarithms (sensitive to low values).
 
-    EN: NSE on the logarithms (sensitive to low values).
+        log_method: 'inf.na' (log(0) → NaN), 'Pushpalatha2012' (shift by
+        +mean/100), or a constant to add before the log.
+
+    fr: NSE sur les logarithmes (sensible aux basses valeurs).
+
+        log_method : 'inf.na' (log(0) → NaN), 'Pushpalatha2012' (décalage
+        +mean/100) ou une constante à ajouter avant le log.
     """
     obs = _to_float_array(obs)
     sim = _to_float_array(sim)
@@ -89,9 +103,10 @@ def NSE_log(obs, sim, log_method="inf.na"):
 
 
 def NSE_inverse(obs, sim):
-    """NSE sur les inverses 1/X (très sensible aux étiages).
+    """
+    en: NSE on the inverses 1/X (very sensitive to low flows).
 
-    EN: NSE on the inverses 1/X (very sensitive to low flows).
+    fr: NSE sur les inverses 1/X (très sensible aux étiages).
     """
     obs = _to_float_array(obs)
     sim = _to_float_array(sim)
@@ -102,9 +117,10 @@ def NSE_inverse(obs, sim):
 
 
 def NSE_sqrt(obs, sim):
-    """NSE sur les racines carrées (compromis hautes/basses valeurs).
+    """
+    en: NSE on the square roots (compromise between high and low values).
 
-    EN: NSE on the square roots (compromise between high and low values).
+    fr: NSE sur les racines carrées (compromis hautes/basses valeurs).
     """
     return NSE(np.sqrt(_to_float_array(obs)),
                        np.sqrt(_to_float_array(sim)))
@@ -115,12 +131,18 @@ def _kge_short(R, AG, BETA):
 
 
 def KGE(obs, sim, method=1):
-    """Efficience de Kling-Gupta (1 = parfait) : corrélation, rapport
-    de variabilité et biais. method=1 : α = sd(sim)/sd(obs)
-    (Gupta 2009) ; method=2 : γ = CV(sim)/CV(obs) (Kling 2012).
+    """
+    en: Kling-Gupta efficiency (1 = perfect): correlation, variability ratio
+        and bias.
 
-    EN: Kling-Gupta efficiency (1 = perfect): correlation, variability ratio
-    and bias.
+        method=1: alpha = sd(sim)/sd(obs) (Gupta 2009); method=2:
+        gamma = CV(sim)/CV(obs) (Kling 2012).
+
+    fr: Efficience de Kling-Gupta (1 = parfait) : corrélation, rapport de
+        variabilité et biais.
+
+        method=1 : α = sd(sim)/sd(obs) (Gupta 2009) ; method=2 :
+        γ = CV(sim)/CV(obs) (Kling 2012).
     """
     obs, sim = _clean_pair(obs, sim)
     mobs, msim = np.mean(obs), np.mean(sim)
@@ -134,18 +156,20 @@ def KGE(obs, sim, method=1):
 
 
 def KGE_sqrt(obs, sim):
-    """KGE sur les racines carrées des débits.
+    """
+    en: KGE on the square roots of the discharges.
 
-    EN: KGE on the square roots of the discharges.
+    fr: KGE sur les racines carrées des débits.
     """
     return KGE(np.sqrt(_to_float_array(obs)),
                        np.sqrt(_to_float_array(sim)))
 
 
 def std_ratio(obs, sim):
-    """Rapport des écarts-types sd(sim)/sd(obs).
+    """
+    en: Ratio of the standard deviations sd(sim)/sd(obs).
 
-    EN: Ratio of the standard deviations sd(sim)/sd(obs).
+    fr: Rapport des écarts-types sd(sim)/sd(obs).
     """
     obs = _to_float_array(obs)
     sim = _to_float_array(sim)
@@ -155,15 +179,22 @@ def std_ratio(obs, sim):
 
 
 def RAT(Bias, X, thresh=0.05):
-    """Signale un manque de robustesse du modèle.
+    """
+    en: Flags a lack of robustness of the model.
 
-    EN: Flags a lack of robustness of the model.
+        True when the Spearman correlation between a performance criterion
+        and an explanatory variable is significant at level `thresh`: the
+        criterion then depends on the variable, so the model does not behave
+        the same everywhere (Nicolle et al. 2020).
 
-    Vrai quand la corrélation de Spearman entre un critère de performance
-    et une variable explicative est significative au seuil `thresh` : le
-    critère dépend alors de la variable, donc le modèle ne se comporte pas
-    pareil partout (Nicolle et al. 2020). p-value asymptotique (equiv. R
-    cor.test exact=FALSE).
+    fr: Signale un manque de robustesse du modèle.
+
+        Vrai quand la corrélation de Spearman entre un critère de performance
+        et une variable explicative est significative au seuil `thresh` : le
+        critère dépend alors de la variable, donc le modèle ne se comporte
+        pas pareil partout (Nicolle et al. 2020).
+
+    p-value asymptotique (equiv. R cor.test exact=FALSE).
     """
     b = _to_float_array(Bias)
     x = _to_float_array(X)
