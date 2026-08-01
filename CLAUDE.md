@@ -32,7 +32,24 @@ src/card/
                              #   / low-flows|high-flows|… / series|scalar|curve ;
                              #   le linter impose chemin == classification
                              #   (domaine / phénomène-ou-purpose / forme)
-  functions/     # fonctions hydro portées de R
+  functions/     # fonctions hydro portées de R. Une docstring s'y écrit
+                 #   comme une FICHE : bloc `en:` puis bloc `fr:`, à
+                 #   égalité et dans cet ordre, puis ce qui n'a pas de
+                 #   langue HORS bloc (parité R, dates, renvois internes)
+                 #   comme le fait meta.global. Un marqueur en marge ouvre
+                 #   un bloc, les lignes indentées le continuent, une
+                 #   ligne revenue en marge le clôt ; d'où le `"""` seul
+                 #   sur sa ligne, qui donne à tous les blocs la même
+                 #   indentation. La PREMIÈRE PHRASE de chaque bloc est
+                 #   publiée dans la figure (render.glose) : elle dit ce
+                 #   que la fonction calcule, le détail descend d'un cran.
+                 #   Une fonction TRANSFORME (une valeur par pas de temps)
+                 #   ou RÉDUIT, jamais les deux : `is_transform = True` se
+                 #   déclare à côté d'elle pour le premier cas, l'absence
+                 #   vaut le second. `glose_inutile = True` tait une
+                 #   explication que l'appel affiché rend superflue.
+                 #   Tout cela est MESURÉ par tests/test_nature_fonctions.py
+                 #   et tests/test_render.py : rien à retenir, ils le disent.
   loader.py      # YAML -> processus ($Hx, tuples func, défauts)
   extraction.py  # card.extract -> {data, meta} (chaîne P1..Pn via stase)
   suffix.py      # suffixes de scénario : vocabulaire {clé: enregistrement},
@@ -44,7 +61,13 @@ src/card/
                  #   info (imprime la figure ; quiet=True pour le seul dict),
                  #   copy_cards
   render.py      # figure() : la fiche DESSINÉE, rendue en chaîne, sans
-                 #   rien imprimer (c'est ce que sert card-api)
+                 #   rien imprimer (c'est ce que sert card-api). Sa
+                 #   doctrine est dans son propre docstring de module ; ce
+                 #   qu'il faut savoir avant d'y toucher : rien ne s'y
+                 #   déduit d'un NOM de fonction, ni la nature d'une
+                 #   étape ni le silence d'une glose. Deux listes de noms
+                 #   en dur l'ont fait mentir (2026-07-30), elles sont
+                 #   parties.
   schema.py      # linter : python -m card.schema ; vocabulary() public
   topics.yaml    # vocabulaire de contrôle : la CLÉ est un slug neutre,
                  #   `en` et `fr` sont deux étiquettes à égalité ; le slug
