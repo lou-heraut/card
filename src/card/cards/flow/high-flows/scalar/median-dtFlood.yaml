@@ -1,5 +1,5 @@
 id: median-dtFlood
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -12,13 +12,13 @@ meta:
       Median of the durations of floods sampled by annual maxima
     method:
       P1:
-        dQ: no temporal aggregation - Qr difference between daily flow values and base flow
+        dQ: no temporal aggregation - difference between the daily flow and the base flow (dQ)
       P2:
-        dQXA: annual aggregation [Month of minimum monthly flows] - maximum of Qr
+        dQXA: annual aggregation [Month of minimum monthly flows] - maximum of dQ (dQXA)
       P3:
-        lowLim: annual aggregation [Month of minimum monthly flows] - division by two of annual maxima to obtain a threshold
+        lowLim: annual aggregation [Month of minimum monthly flows] - division by two of dQXA to obtain a threshold (lowLim)
       P4:
-        dtFlood: annual aggregation [Month of minimum monthly flows] - number of days where the difference is greater than the threshold
+        dtFlood: annual aggregation [Month of minimum monthly flows] - number of days where dQ is above lowLim
       P5:
         median-dtFlood: no temporal aggregation - median
     sampling_period: Month of minimum monthly flows
@@ -37,13 +37,13 @@ meta:
       Médiane des durées des crues échantillonnées par maxima annuel
     method:
       P1:
-        dQ: aucune agrégation temporelle - différence Qr entre les valeurs journalières de débit par le débit de base
+        dQ: aucune agrégation temporelle - différence entre le débit journalier et le débit de base (dQ)
       P2:
-        dQXA: agrégation annuelle [Mois du minimum des débits mensuels] - maximum de Qr
+        dQXA: agrégation annuelle [Mois du minimum des débits mensuels] - maximum de dQ (dQXA)
       P3:
-        lowLim: agrégation annuelle [Mois du minimum des débits mensuels] - division par deux des maxima annuels pour obtenir un seuil
+        lowLim: agrégation annuelle [Mois du minimum des débits mensuels] - division par deux de dQXA pour obtenir un seuil (lowLim)
       P4:
-        dtFlood: agrégation annuelle [Mois du minimum des débits mensuels] - nombre de jours où la différence est supérieure au seuil
+        dtFlood: agrégation annuelle [Mois du minimum des débits mensuels] - nombre de jours où dQ dépasse lowLim
       P5:
         median-dtFlood: aucune agrégation temporelle - médiane
     sampling_period: Mois du minimum des débits mensuels

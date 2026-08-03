@@ -1,5 +1,5 @@
 id: median-dtLF
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -11,11 +11,11 @@ meta:
     description: Median of the durations of the longest continuous period with 10-day mean flows below the maximum of VCN10
     method:
       P1:
-        VC10: no temporal aggregation - 10-day centered moving average
+        VC10: no temporal aggregation - 10-day centered moving average (VC10)
       P2:
-        VCN10: annual aggregation [Month of maximum monthly flows] - minimum
+        VCN10: annual aggregation [Month of maximum monthly flows] - minimum of VC10 (VCN10)
       P3:
-        upLim: no temporal aggregation - the maximum of the series of VCN10 is taken as the threshold
+        upLim: no temporal aggregation - the maximum of VCN10 is taken as the threshold (upLim)
       P4:
         dtLF: annual aggregation [Month of maximum monthly flows] - number of days in the longest period below upLim
       P5:
@@ -35,11 +35,11 @@ meta:
     description: Médiane des durées de la plus longue période continue de la moyenne sur 10 jours sous le maximum des VCN10
     method:
       P1:
-        VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
+        VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (VC10)
       P2:
-        VCN10: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
+        VCN10: agrégation annuelle [Mois du maximum des débits mensuels] - minimum de VC10 (VCN10)
       P3:
-        upLim: aucune agrégation temporelle - le maximum de la série des VCN10 est pris comme seuil
+        upLim: aucune agrégation temporelle - le maximum de VCN10 est pris comme seuil (upLim)
       P4:
         dtLF: agrégation annuelle [Mois du maximum des débits mensuels] - nombre de jours de la plus longue période sous upLim
       P5:

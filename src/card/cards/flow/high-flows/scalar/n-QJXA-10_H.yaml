@@ -1,5 +1,5 @@
 id: n-QJXA-10_H
-version: "1.2"
+version: "1.3"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -11,7 +11,7 @@ meta:
     description: ""
     method:
       P1:
-        QJXA: annual aggregation [Month of minimum monthly flows] - maximum (extraction from the QJXA series)
+        QJXA: annual aggregation [Month of minimum monthly flows] - maximum of Q (QJXA)
       P2:
         QJXA-10: no temporal aggregation - calculation of the flow with a 10-year return period using the Gumbel distribution from the historical period (QJXA-10)
       P3:
@@ -33,7 +33,7 @@ meta:
     description: ""
     method:
       P1:
-        QJXA: agrégation annuelle [Mois du minimum des débits mensuels] - maximum
+        QJXA: agrégation annuelle [Mois du minimum des débits mensuels] - maximum de Q (QJXA)
       P2:
         QJXA-10: aucune agrégation temporelle - calcul du débit de période de retour 10 ans avec la loi de Gumbel sur la période historique (QJXA-10)
       P3:

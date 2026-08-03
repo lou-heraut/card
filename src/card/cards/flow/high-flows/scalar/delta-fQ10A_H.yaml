@@ -1,5 +1,5 @@
 id: delta-fQ10A_H
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -13,9 +13,9 @@ meta:
       10 % of the time, extracted from the ranked flow curve
     method:
       P1:
-        lowLim: no temporal aggregation - the quantile at the 10 % exceedance probability is taken as the threshold
+        lowLim: no temporal aggregation - the quantile at the 10 % exceedance probability is taken as the threshold (lowLim)
       P2:
-        fQ10A: annual aggregation [Month of minimum monthly flows] - ratio of the number of days with flow exceeding the threshold to the number of days in the year
+        fQ10A: annual aggregation [Month of minimum monthly flows] - ratio of the number of days with flow exceeding lowLim to the number of days in the year
       P3:
         delta-fQ10A: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     suffix_default:
@@ -37,9 +37,9 @@ meta:
       10 % du temps, extrait de la courbe des débits classés
     method:
       P1:
-        lowLim: aucune agrégation temporelle - le quantile à la probabilité au dépassement de 10 % est pris comme seuil
+        lowLim: aucune agrégation temporelle - le quantile à la probabilité au dépassement de 10 % est pris comme seuil (lowLim)
       P2:
-        fQ10A: agrégation annuelle [Mois du minimum des débits mensuels] - rapport du nombre de jours où le débit dépasse le seuil par le nombre de jours dans l'année
+        fQ10A: agrégation annuelle [Mois du minimum des débits mensuels] - rapport du nombre de jours où le débit dépasse lowLim par le nombre de jours dans l'année
       P3:
         delta-fQ10A: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     suffix_default:

@@ -1,5 +1,5 @@
 id: QJXA-10
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -11,7 +11,7 @@ meta:
     description: ""
     method:
       P1:
-        QJXA: annual aggregation [Month of minimum monthly flows] - maximum (extraction from the QJXA series)
+        QJXA: annual aggregation [Month of minimum monthly flows] - maximum
       P2:
         QJXA-10: no temporal aggregation - calculation of the flow with a 10-year return period using the Gumbel distribution
     sampling_period: Month of minimum monthly flows

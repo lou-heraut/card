@@ -1,5 +1,5 @@
 id: vLF_summer
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-15"
 
@@ -11,11 +11,11 @@ meta:
     description: "In summer, sum of the differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold (May to November)"
     method:
       P1:
-        VC10_summer: no temporal aggregation - 10-day centered moving average
+        VC10_summer: no temporal aggregation - 10-day centered moving average (VC10_summer)
       P2:
-        VCN10_summer: annual aggregation [05-01, 11-30] - minimum
+        VCN10_summer: annual aggregation [05-01, 11-30] - minimum of VC10_summer (VCN10_summer)
       P3:
-        upLim: no temporal aggregation - the maximum of VCN10_summer is taken as the threshold
+        upLim: no temporal aggregation - the maximum of VCN10_summer is taken as the threshold (upLim)
       P4:
         vLF_summer: annual aggregation [05-01, 11-30] - sum of the volumes discharged each day of the longest period below upLim
     sampling_period: ["05-01", "11-30"]
@@ -33,11 +33,11 @@ meta:
     description: "En été, somme des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil (mois de mai à novembre)"
     method:
       P1:
-        VC10_summer: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
+        VC10_summer: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (VC10_summer)
       P2:
-        VCN10_summer: agrégation annuelle [01-05, 30-11] - minimum
+        VCN10_summer: agrégation annuelle [01-05, 30-11] - minimum de VC10_summer (VCN10_summer)
       P3:
-        upLim: aucune agrégation temporelle - le maximum de VCN10_summer est pris comme seuil
+        upLim: aucune agrégation temporelle - le maximum de VCN10_summer est pris comme seuil (upLim)
       P4:
         vLF_summer: agrégation annuelle [01-05, 30-11] - somme des volumes écoulés chaque jour de la plus longue période sous upLim
     sampling_period: ["01-05", "30-11"]
