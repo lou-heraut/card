@@ -98,9 +98,11 @@ meta:
   en:
     variable: QA            # listes si plusieurs sorties distinctes
     unit: "m^{3}.s^{-1}"
-    name: Annual mean daily discharge
-    description: ""         # remplir seulement si + d'info que le name
-    method: "1. annual aggregation [09-01, 08-31] - mean"
+    name: Annual mean daily discharge      # cf. « Les trois champs humains »
+    description: ""                        # vide si le name porte déjà tout
+    method:                                # une phrase par colonne produite
+      P1:
+        QA: "annual aggregation [09-01, 08-31] - mean"
     sampling_period: ["09-01", "08-31"]     # MM-DD en en, DD-MM en fr
     classification:         # labels MINUSCULES, validés contre topics.yaml
       domain: flow          #   (liste si plusieurs grandeurs)
@@ -124,6 +126,31 @@ process:
     max_na_pct: 3
     max_na_years: 10
 ```
+
+### Les trois champs humains, et leurs trois niveaux
+
+`name`, `description` et `method` s'adressent à des personnes, pas à une
+machine. Ce sont trois niveaux de détail sur la même variable, et **ils
+ont le droit de se recouvrir** : deux textes qui disent le même fait à
+deux niveaux ne sont pas un doublon, c'est le service rendu.
+
+- **`name`** : court et général, parfois vernaculaire. « Durée des crues ».
+- **`description`** : plus long, scientifiquement clair sur ce qu'EST la
+  variable produite. Ne se remplit que si le `name` ne porte pas déjà
+  toute l'information : « Minimum annuel du débit journalier » se suffit,
+  « Début des écoulements lents » appelle « Date à laquelle 10 % du cumul
+  annuel du débit de base sont atteints ». Mesuré le 2026-08-03, c'est
+  déjà le rôle qu'elle tient dans le corpus.
+- **`method`** : le process d'agrégation, étape par étape, avec la
+  nomenclature et les paramètres précis. Une phrase par colonne produite.
+
+> **La règle « ne jamais recopier ce qui vit ailleurs » ne s'applique
+> PAS entre ces trois-là.** Elle vise les VALEURS qui dérivent (versions,
+> décomptes, plafonds), et les champs machine. `sampling_period` est du
+> langage machine ; qu'une description dise « Mois de décembre, janvier
+> et février » n'est donc pas une redite à supprimer, c'est la même chose
+> dite à un lecteur. Erreur commise trois fois pendant le chantier
+> `method` d'août 2026, corrigée trois fois par l'utilisateur.
 
 Règles clés (détail : NOMENCLATURE.md) :
 - **func** : résolution card.functions puis numpy (nanmean, nanargmax,

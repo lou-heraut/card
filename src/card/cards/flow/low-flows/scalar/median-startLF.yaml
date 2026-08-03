@@ -1,5 +1,5 @@
 id: median-startLF
-version: "1.4"
+version: "1.5"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -8,7 +8,7 @@ meta:
     variable: median-startLF
     unit: yearday
     name: Inter-annual median of the start of low flows
-    description: Median of the dates of the first 10-day mean flow below the maximum of the annual minima of the 10-day mean flow of daily VCN10
+    description: Median of the dates of the first 10-day mean flow value below the threshold set at the maximum of VCN10
     method:
       P1:
         VC10: no temporal aggregation - 10-day centered moving average (VC10)
@@ -32,7 +32,7 @@ meta:
     variable: mediane-debutBE
     unit: "jour de l'année"
     name: Médiane inter-annuelle du début des basses eaux
-    description: Médiane des dates de la première moyenne sur 10 jours sous le maximum des minimums annuels de la moyenne sur 10 jours du débit journalier VCN10
+    description: Médiane des dates de la première valeur de débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10
     method:
       P1:
         VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (VC10)

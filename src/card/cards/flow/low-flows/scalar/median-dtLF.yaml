@@ -1,5 +1,5 @@
 id: median-dtLF
-version: "1.4"
+version: "1.5"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -8,7 +8,7 @@ meta:
     variable: median-dtLF
     unit: day
     name: Inter-annual median of the duration of low flows
-    description: Median of the durations of the longest continuous period with 10-day mean flows below the maximum of VCN10
+    description: Median of the durations of the longest continuous sequence with 10-day mean flows below the threshold set at the maximum of VCN10
     method:
       P1:
         VC10: no temporal aggregation - 10-day centered moving average (VC10)
@@ -32,7 +32,7 @@ meta:
     variable: mediane-dtBE
     unit: jour
     name: Médiane inter-annuelle de la durée des basses eaux
-    description: Médiane des durées de la plus longue période continue de la moyenne sur 10 jours sous le maximum des VCN10
+    description: Médiane des durées de la plus longue séquence continue avec des débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10
     method:
       P1:
         VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (VC10)
