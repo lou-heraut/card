@@ -121,28 +121,36 @@ _WRAP = re.compile(r"\n[ \t]+")
 _TEXTES = ("name", "description", "method")
 
 
+def _deplie(val):
+    """Replie les coupures de confort, aussi profond qu'elles se cachent.
+
+    Traverse listes et tables : `method` est indexé par process puis par
+    colonne produite, et sa prose vit donc à deux niveaux. Une clé n'est
+    jamais touchée, c'est un identifiant.
+    """
+    if isinstance(val, str):
+        return _WRAP.sub(" ", val).strip()
+    if isinstance(val, dict):
+        return {k: _deplie(v) for k, v in val.items()}
+    if isinstance(val, list):
+        return [_deplie(v) for v in val]
+    return val
+
+
 def _unwrap(meta_lang):
     """Replie les coupures de confort d'un bloc YAML littéral.
 
-    Les `method` s'écrivent en bloc `|`, une ligne par étape numérotée.
-    Quand une étape est trop longue, l'auteur la replie dans le fichier
-    pour rester lisible, et `|` conserve ce retour à la ligne suivi de
-    son indentation : la valeur publiée porte alors une coupure au milieu
-    d'une phrase (53 variables du corpus en 2026-07-22). Un retour suivi
-    d'espaces est une commodité d'écriture, on le rend à l'espace unique
-    qu'il représente ; un retour suivi d'un caractère non blanc sépare
-    deux étapes, on le garde.
+    Les `method` s'écrivaient en bloc `|`, une ligne par étape numérotée.
+    Quand une étape était trop longue, l'auteur la repliait dans le
+    fichier pour rester lisible, et `|` conservait ce retour à la ligne
+    suivi de son indentation : la valeur publiée portait alors une
+    coupure au milieu d'une phrase (53 variables du corpus en
+    2026-07-22). Un retour suivi d'espaces est une commodité d'écriture,
+    on le rend à l'espace unique qu'il représente ; un retour suivi d'un
+    caractère non blanc sépare deux étapes, on le garde.
     """
-    out = {}
-    for cle, val in meta_lang.items():
-        if cle in _TEXTES and isinstance(val, str):
-            out[cle] = _WRAP.sub(" ", val).strip()
-        elif cle in _TEXTES and isinstance(val, list):
-            out[cle] = [_WRAP.sub(" ", v).strip() if isinstance(v, str) else v
-                        for v in val]
-        else:
-            out[cle] = val
-    return out
+    return {cle: _deplie(val) if cle in _TEXTES else val
+            for cle, val in meta_lang.items()}
 
 
 def load_card(path):

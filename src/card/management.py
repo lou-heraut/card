@@ -26,6 +26,7 @@ from pathlib import Path
 import pandas as pd
 
 from .extraction import _DEFAULT_CARD_DIR, _corpus_path, _find_cards, _meta_rows
+from . import method as _method
 from . import suffix as _sfx
 from .loader import load_card
 from .schema import _vocab, input_registry
@@ -161,7 +162,11 @@ def info(name, path=None, lang="fr", quiet=False) -> dict:
         "name": _fmt(meta_l.get("name")),
         "unit": _fmt(meta_l.get("unit")),
         "description": _fmt(meta_l.get("description")) or "",
-        "method": _fmt(meta_l.get("method")),
+        # `method` est une table indexée par process (cf. card/method.py) :
+        # ce qui se lit ici est sa forme publiée, la même que celle des
+        # métadonnées de sortie, et non la structure brute.
+        "method": _fmt(_method.published(
+            {**card, "meta": {**card["meta"], lang: meta_l}}, lang)),
         "sampling_period": _fmt(meta_l.get("sampling_period")),
         **{k: _fmt(v) for k, v in (meta_l.get("classification") or {}).items()},
         "input_vars": _describe_inputs(meta_g.get("input_vars"), lang),

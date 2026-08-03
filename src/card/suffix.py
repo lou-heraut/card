@@ -42,9 +42,18 @@ _PLACEHOLDER = re.compile(r"\{suffix(?:\.([A-Za-z_][A-Za-z0-9_]*))?\}")
 
 
 def fields_used(value) -> set:
-    """Champs de suffixe référencés par un texte (récursif sur listes)."""
+    """Champs de suffixe référencés par un texte, où qu'il soit rangé.
+
+    Descend dans les listes ET dans les tables : `method` est indexé par
+    process puis par colonne produite, si bien qu'un placeholder y vit à
+    deux niveaux de profondeur. Ne voir que les listes ferait dire au
+    linter qu'un `suffix_default` bien vivant est un champ mort, et
+    l'erreur serait silencieuse (cf. docs/dev/PLAN_METHOD.md).
+    """
     if isinstance(value, str):
         return {m.group(1) or "short" for m in _PLACEHOLDER.finditer(value)}
+    if isinstance(value, dict):
+        return fields_used(list(value.values()))
     if isinstance(value, (list, tuple)):
         used = set()
         for v in value:
@@ -124,7 +133,17 @@ def default_record(meta_lang):
 
 
 def substitute(value, rec, *, card_id, lang, field, key=None):
-    """Remplace les placeholders d'un texte (récursif sur les listes)."""
+    """Remplace les placeholders d'un texte, où qu'il soit rangé.
+
+    Descend dans les listes et dans les tables, mais **jamais dans une
+    clé** : les clés de `method` sont des noms de process et de colonnes
+    produites, donc des identifiants, et un identifiant ne se traduit ni
+    ne se paramètre. Seules les valeurs portent de la prose.
+    """
+    if isinstance(value, dict):
+        return {k: substitute(v, rec, card_id=card_id, lang=lang,
+                              field=field, key=key)
+                for k, v in value.items()}
     if isinstance(value, (list, tuple)):
         return [substitute(v, rec, card_id=card_id, lang=lang, field=field,
                            key=key) for v in value]

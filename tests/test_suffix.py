@@ -13,7 +13,7 @@ import pandas as pd
 import pytest
 
 import conftest  # noqa: F401  (chemins card/stase sans installation)
-from card import extract
+from card import extract, suffix
 from card.schema import validate_card
 
 
@@ -129,6 +129,63 @@ def test_no_placeholder_survives_anywhere_in_the_corpus_metadata():
         if meta[col].dtype == object:
             leaked = meta[col].astype(str).str.contains(r"\{suffix", na=False)
             assert not leaked.any(), f"{col} : {meta.loc[leaked, col].tolist()}"
+
+
+# --- La prose n'est pas toujours à plat : method est une table ---------
+#
+# `method` est indexé par process puis par colonne produite
+# (docs/dev/PLAN_METHOD.md), donc un placeholder y vit à deux niveaux de
+# profondeur. Une substitution qui ne descend que dans les listes laisse
+# l'accolade sortir telle quelle, et le linter, aveugle au même endroit,
+# déclare mort un suffix_default bien vivant.
+
+def test_placeholders_are_resolved_inside_a_nested_table():
+    value = {"P1": {"QMNA": "période de retour du seuil {suffix.short}"},
+             "P2": {"a": "sans placeholder", "b": "sur {suffix.name}"}}
+    out = suffix.substitute(value, {"short": "DOE", "name": "le DOE"},
+                            card_id="t", lang="fr", field="method")
+    assert out["P1"]["QMNA"] == "période de retour du seuil DOE"
+    assert out["P2"] == {"a": "sans placeholder", "b": "sur le DOE"}
+
+
+def test_a_table_key_is_never_substituted():
+    """Une clé est un identifiant : ni traduite, ni paramétrée."""
+    out = suffix.substitute({"P1": {"{suffix.short}": "texte {suffix.short}"}},
+                            {"short": "DOE"}, card_id="t", lang="fr",
+                            field="method")
+    assert list(out["P1"]) == ["{suffix.short}"]
+    assert out["P1"]["{suffix.short}"] == "texte DOE"
+
+
+def test_fields_used_sees_through_a_nested_table():
+    assert suffix.fields_used(
+        {"P1": {"x": "{suffix.short}"}, "P2": {"y": "{suffix.name}"}}
+    ) == {"short", "name"}
+
+
+def test_a_placeholder_living_only_in_method_keeps_its_default_alive(tmp_path):
+    """Le piège dormant : seul `method` porte l'accolade.
+
+    Aucune fiche du corpus n'est dans ce cas au 2026-08-03, si bien que
+    l'angle mort n'aurait rougi qu'à la première fiche écrite ainsi.
+    """
+    p = tmp_path / "vivant.yaml"
+    p.write_text(
+        'id: vivant\nversion: "1.0"\nauthors: ["t"]\ndate: "2026-08-03"\n'
+        "meta:\n"
+        "  en:\n    variable: vivant\n    unit: m\n    name: Plain name\n"
+        "    method:\n      P1: no temporal aggregation - mean over {suffix.name}\n"
+        "    classification: {domain: flow, season: annual, output: scalar}\n"
+        "    suffix_default: {name: the whole record}\n"
+        "  fr:\n    variable: vivant\n    unit: m\n    name: Nom simple\n"
+        "    method:\n      P1: aucune agrégation temporelle - moyenne sur {suffix.name}\n"
+        "    classification: {domain: débit, season: annuelle, output: scalaire}\n"
+        "    suffix_default: {name: la chronique entière}\n"
+        "  global:\n    input_vars: Q\n"
+        "process:\n  P1:\n    func:\n      vivant: [nanmean, \"Q\"]\n",
+        encoding="utf-8")
+    issues = validate_card(p)
+    assert not any("champ mort" in i for i in issues), issues
 
 
 # --- Fiche sans placeholder : le cas obs/sim sur tout le corpus --------

@@ -43,6 +43,7 @@ from pathlib import Path
 
 import yaml
 
+from . import method as _method
 from . import suffix as _sfx
 from .extraction import _DEFAULT_CARD_DIR, resolve
 from .loader import load_card
@@ -173,6 +174,83 @@ def _windows_in_processes(processes):
                 and all(isinstance(x, str) for x in sp):
             windows.add(tuple(sp))
     return windows
+
+
+def _check_method(card, issues):
+    """`method` indexé par process, puis par colonne produite.
+
+    La forme cible est une table de tables : un process, une colonne, une
+    phrase (docs/dev/PLAN_METHOD.md). Le corpus migre fiche par fiche, si
+    bien que les formes héritées (chaîne numérotée, ou liste d'une chaîne
+    par sortie) restent tolérées ici et publiées telles quelles ; elles ne
+    seront refusées qu'une fois la dernière fiche migrée.
+
+    Ce qui est contrôlé n'est pas le texte mais la CORRESPONDANCE : une
+    phrase par colonne réellement produite, ni plus ni moins. Une phrase
+    orpheline signale une colonne disparue du process, une colonne muette
+    signale une fonction ajoutée sans sa phrase. Aucune des deux ne se
+    voit à la lecture d'une fiche de cinq process.
+    """
+    attendus = [p["name"] for p in card["processes"]]
+    par_process = {p["name"]: p for p in card["processes"]}
+    formes = {}
+
+    for lang in ("en", "fr"):
+        table = card["meta"][lang].get("method")
+        formes[lang] = isinstance(table, dict)
+        if not isinstance(table, dict):
+            continue
+        prefixe = f"meta.{lang}.method"
+
+        manquants = [p for p in attendus if p not in table]
+        surnumeraires = [p for p in table if p not in attendus]
+        if manquants:
+            issues.append(f"{prefixe}: process sans phrase : {manquants}")
+        if surnumeraires:
+            issues.append(
+                f"{prefixe}: entrée(s) ne désignant aucun process : "
+                f"{surnumeraires}")
+
+        for nom in attendus:
+            if nom not in table:
+                continue
+            entree = table[nom]
+            if not isinstance(entree, dict):
+                issues.append(
+                    f"{prefixe}.{nom}: attendu une table indexée par colonne "
+                    f"produite, reçu {type(entree).__name__}")
+                continue
+            produites = _method.produced_columns(par_process[nom])
+            muettes = [c for c in produites if c not in entree]
+            orphelines = [c for c in entree if c not in produites]
+            if muettes:
+                issues.append(
+                    f"{prefixe}.{nom}: colonne(s) sans phrase : {muettes}")
+            if orphelines:
+                issues.append(
+                    f"{prefixe}.{nom}: phrase(s) sans colonne produite : "
+                    f"{orphelines} (produites : {produites})")
+            for col, texte in entree.items():
+                if isinstance(texte, str) and texte.count(" - ") != 1:
+                    issues.append(
+                        f"{prefixe}.{nom}.{col}: attendu une moitié gauche et "
+                        "une moitié droite séparées par ' - ', une fois")
+
+    if formes["en"] != formes["fr"]:
+        issues.append(
+            "meta.method: une langue est migrée et pas l'autre ; les deux "
+            "portent les mêmes clés ou aucune")
+    elif formes["en"]:
+        # Les clés sont des identifiants de process et de colonnes, donc
+        # elles ne se traduisent pas : les deux langues doivent les avoir
+        # à l'identique, à tous les niveaux.
+        en, fr = card["meta"]["en"]["method"], card["meta"]["fr"]["method"]
+        for nom in sorted(set(en) & set(fr)):
+            a, b = en[nom], fr[nom]
+            if isinstance(a, dict) and isinstance(b, dict) and set(a) != set(b):
+                issues.append(
+                    f"meta.method.{nom}: clés en/fr différentes "
+                    f"({sorted(set(a) ^ set(b))})")
 
 
 def _check_window_coherence(card, issues):
@@ -456,6 +534,7 @@ def validate_card(path) -> list[str]:
     for proc in card["processes"]:
         _check_process(proc, issues)
 
+    _check_method(card, issues)
     _check_window_coherence(card, issues)
     _check_adaptive_convention(card, issues)
     _check_classification(card, issues)

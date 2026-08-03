@@ -34,6 +34,7 @@ import yaml
 from stase import Adaptive, process_extraction
 
 from . import functions
+from . import method as _method
 from . import suffix as _sfx
 from .loader import load_card
 
@@ -203,7 +204,7 @@ def _meta_rows(card) -> pd.DataFrame:
         "unit_en": field(en, "unit"),
         "name_en": field(en, "name"),
         "description_en": field(en, "description"),
-        "method_en": field(en, "method"),
+        "method_en": _method.published(card, "en"),
         "sampling_period_en": _as_list(_join_sp(en.get("sampling_period")), n),
         "domain_en": cfield(en, "domain"),
         "phenomenon_en": cfield(en, "phenomenon"),
@@ -215,7 +216,7 @@ def _meta_rows(card) -> pd.DataFrame:
         "unit_fr": field(fr, "unit"),
         "name_fr": field(fr, "name"),
         "description_fr": field(fr, "description"),
-        "method_fr": field(fr, "method"),
+        "method_fr": _method.published(card, "fr"),
         "sampling_period_fr": _as_list(_join_sp(fr.get("sampling_period")), n),
         "domain_fr": cfield(fr, "domain"),
         "phenomenon_fr": cfield(fr, "phenomenon"),
