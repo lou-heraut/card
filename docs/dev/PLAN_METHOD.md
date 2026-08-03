@@ -17,13 +17,14 @@ fonction décrit la fonction *en général*, le `method` d'une fiche décrit
 ce que *cette* fiche fait à chaque étape. La figure affichait des
 docstrings, qui ne peuvent jamais être assez précises.
 
-**Ce qui est fait au 2026-08-03.** Les **lots A et A-bis sont livrés** :
-le corpus entier est migré, `card/method.py` assemble la forme publiée,
-le linter tient les règles 1 à 6, et la chaîne publiée se lit sans les
-clés. Le détail de ce qui a bougé est dans `CHANGELOG.md`, sous
+**Ce qui est fait au 2026-08-03.** Les **lots A, A-bis et B sont
+livrés** : le corpus entier est migré, `card/method.py` assemble la forme
+publiée, le linter tient les sept règles, la chaîne publiée se lit sans
+les clés, et la moitié gauche est confrontée au process à chaque
+passage en CI. Le détail de ce qui a bougé est dans `CHANGELOG.md`, sous
 `## Non publié`.
 
-**Ce qui reste.** Les lots B à F en fin de document.
+**Ce qui reste.** Les lots C à F en fin de document.
 
 ## Le problème de départ
 
@@ -281,8 +282,11 @@ Sans données, à la lecture du seul YAML. Ces règles rejoignent
 6. Une colonne citée par une étape ultérieure est nommée par la phrase
    qui la produit. C'est ce qui empêche la relecture éditoriale du lot D
    de reperdre la chaîne, et le test l'éprouve en la cassant.
-7. La moitié gauche s'accorde avec `time_step`, `sampling_period` et
-   `compress` du process (lot B).
+7. La moitié gauche s'accorde avec ce que le process calcule. Le pas de
+   temps ne suffit pas à conclure : un process qui opère sur des séries
+   déjà à son propre pas n'agrège rien, et le dit. Le grain d'une
+   colonne se lit dans la chaîne, avec une exception qui compte, `keep:
+   all`, qui rediffuse la valeur sur la grille d'entrée.
 
 Les règles 1 à 3 sont ce qui rend la forme sûre : une fiche mal migrée ne
 peut pas passer inaperçue, et un `func` ajouté plus tard sans sa phrase
@@ -412,7 +416,7 @@ normaliser, et « une seule formulation par geste » devient tenable.
 |---|---|---|---|
 | A | **Structure** | traversée des tables par `suffix` (d'abord) ; `method` indexé par process et par colonne produite ; règles 1 à 5 du linter ; fonction de collage ; migration du corpus avec les divergences déclarées | |
 | A-bis | **La chaîne se lit seule** | règle 6 : un nom cité est présenté par la phrase qui le produit ; les gestes nus nomment leur opérande, lu dans le `func` | A |
-| B | **Concordance** | règle 7 : la moitié gauche confrontée à `time_step` / `sampling_period` / `compress`, dans le linter donc en CI | A |
+| B | **Concordance** | règle 7 : la moitié gauche confrontée à ce que le process calcule, dans le linter donc en CI | A |
 | C | **La figure lit la fiche** | la moitié droite de `method[Pn][colonne]` s'affiche sous chaque étape ; la glose de docstring quitte `render.py` | A |
 | D | **Relecture éditoriale** | la centaine de phrases distinctes, sous la charte | C |
 | E | **Rendu de fonction** | `card.function()` puis `/v1/functions` : les docstrings changent de destinataire | C |

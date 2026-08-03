@@ -100,6 +100,68 @@ def test_la_regle_de_chaine_rougit_sur_une_reference_pendante(tmp_path):
                    for i in fiche("moyenne mobile (X)"))
 
 
+def test_la_moitie_gauche_est_confrontee_au_process(tmp_path):
+    """Le seul contrôle croisé qui existe sur `method`.
+
+    Il n'existe que parce que la phrase est ÉCRITE : une phrase générée
+    serait d'accord avec le code par construction, y compris quand le
+    code a tort. Éprouvé en faisant mentir la fiche.
+    """
+    from card.schema import validate_card
+
+    def fiche(gauche):
+        p = tmp_path / f"gauche{abs(hash(gauche))}.yaml"
+        p.write_text(
+            'id: ' + p.stem + '\nversion: "1.0"\nauthors: ["t"]\n'
+            'date: "2026-08-03"\n'
+            "meta:\n"
+            "  en:\n    variable: a\n    unit: m\n    name: A\n"
+            f"    method:\n      P1:\n        a: {gauche} - mean\n"
+            "    classification: {domain: flow, season: annual, output: series}\n"
+            "  fr:\n    variable: a\n    unit: m\n    name: A\n"
+            "    method:\n      P1:\n        a: agrégation annuelle - moyenne\n"
+            "    classification: {domain: débit, season: annuelle, output: série}\n"
+            "  global:\n    input_vars: Q\n"
+            "process:\n  P1:\n    func:\n      a: [nanmean, \"Q\"]\n",
+            encoding="utf-8")
+        return validate_card(p)
+
+    assert not any("moitié gauche" in i for i in fiche("annual aggregation"))
+    faux = fiche("no temporal aggregation")
+    assert any("moitié gauche" in i for i in faux), faux
+
+
+def test_un_process_qui_n_agrege_pas_le_dit(tmp_path):
+    """`time_step` ne suffit pas à conclure.
+
+    `RAl_ratio` P2 divise deux séries déjà annuelles : son `time_step`
+    est `year` et pourtant l'étape n'agrège rien. Sans la lecture du
+    grain amont, sa moitié gauche paraîtrait fausse.
+    """
+    from card.schema import validate_card
+    p = tmp_path / "sansagreg.yaml"
+    p.write_text(
+        'id: sansagreg\nversion: "1.0"\nauthors: ["t"]\ndate: "2026-08-03"\n'
+        "meta:\n"
+        "  en:\n    variable: r\n    unit: m\n    name: R\n"
+        "    method:\n      P1:\n        a: annual aggregation - sum of Q\n"
+        "        b: annual aggregation - sum of R\n"
+        "      P2:\n        r: no temporal aggregation - ratio of a to b\n"
+        "    classification: {domain: flow, season: annual, output: series}\n"
+        "  fr:\n    variable: r\n    unit: m\n    name: R\n"
+        "    method:\n      P1:\n        a: agrégation annuelle - somme de Q\n"
+        "        b: agrégation annuelle - somme de R\n"
+        "      P2:\n        r: aucune agrégation temporelle - rapport de a sur b\n"
+        "    classification: {domain: débit, season: annuelle, output: série}\n"
+        "  global:\n    input_vars: \"Q, R\"\n"
+        "process:\n"
+        "  P1:\n    func:\n      a: [nansum, \"Q\"]\n      b: [nansum, \"R\"]\n"
+        "  P2:\n    func:\n      r: [ratio, \"a\", \"b\"]\n",
+        encoding="utf-8")
+    issues = validate_card(p)
+    assert not any("moitié gauche" in i for i in issues), issues
+
+
 def _ecrire(tmp_path, method_en, method_fr):
     """Fiche minimale à deux process, le second produisant deux colonnes."""
     p = tmp_path / "essai.yaml"

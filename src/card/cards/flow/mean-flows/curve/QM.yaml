@@ -11,7 +11,7 @@ meta:
     description: ""
     method:
       P1:
-        QM: monthly aggregation for each year over {suffix.name} - mean
+        QM: monthly aggregation over {suffix.name} - mean
     suffix_default:
       name: the whole record
     classification:
@@ -28,7 +28,7 @@ meta:
     description: ""
     method:
       P1:
-        QM: agrégation mensuelle par année sur {suffix.name} - moyenne
+        QM: agrégation mensuelle sur {suffix.name} - moyenne
     suffix_default:
       name: la chronique entière
     classification:

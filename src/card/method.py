@@ -99,6 +99,51 @@ def output_columns(card):
     return produced_columns(card["processes"][-1])
 
 
+def _entrees(entree):
+    """Colonnes dont part une entrée `func`, positionnelles et kwargs."""
+    cols = list(entree["cols"])
+    cols += [v for v in entree["kwargs"].values() if isinstance(v, str)]
+    return cols
+
+
+def grains(card):
+    """Grain temporel connu AVANT chaque process, dans l'ordre.
+
+    Une colonne d'entrée est journalière. Une colonne produite porte le
+    pas de temps de son process, SAUF si le process garde toutes les
+    lignes (`keep: all`) : la valeur est alors rediffusée sur la grille
+    d'entrée, et la colonne reste au grain de ses entrées.
+
+    Cette exception n'est pas un détail : c'est elle qui distingue
+    `dtFlood` P3, qui réduit vraiment une année de lignes à une valeur,
+    de `RAl_ratio` P2, qui divise deux séries déjà annuelles. Les deux
+    ont `time_step: year`, et seul le premier agrège. Sans cette
+    distinction, la moitié gauche de l'un des deux paraîtrait fausse.
+    """
+    connus = {v.strip().rstrip("? ").strip(): "day"
+              for v in str(card["meta"]["global"].get("input_vars", "")).split(",")}
+    etats = []
+    for p in card["processes"]:
+        etats.append(dict(connus))
+        sortant = {}
+        for colonne, entree in columns_and_entries(p):
+            amont = {connus.get(c) for c in _entrees(entree)} - {None}
+            rediffuse = p["keep"] == "all" and len(amont) == 1
+            sortant[colonne] = amont.pop() if rediffuse else p["time_step"]
+        connus.update(sortant)
+    return etats
+
+
+def aggregates(process, entree, connus):
+    """Ce process change-t-il le grain de cette colonne ?
+
+    Faux quand toutes ses entrées sont déjà au pas de temps qu'il
+    déclare : l'étape opère alors sans rien agréger.
+    """
+    amont = {connus.get(c) for c in _entrees(entree)} - {None}
+    return not (len(amont) == 1 and amont.pop() == process["time_step"])
+
+
 def _joint(textes):
     """Plusieurs colonnes d'un même process, en une étape lisible.
 

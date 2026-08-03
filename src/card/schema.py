@@ -297,6 +297,70 @@ def _check_method_chain(card, issues):
                 )
 
 
+# Moitié gauche attendue pour un process qui agrège, par pas de temps,
+# (en, fr). Vocabulaire fermé : on n'en ajoute pas, on n'en change pas.
+_FORME_AGREGATION = {
+    "none": ("no temporal aggregation", "aucune agrégation temporelle"),
+    "year": ("annual aggregation", "agrégation annuelle"),
+    "year-month": ("monthly aggregation for each year",
+                   "agrégation mensuelle par année"),
+    "month": ("monthly aggregation", "agrégation mensuelle"),
+    "year-season": ("seasonal annual aggregation",
+                    "agrégation annuelle saisonnalisée"),
+    "season": ("seasonal aggregation", "agrégation saisonnière"),
+    "yearday": ("aggregation by day of the year",
+                "agrégation par jour de l'année"),
+}
+_SANS_AGREGATION = _FORME_AGREGATION["none"]
+
+# La fenêtre et la restriction de période complètent la forme sans la
+# changer : on les met de côté avant de comparer.
+_ORNEMENT = re.compile(r"\s*\[.*?\]|\s+(?:sur|over)\s+\{suffix\.[^}]*\}")
+
+
+def _check_left_half(card, issues):
+    """La moitié gauche affirme, le process calcule : on confronte.
+
+    C'est le seul contrôle croisé qui existe sur `method`, et il n'existe
+    que parce que la phrase est ÉCRITE : une phrase générée serait
+    d'accord avec le code par construction, y compris quand le code a
+    tort. Sans ce test, l'affirmation dérive en silence, ce qui s'est
+    produit (huit `agrégation mensuelle` pour un calcul par année, restés
+    jusqu'à ce que quelqu'un fasse le croisement à la main).
+
+    Le pas de temps ne suffit pas à conclure : un process qui opère sur
+    des séries déjà à son propre pas n'agrège rien, et le dit (cf.
+    `method.grains`).
+    """
+    etats = _method.grains(card)
+    for lang in ("en", "fr"):
+        table = card["meta"][lang].get("method")
+        if not isinstance(table, dict):
+            continue
+        i_lang = 0 if lang == "en" else 1
+        for p, connus in zip(card["processes"], etats):
+            attendu_agrege = _FORME_AGREGATION.get(p["time_step"])
+            if attendu_agrege is None:
+                continue                      # pas de temps hors vocabulaire
+            entrees = table.get(p["name"])
+            if not isinstance(entrees, dict):
+                continue          # forme signalée par _check_method
+            for colonne, entree in _method.columns_and_entries(p):
+                texte = entrees.get(colonne)
+                if not isinstance(texte, str) or " - " not in texte:
+                    continue
+                agrege = _method.aggregates(p, entree, connus)
+                attendu = (attendu_agrege if agrege else _SANS_AGREGATION)[i_lang]
+                ecrit = _ORNEMENT.sub("", texte.split(" - ", 1)[0]).strip()
+                if ecrit != attendu:
+                    issues.append(
+                        f"meta.{lang}.method.{p['name']}.{colonne}: la moitié "
+                        f"gauche dit '{ecrit}' là où le process calcule "
+                        f"'{attendu}' (time_step: {p['time_step']}"
+                        + ("" if agrege else ", sans changement de grain") + ")"
+                    )
+
+
 def _check_window_coherence(card, issues):
     """Fenêtre partielle en meta.en.sampling_period → un process doit
     porter la même fenêtre (sauf time_steps saisonniers/mensuels, gérés
@@ -580,6 +644,7 @@ def validate_card(path) -> list[str]:
 
     _check_method(card, issues)
     _check_method_chain(card, issues)
+    _check_left_half(card, issues)
     _check_window_coherence(card, issues)
     _check_adaptive_convention(card, issues)
     _check_classification(card, issues)
