@@ -58,6 +58,34 @@ Objectif : valider les YAML pendant l'édition. Deux voies :
   `python -m card.schema <fichier>` (déjà supporté en CLI, plus simple
   mais sans autocomplétion).
 
+## Provenance logicielle d'un résultat produit hors du service
+
+Trois niveaux de traçabilité sont annoncés (la définition, le corpus, le
+moteur) mais un seul sort de `card` employé seul. Vérifié le 2026-08-03 :
+
+| | `card.extract` en local | via `card-api` |
+|---|---|---|
+| la définition, quelle fiche | `swhid` + `version` | idem |
+| le code qui a tourné | **rien** | commit de card |
+| le moteur | **rien** | commit de stase |
+
+La colonne `functions` publie bien des noms, mais un nom sans version ne
+désigne aucun code : `apply_threshold` de mars et celui d'aujourd'hui
+portent le même. Un résultat calculé dans un carnet a donc une provenance
+logicielle vide.
+
+Deux champs suffiraient, à côté de `swhid` et `version`. La difficulté
+n'est pas là mais dans ce qu'on y met : `card.__version__` vaut `0.1.0`
+et ne bouge pas, la doctrine du dépôt étant que la production suit `main`
+et que le commit identifie un état ; publier `0.1.0` dans chaque résultat
+serait un identifiant faux plutôt qu'absent, ce qui est pire. Le commit,
+lui, n'est connaissable à l'exécution que si le dépôt git est présent, ce
+qui n'est pas le cas d'un paquet installé.
+
+C'est donc un sujet de publication de version, pas de métadonnées. Écarté
+du chantier `method` pour cette raison (cf. l'abandon du lot E dans
+`PLAN_METHOD.md`).
+
 ## Descriptions manquantes : 101 fiches sur 226 (mesuré le 2026-08-03)
 
 Arbitrage utilisateur du 2026-08-03, pris en refermant le chantier

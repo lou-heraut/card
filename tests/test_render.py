@@ -50,9 +50,23 @@ def test_la_prose_suit_la_langue():
 def test_l_identifiant_prime_sur_le_nom_traduit():
     """Le lecteur retrouvera FDC_p dans ses données, jamais CDC_p."""
     f = figure("FDC")
-    assert "2 sorties : FDC_p, FDC_Q" in f
-    assert "CDC_p" in f, "le nom traduit reste visible, entre parenthèses"
-    assert "sorties : CDC_p" not in f
+    assert "▸ FDC_p (CDC_p)" in f
+    assert "▸ CDC_p" not in f, "l'identifiant vient en premier, pas le libellé"
+
+
+def test_un_nom_unique_pour_plusieurs_sorties_est_le_titre():
+    """Deux sorties, un seul nom : ce sont les coordonnées d'un objet.
+
+    La FDC a deux colonnes et une seule courbe. Son titre était remplacé
+    par « 2 sorties : FDC_p, FDC_Q », un décompte à la place de la seule
+    phrase qui disait de quoi la fiche parle, et le nom était ensuite
+    répété à l'identique sous chacune des deux sorties.
+    """
+    f = figure("FDC")
+    assert "FDC  Courbe des débits classés" in f
+    assert f.count("Courbe des débits classés") == 1
+    # Une fiche à sorties réellement distinctes garde son décompte.
+    assert "5 sorties : startLF, centerLF" in figure("allLF")
 
 
 def test_l_unite_descend_par_sortie_quand_elle_varie():

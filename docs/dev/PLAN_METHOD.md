@@ -17,8 +17,9 @@ fonction décrit la fonction *en général*, le `method` d'une fiche décrit
 ce que *cette* fiche fait à chaque étape. La figure affichait des
 docstrings, qui ne peuvent jamais être assez précises.
 
-**Ce qui est fait au 2026-08-03.** Les **lots A, A-bis, B, C et D sont
-livrés** : le corpus entier est migré, `card/method.py` assemble la forme
+**Ce qui est fait au 2026-08-03.** **Tout est livré.** Les lots A,
+A-bis, B, C, D et F sont sortis, le lot E a été abandonné (voir plus
+bas) : le corpus entier est migré, `card/method.py` assemble la forme
 publiée, le linter tient les sept règles, la chaîne publiée se lit sans
 les clés, et la moitié gauche est confrontée au process à chaque
 passage en CI, la figure affiche la phrase de la fiche au lieu de la
@@ -26,7 +27,11 @@ docstring de la fonction, et les moitiés droites ont été relues sous la
 charte. Le détail de ce qui a bougé est dans `CHANGELOG.md`, sous
 `## Non publié`.
 
-**Ce qui reste.** Les lots E et F en fin de document.
+**Ce qui reste.** Rien dans ce plan. Ce qu'il a mis au jour et laissé
+ouvert vit dans `docs/dev/CHANTIERS.md` : les descriptions manquantes, la
+nomenclature des variables intermédiaires, la provenance logicielle d'un
+résultat local, les deux fonctions circulaires sans usage,
+`meta.sampling_period`. Ce fichier peut disparaître.
 
 **Arbitrage à ne pas rouvrir.** `method` donne à voir les ÉTAPES du
 process d'agrégation, pas chaque subtilité : quand le geste est simple et
@@ -432,7 +437,7 @@ normaliser, et « une seule formulation par geste » devient tenable.
 | B | **Concordance** | règle 7 : la moitié gauche confrontée à ce que le process calcule, dans le linter donc en CI | A |
 | C | **La figure lit la fiche** | la moitié droite de `method[Pn][colonne]` s'affiche sous chaque étape ; la glose de docstring quitte `render.py` | A |
 | D | **Relecture éditoriale** | la centaine de phrases distinctes, sous la charte | C |
-| E | **Rendu de fonction** | `card.function()` puis `/v1/functions` : les docstrings changent de destinataire | C |
+| E | ~~Rendu de fonction~~ | **abandonné**, voir ci-dessous | |
 | F | **Finitions** | typographie de la figure, réglages encore en code brut, descriptions qui transcrivent la chaîne | C, D |
 
 **C avant D, et c'est le point d'ordonnancement important.** Dès que la
@@ -447,13 +452,30 @@ Réafficher « agrégation annuelle » serait la redite que la charte
 interdit. La ligne de grain reste : elle est mesurée, juste, et elle dit
 ce que `method` ne dit pas.
 
-Détail du lot E : la docstring d'une fonction hydro, avec ses blocs `en:`
-et `fr:`, n'est pas perdue quand la figure cesse de l'afficher. Elle
-devient le contenu d'un rendu de fonction : signature réelle, où `X`,
-`lim`, `a`, `b` redeviennent corrects, docstring entière sans coupe ni
-limite de longueur, notes hors bloc qui n'ont aujourd'hui nulle part où
-aller, `is_transform`, et l'index inverse des fiches qui emploient la
-fonction.
+**Pourquoi le lot E a été abandonné.** Il devait rendre les docstrings
+en page web, `card.function()` puis `/v1/functions`, au motif qu'elles
+« changeaient de destinataire » en quittant la figure. Le motif était
+faible : un rendu texte d'une docstring est du code recopié en moins
+bien, et qui veut l'algorithme veut le code. Elles ont d'ailleurs déjà un
+lecteur légitime, `help(card.functions.apply_threshold)` et la personne
+qui ouvre le fichier ; leur format bilingue reste testé sans avoir besoin
+d'une page.
+
+L'idée suivante, donner un SWHID à chaque fonction pour rendre son code
+atteignable, a été examinée puis écartée elle aussi. Elle est faisable,
+et vérifiée : le fichier, la plage de lignes et le SWHID de contenu se
+calculent en local, et le couple (contenu, lignes) ne dérive pas
+puisque le SWHID épingle la version exacte du fichier. Mais elle répond à
+une question que personne ne pose : on ne demande pas « quelles lignes
+est `apply_threshold` », on demande « quel code a produit ce nombre », et
+la réponse à celle-là est une révision, pas quarante-deux identifiants.
+
+Ce faisant, le vrai manque est apparu, et il est ailleurs : un résultat
+produit hors du service ne dit AVEC QUEL LOGICIEL il a été calculé. La
+fiche est identifiée (`swhid`, `version`), le code ne l'est pas, le
+moteur non plus. Deux champs y suffiraient, pas quarante-deux, et cela
+touche à la façon dont card publie ses versions. Chantier séparé
+(CHANTIERS).
 
 ## Décisions prises, à ne pas rouvrir
 

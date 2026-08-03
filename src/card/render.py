@@ -387,8 +387,14 @@ def entete(c, meta, lang="fr"):
     noms = [str(n) for n in meta["name_fr" if lang == "fr" else "name_en"]]
     une_unite = len(set(unites)) == 1
 
-    if len(meta) == 1:
-        titre = noms[0]
+    # Un nom UNIQUE pour plusieurs sorties est une convention du corpus,
+    # pas un hasard : ce sont les coordonnées d'un même objet, les deux
+    # axes d'une FDC. Ce nom EST le titre de la fiche, et le remplacer
+    # par « 2 sorties : FDC_p, FDC_Q » perdait la seule phrase qui disait
+    # de quoi la fiche parle.
+    nom_commun = noms[0] if len(set(noms)) == 1 else None
+    if nom_commun:
+        titre = nom_commun
     elif len(meta) > 6:                  # la liste tient sur sa propre ligne
         titre = t("sorties_n", lang, len(meta))
     else:
@@ -404,7 +410,10 @@ def entete(c, meta, lang="fr"):
         for i, tr, u, n in zip(ids, trads, unites, noms):
             alias = f" ({tr})" if tr != i else ""
             mesure = "" if une_unite or _vide(u) else f" [{u}]"
-            out += plie(f"{i}{alias}{mesure}{SEP}{n}",
+            # Le nom déjà pris comme titre ne se répète pas sous chaque
+            # sortie : la FDC l'affichait deux fois à l'identique.
+            suite = "" if n == nom_commun else f"{SEP}{n}"
+            out += plie(f"{i}{alias}{mesure}{suite}",
                         f"{marge}  {PUCE} ", f"{marge}    ")
     elif len(meta) > 6:
         # Au-delà, les noms sont systématiques (un par mois, par saison) :
@@ -433,14 +442,47 @@ def entrees(r, lang="fr"):
     return "  " + ligne
 
 
+def _sans_redite(regl, note, identifiants):
+    """Un réglage que la phrase de la fiche dit déjà ne se répète pas.
+
+    `p=0.01` sous « quantile à la probabilité de dépassement de 1 % » est
+    du bruit : la phrase le dit mieux, et en toutes lettres. Les réglages
+    que la phrase tait, eux, restent, car rien d'autre ne les dit
+    (`select=dQXA`, `water_type=low`).
+
+    Les identifiants sont retirés du texte d'abord : le « 10 » de `VC10`
+    n'est pas le `k=10` d'une moyenne mobile.
+    """
+    if not note:
+        return regl
+    prose = note
+    for nom in sorted((n for n in identifiants if any(c.isdigit() for c in n)),
+                      key=len, reverse=True):
+        prose = re.sub(rf"(?<![\w-]){re.escape(nom)}(?![\w-])", " ", prose)
+    dits = {float(x.replace(",", ".")) for x in re.findall(r"\d+(?:[.,]\d+)?", prose)}
+    garde = []
+    for r in regl:
+        try:
+            v = float(r.split("=", 1)[-1])
+        except ValueError:
+            garde.append(r)
+            continue
+        if v not in dits and v * 100 not in dits:
+            garde.append(r)
+    return garde
+
+
 def rendu(c, meta, lang="fr"):
     out = entete(c, meta, lang)
     out.append(entrees(meta.iloc[0], lang))
+    identifiants = _method.known_names(c)
     for _, fns, p in etapes(c, lang):
         out.append("   │")
         multi = len(fns) > 1
-        vues = set()                 # une glose répétée n'est plus une glose
+        vues = set()                 # une note répétée n'est plus une note
         for sortie, ap, refs, regl, mention in fns:
+            note = _method.step_text(c, lang, p, sortie)
+            regl = _sans_redite(regl, note, identifiants)
             tete = f"{sortie} = " if multi else ""
             ligne = f"   ├─ {tete}{ap}" + (f"   {', '.join(regl)}" if regl else "")
             if len(ligne) <= LARGEUR:
@@ -458,7 +500,6 @@ def rendu(c, meta, lang="fr"):
             # dire que du général : `apply_threshold` mesurait ici une
             # durée de crue et datait ailleurs un début d'étiage, sous
             # la même glose. `method` est écrit par étape.
-            note = _method.step_text(c, lang, p, sortie)
             if note:
                 annexes.append(note)
             for a in annexes:
@@ -498,24 +539,25 @@ def figure(nom, path=None, lang="fr"):
         **ml, **_sfx.apply(ml, _sfx.default_record(ml),
                            card_id=c.get("id"), lang=lang, key=None)}}}
     meta = _meta_frame(c)
-    corps = rendu(c, meta, lang)
-    pied = []
+    # Trois blocs séparés d'une ligne vide : la chaîne, la description,
+    # la provenance. La séparation était comptée à la main et il en
+    # manquait une, si bien que la description semblait continuer le bloc
+    # de sortie.
+    blocs = [rendu(c, meta, lang)]
     # Une description par sortie ne décrit pas la fiche : celle de la
     # première sortie affichée seule ferait passer « décembre, janvier et
     # février » pour la définition d'une fiche saisonnière entière.
     descs = {str(d) for d in meta[f"description_{lang}"] if not _vide(d)}
     if len(descs) == 1:
-        pied += [""] + textwrap.wrap(descs.pop(), 70, initial_indent="  ",
-                                     subsequent_indent="  ")
-    # L'identifiant pérenne sert à être ouvert : une URL est cliquable
-    # dans un terminal, un swh:1:cnt: nu ne dit pas où le porter.
-    if not pied:
-        pied = [""]
+        blocs.append("\n".join(textwrap.wrap(
+            descs.pop(), 70, initial_indent="  ", subsequent_indent="  ")))
     # Provenance. Un chemin de corpus (comme une URL) ne se coupe pas :
     # si `id v… · chemin` déborde, on met le chemin sur sa propre ligne.
+    # L'identifiant pérenne sert à être ouvert : une URL est cliquable
+    # dans un terminal, un swh:1:cnt: nu ne dit pas où le porter.
     ident = f"{c['id']} v{c.get('version')}"
     chemin = _corpus_path(c["path"])
     prov = (f"  {ident}{SEP}{chemin}" if len(ident) + len(SEP) + len(chemin) + 2 <= LARGEUR
             else f"  {ident}\n  {chemin}")
-    pied += ["", prov, f"  {SWH}{c.get('swhid')}"]
-    return corps + "\n".join(pied)
+    blocs.append(f"{prov}\n  {SWH}{c.get('swhid')}")
+    return "\n\n".join(blocs)
