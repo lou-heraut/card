@@ -17,10 +17,11 @@ fonction décrit la fonction *en général*, le `method` d'une fiche décrit
 ce que *cette* fiche fait à chaque étape. La figure affichait des
 docstrings, qui ne peuvent jamais être assez précises.
 
-**Ce qui est fait au 2026-08-03.** Le **lot A est livré** : le corpus
-entier est migré, `card/method.py` assemble la forme publiée, le linter
-tient les règles 1 à 5. Le détail de ce qui a bougé est dans
-`CHANGELOG.md`, sous `## Non publié`.
+**Ce qui est fait au 2026-08-03.** Les **lots A et A-bis sont livrés** :
+le corpus entier est migré, `card/method.py` assemble la forme publiée,
+le linter tient les règles 1 à 6, et la chaîne publiée se lit sans les
+clés. Le détail de ce qui a bougé est dans `CHANGELOG.md`, sous
+`## Non publié`.
 
 **Ce qui reste.** Les lots B à F en fin de document.
 
@@ -233,6 +234,35 @@ lignes de méta, la fiche doit porter les douze textes. Les préciser mois
 par mois, si c'est souhaitable, relève de la relecture éditoriale (lot D),
 pas de la migration.
 
+### La chaîne se lit sans les clés
+
+Les clés lèvent l'ambiguïté machine et accordent `method` à `process`.
+Elles ne sont **pas** le support de lecture : la valeur publiée ne les
+montre pas, un lecteur reçoit des phrases numérotées. D'où une seconde
+règle, qui porte sur la prose et non sur la structure :
+
+> **Un nom cité doit avoir été présenté.** La prose du process qui
+> produit une colonne la nomme dès qu'une étape ultérieure la cite.
+
+Le dispositif est celui que le corpus employait déjà (`… sur la période
+historique (QJXA-10)`) : le nom entre parenthèses en fin de phrase, une
+seule orthographe, la même dans les deux langues. Deux raisons de le
+préférer à une tournure intégrée du type « notée VC10 » : il est
+identique en anglais et en français, et il évite l'accord (`notée`
+moyenne, `noté` minimum) qui se serait trompé quelque part sur 34 fiches.
+Là où la syntaxe accueille le nom sans détour, elle le garde (« est pris
+comme seuil (upLim) »).
+
+Une phrase qui doit se présenter dit aussi sur quoi elle opère : un
+« minimum » nu ne se lit pas dans une chaîne, il devient « minimum de
+VC10 (VCN10) ». L'opérande n'est pas choisi, il est lu dans le `func`.
+
+Conséquence assumée : deux fiches au calcul identique peuvent différer
+d'un `(nom)`, selon qu'une étape ultérieure le cite ou non. `QJXA-10` dit
+« maximum », `n-QJXA-10_H` dit « maximum de Q (QJXA) », parce que seule
+la seconde s'y réfère ensuite. La présentation existe pour la chaîne, pas
+pour la décoration. À revoir dans la passe finale d'uniformisation.
+
 ## Ce que le linter vérifie
 
 Sans données, à la lecture du seul YAML. Ces règles rejoignent
@@ -248,7 +278,10 @@ Sans données, à la lecture du seul YAML. Ces règles rejoignent
 4. Chaque valeur porte le séparateur ` - `, une fois et une seule. Le
    corpus le respecte déjà partout, mesuré le 2026-08-03.
 5. La moitié gauche appartient au vocabulaire fermé (voir plus bas).
-6. La moitié gauche s'accorde avec `time_step`, `sampling_period` et
+6. Une colonne citée par une étape ultérieure est nommée par la phrase
+   qui la produit. C'est ce qui empêche la relecture éditoriale du lot D
+   de reperdre la chaîne, et le test l'éprouve en la cassant.
+7. La moitié gauche s'accorde avec `time_step`, `sampling_period` et
    `compress` du process (lot B).
 
 Les règles 1 à 3 sont ce qui rend la forme sûre : une fiche mal migrée ne
@@ -377,8 +410,9 @@ normaliser, et « une seule formulation par geste » devient tenable.
 
 | | Lot | Contenu | Dépend de |
 |---|---|---|---|
-| A | **Structure** | traversée des tables par `suffix` (d'abord) ; `method` indexé par process et par colonne produite ; règles 1 à 5 du linter ; fonction de collage ; test d'aller-retour ; migration du corpus avec les divergences déclarées | |
-| B | **Concordance** | règle 6 : la moitié gauche confrontée à `time_step` / `sampling_period` / `compress`, dans le linter donc en CI | A |
+| A | **Structure** | traversée des tables par `suffix` (d'abord) ; `method` indexé par process et par colonne produite ; règles 1 à 5 du linter ; fonction de collage ; migration du corpus avec les divergences déclarées | |
+| A-bis | **La chaîne se lit seule** | règle 6 : un nom cité est présenté par la phrase qui le produit ; les gestes nus nomment leur opérande, lu dans le `func` | A |
+| B | **Concordance** | règle 7 : la moitié gauche confrontée à `time_step` / `sampling_period` / `compress`, dans le linter donc en CI | A |
 | C | **La figure lit la fiche** | la moitié droite de `method[Pn][colonne]` s'affiche sous chaque étape ; la glose de docstring quitte `render.py` | A |
 | D | **Relecture éditoriale** | la centaine de phrases distinctes, sous la charte | C |
 | E | **Rendu de fonction** | `card.function()` puis `/v1/functions` : les docstrings changent de destinataire | C |

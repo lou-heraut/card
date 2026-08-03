@@ -74,6 +74,24 @@ des deux endroits.
   reste revient à l'octet. Conception et suite des lots :
   `docs/dev/PLAN_METHOD.md`.
 
+- **La chaîne publiée se lit maintenant sans les clés (2026-08-03).** Les
+  clés de `method` lèvent l'ambiguïté machine, mais la valeur publiée ne
+  les montre pas : un lecteur reçoit des phrases numérotées, et « sous
+  upLim » à l'étape 4 ne se lit que si une étape antérieure a écrit
+  `upLim`. Or les incises `(série des X)` retirées à la migration étaient
+  précisément ce qui présentait ces noms, à trois orthographes près.
+  Mesure faite, 80 références pendaient sur 34 fiches.
+
+  La prose du process qui produit une colonne la nomme donc, dès qu'une
+  étape ultérieure la cite, sous une orthographe unique et identique dans
+  les deux langues : le nom entre parenthèses en fin de phrase, dispositif
+  que le corpus employait déjà (`… sur la période historique (QJXA-10)`).
+  Une phrase qui se présente dit aussi sur quoi elle opère, un « minimum »
+  nu ne se lisant pas dans une chaîne : l'opérande est lu dans le `func`,
+  jamais choisi. Le linter tient la règle, et le test l'éprouve en
+  cassant la chaîne. Deux divergences fr/en sont tombées au passage, dont
+  l'anglais de `median-dtFlood` qui gardait trois formulations propres.
+
 ### Corrigé
 
 - **Six figures annonçaient l'inverse de ce qu'elles calculaient
