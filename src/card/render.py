@@ -15,7 +15,7 @@ d'échantillonnage, seuils de lacunes, et le chaînage d'un process à
 l'autre. Aplati en liste de champs, cela se lit mal ; dessiné, cela se
 voit.
 
-Cinq principes.
+Six principes.
 
 **Rien qui ne soit dans la fiche.** La figure lit un fichier, elle ne
 prédit pas une exécution. Elle a un temps annoncé l'axe d'une courbe,
@@ -51,15 +51,26 @@ même ligne (et signe les unités, `m³·s⁻¹`) ; une puce ouvre un item de
 liste ; les traits de casserole portent la chaîne de calcul. Un symbole
 qui sert à deux choses ne se lit plus.
 
-Le rendu est généré depuis le YAML, jamais écrit à la main, et les 225
-fiches du corpus passent, dans les deux langues.
+**Ce qu'une étape fait se lit dans la FICHE, jamais dans la fonction.**
+La figure affichait sous chaque appel la première phrase de la docstring
+de la fonction. Une docstring est attachée à une fonction, donc elle ne
+peut dire que du général : `apply_threshold` mesure ici une durée de crue
+et date ailleurs un début d'étiage, et aucune phrase unique ne sert les
+deux. Elle lit maintenant `method`, écrit par étape et par colonne
+produite (`card/method.py`), dont seule la moitié droite est affichée :
+la maille d'agrégation est déjà DESSINÉE, ligne de grain et bande de
+douze mois, et la réécrire serait une redite. Les docstrings n'ont rien
+perdu, elles changent de destinataire (`card/docstring.py`).
+
+Le rendu est généré depuis le YAML, jamais écrit à la main, et tout le
+corpus passe, dans les deux langues.
 """
 
 import datetime as _dt
-import inspect
 import re
 import textwrap
 
+from . import method as _method
 from .extraction import _meta_frame, resolve
 from .loader import load_card
 from .schema import input_registry
@@ -289,118 +300,6 @@ def appel(e, connues, lang="fr"):
     return f"{nom}({', '.join(_arguments(e))})", refs, regl, mention
 
 
-# Un point qui suit l'une de ces abréviations ne termine pas une phrase.
-# La liste est petite à dessein : ce sont celles que le corpus emploie
-# vraiment, et une abréviation oubliée se voit tout de suite, la glose
-# s'arrêtant au milieu d'un mot. `ex` couvre « (ex. » comme « , ex. ».
-ABREVIATIONS = ("al", "ex", "cf", "etc", "env", "resp", "cad", "p")
-
-
-def _premiere_phrase(doc):
-    """Coupe au premier point qui termine VRAIMENT une phrase.
-
-    Chercher un point suivi d'une espace tranchait `RAT (Nicolle et al.
-    2020) : ...` juste après « et al », et il ne restait plus que le
-    sigle une fois la parenthèse ouverte refermée de force. Plier les
-    docstrings à cette faiblesse aurait voulu dire interdire « et al. »
-    dans tout le code, ce qui est le monde à l'envers : c'est l'afficheur
-    qui doit savoir lire.
-    """
-    for m in re.finditer(r"\.(?=\s|$)", doc):
-        mot = re.search(r"(\w+)$", doc[:m.start()])
-        if mot and mot.group(1).lower() in ABREVIATIONS:
-            continue
-        return doc[:m.start()]
-    return doc
-
-
-# Une docstring de fonction hydro se lit comme une FICHE : `en:` puis
-# `fr:` portent la description, à égalité et dans cet ordre, et ce qui
-# n'a pas de langue reste hors bloc. C'est le découpage de `meta.en` /
-# `meta.fr` / `meta.global`, appliqué au code, et les codes sont ceux des
-# fiches, ISO 639-1 en minuscules.
-#
-# Pourquoi dans la docstring plutôt qu'ailleurs. Aucun standard Python ne
-# traduit un `__doc__` à l'exécution : `gettext` ne peut pas l'envelopper
-# dans `_()`, qui l'empêcherait d'être un littéral, et `sphinx-intl`
-# traduit à la construction de la doc, quand notre lecteur est une figure
-# rendue à la volée. Restait à choisir, et une traduction rangée loin de
-# son original dérive sans que personne ne le voie. `_T` est exclue pour
-# une autre raison : elle est indexée sur des CONCEPTS, pas sur des noms
-# de fonctions, et y verser 35 gloses rebâtirait la table distante dont
-# ce module s'est débarrassé deux fois.
-LANGUES = ("en", "fr")
-_MARQUEUR = re.compile(r"^(" + "|".join(LANGUES) + r"):[ \t]*(.*)$")
-
-
-def _blocs(doc):
-    """Découpe une docstring en {langue: texte} + notes hors langue.
-
-    Un marqueur en marge ouvre un bloc ; les lignes INDENTÉES sous lui le
-    continuent, paragraphes compris. Une ligne revenue en marge sans
-    marqueur clôt le bloc : c'est une note, qui n'a pas de langue (parité
-    R, dates, renvois vers docs/dev/), et qu'on ne traduit donc pas, sous
-    peine d'entretenir deux versions d'un même fait daté.
-
-    Le `\"\"\"` seul sur sa ligne n'est pas une coquetterie : il donne à
-    TOUS les blocs la même indentation, donc une seule règle sans
-    exception. Une exception dans une règle de lecture est ce qui produit
-    les bugs que ce module a passé la semaine à corriger.
-    """
-    lignes = inspect.cleandoc(doc or "").split("\n")
-    blocs, notes, courant = {}, [], None
-    for ligne in lignes:
-        m = _MARQUEUR.match(ligne)
-        if m:
-            courant = m.group(1)
-            blocs.setdefault(courant, []).append(m.group(2))
-            continue
-        if ligne.strip() and not ligne[:1].isspace():
-            courant = None                    # retour en marge : note
-        (blocs[courant] if courant else notes).append(ligne.strip())
-    return {k: "\n".join(v).strip() for k, v in blocs.items()}
-
-
-def _paragraphe(doc, lang):
-    """Le premier paragraphe de la langue demandée, replié sur une ligne.
-
-    Sans bloc de langue (fonction écrite par un tiers), on rend le début
-    de la docstring telle quelle : une phrase non traduite renseigne
-    encore, une ligne absente n'apprend rien. Un test exige les deux
-    blocs pour toute fonction du corpus, donc ce repli ne joue que
-    dehors.
-    """
-    blocs = _blocs(doc)
-    if blocs:
-        texte = blocs.get(lang) or next(iter(blocs.values()))
-    else:
-        texte = inspect.cleandoc(doc or "")
-    return re.sub(r"\s+", " ", texte.split("\n\n")[0]).strip()
-
-
-def glose(nom_fn, lang="fr"):
-    """Première phrase de la docstring, moins l'énumération des valeurs
-    possibles d'un paramètre : la fiche en a déjà choisi une, lister les
-    autres n'apprend rien sur ce qu'elle calcule."""
-    fn = resolve(nom_fn)
-    # Une docstring que card n'a pas écrite (numpy) est de l'anglais de
-    # référence, sans rapport avec ce que la fiche calcule. La règle
-    # cherchait auparavant le préfixe `nan` dans le NOM, ce qui muselait
-    # au passage `nansum_strict`, qui est de card et a sa propre prose.
-    if not getattr(fn, "__module__", "").startswith("card"):
-        return ""
-    # Choix éditorial, déclaré à côté de la fonction et non listé ici :
-    # pour `ratio(a, b)`, l'appel affiché dit déjà tout.
-    if getattr(fn, "glose_inutile", False):
-        return ""
-    doc = _paragraphe((fn.__doc__ or "").strip(), lang)
-    coupe = _premiere_phrase(doc)
-    if coupe.count("(") > coupe.count(")"):
-        coupe = coupe[:coupe.rfind("(")]
-    doc = re.sub(r"\s*\([^()]*['\"][^()]*\)", "", coupe).strip(" .")
-    return doc if len(doc) < 120 else ""
-
-
 def etapes(c, lang="fr"):
     connues = {v.rstrip("? ").strip()
                for v in str(c["meta"]["global"].get("input_vars", "")).split(",")}
@@ -554,9 +453,14 @@ def rendu(c, meta, lang="fr"):
                 annexes.append(mention)
             if refs:
                 annexes.append(t("dapres", lang, ", ".join(refs)))
-            gl = glose(ap.split("(")[0], lang)
-            if gl:
-                annexes.append(gl)
+            # La phrase de la FICHE, pas celle de la fonction. Une
+            # docstring est attachée à une fonction, donc elle ne peut
+            # dire que du général : `apply_threshold` mesurait ici une
+            # durée de crue et datait ailleurs un début d'étiage, sous
+            # la même glose. `method` est écrit par étape.
+            note = _method.step_text(c, lang, p, sortie)
+            if note:
+                annexes.append(note)
             for a in annexes:
                 if a in vues:
                     continue

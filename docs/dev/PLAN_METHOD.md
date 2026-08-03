@@ -17,14 +17,15 @@ fonction décrit la fonction *en général*, le `method` d'une fiche décrit
 ce que *cette* fiche fait à chaque étape. La figure affichait des
 docstrings, qui ne peuvent jamais être assez précises.
 
-**Ce qui est fait au 2026-08-03.** Les **lots A, A-bis et B sont
+**Ce qui est fait au 2026-08-03.** Les **lots A, A-bis, B et C sont
 livrés** : le corpus entier est migré, `card/method.py` assemble la forme
 publiée, le linter tient les sept règles, la chaîne publiée se lit sans
 les clés, et la moitié gauche est confrontée au process à chaque
-passage en CI. Le détail de ce qui a bougé est dans `CHANGELOG.md`, sous
+passage en CI, et la figure affiche la phrase de la fiche au lieu de la
+docstring de la fonction. Le détail de ce qui a bougé est dans `CHANGELOG.md`, sous
 `## Non publié`.
 
-**Ce qui reste.** Les lots C à F en fin de document.
+**Ce qui reste.** Les lots D à F en fin de document.
 
 ## Le problème de départ
 

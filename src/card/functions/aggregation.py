@@ -336,11 +336,3 @@ ratio.is_transform = True
 circular_difference.is_transform = True
 circular_ratio.is_transform = True
 # Rien pour difference_longest_run ni ratio_longest_run : elles réduisent.
-
-# GLOSE MUETTE : choix éditorial, pas propriété du calcul. Pour
-# `ratio(a, b)`, l'appel affiché dans la figure dit déjà tout et la glose
-# ne ferait que le répéter. Déclaré ici plutôt que listé dans render.py :
-# un renommage emporte la déclaration avec lui. Les jumelles
-# `*_longest_run` ont, elles, quelque chose à expliquer, et le font.
-ratio.glose_inutile = True
-difference.glose_inutile = True

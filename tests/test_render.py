@@ -70,7 +70,7 @@ def test_une_fonction_a_seuil_montre_sa_condition():
     f = figure("allLF")
     assert "VC10 <= upLim" in f
     assert "'>='" not in f, "l'énumération des where possibles est du bruit"
-    assert f.count("Analyse des épisodes") == 1, "une glose répétée n'est plus une glose"
+    assert f.count("VC10 <= upLim, plus long épisode, premier jour") == 1
 
 
 def test_chaque_sortie_dit_de_quelle_fonction_elle_vient():
@@ -213,92 +213,42 @@ def _fonctions_du_corpus():
     return sorted(fns)
 
 
-def test_aucune_glose_ne_vient_dune_docstring_etrangere():
-    """La figure ne doit jamais servir la prose de référence de numpy.
+def test_chaque_etape_de_figure_porte_la_phrase_de_la_fiche():
+    """La figure dit ce que fait CETTE fiche, pas ce que fait la fonction.
 
-    La règle cherchait le préfixe `nan` dans le NOM, ce qui visait juste
-    par accident : elle muselait au passage `nansum_strict`, qui est de
-    card. Elle regarde désormais à QUI appartient la fonction.
+    Elle affichait la première phrase de la docstring, qui est attachée à
+    une fonction et ne peut donc dire que du général : `apply_threshold`
+    mesurait ici une durée de crue et datait ailleurs un début d'étiage,
+    sous la même phrase. Une étape muette ne se remarque pas, la ligne
+    manque simplement : d'où ce test sur le corpus entier.
     """
-    from card.extraction import resolve
-    from card.render import glose
-
-    fuites = []
-    for nom in _fonctions_du_corpus():
-        module = getattr(resolve(nom), "__module__", "")
-        if not module.startswith("card") and glose(nom):
-            fuites.append(f"{nom} ({module}) : {glose(nom)!r}")
-    assert not fuites, "\n".join(fuites)
-
-
-def test_les_fonctions_de_card_ne_sont_muselees_que_sciemment():
-    """Museler une glose est un choix éditorial, donc il se DÉCLARE.
-
-    `glose_inutile` se pose à côté de la fonction : un renommage emporte
-    la déclaration avec lui, là où une liste de noms dans render.py
-    serait restée en arrière sans que rien ne rougisse.
-    """
-    from card.extraction import resolve
-    from card.render import glose
-
-    for nom in _fonctions_du_corpus():
-        fn = resolve(nom)
-        if not getattr(fn, "__module__", "").startswith("card"):
-            continue
-        if getattr(fn, "glose_inutile", False):
-            assert glose(nom) == "", f"{nom} est déclarée muette et parle"
-            continue
-        # Les autres peuvent rendre une glose vide (docstring trop longue,
-        # cf. CHANTIERS), mais jamais parce qu'un nom figure quelque part.
-        assert fn.__doc__, f"{nom} n'a pas de docstring et n'est pas déclarée muette"
-
-
-def test_le_decoupeur_ne_coupe_pas_sur_une_abreviation():
-    """« et al. » ne termine pas une phrase, « ex. » non plus.
-
-    Le découpeur cherchait un point suivi d'une espace : la glose de RAT
-    s'arrêtait après « (Nicolle et al », la parenthèse ouverte était
-    tranchée de force, et il ne restait que le sigle.
-    """
-    from card.render import _premiere_phrase
-
-    assert _premiere_phrase(
-        "Truc (Nicolle et al. 2020) : machin. Suite."
-    ) == "Truc (Nicolle et al. 2020) : machin"
-    assert _premiere_phrase(
-        "Médiane cyclique, ex. une date. Suite."
-    ) == "Médiane cyclique, ex. une date"
-    assert _premiere_phrase("Sans point final") == "Sans point final"
-    assert _premiere_phrase("Une phrase. Une autre.") == "Une phrase"
-
-
-def test_toute_fonction_de_card_employee_par_le_corpus_a_une_glose():
-    """Une figure qui n'explique rien ne sert à rien.
-
-    Une glose vide ne se remarque pas : la ligne manque, et personne ne
-    sait qu'elle devrait être là. Trois causes l'ont produite, toutes
-    corrigées le 2026-07-31 : un point pris dans une abréviation, une
-    première phrase qui était en fait un paragraphe, et le musellement
-    accidentel des fonctions dont le nom commence par `nan`. Le seul
-    silence acceptable est celui qu'on a déclaré.
-    """
-    from card.extraction import resolve
-    from card.render import glose
+    from card import method as _method
+    from card.extraction import _DEFAULT_CARD_DIR, _find_cards
+    from card.loader import load_card
 
     muettes = []
-    for nom in _fonctions_du_corpus():
-        fn = resolve(nom)
-        if not getattr(fn, "__module__", "").startswith("card"):
-            continue
-        if getattr(fn, "glose_inutile", False):
-            continue
-        if not glose(nom):
-            premiere = len((fn.__doc__ or "").strip().split("\n\n")[0])
-            muettes.append(
-                f"{nom} : glose vide (premier paragraphe de {premiere} "
-                f"caractères). Raccourcir sa PREMIÈRE phrase, ou la "
-                f"déclarer `glose_inutile` si l'appel se suffit.")
-    assert not muettes, "\n".join(muettes)
+    for chemin in _find_cards(_DEFAULT_CARD_DIR, None).values():
+        c = load_card(chemin)
+        for lang in ("fr", "en"):
+            for proc in c["processes"]:
+                for e in proc["func"]:
+                    if not _method.step_text(c, lang, proc, e["name"]):
+                        muettes.append(
+                            f"{c['id']} {proc['name']} {e['name']} [{lang}]")
+    assert not muettes, "\n".join(muettes[:20])
+
+
+def test_la_figure_de_dtFlood_ne_reabstrait_plus_son_geste():
+    """Le cas qui a ouvert le chantier (docs/dev/PLAN_METHOD.md).
+
+    Sous `apply_threshold(dQ)   dQ >= lowLim, select=dQXA, durée`, la
+    figure ajoutait « Analyse des épisodes où X franchit un seuil lim » :
+    la ligne d'appel venait de rendre le geste concret, la glose le
+    ré-abstrayait avec les noms de la signature.
+    """
+    f = figure("dtFlood")
+    assert "nombre de jours où dQ dépasse lowLim" in f
+    assert "franchit un seuil lim" not in f
 
 
 def test_les_blocs_de_langue_se_decoupent_comme_annonce():
@@ -308,9 +258,9 @@ def test_les_blocs_de_langue_se_decoupent_comme_annonce():
     continuent, une ligne revenue en marge sans marqueur est une note
     hors langue.
     """
-    from card.render import _blocs
+    from card.docstring import blocs
 
-    b = _blocs("""
+    b = blocs("""
     en: First sentence.
 
         Second paragraph.
@@ -326,60 +276,43 @@ def test_les_blocs_de_langue_se_decoupent_comme_annonce():
     assert b["fr"] == "Première phrase.\n\nSecond paragraphe."
     # Une docstring sans marqueur reste lisible : pas de bloc, et le
     # texte sert pour toutes les langues (fonction écrite par un tiers).
-    assert _blocs("Juste une phrase.") == {}
+    assert blocs("Juste une phrase.") == {}
 
 
 def test_chaque_fonction_de_card_a_ses_deux_blocs_de_langue():
-    """Une figure anglaise ne doit pas servir de la prose française.
+    """Une docstring hydro s'écrit dans les deux langues, à égalité.
 
-    Les gloses viennent des docstrings : sans traduction, la figure
-    anglaise les affichait telles quelles, seul morceau de la figure à ne
-    pas passer par la table `_T`. Les deux langues vivent maintenant dans
-    la docstring, `en:` puis `fr:` comme dans les fiches, à égalité.
-
-    `glose(lang="en")` retombe sur l'autre langue quand un bloc manque,
-    ce qui rend service à une fonction écrite par un tiers mais passerait
-    inaperçu dans le corpus : d'où ce test.
+    Elle ne nourrit plus la figure, qui lit le `method` de la fiche, mais
+    elle reste la description de la FONCTION et sera publiée telle quelle
+    par le rendu de fonction (lot E de docs/dev/PLAN_METHOD.md). Un bloc
+    manquant s'y verrait alors, en clair, dans une page servie.
     """
+    from card.docstring import LANGUES, blocs
     from card.extraction import resolve
-    from card.render import LANGUES, _blocs, glose
 
     manquantes = []
     for nom in _fonctions_du_corpus():
         fn = resolve(nom)
         if not getattr(fn, "__module__", "").startswith("card"):
             continue
-        if getattr(fn, "glose_inutile", False):
-            continue
-        blocs = _blocs(fn.__doc__ or "")
-        absents = [x for x in LANGUES if x not in blocs]
+        absents = [x for x in LANGUES if x not in blocs(fn.__doc__ or "")]
         if absents:
-            manquantes.append(
-                f"{nom} : pas de bloc {absents} dans sa docstring, la figure "
-                f"affichera l'autre langue")
-        elif not all(glose(nom, x) for x in LANGUES):
-            manquantes.append(f"{nom} : un bloc présent mais glose vide")
+            manquantes.append(f"{nom} : pas de bloc {absents} dans sa docstring")
     assert not manquantes, "\n".join(manquantes)
 
 
-def test_la_glose_anglaise_diffère_bien_de_la_française():
+def test_le_bloc_anglais_diffère_bien_du_français():
     """Un bloc `en:` recopié du français est un oubli, pas une traduction."""
+    from card.docstring import paragraphe
     from card.extraction import resolve
-    from card.render import glose
 
     identiques = []
     for nom in _fonctions_du_corpus():
         fn = resolve(nom)
         if not getattr(fn, "__module__", "").startswith("card"):
             continue
-        if getattr(fn, "glose_inutile", False):
-            continue
-        fr, en = glose(nom, "fr"), glose(nom, "en")
-        # Quelques gloses sont légitimement identiques (formules pures) ;
-        # aucune ne l'est aujourd'hui, et si cela arrive un jour c'est une
-        # décision à prendre, pas un état à subir en silence.
+        fr, en = paragraphe(fn.__doc__, "fr"), paragraphe(fn.__doc__, "en")
         if fr and en and fr == en:
             identiques.append(nom)
     assert not identiques, (
-        f"{identiques} : glose anglaise identique à la française. Traduire, "
-        f"ou déclarer la fonction `glose_inutile` si l'appel se suffit.")
+        f"{identiques} : bloc anglais identique au français. Traduire.")

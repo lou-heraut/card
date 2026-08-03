@@ -41,6 +41,8 @@ par sortie) restent publiées telles quelles le temps que le corpus migre
 fiche par fiche. Elles disparaîtront avec la dernière fiche non migrée.
 """
 
+import re
+
 # Suffixes mensuels de stase, dans l'ordre du calendrier.
 MOIS = ("jan", "feb", "mar", "apr", "may", "jun",
         "jul", "aug", "sep", "oct", "nov", "dec")
@@ -205,6 +207,40 @@ def _steps_for(card, table, colonne):
             amont |= {v for v in e["kwargs"].values() if isinstance(v, str)}
         interet = amont or interet
     return list(reversed(lignes))
+
+
+def step_text(card, lang, process, func_name):
+    """Ce que la fiche dit de CETTE étape, pour un dessin.
+
+    Seule la moitié droite est rendue : une figure dessine déjà
+    l'agrégation, sa ligne de grain et sa bande de douze mois, et
+    réafficher « agrégation annuelle » y serait la redite que la charte
+    de rédaction interdit.
+
+    La présentation finale, `… (VC10)`, tombe : elle existe pour que la
+    chaîne PUBLIÉE se lise sans les clés, alors qu'une figure dessine le
+    nœud produit juste en dessous. La dire deux fois à trois lignes
+    d'intervalle n'apprend rien.
+
+    Un nœud de figure porte le nom d'une entrée `func`, qui peut couvrir
+    plusieurs colonnes quand le process est `compress` : les textes
+    distincts se suivent, les identiques ne comptent qu'une fois.
+    """
+    table = card["meta"][lang].get("method")
+    if not isinstance(table, dict):
+        return ""
+    entrees = table.get(process["name"])
+    if isinstance(entrees, str):
+        return entrees.split(" - ", 1)[-1].strip()
+    if not isinstance(entrees, dict):
+        return ""
+    textes = []
+    for colonne, entree in columns_and_entries(process):
+        if entree["name"] != func_name or colonne not in entrees:
+            continue
+        texte = str(entrees[colonne]).split(" - ", 1)[-1].strip()
+        textes.append(re.sub(rf"\s*\({re.escape(colonne)}\)$", "", texte))
+    return " ; ".join(dict.fromkeys(t for t in textes if t))
 
 
 def published(card, lang):
