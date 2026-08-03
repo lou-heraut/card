@@ -253,6 +253,50 @@ def _check_method(card, issues):
                     f"({sorted(set(a) ^ set(b))})")
 
 
+_MOT = r"(?<![\w-]){}(?![\w-])"
+
+
+def _check_method_chain(card, issues):
+    """Un nom cité doit avoir été présenté.
+
+    Les clés lèvent l'ambiguïté machine et accordent `method` à
+    `process`, mais la valeur PUBLIÉE ne les montre pas : un lecteur
+    reçoit des phrases numérotées, et « sous upLim » à l'étape 4 ne se
+    lit que si une étape antérieure a écrit `upLim`. La prose du process
+    qui produit une colonne la nomme donc, dès lors qu'une étape
+    ultérieure la cite.
+
+    C'est la contrepartie de la migration : les incises `(série des X)`
+    présentaient ce nom, à trois orthographes près, et les retirer aurait
+    laissé quatre-vingts références pendantes (mesuré le 2026-08-03).
+    Elles sont revenues sous une orthographe unique, et cette règle
+    empêche la relecture éditoriale de les reperdre.
+    """
+    for lang in ("en", "fr"):
+        table = card["meta"][lang].get("method")
+        if not isinstance(table, dict):
+            continue
+        prose = []
+        for p in card["processes"]:
+            e = table.get(p["name"])
+            valeurs = e.values() if isinstance(e, dict) else [e]
+            prose.append(" ".join(
+                str(v).split(" - ", 1)[-1] for v in valeurs if v is not None))
+
+        for i, p in enumerate(card["processes"]):
+            for colonne in _method.produced_columns(p):
+                motif = _MOT.format(re.escape(colonne))
+                if not any(re.search(motif, t) for t in prose[i + 1:]):
+                    continue
+                if re.search(motif, prose[i]):
+                    continue
+                issues.append(
+                    f"meta.{lang}.method.{p['name']}: '{colonne}' est cité "
+                    "plus loin mais la phrase qui le produit ne le nomme "
+                    "pas ; la chaîne publiée ne se lit pas seule"
+                )
+
+
 def _check_window_coherence(card, issues):
     """Fenêtre partielle en meta.en.sampling_period → un process doit
     porter la même fenêtre (sauf time_steps saisonniers/mensuels, gérés
@@ -535,6 +579,7 @@ def validate_card(path) -> list[str]:
         _check_process(proc, issues)
 
     _check_method(card, issues)
+    _check_method_chain(card, issues)
     _check_window_coherence(card, issues)
     _check_adaptive_convention(card, issues)
     _check_classification(card, issues)

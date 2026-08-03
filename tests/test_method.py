@@ -63,6 +63,43 @@ def test_la_publication_a_une_etape_par_process(chemin, lang):
         assert len(str(texte).split("\n")) == len(c["processes"])
 
 
+def test_la_regle_de_chaine_rougit_sur_une_reference_pendante(tmp_path):
+    """Éprouvée en cassant la chaîne, sinon elle ne garantit rien.
+
+    P1 produit X et P2 le cite : si la phrase de P1 ne dit pas `X`, la
+    chaîne publiée envoie le lecteur vers un nom qu'il n'a jamais lu.
+    """
+    from card.schema import validate_card
+
+    def fiche(phrase_p1):
+        p = tmp_path / f"chaine{abs(hash(phrase_p1))}.yaml"
+        p.write_text(
+            'id: ' + p.stem + '\nversion: "1.0"\nauthors: ["t"]\n'
+            'date: "2026-08-03"\n'
+            "meta:\n"
+            "  en:\n    variable: a\n    unit: m\n    name: A\n"
+            "    method:\n      P1:\n        X: no temporal aggregation - "
+            f"{phrase_p1}\n"
+            "      P2:\n        a: annual aggregation - maximum of X\n"
+            "    classification: {domain: flow, season: annual, output: series}\n"
+            "  fr:\n    variable: a\n    unit: m\n    name: A\n"
+            "    method:\n      P1:\n        X: aucune agrégation temporelle - "
+            f"{phrase_p1}\n"
+            "      P2:\n        a: agrégation annuelle - maximum de X\n"
+            "    classification: {domain: débit, season: annuelle, output: série}\n"
+            "  global:\n    input_vars: Q\n"
+            "process:\n"
+            "  P1:\n    func:\n      X: [nanmean, \"Q\"]\n    time_step: none\n"
+            "  P2:\n    func:\n      a: [nanmax, \"X\"]\n",
+            encoding="utf-8")
+        return validate_card(p)
+
+    pendante = fiche("moyenne mobile")
+    assert any("ne se lit pas seule" in i for i in pendante), pendante
+    assert not any("ne se lit pas seule" in i
+                   for i in fiche("moyenne mobile (X)"))
+
+
 def _ecrire(tmp_path, method_en, method_fr):
     """Fiche minimale à deux process, le second produisant deux colonnes."""
     p = tmp_path / "essai.yaml"
