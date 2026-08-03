@@ -113,6 +113,29 @@ des deux endroits.
   indirection ; les docstrings bilingues passent à `card/docstring.py`,
   en attendant le rendu de fonction qui les publiera entières.
 
+- **Les noms de colonnes intermédiaires ont été inventoriés et corrigés
+  (2026-08-04).** 113 noms, 384 emplois, confrontés à deux questions : un
+  nom désigne-t-il toujours le même calcul, un calcul porte-t-il toujours
+  le même nom ? Trente-quatre fiches portaient un suffixe de saison que
+  leur calcul n'a pas (`VC10_summer` est une moyenne mobile sans fenêtre,
+  donc `VC10` ; la saison n'arrive qu'à l'étape suivante). Deux nommaient
+  `QA`/`TA` un agrégat saisonnier, que `QSA_season` nomme `QSA`. `BFM`
+  nommait `BF` ce que ses voisines nomment `BF-Wal`.
+
+  Et `RA` désignait un cumul ici, une moyenne là. La règle est venue de
+  la source primaire : le tableau 1 d'Oberlin met `PA | Pluie | Année |
+  (totale)` en face de `QA | débit | Année | (moyen)`, avec la même
+  absence en position 3. La case vide dit « intégrale sur le pas de
+  temps, dans l'unité naturelle de la grandeur », donc moyenne pour un
+  débit, cumul pour une pluie. `RA` = cumul est conforme, et les trois
+  moyennes deviennent `RA-mean`, en variante comme `BF-Wal` l'est de
+  `BF`. `NOMENCLATURE.md` porte la règle, et corrige au passage la
+  présentation du `R`, qui n'est pas une convention locale mais le sigle
+  de l'OMM (groupe SYNOP `6RRRtR`).
+
+  Aucune sortie n'est modifiée, ce que la comparaison par hachage des
+  données des 39 fiches, avant et après, a vérifié.
+
 - **Le rôle de `name`, `description` et `method` est écrit, et vingt
   définitions manquantes sont comblées (2026-08-03).** Trois champs à
   destination de personnes, trois niveaux de détail sur la même variable,
