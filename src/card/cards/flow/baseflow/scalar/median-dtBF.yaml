@@ -1,5 +1,5 @@
 id: median-dtBF
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -14,7 +14,7 @@ meta:
       P1:
         dtBF: annual aggregation [09-01, 08-31] - number of days between the dates at which the baseflow (Wallingford) sum corresponds to 10 % and 90 % of the total baseflow sum
       P2:
-        median-dtBF: no temporal aggregation - median
+        median-dtBF: no temporal aggregation - inter-annual median
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: flow
@@ -31,9 +31,9 @@ meta:
       Médiane des durées entre le début et la fin des écoulements lents
     method:
       P1:
-        dtBF: agrégation annuelle [01-09, 31-08] - nombre de jours entre les dates auxquelles la somme du débit de base (Wallingford) correspond à 10 % et 90 % de la somme totale du débit de base
+        dtBF: agrégation annuelle [01-09, 31-08] - nombre de jours entre les dates auxquelles la somme du débit de base (Wallingford) correspond à 10 % et 90 % de la somme totale
       P2:
-        median-dtBF: aucune agrégation temporelle - médiane
+        median-dtBF: aucune agrégation temporelle - médiane inter-annuelle
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: débit

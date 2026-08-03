@@ -1,5 +1,5 @@
 id: delta-vLF_H
-version: "1.4"
+version: "1.5"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -17,7 +17,7 @@ meta:
       P3:
         upLim: no temporal aggregation - the maximum of VCN10 is taken as the threshold (upLim)
       P4:
-        vLF: annual aggregation [Month of maximum monthly flows] - sum of volumes discharged each day over the longest period below upLim
+        vLF: annual aggregation [Month of maximum monthly flows] - sum of volumes discharged each day in the longest period below upLim
       P5:
         delta-vLF: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     suffix_default:

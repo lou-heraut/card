@@ -1,5 +1,5 @@
 id: mean-RMA_month
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -48,18 +48,18 @@ meta:
         RMA_nov: monthly aggregation for each year - sum
         RMA_dec: monthly aggregation for each year - sum
       P2:
-        mean-RMA_jan: no temporal aggregation - average
-        mean-RMA_feb: no temporal aggregation - average
-        mean-RMA_mar: no temporal aggregation - average
-        mean-RMA_apr: no temporal aggregation - average
-        mean-RMA_may: no temporal aggregation - average
-        mean-RMA_jun: no temporal aggregation - average
-        mean-RMA_jul: no temporal aggregation - average
-        mean-RMA_aug: no temporal aggregation - average
-        mean-RMA_sep: no temporal aggregation - average
-        mean-RMA_oct: no temporal aggregation - average
-        mean-RMA_nov: no temporal aggregation - average
-        mean-RMA_dec: no temporal aggregation - average
+        mean-RMA_jan: no temporal aggregation - inter-annual mean
+        mean-RMA_feb: no temporal aggregation - inter-annual mean
+        mean-RMA_mar: no temporal aggregation - inter-annual mean
+        mean-RMA_apr: no temporal aggregation - inter-annual mean
+        mean-RMA_may: no temporal aggregation - inter-annual mean
+        mean-RMA_jun: no temporal aggregation - inter-annual mean
+        mean-RMA_jul: no temporal aggregation - inter-annual mean
+        mean-RMA_aug: no temporal aggregation - inter-annual mean
+        mean-RMA_sep: no temporal aggregation - inter-annual mean
+        mean-RMA_oct: no temporal aggregation - inter-annual mean
+        mean-RMA_nov: no temporal aggregation - inter-annual mean
+        mean-RMA_dec: no temporal aggregation - inter-annual mean
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -124,18 +124,18 @@ meta:
         RMA_nov: agrégation mensuelle par année - somme
         RMA_dec: agrégation mensuelle par année - somme
       P2:
-        mean-RMA_jan: aucune agrégation temporelle - moyenne
-        mean-RMA_feb: aucune agrégation temporelle - moyenne
-        mean-RMA_mar: aucune agrégation temporelle - moyenne
-        mean-RMA_apr: aucune agrégation temporelle - moyenne
-        mean-RMA_may: aucune agrégation temporelle - moyenne
-        mean-RMA_jun: aucune agrégation temporelle - moyenne
-        mean-RMA_jul: aucune agrégation temporelle - moyenne
-        mean-RMA_aug: aucune agrégation temporelle - moyenne
-        mean-RMA_sep: aucune agrégation temporelle - moyenne
-        mean-RMA_oct: aucune agrégation temporelle - moyenne
-        mean-RMA_nov: aucune agrégation temporelle - moyenne
-        mean-RMA_dec: aucune agrégation temporelle - moyenne
+        mean-RMA_jan: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RMA_feb: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RMA_mar: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RMA_apr: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RMA_may: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RMA_jun: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RMA_jul: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RMA_aug: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RMA_sep: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RMA_oct: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RMA_nov: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RMA_dec: aucune agrégation temporelle - moyenne inter-annuelle
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

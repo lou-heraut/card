@@ -1,5 +1,5 @@
 id: median-startLF
-version: "1.2"
+version: "1.3"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -19,7 +19,7 @@ meta:
       P4:
         startLF: annual aggregation [Month of maximum monthly flows] - date of the first day of the longest period below upLim
       P5:
-        median-startLF: no temporal aggregation - median
+        median-startLF: no temporal aggregation - inter-annual median
     sampling_period: Month of maximum monthly flows
     classification:
       domain: flow
@@ -43,7 +43,7 @@ meta:
       P4:
         startLF: agrégation annuelle [Mois du maximum des débits mensuels] - date du premier jour de la plus longue période sous upLim
       P5:
-        median-startLF: aucune agrégation temporelle - médiane
+        median-startLF: aucune agrégation temporelle - médiane inter-annuelle
     sampling_period: Mois du maximum des débits mensuels
     classification:
       domain: débit

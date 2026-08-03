@@ -1,5 +1,5 @@
 id: delta-tQJXA_H
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -11,7 +11,7 @@ meta:
     description: ""
     method:
       P1:
-        tQJXA: annual aggregation [Month of minimum monthly flows] - date of maximum
+        tQJXA: annual aggregation [Month of minimum monthly flows] - date of the maximum
       P2:
         delta-tQJXA: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     suffix_default:

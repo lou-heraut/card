@@ -1,5 +1,5 @@
 id: Q95A
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -27,7 +27,7 @@ meta:
     description: Débit annuel avec une probabilité de dépassement de 95 % (centile 5 %)
     method:
       P1:
-        Q95A: agrégation annuelle [01-01, 31-12] - quantile à la probabilité au dépassement de 95 %
+        Q95A: agrégation annuelle [01-01, 31-12] - quantile à la probabilité de dépassement de 95 %
     sampling_period: ["01-01", "31-12"]
     classification:
       domain: débit

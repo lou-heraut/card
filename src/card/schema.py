@@ -361,6 +361,63 @@ def _check_left_half(card, issues):
                     )
 
 
+_NOMBRE = re.compile(r"\d+(?:[.,]\d+)?")
+
+
+def _check_numbers(card, issues):
+    """Un nombre écrit dans la prose doit exister dans le process.
+
+    La charte veut les paramètres numériques en clair, « sur 10 jours »,
+    « de période de retour 5 ans », « d'au moins 20 mm ». Un nombre écrit
+    à la main est un nombre qui peut mentir, et rien ne le vérifiait :
+    `delta-VCX10_H` annonçait en anglais une moyenne mobile sur 3 jours
+    pour un `k: 10`, sur une fiche dont le titre disait bien 10 jours.
+
+    Le contrôle est dans ce sens et pas dans l'autre. Exiger qu'un
+    paramètre du process se retrouve dans la phrase serait faux : `Q50A`
+    appelle « médiane » le quantile à 50 %, et a raison. Exiger qu'un
+    nombre ÉCRIT soit vrai n'a, lui, aucune exception : mesuré sur le
+    corpus entier, ce contrôle ne trouve que l'erreur.
+
+    Les identifiants sont retirés d'abord : le « 10 » de `VC10` n'est pas
+    une durée.
+    """
+    noms = sorted((n for n in _method.known_names(card) if any(
+        c.isdigit() for c in n)), key=len, reverse=True)
+    for lang in ("en", "fr"):
+        table = card["meta"][lang].get("method")
+        if not isinstance(table, dict):
+            continue
+        for p in card["processes"]:
+            entrees = table.get(p["name"])
+            if not isinstance(entrees, dict):
+                continue
+            for colonne, entree in _method.columns_and_entries(p):
+                texte = entrees.get(colonne)
+                if not isinstance(texte, str):
+                    continue
+                prose = texte.split(" - ", 1)[-1]
+                for nom in noms:
+                    prose = re.sub(rf"(?<![\w-]){re.escape(nom)}(?![\w-])",
+                                   " ", prose)
+                valeurs = [v for v in list(entree["kwargs"].values())
+                           + [x for genre, x in entree["pos_args"]
+                              if genre == "lit"]
+                           if isinstance(v, (int, float))
+                           and not isinstance(v, bool)]
+                connus = {float(v) for v in valeurs} | {float(v) * 100
+                                                        for v in valeurs}
+                for brut in _NOMBRE.findall(prose):
+                    if float(brut.replace(",", ".")) not in connus:
+                        issues.append(
+                            f"meta.{lang}.method.{p['name']}.{colonne}: la "
+                            f"phrase écrit {brut}, que "
+                            f"{entree['fn_name']} ne reçoit pas "
+                            f"(valeurs du process : "
+                            f"{sorted(connus) or 'aucune'})"
+                        )
+
+
 def _check_window_coherence(card, issues):
     """Fenêtre partielle en meta.en.sampling_period → un process doit
     porter la même fenêtre (sauf time_steps saisonniers/mensuels, gérés
@@ -645,6 +702,7 @@ def validate_card(path) -> list[str]:
     _check_method(card, issues)
     _check_method_chain(card, issues)
     _check_left_half(card, issues)
+    _check_numbers(card, issues)
     _check_window_coherence(card, issues)
     _check_adaptive_convention(card, issues)
     _check_classification(card, issues)

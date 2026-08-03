@@ -1,5 +1,5 @@
 id: vLF_winter
-version: "1.2"
+version: "1.3"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-15"
 
@@ -17,7 +17,7 @@ meta:
       P3:
         upLim: no temporal aggregation - the maximum of VCN10_winter is taken as the threshold (upLim)
       P4:
-        vLF_winter: annual aggregation [11-01, 04-30] - sum of the volumes discharged each day of the longest period below upLim
+        vLF_winter: annual aggregation [11-01, 04-30] - sum of volumes discharged each day in the longest period below upLim
     sampling_period: ["11-01", "04-30"]
     classification:
       domain: flow

@@ -1,5 +1,5 @@
 id: median-tVCX3
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -15,7 +15,7 @@ meta:
       P2:
         tVCX3: annual aggregation [Month of minimum monthly flows] - date of the maximum
       P3:
-        median-tVCX3: no temporal aggregation - median
+        median-tVCX3: no temporal aggregation - inter-annual median
     sampling_period: Month of minimum monthly flows
     classification:
       domain: flow
@@ -35,7 +35,7 @@ meta:
       P2:
         tVCX3: agrégation annuelle [Mois du minimum des débits mensuels] - date du maximum
       P3:
-        median-tVCX3: aucune agrégation temporelle - médiane
+        median-tVCX3: aucune agrégation temporelle - médiane inter-annuelle
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: débit

@@ -1,5 +1,5 @@
 id: median-vBF
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -13,7 +13,7 @@ meta:
       P1:
         vBF: annual aggregation [09-01, 08-31] - sum of volumes discharged each day for base flow (Wallingford)
       P2:
-        median-vBF: no temporal aggregation - median
+        median-vBF: no temporal aggregation - inter-annual median
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: flow
@@ -31,7 +31,7 @@ meta:
       P1:
         vBF: agrégation annuelle [01-09, 31-08] - somme des volumes écoulés chaque jour pour le débit de base (Wallingford)
       P2:
-        median-vBF: aucune agrégation temporelle - médiane
+        median-vBF: aucune agrégation temporelle - médiane inter-annuelle
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: débit

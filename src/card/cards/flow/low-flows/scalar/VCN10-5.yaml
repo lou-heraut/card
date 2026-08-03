@@ -1,5 +1,5 @@
 id: VCN10-5
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -35,7 +35,7 @@ meta:
       P2:
         VCN10: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
       P3:
-        VCN10-5: aucune agrégation temporelle - calcul du débit de période de retour 5 ans avec la loi log-normal
+        VCN10-5: aucune agrégation temporelle - calcul du débit de période de retour 5 ans avec la loi log-normale
     sampling_period: Mois du maximum des débits mensuels
     classification:
       domain: débit

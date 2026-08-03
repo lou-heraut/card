@@ -1,5 +1,5 @@
 id: fQ10A
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -33,7 +33,7 @@ meta:
       10 % du temps, extrait de la courbe des débits classés
     method:
       P1:
-        lowLim: aucune agrégation temporelle - le quantile à la probabilité au dépassement de 10 % est pris comme seuil (lowLim)
+        lowLim: aucune agrégation temporelle - le quantile à la probabilité de dépassement de 10 % est pris comme seuil (lowLim)
       P2:
         fQ10A: agrégation annuelle [Mois du minimum des débits mensuels] - rapport du nombre de jours où le débit dépasse lowLim par le nombre de jours dans l'année
     sampling_period: Mois du minimum des débits mensuels

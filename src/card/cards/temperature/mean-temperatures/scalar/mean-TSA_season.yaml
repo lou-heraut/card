@@ -1,5 +1,5 @@
 id: mean-TSA_season
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -24,10 +24,10 @@ meta:
         TSA_JJA: seasonal annual aggregation [06-01, 08-31] - average
         TSA_SON: seasonal annual aggregation [09-01, 11-30] - average
       P2:
-        mean-TSA_DJF: no temporal aggregation - average
-        mean-TSA_MAM: no temporal aggregation - average
-        mean-TSA_JJA: no temporal aggregation - average
-        mean-TSA_SON: no temporal aggregation - average
+        mean-TSA_DJF: no temporal aggregation - inter-annual mean
+        mean-TSA_MAM: no temporal aggregation - inter-annual mean
+        mean-TSA_JJA: no temporal aggregation - inter-annual mean
+        mean-TSA_SON: no temporal aggregation - inter-annual mean
     sampling_period:
       - ["12-01", "02-28(29)"]
       - ["03-01", "05-31"]
@@ -60,10 +60,10 @@ meta:
         TSA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - moyenne
         TSA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - moyenne
       P2:
-        mean-TSA_DJF: aucune agrégation temporelle - moyenne
-        mean-TSA_MAM: aucune agrégation temporelle - moyenne
-        mean-TSA_JJA: aucune agrégation temporelle - moyenne
-        mean-TSA_SON: aucune agrégation temporelle - moyenne
+        mean-TSA_DJF: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TSA_MAM: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TSA_JJA: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TSA_SON: aucune agrégation temporelle - moyenne inter-annuelle
     sampling_period:
       - ["01-12", "28(29)-02"]
       - ["01-03", "31-05"]

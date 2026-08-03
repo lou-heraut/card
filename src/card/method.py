@@ -146,6 +146,27 @@ def aggregates(process, entree, connus):
     return not (len(amont) == 1 and amont.pop() == process["time_step"])
 
 
+def known_names(card):
+    """Tous les identifiants qu'une phrase de la fiche peut citer.
+
+    Colonnes d'entrée, colonnes produites, clés de `func`, colonnes
+    référencées en argument, variables de sortie. Sert à distinguer un
+    NOMBRE d'un chiffre pris dans un nom : le « 10 » de `VC10` n'est pas
+    une durée, et le lire comme telle ferait rougir un contrôle pour
+    deux cents phrases justes.
+    """
+    noms = {v.strip().rstrip("? ").strip()
+            for v in str(card["meta"]["global"].get("input_vars", "")).split(",")}
+    for p in card["processes"]:
+        noms |= set(produced_columns(p))
+        for entree in p["func"]:
+            noms.add(entree["name"])
+            noms |= set(_entrees(entree))
+    variable = card["meta"]["en"].get("variable")
+    noms |= set(variable if isinstance(variable, list) else [variable])
+    return {n for n in noms if n}
+
+
 def _joint(textes):
     """Plusieurs colonnes d'un même process, en une étape lisible.
 

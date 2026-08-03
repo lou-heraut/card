@@ -1,5 +1,5 @@
 id: delta-QNA_summer_H
-version: "2.1"
+version: "2.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -33,7 +33,7 @@ meta:
       P1:
         QNA_summer: agrégation annuelle [01-05, 30-11] - minimum
       P2:
-        delta-QNA_summer: aucune agrégation temporelle - changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-QNA_summer: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     sampling_period: ["01-05", "30-11"]
     classification:
       domain: débit

@@ -1,5 +1,5 @@
 id: median-tVCN10
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -15,7 +15,7 @@ meta:
       P2:
         tVCN10: annual aggregation [Month of maximum monthly flows] - date of the minimum
       P3:
-        median-tVCN10: no temporal aggregation - median
+        median-tVCN10: no temporal aggregation - inter-annual median
     sampling_period: Month of maximum monthly flows
     classification:
       domain: flow
@@ -35,7 +35,7 @@ meta:
       P2:
         tVCN10: agrégation annuelle [Mois du maximum des débits mensuels] - date du minimum
       P3:
-        median-tVCN10: aucune agrégation temporelle - médiane
+        median-tVCN10: aucune agrégation temporelle - médiane inter-annuelle
     sampling_period: Mois du maximum des débits mensuels
     classification:
       domain: débit

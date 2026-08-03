@@ -1,5 +1,5 @@
 id: mean-RSA_season
-version: "2.0.1"
+version: "2.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -24,10 +24,10 @@ meta:
         RSA_JJA: seasonal annual aggregation [06-01, 08-31] - average
         RSA_SON: seasonal annual aggregation [09-01, 11-30] - average
       P2:
-        mean-RSA_DJF: no temporal aggregation - average
-        mean-RSA_MAM: no temporal aggregation - average
-        mean-RSA_JJA: no temporal aggregation - average
-        mean-RSA_SON: no temporal aggregation - average
+        mean-RSA_DJF: no temporal aggregation - inter-annual mean
+        mean-RSA_MAM: no temporal aggregation - inter-annual mean
+        mean-RSA_JJA: no temporal aggregation - inter-annual mean
+        mean-RSA_SON: no temporal aggregation - inter-annual mean
     sampling_period:
       - ["12-01", "02-28(29)"]
       - ["03-01", "05-31"]
@@ -60,10 +60,10 @@ meta:
         RSA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - moyenne
         RSA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - moyenne
       P2:
-        mean-RSA_DJF: aucune agrégation temporelle - moyenne
-        mean-RSA_MAM: aucune agrégation temporelle - moyenne
-        mean-RSA_JJA: aucune agrégation temporelle - moyenne
-        mean-RSA_SON: aucune agrégation temporelle - moyenne
+        mean-RSA_DJF: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RSA_MAM: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RSA_JJA: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RSA_SON: aucune agrégation temporelle - moyenne inter-annuelle
     sampling_period:
       - ["01-12", "28(29)-02"]
       - ["01-03", "31-05"]

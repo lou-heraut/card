@@ -1,5 +1,5 @@
 id: mean-TMA_month
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -48,18 +48,18 @@ meta:
         TMA_nov: monthly aggregation for each year - mean
         TMA_dec: monthly aggregation for each year - mean
       P2:
-        mean-TMA_jan: no temporal aggregation - average
-        mean-TMA_feb: no temporal aggregation - average
-        mean-TMA_mar: no temporal aggregation - average
-        mean-TMA_apr: no temporal aggregation - average
-        mean-TMA_may: no temporal aggregation - average
-        mean-TMA_jun: no temporal aggregation - average
-        mean-TMA_jul: no temporal aggregation - average
-        mean-TMA_aug: no temporal aggregation - average
-        mean-TMA_sep: no temporal aggregation - average
-        mean-TMA_oct: no temporal aggregation - average
-        mean-TMA_nov: no temporal aggregation - average
-        mean-TMA_dec: no temporal aggregation - average
+        mean-TMA_jan: no temporal aggregation - inter-annual mean
+        mean-TMA_feb: no temporal aggregation - inter-annual mean
+        mean-TMA_mar: no temporal aggregation - inter-annual mean
+        mean-TMA_apr: no temporal aggregation - inter-annual mean
+        mean-TMA_may: no temporal aggregation - inter-annual mean
+        mean-TMA_jun: no temporal aggregation - inter-annual mean
+        mean-TMA_jul: no temporal aggregation - inter-annual mean
+        mean-TMA_aug: no temporal aggregation - inter-annual mean
+        mean-TMA_sep: no temporal aggregation - inter-annual mean
+        mean-TMA_oct: no temporal aggregation - inter-annual mean
+        mean-TMA_nov: no temporal aggregation - inter-annual mean
+        mean-TMA_dec: no temporal aggregation - inter-annual mean
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -124,18 +124,18 @@ meta:
         TMA_nov: agrégation mensuelle par année - moyenne
         TMA_dec: agrégation mensuelle par année - moyenne
       P2:
-        mean-TMA_jan: aucune agrégation temporelle - moyenne
-        mean-TMA_feb: aucune agrégation temporelle - moyenne
-        mean-TMA_mar: aucune agrégation temporelle - moyenne
-        mean-TMA_apr: aucune agrégation temporelle - moyenne
-        mean-TMA_may: aucune agrégation temporelle - moyenne
-        mean-TMA_jun: aucune agrégation temporelle - moyenne
-        mean-TMA_jul: aucune agrégation temporelle - moyenne
-        mean-TMA_aug: aucune agrégation temporelle - moyenne
-        mean-TMA_sep: aucune agrégation temporelle - moyenne
-        mean-TMA_oct: aucune agrégation temporelle - moyenne
-        mean-TMA_nov: aucune agrégation temporelle - moyenne
-        mean-TMA_dec: aucune agrégation temporelle - moyenne
+        mean-TMA_jan: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TMA_feb: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TMA_mar: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TMA_apr: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TMA_may: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TMA_jun: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TMA_jul: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TMA_aug: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TMA_sep: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TMA_oct: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TMA_nov: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-TMA_dec: aucune agrégation temporelle - moyenne inter-annuelle
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

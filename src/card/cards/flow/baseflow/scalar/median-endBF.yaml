@@ -1,5 +1,5 @@
 id: median-endBF
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -13,9 +13,9 @@ meta:
       is reached
     method:
       P1:
-        endBF: annual aggregation [09-01, 08-31] - date when the sum of base flow (Wallingford) Qb corresponds to 90 % of the total sum
+        endBF: annual aggregation [09-01, 08-31] - date when the sum of base flow (Wallingford) corresponds to 90 % of the total sum
       P2:
-        median-endBF: no temporal aggregation - median
+        median-endBF: no temporal aggregation - inter-annual median
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: flow
@@ -33,9 +33,9 @@ meta:
       sont atteints
     method:
       P1:
-        endBF: agrégation annuelle [01-09, 31-08] - date à laquelle la somme du débit de base (Wallingford) Qb correspond à 90 % de la somme totale
+        endBF: agrégation annuelle [01-09, 31-08] - date à laquelle la somme du débit de base (Wallingford) correspond à 90 % de la somme totale
       P2:
-        median-endBF: aucune agrégation temporelle - médiane
+        median-endBF: aucune agrégation temporelle - médiane inter-annuelle
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: débit

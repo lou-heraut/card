@@ -1,5 +1,5 @@
 id: vLF
-version: "1.2"
+version: "1.3"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -17,7 +17,7 @@ meta:
       P3:
         upLim: no temporal aggregation - the maximum of VCN10 is taken as the threshold (upLim)
       P4:
-        vLF: annual aggregation [Month of maximum monthly flows] - sum of volumes discharged each day over the longest period below upLim
+        vLF: annual aggregation [Month of maximum monthly flows] - sum of volumes discharged each day in the longest period below upLim
     sampling_period: Month of maximum monthly flows
     classification:
       domain: flow

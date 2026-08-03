@@ -1,5 +1,5 @@
 id: mean-QSA_season
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -24,10 +24,10 @@ meta:
         QSA_JJA: seasonal annual aggregation [06-01, 08-31] - mean
         QSA_SON: seasonal annual aggregation [09-01, 11-30] - mean
       P2:
-        mean-QSA_DJF: no temporal aggregation - average
-        mean-QSA_MAM: no temporal aggregation - average
-        mean-QSA_JJA: no temporal aggregation - average
-        mean-QSA_SON: no temporal aggregation - average
+        mean-QSA_DJF: no temporal aggregation - inter-annual mean
+        mean-QSA_MAM: no temporal aggregation - inter-annual mean
+        mean-QSA_JJA: no temporal aggregation - inter-annual mean
+        mean-QSA_SON: no temporal aggregation - inter-annual mean
     sampling_period:
       - ["12-01", "02-28(29)"]
       - ["03-01", "05-31"]
@@ -60,10 +60,10 @@ meta:
         QSA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - moyenne
         QSA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - moyenne
       P2:
-        mean-QSA_DJF: aucune agrégation temporelle - moyenne
-        mean-QSA_MAM: aucune agrégation temporelle - moyenne
-        mean-QSA_JJA: aucune agrégation temporelle - moyenne
-        mean-QSA_SON: aucune agrégation temporelle - moyenne
+        mean-QSA_DJF: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-QSA_MAM: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-QSA_JJA: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-QSA_SON: aucune agrégation temporelle - moyenne inter-annuelle
     sampling_period:
       - ["01-12", "28(29)-02"]
       - ["01-03", "31-05"]

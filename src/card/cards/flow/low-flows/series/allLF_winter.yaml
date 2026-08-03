@@ -1,5 +1,5 @@
 id: allLF_winter
-version: "1.2"
+version: "1.3"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-30"
 
@@ -31,7 +31,7 @@ meta:
         centerLF_winter: annual aggregation [11-01, 04-30] - date of the minimum of VC10_winter over the longest period below upLim
         endLF_winter: annual aggregation [11-01, 04-30] - date of the last day of the longest period below upLim
         dtLF_winter: annual aggregation [11-01, 04-30] - number of days in the longest period below upLim
-        vLF_winter: annual aggregation [11-01, 04-30] - sum of the volumes discharged each day of the longest period below upLim
+        vLF_winter: annual aggregation [11-01, 04-30] - sum of volumes discharged each day in the longest period below upLim
     sampling_period: ["11-01", "04-30"]
     classification:
       domain: flow

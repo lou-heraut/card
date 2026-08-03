@@ -11,7 +11,7 @@ meta:
     description: ""
     method:
       P1:
-        VC10: no temporal aggregation - 3-day centered moving average
+        VC10: no temporal aggregation - 10-day centered moving average
       P2:
         VCX10: annual aggregation [Month of minimum monthly flows] - maximum
       P3:

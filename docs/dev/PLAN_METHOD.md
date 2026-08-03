@@ -283,7 +283,12 @@ Sans données, à la lecture du seul YAML. Ces règles rejoignent
 6. Une colonne citée par une étape ultérieure est nommée par la phrase
    qui la produit. C'est ce qui empêche la relecture éditoriale du lot D
    de reperdre la chaîne, et le test l'éprouve en la cassant.
-7. La moitié gauche s'accorde avec ce que le process calcule. Le pas de
+7. Un nombre écrit dans la prose existe dans le process. Le contrôle va
+   dans ce sens et pas dans l'autre : exiger qu'un paramètre se retrouve
+   dans la phrase serait faux, `Q50A` appelant « médiane » le quantile à
+   50 % et ayant raison. Les identifiants sont retirés d'abord, le « 10 »
+   de `VC10` n'étant pas une durée.
+8. La moitié gauche s'accorde avec ce que le process calcule. Le pas de
    temps ne suffit pas à conclure : un process qui opère sur des séries
    déjà à son propre pas n'agrège rien, et le dit. Le grain d'une
    colonne se lit dans la chaîne, avec une exception qui compte, `keep:

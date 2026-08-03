@@ -1,5 +1,5 @@
 id: mean-RA
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -13,7 +13,7 @@ meta:
       P1:
         RA: annual aggregation [09-01, 08-31] - sum
       P2:
-        mean-RA: no temporal aggregation - average
+        mean-RA: no temporal aggregation - inter-annual mean
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: precipitation
@@ -31,7 +31,7 @@ meta:
       P1:
         RA: agrégation annuelle [01-09, 31-08] - somme
       P2:
-        mean-RA: aucune agrégation temporelle - moyenne
+        mean-RA: aucune agrégation temporelle - moyenne inter-annuelle
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: précipitations

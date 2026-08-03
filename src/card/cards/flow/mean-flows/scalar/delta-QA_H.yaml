@@ -1,5 +1,5 @@
 id: delta-QA_H
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -33,7 +33,7 @@ meta:
       P1:
         QA: agrégation annuelle [01-09, 31-08] - moyenne
       P2:
-        delta-QA: aucune agrégation temporelle - changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-QA: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: débit

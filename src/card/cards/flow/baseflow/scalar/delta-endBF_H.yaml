@@ -1,5 +1,5 @@
 id: delta-endBF_H
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -12,7 +12,7 @@ meta:
       Date when 90 % of the annual cumulative base flow is reached
     method:
       P1:
-        endBF: annual aggregation [09-01, 08-31] - date when the sum of base flow (Wallingford) Qb corresponds to 90 % of the total sum
+        endBF: annual aggregation [09-01, 08-31] - date when the sum of base flow (Wallingford) corresponds to 90 % of the total sum
       P2:
         delta-endBF: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     suffix_default:
@@ -33,7 +33,7 @@ meta:
       Date à laquelle 90 % du cumul annuel du débit de base sont atteints
     method:
       P1:
-        endBF: agrégation annuelle [01-09, 31-08] - date à laquelle la somme du débit de base (Wallingford) Qb correspond à 90 % de la somme totale
+        endBF: agrégation annuelle [01-09, 31-08] - date à laquelle la somme du débit de base (Wallingford) correspond à 90 % de la somme totale
       P2:
         delta-endBF: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     suffix_default:

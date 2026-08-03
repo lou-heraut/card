@@ -1,5 +1,5 @@
 id: mean-QA
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -13,7 +13,7 @@ meta:
       P1:
         QA: annual aggregation [09-01, 08-31] - mean
       P2:
-        mean-QA: no temporal aggregation - average
+        mean-QA: no temporal aggregation - inter-annual mean
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: flow
@@ -31,7 +31,7 @@ meta:
       P1:
         QA: agrégation annuelle [01-09, 31-08] - moyenne
       P2:
-        mean-QA: aucune agrégation temporelle - moyenne
+        mean-QA: aucune agrégation temporelle - moyenne inter-annuelle
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: débit
