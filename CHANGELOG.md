@@ -104,6 +104,29 @@ des deux endroits.
   indirection ; les docstrings bilingues passent à `card/docstring.py`,
   en attendant le rendu de fonction qui les publiera entières.
 
+- **Les moitiés droites de `method` ont été relues sous la charte
+  (2026-08-03).** Quatre erreurs de fond en sont sorties, qu'aucun test
+  ne pouvait voir puisqu'elles portaient sur de la prose :
+  `delta-VCX10_H` annonçait en anglais une moyenne mobile sur 3 jours
+  pour un `k: 10` ; les trois fiches `rp-*` étiquetaient « minimum » une
+  colonne calculée par `nanmean` ; les fiches `alpha-*` annonçaient une
+  pente de Sen filtrée sur la significativité du test de Mann-Kendall,
+  filtrage que `mannkendall_slope` ne fait pas et ne doit pas faire, la
+  pente devant toujours être donnée et interprétée avec le test.
+
+  Le reste est de l'uniformisation : « inter-annuel(le) » rendu
+  explicite pour `mean-` et `median-` comme la règle du CLAUDE.md le
+  demandait déjà, une phrase par colonne là où quinze fiches en gardaient
+  une qui les énumérait toutes, une seule formulation par geste, et la
+  forme nominale pour les trente-huit étapes qui disaient encore « le
+  maximum de VCN10 EST PRIS comme seuil ».
+
+  Ce qui n'a **pas** changé, et c'est un arbitrage : les notes brèves du
+  type « calcul du NSE » restent. `method` donne à voir les étapes du
+  process, la complétude est portée par `name` et `description`. Le vrai
+  manque est là, une fiche sur deux n'ayant pas de description
+  (CHANTIERS).
+
 ### Ajouté
 
 - **Le linter confronte `method` au `process` (2026-08-03).** Sept
