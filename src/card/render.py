@@ -406,8 +406,16 @@ def entete(c, meta, lang="fr"):
         facettes.insert(0, unites[0])
     out += plie(SEP.join(str(x) for x in facettes if not _vide(x)), f"{marge}  ")
 
+    # Une description PAR SORTIE se lit sous sa sortie, pas au pied de la
+    # figure : là, une seule des cinq s'afficherait et ferait passer
+    # « décembre, janvier et février » pour la définition de la fiche
+    # entière. Le pied ne reçoit donc que la description qui vaut pour
+    # toutes, et celles qui diffèrent remontent ici.
+    descs = [str(d) for d in meta[f"description_{lang}"]]
+    par_sortie = descs if len(set(descs)) > 1 else [""] * len(descs)
+
     if 1 < len(meta) <= 6:
-        for i, tr, u, n in zip(ids, trads, unites, noms):
+        for i, tr, u, n, d in zip(ids, trads, unites, noms, par_sortie):
             alias = f" ({tr})" if tr != i else ""
             mesure = "" if une_unite or _vide(u) else f" [{u}]"
             # Le nom déjà pris comme titre ne se répète pas sous chaque
@@ -415,9 +423,14 @@ def entete(c, meta, lang="fr"):
             suite = "" if n == nom_commun else f"{SEP}{n}"
             out += plie(f"{i}{alias}{mesure}{suite}",
                         f"{marge}  {PUCE} ", f"{marge}    ")
+            if not _vide(d):
+                out += plie(d, f"{marge}    ", f"{marge}    ")
     elif len(meta) > 6:
         # Au-delà, les noms sont systématiques (un par mois, par saison) :
         # les lire ligne à ligne n'apprend rien de plus que la facette.
+        # Leurs descriptions non plus, qui ne diffèrent que par le mois et
+        # redisent le nom : douze d'entre elles feraient trente-six lignes
+        # avant même la chaîne de calcul.
         out += plie(", ".join(ids), f"{marge}  {PUCE} ", f"{marge}    ")
     return out + [""]
 

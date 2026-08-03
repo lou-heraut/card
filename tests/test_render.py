@@ -91,11 +91,20 @@ def test_chaque_sortie_dit_de_quelle_fonction_elle_vient():
     assert "startLF = apply_threshold(VC10)" in figure("allLF")
 
 
-def test_la_description_d_une_seule_sortie_ne_decrit_pas_la_fiche():
-    """QSA_season : « décembre, janvier et février » décrit DJF, pas la
-    fiche entière."""
-    assert "décembre" not in figure("QSA_season")
-    assert "Courbe des quantiles" in figure("FDC"), "commune : elle reste"
+def test_une_description_par_sortie_se_lit_sous_sa_sortie():
+    """« décembre, janvier et février » décrit DJF, pas la fiche entière.
+
+    Au pied de la figure, une seule des quatre s'afficherait et passerait
+    pour la définition de la fiche : elles étaient donc tues, et le
+    lecteur ne les voyait jamais. Chacune remonte sous SA sortie.
+    """
+    lignes = figure("QSA_season").split("\n")
+    i = next(i for i, ligne in enumerate(lignes) if "▸ QSA_DJF" in ligne)
+    assert "décembre" in lignes[i + 1]
+    assert "décembre" not in lignes[-1], "pas au pied, où elle mentirait"
+    # Une description COMMUNE à toutes les sorties décrit bien la fiche,
+    # et garde sa place au pied.
+    assert "Courbe des quantiles" in figure("FDC")
 
 
 def test_l_identifiant_perenne_est_ouvrable():
