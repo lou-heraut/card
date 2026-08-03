@@ -92,6 +92,42 @@ des deux endroits.
   cassant la chaîne. Deux divergences fr/en sont tombées au passage, dont
   l'anglais de `median-dtFlood` qui gardait trois formulations propres.
 
+- **La figure affiche la phrase de la fiche, plus la docstring de la
+  fonction (2026-08-03).** C'est le geste qui a ouvert le chantier : sous
+  `apply_threshold(dQ)   dQ >= lowLim, select=dQXA, durée`, `dtFlood`
+  ajoutait « Analyse des épisodes où X franchit un seuil lim », et lit
+  désormais sa propre phrase, « nombre de jours où dQ dépasse lowLim ».
+  Une glose est attachée à une FONCTION, donc elle ne peut dire que du
+  général : `apply_threshold` mesure une durée de crue ici et date un
+  début d'étiage ailleurs. Seule la moitié droite s'affiche, la maille
+  d'agrégation étant déjà dessinée. `render.py` perd cent lignes et une
+  indirection ; les docstrings bilingues passent à `card/docstring.py`,
+  en attendant le rendu de fonction qui les publiera entières.
+
+### Ajouté
+
+- **Le linter confronte `method` au `process` (2026-08-03).** Sept
+  règles : une phrase par colonne réellement produite, aucune phrase
+  orpheline, les mêmes clés dans les deux langues, un nom cité présenté
+  par la phrase qui le produit, et la moitié gauche confrontée à ce que
+  le process calcule. Cette dernière est le seul contrôle croisé qui
+  existe sur `method`, et il n'existe que parce que la phrase est ÉCRITE.
+  Le pas de temps ne suffit pas à conclure : `RAl_ratio` P2 divise deux
+  séries déjà annuelles et n'agrège rien, là où `dtFlood` P3 agrège
+  vraiment parce que son entrée a été rediffusée sur la grille
+  journalière par un `keep: all` amont. En lisant ce détail, les 504
+  étapes du corpus s'accordent sans une exception. Le contrôle a servi
+  aussitôt : `QM` annonçait « agrégation mensuelle par année » pour un
+  `time_step: month`.
+
+### Retiré
+
+- **`difference_longest_run` (2026-08-03).** Créée par symétrie le
+  2026-07-31, aucune fiche ne l'a jamais employée. Sa jumelle
+  `ratio_longest_run` reste : trois fiches s'en servent, et un drapeau
+  qui change la cardinalité du retour rend le pas de temps d'un process
+  indécidable à la lecture. Trace dans `RENAMING.md`.
+
 ### Corrigé
 
 - **Six figures annonçaient l'inverse de ce qu'elles calculaient

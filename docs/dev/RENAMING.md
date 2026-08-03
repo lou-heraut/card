@@ -442,7 +442,7 @@ pourrait la déclarer fausse (doctrine « la fonction fait foi »).
 | `ratio(a, b)` | `ratio(a, b)`, transforme |
 | `ratio(a, b, first=True)` | **`ratio_longest_run(a, b)`**, réduit |
 | `difference(a, b)` | `difference(a, b)`, transforme |
-| `difference(a, b, first=True)` | **`difference_longest_run(a, b)`**, réduit |
+| `difference(a, b, first=True)` | retirée le 2026-08-03, aucune fiche ne l'employait |
 
 Le nom retenu dit le mécanisme réel, la valeur du plus long palier au sens
 de `_rle_most_frequent`. « dominant » a été écarté : le mot évoque une

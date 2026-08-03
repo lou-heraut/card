@@ -58,6 +58,38 @@ Objectif : valider les YAML pendant l'édition. Deux voies :
   `python -m card.schema <fichier>` (déjà supporté en CLI, plus simple
   mais sans autocomplétion).
 
+## Nomenclature des variables intermédiaires
+
+Depuis que `method` est indexé par colonne produite, ces noms sont
+visibles dans la fiche ET dans la figure : `dQ`, `VC10`, `upLim`,
+`lowLim`, `QlimM`, `QMA`. Ils n'ont jamais été arbitrés ensemble, et une
+passe de vérification leur donnerait la cohérence qu'ont déjà les noms de
+sortie (`NOMENCLATURE.md`). Un cas a déjà été corrigé au passage : la
+famille `dtFlood` appelait `Qr` dans sa prose la colonne nommée `dQ`.
+
+Non bloquant, et sans effet sur les calculs : un renommage de colonne
+intermédiaire ne change aucune sortie, seulement le YAML et la figure.
+
+## Deux fonctions circulaires sans usage
+
+`circular_ratio` et `circular_difference` ne sont employées par aucune
+fiche (mesuré le 2026-08-03). Ce sont des portages de R, donc la question
+est une question de PARITÉ, pas de ménage : les retirer romprait la
+correspondance avec `CARD`/`EXstat`, les garder laisse deux fonctions
+qu'aucun test de fiche n'exerce. À trancher avec le sort du portage.
+
+Leur voisine `difference_longest_run`, elle, a été retirée le 2026-08-03 :
+créée par symétrie le 2026-07-31, aucune fiche ne l'a jamais employée
+(cf. `RENAMING.md`).
+
+## `meta.sampling_period` : prose d'un côté, littéral Python de l'autre
+
+Une partie du corpus écrit une phrase (« Mois du maximum des débits
+mensuels »), une autre un littéral brut (`['01-09', '31-08']`) que la
+figure doit reformater pour le rendre lisible. Même famille de problème
+que `method` avant sa refonte : un champ qui porte deux formes sans règle.
+Repéré pendant le chantier `method`, pas traité.
+
 ## Revue de code du package (lisibilité, dé-boîte-noire)
 
 Crainte utilisateur : code trop compliqué ou alambiqué par endroits.

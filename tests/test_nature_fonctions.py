@@ -41,7 +41,6 @@ SERIE = 10 + 8 * np.sin(2 * np.pi * _jours / 365.25) + 0.5 * ((_jours * 37) % 11
 DEUX_SERIES = [("col", "a"), ("col", "b")]
 RECETTES_HORS_CORPUS = {
     "difference": ({}, DEUX_SERIES),
-    "difference_longest_run": ({}, DEUX_SERIES),
     "circular_difference": ({"periodicity": 365.25}, DEUX_SERIES),
     "circular_ratio": ({"periodicity": 365.25}, DEUX_SERIES),
 }

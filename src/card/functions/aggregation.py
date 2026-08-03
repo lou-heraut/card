@@ -101,41 +101,24 @@ def ratio(a, b):
     return _squeeze_scalar(a / b)
 
 
-def difference_longest_run(a, b):
+def ratio_longest_run(a, b):
     """
-    en: Difference between the longest-run values of a and b: ONE value.
+    en: Ratio of the longest-run values of a and b: ONE value.
 
         For columns that are constant over the group (a threshold broadcast
         by an upstream `keep: all`) whose value is wanted once. The longest
         run is taken after dropping the gaps, so a hole in the column does
-        not contaminate the result, where a term-by-term subtraction would
+        not contaminate the result, where a term-by-term division would
         return NaN on that day. NaN if either side is all NaN.
 
-    fr: Différence des valeurs du plus long palier de a et de b : UNE valeur.
+    fr: Rapport des valeurs du plus long palier de a et de b : UNE valeur.
 
         Sert quand a et b sont des colonnes constantes sur le groupe (un seuil
         rediffusé par un `keep: all` en amont) et qu'on en veut la valeur, une
         seule fois. Le plus long palier est retenu après avoir écarté les
         lacunes, si bien qu'un trou dans la colonne ne contamine pas le
-        résultat, là où la soustraction terme à terme rendrait NaN ce jour-là.
+        résultat, là où la division terme à terme rendrait NaN ce jour-là.
         Tout-NaN d'un côté → NaN.
-    """
-    a = _to_float_array(a)
-    b = _to_float_array(b)
-    if np.all(np.isnan(a)) or np.all(np.isnan(b)):
-        return np.nan
-    return _rle_most_frequent(a) - _rle_most_frequent(b)
-
-
-def ratio_longest_run(a, b):
-    """
-    en: Ratio of the longest-run values of a and b: ONE value.
-
-        Same conventions as difference_longest_run.
-
-    fr: Rapport des valeurs du plus long palier de a et de b : UNE valeur.
-
-        Mêmes conventions que difference_longest_run.
     """
     a = _to_float_array(a)
     b = _to_float_array(b)
@@ -335,4 +318,4 @@ difference.is_transform = True
 ratio.is_transform = True
 circular_difference.is_transform = True
 circular_ratio.is_transform = True
-# Rien pour difference_longest_run ni ratio_longest_run : elles réduisent.
+# Rien pour ratio_longest_run : elle réduit.

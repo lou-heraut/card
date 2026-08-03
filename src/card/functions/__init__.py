@@ -11,7 +11,6 @@ from .aggregation import (  # noqa: F401
     circular_median,
     circular_ratio,
     difference,
-    difference_longest_run,
     nansum_strict,
     ratio,
     ratio_longest_run,
