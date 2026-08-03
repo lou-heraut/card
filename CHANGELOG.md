@@ -45,6 +45,35 @@ des deux endroits.
 
 ## Non publié
 
+### Modifié
+
+- **`method` porte désormais une phrase par colonne produite
+  (2026-08-03).** Le champ était une chaîne numérotée, sans lien machine
+  avec le process qu'il décrit : rien ne pouvait y demander « la phrase
+  de P4 », si bien que la figure se rabattait sur la docstring de la
+  fonction, qui ne parle que du général. `method` est maintenant indexé
+  par process puis par colonne produite, la colonne étant la clé de
+  `func` suffixée par saison ou par mois quand le process porte
+  `compress`. Les clés ne sont pas traduites, ce sont les identifiants
+  des colonnes de sortie. Le linter refuse un process sans phrase, une
+  phrase sans colonne, et des clés différentes entre les deux langues.
+
+  **La sortie ne change pas de forme** : `method_fr` et `method_en`
+  restent les étapes numérotées, assemblées par `card/method.py` en
+  suivant la chaîne de dépendances que la fiche déclare. Rien n'est
+  déduit d'un paramètre de process, seules des phrases écrites dans le
+  YAML sont mises bout à bout.
+
+  Vérifié en comparant la publication des 472 lignes de méta avant et
+  après, dans les deux langues : 378 étapes changent, toutes dans cinq
+  catégories déclarées à l'avance (renvois anaphoriques remplacés par le
+  nom de colonne que la fiche déclare, incises `(série des X)` retirées
+  puisque la clé nomme la colonne, `agrégation mensuelle` uniformisée en
+  `agrégation mensuelle par année`, deux capitales corrigées, phrases
+  composées des fiches d'élasticité rendues à leur colonne). Tout le
+  reste revient à l'octet. Conception et suite des lots :
+  `docs/dev/PLAN_METHOD.md`.
+
 ### Corrigé
 
 - **Six figures annonçaient l'inverse de ce qu'elles calculaient
