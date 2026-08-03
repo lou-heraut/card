@@ -9,10 +9,9 @@ meta:
     unit: day
     name: Duration of low flows
     description: Duration between the start and end of low flows
-    method: |
-      1. annual aggregation [09-01, 08-31] - number of days between the dates
-         when the baseflow (Wallingford) sum corresponds to 10 % and 90 %
-         of the total sum
+    method:
+      P1:
+        dtBF: annual aggregation [09-01, 08-31] - number of days between the dates when the baseflow (Wallingford) sum corresponds to 10 % and 90 % of the total sum
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: flow
@@ -26,10 +25,9 @@ meta:
     unit: jour
     name: Durée des écoulements lents
     description: Durée entre le début et la fin des écoulements lents
-    method: |
-      1. agrégation annuelle [01-09, 31-08] - nombre de jours entre les dates
-         auxquelles la somme du débit de base (Wallingford) correspond à 10 %
-         et 90 % de la somme totale
+    method:
+      P1:
+        dtBF: agrégation annuelle [01-09, 31-08] - nombre de jours entre les dates auxquelles la somme du débit de base (Wallingford) correspond à 10 % et 90 % de la somme totale
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: débit

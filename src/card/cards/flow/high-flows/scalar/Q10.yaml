@@ -10,9 +10,9 @@ meta:
     name: "Daily flow exceeded 10 % of the time (whole record)"
     description: >-
       Flow with an exceedance probability of 10 % (90th percentile)
-    method: |
-      1. no temporal aggregation - quantile at the exceedance probability
-         of 10 %
+    method:
+      P1:
+        Q10: no temporal aggregation - quantile at the exceedance probability of 10 %
     classification:
       domain: flow
       phenomenon: high flows
@@ -26,9 +26,9 @@ meta:
     name: "Débit journalier dépassé 10 % du temps (chronique entière)"
     description: >-
       Débit avec une probabilité de dépassement de 10 % (centile 90 %)
-    method: |
-      1. aucune agrégation temporelle - quantile à la probabilité de
-         dépassement de 10 %
+    method:
+      P1:
+        Q10: aucune agrégation temporelle - quantile à la probabilité de dépassement de 10 %
     classification:
       domain: débit
       phenomenon: hautes eaux

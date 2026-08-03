@@ -11,7 +11,9 @@ meta:
     description: >-
       Identical to NSE, this score, however, gives strong emphasis on the
       reconstruction of low values of the examined variable.
-    method: "1. no temporal aggregation - inverse of daily data, then NSE"
+    method:
+      P1:
+        NSEinv: no temporal aggregation - inverse of daily data, then NSE
     classification:
       domain: flow
       season: record
@@ -25,7 +27,9 @@ meta:
     description: >-
       Identique au NSE, ce score donne cependant un poids fort à la
       reconstitution des valeurs faibles de la variable examinée.
-    method: "1. aucune agrégation temporelle - inverse des données journalières puis NSE"
+    method:
+      P1:
+        NSEinv: aucune agrégation temporelle - inverse des données journalières puis NSE
     classification:
       domain: débit
       season: chronique

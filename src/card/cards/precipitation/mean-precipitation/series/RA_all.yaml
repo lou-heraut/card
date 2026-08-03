@@ -12,7 +12,11 @@ meta:
       - "Annual liquid precipitation"
       - "Annual solid precipitation"
     description: ""
-    method: "1. annual aggregation [09-01, 08-31] - sum"
+    method:
+      P1:
+        RA: annual aggregation [09-01, 08-31] - sum
+        RAl: annual aggregation [09-01, 08-31] - sum
+        RAs: annual aggregation [09-01, 08-31] - sum
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: precipitation
@@ -29,7 +33,11 @@ meta:
       - "Cumul annuel des précipitations liquides"
       - "Cumul annuel des précipitations solides"
     description: ""
-    method: "1. agrégation annuelle [01-09, 31-08] - somme"
+    method:
+      P1:
+        RA: agrégation annuelle [01-09, 31-08] - somme
+        RAl: agrégation annuelle [01-09, 31-08] - somme
+        RAs: agrégation annuelle [01-09, 31-08] - somme
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: précipitations

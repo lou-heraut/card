@@ -33,7 +33,20 @@ meta:
       - Cumulative daily solid precipitation for each November
       - Cumulative daily solid precipitation for each December
     description: ""
-    method: "1. monthly aggregation for each year - sum"
+    method:
+      P1:
+        RMAs_jan: monthly aggregation for each year - sum
+        RMAs_feb: monthly aggregation for each year - sum
+        RMAs_mar: monthly aggregation for each year - sum
+        RMAs_apr: monthly aggregation for each year - sum
+        RMAs_may: monthly aggregation for each year - sum
+        RMAs_jun: monthly aggregation for each year - sum
+        RMAs_jul: monthly aggregation for each year - sum
+        RMAs_aug: monthly aggregation for each year - sum
+        RMAs_sep: monthly aggregation for each year - sum
+        RMAs_oct: monthly aggregation for each year - sum
+        RMAs_nov: monthly aggregation for each year - sum
+        RMAs_dec: monthly aggregation for each year - sum
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -83,7 +96,20 @@ meta:
       - Cumul des précipitations solides journalières de chaque novembre
       - Cumul des précipitations solides journalières de chaque décembre
     description: ""
-    method: "1. agrégation mensuelle par année - somme"
+    method:
+      P1:
+        RMAs_jan: agrégation mensuelle par année - somme
+        RMAs_feb: agrégation mensuelle par année - somme
+        RMAs_mar: agrégation mensuelle par année - somme
+        RMAs_apr: agrégation mensuelle par année - somme
+        RMAs_may: agrégation mensuelle par année - somme
+        RMAs_jun: agrégation mensuelle par année - somme
+        RMAs_jul: agrégation mensuelle par année - somme
+        RMAs_aug: agrégation mensuelle par année - somme
+        RMAs_sep: agrégation mensuelle par année - somme
+        RMAs_oct: agrégation mensuelle par année - somme
+        RMAs_nov: agrégation mensuelle par année - somme
+        RMAs_dec: agrégation mensuelle par année - somme
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

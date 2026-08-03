@@ -33,7 +33,20 @@ meta:
       - Cumulative potential evapotranspiration for each November
       - Cumulative potential evapotranspiration for each December
     description: ""
-    method: "1. monthly aggregation for each year - sum"
+    method:
+      P1:
+        ETPMA_jan: monthly aggregation for each year - sum
+        ETPMA_feb: monthly aggregation for each year - sum
+        ETPMA_mar: monthly aggregation for each year - sum
+        ETPMA_apr: monthly aggregation for each year - sum
+        ETPMA_may: monthly aggregation for each year - sum
+        ETPMA_jun: monthly aggregation for each year - sum
+        ETPMA_jul: monthly aggregation for each year - sum
+        ETPMA_aug: monthly aggregation for each year - sum
+        ETPMA_sep: monthly aggregation for each year - sum
+        ETPMA_oct: monthly aggregation for each year - sum
+        ETPMA_nov: monthly aggregation for each year - sum
+        ETPMA_dec: monthly aggregation for each year - sum
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -83,7 +96,20 @@ meta:
       - Cumul de l'évapotranspiration potentielle de chaque novembre
       - Cumul de l'évapotranspiration potentielle de chaque décembre
     description: ""
-    method: "1. agrégation mensuelle par année - somme"
+    method:
+      P1:
+        ETPMA_jan: agrégation mensuelle par année - somme
+        ETPMA_feb: agrégation mensuelle par année - somme
+        ETPMA_mar: agrégation mensuelle par année - somme
+        ETPMA_apr: agrégation mensuelle par année - somme
+        ETPMA_may: agrégation mensuelle par année - somme
+        ETPMA_jun: agrégation mensuelle par année - somme
+        ETPMA_jul: agrégation mensuelle par année - somme
+        ETPMA_aug: agrégation mensuelle par année - somme
+        ETPMA_sep: agrégation mensuelle par année - somme
+        ETPMA_oct: agrégation mensuelle par année - somme
+        ETPMA_nov: agrégation mensuelle par année - somme
+        ETPMA_dec: agrégation mensuelle par année - somme
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

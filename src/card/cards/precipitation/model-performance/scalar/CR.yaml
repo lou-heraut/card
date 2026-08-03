@@ -9,7 +9,15 @@ meta:
     unit: "without unit"
     name: Correction coefficient for precipitation
     description: ""
-    method: "1. annual aggregation [09-01, 08-31] - sums of observed and simulated precipitation\n2. no temporal aggregation - inter-annual means\n3. no temporal aggregation - simulated/observed ratio"
+    method:
+      P1:
+        RA_obs: annual aggregation [09-01, 08-31] - sums of observed and simulated precipitation
+        RA_sim: annual aggregation [09-01, 08-31] - sums of observed and simulated precipitation
+      P2:
+        mean-RA_obs: no temporal aggregation - inter-annual means
+        mean-RA_sim: no temporal aggregation - inter-annual means
+      P3:
+        CR: no temporal aggregation - simulated/observed ratio
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: precipitation
@@ -22,7 +30,15 @@ meta:
     unit: "sans unité"
     name: Coefficient correctif des précipitations
     description: ""
-    method: "1. agrégation annuelle [01-09, 31-08] - sommes des précipitations observées et simulées\n2. aucune agrégation temporelle - moyennes inter-annuelles\n3. aucune agrégation temporelle - rapport simulé/observé"
+    method:
+      P1:
+        RA_obs: agrégation annuelle [01-09, 31-08] - sommes des précipitations observées et simulées
+        RA_sim: agrégation annuelle [01-09, 31-08] - sommes des précipitations observées et simulées
+      P2:
+        mean-RA_obs: aucune agrégation temporelle - moyennes inter-annuelles
+        mean-RA_sim: aucune agrégation temporelle - moyennes inter-annuelles
+      P3:
+        CR: aucune agrégation temporelle - rapport simulé/observé
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: précipitations

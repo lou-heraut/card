@@ -9,7 +9,11 @@ meta:
     unit: "%"
     name: "Average change of winter minimum of daily discharge between the {suffix.name} horizon and historical period"
     description: ""
-    method: "1. annual aggregation [11-01, 04-30] - minimum\n2. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon"
+    method:
+      P1:
+        QNA_winter: annual aggregation [11-01, 04-30] - minimum
+      P2:
+        delta-QNA_winter: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     sampling_period: ["11-01", "04-30"]
     classification:
       domain: flow
@@ -25,7 +29,11 @@ meta:
     unit: "%"
     name: "Changement moyen du minimum hivernal du débit journalier entre l'horizon {suffix.name} et la période historique"
     description: ""
-    method: "1. agrégation annuelle [01-11, 30-04] - minimum\n2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}"
+    method:
+      P1:
+        QNA_winter: agrégation annuelle [01-11, 30-04] - minimum
+      P2:
+        delta-QNA_winter: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     sampling_period: ["01-11", "30-04"]
     classification:
       domain: débit

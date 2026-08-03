@@ -33,7 +33,20 @@ meta:
       - Cumulative daily liquid precipitation for each November
       - Cumulative daily liquid precipitation for each December
     description: ""
-    method: "1. monthly aggregation for each year - sum"
+    method:
+      P1:
+        RMAl_jan: monthly aggregation for each year - sum
+        RMAl_feb: monthly aggregation for each year - sum
+        RMAl_mar: monthly aggregation for each year - sum
+        RMAl_apr: monthly aggregation for each year - sum
+        RMAl_may: monthly aggregation for each year - sum
+        RMAl_jun: monthly aggregation for each year - sum
+        RMAl_jul: monthly aggregation for each year - sum
+        RMAl_aug: monthly aggregation for each year - sum
+        RMAl_sep: monthly aggregation for each year - sum
+        RMAl_oct: monthly aggregation for each year - sum
+        RMAl_nov: monthly aggregation for each year - sum
+        RMAl_dec: monthly aggregation for each year - sum
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -83,7 +96,20 @@ meta:
       - Cumul des précipitations liquides journalières de chaque novembre
       - Cumul des précipitations liquides journalières de chaque décembre
     description: ""
-    method: "1. agrégation mensuelle par année - somme"
+    method:
+      P1:
+        RMAl_jan: agrégation mensuelle par année - somme
+        RMAl_feb: agrégation mensuelle par année - somme
+        RMAl_mar: agrégation mensuelle par année - somme
+        RMAl_apr: agrégation mensuelle par année - somme
+        RMAl_may: agrégation mensuelle par année - somme
+        RMAl_jun: agrégation mensuelle par année - somme
+        RMAl_jul: agrégation mensuelle par année - somme
+        RMAl_aug: agrégation mensuelle par année - somme
+        RMAl_sep: agrégation mensuelle par année - somme
+        RMAl_oct: agrégation mensuelle par année - somme
+        RMAl_nov: agrégation mensuelle par année - somme
+        RMAl_dec: agrégation mensuelle par année - somme
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

@@ -33,7 +33,20 @@ meta:
       - Average daily temperatures for each November
       - Average daily temperatures for each December
     description: ""
-    method: "1. monthly aggregation for each year - mean"
+    method:
+      P1:
+        TMA_jan: monthly aggregation for each year - mean
+        TMA_feb: monthly aggregation for each year - mean
+        TMA_mar: monthly aggregation for each year - mean
+        TMA_apr: monthly aggregation for each year - mean
+        TMA_may: monthly aggregation for each year - mean
+        TMA_jun: monthly aggregation for each year - mean
+        TMA_jul: monthly aggregation for each year - mean
+        TMA_aug: monthly aggregation for each year - mean
+        TMA_sep: monthly aggregation for each year - mean
+        TMA_oct: monthly aggregation for each year - mean
+        TMA_nov: monthly aggregation for each year - mean
+        TMA_dec: monthly aggregation for each year - mean
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -83,7 +96,20 @@ meta:
       - Moyenne des températures journalières de chaque novembre
       - Moyenne des températures journalières de chaque décembre
     description: ""
-    method: "1. agrégation mensuelle par année - moyenne"
+    method:
+      P1:
+        TMA_jan: agrégation mensuelle par année - moyenne
+        TMA_feb: agrégation mensuelle par année - moyenne
+        TMA_mar: agrégation mensuelle par année - moyenne
+        TMA_apr: agrégation mensuelle par année - moyenne
+        TMA_may: agrégation mensuelle par année - moyenne
+        TMA_jun: agrégation mensuelle par année - moyenne
+        TMA_jul: agrégation mensuelle par année - moyenne
+        TMA_aug: agrégation mensuelle par année - moyenne
+        TMA_sep: agrégation mensuelle par année - moyenne
+        TMA_oct: agrégation mensuelle par année - moyenne
+        TMA_nov: agrégation mensuelle par année - moyenne
+        TMA_dec: agrégation mensuelle par année - moyenne
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

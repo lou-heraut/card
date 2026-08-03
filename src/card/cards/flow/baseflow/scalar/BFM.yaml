@@ -9,10 +9,13 @@ meta:
     unit: without unit
     name: Baseflow magnitude
     description: ""
-    method: |
-      1. no temporal aggregation - extraction of the base flow (Wallingford)
-      2. aggregation by day of the year - average of the base flow BFA
-      3. no temporal aggregation - calculation of the base flow magnitude BFM
+    method:
+      P1:
+        BF: no temporal aggregation - extraction of the base flow (Wallingford)
+      P2:
+        BFA: aggregation by day of the year - average of the base flow BFA
+      P3:
+        BFM: no temporal aggregation - calculation of the base flow magnitude BFM
     classification:
       domain: flow
       phenomenon: baseflow
@@ -25,10 +28,13 @@ meta:
     unit: sans unité
     name: Magnitude du débit de base
     description: ""
-    method: |
-      1. aucune agrégation temporelle - extraction du débit de base (Wallingford)
-      2. agrégation par jour de l'année - moyenne du débit de base BFA
-      3. aucune agrégation temporelle - calcul du BFM
+    method:
+      P1:
+        BF: aucune agrégation temporelle - extraction du débit de base (Wallingford)
+      P2:
+        BFA: agrégation par jour de l'année - moyenne du débit de base BFA
+      P3:
+        BFM: aucune agrégation temporelle - calcul du BFM
     classification:
       domain: débit
       phenomenon: débit de base

@@ -1,5 +1,5 @@
 id: delta-QJXA-10_H
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -9,12 +9,11 @@ meta:
     unit: "%"
     name: "Change of annual maximum daily flow with a 10-year return period between the {suffix.name} horizon and historical period"
     description: ""
-    method: |
-      1. annual aggregation [Month of minimum monthly flows] - maximum
-         (extraction from the QJXA series)
-      2. no temporal aggregation - calculation of the 10-year return period
-         flow with the Gumbel distribution on the historical period and in
-         the {suffix.name} horizon then calculation of the average change
+    method:
+      P1:
+        QJXA: annual aggregation [Month of minimum monthly flows] - maximum (extraction from the QJXA series)
+      P2:
+        delta-QJXA-10: no temporal aggregation - calculation of the 10-year return period flow with the Gumbel distribution on the historical period and in the {suffix.name} horizon then calculation of the average change
     suffix_default:
       name: target
     sampling_period: Month of minimum monthly flows
@@ -30,12 +29,11 @@ meta:
     unit: "%"
     name: "Changement du débit journalier maximal annuel de période de retour 10 ans entre l'horizon {suffix.name} et la période historique"
     description: ""
-    method: |
-      1. agrégation annuelle [Mois du minimum des débits mensuels] - maximum
-         (extraction de la série des QJXA)
-      2. aucune agrégation temporelle - calcul du débit de période de retour
-         10 ans avec la loi de Gumbel sur la période historique et en horizon
-         {suffix.name} puis calcul du changement moyen
+    method:
+      P1:
+        QJXA: agrégation annuelle [Mois du minimum des débits mensuels] - maximum
+      P2:
+        delta-QJXA-10: aucune agrégation temporelle - calcul du débit de période de retour 10 ans avec la loi de Gumbel sur la période historique et en horizon {suffix.name} puis calcul du changement moyen
     suffix_default:
       name: cible
     sampling_period: Mois du minimum des débits mensuels

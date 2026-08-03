@@ -33,7 +33,20 @@ meta:
       - Cumulative daily precipitation for each November
       - Cumulative daily precipitation for each December
     description: ""
-    method: "1. monthly aggregation for each year - sum"
+    method:
+      P1:
+        RMA_jan: monthly aggregation for each year - sum
+        RMA_feb: monthly aggregation for each year - sum
+        RMA_mar: monthly aggregation for each year - sum
+        RMA_apr: monthly aggregation for each year - sum
+        RMA_may: monthly aggregation for each year - sum
+        RMA_jun: monthly aggregation for each year - sum
+        RMA_jul: monthly aggregation for each year - sum
+        RMA_aug: monthly aggregation for each year - sum
+        RMA_sep: monthly aggregation for each year - sum
+        RMA_oct: monthly aggregation for each year - sum
+        RMA_nov: monthly aggregation for each year - sum
+        RMA_dec: monthly aggregation for each year - sum
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -83,7 +96,20 @@ meta:
       - Cumul des précipitations journalières de chaque novembre
       - Cumul des précipitations journalières de chaque décembre
     description: ""
-    method: "1. agrégation mensuelle par année - somme"
+    method:
+      P1:
+        RMA_jan: agrégation mensuelle par année - somme
+        RMA_feb: agrégation mensuelle par année - somme
+        RMA_mar: agrégation mensuelle par année - somme
+        RMA_apr: agrégation mensuelle par année - somme
+        RMA_may: agrégation mensuelle par année - somme
+        RMA_jun: agrégation mensuelle par année - somme
+        RMA_jul: agrégation mensuelle par année - somme
+        RMA_aug: agrégation mensuelle par année - somme
+        RMA_sep: agrégation mensuelle par année - somme
+        RMA_oct: agrégation mensuelle par année - somme
+        RMA_nov: agrégation mensuelle par année - somme
+        RMA_dec: agrégation mensuelle par année - somme
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

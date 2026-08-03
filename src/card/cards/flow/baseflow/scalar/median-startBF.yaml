@@ -11,10 +11,11 @@ meta:
     description: >-
       Median of the dates at which 10 % of the annual cumulative baseflow
       is reached
-    method: |
-      1. annual aggregation [09-01, 08-31] - date at which the baseflow
-         (Wallingford) sum corresponds to 10 % of the total sum
-      2. no temporal aggregation - median
+    method:
+      P1:
+        startBF: annual aggregation [09-01, 08-31] - date at which the baseflow (Wallingford) sum corresponds to 10 % of the total sum
+      P2:
+        median-startBF: no temporal aggregation - median
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: flow
@@ -30,10 +31,11 @@ meta:
     description: >-
       Médiane des dates à laquelle 10 % du cumul annuel du débit de base
       sont atteints
-    method: |
-      1. agrégation annuelle [01-09, 31-08] - date à laquelle la somme du
-         débit de base (Wallingford) correspond à 10 % de la somme totale
-      2. aucune agrégation temporelle - médiane
+    method:
+      P1:
+        startBF: agrégation annuelle [01-09, 31-08] - date à laquelle la somme du débit de base (Wallingford) correspond à 10 % de la somme totale
+      P2:
+        median-startBF: aucune agrégation temporelle - médiane
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: débit

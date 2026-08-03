@@ -30,10 +30,11 @@ meta:
         Similar to Bias, this score measures the mean deviation only over
         autumn months (September, October, and November).
     method:
-      - "1. seasonal aggregation [12-01, 02-28(29)] - Bias calculation"
-      - "1. seasonal aggregation [03-01, 05-31] - Bias calculation"
-      - "1. seasonal aggregation [06-01, 08-31] - Bias calculation"
-      - "1. seasonal aggregation [09-01, 11-30] - Bias calculation"
+      P1:
+        Bias_DJF: seasonal aggregation [12-01, 02-28(29)] - Bias calculation
+        Bias_MAM: seasonal aggregation [03-01, 05-31] - Bias calculation
+        Bias_JJA: seasonal aggregation [06-01, 08-31] - Bias calculation
+        Bias_SON: seasonal aggregation [09-01, 11-30] - Bias calculation
     sampling_period:
       - ["12-01", "02-28(29)"]
       - ["03-01", "05-31"]
@@ -72,10 +73,11 @@ meta:
         uniquement sur les mois d'automne (mois de septembre, octobre et
         novembre).
     method:
-      - "1. agrégation saisonnière [01-12, 28(29)-02] - calcul du Biais"
-      - "1. agrégation saisonnière [01-03, 31-05] - calcul du Biais"
-      - "1. agrégation saisonnière [01-06, 31-08] - calcul du Biais"
-      - "1. agrégation saisonnière [01-09, 30-11] - calcul du Biais"
+      P1:
+        Bias_DJF: agrégation saisonnière [01-12, 28(29)-02] - calcul du Biais
+        Bias_MAM: agrégation saisonnière [01-03, 31-05] - calcul du Biais
+        Bias_JJA: agrégation saisonnière [01-06, 31-08] - calcul du Biais
+        Bias_SON: agrégation saisonnière [01-09, 30-11] - calcul du Biais
     sampling_period:
       - ["01-12", "28(29)-02"]
       - ["01-03", "31-05"]

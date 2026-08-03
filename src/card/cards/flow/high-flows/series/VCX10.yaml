@@ -9,9 +9,11 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: "Annual maximum of the 10-day moving average of daily flows"
     description: ""
-    method: |
-      1. no temporal aggregation - 10-day centered moving average
-      2. annual aggregation [Month of minimum monthly flows] - maximum
+    method:
+      P1:
+        VC10: no temporal aggregation - 10-day centered moving average
+      P2:
+        VCX10: annual aggregation [Month of minimum monthly flows] - maximum
     sampling_period: Month of minimum monthly flows
     classification:
       domain: flow
@@ -25,9 +27,11 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: "Maximum annuel de la moyenne mobile sur 10 jours des débits journaliers"
     description: ""
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
-      2. agrégation annuelle [Mois du minimum des débits mensuels] - maximum
+    method:
+      P1:
+        VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
+      P2:
+        VCX10: agrégation annuelle [Mois du minimum des débits mensuels] - maximum
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: débit

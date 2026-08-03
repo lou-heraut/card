@@ -9,7 +9,12 @@ meta:
     unit: without unit
     name: Annual flow elasticity to air temperatures
     description: ""
-    method: "1. annual aggregation [Month of minimum monthly flows] - mean flow and mean temperatures\n2. no temporal aggregation - calculation of elasticity ε"
+    method:
+      P1:
+        QA: annual aggregation [Month of minimum monthly flows] - mean flow and mean temperatures
+        TA: annual aggregation [Month of minimum monthly flows] - mean flow and mean temperatures
+      P2:
+        epsilon_T: no temporal aggregation - calculation of elasticity ε
     sampling_period: Month of minimum monthly flows
     classification:
       domain: [flow, temperature]
@@ -22,7 +27,12 @@ meta:
     unit: sans unité
     name: Élasticité annuelle du débit aux températures de l'air
     description: ""
-    method: "1. agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen et températures moyennes\n2. aucune agrégation temporelle - calcul de l'élasticité ε"
+    method:
+      P1:
+        QA: agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen et températures moyennes
+        TA: agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen et températures moyennes
+      P2:
+        epsilon_T: aucune agrégation temporelle - calcul de l'élasticité ε
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: [débit, température]

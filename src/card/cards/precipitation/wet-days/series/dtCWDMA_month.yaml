@@ -45,7 +45,20 @@ meta:
       - "Maximum number of consecutive days with at least 1 mm of precipitation for each October"
       - "Maximum number of consecutive days with at least 1 mm of precipitation for each November"
       - "Maximum number of consecutive days with at least 1 mm of precipitation for each December"
-    method: "1. monthly aggregation for each year - length of the longest period with precipitation of at least 1 mm"
+    method:
+      P1:
+        dtCWDMA_jan: monthly aggregation for each year - length of the longest period with precipitation of at least 1 mm
+        dtCWDMA_feb: monthly aggregation for each year - length of the longest period with precipitation of at least 1 mm
+        dtCWDMA_mar: monthly aggregation for each year - length of the longest period with precipitation of at least 1 mm
+        dtCWDMA_apr: monthly aggregation for each year - length of the longest period with precipitation of at least 1 mm
+        dtCWDMA_may: monthly aggregation for each year - length of the longest period with precipitation of at least 1 mm
+        dtCWDMA_jun: monthly aggregation for each year - length of the longest period with precipitation of at least 1 mm
+        dtCWDMA_jul: monthly aggregation for each year - length of the longest period with precipitation of at least 1 mm
+        dtCWDMA_aug: monthly aggregation for each year - length of the longest period with precipitation of at least 1 mm
+        dtCWDMA_sep: monthly aggregation for each year - length of the longest period with precipitation of at least 1 mm
+        dtCWDMA_oct: monthly aggregation for each year - length of the longest period with precipitation of at least 1 mm
+        dtCWDMA_nov: monthly aggregation for each year - length of the longest period with precipitation of at least 1 mm
+        dtCWDMA_dec: monthly aggregation for each year - length of the longest period with precipitation of at least 1 mm
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -107,7 +120,20 @@ meta:
       - "Nombre maximal de jours consécutifs avec au moins 1 mm de précipitation de chaque octobre"
       - "Nombre maximal de jours consécutifs avec au moins 1 mm de précipitation de chaque novembre"
       - "Nombre maximal de jours consécutifs avec au moins 1 mm de précipitation de chaque décembre"
-    method: "1. agrégation mensuelle par année - durée de la plus longue période avec des précipitations d'au moins 1 mm"
+    method:
+      P1:
+        dtCWDMA_jan: agrégation mensuelle par année - durée de la plus longue période avec des précipitations d'au moins 1 mm
+        dtCWDMA_feb: agrégation mensuelle par année - durée de la plus longue période avec des précipitations d'au moins 1 mm
+        dtCWDMA_mar: agrégation mensuelle par année - durée de la plus longue période avec des précipitations d'au moins 1 mm
+        dtCWDMA_apr: agrégation mensuelle par année - durée de la plus longue période avec des précipitations d'au moins 1 mm
+        dtCWDMA_may: agrégation mensuelle par année - durée de la plus longue période avec des précipitations d'au moins 1 mm
+        dtCWDMA_jun: agrégation mensuelle par année - durée de la plus longue période avec des précipitations d'au moins 1 mm
+        dtCWDMA_jul: agrégation mensuelle par année - durée de la plus longue période avec des précipitations d'au moins 1 mm
+        dtCWDMA_aug: agrégation mensuelle par année - durée de la plus longue période avec des précipitations d'au moins 1 mm
+        dtCWDMA_sep: agrégation mensuelle par année - durée de la plus longue période avec des précipitations d'au moins 1 mm
+        dtCWDMA_oct: agrégation mensuelle par année - durée de la plus longue période avec des précipitations d'au moins 1 mm
+        dtCWDMA_nov: agrégation mensuelle par année - durée de la plus longue période avec des précipitations d'au moins 1 mm
+        dtCWDMA_dec: agrégation mensuelle par année - durée de la plus longue période avec des précipitations d'au moins 1 mm
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

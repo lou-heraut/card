@@ -1,5 +1,5 @@
 id: delta-QMNA_H
-version: "1.2"
+version: "1.3"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -9,10 +9,13 @@ meta:
     unit: "%"
     name: Average change of annual minimum of monthly flows between the {suffix.name} horizon and historical period
     description: ""
-    method: |
-      1. monthly aggregation - mean
-      2. annual aggregation [Month of maximum monthly flows] - minimum
-      3. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+    method:
+      P1:
+        QMA: monthly aggregation for each year - mean
+      P2:
+        QMNA: annual aggregation [Month of maximum monthly flows] - minimum
+      P3:
+        delta-QMNA: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     suffix_default:
       name: target
     sampling_period: Month of maximum monthly flows
@@ -28,10 +31,13 @@ meta:
     unit: "%"
     name: Changement moyen du minimum annuel des débits mensuels entre l'horizon {suffix.name} et la période historique
     description: ""
-    method: |
-      1. agrégation mensuelle - moyenne
-      2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum
-      3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+    method:
+      P1:
+        QMA: agrégation mensuelle par année - moyenne
+      P2:
+        QMNA: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
+      P3:
+        delta-QMNA: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     suffix_default:
       name: cible
     sampling_period: Mois du maximum des débits mensuels

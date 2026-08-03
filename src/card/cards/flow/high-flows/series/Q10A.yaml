@@ -10,9 +10,9 @@ meta:
     name: "Daily flow exceeded 10 % of the time within the year"
     description: >-
       Annual flow with an exceedance probability of 10 % (90th percentile)
-    method: |
-      1. annual aggregation [01-01, 12-31] - quantile at the exceedance
-         probability of 10 %
+    method:
+      P1:
+        Q10A: annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 10 %
     sampling_period: ["01-01", "12-31"]
     classification:
       domain: flow
@@ -27,9 +27,9 @@ meta:
     name: "Débit journalier dépassé 10 % du temps de l'année"
     description: >-
       Débit annuel avec une probabilité de dépassement de 10 % (centile 90 %)
-    method: |
-      1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité de
-         dépassement de 10 %
+    method:
+      P1:
+        Q10A: agrégation annuelle [01-01, 31-12] - quantile à la probabilité de dépassement de 10 %
     sampling_period: ["01-01", "31-12"]
     classification:
       domain: débit

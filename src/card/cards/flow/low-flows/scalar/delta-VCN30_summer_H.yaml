@@ -9,10 +9,13 @@ meta:
     unit: "%"
     name: "Average change of summer minimum of 30-day mean daily discharge between the {suffix.name} horizon and historical period"
     description: ""
-    method: |
-      1. no temporal aggregation - 30-day centered moving average
-      2. annual aggregation [05-01, 11-30] - minimum
-      3. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+    method:
+      P1:
+        VC30_summer: no temporal aggregation - 30-day centered moving average
+      P2:
+        VCN30_summer: annual aggregation [05-01, 11-30] - minimum
+      P3:
+        delta-VCN30_summer: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     sampling_period: ["05-01", "11-30"]
     classification:
       domain: flow
@@ -28,10 +31,13 @@ meta:
     unit: "%"
     name: "Changement moyen du minimum estival de la moyenne sur 30 jours du débit journalier entre l'horizon {suffix.name} et la période historique"
     description: ""
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 30 jours
-      2. agrégation annuelle [01-05, 30-11] - minimum
-      3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+    method:
+      P1:
+        VC30_summer: aucune agrégation temporelle - moyenne mobile centrée sur 30 jours
+      P2:
+        VCN30_summer: agrégation annuelle [01-05, 30-11] - minimum
+      P3:
+        delta-VCN30_summer: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     sampling_period: ["01-05", "30-11"]
     classification:
       domain: débit

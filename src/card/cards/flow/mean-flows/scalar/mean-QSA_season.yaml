@@ -18,10 +18,16 @@ meta:
       - ""
       - ""
     method:
-      - "1. seasonal annual aggregation [12-01, 02-28(29)] - mean\n2. no temporal aggregation - average"
-      - "1. seasonal annual aggregation [03-01, 05-31] - mean\n2. no temporal aggregation - average"
-      - "1. seasonal annual aggregation [06-01, 08-31] - mean\n2. no temporal aggregation - average"
-      - "1. seasonal annual aggregation [09-01, 11-30] - mean\n2. no temporal aggregation - average"
+      P1:
+        QSA_DJF: seasonal annual aggregation [12-01, 02-28(29)] - mean
+        QSA_MAM: seasonal annual aggregation [03-01, 05-31] - mean
+        QSA_JJA: seasonal annual aggregation [06-01, 08-31] - mean
+        QSA_SON: seasonal annual aggregation [09-01, 11-30] - mean
+      P2:
+        mean-QSA_DJF: no temporal aggregation - average
+        mean-QSA_MAM: no temporal aggregation - average
+        mean-QSA_JJA: no temporal aggregation - average
+        mean-QSA_SON: no temporal aggregation - average
     sampling_period:
       - ["12-01", "02-28(29)"]
       - ["03-01", "05-31"]
@@ -48,10 +54,16 @@ meta:
       - "Mois de juin, juillet et août"
       - "Mois de septembre, octobre et novembre"
     method:
-      - "1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - moyenne\n2. aucune agrégation temporelle - moyenne"
-      - "1. agrégation annuelle saisonnalisée [01-03, 31-05] - moyenne\n2. aucune agrégation temporelle - moyenne"
-      - "1. agrégation annuelle saisonnalisée [01-06, 31-08] - moyenne\n2. aucune agrégation temporelle - moyenne"
-      - "1. agrégation annuelle saisonnalisée [01-09, 30-11] - moyenne\n2. aucune agrégation temporelle - moyenne"
+      P1:
+        QSA_DJF: agrégation annuelle saisonnalisée [01-12, 28(29)-02] - moyenne
+        QSA_MAM: agrégation annuelle saisonnalisée [01-03, 31-05] - moyenne
+        QSA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - moyenne
+        QSA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - moyenne
+      P2:
+        mean-QSA_DJF: aucune agrégation temporelle - moyenne
+        mean-QSA_MAM: aucune agrégation temporelle - moyenne
+        mean-QSA_JJA: aucune agrégation temporelle - moyenne
+        mean-QSA_SON: aucune agrégation temporelle - moyenne
     sampling_period:
       - ["01-12", "28(29)-02"]
       - ["01-03", "31-05"]

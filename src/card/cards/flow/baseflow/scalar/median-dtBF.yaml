@@ -10,11 +10,11 @@ meta:
     name: Inter-annual median of the duration of baseflow
     description: >-
       Median of the durations between the start and end of baseflow
-    method: |
-      1. annual aggregation [09-01, 08-31] - number of days between the dates
-         at which the baseflow (Wallingford) sum corresponds to 10 % and 90 %
-         of the total baseflow sum
-      2. no temporal aggregation - median
+    method:
+      P1:
+        dtBF: annual aggregation [09-01, 08-31] - number of days between the dates at which the baseflow (Wallingford) sum corresponds to 10 % and 90 % of the total baseflow sum
+      P2:
+        median-dtBF: no temporal aggregation - median
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: flow
@@ -29,11 +29,11 @@ meta:
     name: Médiane inter-annuelle de la durée des écoulements lents
     description: >-
       Médiane des durées entre le début et la fin des écoulements lents
-    method: |
-      1. agrégation annuelle [01-09, 31-08] - nombre de jours entre les dates
-         auxquelles la somme du débit de base (Wallingford) correspond à 10 %
-         et 90 % de la somme totale du débit de base
-      2. aucune agrégation temporelle - médiane
+    method:
+      P1:
+        dtBF: agrégation annuelle [01-09, 31-08] - nombre de jours entre les dates auxquelles la somme du débit de base (Wallingford) correspond à 10 % et 90 % de la somme totale du débit de base
+      P2:
+        median-dtBF: aucune agrégation temporelle - médiane
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: débit

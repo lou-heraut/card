@@ -9,7 +9,9 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Base flow (Lyne and Hollick)
     description: ""
-    method: "1. no temporal aggregation - extraction of the base flow (Lyne and Hollick)"
+    method:
+      P1:
+        BF-LH: no temporal aggregation - extraction of the base flow (Lyne and Hollick)
     classification:
       domain: flow
       phenomenon: baseflow
@@ -22,7 +24,9 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Débit de base (Lyne et Hollick)
     description: ""
-    method: "1. aucune agrégation temporelle - extraction du débit de base (Lyne et Hollick)"
+    method:
+      P1:
+        BF-LH: aucune agrégation temporelle - extraction du débit de base (Lyne et Hollick)
     classification:
       domain: débit
       phenomenon: débit de base

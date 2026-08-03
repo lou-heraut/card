@@ -9,7 +9,12 @@ meta:
     unit: without unit
     name: Ratio of annual solid precipitation to total annual precipitation
     description: ""
-    method: "1. annual aggregation [09-01, 08-31] - sums of total and solid precipitation\n2. no temporal aggregation - solid/total ratio"
+    method:
+      P1:
+        RA: annual aggregation [09-01, 08-31] - sums of total and solid precipitation
+        RAs: annual aggregation [09-01, 08-31] - sums of total and solid precipitation
+      P2:
+        RAs_ratio: no temporal aggregation - solid/total ratio
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: precipitation
@@ -23,7 +28,12 @@ meta:
     unit: sans unité
     name: Ratio des précipitations annuelles solides sur les précipitations annuelles totales
     description: ""
-    method: "1. agrégation annuelle [01-09, 31-08] - sommes des précipitations totales et solides\n2. aucune agrégation temporelle - rapport solide/total"
+    method:
+      P1:
+        RA: agrégation annuelle [01-09, 31-08] - sommes des précipitations totales et solides
+        RAs: agrégation annuelle [01-09, 31-08] - sommes des précipitations totales et solides
+      P2:
+        RAs_ratio: aucune agrégation temporelle - rapport solide/total
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: précipitations

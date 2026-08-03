@@ -1,5 +1,5 @@
 id: delta-allLF_winter_H
-version: "2.1"
+version: "2.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -30,36 +30,24 @@ meta:
     - In winter, duration of the longest continuous sequence with 10-day mean flows below the threshold set at the maximum of VCN10 (November to April)
     - In winter, sum of differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold (November to April)
     method:
-    - |
-      1. no temporal aggregation - 10-day centered moving average
-      2. annual aggregation [11-01, 04-30] - minimum (series of VCN10)
-      3. no temporal aggregation - the maximum of the previous series is taken as the threshold
-      4. annual aggregation [11-01, 04-30] - date of the first day of the longest period below the previous threshold
-      5. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
-    - |
-      1. no temporal aggregation - 10-day centered moving average (series of VC10)
-      2. annual aggregation [11-01, 04-30] - minimum (series of VCN10)
-      3. no temporal aggregation - the maximum of the previous series is taken as the threshold
-      4. annual aggregation [11-01, 04-30] - date of the minimum of the VC10 of the longest period below the previous threshold
-      5. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
-    - |
-      1. no temporal aggregation - 10-day centered moving average
-      2. annual aggregation [11-01, 04-30] - minimum
-      3. no temporal aggregation - the maximum of the previous series is taken as the threshold
-      4. annual aggregation [11-01, 04-30] - date of the last day of the longest period below the previous threshold
-      5. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
-    - |
-      1. no temporal aggregation - 10-day centered moving average
-      2. annual aggregation [11-01, 04-30] - minimum (extraction from the series of VCN10)
-      3. no temporal aggregation - the maximum of the previous series is taken as the threshold
-      4. annual aggregation [11-01, 04-30] - number of days in the longest period below the previous threshold
-      5. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
-    - |
-      1. no temporal aggregation - 10-day centered moving average
-      2. annual aggregation [11-01, 04-30] - minimum (extraction from the series of VCN10)
-      3. no temporal aggregation - the maximum of the previous series is taken as the threshold
-      4. annual aggregation [11-01, 04-30] - sum of volumes discharged each day in the longest period below the previous threshold
-      5. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+      P1:
+        VC10_winter: no temporal aggregation - 10-day centered moving average
+      P2:
+        VCN10_winter: annual aggregation [11-01, 04-30] - minimum
+      P3:
+        upLim: no temporal aggregation - the maximum of VCN10_winter is taken as the threshold
+      P4:
+        startLF_winter: annual aggregation [11-01, 04-30] - date of the first day of the longest period below upLim
+        centerLF_winter: annual aggregation [11-01, 04-30] - date of the minimum of the VC10_winter of the longest period below upLim
+        endLF_winter: annual aggregation [11-01, 04-30] - date of the last day of the longest period below upLim
+        dtLF_winter: annual aggregation [11-01, 04-30] - number of days in the longest period below upLim
+        vLF_winter: annual aggregation [11-01, 04-30] - sum of volumes discharged each day in the longest period below upLim
+      P5:
+        delta-startLF_winter: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-centerLF_winter: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-endLF_winter: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-dtLF_winter: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-vLF_winter: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     sampling_period:
     - 11-01
     - 04-30
@@ -103,36 +91,24 @@ meta:
     - En hiver, durée de la plus longue séquence continue avec des débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10 (mois de novembre à avril)
     - En hiver, somme des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil (mois de novembre à avril)
     method:
-    - |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
-      2. agrégation annuelle [01-11, 30-04] - minimum (série des VCN10)
-      3. aucune agrégation temporelle - le maximum de la précédente série est pris comme seuil
-      4. agrégation annuelle [01-11, 30-04] - date du premier jour de la plus longue période sous le précédent seuil
-      5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
-    - |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (série des VC10)
-      2. agrégation annuelle [01-11, 30-04] - minimum (série des VCN10)
-      3. aucune agrégation temporelle - le maximum de la précédente série est pris comme seuil
-      4. agrégation annuelle [01-11, 30-04] - date du minimum des VC10 de la plus longue période sous le précédent seuil
-      5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
-    - |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
-      2. agrégation annuelle [01-11, 30-04] - minimum
-      3. aucune agrégation temporelle - le maximum de la précédente série est pris comme seuil
-      4. agrégation annuelle [01-11, 30-04] - date du dernier jour de la plus longue période sous le précédent seuil
-      5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
-    - |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
-      2. agrégation annuelle [01-11, 30-04] - minimum (extraction de la série des VCN10)
-      3. aucune agrégation temporelle - le maximum de la précédente série est pris comme seuil
-      4. agrégation annuelle [01-11, 30-04] - nombre de jours de la plus longue période sous le précédent seuil
-      5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
-    - |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
-      2. agrégation annuelle [01-11, 30-04] - minimum (extraction de la série des VCN10)
-      3. aucune agrégation temporelle - le maximum de la précédente série est pris comme seuil
-      4. agrégation annuelle [01-11, 30-04] - somme des volumes écoulés chaque jour de la plus longue période sous le précédent seuil
-      5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+      P1:
+        VC10_winter: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
+      P2:
+        VCN10_winter: agrégation annuelle [01-11, 30-04] - minimum
+      P3:
+        upLim: aucune agrégation temporelle - le maximum de VCN10_winter est pris comme seuil
+      P4:
+        startLF_winter: agrégation annuelle [01-11, 30-04] - date du premier jour de la plus longue période sous upLim
+        centerLF_winter: agrégation annuelle [01-11, 30-04] - date du minimum des VC10_winter de la plus longue période sous upLim
+        endLF_winter: agrégation annuelle [01-11, 30-04] - date du dernier jour de la plus longue période sous upLim
+        dtLF_winter: agrégation annuelle [01-11, 30-04] - nombre de jours de la plus longue période sous upLim
+        vLF_winter: agrégation annuelle [01-11, 30-04] - somme des volumes écoulés chaque jour de la plus longue période sous upLim
+      P5:
+        delta-startLF_winter: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-centerLF_winter: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-endLF_winter: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-dtLF_winter: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-vLF_winter: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     sampling_period:
     - 01-11
     - 30-04

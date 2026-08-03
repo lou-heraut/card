@@ -9,9 +9,11 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Summer minimum of 3-day mean daily discharge
     description: ""
-    method: |
-      1. no temporal aggregation - 3-day centered moving average
-      2. annual aggregation [05-01, 11-30] - minimum
+    method:
+      P1:
+        VC3_summer: no temporal aggregation - 3-day centered moving average
+      P2:
+        VCN3_summer: annual aggregation [05-01, 11-30] - minimum
     sampling_period: ["05-01", "11-30"]
     classification:
       domain: flow
@@ -25,9 +27,11 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Minimum estival de la moyenne sur 3 jours du débit journalier
     description: ""
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
-      2. agrégation annuelle [01-05, 30-11] - minimum
+    method:
+      P1:
+        VC3_summer: aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
+      P2:
+        VCN3_summer: agrégation annuelle [01-05, 30-11] - minimum
     sampling_period: ["01-05", "30-11"]
     classification:
       domain: débit

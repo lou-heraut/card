@@ -45,7 +45,20 @@ meta:
       - "Number of days with at least 1 mm of precipitation of each October"
       - "Number of days with at least 1 mm of precipitation of each November"
       - "Number of days with at least 1 mm of precipitation of each December"
-    method: "1. monthly aggregation for each year - number of days with precipitation of at least 1 mm"
+    method:
+      P1:
+        dtRMA01mm_jan: monthly aggregation for each year - number of days with precipitation of at least 1 mm
+        dtRMA01mm_feb: monthly aggregation for each year - number of days with precipitation of at least 1 mm
+        dtRMA01mm_mar: monthly aggregation for each year - number of days with precipitation of at least 1 mm
+        dtRMA01mm_apr: monthly aggregation for each year - number of days with precipitation of at least 1 mm
+        dtRMA01mm_may: monthly aggregation for each year - number of days with precipitation of at least 1 mm
+        dtRMA01mm_jun: monthly aggregation for each year - number of days with precipitation of at least 1 mm
+        dtRMA01mm_jul: monthly aggregation for each year - number of days with precipitation of at least 1 mm
+        dtRMA01mm_aug: monthly aggregation for each year - number of days with precipitation of at least 1 mm
+        dtRMA01mm_sep: monthly aggregation for each year - number of days with precipitation of at least 1 mm
+        dtRMA01mm_oct: monthly aggregation for each year - number of days with precipitation of at least 1 mm
+        dtRMA01mm_nov: monthly aggregation for each year - number of days with precipitation of at least 1 mm
+        dtRMA01mm_dec: monthly aggregation for each year - number of days with precipitation of at least 1 mm
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -107,7 +120,20 @@ meta:
       - "Nombre de jours avec au moins 1 mm de précipitations de chaque octobre"
       - "Nombre de jours avec au moins 1 mm de précipitations de chaque novembre"
       - "Nombre de jours avec au moins 1 mm de précipitations de chaque décembre"
-    method: "1. agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 1 mm"
+    method:
+      P1:
+        dtRMA01mm_jan: agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 1 mm
+        dtRMA01mm_feb: agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 1 mm
+        dtRMA01mm_mar: agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 1 mm
+        dtRMA01mm_apr: agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 1 mm
+        dtRMA01mm_may: agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 1 mm
+        dtRMA01mm_jun: agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 1 mm
+        dtRMA01mm_jul: agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 1 mm
+        dtRMA01mm_aug: agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 1 mm
+        dtRMA01mm_sep: agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 1 mm
+        dtRMA01mm_oct: agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 1 mm
+        dtRMA01mm_nov: agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 1 mm
+        dtRMA01mm_dec: agrégation mensuelle par année - nombre de jours avec des précipitations d'au moins 1 mm
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

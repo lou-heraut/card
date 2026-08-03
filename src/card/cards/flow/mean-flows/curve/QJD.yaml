@@ -9,7 +9,9 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Inter-annual median daily flow regime over {suffix.name}
     description: ""
-    method: "1. aggregation by day of the year over {suffix.name} - median"
+    method:
+      P1:
+        QJD: aggregation by day of the year over {suffix.name} - median
     suffix_default:
       name: the whole record
     classification:
@@ -24,7 +26,9 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: "Régime journalier médian inter-annuel sur {suffix.name}"
     description: ""
-    method: "1. agrégation par jour de l'année sur {suffix.name} - médiane"
+    method:
+      P1:
+        QJD: agrégation par jour de l'année sur {suffix.name} - médiane
     suffix_default:
       name: la chronique entière
     classification:

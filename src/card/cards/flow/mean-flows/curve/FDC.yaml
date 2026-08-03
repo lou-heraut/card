@@ -12,7 +12,10 @@ meta:
       Curve of flow quantiles as a function of exceedance probability;
       the card outputs its two coordinates (FDC_p, unitless
       probabilities; FDC_Q, flow quantiles)
-    method: "1. no temporal aggregation over {suffix.name} - flow duration curves with 1000 points spaced according to a centered reduced normal distribution."
+    method:
+      P1:
+        FDC_p: no temporal aggregation over {suffix.name} - flow duration curves with 1000 points spaced according to a centered reduced normal distribution.
+        FDC_Q: no temporal aggregation over {suffix.name} - flow duration curves with 1000 points spaced according to a centered reduced normal distribution.
     suffix_default:
       name: the whole record
     classification:
@@ -31,7 +34,10 @@ meta:
       dépassement ;
       la fiche produit ses deux coordonnées (FDC_p, probabilités
       sans unité ; FDC_Q, quantiles de débit)
-    method: "1. aucune agrégation temporelle sur {suffix.name} - courbes des débits classés avec 1000 points espacés selon une loi normale centrée réduite"
+    method:
+      P1:
+        FDC_p: aucune agrégation temporelle sur {suffix.name} - courbes des débits classés avec 1000 points espacés selon une loi normale centrée réduite
+        FDC_Q: aucune agrégation temporelle sur {suffix.name} - courbes des débits classés avec 1000 points espacés selon une loi normale centrée réduite
     suffix_default:
       name: la chronique entière
     classification:

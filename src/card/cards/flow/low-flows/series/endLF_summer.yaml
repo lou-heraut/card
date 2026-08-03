@@ -1,5 +1,5 @@
 id: endLF_summer
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-15"
 
@@ -9,11 +9,15 @@ meta:
     unit: yearday
     name: End of summer low flows
     description: "In summer, date of the last 10-day mean flow value below the threshold set at the maximum of VCN10 (May to November)"
-    method: |
-      1. no temporal aggregation - 10-day centered moving average
-      2. annual aggregation [05-01, 11-30] - minimum
-      3. no temporal aggregation - the maximum of the previous series is taken as the threshold
-      4. annual aggregation [05-01, 11-30] - date of the last day of the longest period below the previous threshold
+    method:
+      P1:
+        VC10_summer: no temporal aggregation - 10-day centered moving average
+      P2:
+        VCN10_summer: annual aggregation [05-01, 11-30] - minimum
+      P3:
+        upLim: no temporal aggregation - the maximum of VCN10_summer is taken as the threshold
+      P4:
+        endLF_summer: annual aggregation [05-01, 11-30] - date of the last day of the longest period below upLim
     sampling_period: ["05-01", "11-30"]
     classification:
       domain: flow
@@ -27,11 +31,15 @@ meta:
     unit: "jour de l'année"
     name: Fin des basses eaux estivales
     description: "En été, date de la dernière valeur de débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10 (mois de mai à novembre)"
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
-      2. agrégation annuelle [01-05, 30-11] - minimum
-      3. aucune agrégation temporelle - le maximum de la précédente série est pris comme seuil
-      4. agrégation annuelle [01-05, 30-11] - date du dernier jour de la plus longue période sous le précédent seuil
+    method:
+      P1:
+        VC10_summer: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
+      P2:
+        VCN10_summer: agrégation annuelle [01-05, 30-11] - minimum
+      P3:
+        upLim: aucune agrégation temporelle - le maximum de VCN10_summer est pris comme seuil
+      P4:
+        endLF_summer: agrégation annuelle [01-05, 30-11] - date du dernier jour de la plus longue période sous upLim
     sampling_period: ["01-05", "30-11"]
     classification:
       domain: débit

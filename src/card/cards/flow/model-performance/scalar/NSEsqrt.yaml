@@ -11,7 +11,9 @@ meta:
     description: >-
       Identical to NSE, this score, however, gives equal weight across the
       entire range of the evaluated variable.
-    method: "1. no temporal aggregation - square root of simulated and reference data, then NSE"
+    method:
+      P1:
+        NSEsqrt: no temporal aggregation - square root of simulated and reference data, then NSE
     classification:
       domain: flow
       season: record
@@ -25,7 +27,9 @@ meta:
     description: >-
       Identique au NSE, ce score donne cependant un poids équivalent sur
       l'ensemble de la plage de variation de la variable évaluée.
-    method: "1. aucune agrégation temporelle - racine carrée des données simulées et de référence puis NSE"
+    method:
+      P1:
+        NSEsqrt: aucune agrégation temporelle - racine carrée des données simulées et de référence puis NSE
     classification:
       domain: débit
       season: chronique

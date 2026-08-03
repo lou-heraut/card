@@ -1,5 +1,5 @@
 id: RAl
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -9,7 +9,9 @@ meta:
     unit: mm
     name: Cumulative annual liquid precipitation
     description: ""
-    method: "1. Annual aggregation [09-01, 08-31] - sum"
+    method:
+      P1:
+        RAl: annual aggregation [09-01, 08-31] - sum
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: precipitation
@@ -23,7 +25,9 @@ meta:
     unit: mm
     name: Cumul annuel des précipitations liquides
     description: ""
-    method: "1. agrégation annuelle [01-09, 31-08] - somme"
+    method:
+      P1:
+        RAl: agrégation annuelle [01-09, 31-08] - somme
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: précipitations

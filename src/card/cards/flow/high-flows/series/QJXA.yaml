@@ -9,8 +9,9 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: "Annual maximum daily flow"
     description: ""
-    method: |
-      1. annual aggregation [Month of minimum monthly flows] - maximum
+    method:
+      P1:
+        QJXA: annual aggregation [Month of minimum monthly flows] - maximum
     sampling_period: Month of minimum monthly flows
     classification:
       domain: flow
@@ -24,8 +25,9 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: "Débit journalier maximal annuel"
     description: ""
-    method: |
-      1. agrégation annuelle [Mois du minimum des débits mensuels] - maximum
+    method:
+      P1:
+        QJXA: agrégation annuelle [Mois du minimum des débits mensuels] - maximum
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: débit

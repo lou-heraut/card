@@ -9,7 +9,9 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Annual mean daily discharge
     description: ""
-    method: "1. annual aggregation [09-01, 08-31] - mean"
+    method:
+      P1:
+        QA: annual aggregation [09-01, 08-31] - mean
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: flow
@@ -23,7 +25,9 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Moyenne annuelle du débit journalier
     description: ""
-    method: "1. agrégation annuelle [01-09, 31-08] - moyenne"
+    method:
+      P1:
+        QA: agrégation annuelle [01-09, 31-08] - moyenne
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: débit

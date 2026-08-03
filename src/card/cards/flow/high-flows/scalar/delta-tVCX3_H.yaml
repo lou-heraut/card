@@ -9,11 +9,13 @@ meta:
     unit: day
     name: "Average change of the date of the annual maximum of the 3-day mean of daily flow between the {suffix.name} horizon and historical period"
     description: ""
-    method: |
-      1. no temporal aggregation - 3-day centered moving average
-      2. annual aggregation [Month of minimum monthly flows] - date of the maximum
-      3. no temporal aggregation - calculation of the average change between
-         the historical period and the {suffix.name} horizon
+    method:
+      P1:
+        VC3: no temporal aggregation - 3-day centered moving average
+      P2:
+        tVCX3: annual aggregation [Month of minimum monthly flows] - date of the maximum
+      P3:
+        delta-tVCX3: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     suffix_default:
       name: target
     sampling_period: Month of minimum monthly flows
@@ -29,11 +31,13 @@ meta:
     unit: jour
     name: "Changement moyen de la date du maximum annuel de la moyenne sur 3 jours du débit journalier entre l'horizon {suffix.name} et la période historique"
     description: ""
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
-      2. agrégation annuelle [Mois du minimum des débits mensuels] - date du maximum
-      3. aucune agrégation temporelle - calcul du changement moyen entre la
-         période historique et l'horizon {suffix.name}
+    method:
+      P1:
+        VC3: aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
+      P2:
+        tVCX3: agrégation annuelle [Mois du minimum des débits mensuels] - date du maximum
+      P3:
+        delta-tVCX3: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     suffix_default:
       name: cible
     sampling_period: Mois du minimum des débits mensuels

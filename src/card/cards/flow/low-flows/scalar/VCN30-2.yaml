@@ -9,10 +9,13 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Annual minimum of 30-day mean daily discharge with a return period of 2 years
     description: ""
-    method: |
-      1. no temporal aggregation - 30-day centered moving average
-      2. annual aggregation [Month of maximum monthly flows] - minimum
-      3. no temporal aggregation - calculation of the 2-year return period flow using the log-normal distribution
+    method:
+      P1:
+        VC30: no temporal aggregation - 30-day centered moving average
+      P2:
+        VCN30: annual aggregation [Month of maximum monthly flows] - minimum
+      P3:
+        VCN30-2: no temporal aggregation - calculation of the 2-year return period flow using the log-normal distribution
     sampling_period: Month of maximum monthly flows
     classification:
       domain: flow
@@ -26,10 +29,13 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Minimum annuel de la moyenne sur 30 jours du débit journalier de période de retour 2 ans
     description: ""
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 30 jours
-      2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum
-      3. aucune agrégation temporelle - calcul du débit de période de retour 2 ans avec la loi log-normal
+    method:
+      P1:
+        VC30: aucune agrégation temporelle - moyenne mobile centrée sur 30 jours
+      P2:
+        VCN30: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
+      P3:
+        VCN30-2: aucune agrégation temporelle - calcul du débit de période de retour 2 ans avec la loi log-normal
     sampling_period: Mois du maximum des débits mensuels
     classification:
       domain: débit

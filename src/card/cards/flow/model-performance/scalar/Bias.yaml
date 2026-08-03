@@ -11,7 +11,9 @@ meta:
     description: >-
       Relative difference between simulated and reference data. It measures
       the mean deviation over the entire series.
-    method: "1. no temporal aggregation - Bias calculation"
+    method:
+      P1:
+        Bias: no temporal aggregation - Bias calculation
     classification:
       domain: flow
       season: record
@@ -25,7 +27,9 @@ meta:
     description: >-
       Différence relative entre les données simulées et de référence.
       Il mesure l'écart moyen sur l'ensemble de la série.
-    method: "1. aucune agrégation temporelle - calcul du Biais"
+    method:
+      P1:
+        Bias: aucune agrégation temporelle - calcul du Biais
     classification:
       domain: débit
       season: chronique

@@ -14,7 +14,9 @@ meta:
       (dimensionless coefficient = 86.4 × ratio / area in km²): suited
       to temporal monitoring of a station, not to comparison between
       basins
-    method: "1. no temporal aggregation - sum of flows divided by sum of precipitation"
+    method:
+      P1:
+        QR_ratio: no temporal aggregation - sum of flows divided by sum of precipitation
     classification:
       domain: [flow, precipitation]
       season: record
@@ -31,7 +33,9 @@ meta:
       bassin (coefficient adimensionnel = 86,4 × rapport / surface en
       km²) : adapté au suivi temporel d'une station, pas à la
       comparaison entre bassins
-    method: "1. aucune agrégation temporelle - somme des débits divisée par la somme des précipitations"
+    method:
+      P1:
+        QR_ratio: aucune agrégation temporelle - somme des débits divisée par la somme des précipitations
     classification:
       domain: [débit, précipitations]
       season: chronique

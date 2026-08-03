@@ -9,9 +9,11 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Annual minimum of 3-day mean daily discharge
     description: ""
-    method: |
-      1. no temporal aggregation - 3-day centered moving average
-      2. annual aggregation [Month of maximum monthly flows] - minimum
+    method:
+      P1:
+        VC3: no temporal aggregation - 3-day centered moving average
+      P2:
+        VCN3: annual aggregation [Month of maximum monthly flows] - minimum
     sampling_period: Month of maximum monthly flows
     classification:
       domain: flow
@@ -25,9 +27,11 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Minimum annuel de la moyenne sur 3 jours du débit journalier
     description: ""
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
-      2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum
+    method:
+      P1:
+        VC3: aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
+      P2:
+        VCN3: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
     sampling_period: Mois du maximum des débits mensuels
     classification:
       domain: débit

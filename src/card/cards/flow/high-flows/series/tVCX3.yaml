@@ -9,9 +9,11 @@ meta:
     unit: yearday
     name: "Date of the annual maximum of the 3-day mean of daily flow"
     description: ""
-    method: |
-      1. no temporal aggregation - 3-day centered moving average
-      2. annual aggregation [Month of minimum monthly flows] - date of the maximum
+    method:
+      P1:
+        VC3: no temporal aggregation - 3-day centered moving average
+      P2:
+        tVCX3: annual aggregation [Month of minimum monthly flows] - date of the maximum
     sampling_period: Month of minimum monthly flows
     classification:
       domain: flow
@@ -25,9 +27,11 @@ meta:
     unit: "jour de l'année"
     name: "Date du maximum annuel de la moyenne sur 3 jours du débit journalier"
     description: ""
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
-      2. agrégation annuelle [Mois du minimum des débits mensuels] - date du maximum
+    method:
+      P1:
+        VC3: aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
+      P2:
+        tVCX3: agrégation annuelle [Mois du minimum des débits mensuels] - date du maximum
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: débit

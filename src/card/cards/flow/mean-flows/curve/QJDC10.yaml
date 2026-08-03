@@ -11,9 +11,11 @@ meta:
     description: >-
       Median flow of each day of the year over {suffix.name}, then
       10-day centered moving average (365 values)
-    method: |
-      1. aggregation by day of the year over {suffix.name} - median
-      2. no temporal aggregation - 10-day centered moving average
+    method:
+      P1:
+        QJD: aggregation by day of the year over {suffix.name} - median
+      P2:
+        QJDC10: no temporal aggregation - 10-day centered moving average
     suffix_default:
       name: the whole record
     classification:
@@ -30,9 +32,11 @@ meta:
     description: >-
       Médiane des débits de chaque jour de l'année sur {suffix.name},
       puis moyenne mobile centrée sur 10 jours (365 valeurs)
-    method: |
-      1. agrégation par jour de l'année sur {suffix.name} - médiane
-      2. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
+    method:
+      P1:
+        QJD: agrégation par jour de l'année sur {suffix.name} - médiane
+      P2:
+        QJDC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
     suffix_default:
       name: la chronique entière
     classification:

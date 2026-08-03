@@ -1,5 +1,5 @@
 id: delta-centerLF_H
-version: "1.2"
+version: "1.3"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -9,12 +9,17 @@ meta:
     unit: day
     name: Average change of the center of low flows between the {suffix.name} horizon and historical period
     description: Date of the minimal 10-day mean flow value below the threshold set at the maximum of VCN10
-    method: |
-      1. no temporal aggregation - 10-day centered moving average (series of VC10)
-      2. annual aggregation [Month of maximum monthly flows] - minimum (series of VCN10)
-      3. no temporal aggregation - the maximum of the previous series is taken as the threshold
-      4. annual aggregation [Month of maximum monthly flows] - date of the minimum of the VC10 of the longest period below the previous threshold
-      5. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+    method:
+      P1:
+        VC10: no temporal aggregation - 10-day centered moving average
+      P2:
+        VCN10: annual aggregation [Month of maximum monthly flows] - minimum
+      P3:
+        upLim: no temporal aggregation - the maximum of VCN10 is taken as the threshold
+      P4:
+        centerLF: annual aggregation [Month of maximum monthly flows] - date of the minimum of the VC10 of the longest period below upLim
+      P5:
+        delta-centerLF: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     suffix_default:
       name: target
     sampling_period: Month of maximum monthly flows
@@ -30,12 +35,17 @@ meta:
     unit: jour
     name: Changement moyen du centre des basses eaux entre l'horizon {suffix.name} et la période historique
     description: Date de la valeur minimale des débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (série des VC10)
-      2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum (série des VCN10)
-      3. aucune agrégation temporelle - le maximum de la précédente série est pris comme seuil
-      4. agrégation annuelle [Mois du maximum des débits mensuels] - date du minimum des VC10 de la plus longue période sous le précédent seuil
-      5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+    method:
+      P1:
+        VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
+      P2:
+        VCN10: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
+      P3:
+        upLim: aucune agrégation temporelle - le maximum de VCN10 est pris comme seuil
+      P4:
+        centerLF: agrégation annuelle [Mois du maximum des débits mensuels] - date du minimum des VC10 de la plus longue période sous upLim
+      P5:
+        delta-centerLF: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     suffix_default:
       name: cible
     sampling_period: Mois du maximum des débits mensuels

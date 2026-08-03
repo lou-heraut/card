@@ -13,7 +13,9 @@ meta:
       based on three sub-criteria (r, alpha, and beta) with equal weights.
       The coefficient gives strong weight to the reconstruction of high values
       of the examined variable.
-    method: "1. no temporal aggregation - calculation of KGE"
+    method:
+      P1:
+        KGE: no temporal aggregation - calculation of KGE
     classification:
       domain: flow
       season: record
@@ -29,7 +31,9 @@ meta:
       celles simulées, sur la base de trois sous-critères (r, alpha et beta)
       aux pondérations identiques. Le coefficient donne un poids fort à la
       reconstitution des valeurs fortes de la variable examinée.
-    method: "1. aucune agrégation temporelle - calcul du KGE"
+    method:
+      P1:
+        KGE: aucune agrégation temporelle - calcul du KGE
     classification:
       domain: débit
       season: chronique

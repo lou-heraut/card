@@ -9,7 +9,9 @@ meta:
     unit: day
     name: Number of heavy rain days in the year
     description: "Number of days with at least 20 mm of precipitation"
-    method: "1. annual aggregation [09-01, 08-31] - number of days with precipitation of at least 20 mm"
+    method:
+      P1:
+        dtRA20mm: annual aggregation [09-01, 08-31] - number of days with precipitation of at least 20 mm
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: precipitation
@@ -23,7 +25,9 @@ meta:
     unit: jour
     name: Nombre de jours de forte pluie dans l'année
     description: "Nombre de jours avec au moins 20 mm de précipitations"
-    method: "1. agrégation annuelle [01-09, 31-08] - nombre de jours avec des précipitations d'au moins 20 mm"
+    method:
+      P1:
+        dtRA20mm: agrégation annuelle [01-09, 31-08] - nombre de jours avec des précipitations d'au moins 20 mm
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: précipitations

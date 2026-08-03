@@ -9,11 +9,15 @@ meta:
     unit: without unit
     name: "Number of years in the {suffix.name} horizon where VCN10 is below or equal to VCN10-5 from the historical period"
     description: ""
-    method: |
-      1. no temporal aggregation - 10-day centered moving average
-      2. annual aggregation [Month of maximum monthly flows] - minimum (VCN10)
-      3. no temporal aggregation - calculation of the 5-year return period flow with the log-normal distribution from the historical period (VCN10-5)
-      4. no temporal aggregation - counting the number of VCN10 in the {suffix.name} horizon below or equal to VCN10-5
+    method:
+      P1:
+        VC10: no temporal aggregation - 10-day centered moving average
+      P2:
+        VCN10: annual aggregation [Month of maximum monthly flows] - minimum (VCN10)
+      P3:
+        VCN10-5: no temporal aggregation - calculation of the 5-year return period flow with the log-normal distribution from the historical period (VCN10-5)
+      P4:
+        n-VCN10-5: no temporal aggregation - counting the number of VCN10 in the {suffix.name} horizon below or equal to VCN10-5
     sampling_period: Month of maximum monthly flows
     classification:
       domain: flow
@@ -29,11 +33,15 @@ meta:
     unit: sans unité
     name: "Nombre d'années de l'horizon {suffix.name} où le VCN10 est inférieur ou égal au VCN10-5 de la période historique"
     description: ""
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
-      2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum (VCN10)
-      3. aucune agrégation temporelle - calcul du débit de période de retour 5 ans avec la loi log-normal sur la période historique (VCN10-5)
-      4. aucune agrégation temporelle - décompte du nombre de VCN10 de l'horizon {suffix.name} inférieurs ou égaux au VCN10-5
+    method:
+      P1:
+        VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
+      P2:
+        VCN10: agrégation annuelle [Mois du maximum des débits mensuels] - minimum (VCN10)
+      P3:
+        VCN10-5: aucune agrégation temporelle - calcul du débit de période de retour 5 ans avec la loi log-normal sur la période historique (VCN10-5)
+      P4:
+        n-VCN10-5: aucune agrégation temporelle - décompte du nombre de VCN10 de l'horizon {suffix.name} inférieurs ou égaux au VCN10-5
     sampling_period: Mois du maximum des débits mensuels
     classification:
       domain: débit

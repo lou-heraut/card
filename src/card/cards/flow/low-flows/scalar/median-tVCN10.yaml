@@ -9,10 +9,13 @@ meta:
     unit: yearday
     name: Inter-annual median of the dates of the annual minimum of 10-day mean flows
     description: ""
-    method: |
-      1. no temporal aggregation - 10-day centered moving average
-      2. annual aggregation [Month of maximum monthly flows] - date of the minimum
-      3. no temporal aggregation - median
+    method:
+      P1:
+        VC10: no temporal aggregation - 10-day centered moving average
+      P2:
+        tVCN10: annual aggregation [Month of maximum monthly flows] - date of the minimum
+      P3:
+        median-tVCN10: no temporal aggregation - median
     sampling_period: Month of maximum monthly flows
     classification:
       domain: flow
@@ -26,10 +29,13 @@ meta:
     unit: "jour de l'année"
     name: Médiane inter-annuelle des dates du minimum annuel des débits moyens sur 10 jours
     description: ""
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
-      2. agrégation annuelle [Mois du maximum des débits mensuels] - date du minimum
-      3. aucune agrégation temporelle - médiane
+    method:
+      P1:
+        VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
+      P2:
+        tVCN10: agrégation annuelle [Mois du maximum des débits mensuels] - date du minimum
+      P3:
+        median-tVCN10: aucune agrégation temporelle - médiane
     sampling_period: Mois du maximum des débits mensuels
     classification:
       domain: débit

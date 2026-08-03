@@ -11,7 +11,9 @@ meta:
     description: >-
       Similar to KGE, this score gives equivalent weight across the entire
       range of the evaluated variable.
-    method: "1. no temporal aggregation - square root of simulated and reference data, then KGE calculation"
+    method:
+      P1:
+        KGEsqrt: no temporal aggregation - square root of simulated and reference data, then KGE calculation
     classification:
       domain: flow
       season: record
@@ -25,7 +27,9 @@ meta:
     description: >-
       Identique au KGE, ce score donne cependant un poids équivalent sur
       l'ensemble de la plage de variation de la variable évaluée.
-    method: "1. aucune agrégation temporelle - racine carrée des données simulées et de référence puis KGE"
+    method:
+      P1:
+        KGEsqrt: aucune agrégation temporelle - racine carrée des données simulées et de référence puis KGE
     classification:
       domain: débit
       season: chronique

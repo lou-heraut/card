@@ -10,9 +10,9 @@ meta:
     name: End of Base Flow
     description: >-
       Date when 90 % of the annual cumulative base flow is reached
-    method: |
-      1. annual aggregation [09-01, 08-31] - date when the sum of base flow
-         (Wallingford) Qb corresponds to 90 % of the total sum
+    method:
+      P1:
+        endBF: annual aggregation [09-01, 08-31] - date when the sum of base flow (Wallingford) Qb corresponds to 90 % of the total sum
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: flow
@@ -27,9 +27,9 @@ meta:
     name: Fin des écoulements lents
     description: >-
       Date à laquelle 90 % du cumul annuel du débit de base sont atteints
-    method: |
-      1. agrégation annuelle [01-09, 31-08] - date à laquelle la somme du
-         débit de base (Wallingford) Qb correspond à 90 % de la somme totale
+    method:
+      P1:
+        endBF: agrégation annuelle [01-09, 31-08] - date à laquelle la somme du débit de base (Wallingford) Qb correspond à 90 % de la somme totale
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: débit

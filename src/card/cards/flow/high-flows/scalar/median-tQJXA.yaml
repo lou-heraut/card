@@ -9,9 +9,11 @@ meta:
     unit: yearday
     name: Inter-annual median of the dates of the annual maximum daily discharge
     description: ""
-    method: |
-      1. annual aggregation [Month of minimum monthly flows] - date of maximum
-      2. no temporal aggregation - median
+    method:
+      P1:
+        tQJXA: annual aggregation [Month of minimum monthly flows] - date of maximum
+      P2:
+        median-tQJXA: no temporal aggregation - median
     sampling_period: Month of minimum monthly flows
     classification:
       domain: flow
@@ -25,9 +27,11 @@ meta:
     unit: "jour de l'année"
     name: Médiane inter-annuelle des dates du débit journalier maximal annuel
     description: ""
-    method: |
-      1. agrégation annuelle [Mois du minimum des débits mensuels] - date du maximum
-      2. aucune agrégation temporelle - médiane
+    method:
+      P1:
+        tQJXA: agrégation annuelle [Mois du minimum des débits mensuels] - date du maximum
+      P2:
+        median-tQJXA: aucune agrégation temporelle - médiane
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: débit

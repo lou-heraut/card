@@ -9,7 +9,9 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Daily flow exceeded 95 % of the time within the year
     description: Annual flow with an exceedance probability of 95 % (5th percentile)
-    method: "1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 95 %"
+    method:
+      P1:
+        Q95A: annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 95 %
     sampling_period: ["01-01", "12-31"]
     classification:
       domain: flow
@@ -23,7 +25,9 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Débit journalier dépassé 95 % du temps de l'année
     description: Débit annuel avec une probabilité de dépassement de 95 % (centile 5 %)
-    method: "1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité au dépassement de 95 %"
+    method:
+      P1:
+        Q95A: agrégation annuelle [01-01, 31-12] - quantile à la probabilité au dépassement de 95 %
     sampling_period: ["01-01", "31-12"]
     classification:
       domain: débit

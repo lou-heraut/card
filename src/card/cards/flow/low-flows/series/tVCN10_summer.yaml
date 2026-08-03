@@ -9,9 +9,11 @@ meta:
     unit: yearday
     name: Date of the summer minimum of 10-day mean flows
     description: Months from May to November
-    method: |
-      1. no temporal aggregation - 10-day centered moving average
-      2. annual aggregation [05-01, 11-30] - date of the minimum
+    method:
+      P1:
+        VC10_summer: no temporal aggregation - 10-day centered moving average
+      P2:
+        tVCN10_summer: annual aggregation [05-01, 11-30] - date of the minimum
     sampling_period: ["05-01", "11-30"]
     classification:
       domain: flow
@@ -25,9 +27,11 @@ meta:
     unit: "jour de l'année"
     name: Date du minimum estival des débits moyens sur 10 jours
     description: Mois de mai à novembre
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
-      2. agrégation annuelle [01-05, 30-11] - date du minimum
+    method:
+      P1:
+        VC10_summer: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
+      P2:
+        tVCN10_summer: agrégation annuelle [01-05, 30-11] - date du minimum
     sampling_period: ["01-05", "30-11"]
     classification:
       domain: débit

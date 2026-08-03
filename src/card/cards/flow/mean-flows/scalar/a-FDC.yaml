@@ -9,7 +9,9 @@ meta:
     unit: "without unit"
     name: Slope of the segment between the 33 % and 66 % quantiles of the flow duration curve
     description: ""
-    method: "1. no temporal aggregation - computation of the flow duration curve and differences between quantiles"
+    method:
+      P1:
+        a-FDC: no temporal aggregation - computation of the flow duration curve and differences between quantiles
     classification:
       domain: flow
       phenomenon: mean flows
@@ -22,7 +24,9 @@ meta:
     unit: "sans unité"
     name: Pente du segment entre les quantiles des débits journaliers à 33 % et 66 % de la courbe des débits classés
     description: ""
-    method: "1. aucune agrégation temporelle - calcul de la courbe des débits classés et des différences entre quantiles"
+    method:
+      P1:
+        a-FDC: aucune agrégation temporelle - calcul de la courbe des débits classés et des différences entre quantiles
     classification:
       domain: débit
       phenomenon: moyennes eaux

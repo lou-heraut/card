@@ -1,5 +1,5 @@
 id: QMNA_summer
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-30"
 
@@ -9,9 +9,11 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Summer minimum of monthly flows
     description: ""
-    method: |
-      1. monthly aggregation - mean
-      2. annual aggregation [05-01, 11-30] - minimum
+    method:
+      P1:
+        QMA_summer: monthly aggregation for each year - mean
+      P2:
+        QMNA_summer: annual aggregation [05-01, 11-30] - minimum
     sampling_period: ["05-01", "11-30"]
     classification:
       domain: flow
@@ -25,9 +27,11 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Minimum estival des débits mensuels
     description: ""
-    method: |
-      1. agrégation mensuelle - moyenne
-      2. agrégation annuelle [01-05, 30-11] - minimum
+    method:
+      P1:
+        QMA_summer: agrégation mensuelle par année - moyenne
+      P2:
+        QMNA_summer: agrégation annuelle [01-05, 30-11] - minimum
     sampling_period: ["01-05", "30-11"]
     classification:
       domain: débit

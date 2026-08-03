@@ -9,10 +9,13 @@ meta:
     unit: "%"
     name: "Average change of winter minimum of 3-day mean daily discharge between the {suffix.name} horizon and historical period"
     description: ""
-    method: |
-      1. no temporal aggregation - 3-day centered moving average
-      2. annual aggregation [11-01, 04-30] - minimum
-      3. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+    method:
+      P1:
+        VC3_winter: no temporal aggregation - 3-day centered moving average
+      P2:
+        VCN3_winter: annual aggregation [11-01, 04-30] - minimum
+      P3:
+        delta-VCN3_winter: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     sampling_period: ["11-01", "04-30"]
     classification:
       domain: flow
@@ -28,10 +31,13 @@ meta:
     unit: "%"
     name: "Changement moyen du minimum hivernal de la moyenne sur 3 jours du débit journalier entre l'horizon {suffix.name} et la période historique"
     description: ""
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
-      2. agrégation annuelle [01-11, 30-04] - minimum
-      3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+    method:
+      P1:
+        VC3_winter: aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
+      P2:
+        VCN3_winter: agrégation annuelle [01-11, 30-04] - minimum
+      P3:
+        delta-VCN3_winter: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     sampling_period: ["01-11", "30-04"]
     classification:
       domain: débit

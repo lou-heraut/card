@@ -13,11 +13,14 @@ meta:
       - "Mann-Kendall test result on the series of annual minima of 10-day
          mean flows (VCN10)"
     description: ""
-    method: |
-      1. no temporal aggregation - 10-day centered moving average
-      2. annual aggregation [Month of maximum monthly flows] - minimum
-      3. no temporal aggregation - Sen's slope of the series where the
-         Mann-Kendall test is significant at a 10 % risk level
+    method:
+      P1:
+        VC10: no temporal aggregation - 10-day centered moving average
+      P2:
+        VCN10: annual aggregation [Month of maximum monthly flows] - minimum
+      P3:
+        alpha-VCN10: no temporal aggregation - Sen's slope of the series where the Mann-Kendall test is significant at a 10 % risk level
+        hyp-alpha-VCN10: no temporal aggregation - Sen's slope of the series where the Mann-Kendall test is significant at a 10 % risk level
     sampling_period: Month of maximum monthly flows
     classification:
       domain: flow
@@ -35,11 +38,14 @@ meta:
       - "Résultat du test de Mann-Kendall sur la série des minimums annuels
          des débits moyens sur 10 jours (VCN10)"
     description: ""
-    method: |
-      1. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
-      2. agrégation annuelle [Mois du maximum des débits mensuels] - minimum
-      3. aucune agrégation temporelle - pente de Sen de la série dont le
-         test de Mann-Kendall est significatif à un risque de 10 %
+    method:
+      P1:
+        VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
+      P2:
+        VCN10: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
+      P3:
+        alpha-VCN10: aucune agrégation temporelle - pente de Sen de la série dont le test de Mann-Kendall est significatif à un risque de 10 %
+        hyp-alpha-VCN10: aucune agrégation temporelle - pente de Sen de la série dont le test de Mann-Kendall est significatif à un risque de 10 %
     sampling_period: Mois du maximum des débits mensuels
     classification:
       domain: débit

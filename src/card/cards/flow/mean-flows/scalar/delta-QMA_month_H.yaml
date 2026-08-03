@@ -33,9 +33,33 @@ meta:
     - Average change of average daily discharge for each November between the {suffix.name} horizon and historical period
     - Average change of average daily discharge for each December between the {suffix.name} horizon and historical period
     description: ''
-    method: |-
-      1. monthly aggregation for each year - mean
-      2. no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+    method:
+      P1:
+        QMA_jan: monthly aggregation for each year - mean
+        QMA_feb: monthly aggregation for each year - mean
+        QMA_mar: monthly aggregation for each year - mean
+        QMA_apr: monthly aggregation for each year - mean
+        QMA_may: monthly aggregation for each year - mean
+        QMA_jun: monthly aggregation for each year - mean
+        QMA_jul: monthly aggregation for each year - mean
+        QMA_aug: monthly aggregation for each year - mean
+        QMA_sep: monthly aggregation for each year - mean
+        QMA_oct: monthly aggregation for each year - mean
+        QMA_nov: monthly aggregation for each year - mean
+        QMA_dec: monthly aggregation for each year - mean
+      P2:
+        delta-QMA_jan: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-QMA_feb: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-QMA_mar: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-QMA_apr: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-QMA_may: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-QMA_jun: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-QMA_jul: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-QMA_aug: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-QMA_sep: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-QMA_oct: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-QMA_nov: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
+        delta-QMA_dec: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     sampling_period:
     - - 01-01
       - 01-31
@@ -99,9 +123,33 @@ meta:
     - Changement moyen de la moyenne des débits journaliers de chaque novembre entre l'horizon {suffix.name} et la période historique
     - Changement moyen de la moyenne des débits journaliers de chaque décembre entre l'horizon {suffix.name} et la période historique
     description: ''
-    method: |-
-      1. agrégation mensuelle par année - moyenne
-      2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+    method:
+      P1:
+        QMA_jan: agrégation mensuelle par année - moyenne
+        QMA_feb: agrégation mensuelle par année - moyenne
+        QMA_mar: agrégation mensuelle par année - moyenne
+        QMA_apr: agrégation mensuelle par année - moyenne
+        QMA_may: agrégation mensuelle par année - moyenne
+        QMA_jun: agrégation mensuelle par année - moyenne
+        QMA_jul: agrégation mensuelle par année - moyenne
+        QMA_aug: agrégation mensuelle par année - moyenne
+        QMA_sep: agrégation mensuelle par année - moyenne
+        QMA_oct: agrégation mensuelle par année - moyenne
+        QMA_nov: agrégation mensuelle par année - moyenne
+        QMA_dec: agrégation mensuelle par année - moyenne
+      P2:
+        delta-QMA_jan: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-QMA_feb: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-QMA_mar: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-QMA_apr: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-QMA_may: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-QMA_jun: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-QMA_jul: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-QMA_aug: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-QMA_sep: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-QMA_oct: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-QMA_nov: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
+        delta-QMA_dec: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     sampling_period:
     - - 01-01
       - 31-01

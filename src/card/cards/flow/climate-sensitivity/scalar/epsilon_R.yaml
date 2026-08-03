@@ -9,7 +9,12 @@ meta:
     unit: without unit
     name: Annual flow elasticity to precipitation
     description: ""
-    method: "1. annual aggregation [Month of minimum monthly flows] - mean flow and mean total precipitation\n2. no temporal aggregation - calculation of elasticity ε"
+    method:
+      P1:
+        QA: annual aggregation [Month of minimum monthly flows] - mean flow and mean total precipitation
+        RA: annual aggregation [Month of minimum monthly flows] - mean flow and mean total precipitation
+      P2:
+        epsilon_R: no temporal aggregation - calculation of elasticity ε
     sampling_period: Month of minimum monthly flows
     classification:
       domain: [flow, precipitation]
@@ -22,7 +27,12 @@ meta:
     unit: sans unité
     name: Élasticité annuelle du débit aux précipitations
     description: ""
-    method: "1. agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen et précipitations totales moyennes\n2. aucune agrégation temporelle - calcul de l'élasticité ε"
+    method:
+      P1:
+        QA: agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen et précipitations totales moyennes
+        RA: agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen et précipitations totales moyennes
+      P2:
+        epsilon_R: aucune agrégation temporelle - calcul de l'élasticité ε
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: [débit, précipitations]

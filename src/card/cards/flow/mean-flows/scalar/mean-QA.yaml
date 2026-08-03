@@ -9,9 +9,11 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Inter-annual mean of the annual mean daily flow
     description: ""
-    method: |
-      1. annual aggregation [09-01, 08-31] - mean
-      2. no temporal aggregation - average
+    method:
+      P1:
+        QA: annual aggregation [09-01, 08-31] - mean
+      P2:
+        mean-QA: no temporal aggregation - average
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: flow
@@ -25,9 +27,11 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: Moyenne inter-annuelle du débit moyen annuel
     description: ""
-    method: |
-      1. agrégation annuelle [01-09, 31-08] - moyenne
-      2. aucune agrégation temporelle - moyenne
+    method:
+      P1:
+        QA: agrégation annuelle [01-09, 31-08] - moyenne
+      P2:
+        mean-QA: aucune agrégation temporelle - moyenne
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: débit

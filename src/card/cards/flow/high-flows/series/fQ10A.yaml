@@ -11,12 +11,11 @@ meta:
     description: >-
       Annual frequency of exceeding Q > Q10, where Q10 is the flow exceeded
       10 % of the time, extracted from the ranked flow curve
-    method: |
-      1. no temporal aggregation - the quantile at the 10 % exceedance
-         probability is taken as the threshold
-      2. annual aggregation [Month of minimum monthly flows] - ratio of the
-         number of days with flow exceeding the threshold to the number of
-         days in the year
+    method:
+      P1:
+        lowLim: no temporal aggregation - the quantile at the 10 % exceedance probability is taken as the threshold
+      P2:
+        fQ10A: annual aggregation [Month of minimum monthly flows] - ratio of the number of days with flow exceeding the threshold to the number of days in the year
     sampling_period: Month of minimum monthly flows
     classification:
       domain: flow
@@ -32,12 +31,11 @@ meta:
     description: >-
       Fréquence annuelle de dépassement de Q > Q10, Q10 est le débit dépassé
       10 % du temps, extrait de la courbe des débits classés
-    method: |
-      1. aucune agrégation temporelle - le quantile à la probabilité au
-         dépassement de 10 % est pris comme seuil
-      2. agrégation annuelle [Mois du minimum des débits mensuels] - rapport
-         du nombre de jours où le débit dépasse le seuil par le nombre de
-         jours dans l'année
+    method:
+      P1:
+        lowLim: aucune agrégation temporelle - le quantile à la probabilité au dépassement de 10 % est pris comme seuil
+      P2:
+        fQ10A: agrégation annuelle [Mois du minimum des débits mensuels] - rapport du nombre de jours où le débit dépasse le seuil par le nombre de jours dans l'année
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: débit

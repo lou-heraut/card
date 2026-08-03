@@ -9,7 +9,9 @@ meta:
     unit: mm
     name: Cumulative annual total precipitation
     description: ""
-    method: "1. annual aggregation [09-01, 08-31] - sum"
+    method:
+      P1:
+        RA: annual aggregation [09-01, 08-31] - sum
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: precipitation
@@ -23,7 +25,9 @@ meta:
     unit: mm
     name: Cumul annuel des précipitations totales
     description: ""
-    method: "1. agrégation annuelle [01-09, 31-08] - somme"
+    method:
+      P1:
+        RA: agrégation annuelle [01-09, 31-08] - somme
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: précipitations

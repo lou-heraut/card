@@ -1,5 +1,5 @@
 id: dtFlood
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -14,14 +14,15 @@ meta:
       runoff Qr. Floods are identified based on the annual maximum in the Qr
       series, and for each flood, the duration is defined as the number of
       days where Qr is above half of the annual maxima.
-    method: |
-      1. no temporal aggregation - Qr difference between daily flow values
-         and base flow
-      2. annual aggregation [Month of minimum monthly flows] - maximum Qr
-      3. annual aggregation [Month of minimum monthly flows] - division by
-         two of the annual maxima to obtain a threshold
-      4. annual aggregation [Month of minimum monthly flows] - number of days
-         where the difference is above the threshold
+    method:
+      P1:
+        dQ: no temporal aggregation - difference between the daily flow and the base flow
+      P2:
+        dQXA: annual aggregation [Month of minimum monthly flows] - maximum of dQ
+      P3:
+        lowLim: annual aggregation [Month of minimum monthly flows] - division by two of dQXA to obtain a threshold
+      P4:
+        dtFlood: annual aggregation [Month of minimum monthly flows] - number of days where dQ is above lowLim
     sampling_period: Month of minimum monthly flows
     classification:
       domain: flow
@@ -41,14 +42,15 @@ meta:
       annuel dans la série des Qr et pour chaque crue, la durée est définie
       comme le nombre de jours où Qr est supérieur au maxima annuel divisé
       par 2.
-    method: |
-      1. aucune agrégation temporelle - différence Qr entre les valeurs
-         journalières de débit par le débit de base
-      2. agrégation annuelle [Mois du minimum des débits mensuels] - maximum de Qr
-      3. agrégation annuelle [Mois du minimum des débits mensuels] - division par
-         deux des maxima annuels pour obtenir un seuil
-      4. agrégation annuelle [Mois du minimum des débits mensuels] - nombre de
-         jours où la différence est supérieure au seuil
+    method:
+      P1:
+        dQ: aucune agrégation temporelle - différence entre le débit journalier et le débit de base
+      P2:
+        dQXA: agrégation annuelle [Mois du minimum des débits mensuels] - maximum de dQ
+      P3:
+        lowLim: agrégation annuelle [Mois du minimum des débits mensuels] - division par deux de dQXA pour obtenir un seuil
+      P4:
+        dtFlood: agrégation annuelle [Mois du minimum des débits mensuels] - nombre de jours où dQ dépasse lowLim
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: débit

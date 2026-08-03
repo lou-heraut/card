@@ -1,5 +1,5 @@
 id: QJXA-10
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -9,11 +9,11 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: "Annual maximum daily flow with a 10-year return period"
     description: ""
-    method: |
-      1. annual aggregation [Month of minimum monthly flows] - maximum
-         (extraction from the QJXA series)
-      2. no temporal aggregation - calculation of the flow with a 10-year
-         return period using the Gumbel distribution
+    method:
+      P1:
+        QJXA: annual aggregation [Month of minimum monthly flows] - maximum (extraction from the QJXA series)
+      P2:
+        QJXA-10: no temporal aggregation - calculation of the flow with a 10-year return period using the Gumbel distribution
     sampling_period: Month of minimum monthly flows
     classification:
       domain: flow
@@ -27,11 +27,11 @@ meta:
     unit: "m^{3}.s^{-1}"
     name: "Débit journalier maximal annuel de période de retour 10 ans"
     description: ""
-    method: |
-      1. agrégation annuelle [Mois du minimum des débits mensuels] - maximum
-         (extraction de la série des QJXA)
-      2. aucune agrégation temporelle - calcul du débit de période de retour
-         10 ans avec la loi de Gumbel
+    method:
+      P1:
+        QJXA: agrégation annuelle [Mois du minimum des débits mensuels] - maximum
+      P2:
+        QJXA-10: aucune agrégation temporelle - calcul du débit de période de retour 10 ans avec la loi de Gumbel
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: débit

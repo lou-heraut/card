@@ -13,7 +13,9 @@ meta:
       simulated ones, based on the square deviation. The coefficient gives
       strong emphasis on the reconstruction of high values of the examined
       variable.
-    method: "1. no temporal aggregation - NSE calculation"
+    method:
+      P1:
+        NSE: no temporal aggregation - NSE calculation
     classification:
       domain: flow
       season: record
@@ -29,7 +31,9 @@ meta:
       celles simulées, sur la base de l'écart quadratique. Le coefficient
       donne un poids fort à la reconstitution des valeurs fortes de la
       variable examinée.
-    method: "1. aucune agrégation temporelle - calcul du NSE"
+    method:
+      P1:
+        NSE: aucune agrégation temporelle - calcul du NSE
     classification:
       domain: débit
       season: chronique

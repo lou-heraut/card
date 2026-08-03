@@ -18,10 +18,11 @@ meta:
       - "Months of June, July, and August"
       - "Months of September, October, and November"
     method:
-      - "1. seasonal annual aggregation [12-01, 02-28(29)] - sum"
-      - "1. seasonal annual aggregation [03-01, 05-31] - sum"
-      - "1. seasonal annual aggregation [06-01, 08-31] - sum"
-      - "1. seasonal annual aggregation [09-01, 11-30] - sum"
+      P1:
+        RSA_DJF: seasonal annual aggregation [12-01, 02-28(29)] - sum
+        RSA_MAM: seasonal annual aggregation [03-01, 05-31] - sum
+        RSA_JJA: seasonal annual aggregation [06-01, 08-31] - sum
+        RSA_SON: seasonal annual aggregation [09-01, 11-30] - sum
     sampling_period:
       - ["12-01", "02-28(29)"]
       - ["03-01", "05-31"]
@@ -48,10 +49,11 @@ meta:
       - "Mois de juin, juillet et août"
       - "Mois de septembre, octobre et novembre"
     method:
-      - "1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - somme"
-      - "1. agrégation annuelle saisonnalisée [01-03, 31-05] - somme"
-      - "1. agrégation annuelle saisonnalisée [01-06, 31-08] - somme"
-      - "1. agrégation annuelle saisonnalisée [01-09, 30-11] - somme"
+      P1:
+        RSA_DJF: agrégation annuelle saisonnalisée [01-12, 28(29)-02] - somme
+        RSA_MAM: agrégation annuelle saisonnalisée [01-03, 31-05] - somme
+        RSA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - somme
+        RSA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - somme
     sampling_period:
       - ["01-12", "28(29)-02"]
       - ["01-03", "31-05"]

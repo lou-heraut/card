@@ -33,7 +33,33 @@ meta:
       - Inter-annual mean of November mean temperatures
       - Inter-annual mean of December mean temperatures
     description: ""
-    method: "1. monthly aggregation for each year - mean\n2. no temporal aggregation - average"
+    method:
+      P1:
+        TMA_jan: monthly aggregation for each year - mean
+        TMA_feb: monthly aggregation for each year - mean
+        TMA_mar: monthly aggregation for each year - mean
+        TMA_apr: monthly aggregation for each year - mean
+        TMA_may: monthly aggregation for each year - mean
+        TMA_jun: monthly aggregation for each year - mean
+        TMA_jul: monthly aggregation for each year - mean
+        TMA_aug: monthly aggregation for each year - mean
+        TMA_sep: monthly aggregation for each year - mean
+        TMA_oct: monthly aggregation for each year - mean
+        TMA_nov: monthly aggregation for each year - mean
+        TMA_dec: monthly aggregation for each year - mean
+      P2:
+        mean-TMA_jan: no temporal aggregation - average
+        mean-TMA_feb: no temporal aggregation - average
+        mean-TMA_mar: no temporal aggregation - average
+        mean-TMA_apr: no temporal aggregation - average
+        mean-TMA_may: no temporal aggregation - average
+        mean-TMA_jun: no temporal aggregation - average
+        mean-TMA_jul: no temporal aggregation - average
+        mean-TMA_aug: no temporal aggregation - average
+        mean-TMA_sep: no temporal aggregation - average
+        mean-TMA_oct: no temporal aggregation - average
+        mean-TMA_nov: no temporal aggregation - average
+        mean-TMA_dec: no temporal aggregation - average
     sampling_period:
       - ["01-01", "01-31"]
       - ["02-01", "02-28(29)"]
@@ -83,7 +109,33 @@ meta:
       - Moyenne inter-annuelle des températures moyennes de novembre
       - Moyenne inter-annuelle des températures moyennes de décembre
     description: ""
-    method: "1. agrégation mensuelle par année - moyenne\n2. aucune agrégation temporelle - moyenne"
+    method:
+      P1:
+        TMA_jan: agrégation mensuelle par année - moyenne
+        TMA_feb: agrégation mensuelle par année - moyenne
+        TMA_mar: agrégation mensuelle par année - moyenne
+        TMA_apr: agrégation mensuelle par année - moyenne
+        TMA_may: agrégation mensuelle par année - moyenne
+        TMA_jun: agrégation mensuelle par année - moyenne
+        TMA_jul: agrégation mensuelle par année - moyenne
+        TMA_aug: agrégation mensuelle par année - moyenne
+        TMA_sep: agrégation mensuelle par année - moyenne
+        TMA_oct: agrégation mensuelle par année - moyenne
+        TMA_nov: agrégation mensuelle par année - moyenne
+        TMA_dec: agrégation mensuelle par année - moyenne
+      P2:
+        mean-TMA_jan: aucune agrégation temporelle - moyenne
+        mean-TMA_feb: aucune agrégation temporelle - moyenne
+        mean-TMA_mar: aucune agrégation temporelle - moyenne
+        mean-TMA_apr: aucune agrégation temporelle - moyenne
+        mean-TMA_may: aucune agrégation temporelle - moyenne
+        mean-TMA_jun: aucune agrégation temporelle - moyenne
+        mean-TMA_jul: aucune agrégation temporelle - moyenne
+        mean-TMA_aug: aucune agrégation temporelle - moyenne
+        mean-TMA_sep: aucune agrégation temporelle - moyenne
+        mean-TMA_oct: aucune agrégation temporelle - moyenne
+        mean-TMA_nov: aucune agrégation temporelle - moyenne
+        mean-TMA_dec: aucune agrégation temporelle - moyenne
     sampling_period:
       - ["01-01", "31-01"]
       - ["01-02", "28(29)-02"]

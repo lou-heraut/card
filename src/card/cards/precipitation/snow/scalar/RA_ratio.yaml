@@ -11,7 +11,18 @@ meta:
       - "Ratio of liquid to total precipitation"
       - "Ratio of solid to total precipitation"
     description: ""
-    method: "1. annual aggregation [09-01, 08-31] - sums of total, liquid and solid precipitation\n2. no temporal aggregation - inter-annual means\n3. no temporal aggregation - liquid/total and solid/total ratios"
+    method:
+      P1:
+        RA: annual aggregation [09-01, 08-31] - sums of total, liquid and solid precipitation
+        RAl: annual aggregation [09-01, 08-31] - sums of total, liquid and solid precipitation
+        RAs: annual aggregation [09-01, 08-31] - sums of total, liquid and solid precipitation
+      P2:
+        mean-RA: no temporal aggregation - inter-annual means
+        mean-RAl: no temporal aggregation - inter-annual means
+        mean-RAs: no temporal aggregation - inter-annual means
+      P3:
+        Rl_ratio: no temporal aggregation - liquid/total and solid/total ratios
+        Rs_ratio: no temporal aggregation - liquid/total and solid/total ratios
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: precipitation
@@ -27,7 +38,18 @@ meta:
       - "Rapport des précipitations liquides aux précipitations totales"
       - "Rapport des précipitations solides aux précipitations totales"
     description: ""
-    method: "1. agrégation annuelle [01-09, 31-08] - sommes des précipitations totales, liquides et solides\n2. aucune agrégation temporelle - moyennes inter-annuelles\n3. aucune agrégation temporelle - rapports liquide/total et solide/total"
+    method:
+      P1:
+        RA: agrégation annuelle [01-09, 31-08] - sommes des précipitations totales, liquides et solides
+        RAl: agrégation annuelle [01-09, 31-08] - sommes des précipitations totales, liquides et solides
+        RAs: agrégation annuelle [01-09, 31-08] - sommes des précipitations totales, liquides et solides
+      P2:
+        mean-RA: aucune agrégation temporelle - moyennes inter-annuelles
+        mean-RAl: aucune agrégation temporelle - moyennes inter-annuelles
+        mean-RAs: aucune agrégation temporelle - moyennes inter-annuelles
+      P3:
+        Rl_ratio: aucune agrégation temporelle - rapports liquide/total et solide/total
+        Rs_ratio: aucune agrégation temporelle - rapports liquide/total et solide/total
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: précipitations

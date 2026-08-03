@@ -1,5 +1,5 @@
 id: epsilon_T_season
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -18,10 +18,20 @@ meta:
       - "Months of June, July, and August"
       - "Months of September, October, and November"
     method:
-      - "1. seasonal annual aggregation [12-01, 02-28(29)] - mean flow and mean temperatures\n2. no temporal aggregation - calculation of elasticity ε"
-      - "1. seasonal annual aggregation [03-01, 05-31] - mean flow and mean temperatures\n2. no temporal aggregation - calculation of elasticity ε"
-      - "1. seasonal annual aggregation [06-01, 08-31] - mean flow and mean temperatures\n2. no temporal aggregation - calculation of elasticity ε"
-      - "1. seasonal annual aggregation [09-01, 11-30] - mean flow and mean temperatures\n2. no temporal aggregation - calculation of elasticity ε"
+      P1:
+        QA_DJF: seasonal annual aggregation [12-01, 02-28(29)] - mean flow
+        QA_MAM: seasonal annual aggregation [03-01, 05-31] - mean flow
+        QA_JJA: seasonal annual aggregation [06-01, 08-31] - mean flow
+        QA_SON: seasonal annual aggregation [09-01, 11-30] - mean flow
+        TA_DJF: seasonal annual aggregation [12-01, 02-28(29)] - mean temperatures
+        TA_MAM: seasonal annual aggregation [03-01, 05-31] - mean temperatures
+        TA_JJA: seasonal annual aggregation [06-01, 08-31] - mean temperatures
+        TA_SON: seasonal annual aggregation [09-01, 11-30] - mean temperatures
+      P2:
+        epsilon_T_DJF: no temporal aggregation - calculation of elasticity ε
+        epsilon_T_MAM: no temporal aggregation - calculation of elasticity ε
+        epsilon_T_JJA: no temporal aggregation - calculation of elasticity ε
+        epsilon_T_SON: no temporal aggregation - calculation of elasticity ε
     sampling_period:
       - ["12-01", "02-28(29)"]
       - ["03-01", "05-31"]
@@ -47,10 +57,20 @@ meta:
       - "Mois de juin, juillet et août"
       - "Mois de septembre, octobre et novembre"
     method:
-      - "1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - débit moyen et températures moyennes\n2. aucune agrégation temporelle - calcul de l'élasticité ε"
-      - "1. agrégation annuelle saisonnalisée [01-03, 31-05] - débit moyen et températures moyennes\n2. aucune agrégation temporelle - calcul de l'élasticité ε"
-      - "1. agrégation annuelle saisonnalisée [01-06, 31-08] - débit moyen et températures moyennes\n2. aucune agrégation temporelle - calcul de l'élasticité ε"
-      - "1. agrégation annuelle saisonnalisée [01-09, 30-11] - débit moyen et températures moyennes\n2. aucune agrégation temporelle - calcul de l'élasticité ε"
+      P1:
+        QA_DJF: agrégation annuelle saisonnalisée [01-12, 28(29)-02] - débit moyen
+        QA_MAM: agrégation annuelle saisonnalisée [01-03, 31-05] - débit moyen
+        QA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - débit moyen
+        QA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - débit moyen
+        TA_DJF: agrégation annuelle saisonnalisée [01-12, 28(29)-02] - températures moyennes
+        TA_MAM: agrégation annuelle saisonnalisée [01-03, 31-05] - températures moyennes
+        TA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - températures moyennes
+        TA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - températures moyennes
+      P2:
+        epsilon_T_DJF: aucune agrégation temporelle - calcul de l'élasticité ε
+        epsilon_T_MAM: aucune agrégation temporelle - calcul de l'élasticité ε
+        epsilon_T_JJA: aucune agrégation temporelle - calcul de l'élasticité ε
+        epsilon_T_SON: aucune agrégation temporelle - calcul de l'élasticité ε
     sampling_period:
       - ["01-12", "28(29)-02"]
       - ["01-03", "31-05"]

@@ -18,10 +18,16 @@ meta:
       - ""
       - ""
     method:
-      - "1. seasonal annual aggregation [12-01, 02-28(29)] - average\n2. no temporal aggregation - average"
-      - "1. seasonal annual aggregation [03-01, 05-31] - average\n2. no temporal aggregation - average"
-      - "1. seasonal annual aggregation [06-01, 08-31] - average\n2. no temporal aggregation - average"
-      - "1. seasonal annual aggregation [09-01, 11-30] - average\n2. no temporal aggregation - average"
+      P1:
+        TSA_DJF: seasonal annual aggregation [12-01, 02-28(29)] - average
+        TSA_MAM: seasonal annual aggregation [03-01, 05-31] - average
+        TSA_JJA: seasonal annual aggregation [06-01, 08-31] - average
+        TSA_SON: seasonal annual aggregation [09-01, 11-30] - average
+      P2:
+        mean-TSA_DJF: no temporal aggregation - average
+        mean-TSA_MAM: no temporal aggregation - average
+        mean-TSA_JJA: no temporal aggregation - average
+        mean-TSA_SON: no temporal aggregation - average
     sampling_period:
       - ["12-01", "02-28(29)"]
       - ["03-01", "05-31"]
@@ -48,10 +54,16 @@ meta:
       - "Mois de juin, juillet et août"
       - "Mois de septembre, octobre et novembre"
     method:
-      - "1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - moyenne\n2. aucune agrégation temporelle - moyenne"
-      - "1. agrégation annuelle saisonnalisée [01-03, 31-05] - moyenne\n2. aucune agrégation temporelle - moyenne"
-      - "1. agrégation annuelle saisonnalisée [01-06, 31-08] - moyenne\n2. aucune agrégation temporelle - moyenne"
-      - "1. agrégation annuelle saisonnalisée [01-09, 30-11] - moyenne\n2. aucune agrégation temporelle - moyenne"
+      P1:
+        TSA_DJF: agrégation annuelle saisonnalisée [01-12, 28(29)-02] - moyenne
+        TSA_MAM: agrégation annuelle saisonnalisée [01-03, 31-05] - moyenne
+        TSA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - moyenne
+        TSA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - moyenne
+      P2:
+        mean-TSA_DJF: aucune agrégation temporelle - moyenne
+        mean-TSA_MAM: aucune agrégation temporelle - moyenne
+        mean-TSA_JJA: aucune agrégation temporelle - moyenne
+        mean-TSA_SON: aucune agrégation temporelle - moyenne
     sampling_period:
       - ["01-12", "28(29)-02"]
       - ["01-03", "31-05"]

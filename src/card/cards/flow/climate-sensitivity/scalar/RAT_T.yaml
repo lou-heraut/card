@@ -9,7 +9,12 @@ meta:
     unit: bool
     name: Robustness test to air temperature variation
     description: ""
-    method: "1. annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow, and mean air temperature\n2. no temporal aggregation - RAT with a 5 % significance level"
+    method:
+      P1:
+        BiasA: annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow, and mean air temperature
+        TA: annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow, and mean air temperature
+      P2:
+        RAT_T: no temporal aggregation - RAT with a 5 % significance level
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: [flow, temperature]
@@ -22,7 +27,12 @@ meta:
     unit: bool
     name: Test de robustesse à une variation de température de l'air
     description: ""
-    method: "1. agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés, et température moyenne de l'air\n2. aucune agrégation temporelle - RAT avec un seuil de significativité de 5 %"
+    method:
+      P1:
+        BiasA: agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés, et température moyenne de l'air
+        TA: agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés, et température moyenne de l'air
+      P2:
+        RAT_T: aucune agrégation temporelle - RAT avec un seuil de significativité de 5 %
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: [débit, température]

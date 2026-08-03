@@ -9,7 +9,11 @@ meta:
     unit: mm
     name: Annual maximum of 5-day cumulative daily precipitation
     description: ""
-    method: "1. no temporal aggregation - 5-day centered moving sum\n2. annual aggregation [Month of minimum monthly precipitation] - maximum"
+    method:
+      P1:
+        RC5: no temporal aggregation - 5-day centered moving sum
+      P2:
+        RCXA5: annual aggregation [Month of minimum monthly precipitation] - maximum
     sampling_period: Month of minimum monthly precipitation
     classification:
       domain: precipitation
@@ -23,7 +27,11 @@ meta:
     unit: mm
     name: Maximum annuel du cumul sur 5 jours des précipitations journalières
     description: ""
-    method: "1. aucune agrégation temporelle - somme mobile centrée sur 5 jours\n2. agrégation annuelle [Mois du minimum des précipitations mensuelles] - maximum"
+    method:
+      P1:
+        RC5: aucune agrégation temporelle - somme mobile centrée sur 5 jours
+      P2:
+        RCXA5: agrégation annuelle [Mois du minimum des précipitations mensuelles] - maximum
     sampling_period: Mois du minimum des précipitations mensuelles
     classification:
       domain: précipitations

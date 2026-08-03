@@ -10,9 +10,9 @@ meta:
     name: Start of low flows
     description: >-
       Date when 10 % of the annual cumulative baseflow is reached
-    method: |
-      1. annual aggregation [09-01, 08-31] - date when the baseflow (Wallingford)
-         sum corresponds to 10 % of the total sum
+    method:
+      P1:
+        startBF: annual aggregation [09-01, 08-31] - date when the baseflow (Wallingford) sum corresponds to 10 % of the total sum
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: flow
@@ -27,9 +27,9 @@ meta:
     name: Début des écoulements lents
     description: >-
       Date à laquelle 10 % du cumul annuel du débit de base sont atteints
-    method: |
-      1. agrégation annuelle [01-09, 31-08] - date à laquelle la somme du
-         débit de base (Wallingford) correspond à 10 % de la somme totale
+    method:
+      P1:
+        startBF: agrégation annuelle [01-09, 31-08] - date à laquelle la somme du débit de base (Wallingford) correspond à 10 % de la somme totale
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: débit
