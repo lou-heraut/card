@@ -1,5 +1,5 @@
 id: rp-QMNA
-version: "1.2"
+version: "1.3"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-20"
 
@@ -11,11 +11,11 @@ meta:
     description: Inverse of the return-level fiches (QMNA-5) - the log-normal law is fitted on the QMNA series and evaluated at the constant threshold discharge Q_lim given by regulatory texts (e.g. DOE, DCR); a threshold far below the fitted law gives an extrapolated return period, reported as is
     method:
       P1:
-        QMA: monthly aggregation for each year - mean
-        QlimM: monthly aggregation for each year - mean
+        QMA: monthly aggregation for each year - mean of daily flows (QMA)
+        QlimM: monthly aggregation for each year - mean of the {suffix.short} threshold
       P2:
-        QMNA: annual aggregation [Month of maximum monthly flows] - minimum
-        Qlim: annual aggregation [Month of maximum monthly flows] - minimum
+        QMNA: annual aggregation [Month of maximum monthly flows] - minimum of QMA
+        Qlim: annual aggregation [Month of maximum monthly flows] - mean of the {suffix.short} threshold
       P3:
         rp-QMNA: no temporal aggregation - return period of the {suffix.short} threshold with the log-normal distribution
     sampling_period: Month of maximum monthly flows
@@ -36,11 +36,11 @@ meta:
     description: Inverse des fiches de niveau de retour (QMNA-5) - la loi log-normale est ajustée sur la série des QMNA puis évaluée au débit seuil constant Q_lim donné par les textes réglementaires (par exemple DOE, DCR) ; un seuil loin du corps de la loi donne une période de retour extrapolée, restituée telle quelle
     method:
       P1:
-        QMA: agrégation mensuelle par année - moyenne
-        QlimM: agrégation mensuelle par année - moyenne
+        QMA: agrégation mensuelle par année - moyenne des débits journaliers (QMA)
+        QlimM: agrégation mensuelle par année - moyenne du seuil {suffix.short}
       P2:
-        QMNA: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
-        Qlim: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
+        QMNA: agrégation annuelle [Mois du maximum des débits mensuels] - minimum de QMA
+        Qlim: agrégation annuelle [Mois du maximum des débits mensuels] - moyenne du seuil {suffix.short}
       P3:
         rp-QMNA: aucune agrégation temporelle - période de retour du seuil {suffix.short} avec la loi log-normale
     sampling_period: Mois du maximum des débits mensuels

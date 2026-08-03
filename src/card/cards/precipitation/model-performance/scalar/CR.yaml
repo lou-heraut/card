@@ -1,5 +1,5 @@
 id: CR
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -11,11 +11,11 @@ meta:
     description: ""
     method:
       P1:
-        RA_obs: annual aggregation [09-01, 08-31] - sums of observed and simulated precipitation
-        RA_sim: annual aggregation [09-01, 08-31] - sums of observed and simulated precipitation
+        RA_obs: annual aggregation [09-01, 08-31] - sum of observed precipitation
+        RA_sim: annual aggregation [09-01, 08-31] - sum of simulated precipitation
       P2:
-        mean-RA_obs: no temporal aggregation - inter-annual means
-        mean-RA_sim: no temporal aggregation - inter-annual means
+        mean-RA_obs: no temporal aggregation - inter-annual mean
+        mean-RA_sim: no temporal aggregation - inter-annual mean
       P3:
         CR: no temporal aggregation - simulated/observed ratio
     sampling_period: ["09-01", "08-31"]
@@ -32,11 +32,11 @@ meta:
     description: ""
     method:
       P1:
-        RA_obs: agrégation annuelle [01-09, 31-08] - sommes des précipitations observées et simulées
-        RA_sim: agrégation annuelle [01-09, 31-08] - sommes des précipitations observées et simulées
+        RA_obs: agrégation annuelle [01-09, 31-08] - somme des précipitations observées
+        RA_sim: agrégation annuelle [01-09, 31-08] - somme des précipitations simulées
       P2:
-        mean-RA_obs: aucune agrégation temporelle - moyennes inter-annuelles
-        mean-RA_sim: aucune agrégation temporelle - moyennes inter-annuelles
+        mean-RA_obs: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RA_sim: aucune agrégation temporelle - moyenne inter-annuelle
       P3:
         CR: aucune agrégation temporelle - rapport simulé/observé
     sampling_period: ["01-09", "31-08"]

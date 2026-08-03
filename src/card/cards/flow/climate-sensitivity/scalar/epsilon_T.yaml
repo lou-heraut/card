@@ -1,5 +1,5 @@
 id: epsilon_T
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-16"
 
@@ -11,8 +11,8 @@ meta:
     description: ""
     method:
       P1:
-        QA: annual aggregation [Month of minimum monthly flows] - mean flow and mean temperatures
-        TA: annual aggregation [Month of minimum monthly flows] - mean flow and mean temperatures
+        QA: annual aggregation [Month of minimum monthly flows] - mean flow
+        TA: annual aggregation [Month of minimum monthly flows] - mean temperatures
       P2:
         epsilon_T: no temporal aggregation - calculation of elasticity ε
     sampling_period: Month of minimum monthly flows
@@ -29,8 +29,8 @@ meta:
     description: ""
     method:
       P1:
-        QA: agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen et températures moyennes
-        TA: agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen et températures moyennes
+        QA: agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen
+        TA: agrégation annuelle [Mois du minimum des débits mensuels] - températures moyennes
       P2:
         epsilon_T: aucune agrégation temporelle - calcul de l'élasticité ε
     sampling_period: Mois du minimum des débits mensuels

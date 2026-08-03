@@ -1,5 +1,5 @@
 id: RAT_T
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -11,8 +11,8 @@ meta:
     description: ""
     method:
       P1:
-        BiasA: annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow, and mean air temperature
-        TA: annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow, and mean air temperature
+        BiasA: annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow
+        TA: annual aggregation [09-01, 08-31] - mean air temperature
       P2:
         RAT_T: no temporal aggregation - RAT with a 5 % significance level
     sampling_period: ["09-01", "08-31"]
@@ -29,8 +29,8 @@ meta:
     description: ""
     method:
       P1:
-        BiasA: agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés, et température moyenne de l'air
-        TA: agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés, et température moyenne de l'air
+        BiasA: agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés
+        TA: agrégation annuelle [01-09, 31-08] - température moyenne de l'air
       P2:
         RAT_T: aucune agrégation temporelle - RAT avec un seuil de significativité de 5 %
     sampling_period: ["01-09", "31-08"]

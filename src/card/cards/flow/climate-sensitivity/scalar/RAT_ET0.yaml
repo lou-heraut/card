@@ -1,5 +1,5 @@
 id: RAT_ET0
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -11,8 +11,8 @@ meta:
     description: ""
     method:
       P1:
-        BiasA: annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow, and mean reference evapotranspiration
-        ET0A: annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow, and mean reference evapotranspiration
+        BiasA: annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow
+        ET0A: annual aggregation [09-01, 08-31] - mean reference evapotranspiration
       P2:
         RAT_ET0: no temporal aggregation - RAT with a 5 % significance level
     sampling_period: ["09-01", "08-31"]
@@ -29,8 +29,8 @@ meta:
     description: ""
     method:
       P1:
-        BiasA: agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés, et évapotranspiration de référence moyenne
-        ET0A: agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés, et évapotranspiration de référence moyenne
+        BiasA: agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés
+        ET0A: agrégation annuelle [01-09, 31-08] - évapotranspiration de référence moyenne
       P2:
         RAT_ET0: aucune agrégation temporelle - RAT avec un seuil de significativité de 5 %
     sampling_period: ["01-09", "31-08"]

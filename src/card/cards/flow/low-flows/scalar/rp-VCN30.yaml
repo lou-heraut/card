@@ -1,5 +1,5 @@
 id: rp-VCN30
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-20"
 
@@ -11,10 +11,10 @@ meta:
     description: Inverse of the return-level fiches (VCN30-2) - the log-normal law is fitted on the VCN30 series and evaluated at the constant threshold discharge Q_lim given by regulatory texts (e.g. DOE, DCR); a threshold far below the fitted law gives an extrapolated return period, reported as is
     method:
       P1:
-        VC30: no temporal aggregation - 30-day centered moving average
+        VC30: no temporal aggregation - 30-day centered moving average (VC30)
       P2:
-        VCN30: annual aggregation [Month of maximum monthly flows] - minimum
-        Qlim: annual aggregation [Month of maximum monthly flows] - minimum
+        VCN30: annual aggregation [Month of maximum monthly flows] - minimum of VC30
+        Qlim: annual aggregation [Month of maximum monthly flows] - mean of the {suffix.short} threshold
       P3:
         rp-VCN30: no temporal aggregation - return period of the {suffix.short} threshold with the log-normal distribution
     sampling_period: Month of maximum monthly flows
@@ -35,10 +35,10 @@ meta:
     description: Inverse des fiches de niveau de retour (VCN30-2) - la loi log-normale est ajustée sur la série des VCN30 puis évaluée au débit seuil constant Q_lim donné par les textes réglementaires (par exemple DOE, DCR) ; un seuil loin du corps de la loi donne une période de retour extrapolée, restituée telle quelle
     method:
       P1:
-        VC30: aucune agrégation temporelle - moyenne mobile centrée sur 30 jours
+        VC30: aucune agrégation temporelle - moyenne mobile centrée sur 30 jours (VC30)
       P2:
-        VCN30: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
-        Qlim: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
+        VCN30: agrégation annuelle [Mois du maximum des débits mensuels] - minimum de VC30
+        Qlim: agrégation annuelle [Mois du maximum des débits mensuels] - moyenne du seuil {suffix.short}
       P3:
         rp-VCN30: aucune agrégation temporelle - période de retour du seuil {suffix.short} avec la loi log-normale
     sampling_period: Mois du maximum des débits mensuels

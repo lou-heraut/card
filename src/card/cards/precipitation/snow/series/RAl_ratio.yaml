@@ -1,5 +1,5 @@
 id: RAl_ratio
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -11,8 +11,8 @@ meta:
     description: ""
     method:
       P1:
-        RA: annual aggregation [09-01, 08-31] - sums of total and liquid precipitation
-        RAl: annual aggregation [09-01, 08-31] - sums of total and liquid precipitation
+        RA: annual aggregation [09-01, 08-31] - sum of total precipitation
+        RAl: annual aggregation [09-01, 08-31] - sum of liquid precipitation
       P2:
         RAl_ratio: no temporal aggregation - liquid/total ratio
     sampling_period: ["09-01", "08-31"]
@@ -30,8 +30,8 @@ meta:
     description: ""
     method:
       P1:
-        RA: agrégation annuelle [01-09, 31-08] - sommes des précipitations totales et liquides
-        RAl: agrégation annuelle [01-09, 31-08] - sommes des précipitations totales et liquides
+        RA: agrégation annuelle [01-09, 31-08] - somme des précipitations totales
+        RAl: agrégation annuelle [01-09, 31-08] - somme des précipitations liquides
       P2:
         RAl_ratio: aucune agrégation temporelle - rapport liquide/total
     sampling_period: ["01-09", "31-08"]

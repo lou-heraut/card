@@ -1,5 +1,5 @@
 id: epsilon_R
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-16"
 
@@ -11,8 +11,8 @@ meta:
     description: ""
     method:
       P1:
-        QA: annual aggregation [Month of minimum monthly flows] - mean flow and mean total precipitation
-        RA: annual aggregation [Month of minimum monthly flows] - mean flow and mean total precipitation
+        QA: annual aggregation [Month of minimum monthly flows] - mean flow
+        RA: annual aggregation [Month of minimum monthly flows] - mean total precipitation
       P2:
         epsilon_R: no temporal aggregation - calculation of elasticity ε
     sampling_period: Month of minimum monthly flows
@@ -29,8 +29,8 @@ meta:
     description: ""
     method:
       P1:
-        QA: agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen et précipitations totales moyennes
-        RA: agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen et précipitations totales moyennes
+        QA: agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen
+        RA: agrégation annuelle [Mois du minimum des débits mensuels] - précipitations totales moyennes
       P2:
         epsilon_R: aucune agrégation temporelle - calcul de l'élasticité ε
     sampling_period: Mois du minimum des débits mensuels

@@ -1,5 +1,5 @@
 id: CRS_season
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -15,23 +15,23 @@ meta:
     description: ""
     method:
       P1:
-        RSA_obs_DJF: seasonal annual aggregation - sums of observed and simulated precipitation
-        RSA_obs_MAM: seasonal annual aggregation - sums of observed and simulated precipitation
-        RSA_obs_JJA: seasonal annual aggregation - sums of observed and simulated precipitation
-        RSA_obs_SON: seasonal annual aggregation - sums of observed and simulated precipitation
-        RSA_sim_DJF: seasonal annual aggregation - sums of observed and simulated precipitation
-        RSA_sim_MAM: seasonal annual aggregation - sums of observed and simulated precipitation
-        RSA_sim_JJA: seasonal annual aggregation - sums of observed and simulated precipitation
-        RSA_sim_SON: seasonal annual aggregation - sums of observed and simulated precipitation
+        RSA_obs_DJF: seasonal annual aggregation - sum of observed precipitation
+        RSA_obs_MAM: seasonal annual aggregation - sum of observed precipitation
+        RSA_obs_JJA: seasonal annual aggregation - sum of observed precipitation
+        RSA_obs_SON: seasonal annual aggregation - sum of observed precipitation
+        RSA_sim_DJF: seasonal annual aggregation - sum of simulated precipitation
+        RSA_sim_MAM: seasonal annual aggregation - sum of simulated precipitation
+        RSA_sim_JJA: seasonal annual aggregation - sum of simulated precipitation
+        RSA_sim_SON: seasonal annual aggregation - sum of simulated precipitation
       P2:
-        mean-RSA_obs_DJF: no temporal aggregation - inter-annual means
-        mean-RSA_obs_MAM: no temporal aggregation - inter-annual means
-        mean-RSA_obs_JJA: no temporal aggregation - inter-annual means
-        mean-RSA_obs_SON: no temporal aggregation - inter-annual means
-        mean-RSA_sim_DJF: no temporal aggregation - inter-annual means
-        mean-RSA_sim_MAM: no temporal aggregation - inter-annual means
-        mean-RSA_sim_JJA: no temporal aggregation - inter-annual means
-        mean-RSA_sim_SON: no temporal aggregation - inter-annual means
+        mean-RSA_obs_DJF: no temporal aggregation - inter-annual mean
+        mean-RSA_obs_MAM: no temporal aggregation - inter-annual mean
+        mean-RSA_obs_JJA: no temporal aggregation - inter-annual mean
+        mean-RSA_obs_SON: no temporal aggregation - inter-annual mean
+        mean-RSA_sim_DJF: no temporal aggregation - inter-annual mean
+        mean-RSA_sim_MAM: no temporal aggregation - inter-annual mean
+        mean-RSA_sim_JJA: no temporal aggregation - inter-annual mean
+        mean-RSA_sim_SON: no temporal aggregation - inter-annual mean
       P3:
         CRS_DJF: no temporal aggregation - simulated/observed ratio for each season
         CRS_MAM: no temporal aggregation - simulated/observed ratio for each season
@@ -59,23 +59,23 @@ meta:
     description: ""
     method:
       P1:
-        RSA_obs_DJF: agrégation annuelle saisonnalisée - sommes des précipitations observées et simulées
-        RSA_obs_MAM: agrégation annuelle saisonnalisée - sommes des précipitations observées et simulées
-        RSA_obs_JJA: agrégation annuelle saisonnalisée - sommes des précipitations observées et simulées
-        RSA_obs_SON: agrégation annuelle saisonnalisée - sommes des précipitations observées et simulées
-        RSA_sim_DJF: agrégation annuelle saisonnalisée - sommes des précipitations observées et simulées
-        RSA_sim_MAM: agrégation annuelle saisonnalisée - sommes des précipitations observées et simulées
-        RSA_sim_JJA: agrégation annuelle saisonnalisée - sommes des précipitations observées et simulées
-        RSA_sim_SON: agrégation annuelle saisonnalisée - sommes des précipitations observées et simulées
+        RSA_obs_DJF: agrégation annuelle saisonnalisée - somme des précipitations observées
+        RSA_obs_MAM: agrégation annuelle saisonnalisée - somme des précipitations observées
+        RSA_obs_JJA: agrégation annuelle saisonnalisée - somme des précipitations observées
+        RSA_obs_SON: agrégation annuelle saisonnalisée - somme des précipitations observées
+        RSA_sim_DJF: agrégation annuelle saisonnalisée - somme des précipitations simulées
+        RSA_sim_MAM: agrégation annuelle saisonnalisée - somme des précipitations simulées
+        RSA_sim_JJA: agrégation annuelle saisonnalisée - somme des précipitations simulées
+        RSA_sim_SON: agrégation annuelle saisonnalisée - somme des précipitations simulées
       P2:
-        mean-RSA_obs_DJF: aucune agrégation temporelle - moyennes inter-annuelles
-        mean-RSA_obs_MAM: aucune agrégation temporelle - moyennes inter-annuelles
-        mean-RSA_obs_JJA: aucune agrégation temporelle - moyennes inter-annuelles
-        mean-RSA_obs_SON: aucune agrégation temporelle - moyennes inter-annuelles
-        mean-RSA_sim_DJF: aucune agrégation temporelle - moyennes inter-annuelles
-        mean-RSA_sim_MAM: aucune agrégation temporelle - moyennes inter-annuelles
-        mean-RSA_sim_JJA: aucune agrégation temporelle - moyennes inter-annuelles
-        mean-RSA_sim_SON: aucune agrégation temporelle - moyennes inter-annuelles
+        mean-RSA_obs_DJF: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RSA_obs_MAM: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RSA_obs_JJA: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RSA_obs_SON: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RSA_sim_DJF: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RSA_sim_MAM: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RSA_sim_JJA: aucune agrégation temporelle - moyenne inter-annuelle
+        mean-RSA_sim_SON: aucune agrégation temporelle - moyenne inter-annuelle
       P3:
         CRS_DJF: aucune agrégation temporelle - rapport simulé/observé pour chaque saison
         CRS_MAM: aucune agrégation temporelle - rapport simulé/observé pour chaque saison

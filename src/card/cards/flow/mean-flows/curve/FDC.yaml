@@ -1,5 +1,5 @@
 id: FDC
-version: "1.2"
+version: "1.3"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -14,8 +14,8 @@ meta:
       probabilities; FDC_Q, flow quantiles)
     method:
       P1:
-        FDC_p: no temporal aggregation over {suffix.name} - flow duration curves with 1000 points spaced according to a centered reduced normal distribution.
-        FDC_Q: no temporal aggregation over {suffix.name} - flow duration curves with 1000 points spaced according to a centered reduced normal distribution.
+        FDC_p: no temporal aggregation over {suffix.name} - exceedance probabilities of the 1000 points of the flow duration curve, spaced according to a centered reduced normal distribution
+        FDC_Q: no temporal aggregation over {suffix.name} - flow quantiles of the 1000 points of the flow duration curve, spaced according to a centered reduced normal distribution
     suffix_default:
       name: the whole record
     classification:
@@ -36,8 +36,8 @@ meta:
       sans unité ; FDC_Q, quantiles de débit)
     method:
       P1:
-        FDC_p: aucune agrégation temporelle sur {suffix.name} - courbes des débits classés avec 1000 points espacés selon une loi normale centrée réduite
-        FDC_Q: aucune agrégation temporelle sur {suffix.name} - courbes des débits classés avec 1000 points espacés selon une loi normale centrée réduite
+        FDC_p: aucune agrégation temporelle sur {suffix.name} - probabilités de dépassement des 1000 points de la courbe des débits classés, espacés selon une loi normale centrée réduite
+        FDC_Q: aucune agrégation temporelle sur {suffix.name} - quantiles de débit des 1000 points de la courbe des débits classés, espacés selon une loi normale centrée réduite
     suffix_default:
       name: la chronique entière
     classification:
