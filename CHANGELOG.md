@@ -113,6 +113,24 @@ des deux endroits.
   indirection ; les docstrings bilingues passent à `card/docstring.py`,
   en attendant le rendu de fonction qui les publiera entières.
 
+- **Le rôle de `name`, `description` et `method` est écrit, et vingt
+  définitions manquantes sont comblées (2026-08-03).** Trois champs à
+  destination de personnes, trois niveaux de détail sur la même variable,
+  et ils ont le droit de se recouvrir : `name` court et général,
+  `description` scientifiquement claire sur ce qu'EST la variable,
+  `method` le process d'agrégation étape par étape. La règle « ne jamais
+  recopier ce qui vit ailleurs » ne s'applique pas entre eux, elle vise
+  les valeurs qui dérivent et les champs machine.
+
+  Mesure faite avant d'écrire : le champ `description` tenait déjà ce
+  rôle dans la grande majorité des fiches qui en avaient une, et les
+  fiches sans n'étaient pas autant de manques. Vingt seulement en
+  manquaient vraiment, celles dont le nom emploie un terme qui ne se
+  définit pas tout seul. Quatre n'en manquaient pas mais en avaient une
+  fausse : `BFI-LH` et `BFI-Wal`, avec leurs dérivées d'horizon,
+  portaient la même description mot pour mot alors que la méthode de
+  séparation est exactement ce qui les distingue.
+
 - **Les moitiés droites de `method` ont été relues sous la charte
   (2026-08-03).** Quatre erreurs de fond en sont sorties, qu'aucun test
   ne pouvait voir puisqu'elles portaient sur de la prose :
