@@ -1,5 +1,5 @@
 id: allLF_winter
-version: "1.4"
+version: "1.5"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-30"
 
@@ -21,14 +21,14 @@ meta:
       - "In winter, sum of the differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold (November to April)"
     method:
       P1:
-        VC10_winter: no temporal aggregation - 10-day centered moving average (VC10_winter)
+        VC10: no temporal aggregation - 10-day centered moving average (VC10)
       P2:
-        VCN10_winter: annual aggregation [11-01, 04-30] - minimum of VC10_winter (VCN10_winter)
+        VCN10_winter: annual aggregation [11-01, 04-30] - minimum of VC10 (VCN10_winter)
       P3:
         upLim: no temporal aggregation - maximum of VCN10_winter, taken as the threshold (upLim)
       P4:
         startLF_winter: annual aggregation [11-01, 04-30] - date of the first day of the longest period below upLim
-        centerLF_winter: annual aggregation [11-01, 04-30] - date of the minimum of VC10_winter over the longest period below upLim
+        centerLF_winter: annual aggregation [11-01, 04-30] - date of the minimum of VC10 over the longest period below upLim
         endLF_winter: annual aggregation [11-01, 04-30] - date of the last day of the longest period below upLim
         dtLF_winter: annual aggregation [11-01, 04-30] - number of days in the longest period below upLim
         vLF_winter: annual aggregation [11-01, 04-30] - sum of volumes discharged each day in the longest period below upLim
@@ -57,14 +57,14 @@ meta:
       - "En hiver, somme des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil (mois de novembre à avril)"
     method:
       P1:
-        VC10_winter: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (VC10_winter)
+        VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (VC10)
       P2:
-        VCN10_winter: agrégation annuelle [01-11, 30-04] - minimum de VC10_winter (VCN10_winter)
+        VCN10_winter: agrégation annuelle [01-11, 30-04] - minimum de VC10 (VCN10_winter)
       P3:
         upLim: aucune agrégation temporelle - maximum de VCN10_winter, pris comme seuil (upLim)
       P4:
         startLF_winter: agrégation annuelle [01-11, 30-04] - date du premier jour de la plus longue période sous upLim
-        centerLF_winter: agrégation annuelle [01-11, 30-04] - date du minimum de VC10_winter sur la plus longue période sous upLim
+        centerLF_winter: agrégation annuelle [01-11, 30-04] - date du minimum de VC10 sur la plus longue période sous upLim
         endLF_winter: agrégation annuelle [01-11, 30-04] - date du dernier jour de la plus longue période sous upLim
         dtLF_winter: agrégation annuelle [01-11, 30-04] - nombre de jours de la plus longue période sous upLim
         vLF_winter: agrégation annuelle [01-11, 30-04] - somme des volumes écoulés chaque jour de la plus longue période sous upLim
@@ -96,13 +96,13 @@ meta:
 process:
   P1:
     func:
-      VC10_winter: [rollmean_center, "Q", {k: 10}]
+      VC10: [rollmean_center, "Q", {k: 10}]
     time_step: none
     keep: all
 
   P2:
     func:
-      VCN10_winter: [nanmin, "VC10_winter"]
+      VCN10_winter: [nanmin, "VC10"]
     sampling_period: ["11-01", "04-30"]
     max_na_pct: 3
     max_na_years: 10
@@ -116,10 +116,10 @@ process:
 
   P4:
     func:
-      startLF_winter:  [apply_threshold, "VC10_winter", {lim: upLim, where: "<=", what: first, select: longest}, true]
-      centerLF_winter: [apply_threshold, "VC10_winter", {lim: upLim, where: "<=", what: nanargmin, select: longest}, true]
-      endLF_winter:    [apply_threshold, "VC10_winter", {lim: upLim, where: "<=", what: last, select: longest}, true]
-      dtLF_winter:     [apply_threshold, "VC10_winter", {lim: upLim, where: "<=", what: length, select: longest}]
-      vLF_winter:      [deficit_volume, "VC10_winter", {threshold: upLim}]
+      startLF_winter:  [apply_threshold, "VC10", {lim: upLim, where: "<=", what: first, select: longest}, true]
+      centerLF_winter: [apply_threshold, "VC10", {lim: upLim, where: "<=", what: nanargmin, select: longest}, true]
+      endLF_winter:    [apply_threshold, "VC10", {lim: upLim, where: "<=", what: last, select: longest}, true]
+      dtLF_winter:     [apply_threshold, "VC10", {lim: upLim, where: "<=", what: length, select: longest}]
+      vLF_winter:      [deficit_volume, "VC10", {threshold: upLim}]
     sampling_period: ["11-01", "04-30"]
     max_na_pct: 3

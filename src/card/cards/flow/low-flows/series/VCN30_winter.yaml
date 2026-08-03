@@ -11,7 +11,7 @@ meta:
     description: ""
     method:
       P1:
-        VC30_winter: no temporal aggregation - 30-day centered moving average
+        VC30: no temporal aggregation - 30-day centered moving average
       P2:
         VCN30_winter: annual aggregation [11-01, 04-30] - minimum
     sampling_period: ["11-01", "04-30"]
@@ -29,7 +29,7 @@ meta:
     description: ""
     method:
       P1:
-        VC30_winter: aucune agrégation temporelle - moyenne mobile centrée sur 30 jours
+        VC30: aucune agrégation temporelle - moyenne mobile centrée sur 30 jours
       P2:
         VCN30_winter: agrégation annuelle [01-11, 30-04] - minimum
     sampling_period: ["01-11", "30-04"]
@@ -49,13 +49,13 @@ meta:
 process:
   P1:
     func:
-      VC30_winter: [rollmean_center, "Q", {k: 30}]
+      VC30: [rollmean_center, "Q", {k: 30}]
     time_step: none
     keep: all
     max_na_years: 10
 
   P2:
     func:
-      VCN30_winter: [nanmin, "VC30_winter"]
+      VCN30_winter: [nanmin, "VC30"]
     sampling_period: ["11-01", "04-30"]
     max_na_pct: 3

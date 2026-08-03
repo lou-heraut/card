@@ -19,14 +19,14 @@ meta:
       - "Months of September, October, and November"
     method:
       P1:
-        QA_DJF: seasonal annual aggregation [12-01, 02-28(29)] - mean flow
-        QA_MAM: seasonal annual aggregation [03-01, 05-31] - mean flow
-        QA_JJA: seasonal annual aggregation [06-01, 08-31] - mean flow
-        QA_SON: seasonal annual aggregation [09-01, 11-30] - mean flow
-        RA_DJF: seasonal annual aggregation [12-01, 02-28(29)] - mean total precipitation
-        RA_MAM: seasonal annual aggregation [03-01, 05-31] - mean total precipitation
-        RA_JJA: seasonal annual aggregation [06-01, 08-31] - mean total precipitation
-        RA_SON: seasonal annual aggregation [09-01, 11-30] - mean total precipitation
+        QSA_DJF: seasonal annual aggregation [12-01, 02-28(29)] - mean flow
+        QSA_MAM: seasonal annual aggregation [03-01, 05-31] - mean flow
+        QSA_JJA: seasonal annual aggregation [06-01, 08-31] - mean flow
+        QSA_SON: seasonal annual aggregation [09-01, 11-30] - mean flow
+        RSA-mean_DJF: seasonal annual aggregation [12-01, 02-28(29)] - mean total precipitation
+        RSA-mean_MAM: seasonal annual aggregation [03-01, 05-31] - mean total precipitation
+        RSA-mean_JJA: seasonal annual aggregation [06-01, 08-31] - mean total precipitation
+        RSA-mean_SON: seasonal annual aggregation [09-01, 11-30] - mean total precipitation
       P2:
         epsilon_R_DJF: no temporal aggregation - calculation of elasticity ε
         epsilon_R_MAM: no temporal aggregation - calculation of elasticity ε
@@ -58,14 +58,14 @@ meta:
       - "Mois de septembre, octobre et novembre"
     method:
       P1:
-        QA_DJF: agrégation annuelle saisonnalisée [01-12, 28(29)-02] - débit moyen
-        QA_MAM: agrégation annuelle saisonnalisée [01-03, 31-05] - débit moyen
-        QA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - débit moyen
-        QA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - débit moyen
-        RA_DJF: agrégation annuelle saisonnalisée [01-12, 28(29)-02] - précipitations totales moyennes
-        RA_MAM: agrégation annuelle saisonnalisée [01-03, 31-05] - précipitations totales moyennes
-        RA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - précipitations totales moyennes
-        RA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - précipitations totales moyennes
+        QSA_DJF: agrégation annuelle saisonnalisée [01-12, 28(29)-02] - débit moyen
+        QSA_MAM: agrégation annuelle saisonnalisée [01-03, 31-05] - débit moyen
+        QSA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - débit moyen
+        QSA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - débit moyen
+        RSA-mean_DJF: agrégation annuelle saisonnalisée [01-12, 28(29)-02] - précipitations totales moyennes
+        RSA-mean_MAM: agrégation annuelle saisonnalisée [01-03, 31-05] - précipitations totales moyennes
+        RSA-mean_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - précipitations totales moyennes
+        RSA-mean_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - précipitations totales moyennes
       P2:
         epsilon_R_DJF: aucune agrégation temporelle - calcul de l'élasticité ε
         epsilon_R_MAM: aucune agrégation temporelle - calcul de l'élasticité ε
@@ -90,8 +90,8 @@ meta:
 process:
   P1:
     func:
-      QA: [nanmean, "Q"]
-      RA: [nanmean, "R"]
+      QSA: [nanmean, "Q"]
+      RSA-mean: [nanmean, "R"]
     time_step: year-season
     seasons: [DJF, MAM, JJA, SON]
     max_na_pct: 3
@@ -99,8 +99,8 @@ process:
     compress: true
   P2:
     func:
-      epsilon_R_DJF: [elasticity, {Q: "QA_DJF", X: "RA_DJF"}]
-      epsilon_R_MAM: [elasticity, {Q: "QA_MAM", X: "RA_MAM"}]
-      epsilon_R_JJA: [elasticity, {Q: "QA_JJA", X: "RA_JJA"}]
-      epsilon_R_SON: [elasticity, {Q: "QA_SON", X: "RA_SON"}]
+      epsilon_R_DJF: [elasticity, {Q: "QSA_DJF", X: "RSA-mean_DJF"}]
+      epsilon_R_MAM: [elasticity, {Q: "QSA_MAM", X: "RSA-mean_MAM"}]
+      epsilon_R_JJA: [elasticity, {Q: "QSA_JJA", X: "RSA-mean_JJA"}]
+      epsilon_R_SON: [elasticity, {Q: "QSA_SON", X: "RSA-mean_SON"}]
     time_step: none

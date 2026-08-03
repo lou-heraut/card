@@ -1,5 +1,5 @@
 id: vLF_summer
-version: "1.4"
+version: "1.5"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-15"
 
@@ -11,9 +11,9 @@ meta:
     description: "In summer, sum of the differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold (May to November)"
     method:
       P1:
-        VC10_summer: no temporal aggregation - 10-day centered moving average (VC10_summer)
+        VC10: no temporal aggregation - 10-day centered moving average (VC10)
       P2:
-        VCN10_summer: annual aggregation [05-01, 11-30] - minimum of VC10_summer (VCN10_summer)
+        VCN10_summer: annual aggregation [05-01, 11-30] - minimum of VC10 (VCN10_summer)
       P3:
         upLim: no temporal aggregation - maximum of VCN10_summer, taken as the threshold (upLim)
       P4:
@@ -33,9 +33,9 @@ meta:
     description: "En été, somme des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil (mois de mai à novembre)"
     method:
       P1:
-        VC10_summer: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (VC10_summer)
+        VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (VC10)
       P2:
-        VCN10_summer: agrégation annuelle [01-05, 30-11] - minimum de VC10_summer (VCN10_summer)
+        VCN10_summer: agrégation annuelle [01-05, 30-11] - minimum de VC10 (VCN10_summer)
       P3:
         upLim: aucune agrégation temporelle - maximum de VCN10_summer, pris comme seuil (upLim)
       P4:
@@ -57,13 +57,13 @@ meta:
 process:
   P1:
     func:
-      VC10_summer: [rollmean_center, "Q", {k: 10}]
+      VC10: [rollmean_center, "Q", {k: 10}]
     time_step: none
     keep: all
 
   P2:
     func:
-      VCN10_summer: [nanmin, "VC10_summer"]
+      VCN10_summer: [nanmin, "VC10"]
     sampling_period: ["05-01", "11-30"]
     max_na_pct: 3
     max_na_years: 10
@@ -77,6 +77,6 @@ process:
 
   P4:
     func:
-      vLF_summer: [deficit_volume, "VC10_summer", {threshold: upLim}]
+      vLF_summer: [deficit_volume, "VC10", {threshold: upLim}]
     sampling_period: ["05-01", "11-30"]
     max_na_pct: 3

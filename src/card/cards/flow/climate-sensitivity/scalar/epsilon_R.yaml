@@ -15,7 +15,7 @@ meta:
     method:
       P1:
         QA: annual aggregation [Month of minimum monthly flows] - mean flow
-        RA: annual aggregation [Month of minimum monthly flows] - mean total precipitation
+        RA-mean: annual aggregation [Month of minimum monthly flows] - mean total precipitation
       P2:
         epsilon_R: no temporal aggregation - calculation of elasticity ε
     sampling_period: Month of minimum monthly flows
@@ -36,7 +36,7 @@ meta:
     method:
       P1:
         QA: agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen
-        RA: agrégation annuelle [Mois du minimum des débits mensuels] - précipitations totales moyennes
+        RA-mean: agrégation annuelle [Mois du minimum des débits mensuels] - précipitations totales moyennes
       P2:
         epsilon_R: aucune agrégation temporelle - calcul de l'élasticité ε
     sampling_period: Mois du minimum des débits mensuels
@@ -56,7 +56,7 @@ process:
   P1:
     func:
       QA: [nanmean, "Q"]
-      RA: [nanmean, "R"]
+      RA-mean: [nanmean, "R"]
     sampling_period:
       type: adaptive
       func: [nanmin, "Q"]
@@ -64,6 +64,6 @@ process:
     max_na_years: 10
   P2:
     func:
-      epsilon_R: [elasticity, {Q: "QA", X: "RA"}]
+      epsilon_R: [elasticity, {Q: "QA", X: "RA-mean"}]
     time_step: none
     max_na_pct: 3

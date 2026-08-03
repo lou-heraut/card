@@ -1,5 +1,5 @@
 id: dtLF_summer
-version: "1.3"
+version: "1.4"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-15"
 
@@ -11,9 +11,9 @@ meta:
     description: "In summer, duration of the longest continuous sequence with 10-day mean flows below the threshold set at the maximum of VCN10 (May to November)"
     method:
       P1:
-        VC10_summer: no temporal aggregation - 10-day centered moving average (VC10_summer)
+        VC10: no temporal aggregation - 10-day centered moving average (VC10)
       P2:
-        VCN10_summer: annual aggregation [05-01, 11-30] - minimum of VC10_summer (VCN10_summer)
+        VCN10_summer: annual aggregation [05-01, 11-30] - minimum of VC10 (VCN10_summer)
       P3:
         upLim: no temporal aggregation - maximum of VCN10_summer, taken as the threshold (upLim)
       P4:
@@ -33,9 +33,9 @@ meta:
     description: "En été, durée de la plus longue séquence continue avec des débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10 (mois de mai à novembre)"
     method:
       P1:
-        VC10_summer: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (VC10_summer)
+        VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (VC10)
       P2:
-        VCN10_summer: agrégation annuelle [01-05, 30-11] - minimum de VC10_summer (VCN10_summer)
+        VCN10_summer: agrégation annuelle [01-05, 30-11] - minimum de VC10 (VCN10_summer)
       P3:
         upLim: aucune agrégation temporelle - maximum de VCN10_summer, pris comme seuil (upLim)
       P4:
@@ -58,13 +58,13 @@ meta:
 process:
   P1:
     func:
-      VC10_summer: [rollmean_center, "Q", {k: 10}]
+      VC10: [rollmean_center, "Q", {k: 10}]
     time_step: none
     keep: all
 
   P2:
     func:
-      VCN10_summer: [nanmin, "VC10_summer"]
+      VCN10_summer: [nanmin, "VC10"]
     sampling_period: ["05-01", "11-30"]
     max_na_pct: 3
     max_na_years: 10
@@ -78,6 +78,6 @@ process:
 
   P4:
     func:
-      dtLF_summer: [apply_threshold, "VC10_summer", {lim: upLim, where: "<=", what: length, select: longest}]
+      dtLF_summer: [apply_threshold, "VC10", {lim: upLim, where: "<=", what: length, select: longest}]
     sampling_period: ["05-01", "11-30"]
     max_na_pct: 3

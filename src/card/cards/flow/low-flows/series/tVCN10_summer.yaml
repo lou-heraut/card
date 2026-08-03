@@ -11,7 +11,7 @@ meta:
     description: Months from May to November
     method:
       P1:
-        VC10_summer: no temporal aggregation - 10-day centered moving average
+        VC10: no temporal aggregation - 10-day centered moving average
       P2:
         tVCN10_summer: annual aggregation [05-01, 11-30] - date of the minimum
     sampling_period: ["05-01", "11-30"]
@@ -29,7 +29,7 @@ meta:
     description: Mois de mai à novembre
     method:
       P1:
-        VC10_summer: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
+        VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
       P2:
         tVCN10_summer: agrégation annuelle [01-05, 30-11] - date du minimum
     sampling_period: ["01-05", "30-11"]
@@ -51,13 +51,13 @@ meta:
 process:
   P1:
     func:
-      VC10_summer: [rollmean_center, "Q", {k: 10}]
+      VC10: [rollmean_center, "Q", {k: 10}]
     time_step: none
     keep: all
 
   P2:
     func:
-      tVCN10_summer: [nanargmin, "VC10_summer", true]
+      tVCN10_summer: [nanargmin, "VC10", true]
     sampling_period: ["05-01", "11-30"]
     is_date: true
     max_na_pct: 3

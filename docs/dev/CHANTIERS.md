@@ -116,17 +116,24 @@ Deux points restés ouverts, faute d'information :
 - La description de `a-FDC` lit la pente comme une mesure de variabilité
   du régime, ce qui est la lecture usuelle mais reste une lecture.
 
-## Nomenclature des variables intermédiaires
+## Nomenclature des variables intermédiaires : traité le 2026-08-04
 
 Depuis que `method` est indexé par colonne produite, ces noms sont
-visibles dans la fiche ET dans la figure : `dQ`, `VC10`, `upLim`,
-`lowLim`, `QlimM`, `QMA`. Ils n'ont jamais été arbitrés ensemble, et une
-passe de vérification leur donnerait la cohérence qu'ont déjà les noms de
-sortie (`NOMENCLATURE.md`). Un cas a déjà été corrigé au passage : la
-famille `dtFlood` appelait `Qr` dans sa prose la colonne nommée `dQ`.
+visibles dans la fiche et dans la figure. L'inventaire complet a été fait
+(113 noms distincts, 384 emplois) et confronté à deux questions : un même
+nom désigne-t-il toujours le même calcul, et un même calcul porte-t-il
+toujours le même nom ?
 
-Non bloquant, et sans effet sur les calculs : un renommage de colonne
-intermédiaire ne change aucune sortie, seulement le YAML et la figure.
+Trois quarts du corpus étaient sains. Quatre défauts ont été corrigés,
+sans qu'aucune donnée bouge, ce qui a été prouvé par extraction réelle
+des 39 fiches concernées avant et après.
+
+Ce qui reste ouvert et volontairement non tranché : Oberlin n'a pas de
+case pour la moyenne temporelle d'une pluie, parce que ce n'est pas une
+variate à ses yeux. CARD la note en variante (`RA-mean`), ce qui suffit
+pour trois colonnes intermédiaires. **Si une telle moyenne devient un
+jour une SORTIE, la question se rouvrira**, et il faudra alors décider
+d'un jeton plutôt que d'un suffixe de variante.
 
 ## Deux fonctions circulaires sans usage
 

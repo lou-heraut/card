@@ -16,7 +16,7 @@ meta:
     method:
       P1:
         BiasA: annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow
-        RA: annual aggregation [09-01, 08-31] - mean precipitation
+        RA-mean: annual aggregation [09-01, 08-31] - mean precipitation
       P2:
         RAT_R: no temporal aggregation - RAT with a 5 % significance level
     sampling_period: ["09-01", "08-31"]
@@ -38,7 +38,7 @@ meta:
     method:
       P1:
         BiasA: agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés
-        RA: agrégation annuelle [01-09, 31-08] - précipitations moyennes
+        RA-mean: agrégation annuelle [01-09, 31-08] - précipitations moyennes
       P2:
         RAT_R: aucune agrégation temporelle - RAT avec un seuil de significativité de 5 %
     sampling_period: ["01-09", "31-08"]
@@ -58,11 +58,11 @@ process:
   P1:
     func:
       BiasA: [bias, "Q_obs", "Q_sim"]
-      RA:    [nanmean, "R_obs"]
+      RA-mean:    [nanmean, "R_obs"]
     sampling_period: "09-01"
     max_na_pct: 3
     max_na_years: 10
   P2:
     func:
-      RAT_R: [RAT, "BiasA", "RA", {thresh: 0.05}]
+      RAT_R: [RAT, "BiasA", "RA-mean", {thresh: 0.05}]
     time_step: none

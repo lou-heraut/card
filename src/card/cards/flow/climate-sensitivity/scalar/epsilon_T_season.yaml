@@ -19,14 +19,14 @@ meta:
       - "Months of September, October, and November"
     method:
       P1:
-        QA_DJF: seasonal annual aggregation [12-01, 02-28(29)] - mean flow
-        QA_MAM: seasonal annual aggregation [03-01, 05-31] - mean flow
-        QA_JJA: seasonal annual aggregation [06-01, 08-31] - mean flow
-        QA_SON: seasonal annual aggregation [09-01, 11-30] - mean flow
-        TA_DJF: seasonal annual aggregation [12-01, 02-28(29)] - mean temperatures
-        TA_MAM: seasonal annual aggregation [03-01, 05-31] - mean temperatures
-        TA_JJA: seasonal annual aggregation [06-01, 08-31] - mean temperatures
-        TA_SON: seasonal annual aggregation [09-01, 11-30] - mean temperatures
+        QSA_DJF: seasonal annual aggregation [12-01, 02-28(29)] - mean flow
+        QSA_MAM: seasonal annual aggregation [03-01, 05-31] - mean flow
+        QSA_JJA: seasonal annual aggregation [06-01, 08-31] - mean flow
+        QSA_SON: seasonal annual aggregation [09-01, 11-30] - mean flow
+        TSA_DJF: seasonal annual aggregation [12-01, 02-28(29)] - mean temperatures
+        TSA_MAM: seasonal annual aggregation [03-01, 05-31] - mean temperatures
+        TSA_JJA: seasonal annual aggregation [06-01, 08-31] - mean temperatures
+        TSA_SON: seasonal annual aggregation [09-01, 11-30] - mean temperatures
       P2:
         epsilon_T_DJF: no temporal aggregation - calculation of elasticity ε
         epsilon_T_MAM: no temporal aggregation - calculation of elasticity ε
@@ -58,14 +58,14 @@ meta:
       - "Mois de septembre, octobre et novembre"
     method:
       P1:
-        QA_DJF: agrégation annuelle saisonnalisée [01-12, 28(29)-02] - débit moyen
-        QA_MAM: agrégation annuelle saisonnalisée [01-03, 31-05] - débit moyen
-        QA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - débit moyen
-        QA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - débit moyen
-        TA_DJF: agrégation annuelle saisonnalisée [01-12, 28(29)-02] - températures moyennes
-        TA_MAM: agrégation annuelle saisonnalisée [01-03, 31-05] - températures moyennes
-        TA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - températures moyennes
-        TA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - températures moyennes
+        QSA_DJF: agrégation annuelle saisonnalisée [01-12, 28(29)-02] - débit moyen
+        QSA_MAM: agrégation annuelle saisonnalisée [01-03, 31-05] - débit moyen
+        QSA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - débit moyen
+        QSA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - débit moyen
+        TSA_DJF: agrégation annuelle saisonnalisée [01-12, 28(29)-02] - températures moyennes
+        TSA_MAM: agrégation annuelle saisonnalisée [01-03, 31-05] - températures moyennes
+        TSA_JJA: agrégation annuelle saisonnalisée [01-06, 31-08] - températures moyennes
+        TSA_SON: agrégation annuelle saisonnalisée [01-09, 30-11] - températures moyennes
       P2:
         epsilon_T_DJF: aucune agrégation temporelle - calcul de l'élasticité ε
         epsilon_T_MAM: aucune agrégation temporelle - calcul de l'élasticité ε
@@ -90,8 +90,8 @@ meta:
 process:
   P1:
     func:
-      QA: [nanmean, "Q"]
-      TA: [nanmean, "T"]
+      QSA: [nanmean, "Q"]
+      TSA: [nanmean, "T"]
     time_step: year-season
     seasons: [DJF, MAM, JJA, SON]
     max_na_pct: 3
@@ -99,8 +99,8 @@ process:
     compress: true
   P2:
     func:
-      epsilon_T_DJF: [elasticity, {Q: "QA_DJF", X: "TA_DJF"}]
-      epsilon_T_MAM: [elasticity, {Q: "QA_MAM", X: "TA_MAM"}]
-      epsilon_T_JJA: [elasticity, {Q: "QA_JJA", X: "TA_JJA"}]
-      epsilon_T_SON: [elasticity, {Q: "QA_SON", X: "TA_SON"}]
+      epsilon_T_DJF: [elasticity, {Q: "QSA_DJF", X: "TSA_DJF"}]
+      epsilon_T_MAM: [elasticity, {Q: "QSA_MAM", X: "TSA_MAM"}]
+      epsilon_T_JJA: [elasticity, {Q: "QSA_JJA", X: "TSA_JJA"}]
+      epsilon_T_SON: [elasticity, {Q: "QSA_SON", X: "TSA_SON"}]
     time_step: none

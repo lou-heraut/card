@@ -11,7 +11,7 @@ meta:
     description: ""
     method:
       P1:
-        VC10_winter: no temporal aggregation - 10-day centered moving average
+        VC10: no temporal aggregation - 10-day centered moving average
       P2:
         VCN10_winter: annual aggregation [11-01, 04-30] - minimum
       P3:
@@ -33,7 +33,7 @@ meta:
     description: ""
     method:
       P1:
-        VC10_winter: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
+        VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
       P2:
         VCN10_winter: agrégation annuelle [01-11, 30-04] - minimum
       P3:
@@ -57,14 +57,14 @@ meta:
 process:
   P1:
     func:
-      VC10_winter: [rollmean_center, "Q", {k: 10}]
+      VC10: [rollmean_center, "Q", {k: 10}]
     time_step: none
     keep: all
     max_na_years: 10
 
   P2:
     func:
-      VCN10_winter: [nanmin, "VC10_winter"]
+      VCN10_winter: [nanmin, "VC10"]
     sampling_period: ["11-01", "04-30"]
     max_na_pct: 3
 

@@ -44,7 +44,7 @@ Deux principes d'Oberlin structurent tout le reste :
 | Sigle CARD | Grandeur | Note vs Oberlin |
 |---|---|---|
 | Q | débit | conforme |
-| R (Rl, Rs) | précipitations (liquides, solides) | **divergence assumée** : Oberlin utilise P (pluie) et réserve R aux stocks/réservoirs. CARD garde R (convention historique du corpus), à documenter en tête de CARDS.md |
+| R (Rl, Rs) | précipitations (liquides, solides) | Oberlin utilise P (pluie) et réserve R aux stocks. Ce n'est pas une convention locale de CARD : **`R` est le sigle de l'OMM**, groupe SYNOP `6RRRtR`, où `RRR` est la hauteur précipitée en millimètres sur la période `tR`. CARD suit donc un autre standard, pas une entorse, et ce standard porte déjà le sens de cumul. Vérifié le 2026-08-04 |
 | T | température | conforme |
 | ETP | évapotranspiration potentielle | conforme (E + indices TP) |
 | BF | débit de base (baseflow) | extension CARD (Oberlin : indice b sur Q) |
@@ -101,13 +101,53 @@ proprement la case à la médiane, sans toucher aux standards :
 | minimum | P0 | **N** | QMNA, VCN10, QNA |
 | médiane | P50 | **D** | QJD, QDA |
 | maximum | P100 | **X** | QJXA, VCX10, RCXA5 |
-| **moyenne** | — | **absence** | QA, QM, RA |
+| **intégrale sur le pas de temps** | — | **absence** | QA, QM (moyennes) ; RA, ETPA (cumuls) |
 | autre quantile | Pq | **Pq** | QJP10, QJP90 |
+
+> ### La case vide ne dit pas « moyenne », elle dit « intégrale »
+>
+> C'est la règle la plus contre-intuitive du système, et elle vient
+> d'Oberlin lui-même, dont le tableau 1 met les deux cas côte à côte,
+> avec la même absence en position 3 :
+>
+> ```
+> PA   | Pluie | Année | (totale)  | —
+> PBM  | Pluie/Bassin | Mois | (totale) | —
+> QA   | débit | Année | (moyen)   | —
+> QM   | débit | Mois  | (moyen)   | —
+> ETRM | ETR   | Mois  | (totale)  | —
+> ```
+>
+> Son texte l'explique : « un débit mensuel sera toujours une moyenne de
+> débit dans le mois (ou du volume écoulé : mathématiquement équivalent,
+> aux unités près) […] un flux annuel une intégrale (moyenne, volume, …)
+> sur l'année, une pluie horaire, un total précipité en une heure ».
+>
+> La case vide vaut donc **l'intégrale de la grandeur sur le pas de
+> temps, exprimée dans son unité naturelle** : une moyenne pour un débit
+> ou une température, qui sont un régime et un état ; un cumul pour une
+> pluie ou une ETP, qui sont des flux qui s'accumulent. `RA` est un
+> cumul et `QA` une moyenne, sans que ni l'un ni l'autre déroge.
+>
+> Mesuré sur le corpus le 2026-08-04 : ETP agrégée 17 fois, toujours par
+> somme ; température 40 fois, toujours par moyenne ; précipitations 48
+> fois par somme. La règle était déjà appliquée partout, elle n'était pas
+> écrite.
+>
+> **Conséquence.** Pour une pluie, la case vide étant prise par le
+> cumul, une MOYENNE doit se marquer. Oberlin n'a jamais eu à le faire
+> (aucun de ses exemples de pluie n'est une moyenne : ce serait un
+> total divisé par n, donc un taux, pas une variate). CARD la note en
+> variante, comme `BF-Wal` est une variante de `BF` : `RA-mean`.
+> Arbitrage du 2026-08-04, sur trois colonnes intermédiaires
+> (`epsilon_R`, `epsilon_R_season`, `RAT_R`). Si un jour une telle
+> moyenne devient une SORTIE, la question se rouvrira.
 
 Trois règles tiennent tout :
 
-- **La moyenne est le fantôme.** Ce n'est pas une statistique d'ordre
-  mais l'espérance ; elle ne s'écrit jamais en position 3 (corollaire de
+- **La moyenne d'un débit est le fantôme.** Ce n'est pas une statistique
+  d'ordre mais l'espérance ; elle ne s'écrit jamais en position 3
+  (corollaire de
   la règle « moyenne » du §1). `QA`, `QJ`, `QM` = moyenne implicite.
 - **`N`/`D`/`X` sont les trois statistiques d'ordre nommées** (min,
   médiane, max). Un autre percentile s'écrit `Pq` (q = probabilité en

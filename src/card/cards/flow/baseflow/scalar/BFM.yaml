@@ -13,7 +13,7 @@ meta:
       the gap between its maximum and its minimum, divided by the maximum
     method:
       P1:
-        BF: no temporal aggregation - extraction of the base flow (Wallingford)
+        BF-Wal: no temporal aggregation - extraction of the base flow (Wallingford)
       P2:
         BFA: aggregation by day of the year - average of the base flow BFA
       P3:
@@ -34,7 +34,7 @@ meta:
       base : écart entre son maximum et son minimum, rapporté au maximum
     method:
       P1:
-        BF: aucune agrégation temporelle - extraction du débit de base (Wallingford)
+        BF-Wal: aucune agrégation temporelle - extraction du débit de base (Wallingford)
       P2:
         BFA: agrégation par jour de l'année - moyenne du débit de base BFA
       P3:
@@ -57,14 +57,14 @@ meta:
 process:
   P1:
     func:
-      BF: [baseflow, "Q", {method: Wal}]
+      BF-Wal: [baseflow, "Q", {method: Wal}]
     time_step: none
     keep: all
     max_na_years: 10
 
   P2:
     func:
-      BFA: [nanmean, "BF"]
+      BFA: [nanmean, "BF-Wal"]
     time_step: yearday
     max_na_pct: 3
 

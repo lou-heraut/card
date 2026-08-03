@@ -11,7 +11,7 @@ meta:
     description: ""
     method:
       P1:
-        VC3_summer: no temporal aggregation - 3-day centered moving average
+        VC3: no temporal aggregation - 3-day centered moving average
       P2:
         VCN3_summer: annual aggregation [05-01, 11-30] - minimum
     sampling_period: ["05-01", "11-30"]
@@ -29,7 +29,7 @@ meta:
     description: ""
     method:
       P1:
-        VC3_summer: aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
+        VC3: aucune agrégation temporelle - moyenne mobile centrée sur 3 jours
       P2:
         VCN3_summer: agrégation annuelle [01-05, 30-11] - minimum
     sampling_period: ["01-05", "30-11"]
@@ -49,13 +49,13 @@ meta:
 process:
   P1:
     func:
-      VC3_summer: [rollmean_center, "Q", {k: 3}]
+      VC3: [rollmean_center, "Q", {k: 3}]
     time_step: none
     keep: all
     max_na_years: 10
 
   P2:
     func:
-      VCN3_summer: [nanmin, "VC3_summer"]
+      VCN3_summer: [nanmin, "VC3"]
     sampling_period: ["05-01", "11-30"]
     max_na_pct: 3
