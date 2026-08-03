@@ -58,6 +58,23 @@ Objectif : valider les YAML pendant l'édition. Deux voies :
   `python -m card.schema <fichier>` (déjà supporté en CLI, plus simple
   mais sans autocomplétion).
 
+## Descriptions manquantes : 101 fiches sur 226 (mesuré le 2026-08-03)
+
+Arbitrage utilisateur du 2026-08-03, pris en refermant le chantier
+`method` : **`name` et `description` portent la complétude, `method`
+reste simple.** Le rôle de `method` est de donner à voir les ÉTAPES du
+process d'agrégation, pas de décrire chaque subtilité. Quand le geste est
+simple et direct, « calcul du NSE » suffit ; ce qu'est le NSE se lit dans
+le `name` et la `description`.
+
+D'où le chantier, qui est l'envers de celui-là : une fiche sur deux n'a
+pas de description, et c'est là que manque l'information, pas dans
+`method`. `BFM` et `epsilon_R` sont deux exemples parlants, leur méthode
+disant « calcul du BFM » et « calcul de l'élasticité ε » sans qu'aucune
+description ne dise ce que sont ces grandeurs.
+
+Le décompte se refait par lecture du corpus, il n'est pas à recopier.
+
 ## Nomenclature des variables intermédiaires
 
 Depuis que `method` est indexé par colonne produite, ces noms sont

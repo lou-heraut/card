@@ -16,8 +16,8 @@ meta:
       P1:
         QJXA: annual aggregation [Month of minimum monthly flows] - maximum
       P2:
-        alpha-QJXA: no temporal aggregation - Sen's slope of the series where the Mann-Kendall test is significant at a 10 % risk level
-        hyp-alpha-QJXA: no temporal aggregation - Sen's slope of the series where the Mann-Kendall test is significant at a 10 % risk level
+        alpha-QJXA: no temporal aggregation - Sen's slope of the trend
+        hyp-alpha-QJXA: no temporal aggregation - significance of the trend by the Mann-Kendall test at a 10 % risk level
     sampling_period: Month of minimum monthly flows
     classification:
       domain: flow
@@ -39,8 +39,8 @@ meta:
       P1:
         QJXA: agrégation annuelle [Mois du minimum des débits mensuels] - maximum
       P2:
-        alpha-QJXA: aucune agrégation temporelle - pente de Sen de la série dont le test de Mann-Kendall est significatif à un risque de 10 %
-        hyp-alpha-QJXA: aucune agrégation temporelle - pente de Sen de la série dont le test de Mann-Kendall est significatif à un risque de 10 %
+        alpha-QJXA: aucune agrégation temporelle - pente de Sen de la tendance
+        hyp-alpha-QJXA: aucune agrégation temporelle - significativité de la tendance par le test de Mann-Kendall au risque de 10 %
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: débit

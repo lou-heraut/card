@@ -1,5 +1,5 @@
 id: vLF_summer
-version: "1.3"
+version: "1.4"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-15"
 
@@ -15,7 +15,7 @@ meta:
       P2:
         VCN10_summer: annual aggregation [05-01, 11-30] - minimum of VC10_summer (VCN10_summer)
       P3:
-        upLim: no temporal aggregation - the maximum of VCN10_summer is taken as the threshold (upLim)
+        upLim: no temporal aggregation - maximum of VCN10_summer, taken as the threshold (upLim)
       P4:
         vLF_summer: annual aggregation [05-01, 11-30] - sum of volumes discharged each day in the longest period below upLim
     sampling_period: ["05-01", "11-30"]
@@ -37,7 +37,7 @@ meta:
       P2:
         VCN10_summer: agrégation annuelle [01-05, 30-11] - minimum de VC10_summer (VCN10_summer)
       P3:
-        upLim: aucune agrégation temporelle - le maximum de VCN10_summer est pris comme seuil (upLim)
+        upLim: aucune agrégation temporelle - maximum de VCN10_summer, pris comme seuil (upLim)
       P4:
         vLF_summer: agrégation annuelle [01-05, 30-11] - somme des volumes écoulés chaque jour de la plus longue période sous upLim
     sampling_period: ["01-05", "30-11"]

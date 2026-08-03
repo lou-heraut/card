@@ -1,5 +1,5 @@
 id: fQ05A
-version: "1.2"
+version: "1.3"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -13,7 +13,7 @@ meta:
       5 % of the time, extracted from the ranked flow curve
     method:
       P1:
-        lowLim: no temporal aggregation - the quantile at the 5 % exceedance probability is taken as the threshold (lowLim)
+        lowLim: no temporal aggregation - quantile at the 5 % exceedance probability, taken as the threshold (lowLim)
       P2:
         fQ05A: annual aggregation [Month of minimum monthly flows] - ratio of the number of days with flow exceeding lowLim to the number of days in the year
     sampling_period: Month of minimum monthly flows
@@ -33,7 +33,7 @@ meta:
       5 % du temps, extrait de la courbe des débits classés
     method:
       P1:
-        lowLim: aucune agrégation temporelle - le quantile à la probabilité de dépassement de 5 % est pris comme seuil (lowLim)
+        lowLim: aucune agrégation temporelle - quantile à la probabilité de dépassement de 5 %, pris comme seuil (lowLim)
       P2:
         fQ05A: agrégation annuelle [Mois du minimum des débits mensuels] - rapport du nombre de jours où le débit dépasse lowLim par le nombre de jours dans l'année
     sampling_period: Mois du minimum des débits mensuels

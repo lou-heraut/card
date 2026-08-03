@@ -1,5 +1,5 @@
 id: delta-vLF_H
-version: "1.5"
+version: "1.6"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -15,7 +15,7 @@ meta:
       P2:
         VCN10: annual aggregation [Month of maximum monthly flows] - minimum of VC10 (VCN10)
       P3:
-        upLim: no temporal aggregation - the maximum of VCN10 is taken as the threshold (upLim)
+        upLim: no temporal aggregation - maximum of VCN10, taken as the threshold (upLim)
       P4:
         vLF: annual aggregation [Month of maximum monthly flows] - sum of volumes discharged each day in the longest period below upLim
       P5:
@@ -41,7 +41,7 @@ meta:
       P2:
         VCN10: agrégation annuelle [Mois du maximum des débits mensuels] - minimum de VC10 (VCN10)
       P3:
-        upLim: aucune agrégation temporelle - le maximum de VCN10 est pris comme seuil (upLim)
+        upLim: aucune agrégation temporelle - maximum de VCN10, pris comme seuil (upLim)
       P4:
         vLF: agrégation annuelle [Mois du maximum des débits mensuels] - somme des volumes écoulés chaque jour de la plus longue période sous upLim
       P5:

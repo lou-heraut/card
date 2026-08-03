@@ -15,8 +15,8 @@ meta:
       P1:
         QA: annual aggregation [09-01, 08-31] - mean
       P2:
-        alpha-QA: no temporal aggregation - Sen's slope of the series where the Mann-Kendall test is significant at a 10 % risk level
-        hyp-alpha-QA: no temporal aggregation - Sen's slope of the series where the Mann-Kendall test is significant at a 10 % risk level
+        alpha-QA: no temporal aggregation - Sen's slope of the trend
+        hyp-alpha-QA: no temporal aggregation - significance of the trend by the Mann-Kendall test at a 10 % risk level
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: flow
@@ -37,8 +37,8 @@ meta:
       P1:
         QA: agrégation annuelle [01-09, 31-08] - moyenne
       P2:
-        alpha-QA: aucune agrégation temporelle - pente de Sen de la série dont le test de Mann-Kendall est significatif à un risque de 10 %
-        hyp-alpha-QA: aucune agrégation temporelle - pente de Sen de la série dont le test de Mann-Kendall est significatif à un risque de 10 %
+        alpha-QA: aucune agrégation temporelle - pente de Sen de la tendance
+        hyp-alpha-QA: aucune agrégation temporelle - significativité de la tendance par le test de Mann-Kendall au risque de 10 %
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: débit

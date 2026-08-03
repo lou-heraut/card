@@ -17,15 +17,22 @@ fonction décrit la fonction *en général*, le `method` d'une fiche décrit
 ce que *cette* fiche fait à chaque étape. La figure affichait des
 docstrings, qui ne peuvent jamais être assez précises.
 
-**Ce qui est fait au 2026-08-03.** Les **lots A, A-bis, B et C sont
+**Ce qui est fait au 2026-08-03.** Les **lots A, A-bis, B, C et D sont
 livrés** : le corpus entier est migré, `card/method.py` assemble la forme
 publiée, le linter tient les sept règles, la chaîne publiée se lit sans
 les clés, et la moitié gauche est confrontée au process à chaque
-passage en CI, et la figure affiche la phrase de la fiche au lieu de la
-docstring de la fonction. Le détail de ce qui a bougé est dans `CHANGELOG.md`, sous
+passage en CI, la figure affiche la phrase de la fiche au lieu de la
+docstring de la fonction, et les moitiés droites ont été relues sous la
+charte. Le détail de ce qui a bougé est dans `CHANGELOG.md`, sous
 `## Non publié`.
 
-**Ce qui reste.** Les lots D à F en fin de document.
+**Ce qui reste.** Les lots E et F en fin de document.
+
+**Arbitrage à ne pas rouvrir.** `method` donne à voir les ÉTAPES du
+process d'agrégation, pas chaque subtilité : quand le geste est simple et
+direct, « calcul du NSE » suffit. La complétude est portée par `name` et
+`description`, dont l'absence sur une fiche sur deux est un chantier à
+part (CHANTIERS).
 
 ## Le problème de départ
 
