@@ -1,5 +1,5 @@
 id: BF-LH
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -8,7 +8,9 @@ meta:
     variable: BF-LH
     unit: "m^{3}.s^{-1}"
     name: Base flow (Lyne and Hollick)
-    description: ""
+    description: >-
+      Base flow separated from the hydrograph by the Lyne and Hollick
+      recursive filter, in three passes with a parameter of 0.925
     method:
       P1:
         BF-LH: no temporal aggregation - extraction of the base flow (Lyne and Hollick)
@@ -23,7 +25,9 @@ meta:
     variable: QB-LH
     unit: "m^{3}.s^{-1}"
     name: Débit de base (Lyne et Hollick)
-    description: ""
+    description: >-
+      Débit de base séparé de l'hydrogramme par le filtre récursif de Lyne
+      et Hollick, en trois passes avec un paramètre de 0,925
     method:
       P1:
         BF-LH: aucune agrégation temporelle - extraction du débit de base (Lyne et Hollick)

@@ -86,22 +86,35 @@ C'est donc un sujet de publication de version, pas de métadonnées. Écarté
 du chantier `method` pour cette raison (cf. l'abandon du lot E dans
 `PLAN_METHOD.md`).
 
-## Descriptions manquantes : 101 fiches sur 226 (mesuré le 2026-08-03)
+## Descriptions : traité le 2026-08-03, ce qui reste est voulu
 
-Arbitrage utilisateur du 2026-08-03, pris en refermant le chantier
-`method` : **`name` et `description` portent la complétude, `method`
-reste simple.** Le rôle de `method` est de donner à voir les ÉTAPES du
-process d'agrégation, pas de décrire chaque subtilité. Quand le geste est
-simple et direct, « calcul du NSE » suffit ; ce qu'est le NSE se lit dans
-le `name` et la `description`.
+Le rôle des trois champs humains est désormais écrit dans le CLAUDE.md.
+`description` donne la définition opératoire du terme employé dans le
+`name`, et ne se remplit que si le `name` ne porte pas déjà tout.
 
-D'où le chantier, qui est l'envers de celui-là : une fiche sur deux n'a
-pas de description, et c'est là que manque l'information, pas dans
-`method`. `BFM` et `epsilon_R` sont deux exemples parlants, leur méthode
-disant « calcul du BFM » et « calcul de l'élasticité ε » sans qu'aucune
-description ne dise ce que sont ces grandeurs.
+Mesure faite avant d'écrire : sur les fiches qui en avaient une, la
+grande majorité disait déjà autre chose que son nom, et le champ tenait
+bien ce rôle. Les fiches sans description n'étaient donc pas autant de
+manques : « Minimum annuel du débit journalier » ou « Cumul annuel des
+précipitations totales » se suffisent, et les remplir aurait été de la
+duplication.
 
-Le décompte se refait par lecture du corpus, il n'est pas à recopier.
+Vingt fiches ont été traitées, celles dont le nom employait un terme dont
+la définition n'était pas évidente (BFM, RAT, élasticité, régimes
+journaliers, séparation d'hydrogramme, coefficient correctif), plus les
+quatre BFI qui portaient une description IDENTIQUE alors que seule la
+méthode de séparation les distingue.
+
+**Ce qui reste sans description est un choix, pas un oubli.** Le rouvrir
+demanderait de montrer d'abord qu'un `name` ne se suffit pas, fiche par
+fiche.
+
+Deux points restés ouverts, faute d'information :
+- `CR` et `CRS_season` s'appellent « coefficient correctif » sans que rien
+  dans la fiche ni dans le code ne dise comment appliquer la correction.
+  La description s'arrête donc au fait, le rapport simulé sur observé.
+- La description de `a-FDC` lit la pente comme une mesure de variabilité
+  du régime, ce qui est la lecture usuelle mais reste une lecture.
 
 ## Nomenclature des variables intermédiaires
 

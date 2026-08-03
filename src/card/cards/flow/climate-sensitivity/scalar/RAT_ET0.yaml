@@ -1,5 +1,5 @@
 id: RAT_ET0
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -8,7 +8,11 @@ meta:
     variable: RAT_ET0
     unit: bool
     name: Robustness test to a variation in reference evapotranspiration
-    description: ""
+    description: >-
+      True when the model bias is correlated with the reference
+      evapotranspiration, in the sense of a Spearman correlation
+      significant at the 5 % level: performance then depends on that
+      variable, so the model does not behave the same everywhere
     method:
       P1:
         BiasA: annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow
@@ -26,7 +30,11 @@ meta:
     variable: RAT_ET0
     unit: bool
     name: Test de robustesse à une variation d'évapotranspiration de référence
-    description: ""
+    description: >-
+      Vrai quand le biais du modèle est corrélé à l'évapotranspiration de
+      référence, au sens d'une corrélation de Spearman significative au
+      seuil de 5 % : la performance dépend alors de cette variable, donc
+      le modèle ne se comporte pas de la même façon partout
     method:
       P1:
         BiasA: agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés

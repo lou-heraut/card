@@ -1,5 +1,5 @@
 id: a-FDC
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -8,7 +8,9 @@ meta:
     variable: a-FDC
     unit: "without unit"
     name: Slope of the segment between the 33 % and 66 % quantiles of the flow duration curve
-    description: ""
+    description: >-
+      Slope computed on the decimal logarithms of the flows: a steep slope
+      indicates a highly variable regime
     method:
       P1:
         a-FDC: no temporal aggregation - computation of the flow duration curve and differences between quantiles
@@ -23,7 +25,9 @@ meta:
     variable: a-CDC
     unit: "sans unité"
     name: Pente du segment entre les quantiles des débits journaliers à 33 % et 66 % de la courbe des débits classés
-    description: ""
+    description: >-
+      Pente calculée sur les logarithmes décimaux des débits : une pente
+      forte signale un régime très variable
     method:
       P1:
         a-FDC: aucune agrégation temporelle - calcul de la courbe des débits classés et des différences entre quantiles

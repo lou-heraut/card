@@ -1,5 +1,5 @@
 id: BFI-LH
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-15"
 
@@ -9,7 +9,9 @@ meta:
     unit: without unit
     name: Baseflow index (Lyne and Hollick)
     description: >-
-      Ratio between mean inter-annual base flow and mean inter-annual flow
+      Ratio between mean inter-annual base flow and mean inter-annual
+      flow, the base flow being separated from the hydrograph by the Lyne
+      and Hollick recursive filter
     method:
       P1:
         BF-LH: no temporal aggregation - extraction of the base flow (Lyne and Hollick)
@@ -27,7 +29,9 @@ meta:
     unit: sans unité
     name: Indice de débit de base (Lyne et Hollick)
     description: >-
-      Rapport entre débit de base moyen inter-annuel et débit moyen inter-annuel
+      Rapport entre débit de base moyen inter-annuel et débit moyen
+      inter-annuel, le débit de base étant séparé de l'hydrogramme par le
+      filtre récursif de Lyne et Hollick
     method:
       P1:
         BF-LH: aucune agrégation temporelle - extraction du débit de base (Lyne et Hollick)

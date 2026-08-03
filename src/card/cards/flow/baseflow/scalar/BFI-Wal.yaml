@@ -1,5 +1,5 @@
 id: BFI-Wal
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -9,7 +9,9 @@ meta:
     unit: without unit
     name: Baseflow index (Wallingford)
     description: >-
-      Ratio between mean inter-annual base flow and mean inter-annual flow
+      Ratio between mean inter-annual base flow and mean inter-annual
+      flow, the base flow being separated from the hydrograph by the
+      smoothed minima method (Wallingford)
     method:
       P1:
         BF-Wal: no temporal aggregation - extraction of the base flow (Wallingford)
@@ -27,7 +29,9 @@ meta:
     unit: sans unité
     name: Indice de débit de base (Wallingford)
     description: >-
-      Rapport entre débit de base moyen inter-annuel et débit moyen inter-annuel
+      Rapport entre débit de base moyen inter-annuel et débit moyen
+      inter-annuel, le débit de base étant séparé de l'hydrogramme par la
+      méthode des minima lissés (Wallingford)
     method:
       P1:
         BF-Wal: aucune agrégation temporelle - extraction du débit de base (Wallingford)

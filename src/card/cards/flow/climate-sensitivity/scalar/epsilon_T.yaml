@@ -1,5 +1,5 @@
 id: epsilon_T
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-16"
 
@@ -8,7 +8,10 @@ meta:
     variable: epsilon_T
     unit: without unit
     name: Annual flow elasticity to air temperatures
-    description: ""
+    description: >-
+      Relative change in flow for a 1 % relative change in air
+      temperature, estimated as the median of the inter-annual departures
+      scaled by their means
     method:
       P1:
         QA: annual aggregation [Month of minimum monthly flows] - mean flow
@@ -26,7 +29,10 @@ meta:
     variable: epsilon_T
     unit: sans unité
     name: Élasticité annuelle du débit aux températures de l'air
-    description: ""
+    description: >-
+      Variation relative du débit pour une variation relative de 1 % de la
+      température de l'air, estimée par la médiane des écarts
+      inter-annuels rapportés à leurs moyennes
     method:
       P1:
         QA: agrégation annuelle [Mois du minimum des débits mensuels] - débit moyen

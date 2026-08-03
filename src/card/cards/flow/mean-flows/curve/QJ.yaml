@@ -1,5 +1,5 @@
 id: QJ
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-23"
 
@@ -8,7 +8,9 @@ meta:
     variable: QJ
     unit: "m^{3}.s^{-1}"
     name: Inter-annual daily flow regime over {suffix.name}
-    description: ""
+    description: >-
+      Mean flow of each calendar day over all the years of the period: the
+      365 values describe the mean hydrological regime
     method:
       P1:
         QJ: aggregation by day of the year over {suffix.name} - mean
@@ -25,7 +27,9 @@ meta:
     variable: QJ
     unit: "m^{3}.s^{-1}"
     name: "Régime journalier inter-annuel sur {suffix.name}"
-    description: ""
+    description: >-
+      Débit moyen de chaque jour calendaire sur toutes les années de la
+      période : les 365 valeurs décrivent le régime hydrologique moyen
     method:
       P1:
         QJ: agrégation par jour de l'année sur {suffix.name} - moyenne

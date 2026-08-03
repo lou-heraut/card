@@ -1,5 +1,5 @@
 id: BFM
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -8,7 +8,9 @@ meta:
     variable: BFM
     unit: without unit
     name: Baseflow magnitude
-    description: ""
+    description: >-
+      Relative amplitude of the inter-annual daily regime of base flow:
+      the gap between its maximum and its minimum, divided by the maximum
     method:
       P1:
         BF: no temporal aggregation - extraction of the base flow (Wallingford)
@@ -27,7 +29,9 @@ meta:
     variable: BFM
     unit: sans unité
     name: Magnitude du débit de base
-    description: ""
+    description: >-
+      Amplitude relative du régime journalier inter-annuel du débit de
+      base : écart entre son maximum et son minimum, rapporté au maximum
     method:
       P1:
         BF: aucune agrégation temporelle - extraction du débit de base (Wallingford)

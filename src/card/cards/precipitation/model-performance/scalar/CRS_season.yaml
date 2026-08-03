@@ -1,5 +1,5 @@
 id: CRS_season
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -12,7 +12,15 @@ meta:
       - Spring precipitation correction coefficient
       - Summer precipitation correction coefficient
       - Autumn precipitation correction coefficient
-    description: ""
+    description:
+      - Ratio between the simulated and the observed precipitation totals
+        over December, January and February, both averaged over the record
+      - Ratio between the simulated and the observed precipitation totals
+        over March, April and May, both averaged over the record
+      - Ratio between the simulated and the observed precipitation totals
+        over June, July and August, both averaged over the record
+      - Ratio between the simulated and the observed precipitation totals
+        over September, October and November, both averaged over the record
     method:
       P1:
         RSA_obs_DJF: seasonal annual aggregation - sum of observed precipitation
@@ -56,7 +64,19 @@ meta:
       - Coefficient correctif des précipitations printanières
       - Coefficient correctif des précipitations estivales
       - Coefficient correctif des précipitations automnales
-    description: ""
+    description:
+      - Rapport entre le cumul de précipitations simulé et le cumul observé
+        sur les mois de décembre, janvier et février, tous deux moyennés sur
+        la chronique
+      - Rapport entre le cumul de précipitations simulé et le cumul observé
+        sur les mois de mars, avril et mai, tous deux moyennés sur la
+        chronique
+      - Rapport entre le cumul de précipitations simulé et le cumul observé
+        sur les mois de juin, juillet et août, tous deux moyennés sur la
+        chronique
+      - Rapport entre le cumul de précipitations simulé et le cumul observé
+        sur les mois de septembre, octobre et novembre, tous deux moyennés
+        sur la chronique
     method:
       P1:
         RSA_obs_DJF: agrégation annuelle saisonnalisée - somme des précipitations observées

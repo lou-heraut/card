@@ -1,5 +1,5 @@
 id: QJD
-version: "2.0"
+version: "2.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-23"
 
@@ -8,7 +8,9 @@ meta:
     variable: QJD
     unit: "m^{3}.s^{-1}"
     name: Inter-annual median daily flow regime over {suffix.name}
-    description: ""
+    description: >-
+      Median flow of each calendar day over all the years of the period:
+      the 365 values describe the median hydrological regime
     method:
       P1:
         QJD: aggregation by day of the year over {suffix.name} - median
@@ -25,7 +27,9 @@ meta:
     variable: QJD
     unit: "m^{3}.s^{-1}"
     name: "Régime journalier médian inter-annuel sur {suffix.name}"
-    description: ""
+    description: >-
+      Débit médian de chaque jour calendaire sur toutes les années de la
+      période : les 365 valeurs décrivent le régime hydrologique médian
     method:
       P1:
         QJD: agrégation par jour de l'année sur {suffix.name} - médiane

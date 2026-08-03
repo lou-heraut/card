@@ -1,5 +1,5 @@
 id: QM
-version: "1.3"
+version: "1.4"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -8,7 +8,7 @@ meta:
     variable: QM
     unit: "m^{3}.s^{-1}"
     name: Mean monthly discharge over {suffix.name}
-    description: ""
+    description: Mean flow of each calendar month over all the years of the period
     method:
       P1:
         QM: monthly aggregation over {suffix.name} - mean
@@ -25,7 +25,9 @@ meta:
     variable: QM
     unit: "m^{3}.s^{-1}"
     name: "Débit moyen mensuel sur {suffix.name}"
-    description: ""
+    description: >-
+      Débit moyen de chaque mois calendaire sur toutes les années de la
+      période
     method:
       P1:
         QM: agrégation mensuelle sur {suffix.name} - moyenne
