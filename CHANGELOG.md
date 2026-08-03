@@ -92,6 +92,15 @@ des deux endroits.
   cassant la chaîne. Deux divergences fr/en sont tombées au passage, dont
   l'anglais de `median-dtFlood` qui gardait trois formulations propres.
 
+- **La figure ne répète plus ce que la fiche vient de dire
+  (2026-08-03).** `exceedance_quantile(Q)   p=0.01` surmonté de
+  « quantile à la probabilité de dépassement de 1 % » disait deux fois la
+  même chose : un réglage que la phrase énonce déjà ne s'affiche plus, et
+  le corpus passe de trente-trois réglages bruts à quatorze, ceux que
+  rien d'autre ne dit. Un nom unique pour plusieurs sorties redevient le
+  titre de la fiche, la FDC ayant deux colonnes mais une seule courbe.
+  Et la description ne semble plus continuer le bloc de sortie.
+
 - **La figure affiche la phrase de la fiche, plus la docstring de la
   fonction (2026-08-03).** C'est le geste qui a ouvert le chantier : sous
   `apply_threshold(dQ)   dQ >= lowLim, select=dQXA, durée`, `dtFlood`
