@@ -146,7 +146,7 @@ def test_decoupe_annonce_la_nature_reellement_mesuree():
                        for e in proc["func"]]
             if any(m is None for m in mesures):
                 continue        # hors de portée, couvert par le test suivant
-            attendu = t("transforme" if all(mesures) else "diffuse")
+            attendu = t("jour_seul" if all(mesures) else "diffusee")
             obtenu = decoupe(proc)
             if obtenu != attendu:
                 menteuses.append(

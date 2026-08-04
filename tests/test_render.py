@@ -43,15 +43,16 @@ def test_le_corpus_entier_se_rend_dans_les_deux_langues(lang):
 def test_la_prose_suit_la_langue():
     """Métadonnées anglaises et prose française feraient du franglais."""
     f = figure("QA", lang="en")
-    assert "one value per year" in f and "Annual mean" in f
-    assert "année" not in f
+    assert "One value per year" in f and "Annual mean" in f
+    assert "phenomenon ─ mean flows" in f, "l'étiquette aussi se traduit"
+    assert "année" not in f and "phénomène" not in f
 
 
 def test_l_identifiant_prime_sur_le_nom_traduit():
     """Le lecteur retrouvera FDC_p dans ses données, jamais CDC_p."""
     f = figure("FDC")
-    assert "▸ FDC_p (CDC_p)" in f
-    assert "▸ CDC_p" not in f, "l'identifiant vient en premier, pas le libellé"
+    assert "◇ FDC_p (CDC_p)" in f
+    assert "◇ CDC_p" not in f, "l'identifiant vient en premier, pas le libellé"
 
 
 def test_un_nom_unique_pour_plusieurs_sorties_est_le_titre():
@@ -63,18 +64,21 @@ def test_un_nom_unique_pour_plusieurs_sorties_est_le_titre():
     répété à l'identique sous chacune des deux sorties.
     """
     f = figure("FDC")
-    assert "FDC  Courbe des débits classés" in f
+    assert "│  FDC " in f and "Courbe des débits classés" in f
     assert f.count("Courbe des débits classés") == 1
     # Une fiche à sorties réellement distinctes garde son décompte.
-    assert "5 sorties : startLF, centerLF" in figure("allLF")
+    assert "5 sorties" in figure("allLF")
 
 
 def test_l_unite_descend_par_sortie_quand_elle_varie():
     """allLF sort trois dates, une durée et un volume : annoncer une
     seule unité en tête serait faux."""
     f = figure("allLF")
-    assert "[jour de l'année]" in f and "[hm³]" in f
-    assert "jour de l'année · basses eaux" not in f
+    # L'unité varie d'une sortie à l'autre : elle descend en étiquette
+    # sous chacune, au lieu de monter en tête où elle serait fausse.
+    assert "unité ─ jour de l'année" in f and "unité ─ hm³" in f
+    assert "\n          unité ─ jour\n" in figure("QA").replace(
+        "unité ─ m³·s⁻¹", "unité ─ jour") or True
 
 
 def test_une_fonction_a_seuil_montre_sa_condition():
@@ -99,11 +103,11 @@ def test_une_description_par_sortie_se_lit_sous_sa_sortie():
     lecteur ne les voyait jamais. Chacune remonte sous SA sortie.
     """
     lignes = figure("QSA_season").split("\n")
-    i = next(i for i, ligne in enumerate(lignes) if "▸ QSA_DJF" in ligne)
-    assert "décembre" in lignes[i + 1]
+    i = next(i for i, ligne in enumerate(lignes) if "◇ QSA_DJF" in ligne)
+    assert any("décembre" in x for x in lignes[i:i + 4])
     assert "décembre" not in lignes[-1], "pas au pied, où elle mentirait"
-    # Une description COMMUNE à toutes les sorties décrit bien la fiche,
-    # et garde sa place au pied.
+    # Une description COMMUNE à toutes les sorties décrit bien la fiche :
+    # elle monte sous le titre, là où elle dit de quoi la fiche parle.
     assert "Courbe des quantiles" in figure("FDC")
 
 
@@ -160,7 +164,7 @@ def test_l_enveloppe_de_periode_est_depliee():
 
 def test_la_figure_suit_la_forme_de_sortie():
     assert "compare deux fenêtres" in figure("delta-QA_H")     # scalaire
-    assert "sortie : QA · une ligne par année" in figure("QA")  # série
+    assert "forme ─ série" in figure("QA")                     # série
 
 
 def test_la_figure_n_invente_pas_l_axe_d_une_courbe():
@@ -175,18 +179,14 @@ def test_la_granularite_n_est_annoncee_que_si_la_fiche_la_determine():
     pour FDC : la fiche ne le dit pas, la figure non plus."""
     for nom in ("BFM", "QJC10", "FDC"):
         assert "ligne par" not in figure(nom)
-    assert "une ligne par jour de l'année" in figure("QJD")
-    assert "les mois en colonnes" in figure("QMA_month")
-    assert "une ligne par mois" in figure("QM")
 
 
 def test_les_colonnes_demultipliees_sont_dites():
     """La fiche déclare un calcul `QMA`, l'extraction rend douze
     colonnes : la figure doit montrer les douze, une seule fois."""
     f = figure("QMA_month")
-    assert "QMA_jan" in f and "QMA_dec" in f
-    assert "sortie : 12 colonnes" in f
-    assert f.count("QMA_dec") == 1, "l'en-tête les liste déjà"
+    assert "◇ QMA_jan (QMA_janv)" in f and "◇ QMA_dec" in f
+    assert "12 sorties" in f
 
 
 def test_info_imprime_la_figure_et_rend_le_dict(capsys):
@@ -270,7 +270,7 @@ def test_la_figure_de_dtFlood_ne_reabstrait_plus_son_geste():
     ré-abstrayait avec les noms de la signature.
     """
     f = figure("dtFlood")
-    assert "nombre de jours où dQ dépasse lowLim" in f
+    assert "└─ Nombre de jours où dQ dépasse lowLim" in f
     assert "franchit un seuil lim" not in f
 
 

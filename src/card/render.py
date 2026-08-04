@@ -105,14 +105,8 @@ _T = {
     "season": ("une valeur par saison", "one value per season"),
     "year-season": ("une valeur par saison de chaque année",
                     "one value per season of each year"),
-    "transforme": ("transforme la série sans l'agréger, une valeur par jour",
-                   "transforms the series without aggregating it, "
-                   "one value per day"),
-    "diffuse": ("une valeur unique par série, diffusée sur toute la chronique",
-                "a single value per series, broadcast over the whole record"),
     "unique": ("aucune agrégation temporelle", "no temporal aggregation"),
     "sortie": ("sortie : {}", "output: {}"),
-    "sortie_n": ("sortie : {} colonnes", "output: {} columns"),
     "l_annee": ("une ligne par année", "one row per year"),
     "l_mois": ("une ligne par mois", "one row per month"),
     "l_jour": ("une ligne par jour de l'année", "one row per day of year"),
@@ -122,19 +116,12 @@ _T = {
                         "one row per year, seasons as columns"),
     "l_saisons": ("une ligne par série, les saisons en colonnes",
                   "one row per series, seasons as columns"),
-    "adaptatif": ("départ propre à chaque série (adaptatif), année complète",
-                  "start specific to each series (adaptive), full year"),
-    "annee": ("année complète, du {} au {}", "full year, from {} to {}"),
-    "partielle": ("fenêtre partielle, du {} au {}",
-                  "partial window, from {} to {}"),
     "restreint": ("restreint à la période demandée",
                   "restricted to the requested period"),
     "dapres": ("d'après {}", "from {}"),
     "sous": ("sous {}", "below {}"),
     "sorties": ("{} sorties : {}", "{} outputs: {}"),
     "sorties_n": ("{} sorties", "{} outputs"),
-    "lacunes": ("max {} % de lacunes", "at most {} % missing"),
-    "trou": ("max {} ans de trou", "at most a {}-year gap"),
     "facultatif": ("facultatif", "optional"),
     "facultatifs": ("facultatifs", "optional"),
     "compare": ("compare deux fenêtres, fournies en colonnes :",
@@ -156,8 +143,6 @@ _T = {
     "e_but": ("finalité", "purpose"),
     "e_entree": ("entrée", "input"),
     "e_entrees": ("entrées", "inputs"),
-    "e_sortie": ("sortie", "output"),
-    "e_sorties": ("sorties", "outputs"),
     "jour_seul": ("une valeur par jour", "one value per day"),
     "diffusee": ("une seule valeur, répétée sur toute la chronique",
                  "a single value, repeated over the whole record"),
@@ -271,7 +256,7 @@ def _seuil(nom, e, kwargs, lang):
     `where`.
     """
     col = e["cols"][0] if e["cols"] else "X"
-    if nom == "deficit_volume":
+    if "threshold" in kwargs:
         lim = kwargs.pop("threshold", None)
         return [t("sous", lang, lim)] if lim else []
     op = kwargs.pop("where", "<=")
@@ -318,11 +303,17 @@ def appel(e, connues, lang="fr"):
     kwargs = dict(e["kwargs"])
     nom = e["fn_name"]
     mention = ""
-    if nom == "over_period":
+    # Rien ne se déduit d'un NOM de fonction : une chaîne qui en nomme
+    # une est un lien que ni l'import, ni le linter, ni les tests ne
+    # suivent, et c'est ce qui a fait mentir ce module deux fois en
+    # juillet 2026. Ce qui se lit, c'est l'APPEL. Une fonction qui reçoit
+    # une autre fonction en kwarg est une enveloppe ; une fonction qui
+    # reçoit `lim` ou `threshold` compare à un seuil.
+    if callable(kwargs.get("func")) or isinstance(kwargs.get("func"), str):
         nom = str(kwargs.pop("func", nom))
         mention = t("restreint", lang)
     regl = []
-    if nom in ("apply_threshold", "deficit_volume"):
+    if "lim" in kwargs or "threshold" in kwargs:
         regl = _seuil(nom, e, kwargs, lang)
     refs = []
     for k, v in kwargs.items():
@@ -452,10 +443,9 @@ def entete(c, meta, lang="fr"):
     descs = [str(d) for d in meta[f"description_{lang}"]]
     commune = descs[0] if len(set(descs)) == 1 and not _vide(descs[0]) else None
 
-    if len(meta) == 1:
-        if commune:
-            out += [""] + plie(commune, " " * 5, " " * 5)
-    else:
+    if commune:
+        out += [""] + plie(commune, " " * 5, " " * 5)
+    if len(meta) > 1:
         # Un tableau ne se lit que si ses colonnes s'alignent : chacune
         # prend la largeur de son plus long contenu, calculée avant
         # d'écrire la première ligne.
