@@ -77,8 +77,19 @@ from .schema import input_registry
 
 # Les initiales des douze mois coïncident en français et en anglais.
 MOIS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"]
-PUCE = "▸"                  # item de liste
-SEP = " · "                 # séparateur en ligne
+
+# Mise en page. Les étiquettes s'alignent à DROITE contre la colonne des
+# valeurs : l'œil descend une colonne nette au lieu de sauter d'un mot à
+# l'autre. L'arbre se pose un peu à gauche de cette colonne, assez pour
+# ne pas flotter au milieu, assez peu pour rester dans le bloc.
+COL_ETIQ = 15
+COL_VAL = COL_ETIQ + 3
+COL_ARBRE = COL_ETIQ - 3
+GESTE = "└─ "               # ce que l'étape fait, la phrase de la fiche
+SORTIE = "◇ "               # une sortie de la fiche, en tête de figure
+REGLAGE = " ◦ "             # un paramètre : décalé d'un cran, il se pose
+                            #   sous la BARRE du └─ et non sous son angle,
+                            #   qui est structurel et pend sous l'appel
 SWH = "https://archive.softwareheritage.org/"
 _EXP = str.maketrans("0123456789-", "⁰¹²³⁴⁵⁶⁷⁸⁹⁻")
 
@@ -136,6 +147,28 @@ _T = {
     "length": ("durée", "duration"),
     "nanargmin": ("jour du minimum", "day of the minimum"),
     "nanargmax": ("jour du maximum", "day of the maximum"),
+    # Étiquettes : une valeur seule ne se devine pas, « jour » ne dit
+    # pas s'il s'agit d'une unité ou d'un thème.
+    "e_phenomene": ("phénomène", "phenomenon"),
+    "e_saison": ("saison", "season"),
+    "e_forme": ("forme", "form"),
+    "e_unite": ("unité", "unit"),
+    "e_but": ("finalité", "purpose"),
+    "e_entree": ("entrée", "input"),
+    "e_entrees": ("entrées", "inputs"),
+    "e_sortie": ("sortie", "output"),
+    "e_sorties": ("sorties", "outputs"),
+    "jour_seul": ("une valeur par jour", "one value per day"),
+    "diffusee": ("une seule valeur, répétée sur toute la chronique",
+                 "a single value, repeated over the whole record"),
+    "f_adaptative": ("fenêtre adaptative, propre à chaque série",
+                     "adaptive window, specific to each series"),
+    "f_annee": ("fenêtre du {} au {}", "window from {} to {}"),
+    "f_partielle": ("fenêtre partielle, du {} au {}",
+                    "partial window, from {} to {}"),
+    "coupee": ("coupée au-delà de {} années manquantes",
+               "cut beyond {} missing years"),
+    "lacunes_max": ("au plus {} % de lacunes", "at most {} % missing"),
 }
 
 
@@ -197,7 +230,7 @@ def decoupe(p, lang="fr"):
         transforme = bool(p["func"]) and all(
             getattr(resolve(e["fn_name"]), "is_transform", False)
             for e in p["func"])
-        return t("transforme" if transforme else "diffuse", lang)
+        return t("jour_seul" if transforme else "diffusee", lang)
     return t("unique", lang)
 
 
@@ -208,14 +241,14 @@ def bande_annee(sp, lang="fr"):
         return []
     entete = "".join(f"{m}  " for m in MOIS)
     if isinstance(sp, dict):
-        return [entete, "▓" * 36, t("adaptatif", lang)]
+        return [entete, "▓" * 36, t("f_adaptative", lang)]
     if isinstance(sp, str):
         i = (int(sp[:2]) - 1) * 3
         b = "▓" * 36
         b = b[:i] + "┃" + b[i + 1:]
         deb = _dt.date(2001, int(sp[:2]), int(sp[3:]))
         veille = deb - _dt.timedelta(days=1)
-        return [entete, b, t("annee", lang, _jour(sp, lang),
+        return [entete, b, t("f_annee", lang, _jour(sp, lang),
                              _jour(veille.strftime("%m-%d"), lang))]
     d, f = int(sp[0][:2]), int(sp[1][:2])
 
@@ -225,7 +258,7 @@ def bande_annee(sp, lang="fr"):
     b = "".join("▓▓▓" if dedans(i + 1) else "···" for i in range(12))
     i0, i1 = (d - 1) * 3, f * 3 - 1
     b = b[:i0] + "┃" + b[i0 + 1:i1] + "┃" + b[i1 + 1:]
-    return [entete, b, t("partielle", lang, _jour(sp[0], lang),
+    return [entete, b, t("f_partielle", lang, _jour(sp[0], lang),
                          _jour(sp[1], lang))]
 
 
@@ -335,103 +368,123 @@ _LIGNES = {
 }
 
 
-def bloc_sortie(c, meta, lang="fr"):
-    """Ce que la fiche DÉCLARE produire, et rien de plus.
+def frise(c, meta, lang="fr"):
+    """Les deux fenêtres qu'une fiche de changement compare.
 
-    Ce bloc annonçait l'axe d'une courbe, deviné du nom de la variable,
-    et une granularité déduite du pas de temps. Mesure faite,
-    `time_step: none` donne une ligne pour BFM, 365 pour QJC10 et 1000
-    pour FDC : cela dépend de ce que la fonction retourne, pas de la
-    fiche. La granularité n'est donc annoncée que pour les pas de temps
-    où elle a été vérifiée, et l'axe d'une courbe ne l'est plus du tout.
+    Une fiche `delta-` calcule un écart entre une période de référence et
+    un horizon, et c'est la seule chose que la chaîne de calcul ne montre
+    pas : les bornes arrivent en colonnes d'entrée, jamais en paramètres.
+    D'où ce dessin, qui les met face à face.
+
+    Les deux barres se décalent pour se chevaucher, et les tirets se
+    règlent sur la place restante : quatre noms de bornes tiennent dans
+    la largeur, quels qu'ils soient.
     """
-    p = c["processes"][-1]
-    ids = [str(v) for v in meta["variable_en"]]
-    cle = _LIGNES.get((p["time_step"], bool(p["compress"])))
-    # Répéter le dernier nœud sans rien y ajouter alourdirait pour rien :
-    # la ligne ne sert que si les colonnes diffèrent du nœud (mois
-    # démultipliés) ou si la granularité des lignes est connue.
-    out = []
-    if cle or set(ids) != {e["name"] for e in p["func"]}:
-        # Au-delà de six, l'en-tête les a déjà listées : les répéter ici
-        # ferait deux fois douze noms pour une seule information.
-        ligne = (t("sortie_n", lang, len(ids)) if len(ids) > 6
-                 else t("sortie", lang, ", ".join(ids)))
-        if cle:
-            ligne += SEP + t(cle, lang)
-        out = [""] + plie(ligne, "  ")
+    if str(meta.iloc[0]["output_en"]) != "scalar":
+        return []
     bornes = periodes_comparees(c)
-    if str(meta.iloc[0]["output_en"]) == "scalar" and len(bornes) >= 4:
-        a, b = bornes[:2], bornes[2:4]
-        out += ["", f"  {t('compare', lang)}",
-                f"     ├── {a[0]} ─────── {a[1]} ──┤",
-                f"                              ├── {b[0]} ─────── {b[1]} ──┤"]
-    return out
+    if len(bornes) < 4:
+        return []
+    a, b = bornes[:2], bornes[2:4]
+    marge = 7
+    decalage = 8
+    # place restante une fois posés les deux couples et le décalage
+    fixe = sum(len(x) for x in a + b) + marge + decalage + 16
+    tirets = max((LARGEUR - fixe) // 2, 3)
+
+    def barre(depart, fin):
+        return f"├─ {depart} " + "─" * tirets + f" {fin} ─┤"
+
+    return ["", *plie(t("compare", lang), " " * 5 + SORTIE, " " * 7),
+            " " * marge + barre(*a),
+            " " * (marge + decalage + len(a[0]) + tirets) + barre(*b)]
+
+
+def cadre(ident, titre):
+    """Identité de la fiche, encadrée : identifiant à gauche, nom à droite.
+
+    Le cadre est étiré à la largeur de la figure, identique d'une fiche à
+    l'autre : on reconnaît une figure de fiche d'un coup d'œil. Un titre
+    trop long se replie DANS le cadre plutôt que de l'élargir.
+    """
+    # Largeur INTÉRIEURE du cadre, celle des tirets de la bordure. Tout
+    # le reste s'en déduit, sinon le contenu et le bord se décalent.
+    dedans = LARGEUR - 6
+    ECART = 3            # respiration minimale entre l'identifiant et le nom
+    # `place` est la colonne où le titre s'aligne à droite ; il se replie
+    # plus tôt, pour que l'écart existe toujours. Confondre les deux
+    # collait le nom à l'identifiant ET décalait le bord du cadre.
+    place = dedans - 2 - len(ident)
+    lignes = textwrap.wrap(titre, max(place - ECART, 20)) or [""]
+    out = ["  ╭" + "─" * (dedans + 2) + "╮",
+           f"  │  {ident}{lignes[0]:>{place}}  │"]
+    for suite in lignes[1:]:
+        out.append(f"  │  {'':{len(ident)}}{suite:>{place}}  │")
+    return out + ["  ╰" + "─" * (dedans + 2) + "╯"]
+
+
+def etiquette(cle, valeur, lang="fr"):
+    """« phénomène ─ hautes eaux » : la valeur ne se devine plus.
+
+    Les étiquettes s'alignent à DROITE contre la colonne des valeurs. La
+    valeur, elle, garde sa casse d'origine : ce sont des mots-clés du
+    vocabulaire de classification, pas des phrases.
+    """
+    e = t(cle, lang)
+    return plie(str(valeur), f"{e:>{COL_ETIQ}} ─ ", " " * COL_VAL)
 
 
 def entete(c, meta, lang="fr"):
-    """Titre, facettes, et la liste des sorties quand il y en a plusieurs.
-
-    L'unité monte dans les facettes quand elle vaut pour toutes les
-    sorties, et descend par sortie sinon : annoncer « jour de l'année »
-    pour une fiche qui produit aussi un volume serait faux.
-    """
+    """Cadre d'identité, description, puis les facettes en étiquettes."""
     r = meta.iloc[0]
-    ident = c["id"]
-    # Aligner sous l'identifiant est joli tant qu'il est court ; `delta-
-    # allLF_winter_H` pousserait la liste des sorties hors de l'écran.
-    marge = " " * len(ident) if len(ident) <= 10 else " "
     ids = [str(v) for v in meta["variable_en"]]
     trads = [str(v) for v in meta["variable_fr" if lang == "fr" else "variable_en"]]
     unites = [unite(u) for u in meta["unit_fr" if lang == "fr" else "unit_en"]]
     noms = [str(n) for n in meta["name_fr" if lang == "fr" else "name_en"]]
     une_unite = len(set(unites)) == 1
-
-    # Un nom UNIQUE pour plusieurs sorties est une convention du corpus,
-    # pas un hasard : ce sont les coordonnées d'un même objet, les deux
-    # axes d'une FDC. Ce nom EST le titre de la fiche, et le remplacer
-    # par « 2 sorties : FDC_p, FDC_Q » perdait la seule phrase qui disait
-    # de quoi la fiche parle.
     nom_commun = noms[0] if len(set(noms)) == 1 else None
-    if nom_commun:
-        titre = nom_commun
-    elif len(meta) > 6:                  # la liste tient sur sa propre ligne
-        titre = t("sorties_n", lang, len(meta))
-    else:
-        titre = t("sorties", lang, len(meta), ", ".join(ids))
-    out = plie(titre, f"{ident}  ", f"{marge}  ")
 
-    facettes = [r[f"phenomenon_{lang}"], r[f"season_{lang}"], r[f"output_{lang}"]]
-    if une_unite and not _vide(unites[0]):
-        facettes.insert(0, unites[0])
-    out += plie(SEP.join(str(x) for x in facettes if not _vide(x)), f"{marge}  ")
+    out = cadre(c["id"], nom_commun or t("sorties_n", lang, len(meta)))
 
-    # Une description PAR SORTIE se lit sous sa sortie, pas au pied de la
-    # figure : là, une seule des cinq s'afficherait et ferait passer
-    # « décembre, janvier et février » pour la définition de la fiche
-    # entière. Le pied ne reçoit donc que la description qui vaut pour
-    # toutes, et celles qui diffèrent remontent ici.
+    # Ce qui dit de quoi parle la fiche vient juste sous le titre : sa
+    # description quand elle en a une, sinon la liste de ses sorties. Les
+    # facettes, qui la classent, viennent après.
     descs = [str(d) for d in meta[f"description_{lang}"]]
-    par_sortie = descs if len(set(descs)) > 1 else [""] * len(descs)
+    commune = descs[0] if len(set(descs)) == 1 and not _vide(descs[0]) else None
 
-    if 1 < len(meta) <= 6:
+    if len(meta) == 1:
+        if commune:
+            out += [""] + plie(commune, " " * 5, " " * 5)
+    else:
+        # Un tableau ne se lit que si ses colonnes s'alignent : chacune
+        # prend la largeur de son plus long contenu, calculée avant
+        # d'écrire la première ligne.
+        par_sortie = descs if len(set(descs)) > 1 else [""] * len(descs)
         for i, tr, u, n, d in zip(ids, trads, unites, noms, par_sortie):
-            alias = f" ({tr})" if tr != i else ""
-            mesure = "" if une_unite or _vide(u) else f" [{u}]"
-            # Le nom déjà pris comme titre ne se répète pas sous chaque
-            # sortie : la FDC l'affichait deux fois à l'identique.
-            suite = "" if n == nom_commun else f"{SEP}{n}"
-            out += plie(f"{i}{alias}{mesure}{suite}",
-                        f"{marge}  {PUCE} ", f"{marge}    ")
+            out.append("")
+            libelle = f" ({tr})" if tr != i else ""
+            out += plie(f"{i}{libelle}", " " * 5 + SORTIE, " " * 7)
+            if n != nom_commun:
+                out += plie(n, " " * 7, " " * 7)
             if not _vide(d):
-                out += plie(d, f"{marge}    ", f"{marge}    ")
-    elif len(meta) > 6:
-        # Au-delà, les noms sont systématiques (un par mois, par saison) :
-        # les lire ligne à ligne n'apprend rien de plus que la facette.
-        # Leurs descriptions non plus, qui ne diffèrent que par le mois et
-        # redisent le nom : douze d'entre elles feraient trente-six lignes
-        # avant même la chaîne de calcul.
-        out += plie(", ".join(ids), f"{marge}  {PUCE} ", f"{marge}    ")
+                out += plie(d, " " * 7, " " * 7)
+            # Ce qui varie d'une sortie à l'autre reprend une étiquette,
+            # exactement comme les facettes en tête : l'étiquette
+            # apparaît là où la valeur seule ne se devine pas.
+            if not une_unite and not _vide(u):
+                out += etiquette("e_unite", u, lang)
+
+    out.append("")
+    for cle, valeur in (("e_phenomene", r[f"phenomenon_{lang}"]),
+                        ("e_saison", r[f"season_{lang}"]),
+                        ("e_forme", r[f"output_{lang}"]),
+                        ("e_but", r[f"purpose_{lang}"])):
+        if not _vide(valeur):
+            out += etiquette(cle, valeur, lang)
+    if une_unite and not _vide(unites[0]):
+        out += etiquette("e_unite", unites[0], lang)
+    out += etiquette("e_entree" if str(r["input_vars"]).count(",") == 0
+                     else "e_entrees", entrees(r, lang), lang)
     return out + [""]
 
 
@@ -448,11 +501,11 @@ def entrees(r, lang="fr"):
         u = unite((reg.get(v) or {}).get("unit") or "")
         return f"{v} [{u}]" if u else v
 
-    ligne = SEP.join(decore(v) for v in obl)
+    ligne = ", ".join(decore(v) for v in obl)
     if opt:
         mot = t("facultatifs" if len(opt) > 1 else "facultatif", lang)
-        ligne += f"{SEP}{', '.join(opt)} ({mot})"
-    return "  " + ligne
+        ligne += f", {', '.join(opt)} ({mot})"
+    return ligne
 
 
 def _sans_redite(regl, note, identifiants):
@@ -486,51 +539,78 @@ def _sans_redite(regl, note, identifiants):
 
 
 def rendu(c, meta, lang="fr"):
+    """La chaîne de calcul, posée un peu à gauche de la colonne des valeurs.
+
+    Chaque information commence par une MAJUSCULE et un repli s'indente
+    de trois : une ligne qui continue se reconnaît sans marqueur, ce qui
+    évite d'en inventer un de plus. Le `└─` pend sous l'appel et porte la
+    phrase de la fiche ; le `◦` ouvre un paramètre du process.
+    """
+    marge = " " * COL_ARBRE
     out = entete(c, meta, lang)
-    out.append(entrees(meta.iloc[0], lang))
     identifiants = _method.known_names(c)
     for _, fns, p in etapes(c, lang):
-        out.append("   │")
+        out.append(f"{marge}╷")
         multi = len(fns) > 1
-        vues = set()                 # une note répétée n'est plus une note
         for sortie, ap, refs, regl, mention in fns:
             note = _method.step_text(c, lang, p, sortie)
             regl = _sans_redite(regl, note, identifiants)
+            # Un appel ouvre une petite branche : ses réglages et ses
+            # mentions pendent sous un `│` qui continue, et la phrase de
+            # la fiche la FERME par un `└─`. Sans cette continuité, les
+            # lignes d'un appel se confondaient avec celles du suivant
+            # dès qu'une étape en portait plusieurs.
             tete = f"{sortie} = " if multi else ""
-            ligne = f"   ├─ {tete}{ap}" + (f"   {', '.join(regl)}" if regl else "")
-            if len(ligne) <= LARGEUR:
-                out.append(ligne)
-            else:                        # les réglages passent en gouttière
-                out.append(f"   ├─ {tete}{ap}")
-                out += plie(", ".join(regl), "   │    ")
-            annexes = []
-            if mention:
-                annexes.append(mention)
-            if refs:
-                annexes.append(t("dapres", lang, ", ".join(refs)))
-            # La phrase de la FICHE, pas celle de la fonction. Une
-            # docstring est attachée à une fonction, donc elle ne peut
-            # dire que du général : `apply_threshold` mesurait ici une
-            # durée de crue et datait ailleurs un début d'étiage, sous
-            # la même glose. `method` est écrit par étape.
+            out.append(f"{marge}├── {tete}{ap}")
+            branche = f"{marge}│   │  "
+            # Ces lignes recopient l'appel : ce sont des fragments, pas
+            # des phrases, donc pas de majuscule. Seules la phrase de la
+            # fiche et les faits machine en prennent une.
+            for a in (x for x in [", ".join(regl) if regl else "",
+                                  mention,
+                                  t("dapres", lang, ", ".join(refs)) if refs else ""]
+                      if x):
+                out += plie(a, branche, branche)
             if note:
-                annexes.append(note)
-            for a in annexes:
-                if a in vues:
-                    continue
-                vues.add(a)
-                out += plie(a, "   │    ")
-        detail = [decoupe(p, lang)]
-        if p["max_na_pct"] is not None:
-            detail.append(t("lacunes", lang, p["max_na_pct"]))
-        if p["max_na_years"] is not None:
-            detail.append(t("trou", lang, p["max_na_years"]))
-        out += plie(SEP.join(detail), "   │  ")
-        for ligne in bande_annee(p["sampling_period"], lang):
-            out.append(f"   │  {ligne}")
-        out.append("   ▼")
-        out += plie(", ".join(f[0] for f in fns), "  ")
-    return "\n".join(out + bloc_sortie(c, meta, lang))
+                out += plie(_majuscule(note), f"{marge}│   {GESTE}",
+                            f"{marge}│   {' ' * 3}")
+        for fait in _faits(p, lang):
+            out += plie(_majuscule(fait), f"{marge}│   {REGLAGE}",
+                        f"{marge}│   {' ' * 3}")
+        bande = bande_annee(p["sampling_period"], lang)
+        if bande:
+            mois, dessin, legende = bande[0], bande[1], bande[-1]
+            out.append(f"{marge}│   {REGLAGE}{mois}")
+            out.append(f"{marge}│   {' ' * 3}{dessin}")
+            out += plie(_majuscule(legende), f"{marge}│   {' ' * 3}",
+                        f"{marge}│   {' ' * 3}")
+        out.append(f"{marge}▼")
+        out += plie(", ".join(f[0] for f in fns), " " * (COL_ARBRE - 1))
+    return "\n".join(out + frise(c, meta, lang))
+
+
+def _majuscule(s):
+    """Une information affichée est une phrase : elle prend sa majuscule.
+
+    Le YAML, lui, reste en minuscule : une étape de `method` y est une
+    phrase nominale dans une énumération. La capitale appartient à
+    l'affichage, pas à la donnée.
+    """
+    return s[:1].upper() + s[1:] if s else s
+
+
+def _faits(p, lang):
+    """Les faits machine d'un process, un par item, jamais joints.
+
+    Les joindre par un séparateur produisait une longue ligne qui se
+    repliait, et le dernier mot orphelin se lisait comme un item de plus.
+    """
+    faits = [decoupe(p, lang)]
+    if p["max_na_pct"] is not None:
+        faits.append(t("lacunes_max", lang, p["max_na_pct"]))
+    if p["max_na_years"] is not None:
+        faits.append(t("coupee", lang, p["max_na_years"]))
+    return faits
 
 
 def figure(nom, path=None, lang="fr"):
@@ -552,25 +632,14 @@ def figure(nom, path=None, lang="fr"):
         **ml, **_sfx.apply(ml, _sfx.default_record(ml),
                            card_id=c.get("id"), lang=lang, key=None)}}}
     meta = _meta_frame(c)
-    # Trois blocs séparés d'une ligne vide : la chaîne, la description,
-    # la provenance. La séparation était comptée à la main et il en
-    # manquait une, si bien que la description semblait continuer le bloc
-    # de sortie.
-    blocs = [rendu(c, meta, lang)]
-    # Une description par sortie ne décrit pas la fiche : celle de la
-    # première sortie affichée seule ferait passer « décembre, janvier et
-    # février » pour la définition d'une fiche saisonnière entière.
-    descs = {str(d) for d in meta[f"description_{lang}"] if not _vide(d)}
-    if len(descs) == 1:
-        blocs.append("\n".join(textwrap.wrap(
-            descs.pop(), 70, initial_indent="  ", subsequent_indent="  ")))
-    # Provenance. Un chemin de corpus (comme une URL) ne se coupe pas :
-    # si `id v… · chemin` déborde, on met le chemin sur sa propre ligne.
-    # L'identifiant pérenne sert à être ouvert : une URL est cliquable
-    # dans un terminal, un swh:1:cnt: nu ne dit pas où le porter.
-    ident = f"{c['id']} v{c.get('version')}"
+    # La provenance se pose sous un filet, pas dans un cadre : le cadre
+    # est réservé à l'identité, en haut. Un second l'aurait concurrencée.
+    corps = rendu(c, meta, lang)
+    ident = f"v{c.get('version')}"
     chemin = _corpus_path(c["path"])
-    prov = (f"  {ident}{SEP}{chemin}" if len(ident) + len(SEP) + len(chemin) + 2 <= LARGEUR
-            else f"  {ident}\n  {chemin}")
-    blocs.append(f"{prov}\n  {SWH}{c.get('swhid')}")
-    return "\n\n".join(blocs)
+    # Un chemin de corpus ne se coupe pas, comme une URL : s'il déborde
+    # avec le numéro de version, il prend sa propre ligne.
+    pied = ["  " + "─" * (LARGEUR - 4),
+            f"  {ident}   {chemin}",
+            f"  {SWH}{c.get('swhid')}"]
+    return corps + "\n\n" + "\n".join(pied)
