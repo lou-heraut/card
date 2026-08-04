@@ -179,9 +179,12 @@ définition qui l'a produite :
 
 ```python
 res["meta"][["variable_fr", "version", "swhid", "script_path"]]
-# variable_fr version                                              swhid              script_path
-#          QA     1.0 swh:1:cnt:f3dc458a789138d81f0868cddfffc19f42aca462 flow/mean-flows/series/QA.yaml
+# variable_fr version                swhid                    script_path
+#          QA     1.0 swh:1:cnt:e1197d4d… flow/mean-flows/series/QA.yaml
 ```
+
+(le SWHID est abrégé ici : c'est le hash du fichier de fiche, il change
+avec elle.)
 
 `version` est celle de la fiche, qui change dès que ses sorties changent.
 `swhid` identifie le fichier lui-même dans [Software
@@ -257,45 +260,53 @@ La grille complète, avec les cas particuliers, est dans
 ## Lire une fiche
 
 `card.info` dessine ce que la fiche calcule, plutôt que d'en lister les
-champs : la chaîne des étapes, les fonctions et leurs réglages, la
+champs : ce qui la classe, la chaîne des étapes avec leurs réglages, la
 fenêtre d'échantillonnage sur douze mois, et ce qui est produit.
 
 ```
-VCN10  Minimum annuel de la moyenne sur 10 jours du débit journalier
-       m³·s⁻¹ · basses eaux · annuelle · série
+  ╭──────────────────────────────────────────────────────────────────────────╮
+  │  VCN10    Minimum annuel de la moyenne sur 10 jours du débit journalier  │
+  ╰──────────────────────────────────────────────────────────────────────────╯
 
-  Q [m³·s⁻¹]
-   │
-   ├─ rollmean_center(Q)   k=10
-   │    Moyenne mobile centrée de fenêtre k (convention pandas center=True ;
-   │    fenêtre contenant un NaN → NaN)
-   │  transforme la série sans l'agréger, une valeur par jour · max 10 ans de
-   │  trou
-   ▼
-  VC10
-   │
-   ├─ nanmin(VC10)
-   │  une valeur par année · max 3 % de lacunes
-   │  J  F  M  A  M  J  J  A  S  O  N  D
-   │  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-   │  départ propre à chaque série (adaptatif), année complète
-   ▼
-  VCN10
+      phénomène ─ basses eaux
+         saison ─ annuelle
+          forme ─ série
+          unité ─ m³·s⁻¹
+         entrée ─ Q [m³·s⁻¹]
 
-  sortie : VCN10 · une ligne par année
+            ╷
+            ├── rollmean_center(Q)
+            │   └─ Moyenne mobile centrée sur 10 jours
+            │    ◦ Une valeur par jour
+            │    ◦ Coupée au-delà de 10 années manquantes
+            ▼
+           VC10
+            ╷
+            ├── nanmin(VC10)
+            │   └─ Minimum
+            │    ◦ Une valeur par année
+            │    ◦ Au plus 3 % de lacunes
+            │    ◦ J  F  M  A  M  J  J  A  S  O  N  D  
+            │      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+            │      Fenêtre adaptative, propre à chaque série
+            ▼
+           VCN10
 
-  VCN10 v1.0 · flow/low-flows/series/VCN10.yaml
-  https://archive.softwareheritage.org/swh:1:cnt:ccf7e81b4fad5fdfa3028996f952694502527b51
+  ──────────────────────────────────────────────────────────────────────────
+  v1.1   flow/low-flows/series/VCN10.yaml
+  https://archive.softwareheritage.org/swh:1:cnt:17009e1e8ed488f299499c441bd8a5a41410f28d
 ```
 
-Dans la bande de douze mois, `▓` marque un mois retenu, `·` un mois
-écarté et `┃` une borne : une fenêtre estivale donne
-`············┃▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓┃···`. Les identifiants affichés sont
-ceux des colonnes produites ; le nom traduit, quand il diffère, suit
-entre parenthèses. La figure ne dit que ce que la fiche détermine : la
-granularité des lignes n'est annoncée que pour les pas de temps où elle
-en découle, et jamais pour `time_step: none`, où elle dépend de ce que
-la fonction retourne.
+Chaque étape porte, sous un coude, la phrase que la **fiche** écrit pour
+cette colonne (son champ `method`), et sur le rang décalé, marqués `◦`,
+les réglages du process. Dans la bande de douze mois, `▓` marque un mois
+retenu, `·` un mois écarté et `┃` une borne : une fenêtre estivale donne
+`············┃▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓┃···`. Une fiche à plusieurs sorties les
+annonce chacune par un `◇`, identifiant d'abord et nom traduit entre
+parenthèses quand il diffère : ce sont les noms des colonnes que vous
+recevrez. La figure ne dit que ce que la fiche détermine, un process
+`time_step: none` annonçant « aucune agrégation temporelle » plutôt
+qu'une granularité de lignes, qui dépend là de ce que la fonction rend.
 
 `card.info` accepte `lang="en"` et retourne par ailleurs le dict des
 champs, inchangé, pour le code qui en dépend. Pour lire une fiche telle

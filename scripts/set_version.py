@@ -9,11 +9,12 @@
 
 """Propage un numéro de version depuis pyproject.toml.
 
-Une version vit à quatre endroits : `pyproject.toml` (la source),
-`CITATION.cff` et `codemeta.json` (les métadonnées de citation), et
-`src/card/__init__.py` (ce que `card.__version__` annonce). Les
-recopier à la main, c'est se garantir un oubli. Ce script les accorde,
-et `tests/test_citation.py` vérifie qu'ils le sont restés.
+Une version vit à cinq endroits : `pyproject.toml` (la source),
+`CITATION.cff` et `codemeta.json` (les métadonnées de citation),
+`src/card/__init__.py` (ce que `card.__version__` annonce) et le modèle
+de citation du `README.md`. Les recopier à la main, c'est se garantir un
+oubli. Ce script les accorde, et `tests/test_citation.py` vérifie qu'ils
+le sont restés.
 
 Usage (depuis la racine du dépôt) :
     python scripts/set_version.py 0.3.0   # fixe la version partout
@@ -66,13 +67,22 @@ def main():
     if ecrire("src/card/__init__.py", r'^__version__ = "[^"]+"',
               f'__version__ = "{version}"'):
         change.append("src/card/__init__.py")
-    if ecrire("CITATION.cff", r'^date-released:\s*"[^"]+"',
-              f'date-released: "{aujourd_hui}"'):
-        change.append("CITATION.cff (date)")
-
+    # Le modèle de citation du README annonçait 0.2.0 sans que rien ne
+    # le surveille : un numéro écrit dans une prose est un numéro qui
+    # retarde.
+    if ecrire("README.md", r'\(version \d+\.\d+(?:\.\d+)?\)',
+              f'(version {version})'):
+        change.append("README.md")
+    # La date de publication ne bouge QUE si la version bouge. Sans ce
+    # garde-fou, une exécution sans argument (« propage celle du
+    # pyproject ») redatait la version publiée d'aujourd'hui, alors
+    # qu'elle est sortie il y a des semaines.
     p = ROOT / "codemeta.json"
     d = json.loads(p.read_text(encoding="utf-8"))
-    if (d.get("version"), d.get("datePublished")) != (version, aujourd_hui):
+    if change or d.get("version") != version:
+        if ecrire("CITATION.cff", r'^date-released:\s*"[^"]+"',
+                  f'date-released: "{aujourd_hui}"'):
+            change.append("CITATION.cff (date)")
         d["version"] = version
         d["datePublished"] = aujourd_hui
         p.write_text(json.dumps(d, indent=2, ensure_ascii=False) + "\n",

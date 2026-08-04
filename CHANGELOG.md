@@ -47,6 +47,37 @@ des deux endroits.
 
 ### Modifié
 
+- **Passe sur les documents de développement (2026-08-04).** Le README
+  montrait, sous « Lire une fiche », une figure `card.info` d'avant la
+  refonte : mauvais cadre, phrases qui n'existent plus, et jusqu'à la
+  version et au SWHID de VCN10 qui avaient bougé. Elle est régénérée
+  depuis la sortie réelle, et le paragraphe qui la commente dit les
+  signes d'aujourd'hui.
+
+  Deux chantiers livrés étaient restés dans `CHANTIERS.md`, qui
+  n'accueille que des pistes ouvertes : la conversion des douze fiches à
+  horizon figé et les entrées facultatives, sorties toutes deux le
+  2026-07-27. Ce qu'ils portaient encore d'utile, la fausse piste
+  `mask_period` écartée par la mesure, remonte à l'entrée `over_period`
+  de cette date-là plutôt que de disparaître avec eux.
+
+  `PLAN_nettoyage.md` tenait une colonne « lignes » recopiée à la main
+  pour vingt-quatre fichiers, qui avait dérivé sur chacun d'eux en deux
+  semaines, ce que son propre principe 1 interdit. Elle est retirée, les
+  chemins sont ceux d'après la phase 1, et les cartes de stase et de
+  card-api sont complétées. `TOPICS.md` annonçait « 22 dossiers feuilles
+  de 1 à 85 fiches » pour un maximum réel de 46, et sa liste numérotée
+  sautait de 5 à 7 pour reprendre le 6 après le 11.
+
+- **Le numéro de version du README est désormais tenu (2026-08-04).** Le
+  modèle de citation portait « version 0.2.0 » sans que rien ne le
+  surveille : `scripts/set_version.py` l'écrit maintenant, et
+  `tests/test_citation.py` refuse le désaccord, comme pour les quatre
+  autres emplacements. Au passage, la date de publication ne bouge plus
+  qu'avec la version : `set_version.py` sans argument redatait
+  `CITATION.cff` et `codemeta.json` d'aujourd'hui alors qu'il ne fait que
+  propager un numéro inchangé.
+
 - **La figure d'une fiche se lit sans qu'on ait à deviner (2026-08-04).**
   Le rendu ASCII est repris de bout en bout. L'identité tient dans un
   cadre de largeur fixe, titre aligné à droite. Ce qui classe la fiche
@@ -654,6 +685,17 @@ des deux endroits.
   ajouter de paramètres. Une borne absente laisse son côté ouvert.
   `_const_date` et `_subset_period`, jusque-là dupliqués dans deux
   modules, y sont rassemblés.
+
+  **La voie plus élégante a été écartée par la mesure**, et c'est à
+  retenir avant de la reproposer : une fonction `mask_period` rendant la
+  série avec des NaN hors fenêtre, suivie des agrégations habituelles
+  inchangées, marche mais **les NaN du masque comptent comme des
+  lacunes**. Mesuré le 2026-07-22, une agrégation mensuelle avec
+  `max_na_pct=3` sur une série masquée à 20 ans sur 51 rend 0 mois sur
+  12 au lieu de 12. Les fiches concernées n'employaient pas ce seuil et
+  n'en auraient pas souffert, mais toute fiche future en aurait hérité
+  en silence. Restreindre DANS la fonction d'agrégation laisse au
+  contraire la restriction invisible au comptage des lacunes.
 
 ### Corrigé
 

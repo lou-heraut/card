@@ -4,7 +4,7 @@
 > expliquant le détail. Les sections portent des titres et non des
 > numéros : le registre bouge, un numéro ne se cite pas durablement.
 
-# CHANTIERS : pistes ouvertes (mise à jour 2026-07-22)
+# CHANTIERS : pistes ouvertes (mise à jour 2026-08-04)
 
 ## Nom PyPI de card (PEP 541)
 
@@ -205,102 +205,6 @@ complexité (kwargs-colonnes, colonnes creuses, fan-out).
   exemple complet de fiche commentée ligne à ligne ?
 - Pages : tutoriel pas-à-pas avec données réelles.
 
-## Convertir les 12 fiches à horizon figé au modèle suffixe
-
-Ouvert le 2026-07-22, demandé par l'utilisateur. Douze fiches figent leur
-période **dans le fichier**, alors que le chantier du 2026-07-21 a sorti
-ces bornes des 59 autres. Une famille par type, déclinée quatre fois :
-
-| famille | fiches | ce que fait le process |
-|---|---|---|
-| `QM_H0..H3` | 4 | `nanmean(Q)`, `time_step: month` |
-| `FDC_H0..H3` | 4 | `fdc_probabilities` / `fdc_quantiles`, `time_step: none` |
-| `median-QJ_H0..H3` | 4 | `nanmedian(Q)`, `time_step: yearday` |
-
-**Cible** : trois fiches, `QM_H`, `FDC_H` et `median-QJ_H`, recevant
-leurs bornes en colonnes d'entrée et se déclinant par suffixe, comme les
-fiches delta. L'appelant choisit ses horizons, autant qu'il veut, sans
-qu'aucune date ne vive dans le corpus.
-
-**Le principe est déjà en place**, et c'est ce qui rend le chantier
-simple : la période ne doit pas être portée par le champ `period` du
-process, qui est un filtre global du moteur, mais par la **fonction**,
-comme le font déjà `return_level` et `apply_threshold` depuis le
-2026-07-21 :
-
-```yaml
-[return_level, "VCN10", {dates: "date", period_start: "ref_start",
-                         period_end: "ref_end", ...}]
-```
-
-Rien à changer dans stase, donc. Il s'agit de donner le même traitement
-aux fonctions employées par ces douze fiches.
-
-### Conception : trois voies, dont une écartée par la mesure
-
-**Écartée : masquer puis agréger.** L'idée la plus élégante était une
-fonction `mask_period` rendant la série avec des NaN hors fenêtre, suivie
-des agrégations habituelles inchangées, vecteur vers vecteur comme
-`rollmean_center`. Elle marche, mais les NaN du masque **sont comptés
-comme des lacunes** : mesuré le 2026-07-22, une agrégation mensuelle
-avec `max_na_pct=3` sur une série masquée à 20 ans sur 51 rend **0 mois
-sur 12** au lieu de 12. Les douze fiches actuelles n'utilisent pas ce
-seuil et n'en souffriraient pas, mais toute fiche future en hériterait
-en silence. Fondation trop piégeuse, on n'y revient pas.
-
-**Retenue : restreindre DANS la fonction d'agrégation.** C'est déjà le
-motif de `return_level` et `apply_threshold`, la restriction restant
-invisible au comptage des lacunes. Deux formes possibles :
-
-- une fonction générique `over_period(X, dates, func, period_start,
-  period_end, **kw)` qui restreint puis délègue à `func`. Elle couvre les
-  trois familles d'un coup, et surtout les deux qui appellent `nanmean`
-  et `nanmedian` : ce sont des fonctions **numpy**, on ne peut pas leur
-  ajouter de kwargs, il faut de toute façon passer par une fonction card.
-  Vérifié le 2026-07-22 : un kwarg dont la valeur est une chaîne ne
-  devient une référence de colonne que si la colonne existe, sinon il est
-  passé en littéral ; `{func: nanmean}` arrive donc bien comme le nom à
-  résoudre.
-- ou les kwargs de période ajoutés à `fdc_quantiles` comme ils l'ont été
-  à `return_level`, la générique ne servant qu'aux deux agrégations numpy.
-
-Points à régler dans les deux cas : les kwargs de la fonction enveloppée
-partagent le même dictionnaire plat que ceux de l'enveloppe (`n`,
-`norm_spacing` pour `fdc_quantiles`), donc réserver et documenter les
-noms de l'enveloppe ; et `fdc_probabilities` ne lit aucune donnée, il
-n'a pas besoin de période, seul `fdc_quantiles` en veut une.
-
-**Coût annexe** : douze identifiants disparaissent au profit de trois.
-Changement de sorties, donc trace dans RENAMING.md, bump majeur, et le
-catalogue comme le service en sont affectés. Prévoir aussi la valeur par
-défaut à recommander pour la période de référence, aujourd'hui écrite
-dans les fiches H0 (`1976-01-01` à `2005-08-31`, un début calendaire
-pour une fin hydrologique).
-
-## Entrées optionnelles, et le sort des trois fiches de période
-
-Ouvert le 2026-07-22. `QM_H`, `FDC_H` et `median-QJ_H` calculent la même
-chose que `QM`, `FDC` et `median-QJ`, restreinte à une période. Or
-`over_period` traite déjà une borne absente comme un côté ouvert : sans
-bornes, il calcule sur toute la chronique. Les trois fiches restreintes
-et les trois fiches entières pourraient donc n'en faire que **trois**,
-la période devenant une entrée facultative.
-
-Ce qui manque : card exige toutes les `input_vars` déclarées, sans
-notion d'entrée facultative (vérifié le 2026-07-22, aucun mécanisme). Il
-faudrait pouvoir écrire quelque chose comme
-`input_vars: "Q, period_start?, period_end?"`, ou un champ séparé, et
-que la vérification amont ne réclame que les obligatoires.
-
-**Question de nomenclature liée, à trancher par l'utilisateur.** Le
-suffixe `_H` de ces trois fiches signifie « horizons de projection »
-(NOMENCLATURE.md), or elles acceptent désormais n'importe quelle période,
-observée comprise, et leur métadonnée dit « période » depuis le
-2026-07-22. Trois voies : garder `_H` malgré l'inexactitude, choisir un
-autre suffixe, ou faire disparaître la question en fusionnant avec les
-fiches de base comme ci-dessus. La troisième est la plus propre, elle
-suppose seulement les entrées facultatives.
-
 ## Export SKOS / thésaurus (différé de longue date)
 
 La classification (`TOPICS.md`) fournit désormais les concepts et les
@@ -310,6 +214,25 @@ Réévaluer quand le besoin Skosmos se concrétise.
 Le SKOS n'est pas un service : c'est un artefact de publication de la
 classification, dont la source de vérité est ici (`src/card/topics.yaml`
 et les blocs classification des fiches).
+
+- `scripts/generate_skos.py` (à écrire) : chaque facette devient un
+  `skos:ConceptScheme` (domain, phenomenon, aspect, season, output,
+  purpose) ; chaque valeur un `skos:Concept` avec `prefLabel` fr/en
+  (les paires sont déjà dans topics.yaml) et `exactMatch`/`closeMatch`
+  vers l'existant (aspect ↔ typologie IHA, fiches climat ↔ ETCCDI) ;
+  chaque fiche devient un concept rattaché à ses facettes
+  (`dcterms:subject`).
+- Publication statique : `docs/card.ttl` servi par GitHub Pages, aucun
+  serveur nécessaire pour être moissonnable.
+- URIs stables : demander un préfixe **w3id.org** (ex.
+  `https://w3id.org/card-hydro/...`) qui redirige vers les Pages,
+  gratuit, pérenne, indépendant de l'hébergement. Arbitrage du
+  2026-07-16 : à confirmer le moment venu, non bloquant.
+- Skosmos sur la VM : optionnel et purement cosmétique (navigation
+  humaine), il lit le même `card.ttl`.
+- Côté service, card-api pourrait exposer un `GET /v1/concepts` qui
+  renvoie vers ces URIs. C'est un renvoi, pas une source : la vérité
+  reste ici.
 
 ## Unités machine-lisibles (UCUM) (différé)
 
@@ -333,25 +256,6 @@ couvre pas. Piste future : une variante `output: series` par mois/saison
 (le fan-out `_month`/`_season` existe déjà côté valeurs), ou un mode trend
 qui accepte un axe sous-annuel. Noté à la revue card-api du 2026-07-24, à
 ne pas traiter maintenant.
-
-- `scripts/generate_skos.py` (à écrire) : chaque facette devient un
-  `skos:ConceptScheme` (domain, phenomenon, aspect, season, output,
-  purpose) ; chaque valeur un `skos:Concept` avec `prefLabel` fr/en
-  (les paires sont déjà dans topics.yaml) et `exactMatch`/`closeMatch`
-  vers l'existant (aspect ↔ typologie IHA, fiches climat ↔ ETCCDI) ;
-  chaque fiche devient un concept rattaché à ses facettes
-  (`dcterms:subject`).
-- Publication statique : `docs/card.ttl` servi par GitHub Pages, aucun
-  serveur nécessaire pour être moissonnable.
-- URIs stables : demander un préfixe **w3id.org** (ex.
-  `https://w3id.org/card-hydro/...`) qui redirige vers les Pages,
-  gratuit, pérenne, indépendant de l'hébergement. Arbitrage du
-  2026-07-16 : à confirmer le moment venu, non bloquant.
-- Skosmos sur la VM : optionnel et purement cosmétique (navigation
-  humaine), il lit le même `card.ttl`.
-- Côté service, card-api pourrait exposer un `GET /v1/concepts` qui
-  renvoie vers ces URIs. C'est un renvoi, pas une source : la vérité
-  reste ici.
 
 ## Fiches futures
 
@@ -421,10 +325,12 @@ moteur dans stase, du service dans card-api), un rôle exclusif par
 fichier, et un `CHANGELOG.md` par paquet pour que la trace des
 livraisons ne repose pas seulement sur git.
 
-**Fait pour card le 2026-07-22** : carte des rôles, CHANGELOG, archive
-badgée, ORIGINE_R renommé, ce registre purgé. **Reste** : la même passe
-sur stase et sur card-api, puis la relecture des métadonnées à
-placeholder (phase 4 du plan) et les README (phase 3).
+**Faites sur les trois dépôts** : les phases 0 à 2 (carte des rôles,
+CHANGELOG, archives badgées, CLAUDE.md élagués et uniformisés).
+**Restent** les phases 3 à 6, dont le détail et la checklist vivent dans
+`PLAN_nettoyage.md` : les README (3), la relecture des métadonnées à
+placeholder (4), le rôle de `docs/index.md` (5), les conventions
+inter-dépôts (6).
 
 Deux points déjà appris, à ne pas reperdre :
 - **un historique n'est pas supprimable tel quel** : ces documents sont

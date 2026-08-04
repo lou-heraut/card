@@ -247,6 +247,9 @@ avant application.
    par tag, et une fiche peut appartenir à plusieurs groupes.
 5. **Bloc regroupé**, nommé **`classification:`** (transparent dans
    les deux langues ; « topics » ne décrivait plus des facettes).
+6. **Le champ `topic` est supprimé à la migration** : toute
+   l'information vient de `classification` (labels en/fr générés depuis
+   le vocabulaire central pour le catalogue et card.info).
 7. **Labels bilingues DANS les fiches** (décision finale 2026-07-16) :
    les fiches restent autoportantes et les métadonnées d'extraction
    directement traçables (but historique du bilinguisme) ; la sûreté
@@ -270,8 +273,7 @@ avant application.
     (fiches bi-domaines : rangées sous le domaine premier ; bi-phénomènes
     éventuels : sous le premier). Dossiers en anglais et en slug :
     `flow/low-flows/scalar/`, `precipitation/mean-precipitation/series/`…
-    Navigation humaine : 22 dossiers feuilles de 1 à 85 fiches, et le
-    catalogue (rangé domaine → phénomène, colonne forme) pour le tri fin.
-6. **Le champ `topic` est supprimé à la migration** : toute
-   l'information vient de `classification` (labels en/fr générés depuis
-   le vocabulaire central pour le catalogue et card.info).
+    Navigation humaine : un dossier feuille par combinaison réellement
+    peuplée, très inégalement remplis (les basses eaux pèsent le plus),
+    et le catalogue (rangé domaine → phénomène, colonne forme) pour le
+    tri fin.

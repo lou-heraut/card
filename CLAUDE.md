@@ -8,8 +8,9 @@ précipitation, température...) de séries journalières. Exécution par le
 moteur [`stase`](../../EXstat_project/stase/). Ports Python des
 packages R `CARD`/`EXstat` ; les repos R (`../CARD-R/`,
 `EXstat_project/EXstat/`) sont en maintenance, référence de validation
-uniquement, sans fichiers IA. Port validé R↔Python sur corpus complet
-(552 comparaisons, tol 1e-6).
+uniquement, sans fichiers IA. Port validé R↔Python sur le corpus entier ;
+la mesure, sa date et les divergences résiduelles sont dans
+`docs/dev/ORIGINE_R.md`.
 
 Où lire quoi. Un rôle par fichier, chacun l'annonce dans un bandeau de
 statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.

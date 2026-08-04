@@ -37,3 +37,8 @@ def test_versions_de_citation_accordees():
     assert codemeta["version"] == paquet, (
         f"codemeta.json annonce {codemeta['version']}, le paquet est en {paquet}"
     )
+    readme = _version("README.md", r'\(version (\d+\.\d+(?:\.\d+)?)\)')
+    assert readme == paquet, (
+        f"le modèle de citation du README annonce {readme}, le paquet est "
+        f"en {paquet}"
+    )

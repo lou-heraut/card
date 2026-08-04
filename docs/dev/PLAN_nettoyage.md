@@ -5,8 +5,9 @@ d'utilisation (README), pages web, métadonnées à placeholder, et surtout
 **cloisonnement** (chaque info à un seul endroit) pour réduire le coût
 token du re-chargement de contexte des futurs Claude.
 
-Établi le 2026-07-21, **appliqué à card le 2026-07-22** (phases 0 et 1).
-À supprimer une fois déroulé sur les trois dépôts.
+Établi le 2026-07-21. **Phases 0 à 2 faites sur les trois dépôts** ; les
+phases 3 à 6 restent ouvertes, la checklist en fin de document fait foi.
+À supprimer une fois déroulé.
 
 ## Principes directeurs
 
@@ -57,42 +58,56 @@ externe), **TEMPORAIRE** (disparaît une fois exécuté).
 
 ### card
 
-| fichier | lignes | rôle exclusif | statut |
-|---|---|---|---|
-| README.md | 165 | vitrine et parcours d'usage : installer, extraire, suffixes, tendance, écrire sa fiche | SOURCE |
-| CLAUDE.md | 177 | contexte de session : format d'une fiche, règles de travail, état court | SOURCE |
-| docs/index.md | 15 | landing Pages : renvoi vers catalogue et dépôt | RENVOI |
-| docs/CARDS.md | 282 | catalogue, une ligne par fiche | GÉNÉRÉ |
-| docs/dev/NOMENCLATURE.md | 250 | grammaire des noms de variables et rédaction des métadonnées (R1 à R7, Oberlin) | SOURCE |
-| docs/dev/TOPICS.md | 233 | classification à facettes : modèle, vocabulaire, arbitrages | SOURCE |
-| docs/dev/RENAMING.md | 288 | journal daté des renommages et des changements de SORTIES (parité R rompue) | SOURCE |
-| docs/dev/CHANTIERS.md | 243 | registre des pistes ouvertes du corpus | SOURCE |
-| docs/dev/VALIDATION_R.md | 56 | origine R du corpus, validation croisée, divergences propres aux FICHES | SOURCE (mal nommé, cf. Phase 6) |
-| docs/dev/AUDIT_FICHES.md | 271 | constats et décisions de l'audit appliqué le 2026-07-15 | HISTORIQUE |
-| docs/dev/ROADMAP.md | 133 | phases A à D de la refonte, plus deux blocs vivants (« Principes actés », plan PEP 541) | HISTORIQUE + à ré-héberger |
-| docs/dev/PLAN_nettoyage.md | 183 | ce plan | TEMPORAIRE |
-| docs/dev/Oberlin_1994...edit.md | 688 | source scientifique du système de nommage (OCR) | RÉFÉRENCE |
+Le tableau portait à l'origine une colonne « lignes », recopiée à la
+main : elle avait dérivé sur chacune de ses treize lignes en deux
+semaines, ce que le principe 1 ci-dessus interdit précisément. Retirée le
+2026-08-04 ; `wc -l` la donne quand elle sert. Les chemins ci-dessous
+sont ceux d'aujourd'hui, après la phase 1.
+
+| fichier | rôle exclusif | statut |
+|---|---|---|
+| README.md | vitrine et parcours d'usage : installer, extraire, suffixes, tendance, écrire sa fiche | SOURCE |
+| CLAUDE.md | contexte de session : format d'une fiche, règles de travail, état court | SOURCE |
+| CHANGELOG.md | journal daté des livraisons, une section par jalon | SOURCE |
+| docs/index.md | landing Pages : renvoi vers catalogue et dépôt | RENVOI |
+| docs/CARDS.md | catalogue, une ligne par fiche | GÉNÉRÉ |
+| docs/dev/NOMENCLATURE.md | grammaire des noms de variables et rédaction des métadonnées (R1 à R7, Oberlin) | SOURCE |
+| docs/dev/TOPICS.md | classification à facettes : modèle, vocabulaire, arbitrages | SOURCE |
+| docs/dev/RENAMING.md | journal daté des renommages et des changements de SORTIES (parité R rompue) | SOURCE |
+| docs/dev/CHANTIERS.md | registre des pistes ouvertes du corpus | SOURCE |
+| docs/dev/ORIGINE_R.md | origine R du corpus, validation croisée, divergences propres aux FICHES | SOURCE |
+| docs/dev/PLAN_nettoyage.md | ce plan | TEMPORAIRE |
+| docs/dev/Oberlin_1994...edit.md | source scientifique du système de nommage (OCR) | RÉFÉRENCE |
+| docs/dev/archive/AUDIT_FICHES.md | constats et décisions de l'audit appliqué le 2026-07-15 | HISTORIQUE |
+| docs/dev/archive/ROADMAP.md | phases A à D de la refonte R vers Python | HISTORIQUE |
+| docs/dev/archive/PLAN_METHOD.md | conception de la refonte du champ `method`, août 2026 | HISTORIQUE |
 
 ### stase
 
-| fichier | lignes | rôle exclusif | statut |
-|---|---|---|---|
-| README.md | 107 | vitrine et usage du moteur | SOURCE |
-| CLAUDE.md | 116 | contexte de session : structure, règles (tools.py gelé, détection par type), API | SOURCE |
-| docs/dev/ORIGINE_R.md | 106 | origine R du moteur, validation, divergences intentionnelles du MOTEUR | SOURCE |
-| docs/dev/RENAMING_PY.md | 64 | renommages de paramètres et de colonnes de sortie de stase | SOURCE |
-| docs/dev/CONVERSION_R.md | 508 | ancien CLAUDE.md d'EXstat_Claude, trace de la conversion | HISTORIQUE |
-| docs/dev/PLAN.md | 349 | audit du 2026-07-12 et son plan, clôturé | HISTORIQUE |
+| fichier | rôle exclusif | statut |
+|---|---|---|
+| README.md | vitrine et usage du moteur | SOURCE |
+| CLAUDE.md | contexte de session : structure, règles (tools.py gelé, détection par type), API | SOURCE |
+| CHANGELOG.md | journal daté des livraisons du moteur | SOURCE |
+| docs/dev/CHANTIERS.md | registre des pistes ouvertes du moteur | SOURCE |
+| docs/dev/ORIGINE_R.md | origine R du moteur, validation, divergences intentionnelles du MOTEUR | SOURCE |
+| docs/dev/RENAMING_PY.md | renommages de paramètres et de colonnes de sortie de stase | SOURCE |
+| docs/dev/archive/CONVERSION_R.md | ancien CLAUDE.md d'EXstat_Claude, trace de la conversion | HISTORIQUE |
+| docs/dev/archive/PLAN.md | audit du 2026-07-12 et son plan, clôturé | HISTORIQUE |
+| docs/dev/archive/harnais_R/ | harnais de comparaison R, figé | HISTORIQUE |
 
 ### card-api
 
-| fichier | lignes | rôle exclusif | statut |
-|---|---|---|---|
-| README.md | 235 | vitrine du service : endpoints, cas d'usage Python puis R, quotas | SOURCE |
-| INSTALL.md | 168 | développement et déploiement (Docker, Apache, variables d'env) | SOURCE |
-| CLAUDE.md | 102 | contexte de session | SOURCE |
-| docs/dev/API.md | 173 | conception du service, et §1 = carte de l'écosystème à trois repos | SOURCE |
-| docs/dev/CHANTIERS.md | 67 | registre des pistes ouvertes du service | SOURCE |
+| fichier | rôle exclusif | statut |
+|---|---|---|
+| README.md | vitrine du service : endpoints, cas d'usage Python puis R, quotas | SOURCE |
+| INSTALL.md | développement et déploiement (Docker, Apache, variables d'env) | SOURCE |
+| CLAUDE.md | contexte de session | SOURCE |
+| CHANGELOG.md | journal daté des livraisons du service | SOURCE |
+| docs/dev/API.md | conception du service, et §1 = carte de l'écosystème à trois repos | SOURCE |
+| docs/dev/CHANTIERS.md | registre des pistes ouvertes du service | SOURCE |
+| docs/dev/PLAN_FAIR.md | revue FAIR du 2026-07-24 et son plan | SOURCE |
+| docs/dev/THEME_DOCS.md | thème de la documentation servie | SOURCE |
 
 ### Redondances et affirmations périmées (vérifiées dans le code le 2026-07-22)
 
@@ -102,10 +117,12 @@ externe), **TEMPORAIRE** (disparaît une fois exécuté).
 2. **`meta=` de `process_trend` présenté comme le canal du caractère
    relatif** (card RENAMING, stase RENAMING_PY) alors qu'il a été retiré
    en stase 0.4.0 au profit de `relative={variable: bool}`.
-3. **Le nombre de fiches est recopié dans trois docs vivantes**
-   (card docs/index.md « 226 fiches, 588 variables », card-api README
-   « 226 fiches », stase README « 226 fiches ») alors que la source est
-   le catalogue généré (237 fiches, 482 variables).
+3. **Le nombre de fiches est recopié dans trois docs vivantes** (card
+   docs/index.md, card-api README, stase README) alors que la source est
+   le catalogue généré. Les trois annonçaient déjà, ce jour-là, un
+   décompte différent de celui du catalogue. Depuis, le seul décompte du
+   dépôt est celui du README de card, entre les balises
+   `<!-- cards:count -->`, tenu par `scripts/generate_catalog.py`.
 4. **Alias R de l'API card documentés deux fois** : card RENAMING
    « Fonctions (alias R conservés) » et VALIDATION_R « Noms hérités ».
 5. **Divergence du rolling à fenêtre paire** expliquée dans VALIDATION_R
@@ -124,13 +141,14 @@ Cf. Phase 4 : vérifier la cohérence, pas figer du contexte.
 
 ## Phase 0 : inventaire et carte des redondances (FAITE le 2026-07-22)
 
-Carte ci-dessus, 24 fichiers, 7 redondances relevées et vérifiées dans le
+Carte ci-dessus, sept redondances relevées et vérifiées dans le
 code. À refaire à l'identique pour stase et card-api si la carte y est
 jugée insuffisante (elle a été établie sur les 3 dépôts d'un coup).
 
-## Phase 1 : ranger l'historique (FAITE pour card le 2026-07-22)
+## Phase 1 : ranger l'historique (FAITE sur les trois dépôts)
 
-Recette appliquée, à rejouer telle quelle sur stase et card-api :
+Recette établie sur card le 2026-07-22, rejouée telle quelle sur stase et
+card-api :
 
 1. écrire le `CHANGELOG.md` du paquet à partir de `git log --reverse`,
    une section par jalon daté, 3 à 6 lignes par entrée, avec un renvoi
@@ -152,11 +170,8 @@ renommé `ORIGINE_R.md` (même rôle que dans stase), CHANTIERS ramené aux
 pistes ouvertes et numéros de section abandonnés (un numéro ne se cite
 pas durablement dans un registre qui bouge).
 
-Restent à traiter : stase (`CONVERSION_R.md` reste en archive, il est
-déjà badgé ; `PLAN.md` à archiver, et corriger stase CLAUDE.md l. 43 qui
-le dit « suivi à jour » alors qu'il est clôturé, et l. 53 qui s'appuie
-dessus pour justifier les exceptions au gel de `tools.py` : renvoyer aux
-tests d'équivalence) et card-api.
+La même passe a suivi sur stase et sur card-api ; la checklist en fin de
+document dit où en est chaque phase.
 
 ## Phase 2 : CLAUDE.md et mémoire (budget token)
 
@@ -220,7 +235,7 @@ VÉRIFIER la cohérence :
 
 ## Phase 5 : Pages web / publication
 
-- card `docs/index.md` (15 lignes, stub) : décider son rôle (landing ?
+- card `docs/index.md` (stub) : décider son rôle (landing ?
   renvoi vers CARDS.md + README + SKOS). Étoffer ou assumer minimal.
 - SKOS/thésaurus (CHANTIERS §6) : lien depuis la landing si concrétisé.
 - card-api : vérifier que la doc API (README + API.md) reflète l'état
@@ -256,7 +271,12 @@ Phase 2 :
       ajouté).
 
 Phase 3 :
-- [ ] README card/stase/card-api : un exemple exécuté par capacité.
+- [x] **card** : un exemple exécuté par capacité (extract, trend,
+      sampling_period, seuils et suffixes, horizons et périodes en
+      colonnes, provenance d'un résultat, list_cards, info, copy_cards
+      puis schema). Tous rejoués le 2026-08-04, sorties conformes ; la
+      figure de « Lire une fiche » est régénérée à la même date.
+- [ ] README stase et card-api : un exemple exécuté par capacité.
 
 Phase 4 :
 - [ ] exemples rendus (générique vs records) fournis à l'utilisateur.
