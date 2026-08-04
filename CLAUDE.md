@@ -277,9 +277,9 @@ Doctrine complète : « Versions, en quatre phrases », en tête de
 
 ## État (2026-08-04)
 
-Tout est commité sur card. **Non poussé** : les 22 commits du chantier
-`method` (2026-08-01 au 04) attendent. `../../EXstat_project/stase/` n'a
-pas bougé.
+Tout est commité et poussé sur card. `../../EXstat_project/stase/` n'a
+pas bougé pendant le chantier `method` : aucune évolution du moteur n'a
+été nécessaire, donc pas de `stase>=` à remonter dans le pyproject.
 
 **Décompte du corpus (fiches, variables) : un seul endroit, le README**,
 entre les balises `<!-- cards:count -->`, tenu à jour par
