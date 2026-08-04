@@ -58,6 +58,7 @@ process:
   P2:
     func:
       tVCN10_summer: [nanargmin, "VC10", true]
+    time_step: year
     sampling_period: ["05-01", "11-30"]
     is_date: true
     max_na_pct: 3

@@ -46,6 +46,7 @@ process:
   P1:
     func:
       dtRA20mm: [apply_threshold, "R", {lim: 20, where: ">=", what: length, select: all}]
+    time_step: year
     sampling_period: "09-01"
     max_na_pct: 3
     max_na_years: 10

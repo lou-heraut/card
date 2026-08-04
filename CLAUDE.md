@@ -172,9 +172,15 @@ Règles clés (détail : NOMENCLATURE.md) :
 - **horizons** : déclarés dans meta.global.horizons, référencés `$H0..$H3`.
 - **défauts à omettre** : dans meta.global, is_date false, relative true,
   is_experimental false, source/palette/preferred null, input_vars "X" ;
-  dans process, time_step "year", sampling_period/period/max_na_* null,
-  seasons [DJF,MAM,JJA,SON], keep null, compress/expand false. Exception :
-  un kwarg explicite dans la source reste explicite.
+  dans process, sampling_period/period/max_na_* null, seasons
+  [DJF,MAM,JJA,SON], keep null, compress/expand false. Exception : un
+  kwarg explicite dans la source reste explicite.
+  **`time_step` fait exception et s'écrit TOUJOURS**, `year` compris, et
+  le linter l'exige. On omet un défaut qui veut dire « rien de
+  particulier » ; on écrit un défaut qui est un CHOIX parmi sept valeurs,
+  sans quoi son absence se lit comme un oubli. C'est le cœur de
+  l'agrégation, et une fiche est de la donnée : elle porte ce qu'elle
+  affirme sans qu'on ait à connaître un défaut de code pour la lire.
 - **multi-sorties** : métadonnées en listes si les sorties sont des
   variables distinctes ; name UNIQUE si ce sont les coordonnées d'un même
   objet (FDC_p/FDC_Q = une courbe).

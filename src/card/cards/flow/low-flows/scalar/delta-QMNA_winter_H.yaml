@@ -66,6 +66,7 @@ process:
   P2:
     func:
       QMNA_winter: [nanmin, "QMA"]
+    time_step: year
     sampling_period: ["11-01", "04-30"]
     max_na_pct: 3
 

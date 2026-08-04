@@ -65,6 +65,7 @@ process:
   P2:
     func:
       VCN30_summer: [nanmin, "VC30"]
+    time_step: year
     sampling_period: ["05-01", "11-30"]
     max_na_pct: 3
 

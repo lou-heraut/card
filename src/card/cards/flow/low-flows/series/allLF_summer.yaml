@@ -103,6 +103,7 @@ process:
   P2:
     func:
       VCN10_summer: [nanmin, "VC10"]
+    time_step: year
     sampling_period: ["05-01", "11-30"]
     max_na_pct: 3
     max_na_years: 10
@@ -121,5 +122,6 @@ process:
       endLF_summer:    [apply_threshold, "VC10", {lim: upLim, where: "<=", what: last, select: longest}, true]
       dtLF_summer:     [apply_threshold, "VC10", {lim: upLim, where: "<=", what: length, select: longest}]
       vLF_summer:      [deficit_volume, "VC10", {threshold: upLim}]
+    time_step: year
     sampling_period: ["05-01", "11-30"]
     max_na_pct: 3

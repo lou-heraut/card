@@ -67,6 +67,7 @@ process:
   P2:
     func:
       tVCX10: [nanargmax, "VC10", true]
+    time_step: year
     sampling_period:
       type: adaptive
       func: [nanmin, "Q"]

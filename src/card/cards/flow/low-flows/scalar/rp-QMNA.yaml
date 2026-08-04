@@ -72,6 +72,7 @@ process:
     func:
       QMNA: [nanmin, "QMA"]
       Qlim: [nanmean, "QlimM"]
+    time_step: year
     sampling_period:
       type: adaptive
       func: [nanmax, "QMA"]

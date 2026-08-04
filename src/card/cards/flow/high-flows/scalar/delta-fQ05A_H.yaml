@@ -70,6 +70,7 @@ process:
   P2:
     func:
       fQ05A: [exceedance_frequency, "Q", {threshold: lowLim}]
+    time_step: year
     sampling_period:
       type: adaptive
       func: [nanmin, "Q"]

@@ -56,6 +56,7 @@ process:
   P1:
     func:
       Q05A: [exceedance_quantile, "Q", {p: 0.05}]
+    time_step: year
     sampling_period: "01-01"
     max_na_pct: 3
     max_na_years: 10

@@ -60,6 +60,7 @@ process:
   P1:
     func:
       endBF: [snowmelt_timing, "Q", {fraction: 0.9, method: Wal}, true]
+    time_step: year
     sampling_period: "09-01"
     max_na_pct: 3
     max_na_years: 10

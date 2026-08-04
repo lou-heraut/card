@@ -47,6 +47,7 @@ process:
   P1:
     func:
       RCXA1: [nanmax, "R"]
+    time_step: year
     sampling_period:
       type: adaptive
       func: [nanmin, "R"]

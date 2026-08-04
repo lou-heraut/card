@@ -53,9 +53,12 @@ process:
     func:
       RA:  [nansum_strict, "R"]
       RAl: [nansum_strict, "Rl"]
+    time_step: year
     sampling_period: "09-01"
     max_na_pct: 3
     max_na_years: 10
   P2:
     func:
       RAl_ratio: [ratio, "RAl", "RA"]
+
+    time_step: year

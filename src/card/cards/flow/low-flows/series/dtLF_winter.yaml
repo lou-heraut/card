@@ -65,6 +65,7 @@ process:
   P2:
     func:
       VCN10_winter: [nanmin, "VC10"]
+    time_step: year
     sampling_period: ["11-01", "04-30"]
     max_na_pct: 3
     max_na_years: 10
@@ -79,5 +80,6 @@ process:
   P4:
     func:
       dtLF_winter: [apply_threshold, "VC10", {lim: upLim, where: "<=", what: length, select: longest}]
+    time_step: year
     sampling_period: ["11-01", "04-30"]
     max_na_pct: 3

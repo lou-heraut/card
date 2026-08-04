@@ -55,6 +55,7 @@ process:
   P1:
     func:
       QNA_summer: [nanmin, "Q"]
+    time_step: year
     sampling_period: ["05-01", "11-30"]
     max_na_pct: 3
     max_na_years: 10

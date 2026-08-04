@@ -55,6 +55,7 @@ process:
   P1:
     func:
       QNA: [nanmin, "Q"]
+    time_step: year
     sampling_period:
       type: adaptive
       func: [nanmax, "Q"]

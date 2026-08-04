@@ -176,6 +176,30 @@ def _windows_in_processes(processes):
     return windows
 
 
+def _check_time_step_ecrit(path, issues):
+    """`time_step` s'écrit toujours, même quand il vaut le défaut.
+
+    Un défaut qui veut dire « rien de particulier » s'omet : `keep: null`,
+    `compress: false`, `max_na_*: null`. Un défaut qui est un CHOIX parmi
+    sept valeurs, non : son absence se lit comme un oubli, pas comme
+    « annuel ». Le champ était écrit 296 fois et tu 208 dans le même
+    corpus, pour le même champ, selon sa seule valeur (2026-08-04).
+
+    C'est le cœur de l'agrégation, et la fiche est de la DONNÉE : elle
+    doit porter ce qu'elle affirme sans qu'on ait à connaître un défaut
+    de code pour la lire.
+    """
+    brut = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+    for nom, proc in (brut.get("process") or {}).items():
+        if isinstance(proc, dict) and "time_step" not in proc:
+            issues.append(
+                f"process.{nom}: 'time_step' non écrit. Ce champ s'écrit "
+                "toujours, y compris pour sa valeur par défaut 'year' : "
+                "c'est le cœur de l'agrégation, et son absence se lit "
+                "comme un oubli."
+            )
+
+
 def _check_method(card, issues):
     """`method` indexé par process, puis par colonne produite.
 
@@ -699,6 +723,7 @@ def validate_card(path) -> list[str]:
     for proc in card["processes"]:
         _check_process(proc, issues)
 
+    _check_time_step_ecrit(path, issues)
     _check_method(card, issues)
     _check_method_chain(card, issues)
     _check_left_half(card, issues)

@@ -61,6 +61,7 @@ process:
     func:
       RA_obs: [nansum_strict, "R_obs"]
       RA_sim: [nansum_strict, "R_sim"]
+    time_step: year
     sampling_period: "09-01"
     max_na_pct: 3
     max_na_years: 10

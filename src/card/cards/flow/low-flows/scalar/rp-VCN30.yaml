@@ -68,6 +68,7 @@ process:
     func:
       VCN30: [nanmin, "VC30"]
       Qlim: [nanmean, "Q_lim"]
+    time_step: year
     sampling_period:
       type: adaptive
       func: [nanmax, "Q"]

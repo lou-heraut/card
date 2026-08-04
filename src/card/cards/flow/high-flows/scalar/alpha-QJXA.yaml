@@ -65,6 +65,7 @@ process:
   P1:
     func:
       QJXA: [nanmax, "Q"]
+    time_step: year
     sampling_period:
       type: adaptive
       func: [nanmin, "Q"]

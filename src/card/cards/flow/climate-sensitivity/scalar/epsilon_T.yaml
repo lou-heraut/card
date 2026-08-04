@@ -57,6 +57,7 @@ process:
     func:
       QA: [nanmean, "Q"]
       TA: [nanmean, "T"]
+    time_step: year
     sampling_period:
       type: adaptive
       func: [nanmin, "Q"]

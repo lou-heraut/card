@@ -57,5 +57,6 @@ process:
   P2:
     func:
       VCN10_winter: [nanmin, "VC10"]
+    time_step: year
     sampling_period: ["11-01", "04-30"]
     max_na_pct: 3

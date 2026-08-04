@@ -84,6 +84,7 @@ process:
   P2:
     func:
       dQXA: [nanmax, "dQ"]
+    time_step: year
     sampling_period:
       type: adaptive
       func: [nanmin, "Q"]
@@ -92,6 +93,7 @@ process:
   P3:
     func:
       lowLim: [ratio_longest_run, "dQXA", 2]
+    time_step: year
     sampling_period:
       type: adaptive
       func: [nanmin, "Q"]
@@ -101,6 +103,7 @@ process:
     func:
       dtFlood: [apply_threshold, "dQ",
                 {lim: lowLim, where: ">=", what: length, select: dQXA}]
+    time_step: year
     sampling_period:
       type: adaptive
       func: [nanmin, "Q"]

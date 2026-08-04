@@ -69,6 +69,7 @@ process:
   P2:
     func:
       VCN10: [nanmin, "VC10"]
+    time_step: year
     sampling_period:
       type: adaptive
       func: [nanmax, "Q"]
@@ -86,6 +87,7 @@ process:
     func:
       dtLF: [apply_threshold, "VC10",
              {lim: upLim, where: "<=", what: length, select: longest}]
+    time_step: year
     sampling_period:
       type: adaptive
       func: [nanmax, "Q"]

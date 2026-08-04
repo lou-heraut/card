@@ -66,6 +66,7 @@ process:
   P2:
     func:
       VCN10_summer: [nanmin, "VC10"]
+    time_step: year
     sampling_period: ["05-01", "11-30"]
     max_na_pct: 3
     max_na_years: 10
@@ -80,5 +81,6 @@ process:
   P4:
     func:
       startLF_summer: [apply_threshold, "VC10", {lim: upLim, where: "<=", what: first, select: longest}, true]
+    time_step: year
     sampling_period: ["05-01", "11-30"]
     max_na_pct: 3
