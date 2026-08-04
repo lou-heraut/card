@@ -45,6 +45,23 @@ des deux endroits.
 
 ## Non publié
 
+### Corrigé
+
+- **La CI était rouge depuis le 2026-07-31, et le disait par mail à
+  chaque poussée.** `tests/test_py_golden.py`, arrivé ce jour-là pour que
+  la suite lise enfin les golden Python, lit `tests/data/test_data.csv`.
+  Ce fichier pèse dix-huit mégaoctets, il est hors git à juste titre
+  (`.gitignore`) puisqu'il est entièrement dérivable, mais **rien ne le
+  fabriquait ailleurs que sur une machine qui l'avait déjà** : dix-huit
+  `FileNotFoundError` sur le runner, et le même mur pour quiconque clone
+  le dépôt. `tests/conftest.py` le génère maintenant quand il manque, ce
+  qui répare la CI et le clone frais d'un seul geste. Vérifié en
+  supprimant le fichier local puis en rejouant la suite : il revient à
+  l'octet près (même md5), et les dix-huit fiches retrouvent leur golden.
+
+  Leçon de méthode : une suite verte en local ne dit rien tant qu'elle
+  n'a pas tourné sur un arbre qui ne contient QUE ce que git suit.
+
 ### Modifié
 
 - **Passe sur les documents de développement (2026-08-04).** Le README
