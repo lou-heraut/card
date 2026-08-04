@@ -9,8 +9,9 @@
 
 """Propage un numéro de version depuis pyproject.toml.
 
-Une version vit à trois endroits : `pyproject.toml` (la source),
-`CITATION.cff` et `codemeta.json` (les métadonnées de citation). Les
+Une version vit à quatre endroits : `pyproject.toml` (la source),
+`CITATION.cff` et `codemeta.json` (les métadonnées de citation), et
+`src/card/__init__.py` (ce que `card.__version__` annonce). Les
 recopier à la main, c'est se garantir un oubli. Ce script les accorde,
 et `tests/test_citation.py` vérifie qu'ils le sont restés.
 
@@ -60,6 +61,11 @@ def main():
         change.append("pyproject.toml")
     if ecrire("CITATION.cff", r'^version:\s*"[^"]+"', f'version: "{version}"'):
         change.append("CITATION.cff")
+    # `card.__version__` : oublié jusqu'au 2026-08-04, il annonçait 0.1.0
+    # quand le paquet était en 0.2.0, et rien ne le voyait.
+    if ecrire("src/card/__init__.py", r'^__version__ = "[^"]+"',
+              f'__version__ = "{version}"'):
+        change.append("src/card/__init__.py")
     if ecrire("CITATION.cff", r'^date-released:\s*"[^"]+"',
               f'date-released: "{aujourd_hui}"'):
         change.append("CITATION.cff (date)")

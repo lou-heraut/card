@@ -103,11 +103,36 @@ sur cet environnement : l'installation y est éditable, donc
 `direct_url.json` ne porte que `dir_info.editable`, sans commit. **À
 retester sur une vraie installation depuis GitHub avant de conclure.**
 
-**La difficulté qui reste, et elle est de doctrine.** `card.__version__`
-vaut `0.1.0` et ne bouge pas, puisque la production suit `main` et que
-c'est le commit qui identifie un état. Publier `0.1.0` dans chaque
-résultat serait un identifiant faux plutôt qu'absent, ce qui est pire. Le
-numéro seul ne suffit donc pas : il faut le commit, ou rien.
+**La difficulté qui reste, et elle est plus grave que je ne l'avais
+écrite.** Le numéro de version ne ment pas parce qu'il serait figé, il
+ment parce qu'il **retarde**, et parce que rien ne garantit qu'on lise le
+bon.
+
+Constaté le 2026-08-04, en trois points :
+
+- le paquet est en **0.2.0**, tagué `v0.2.0` le 2026-07-22 au commit
+  `677bd87`, et **plus de quatre-vingts commits** ont suivi. Publier
+  « 0.2.0 » à côté d'un résultat calculé aujourd'hui désigne donc un état
+  qui n'est pas celui qui a tourné ;
+- `src/card/__init__.py` annonçait `0.1.0` quand les trois autres
+  fichiers disaient `0.2.0`, parce que `tests/test_citation.py` ne
+  regardait pas ce fichier. Corrigé le même jour, `set_version.py`
+  l'écrit maintenant et le test refuse le désaccord ;
+- pire pour la provenance : dans une installation ÉDITABLE,
+  `importlib.metadata.version()` rend la valeur enregistrée au moment du
+  `pip install -e`, donc `0.1.0` ici alors que le dépôt est en `0.2.0`.
+  La source que `card-api` interroge peut donc être périmée sans que rien
+  ne le signale.
+
+**Conclusion : le numéro seul ne suffit jamais.** Il faut le commit, ou
+rien. Et il reste à décider si card publie un numéro du tout dans ses
+métadonnées, ou seulement un commit.
+
+**Question de fond à trancher d'abord**, avant toute ligne de code : la
+gestion des versions elle-même. Publier rarement et laisser le commit
+tracer (doctrine actuelle) est cohérent, mais fabrique un numéro qui
+retarde de quatre-vingts commits, et un `CITATION.cff` qui fait citer un
+état vieux de deux semaines. À reprendre en session dédiée.
 
 **Procédure unifiée proposée**, à valider avant d'écrire une ligne :
 

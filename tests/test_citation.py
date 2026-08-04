@@ -28,6 +28,12 @@ def test_versions_de_citation_accordees():
     assert citation == paquet, (
         f"CITATION.cff annonce {citation}, le paquet est en {paquet}"
     )
+    init = _version("src/card/__init__.py", r'^__version__ = "([^"]+)"')
+    assert init == paquet, (
+        f"card.__version__ annonce {init}, le paquet est en {paquet}. "
+        "Il annonçait 0.1.0 pour un paquet en 0.2.0 jusqu'au 2026-08-04, "
+        "parce que ce test ne le regardait pas."
+    )
     assert codemeta["version"] == paquet, (
         f"codemeta.json annonce {codemeta['version']}, le paquet est en {paquet}"
     )
