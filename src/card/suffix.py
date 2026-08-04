@@ -48,7 +48,7 @@ def fields_used(value) -> set:
     process puis par colonne produite, si bien qu'un placeholder y vit à
     deux niveaux de profondeur. Ne voir que les listes ferait dire au
     linter qu'un `suffix_default` bien vivant est un champ mort, et
-    l'erreur serait silencieuse (cf. docs/dev/PLAN_METHOD.md).
+    l'erreur serait silencieuse (cf. docs/dev/archive/PLAN_METHOD.md).
     """
     if isinstance(value, str):
         return {m.group(1) or "short" for m in _PLACEHOLDER.finditer(value)}

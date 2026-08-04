@@ -21,7 +21,10 @@ statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
   divergences assumées).
 - docs/dev/`CHANTIERS.md` : pistes ouvertes seulement.
 - docs/dev/archive/ : documents d'époque, non maintenus (`ROADMAP.md`,
-  `AUDIT_FICHES.md`).
+  `AUDIT_FICHES.md`, `PLAN_METHOD.md`). On y va pour comprendre POURQUOI
+  une décision a été prise, jamais pour savoir où en est le corpus.
+- docs/dev/`PLAN_nettoyage.md` : le plan du grand ménage transverse aux
+  trois dépôts, encore en cours (phases 0 à 2 faites pour card).
 
 ## Structure
 
@@ -36,20 +39,22 @@ src/card/
                  #   comme une FICHE : bloc `en:` puis bloc `fr:`, à
                  #   égalité et dans cet ordre, puis ce qui n'a pas de
                  #   langue HORS bloc (parité R, dates, renvois internes)
-                 #   comme le fait meta.global. Un marqueur en marge ouvre
-                 #   un bloc, les lignes indentées le continuent, une
-                 #   ligne revenue en marge le clôt ; d'où le `"""` seul
-                 #   sur sa ligne, qui donne à tous les blocs la même
-                 #   indentation. La PREMIÈRE PHRASE de chaque bloc est
-                 #   publiée dans la figure (render.glose) : elle dit ce
-                 #   que la fonction calcule, le détail descend d'un cran.
+                 #   comme le fait meta.global. Elle décrit la FONCTION,
+                 #   pas ce qu'une fiche en fait : la figure ne la lit
+                 #   plus, elle lit le `method` de la fiche. Ses lecteurs
+                 #   sont `help()` et qui ouvre le fichier.
                  #   Une fonction TRANSFORME (une valeur par pas de temps)
                  #   ou RÉDUIT, jamais les deux : `is_transform = True` se
                  #   déclare à côté d'elle pour le premier cas, l'absence
-                 #   vaut le second. `glose_inutile = True` tait une
-                 #   explication que l'appel affiché rend superflue.
+                 #   vaut le second.
                  #   Tout cela est MESURÉ par tests/test_nature_fonctions.py
                  #   et tests/test_render.py : rien à retenir, ils le disent.
+  method.py      # le `method` d'une fiche : colonnes qu'un process produit
+                 #   (clé de func, suffixée par saison/mois si `compress`),
+                 #   grain temporel de chaque colonne, et assemblage de la
+                 #   forme publiée en remontant la chaîne de dépendances
+                 #   que la fiche DÉCLARE. Ne fabrique jamais une phrase.
+  docstring.py   # lecture des blocs `en:`/`fr:` des docstrings hydro
   loader.py      # YAML -> processus ($Hx, tuples func, défauts)
   extraction.py  # card.extract -> {data, meta} (chaîne P1..Pn via stase)
   suffix.py      # suffixes de scénario : vocabulaire {clé: enregistrement},
@@ -64,10 +69,10 @@ src/card/
                  #   rien imprimer (c'est ce que sert card-api). Sa
                  #   doctrine est dans son propre docstring de module ; ce
                  #   qu'il faut savoir avant d'y toucher : rien ne s'y
-                 #   déduit d'un NOM de fonction, ni la nature d'une
-                 #   étape ni le silence d'une glose. Deux listes de noms
-                 #   en dur l'ont fait mentir (2026-07-30), elles sont
-                 #   parties.
+                 #   déduit d'un NOM de fonction, et ce que fait une
+                 #   étape se lit dans le `method` de la FICHE, jamais
+                 #   dans la docstring de la fonction, qui ne peut dire
+                 #   que du général.
   schema.py      # linter : python -m card.schema ; vocabulary() public
   topics.yaml    # vocabulaire de contrôle : la CLÉ est un slug neutre,
                  #   `en` et `fr` sont deux étiquettes à égalité ; le slug
@@ -270,10 +275,11 @@ Doctrine complète : « Versions, en quatre phrases », en tête de
   (commit de stase).
 
 
-## État (2026-07-22)
+## État (2026-08-04)
 
-Tout est commité et poussé sur card et sur `../../EXstat_project/stase/`,
-qui va de pair.
+Tout est commité sur card. **Non poussé** : les 22 commits du chantier
+`method` (2026-08-01 au 04) attendent. `../../EXstat_project/stase/` n'a
+pas bougé.
 
 **Décompte du corpus (fiches, variables) : un seul endroit, le README**,
 entre les balises `<!-- cards:count -->`, tenu à jour par
@@ -286,8 +292,14 @@ ouvert dans `docs/dev/CHANTIERS.md`. Ces deux fichiers font foi : ne pas
 les paraphraser ici, cette section ne doit pas regonfler à chaque
 chantier.
 
-Deux acquis récents à ne pas reperdre, parce qu'ils changent la façon
+Trois acquis récents à ne pas reperdre, parce qu'ils changent la façon
 d'écrire une fiche :
+- **`method` est indexé par process et par colonne produite**, une phrase
+  par colonne, clés non traduites, et le linter tient huit règles dessus
+  (correspondance avec `process`, chaîne lisible sans les clés, moitié
+  gauche confrontée au calcul, nombres écrits vérifiés). La figure lit
+  ce champ. Conception : docstring de `src/card/method.py`, raisons dans
+  `docs/dev/archive/PLAN_METHOD.md`.
 - **suffixes de scénario** : le fan-out des valeurs est fait par stase au
   niveau colonne, card n'ajoute que les métadonnées, donc aucun
   placeholder ne peut changer un calcul. Une variable suffixée est une
@@ -305,3 +317,8 @@ en consigner ici, et réciproquement.
 En attente de l'utilisateur, côté card seulement : demande PEP 541 pour
 le nom PyPI, et signalement amont des 11 fiches cassées du paquet R
 (détail des deux dans CHANTIERS).
+
+Prochain chantier proposé, et il touche les trois dépôts : **unifier la
+provenance logicielle** entre `card` et `card-api`, pour qu'un résultat
+calculé en local dise avec quel code il l'a été. État des lieux complet
+et procédure proposée dans CHANTIERS.

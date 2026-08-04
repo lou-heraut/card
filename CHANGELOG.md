@@ -72,7 +72,7 @@ des deux endroits.
   `agrégation mensuelle par année`, deux capitales corrigées, phrases
   composées des fiches d'élasticité rendues à leur colonne). Tout le
   reste revient à l'octet. Conception et suite des lots :
-  `docs/dev/PLAN_METHOD.md`.
+  `docs/dev/archive/PLAN_METHOD.md`.
 
 - **La chaîne publiée se lit maintenant sans les clés (2026-08-03).** Les
   clés de `method` lèvent l'ambiguïté machine, mais la valeur publiée ne

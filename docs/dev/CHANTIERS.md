@@ -58,82 +58,92 @@ Objectif : valider les YAML pendant l'édition. Deux voies :
   `python -m card.schema <fichier>` (déjà supporté en CLI, plus simple
   mais sans autocomplétion).
 
-## Provenance logicielle d'un résultat produit hors du service
+## Provenance logicielle : unifier card et card-api (état des lieux 2026-08-04)
 
-Trois niveaux de traçabilité sont annoncés (la définition, le corpus, le
-moteur) mais un seul sort de `card` employé seul. Vérifié le 2026-08-03 :
+**Le problème.** Trois niveaux de traçabilité sont annoncés (la
+définition, le corpus, le moteur) mais un seul sort de `card` employé
+seul :
 
 | | `card.extract` en local | via `card-api` |
 |---|---|---|
 | la définition, quelle fiche | `swhid` + `version` | idem |
-| le code qui a tourné | **rien** | commit de card |
-| le moteur | **rien** | commit de stase |
+| le code qui a tourné | **rien** | `card_version` + `card_commit` |
+| le moteur | **rien** | `stase_version` + `stase_commit` |
 
-La colonne `functions` publie bien des noms, mais un nom sans version ne
+La colonne `functions` publie des noms, mais un nom sans version ne
 désigne aucun code : `apply_threshold` de mars et celui d'aujourd'hui
 portent le même. Un résultat calculé dans un carnet a donc une provenance
-logicielle vide.
+logicielle vide, alors que la même requête passée au service est
+parfaitement tracée.
 
-Deux champs suffiraient, à côté de `swhid` et `version`. La difficulté
-n'est pas là mais dans ce qu'on y met : `card.__version__` vaut `0.1.0`
-et ne bouge pas, la doctrine du dépôt étant que la production suit `main`
-et que le commit identifie un état ; publier `0.1.0` dans chaque résultat
-serait un identifiant faux plutôt qu'absent, ce qui est pire. Le commit,
-lui, n'est connaissable à l'exécution que si le dépôt git est présent, ce
-qui n'est pas le cas d'un paquet installé.
+**Ce qui existe déjà, et qui est bon.** `card-api` a résolu la question
+pour lui (`src/card_api/pipeline.py`, fonction `versions()`) :
 
-C'est donc un sujet de publication de version, pas de métadonnées. Écarté
-du chantier `method` pour cette raison (cf. l'abandon du lot E dans
-`PLAN_METHOD.md`).
+- les numéros viennent de `importlib.metadata.version()`, avec repli sur
+  `card-stase` tant que le nom PyPI n'est pas obtenu, et sur `"dev"` hors
+  installation ;
+- les commits sont résolus **à la construction de l'image** par
+  `scripts/resolve_refs.py`, qui écrit `build_refs.json` ;
+- le SWHID d'une révision est `swh:1:rev:<commit>`, calculable sans appel
+  d'API.
 
-## Descriptions : traité le 2026-08-03, ce qui reste est voulu
+Il n'y a donc **rien à inventer**, seulement à déplacer : la moitié
+« numéros » ne doit rien à Docker ni au service, elle marche partout où
+`card` est installé.
 
-Le rôle des trois champs humains est désormais écrit dans le CLAUDE.md.
-`description` donne la définition opératoire du terme employé dans le
-`name`, et ne se remplit que si le `name` ne porte pas déjà tout.
+**La piste à creuser, PEP 610.** Un paquet installé par
+`pip install git+https://…` porte un fichier `direct_url.json` normalisé
+(PEP 610) qui contient le commit sous `vcs_info.commit_id`, lisible à
+l'exécution par `importlib.metadata`. Or c'est exactement le mode
+d'installation documenté de `card` tant que PyPI n'est pas obtenu. Si
+cela se confirme, **`card` peut publier son propre commit sans aucune
+machinerie de build**, et `build_refs.json` ne reste nécessaire que pour
+une image construite depuis une copie de travail. Vérifié le 2026-08-04
+sur cet environnement : l'installation y est éditable, donc
+`direct_url.json` ne porte que `dir_info.editable`, sans commit. **À
+retester sur une vraie installation depuis GitHub avant de conclure.**
 
-Mesure faite avant d'écrire : sur les fiches qui en avaient une, la
-grande majorité disait déjà autre chose que son nom, et le champ tenait
-bien ce rôle. Les fiches sans description n'étaient donc pas autant de
-manques : « Minimum annuel du débit journalier » ou « Cumul annuel des
-précipitations totales » se suffisent, et les remplir aurait été de la
-duplication.
+**La difficulté qui reste, et elle est de doctrine.** `card.__version__`
+vaut `0.1.0` et ne bouge pas, puisque la production suit `main` et que
+c'est le commit qui identifie un état. Publier `0.1.0` dans chaque
+résultat serait un identifiant faux plutôt qu'absent, ce qui est pire. Le
+numéro seul ne suffit donc pas : il faut le commit, ou rien.
 
-Vingt fiches ont été traitées, celles dont le nom employait un terme dont
-la définition n'était pas évidente (BFM, RAT, élasticité, régimes
-journaliers, séparation d'hydrogramme, coefficient correctif), plus les
-quatre BFI qui portaient une description IDENTIQUE alors que seule la
-méthode de séparation les distingue.
+**Procédure unifiée proposée**, à valider avant d'écrire une ligne :
 
-**Ce qui reste sans description est un choix, pas un oubli.** Le rouvrir
-demanderait de montrer d'abord qu'un `name` ne se suffit pas, fiche par
-fiche.
+1. `card` expose une fonction publique de provenance qui rend les
+   numéros de `card` et de `stase`, et leurs commits quand ils sont
+   connaissables (PEP 610, variable d'environnement, ou fichier de
+   build) ;
+2. `card.extract` publie ces champs dans la table `meta`, à côté de
+   `swhid` et `version`, de sorte qu'un résultat local dise avec quel
+   logiciel il a été calculé ;
+3. `card-api` **consomme** cette fonction au lieu de la réimplémenter, et
+   n'ajoute que ce qui lui est propre : `api_version`, et les commits
+   résolus au build quand PEP 610 ne peut pas répondre.
 
-Deux points restés ouverts, faute d'information :
-- `CR` et `CRS_season` s'appellent « coefficient correctif » sans que rien
-  dans la fiche ni dans le code ne dise comment appliquer la correction.
-  La description s'arrête donc au fait, le rapport simulé sur observé.
-- La description de `a-FDC` lit la pente comme une mesure de variabilité
-  du régime, ce qui est la lecture usuelle mais reste une lecture.
+Le point 3 est l'enjeu réel : deux méthodes divergentes pour le même
+fait finiraient par se contredire, et c'est déjà à moitié le cas.
 
-## Nomenclature des variables intermédiaires : traité le 2026-08-04
+## Deux réserves laissées dans des descriptions (2026-08-03)
 
-Depuis que `method` est indexé par colonne produite, ces noms sont
-visibles dans la fiche et dans la figure. L'inventaire complet a été fait
-(113 noms distincts, 384 emplois) et confronté à deux questions : un même
-nom désigne-t-il toujours le même calcul, et un même calcul porte-t-il
-toujours le même nom ?
+Le chantier des descriptions est livré (cf. `CHANGELOG.md`). Deux points
+n'ont pas pu être tranchés faute d'information :
 
-Trois quarts du corpus étaient sains. Quatre défauts ont été corrigés,
-sans qu'aucune donnée bouge, ce qui a été prouvé par extraction réelle
-des 39 fiches concernées avant et après.
+- `CR` et `CRS_season` s'appellent « coefficient correctif » sans que la
+  fiche ni le code ne disent comment appliquer la correction. Leur
+  description s'arrête donc au fait, le rapport simulé sur observé.
+- Celle d'`a-FDC` lit la pente comme une mesure de variabilité du régime,
+  ce qui est la lecture usuelle mais reste une lecture.
 
-Ce qui reste ouvert et volontairement non tranché : Oberlin n'a pas de
-case pour la moyenne temporelle d'une pluie, parce que ce n'est pas une
-variate à ses yeux. CARD la note en variante (`RA-mean`), ce qui suffit
-pour trois colonnes intermédiaires. **Si une telle moyenne devient un
-jour une SORTIE, la question se rouvrira**, et il faudra alors décider
-d'un jeton plutôt que d'un suffixe de variante.
+## Si une moyenne de pluie devient une SORTIE (veille)
+
+`RA-mean` règle trois colonnes intermédiaires, et c'est proportionné.
+Mais Oberlin n'a pas de case pour la moyenne temporelle d'une pluie :
+pour lui ce n'est pas une variate, la position 3 vide valant « totale »
+(cf. `NOMENCLATURE.md`). Le jour où une telle moyenne devient une
+sortie publiée, il faudra un jeton de position 3 plutôt qu'un suffixe de
+variante, donc une extension du système et non un contournement.
 
 ## Deux fonctions circulaires sans usage
 

@@ -1,4 +1,4 @@
-"""`method` : une phrase par colonne produite (docs/dev/PLAN_METHOD.md).
+"""`method` : une phrase par colonne produite (docs/dev/archive/PLAN_METHOD.md).
 
 Deux choses se mesurent ici, et elles se répondent. D'abord que les
 colonnes produites par un process se calculent JUSTE depuis le seul

@@ -134,7 +134,7 @@ def test_no_placeholder_survives_anywhere_in_the_corpus_metadata():
 # --- La prose n'est pas toujours à plat : method est une table ---------
 #
 # `method` est indexé par process puis par colonne produite
-# (docs/dev/PLAN_METHOD.md), donc un placeholder y vit à deux niveaux de
+# (docs/dev/archive/PLAN_METHOD.md), donc un placeholder y vit à deux niveaux de
 # profondeur. Une substitution qui ne descend que dans les listes laisse
 # l'accolade sortir telle quelle, et le linter, aveugle au même endroit,
 # déclare mort un suffix_default bien vivant.

@@ -1,12 +1,16 @@
-> **Statut : plan de travail ouvert.** Refonte du champ `method` des
-> fiches, et séparation des responsabilités entre une fonction (sa
-> docstring) et une fiche (son `method` et ses `process`). Un lot livré
-> en sort et devient une entrée de `CHANGELOG.md`. Quand tous les lots
-> sont sortis, ce fichier disparaît.
+> **Statut : document d'époque, archivé le 2026-08-04. Non maintenu.**
 >
-> Mesures refaites le 2026-08-03 sur le corpus entier, au commit
-> `60caa8c`, par exécution du vrai code. Elles datent : les refaire si le
-> corpus a bougé, ce sont des observations, pas des invariants.
+> Ce plan a conduit la refonte du champ `method` des fiches, du
+> 2026-08-01 au 2026-08-04. **Tous ses lots sont sortis** sauf le lot E,
+> abandonné et argumenté ici même. Il est conservé pour ce qu'il explique
+> et non pour ce qu'il annonce : la conception retenue, les fausses
+> pistes suivies puis écartées, et les raisons de chaque arbitrage.
+>
+> **Ne pas y chercher l'état courant.** Ce qui a été livré se lit dans
+> `CHANGELOG.md`, les règles en vigueur dans `CLAUDE.md` et
+> `NOMENCLATURE.md`, ce qui reste ouvert dans `CHANTIERS.md`. Les mesures
+> chiffrées qu'il contient datent du corpus de début août 2026 et n'ont
+> pas été retenues à jour.
 
 # `method` : une phrase par colonne produite
 

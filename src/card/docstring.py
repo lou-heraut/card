@@ -27,10 +27,15 @@ première phrase de la docstring sous chaque étape, et une docstring est
 attachée à une FONCTION, donc elle ne peut dire que du général.
 `apply_threshold` mesurait ici une durée de crue et datait ailleurs un
 début d'étiage, sous la même phrase. La figure lit désormais le `method`
-de la fiche, écrit par étape. Les docstrings n'ont rien perdu, elles
-changent de destinataire : le rendu de FONCTION, `card.function()` et
-`/v1/functions` (lot E de docs/dev/PLAN_METHOD.md), où la signature
-réelle et les notes hors langue ont enfin leur place.
+de la fiche, écrit par étape.
+
+Leurs lecteurs restent `help(card.functions.apply_threshold)` et la
+personne qui ouvre le fichier, et c'est assez. Un rendu web de ces blocs
+a été conçu puis abandonné le 2026-08-03 : un rendu texte d'une
+docstring est du code recopié en moins bien, et qui veut l'algorithme
+veut le code (docs/dev/archive/PLAN_METHOD.md, « Pourquoi le lot E a été
+abandonné »). Le format bilingue reste tenu par des tests, il n'a pas
+besoin d'une page pour exister.
 """
 
 import inspect

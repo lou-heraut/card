@@ -13,7 +13,7 @@
 Il est indexé par process (`P1`, `P2`, …) puis par colonne produite, si
 bien qu'un afficheur peut demander « la phrase de P4 pour startLF » au
 lieu de se rabattre sur la docstring d'une fonction, qui ne peut parler
-que du général. Conception : docs/dev/PLAN_METHOD.md.
+que du général. Conception : docs/dev/archive/PLAN_METHOD.md.
 
 **Ce qu'est une colonne produite.** Elle se lit dans le `process`, sans
 données : c'est la clé de `func`, suffixée par saison ou par mois quand

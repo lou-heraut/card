@@ -180,7 +180,7 @@ def _check_method(card, issues):
     """`method` indexé par process, puis par colonne produite.
 
     La forme cible est une table de tables : un process, une colonne, une
-    phrase (docs/dev/PLAN_METHOD.md). Le corpus migre fiche par fiche, si
+    phrase (docs/dev/archive/PLAN_METHOD.md). Le corpus migre fiche par fiche, si
     bien que les formes héritées (chaîne numérotée, ou liste d'une chaîne
     par sortie) restent tolérées ici et publiées telles quelles ; elles ne
     seront refusées qu'une fois la dernière fiche migrée.

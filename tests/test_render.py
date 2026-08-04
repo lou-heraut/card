@@ -262,7 +262,7 @@ def test_chaque_etape_de_figure_porte_la_phrase_de_la_fiche():
 
 
 def test_la_figure_de_dtFlood_ne_reabstrait_plus_son_geste():
-    """Le cas qui a ouvert le chantier (docs/dev/PLAN_METHOD.md).
+    """Le cas qui a ouvert le chantier (docs/dev/archive/PLAN_METHOD.md).
 
     Sous `apply_threshold(dQ)   dQ >= lowLim, select=dQXA, durée`, la
     figure ajoutait « Analyse des épisodes où X franchit un seuil lim » :
@@ -306,9 +306,9 @@ def test_chaque_fonction_de_card_a_ses_deux_blocs_de_langue():
     """Une docstring hydro s'écrit dans les deux langues, à égalité.
 
     Elle ne nourrit plus la figure, qui lit le `method` de la fiche, mais
-    elle reste la description de la FONCTION et sera publiée telle quelle
-    par le rendu de fonction (lot E de docs/dev/PLAN_METHOD.md). Un bloc
-    manquant s'y verrait alors, en clair, dans une page servie.
+    elle reste la description de la FONCTION, lue par `help()` et par qui
+    ouvre le fichier. Un bloc manquant ferait retomber le lecteur sur
+    l'autre langue sans que rien ne le signale, d'où ce test.
     """
     from card.docstring import LANGUES, blocs
     from card.extraction import resolve
