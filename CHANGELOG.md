@@ -47,6 +47,33 @@ des deux endroits.
 
 ### Modifié
 
+- **La figure d'une fiche se lit sans qu'on ait à deviner (2026-08-04).**
+  Le rendu ASCII est repris de bout en bout. L'identité tient dans un
+  cadre de largeur fixe, titre aligné à droite. Ce qui classe la fiche
+  s'écrit en étiquettes alignées (`phénomène ─ moyennes eaux`) plutôt
+  qu'en phrases, valeurs en minuscules puisque ce sont des mots-clés du
+  vocabulaire de classification. Chaque sortie s'ouvre par un losange,
+  identifiant puis libellé traduit collés (`◇ QMA_jan (QMA_janv)`), et
+  reprend en dessous les seules étiquettes qui varient d'une sortie à
+  l'autre. Le process devient un arbre vertical centré sous les valeurs :
+  un trait par étape, le geste sous un coude, les réglages sur un rang
+  décalé, la frise des mois là où la fenêtre d'échantillonnage se joue.
+  Une description commune à toutes les sorties remonte sous le titre, y
+  compris pour une fiche multi-sorties, où elle n'était plus affichée du
+  tout : `FDC` taisait la phrase qui dit de quoi elle parle.
+
+  Rien de tout cela ne touche une fiche ni une sortie de calcul : c'est
+  l'affichage de `card.info`, et le corps de réponse de `card-api`.
+
+- **Trois noms de fonctions écrits en dur dans la figure (2026-08-04).**
+  `render.py` prévient dans son propre docstring qu'un nom de fonction
+  cité en toutes lettres est un lien que rien ne vérifie ; il en gardait
+  trois. Ils se déduisent de l'appel (`threshold=`, `func=`), ce qui
+  ferme un trou : `exceedance_frequency` et `return_period` manquaient à
+  la liste, et neuf fiches annonçaient « d'après lowLim » là où la
+  condition est un franchissement. Dix entrées du dictionnaire de
+  traduction laissées sans appelant par la refonte sont retirées.
+
 - **`method` porte désormais une phrase par colonne produite
   (2026-08-03).** Le champ était une chaîne numérotée, sans lien machine
   avec le process qu'il décrit : rien ne pouvait y demander « la phrase
