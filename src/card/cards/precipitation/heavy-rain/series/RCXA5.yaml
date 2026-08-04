@@ -1,5 +1,5 @@
 id: RCXA5
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-16"
 
@@ -13,7 +13,7 @@ meta:
       P1:
         RC5: no temporal aggregation - 5-day centered moving sum
       P2:
-        RCXA5: annual aggregation [Month of minimum monthly precipitation] - maximum
+        RCXA5: annual aggregation [month of minimum monthly precipitation] - maximum
     sampling_period: Month of minimum monthly precipitation
     classification:
       domain: precipitation
@@ -31,7 +31,7 @@ meta:
       P1:
         RC5: aucune agrégation temporelle - somme mobile centrée sur 5 jours
       P2:
-        RCXA5: agrégation annuelle [Mois du minimum des précipitations mensuelles] - maximum
+        RCXA5: agrégation annuelle [mois du minimum des précipitations mensuelles] - maximum
     sampling_period: Mois du minimum des précipitations mensuelles
     classification:
       domain: précipitations

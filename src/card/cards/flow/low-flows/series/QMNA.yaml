@@ -1,5 +1,5 @@
 id: QMNA
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -13,7 +13,7 @@ meta:
       P1:
         QMA: monthly aggregation for each year - mean
       P2:
-        QMNA: annual aggregation [Month of maximum monthly flows] - minimum
+        QMNA: annual aggregation [month of maximum monthly flows] - minimum
     sampling_period: Month of maximum monthly flows
     classification:
       domain: flow
@@ -31,7 +31,7 @@ meta:
       P1:
         QMA: agrégation mensuelle par année - moyenne
       P2:
-        QMNA: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
+        QMNA: agrégation annuelle [mois du maximum des débits mensuels] - minimum
     sampling_period: Mois du maximum des débits mensuels
     classification:
       domain: débit

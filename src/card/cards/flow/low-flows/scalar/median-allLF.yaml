@@ -1,5 +1,5 @@
 id: median-allLF
-version: "1.4"
+version: "1.5"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -23,15 +23,15 @@ meta:
       P1:
         VC10: no temporal aggregation - 10-day centered moving average (VC10)
       P2:
-        VCN10: annual aggregation [Month of maximum monthly flows] - minimum of VC10 (VCN10)
+        VCN10: annual aggregation [month of maximum monthly flows] - minimum of VC10 (VCN10)
       P3:
         upLim: no temporal aggregation - maximum of VCN10, taken as the threshold (upLim)
       P4:
-        startLF: annual aggregation [Month of maximum monthly flows] - date of the first day of the longest period below upLim
-        centerLF: annual aggregation [Month of maximum monthly flows] - date of the minimum of VC10 over the longest period below upLim
-        endLF: annual aggregation [Month of maximum monthly flows] - date of the last day of the longest period below upLim
-        dtLF: annual aggregation [Month of maximum monthly flows] - number of days in the longest period below upLim
-        vLF: annual aggregation [Month of maximum monthly flows] - sum of volumes discharged each day in the longest period below upLim
+        startLF: annual aggregation [month of maximum monthly flows] - date of the first day of the longest period below upLim
+        centerLF: annual aggregation [month of maximum monthly flows] - date of the minimum of VC10 over the longest period below upLim
+        endLF: annual aggregation [month of maximum monthly flows] - date of the last day of the longest period below upLim
+        dtLF: annual aggregation [month of maximum monthly flows] - number of days in the longest period below upLim
+        vLF: annual aggregation [month of maximum monthly flows] - sum of volumes discharged each day in the longest period below upLim
       P5:
         median-startLF: no temporal aggregation - inter-annual median
         median-centerLF: no temporal aggregation - inter-annual median
@@ -65,15 +65,15 @@ meta:
       P1:
         VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours (VC10)
       P2:
-        VCN10: agrégation annuelle [Mois du maximum des débits mensuels] - minimum de VC10 (VCN10)
+        VCN10: agrégation annuelle [mois du maximum des débits mensuels] - minimum de VC10 (VCN10)
       P3:
         upLim: aucune agrégation temporelle - maximum de VCN10, pris comme seuil (upLim)
       P4:
-        startLF: agrégation annuelle [Mois du maximum des débits mensuels] - date du premier jour de la plus longue période sous upLim
-        centerLF: agrégation annuelle [Mois du maximum des débits mensuels] - date du minimum de VC10 sur la plus longue période sous upLim
-        endLF: agrégation annuelle [Mois du maximum des débits mensuels] - date du dernier jour de la plus longue période sous upLim
-        dtLF: agrégation annuelle [Mois du maximum des débits mensuels] - nombre de jours de la plus longue période sous upLim
-        vLF: agrégation annuelle [Mois du maximum des débits mensuels] - somme des volumes écoulés chaque jour de la plus longue période sous upLim
+        startLF: agrégation annuelle [mois du maximum des débits mensuels] - date du premier jour de la plus longue période sous upLim
+        centerLF: agrégation annuelle [mois du maximum des débits mensuels] - date du minimum de VC10 sur la plus longue période sous upLim
+        endLF: agrégation annuelle [mois du maximum des débits mensuels] - date du dernier jour de la plus longue période sous upLim
+        dtLF: agrégation annuelle [mois du maximum des débits mensuels] - nombre de jours de la plus longue période sous upLim
+        vLF: agrégation annuelle [mois du maximum des débits mensuels] - somme des volumes écoulés chaque jour de la plus longue période sous upLim
       P5:
         median-startLF: aucune agrégation temporelle - médiane inter-annuelle
         median-centerLF: aucune agrégation temporelle - médiane inter-annuelle

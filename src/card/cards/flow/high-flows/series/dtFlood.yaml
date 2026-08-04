@@ -1,5 +1,5 @@
 id: dtFlood
-version: "1.3"
+version: "1.4"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -18,11 +18,11 @@ meta:
       P1:
         dQ: no temporal aggregation - difference between the daily flow and the base flow (dQ)
       P2:
-        dQXA: annual aggregation [Month of minimum monthly flows] - maximum of dQ (dQXA)
+        dQXA: annual aggregation [month of minimum monthly flows] - maximum of dQ (dQXA)
       P3:
-        lowLim: annual aggregation [Month of minimum monthly flows] - division by two of dQXA to obtain a threshold (lowLim)
+        lowLim: annual aggregation [month of minimum monthly flows] - division by two of dQXA to obtain a threshold (lowLim)
       P4:
-        dtFlood: annual aggregation [Month of minimum monthly flows] - number of days where dQ is above lowLim
+        dtFlood: annual aggregation [month of minimum monthly flows] - number of days where dQ is above lowLim
     sampling_period: Month of minimum monthly flows
     classification:
       domain: flow
@@ -46,11 +46,11 @@ meta:
       P1:
         dQ: aucune agrégation temporelle - différence entre le débit journalier et le débit de base (dQ)
       P2:
-        dQXA: agrégation annuelle [Mois du minimum des débits mensuels] - maximum de dQ (dQXA)
+        dQXA: agrégation annuelle [mois du minimum des débits mensuels] - maximum de dQ (dQXA)
       P3:
-        lowLim: agrégation annuelle [Mois du minimum des débits mensuels] - division par deux de dQXA pour obtenir un seuil (lowLim)
+        lowLim: agrégation annuelle [mois du minimum des débits mensuels] - division par deux de dQXA pour obtenir un seuil (lowLim)
       P4:
-        dtFlood: agrégation annuelle [Mois du minimum des débits mensuels] - nombre de jours où dQ dépasse lowLim
+        dtFlood: agrégation annuelle [mois du minimum des débits mensuels] - nombre de jours où dQ dépasse lowLim
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: débit

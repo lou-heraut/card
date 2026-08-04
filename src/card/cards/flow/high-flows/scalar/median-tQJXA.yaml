@@ -1,5 +1,5 @@
 id: median-tQJXA
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -11,7 +11,7 @@ meta:
     description: ""
     method:
       P1:
-        tQJXA: annual aggregation [Month of minimum monthly flows] - date of the maximum
+        tQJXA: annual aggregation [month of minimum monthly flows] - date of the maximum
       P2:
         median-tQJXA: no temporal aggregation - inter-annual median
     sampling_period: Month of minimum monthly flows
@@ -29,7 +29,7 @@ meta:
     description: ""
     method:
       P1:
-        tQJXA: agrégation annuelle [Mois du minimum des débits mensuels] - date du maximum
+        tQJXA: agrégation annuelle [mois du minimum des débits mensuels] - date du maximum
       P2:
         median-tQJXA: aucune agrégation temporelle - médiane inter-annuelle
     sampling_period: Mois du minimum des débits mensuels

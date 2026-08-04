@@ -1,5 +1,5 @@
 id: RCXA1
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-16"
 
@@ -11,7 +11,7 @@ meta:
     description: ""
     method:
       P1:
-        RCXA1: annual aggregation [Month of minimum monthly precipitation] - maximum
+        RCXA1: annual aggregation [month of minimum monthly precipitation] - maximum
     sampling_period: Month of minimum monthly precipitation
     classification:
       domain: precipitation
@@ -27,7 +27,7 @@ meta:
     description: ""
     method:
       P1:
-        RCXA1: agrégation annuelle [Mois du minimum des précipitations mensuelles] - maximum
+        RCXA1: agrégation annuelle [mois du minimum des précipitations mensuelles] - maximum
     sampling_period: Mois du minimum des précipitations mensuelles
     classification:
       domain: précipitations

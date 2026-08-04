@@ -1,5 +1,5 @@
 id: alpha-QJXA
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -14,7 +14,7 @@ meta:
     description: ""
     method:
       P1:
-        QJXA: annual aggregation [Month of minimum monthly flows] - maximum
+        QJXA: annual aggregation [month of minimum monthly flows] - maximum
       P2:
         alpha-QJXA: no temporal aggregation - Sen's slope of the trend
         hyp-alpha-QJXA: no temporal aggregation - significance of the trend by the Mann-Kendall test at a 10 % risk level
@@ -37,7 +37,7 @@ meta:
     description: ""
     method:
       P1:
-        QJXA: agrégation annuelle [Mois du minimum des débits mensuels] - maximum
+        QJXA: agrégation annuelle [mois du minimum des débits mensuels] - maximum
       P2:
         alpha-QJXA: aucune agrégation temporelle - pente de Sen de la tendance
         hyp-alpha-QJXA: aucune agrégation temporelle - significativité de la tendance par le test de Mann-Kendall au risque de 10 %

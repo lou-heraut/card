@@ -1,5 +1,5 @@
 id: VCN30-2
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -13,7 +13,7 @@ meta:
       P1:
         VC30: no temporal aggregation - 30-day centered moving average
       P2:
-        VCN30: annual aggregation [Month of maximum monthly flows] - minimum
+        VCN30: annual aggregation [month of maximum monthly flows] - minimum
       P3:
         VCN30-2: no temporal aggregation - calculation of the 2-year return period flow using the log-normal distribution
     sampling_period: Month of maximum monthly flows
@@ -33,7 +33,7 @@ meta:
       P1:
         VC30: aucune agrégation temporelle - moyenne mobile centrée sur 30 jours
       P2:
-        VCN30: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
+        VCN30: agrégation annuelle [mois du maximum des débits mensuels] - minimum
       P3:
         VCN30-2: aucune agrégation temporelle - calcul du débit de période de retour 2 ans avec la loi log-normal
     sampling_period: Mois du maximum des débits mensuels

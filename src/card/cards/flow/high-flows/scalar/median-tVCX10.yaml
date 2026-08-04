@@ -1,5 +1,5 @@
 id: median-tVCX10
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -13,7 +13,7 @@ meta:
       P1:
         VC10: no temporal aggregation - 10-day centered moving average
       P2:
-        tVCX10: annual aggregation [Month of minimum monthly flows] - date of the maximum
+        tVCX10: annual aggregation [month of minimum monthly flows] - date of the maximum
       P3:
         median-tVCX10: no temporal aggregation - inter-annual median
     sampling_period: Month of minimum monthly flows
@@ -33,7 +33,7 @@ meta:
       P1:
         VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
       P2:
-        tVCX10: agrégation annuelle [Mois du minimum des débits mensuels] - date du maximum
+        tVCX10: agrégation annuelle [mois du minimum des débits mensuels] - date du maximum
       P3:
         median-tVCX10: aucune agrégation temporelle - médiane inter-annuelle
     sampling_period: Mois du minimum des débits mensuels

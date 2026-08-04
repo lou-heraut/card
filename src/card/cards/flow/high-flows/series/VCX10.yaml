@@ -1,5 +1,5 @@
 id: VCX10
-version: "1.0"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -13,7 +13,7 @@ meta:
       P1:
         VC10: no temporal aggregation - 10-day centered moving average
       P2:
-        VCX10: annual aggregation [Month of minimum monthly flows] - maximum
+        VCX10: annual aggregation [month of minimum monthly flows] - maximum
     sampling_period: Month of minimum monthly flows
     classification:
       domain: flow
@@ -31,7 +31,7 @@ meta:
       P1:
         VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
       P2:
-        VCX10: agrégation annuelle [Mois du minimum des débits mensuels] - maximum
+        VCX10: agrégation annuelle [mois du minimum des débits mensuels] - maximum
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: débit

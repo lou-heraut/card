@@ -1,5 +1,5 @@
 id: delta-QJXA_H
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -11,7 +11,7 @@ meta:
     description: ""
     method:
       P1:
-        QJXA: annual aggregation [Month of minimum monthly flows] - maximum
+        QJXA: annual aggregation [month of minimum monthly flows] - maximum
       P2:
         delta-QJXA: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     suffix_default:
@@ -31,7 +31,7 @@ meta:
     description: ""
     method:
       P1:
-        QJXA: agrégation annuelle [Mois du minimum des débits mensuels] - maximum
+        QJXA: agrégation annuelle [mois du minimum des débits mensuels] - maximum
       P2:
         delta-QJXA: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     suffix_default:

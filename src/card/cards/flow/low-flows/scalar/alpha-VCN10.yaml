@@ -1,5 +1,5 @@
 id: alpha-VCN10
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -17,7 +17,7 @@ meta:
       P1:
         VC10: no temporal aggregation - 10-day centered moving average
       P2:
-        VCN10: annual aggregation [Month of maximum monthly flows] - minimum
+        VCN10: annual aggregation [month of maximum monthly flows] - minimum
       P3:
         alpha-VCN10: no temporal aggregation - Sen's slope of the trend
         hyp-alpha-VCN10: no temporal aggregation - significance of the trend by the Mann-Kendall test at a 10 % risk level
@@ -42,7 +42,7 @@ meta:
       P1:
         VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
       P2:
-        VCN10: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
+        VCN10: agrégation annuelle [mois du maximum des débits mensuels] - minimum
       P3:
         alpha-VCN10: aucune agrégation temporelle - pente de Sen de la tendance
         hyp-alpha-VCN10: aucune agrégation temporelle - significativité de la tendance par le test de Mann-Kendall au risque de 10 %

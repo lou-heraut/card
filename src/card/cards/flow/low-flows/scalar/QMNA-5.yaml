@@ -1,5 +1,5 @@
 id: QMNA-5
-version: "1.2"
+version: "1.3"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -13,7 +13,7 @@ meta:
       P1:
         QMA: monthly aggregation for each year - mean
       P2:
-        QMNA: annual aggregation [Month of maximum monthly flows] - minimum
+        QMNA: annual aggregation [month of maximum monthly flows] - minimum
       P3:
         QMNA-5: no temporal aggregation - calculation of the 5-year return period flow with the log-normal distribution
     sampling_period: Month of maximum monthly flows
@@ -33,7 +33,7 @@ meta:
       P1:
         QMA: agrégation mensuelle par année - moyenne
       P2:
-        QMNA: agrégation annuelle [Mois du maximum des débits mensuels] - minimum
+        QMNA: agrégation annuelle [mois du maximum des débits mensuels] - minimum
       P3:
         QMNA-5: aucune agrégation temporelle - calcul du débit de période de retour 5 ans avec la loi log-normale
     sampling_period: Mois du maximum des débits mensuels

@@ -1,5 +1,5 @@
 id: delta-VCX10_H
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -13,7 +13,7 @@ meta:
       P1:
         VC10: no temporal aggregation - 10-day centered moving average
       P2:
-        VCX10: annual aggregation [Month of minimum monthly flows] - maximum
+        VCX10: annual aggregation [month of minimum monthly flows] - maximum
       P3:
         delta-VCX10: no temporal aggregation - calculation of the average change between the historical period and the {suffix.name} horizon
     suffix_default:
@@ -35,7 +35,7 @@ meta:
       P1:
         VC10: aucune agrégation temporelle - moyenne mobile centrée sur 10 jours
       P2:
-        VCX10: agrégation annuelle [Mois du minimum des débits mensuels] - maximum
+        VCX10: agrégation annuelle [mois du minimum des débits mensuels] - maximum
       P3:
         delta-VCX10: aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon {suffix.name}
     suffix_default:
