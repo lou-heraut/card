@@ -82,6 +82,25 @@ des deux endroits.
 
 ### Modifié
 
+- **La section « État » du CLAUDE.md ne porte plus d'état (2026-08-05).**
+  Elle affirmait « tout est commité et poussé », phrase qui redevient
+  fausse à la première édition, et redisait le décompte du corpus, les
+  chantiers en attente et le prochain proposé, tous écrits ailleurs. Elle
+  ne dit plus que **où** lire chaque chose. Les trois acquis qu'elle
+  portait (indexation de `method`, suffixes de scénario, paramètres
+  externes en colonnes) ne sont pas un état mais de la doctrine
+  d'écriture : ils rejoignent « Format d'une fiche », la section dont
+  c'est le rôle. C'était la raison pour laquelle « État » regonflait à
+  chaque chantier malgré la consigne de ne pas le faire.
+
+  Deux nombres écrits à la main sont partis avec : les onze fiches R
+  cassées, que `CHANTIERS.md` redisait alors qu'`ORIGINE_R.md` les
+  énumère et les diagnostique (le registre ne garde que l'action qui
+  reste à faire), et les « huit règles » du linter de `method`, qui vit
+  dans le code. La cohérence des fiches à placeholder est datée plutôt
+  que comptée, et le corpus validé contre R est dit « d'alors », pour
+  qu'on ne lise plus 215 comme la taille du corpus d'aujourd'hui.
+
 - **`PLAN_nettoyage.md` devient `NETTOYAGE.md`, une procédure et non plus
   un plan (2026-08-05).** Le document décrivait un ménage à faire une
   fois puis à supprimer ; il décrit maintenant comment on nettoie, et se

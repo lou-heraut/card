@@ -214,6 +214,27 @@ Règles clés (détail : NOMENCLATURE.md) :
 >   là qu'on lui propose de déposer ce qu'il veut faire disparaître du
 >   `git status`, une fois, sans y revenir.
 
+### Trois acquis à ne pas reperdre
+
+Ils changent la façon d'écrire une fiche, et rien dans le YAML ne les
+rappelle :
+
+- **`method` est indexé par process et par colonne produite**, une phrase
+  par colonne, clés non traduites, et le linter tient plusieurs règles
+  dessus (correspondance avec `process`, chaîne lisible sans les clés,
+  moitié gauche confrontée au calcul, nombres écrits vérifiés). La figure
+  lit ce champ. Conception : docstring de `src/card/method.py`, raisons dans
+  `docs/dev/archive/PLAN_METHOD.md`.
+- **suffixes de scénario** : le fan-out des valeurs est fait par stase au
+  niveau colonne, card n'ajoute que les métadonnées, donc aucun
+  placeholder ne peut changer un calcul. Une variable suffixée est une
+  autre variable, donc une autre ligne de `meta` et une colonne
+  `suffix`. Conception : docstring de `src/card/suffix.py`.
+- **paramètres externes en colonnes d'entrée** : seuils réglementaires et
+  bornes d'horizon arrivent comme des colonnes (rôle `param_cols` côté
+  stase), une fiche ne fige plus ni un seuil ni une date. Conception :
+  docstring de l'extraction de stase.
+
 ## Règles de travail
 
 - Lire la fiche complète avant modification ; la fonction fait foi (les
@@ -287,50 +308,18 @@ Doctrine complète : « Versions, en quatre phrases », en tête de
   (commit de stase).
 
 
-## État (2026-08-04)
+## État
 
-Tout est commité et poussé sur card. `../../EXstat_project/stase/` n'a
-pas bougé pendant le chantier `method` : aucune évolution du moteur n'a
-été nécessaire, donc pas de `stase>=` à remonter dans le pyproject.
+Cette section ne porte aucun état, et c'est volontaire : un état recopié
+ici ne peut que retarder sur le dépôt. Elle dit seulement où le lire.
 
-**Décompte du corpus (fiches, variables) : un seul endroit, le README**,
-entre les balises `<!-- cards:count -->`, tenu à jour par
-`scripts/generate_catalog.py`. Ne JAMAIS l'écrire à la main ailleurs (ici,
-les docs, un About GitHub) : ça finit toujours périmé. Relancer le script
-après toute modif de fiche le resynchronise.
+- **Ce qui a été livré, et quand** : `CHANGELOG.md`.
+- **Ce qui reste ouvert**, y compris ce qui attend une action de
+  l'utilisateur et le prochain chantier proposé :
+  `docs/dev/CHANTIERS.md`.
+- **Où en est le ménage documentaire** : la section « Campagne en cours »
+  de `docs/dev/NETTOYAGE.md`.
 
-Ce qui a été livré et quand se lit dans `CHANGELOG.md`, ce qui reste
-ouvert dans `docs/dev/CHANTIERS.md`. Ces deux fichiers font foi : ne pas
-les paraphraser ici, cette section ne doit pas regonfler à chaque
-chantier.
-
-Trois acquis récents à ne pas reperdre, parce qu'ils changent la façon
-d'écrire une fiche :
-- **`method` est indexé par process et par colonne produite**, une phrase
-  par colonne, clés non traduites, et le linter tient huit règles dessus
-  (correspondance avec `process`, chaîne lisible sans les clés, moitié
-  gauche confrontée au calcul, nombres écrits vérifiés). La figure lit
-  ce champ. Conception : docstring de `src/card/method.py`, raisons dans
-  `docs/dev/archive/PLAN_METHOD.md`.
-- **suffixes de scénario** : le fan-out des valeurs est fait par stase au
-  niveau colonne, card n'ajoute que les métadonnées, donc aucun
-  placeholder ne peut changer un calcul. Une variable suffixée est une
-  autre variable, donc une autre ligne de `meta` et une colonne
-  `suffix`. Conception : docstring de `src/card/suffix.py`.
-- **paramètres externes en colonnes d'entrée** : seuils réglementaires et
-  bornes d'horizon arrivent comme des colonnes (rôle `param_cols` côté
-  stase), une fiche ne fige plus ni un seuil ni une date. Conception :
-  docstring de l'extraction de stase.
-
-Écosystème : le service web vit dans le dépôt séparé `../card-api/`, qui
-a son propre CLAUDE.md, ses chantiers et son état de déploiement. Ne rien
-en consigner ici, et réciproquement.
-
-En attente de l'utilisateur, côté card seulement : demande PEP 541 pour
-le nom PyPI, et signalement amont des 11 fiches cassées du paquet R
-(détail des deux dans CHANTIERS).
-
-Prochain chantier proposé, et il touche les trois dépôts : **unifier la
-provenance logicielle** entre `card` et `card-api`, pour qu'un résultat
-calculé en local dise avec quel code il l'a été. État des lieux complet
-et procédure proposée dans CHANTIERS.
+Écosystème : le moteur vit dans `../../EXstat_project/stase/`, le service
+web dans `../card-api/`. Chacun a son CLAUDE.md, ses chantiers et son
+journal. Ne rien consigner ici de ce qui les regarde, et réciproquement.

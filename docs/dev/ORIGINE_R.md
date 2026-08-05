@@ -34,8 +34,8 @@ correspondance des noms R vers Python est dans
 
 ## Validation croisée R / Python (2026-07-11)
 
-Corpus complet (215 fiches) exécuté via card/stase et comparé au package
-R CARD sur données synthétiques (2 stations sur 131 ans) :
+Corpus complet d'alors (215 fiches) exécuté via card/stase et comparé
+au package R CARD sur données synthétiques (2 stations sur 131 ans) :
 
 - **552 comparaisons identiques** (tolérance 1e-6) en mode parité
   rolling (`CARD_ROLL_COMPAT=rcpp`) ;
