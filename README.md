@@ -17,7 +17,18 @@ Vous choisissez vos fiches, card fait le reste.
 
 ```bash
 pip install "stase @ git+https://github.com/lou-heraut/stase.git"
-pip install "card @ git+https://github.com/lou-heraut/card.git"
+pip install "card-stase @ git+https://github.com/lou-heraut/card.git"
+```
+
+Dans cet ordre : `stase` n'est pas publié sur PyPI, donc card installé
+seul ne saurait pas où trouver son moteur. Le nom d'installation est
+`card-stase`, le nom `card` étant déjà pris sur PyPI ; le nom d'import
+reste `card`. Sans git sur la machine, les mêmes paquets s'installent
+depuis les archives du dépôt :
+
+```bash
+pip install https://github.com/lou-heraut/stase/archive/refs/heads/main.tar.gz \
+            https://github.com/lou-heraut/card/archive/refs/heads/main.tar.gz
 ```
 
 ## Démarrage rapide

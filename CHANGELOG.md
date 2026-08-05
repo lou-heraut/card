@@ -65,6 +65,18 @@ des deux endroits.
 
 ### Corrigé
 
+- **Personne ne pouvait installer card en suivant le README.** La ligne
+  `pip install "card @ git+…"` échouait : pip confronte le nom demandé
+  aux métadonnées du dépôt, qui annoncent `card-stase`, et renonce
+  (« inconsistent name »). Il se rabattait alors sur PyPI, où `card` est
+  la release 0.0.1 d'un squat. La commande nomme maintenant
+  `card-stase`, et le README dit les trois choses qu'un lecteur ne peut
+  pas deviner : l'ordre des deux lignes compte (`stase` n'étant publié
+  nulle part, card installé seul ne résout pas son moteur), le nom
+  d'import reste `card`, et une variante par archives du dépôt installe
+  les deux sans git sur la machine. Les trois formes vérifiées dans des
+  environnements neufs, extraction d'une fiche comprise.
+
 - **La CI était rouge depuis le 2026-07-31, et le disait par mail à
   chaque poussée.** `tests/test_py_golden.py`, arrivé ce jour-là pour que
   la suite lise enfin les golden Python, lit `tests/data/test_data.csv`.
