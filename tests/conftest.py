@@ -9,8 +9,11 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 _CARD_SRC = _HERE.parent / "src"
 _EXSTAT_SRC = _HERE.parent.parent.parent / "EXstat_project" / "stase" / "src"
+# scripts/ : les générateurs sont testables comme le reste, sans quoi ce
+# qu'ils produisent n'est vérifié par personne (cf. test_catalogue.py).
+_SCRIPTS = _HERE.parent / "scripts"
 
-for p in (str(_CARD_SRC), str(_EXSTAT_SRC)):
+for p in (str(_CARD_SRC), str(_EXSTAT_SRC), str(_SCRIPTS)):
     if p not in sys.path:
         sys.path.insert(0, p)
 

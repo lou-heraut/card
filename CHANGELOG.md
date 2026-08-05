@@ -45,6 +45,24 @@ des deux endroits.
 
 ## Non publié
 
+### Ajouté
+
+- **La fraîcheur du catalogue est mesurée, plus consignée (2026-08-05).**
+  `docs/CARDS.md` et le décompte du README entre les balises
+  `<!-- cards:count -->` sortent tous deux de
+  `scripts/generate_catalog.py`, mais rien ne vérifiait qu'ils étaient à
+  jour : leur exactitude reposait sur une consigne écrite à deux endroits,
+  donc sur la mémoire de qui touche une fiche, alors que tout le reste du
+  dépôt est tenu par un test (`test_citation.py` pour les versions,
+  `test_nature_fonctions.py` pour les fonctions). Le rendu du catalogue
+  est désormais séparé de son écriture (`render()` ne touche à rien), ce
+  qui permet à `tests/test_catalogue.py` de régénérer en mémoire et de
+  confronter aux fichiers versionnés. Une fiche ajoutée sans régénération
+  fait rougir la suite, en local comme en CI, et le message nomme la
+  commande qui répare. Vérifié sur les trois cas qu'il doit attraper :
+  catalogue périmé, décompte faux, balises disparues. Aucune étape de CI
+  en plus, `pytest` y passait déjà.
+
 ### Corrigé
 
 - **La CI était rouge depuis le 2026-07-31, et le disait par mail à

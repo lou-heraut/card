@@ -87,10 +87,12 @@ tests/           # pytest (goldens R, loader, lint, suffixes, UX, rendu)
 scripts/generate_catalog.py   # docs/CARDS.md, relancer après toute modif
 ```
 
-Env : venv `.python_env/` ; `tests/conftest.py` rend card+stase
-importables. **Vérifs après toute modif** (ce que lance le CI, dans cet
-ordre) : `pytest`, `python -m card.schema`, `ruff check src tests
-scripts`, puis régénérer le catalogue si une fiche a bougé. Oublier ruff
+Env : venv `.python_env/` ; `tests/conftest.py` rend card, stase et
+`scripts/` importables. **Vérifs après toute modif** (ce que lance le CI,
+dans cet ordre) : `pytest`, `python -m card.schema`, `ruff check src tests
+scripts`. Le catalogue n'est plus à retenir : si une fiche a bougé,
+`tests/test_catalogue.py` échoue et réclame `scripts/generate_catalog.py`
+en le nommant. Oublier ruff
 casse le CI en silence et envoie un mail d'échec à l'utilisateur à chaque
 push, ce qui est arrivé du 2026-07-21 au 2026-07-22.
 

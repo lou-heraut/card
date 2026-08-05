@@ -12,7 +12,11 @@
 Usage (depuis la racine du repo) :
     .python_env/bin/python scripts/generate_catalog.py
 
-À relancer après tout ajout/modification de fiche YAML.
+À relancer après tout ajout/modification de fiche YAML. Nul besoin d'y
+penser : `render()` ne touche à rien, si bien que
+`tests/test_catalogue.py` peut confronter les fichiers écrits à ce qu'ils
+devraient contenir. Un catalogue oublié fait donc rougir la suite, comme
+un `CITATION.cff` désaccordé fait rougir `test_citation.py`.
 """
 
 import re
@@ -47,7 +51,12 @@ OUT = ROOT / "docs" / "CARDS.md"
 # CLAUDE.md, ni dans les docs) : ça finit toujours périmé.
 README = ROOT / "README.md"
 README_COUNT = re.compile(
-    r"(<!-- cards:count -->).*?(<!-- /cards:count -->)", re.S)
+    r"(<!-- cards:count -->)(.*?)(<!-- /cards:count -->)", re.S)
+
+
+def count_label(n_cards, n_vars):
+    """Le décompte tel qu'il s'écrit entre les balises du README."""
+    return f"{n_cards} fiches, {n_vars} variables"
 
 
 def _sync_readme(n_cards, n_vars):
@@ -55,7 +64,7 @@ def _sync_readme(n_cards, n_vars):
         return
     text = README.read_text(encoding="utf-8")
     new = README_COUNT.sub(
-        rf"\g<1>{n_cards} fiches, {n_vars} variables\g<2>", text)
+        rf"\g<1>{count_label(n_cards, n_vars)}\g<3>", text)
     if new != text:
         README.write_text(new, encoding="utf-8")
         print(f"{README} : décompte resynchronisé ({n_cards}, {n_vars})")
@@ -73,7 +82,13 @@ def _anchor(section):
     return re.sub(r"[^\w\s-]", "", section.lower()).replace(" ", "-")
 
 
-def main():
+def render():
+    """Le catalogue et son décompte, sans rien écrire.
+
+    Séparé de `main` pour qu'un test puisse comparer le fichier écrit à
+    ce qu'il devrait être : une garde qui régénère elle-même n'en serait
+    pas une.
+    """
     cards = _find_cards(_DEFAULT_CARD_DIR, None)
     sections = defaultdict(list)   # "domaine / phénomène" -> [(nom, meta, rel)]
 
@@ -149,10 +164,14 @@ def main():
             )
         lines.append("")
 
+    return "\n".join(lines), n_cards, n_vars, len(sections)
+
+
+def main():
+    texte, n_cards, n_vars, n_sections = render()
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text("\n".join(lines), encoding="utf-8")
-    print(f"{OUT} : {n_cards} fiches, {n_vars} variables, "
-          f"{len(sections)} sections")
+    OUT.write_text(texte, encoding="utf-8")
+    print(f"{OUT} : {count_label(n_cards, n_vars)}, {n_sections} sections")
     _sync_readme(n_cards, n_vars)
 
 
