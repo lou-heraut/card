@@ -63,7 +63,46 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.3.1.
+Rien depuis la 0.4.0.
+
+## 0.4.0 (2026-08-05)
+
+### Ajouté
+
+- **Un résultat dit enfin avec quel LOGICIEL il a été calculé.** Trois
+  niveaux de traçabilité étaient annoncés (la définition, le corpus, le
+  moteur) mais un seul sortait de card employé seul : la fiche. Un
+  résultat calculé dans un carnet avait donc une provenance logicielle
+  vide, quand la même requête passée au service était parfaitement
+  tracée. `meta` porte désormais `card_version`, `card_commit`,
+  `stase_version` et `stase_commit`, mêmes noms que les champs de
+  card-api, et `card.provenance()` les donne sans lancer de calcul. Les
+  colonnes voyagent avec un export : un CSV posé dans un dossier dit
+  seul avec quoi il a été produit. Détail des sorties : `RENAMING.md`.
+
+  **Le commit, pas seulement le numéro.** Un numéro ne désigne un état
+  unique que le jour où il est coupé, et dans une installation éditable
+  il est figé au dernier `pip install -e` : mesuré ce jour, cet
+  environnement annonçait 0.1.0 pour des dépôts en 0.3.1 et 0.6.1. Le
+  commit, lui, désigne toujours un état et un seul, et `swh:1:rev:` +
+  commit en est l'identifiant Software Heritage citable.
+
+  **Rien à inventer, la norme le fournit** : une installation
+  `pip install git+…@ref` enregistre son commit dans un `direct_url.json`
+  (PEP 610), lisible à l'exécution. Les quatre modes d'installation ont
+  été mesurés le 2026-08-05 : installation git (commit fourni), archive
+  (non, d'où le passage par l'environnement que card-api renseigne),
+  éditable (git répond), copie sans installation (git aussi). Un paquet
+  peut lire la provenance d'un autre, si bien que `stase` n'a rien eu à
+  implémenter : savoir comment on a été installé n'est pas le métier
+  d'un moteur d'agrégation.
+
+  **Une copie de travail modifiée ne publie pas de commit.** Le code qui
+  tourne est alors le commit plus les modifications en cours : on
+  n'annonce un commit que s'il est exactement vrai, et la colonne vide
+  dit « ce résultat vient d'un code en cours d'édition, ne le cite pas ».
+  Les fichiers non suivis par git ne comptent pas. Conception et ordre de
+  résolution : docstring de `src/card/provenance.py`.
 
 ## 0.3.1 (2026-08-05)
 

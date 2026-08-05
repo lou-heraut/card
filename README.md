@@ -205,6 +205,35 @@ qu'elle était au moment du calcul, même des années plus tard, et même si
 le dépôt a changé depuis. De quoi archiver un résultat sans perdre la
 définition qui va avec.
 
+Ça, c'est la **définition**. Quatre colonnes de plus disent quel
+**logiciel** l'a exécutée :
+
+```python
+res["meta"][["card_version", "card_commit", "stase_version", "stase_commit"]]
+# card_version card_commit stase_version stase_commit
+#        0.3.1 c015502385… 0.6.1         836dfae29f…
+```
+
+Le numéro de version se lit facilement, mais il ne désigne un état unique
+que le jour où il est publié : entre deux versions, des dizaines de
+commits portent le même numéro. C'est le **commit** qui identifie
+exactement le code qui a tourné, et `swh:1:rev:` suivi de ce commit en
+est l'identifiant Software Heritage citable, sur le même modèle que
+celui de la fiche.
+
+Les mêmes valeurs se demandent seules, sans lancer de calcul :
+
+```python
+card.provenance()
+# {'card_version': '0.3.1', 'card_commit': 'c015502385…',
+#  'stase_version': '0.6.1', 'stase_commit': '836dfae29f…'}
+```
+
+**Une colonne de commit vide n'est pas une panne.** Elle dit que le code
+qui a tourné venait d'une copie de travail modifiée, donc qu'il ne
+correspond exactement à aucun commit publié : c'est le cas normal pendant
+qu'on développe, et le signal qu'un tel résultat ne se cite pas.
+
 ## Trouver sa fiche
 
 ```python
@@ -387,7 +416,7 @@ l'utilisez dans un travail publié.
 
 ```
 Héraut L., Dorchies D., Sauquet É., Vidal J.-P., Horner I., Santos L.
-(2026). card : recueil de fiches hydroclimatiques CARD (version 0.3.1).
+(2026). card : recueil de fiches hydroclimatiques CARD (version 0.4.0).
 Software Heritage : swh:1:rev:<commit>
 https://github.com/lou-heraut/card
 ```

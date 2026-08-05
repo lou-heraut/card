@@ -12,6 +12,11 @@ Usage :
 from .extraction import extract  # noqa: F401
 from .loader import load_card  # noqa: F401
 from .management import copy_cards, info, list_cards  # noqa: F401
+# Quel logiciel a calculé : les mêmes valeurs que les colonnes de `meta`,
+# disponibles seules. Importé APRÈS extraction, qui charge le module du
+# même nom : c'est cette ligne qui doit gagner, pour que `card.provenance`
+# soit la fonction et non son module.
+from .provenance import provenance  # noqa: F401
 # figure() rend la fiche dessinée en CHAÎNE, sans rien imprimer : c'est ce
 # qu'il faut pour la servir (web, notebook), là où info() imprime pour un
 # humain devant un terminal et retourne le dict.
@@ -36,6 +41,7 @@ __all__ = [
     "vocabulary",
     "copy_cards",
     "load_card",
+    "provenance",
     # alias héritage R
     "CARD_extraction",
     "CARD_list_all",
@@ -45,4 +51,4 @@ __all__ = [
 
 # Écrit par scripts/set_version.py, jamais à la main :
 # tests/test_citation.py refuse le désaccord avec pyproject.
-__version__ = "0.3.1"
+__version__ = "0.4.0"

@@ -35,6 +35,7 @@ from stase import Adaptive, process_extraction
 
 from . import functions
 from . import method as _method
+from . import provenance as _provenance
 from . import suffix as _sfx
 from .loader import load_card
 
@@ -240,6 +241,11 @@ def _meta_rows(card) -> pd.DataFrame:
         # n'apprend rien à personne et expose son arborescence).
         "swhid": [card.get("swhid")] * n,
         "script_path": [_corpus_path(card["path"])] * n,
+        # Quel LOGICIEL a calculé, à côté de quelle DÉFINITION l'a décrit.
+        # Constant sur tout l'appel, donc répété : ces colonnes doivent
+        # survivre à un export, sans quoi un CSV posé dans un dossier ne
+        # dit plus avec quoi il a été produit (cf. provenance.py).
+        **{k: [v] * n for k, v in _provenance.provenance().items()},
     })
 
 

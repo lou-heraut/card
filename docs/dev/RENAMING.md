@@ -460,3 +460,27 @@ identiques.
 
 Parité R : le paquet R garde son `first`, donc les noms Python n'ont plus
 de correspondance un pour un. Divergence de forme, pas de résultat.
+
+## Quatre colonnes de provenance logicielle dans `meta` (2026-08-05)
+
+`card.extract` rend désormais, à côté de `version` et `swhid` qui
+identifient la **définition**, quatre colonnes qui identifient le
+**logiciel** : `card_version`, `card_commit`, `stase_version`,
+`stase_commit`. Elles portent les mêmes noms que les champs publiés
+depuis juillet par card-api, pour qu'un résultat local et un résultat du
+service se lisent de la même façon.
+
+Ajout pur : aucune colonne existante ne change de nom, de type ni de
+contenu, et aucune valeur calculée ne bouge. C'est néanmoins un
+changement de SORTIES, donc une version mineure du paquet (0.4.0) et
+cette entrée. Les fiches, elles, ne sont pas touchées : leur `version:`
+ne bouge pas, puisque aucune définition n'a changé.
+
+Une colonne de commit peut être **vide**, et c'est voulu : on ne publie
+un commit que s'il désigne exactement le code exécuté. Une copie de
+travail modifiée n'en publie donc pas, plutôt que d'annoncer un commit
+faux. Ordre de résolution et raisons : docstring de
+`src/card/provenance.py`.
+
+Parité R : sans objet, le paquet R n'a pas de notion de provenance
+logicielle.
