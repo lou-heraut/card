@@ -63,6 +63,28 @@ des deux endroits.
 
 ## Non publié
 
+### Modifié
+
+- **Le README est réorganisé et tourne sur des données réelles
+  (2026-08-06).** Quatorze sections à plat deviennent trois parties à
+  deux niveaux : comment on s'en sert, ce qu'est une fiche, et le reste.
+  « Cards that need a parameter » passe de cinq blocs de code à deux : sa
+  place venait du chantier qui l'avait précédée, pas de son importance.
+  « Finding your variable » remonte juste après le premier essai, avec la
+  grammaire des noms, puisque c'est la question qu'on se pose une fois
+  que ça marche.
+
+  Les exemples tournent désormais sur **l'Yzeron à Craponne**, bassin
+  périurbain suivi depuis 1970, chargé depuis Hub'Eau en sept lignes sans
+  clé ni dépendance. Du gamma aléatoire prouvait que le code tourne ;
+  -12,8 % sur le module entre 1970-1999 et 2000-2022, et des étiages en
+  baisse de 1,1 % par an, montrent ce que la collection sert à voir.
+  Toutes les sorties affichées sont celles que le code produit.
+
+  La fiche `QA` est montrée en YAML, avec le partage `meta` écrit pour
+  des humains et `process` qui s'exécute, juste avant « écrivez la
+  vôtre ». `res["meta"]` est affichée au lieu d'être seulement annoncée.
+
 ### Corrigé
 
 - **`list_cards` affichait des gabarits, pas des phrases (2026-08-06).**
