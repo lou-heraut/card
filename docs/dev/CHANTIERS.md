@@ -221,26 +221,3 @@ assèchement).
   dynamique diffère de celle des étiages. Si on veut un jour distinguer
   le risque de crue des dates par une palette dédiée, c'est une
   décision à part.
-
-## Nettoyage docs et uniformisation (card, stase, card-api)
-
-Campagne ouverte le 2026-07-21. Cloisonnement des trois paquets (ce qui
-traite de card dans card, du moteur dans stase, du service dans
-card-api), un rôle exclusif par fichier, et un `CHANGELOG.md` par paquet
-pour que la trace des livraisons ne repose pas seulement sur git.
-
-La procédure, ses phases et **l'état de chacune** vivent dans
-`NETTOYAGE.md` : ce qui reste à faire se lit dans sa section « Campagne
-en cours », et n'est redit nulle part ailleurs.
-
-Deux points déjà appris, à ne pas reperdre :
-- **un historique n'est pas supprimable tel quel** : ces documents sont
-  référencés par des docs vivantes et portent du contenu à valeur. Il
-  faut la carte des rôles d'abord, puis re-router les renvois, et
-  archiver plutôt que supprimer ;
-- **métadonnées à placeholder : cohérence vérifiée** le 2026-07-21, sans
-  une anomalie. La forme générique par défaut (« the target horizon »,
-  « l'horizon cible ») est **voulue** : c'est la métadonnée publique de
-  `metadata_only`, que le suffixe vient clarifier avec le contexte.
-  Reste l'avis de l'utilisateur sur ce terme générique, et la
-  documentation de son usage.

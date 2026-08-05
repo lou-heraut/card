@@ -260,74 +260,16 @@ VÉRIFIER la cohérence :
   (card <-> stase <-> card-api), en-têtes de licence.
 - Un « index » léger par repo : quel fichier pour quelle question.
 
-## Campagne en cours (ouverte le 2026-07-21)
+## Campagne en cours
 
-**Seul état d'avancement** : ce qui est coché est fait, le reste est
-ouvert. Aucun autre document ne redit cet état, tous renvoient ici.
+**Aucune.** La dernière a couru du 2026-07-21 au 2026-08-05 et a coché
+ses six phases : carte des rôles, historiques archivés, CLAUDE.md
+élagués, README à exemples exécutés, métadonnées à placeholder relues,
+landing tranchée, conventions et renvois croisés appliqués aux quatre
+dépôts. Ce qu'elle a changé se lit dans les `CHANGELOG.md`, dépôt par
+dépôt.
 
-Phase 0 :
-- [x] carte « fichier -> rôle exclusif » des 3 repos, redondances
-      repérées, puis toutes corrigées (2026-07-22, re-vérifiées le
-      2026-08-05).
-
-Phase 1 (recette établie le 2026-07-22) :
-- [x] **card** : CHANGELOG écrit, ROADMAP et AUDIT_FICHES archivés,
-      VALIDATION_R renommé ORIGINE_R, CHANTIERS purgé, bandeaux de
-      statut posés, renvois re-routés.
-- [x] **stase** : CHANGELOG écrit, PLAN et harnais R archivés, renvois
-      de CLAUDE.md corrigés.
-- [x] **card-api** : CHANGELOG écrit, API.md trié (état d'avancement et
-      étapes retirés), renvois corrigés.
-
-Phase 2 :
-- [x] card CLAUDE.md : État réduit à un pointeur vers CHANGELOG et
-      CHANTIERS, déploiement de card-api renvoyé chez lui.
-- [x] stase et card-api CLAUDE.md élagués et uniformisés (même section
-      « où lire quoi », même bloc « versions et citation »).
-- [x] mémoire élaguée (project-state réécrit, feedback-private-files
-      ajouté).
-
-Phase 3 :
-- [x] **card** : un exemple exécuté par capacité (extract, trend,
-      sampling_period, seuils et suffixes, horizons et périodes en
-      colonnes, provenance d'un résultat, list_cards, info, copy_cards
-      puis schema). Tous rejoués le 2026-08-04, sorties conformes ; la
-      figure de « Lire une fiche » est régénérée à la même date.
-- [x] **stase** : quick start, stationnarité, enchaînement, fenêtre
-      adaptative, `param_cols`, tous avec leur sortie. Fait le
-      2026-07-28, jamais coché ici.
-- [x] **card-api** : endpoints, curl, Python, R, jobs, clé de priorité.
-      Fait le 2026-07-29, jamais coché ici.
-
-Phase 4 :
-- [x] avis de l'utilisateur rendu (2026-08-05) : « cible » validé, le
-      gabarit anglais confirmé bon (seule une étiquette à parenthèse
-      l'alourdissait), et « au regard de » reformulé en « dans la
-      distribution de » sur les trois fiches `rp-`.
-- [x] vérification scriptée (2026-08-05) : les 68 fiches à placeholder
-      rendues dans les trois formes qu'un appelant produit (aucun nom,
-      clé nue, nom fourni), en deux langues, zéro anomalie. Devenue une
-      garde durable, `test_the_substituted_sentence_still_reads_like_a_sentence`,
-      qui attrape ce que l'absence d'accolade ne dit pas : un mot doublé,
-      une ponctuation restée seule.
-- [x] `suffix_default` relu : trois défauts distincts seulement pour 68
-      fiches, ce qui réduit le jugement humain à trois phrases.
-
-Phase 5 :
-- [x] rôle de docs/index.md tranché (2026-08-05) : page d'AIGUILLAGE.
-      Elle ne redit rien du README (ni installation, ni exemples, ni
-      citation, qui divergeraient), elle met en avant la seule chose que
-      la page web fait mieux que GitHub, le catalogue, et donne trois
-      portes selon la langue d'où l'on vient.
-- [x] doc API à jour : provenance documentée dans le README de card-api,
-      liens yaml et archive dans /v1/cards/{id}.
-
-Phase 6 :
-- [x] conventions communes et renvois croisés (2026-08-05) : bloc
-      « écosystème » identique dans les six README, About alignés,
-      bandeaux `superseded` sur les deux paquets historiques, liens
-      croisés réparés, carte des rôles étendue au quatrième dépôt.
-- [x] langue tranchée : anglais pour les paquets (card, stase, card4r,
-      et les deux historiques qui l'étaient déjà), **français assumé
-      pour card-api**, dont les utilisateurs, les données et les
-      mentions légales le sont.
+Une nouvelle campagne s'ouvre en rouvrant ici les phases dont elle a
+besoin, avec sa date. Le signal qu'il en faut une : un renvoi qui ne
+mène plus où il dit, un décompte écrit à la main, un document qui
+annonce un état que son dépôt contredit.

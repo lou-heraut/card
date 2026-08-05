@@ -65,6 +65,17 @@ des deux endroits.
 
 ### Modifié
 
+- **La campagne de nettoyage est close (2026-07-21 au 2026-08-05).** Ses
+  six phases sont cochées : carte des rôles et redondances corrigées,
+  historiques archivés sous bandeau, CLAUDE.md élagués, README à exemples
+  exécutés, métadonnées à placeholder relues, landing tranchée,
+  conventions et renvois croisés appliqués aux quatre dépôts.
+  `NETTOYAGE.md` redevient une procédure dormante, sans campagne ouverte,
+  et le chantier sort de `CHANTIERS.md` comme son bandeau l'exige. Le
+  signal qu'il en faudra une autre est écrit là-bas : un renvoi qui ne
+  mène plus où il dit, un décompte écrit à la main, un document qui
+  annonce un état que son dépôt contredit.
+
 - **Le catalogue s'adresse enfin à un humain qui cherche une variable
   (2026-08-05).** Il affichait `m^{3}.s^{-1}` là où `card.info` écrit
   déjà `m³·s⁻¹` : même donnée, joliment rendue dans la figure et brute
