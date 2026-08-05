@@ -88,9 +88,9 @@ def test_call_labels_win_over_the_key():
     })
     row = _meta_of(res, "rp-VCN10_DOE")
     assert row["name_en"].startswith(
-        "Return period of the low-flow target discharge with respect to")
+        "Return period of the low-flow target discharge in the distribution")
     assert row["name_fr"].startswith(
-        "Période de retour du débit objectif d'étiage au regard des")
+        "Période de retour du débit objectif d'étiage dans la distribution")
     # {suffix.short} n'a pas été fourni : repli sur la clé, pas sur le
     # défaut de la fiche (sinon DOE et DCR auraient la même phrase).
     assert "return period of the DOE threshold" in row["method_en"]
@@ -100,7 +100,7 @@ def test_bare_key_is_used_when_no_label_is_given():
     res = extract(_data({"Q_lim_DOE": 22.0}), cards=["rp-VCN10"],
                   suffix=["DOE"])
     row = _meta_of(res, "rp-VCN10_DOE")
-    assert "Return period of the DOE with respect to" in row["name_en"]
+    assert "Return period of the DOE in the distribution of" in row["name_en"]
     assert "{" not in row["name_en"] and "{" not in row["method_en"]
 
 
@@ -111,7 +111,7 @@ def test_no_suffix_gives_the_declared_default_sentence():
     row = _meta_of(res, "rp-VCN10")
     assert row["name_en"] == (
         "Return period of the station's regulatory threshold discharge "
-        "with respect to the annual minima of 10-day mean flows")
+        "in the distribution of the annual minima of 10-day mean flows")
     assert row["name_fr"].startswith(
         "Période de retour du débit seuil réglementaire de la station")
     assert "return period of the Q_lim threshold" in row["method_en"]

@@ -65,6 +65,21 @@ des deux endroits.
 
 ### Modifié
 
+- **« au regard de » disait mal ce que la fiche calcule (2026-08-05).**
+  Les trois fiches `rp-` annonçaient une période de retour « au regard
+  des minimums annuels », tournure administrative qui reste vague : une
+  période de retour se calcule DANS une distribution, et c'est ce que la
+  phrase dit désormais, « dans la distribution des minimums annuels »,
+  avec le même resserrement côté anglais (`with respect to` devient `in
+  the distribution of`). Version mineure des trois fiches : le texte
+  humain change, aucune valeur ne bouge.
+
+  Le README dit maintenant où atterrit le nom d'une variante, qui diffère
+  selon la famille : un groupe nominal avec son article pour les fiches à
+  période (« over the observed period 1976-2005 »), un adjectif sans
+  article pour les fiches à horizon (« the near future horizon »). Rien
+  ne le disait, et la seule façon de l'apprendre était d'essayer.
+
 - **Le corpus a un front R, et les docs de card le disent (2026-08-05).**
   `card4r` est un quatrième dépôt, paquet R mince qui **appelle** card
   par reticulate au lieu de le réimplémenter : un `data.frame` entre, des

@@ -182,9 +182,20 @@ card.extract(p, cards=["QM"], suffix={
 These bounds are **optional** (`period_start?` in the card's inputs):
 without them, the same card computes over the whole record and says so,
 "Mean monthly discharge over the whole record". One card therefore
-suffices where one per period used to be needed. The name you give a
-variant is taken as is, article included: write "the observed period" or
-"the far future" depending on what reads best.
+suffices where one per period used to be needed.
+
+**The name you give a variant is taken as is**, and where it lands in the
+sentence differs between the two families, so it is worth a look:
+
+| family | the sentence reads | give a name like |
+|---|---|---|
+| period cards (`QM`, `FDC`...) | "over **{name}**" | a noun phrase with its article: "the observed period 1976-2005" |
+| horizon cards (`delta-*_H`) | "the **{name}** horizon" | an adjective, no article: "near future", "2041-2070", "+2 °C warming" |
+
+The French templates place the name after the noun (`l'horizon {name}`),
+where an adjective reads naturally too. Keep horizon names short: "the
+near future (2021-2050) horizon" is heavier than "the near future
+horizon", and the period belongs in the card's own metadata anyway.
 
 The same mechanism serves to compare two sets of one variable on any
 card, for instance columns `Q_obs` and `Q_sim` with

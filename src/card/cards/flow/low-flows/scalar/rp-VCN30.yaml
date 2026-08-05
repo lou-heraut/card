@@ -1,5 +1,5 @@
 id: rp-VCN30
-version: "1.3"
+version: "1.4"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-20"
 
@@ -7,7 +7,7 @@ meta:
   en:
     variable: rp-VCN30
     unit: year
-    name: Return period of the {suffix.name} with respect to the annual minima of 30-day mean flows
+    name: Return period of the {suffix.name} in the distribution of the annual minima of 30-day mean flows
     description: Inverse of the return-level fiches (VCN30-2) - the log-normal law is fitted on the VCN30 series and evaluated at the constant threshold discharge Q_lim given by regulatory texts (e.g. DOE, DCR); a threshold far below the fitted law gives an extrapolated return period, reported as is
     method:
       P1:
@@ -31,7 +31,7 @@ meta:
   fr:
     variable: rp-VCN30
     unit: an
-    name: Période de retour du {suffix.name} au regard des minimums annuels des débits moyens sur 30 jours
+    name: Période de retour du {suffix.name} dans la distribution des minimums annuels des débits moyens sur 30 jours
     description: Inverse des fiches de niveau de retour (VCN30-2) - la loi log-normale est ajustée sur la série des VCN30 puis évaluée au débit seuil constant Q_lim donné par les textes réglementaires (par exemple DOE, DCR) ; un seuil loin du corps de la loi donne une période de retour extrapolée, restituée telle quelle
     method:
       P1:
