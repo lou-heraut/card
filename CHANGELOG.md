@@ -63,7 +63,39 @@ des deux endroits.
 
 ## Non publié
 
+### Corrigé
+
+- **Le paquet n'emportait aucune description : sa page PyPI aurait été
+  vide (2026-08-06).** `pyproject.toml` ne déclarait pas de champ
+  `readme`, si bien que la roue construite ne portait que 678 caractères
+  de métadonnées et un résumé d'une ligne. Or **la page pypi.org d'un
+  paquet EST son README** : c'est la landing du monde Python, elle vient
+  gratuitement avec la publication, et card l'aurait affichée aussi vide
+  que celle du squat qu'on lui reproche. Trouvé en préparant la demande
+  PEP 541, avant de publier quoi que ce soit.
+
+  Les liens du README passent en absolu dans la foulée, PyPI ne résolvant
+  aucun chemin relatif : sept liens seraient morts et l'image d'en-tête
+  absente. Les catalogues et les normes pointent vers le site, qui les
+  rend ; le CHANGELOG et la licence vers GitHub, leur seul endroit.
+  Vérifié par `twine check` (les deux artefacts passent) et en
+  interrogeant chaque URL.
+
 ### Modifié
+
+- **Le plan R est déroulé, il rejoint les archives (2026-08-06).** Ses
+  quatre chantiers sont sortis : le `Package:` de CARD-R réparé, `card4r`
+  écrit et publié, les badges `superseded` posés, la référence R gelée.
+  Seul l'archivage GitHub des paquets historiques est écarté, une
+  conversation y étant ouverte. Ce qui restait de vivant est ré-hébergé
+  avant le déplacement, comme la recette l'exige : deux pistes
+  optionnelles sur la référence gelée passent dans `CHANTIERS.md`, le
+  reste vit déjà dans `ORIGINE_R.md` et dans le dépôt `card4r`.
+
+  La réclamation du nom PyPI a désormais son propre plan,
+  `PLAN_PYPI.md` : le courriel au propriétaire et l'issue publique sont
+  partis le 2026-08-06, la demande PEP 541 peut suivre à partir du
+  2026-09-06. Les dates n'ont pas d'autre endroit où vivre.
 
 - **La campagne de nettoyage est close (2026-07-21 au 2026-08-05).** Ses
   six phases sont cochées : carte des rôles et redondances corrigées,

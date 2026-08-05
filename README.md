@@ -1,10 +1,10 @@
-# card [<img src="docs/img/flower_alt.png" align="right" width="160" height="160" alt="card"/>](https://github.com/lou-heraut/stase)
+# card [<img src="https://raw.githubusercontent.com/lou-heraut/card/main/docs/img/flower_alt.png" align="right" width="160" height="160" alt="card"/>](https://github.com/lou-heraut/stase)
 
 <!-- badges: start -->
 [![tests](https://github.com/lou-heraut/card/actions/workflows/tests.yml/badge.svg)](https://github.com/lou-heraut/card/actions/workflows/tests.yml)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue)](https://lifecycle.r-lib.org/articles/stages.html)
 ![](https://img.shields.io/github/last-commit/lou-heraut/card)
-[![License: GPL v3](https://img.shields.io/badge/license-GPL--3.0-bd0000)](LICENSE)
+[![License: GPL v3](https://img.shields.io/badge/license-GPL--3.0-bd0000)](https://github.com/lou-heraut/card/blob/main/LICENSE)
 <!-- badges: end -->
 
 **card** computes ready-to-use hydroclimatic variables:
@@ -275,8 +275,8 @@ the collection).
 
 The full catalogue is available online:
 [lou-heraut.github.io/card](https://lou-heraut.github.io/card/), or as
-files: [docs/CARDS.md](docs/CARDS.md) and its French counterpart
-[docs/CARDS.fr.md](docs/CARDS.fr.md).
+files: [docs/CARDS.md](https://lou-heraut.github.io/card/CARDS) and its French counterpart
+[docs/CARDS.fr.md](https://lou-heraut.github.io/card/CARDS.fr).
 
 ## Decoding a card name
 
@@ -315,7 +315,7 @@ A few names decoded:
 | `rp-VCN10` | return period of a `VCN10` with respect to a supplied threshold |
 
 The complete grid, with its special cases, is in
-[docs/dev/NOMENCLATURE.md](docs/dev/NOMENCLATURE.md).
+[docs/dev/NOMENCLATURE.md](https://lou-heraut.github.io/card/dev/NOMENCLATURE).
 
 ## Reading a card
 
@@ -407,8 +407,8 @@ python -m card.schema ./my_cards   # structure, classification vocabulary,
 ```
 
 Naming and writing rules are in
-[docs/dev/NOMENCLATURE.md](docs/dev/NOMENCLATURE.md), the classification
-in [docs/dev/TOPICS.md](docs/dev/TOPICS.md); the units of input variables
+[docs/dev/NOMENCLATURE.md](https://lou-heraut.github.io/card/dev/NOMENCLATURE), the classification
+in [docs/dev/TOPICS.md](https://lou-heraut.github.io/card/dev/TOPICS); the units of input variables
 are defined once and for all in `src/card/inputs.yaml`.
 
 ## Architecture
@@ -468,7 +468,7 @@ card is the Python port of the R package
 [CARD](https://github.com/lou-heraut/CARD-R) (INRAE, UR RiverLy),
 validated by cross-comparison with R over the complete collection of
 cards. The details of the validation and the documented divergences are
-in [docs/dev/ORIGINE_R.md](docs/dev/ORIGINE_R.md). GPL-3 licence, authors
+in [docs/dev/ORIGINE_R.md](https://lou-heraut.github.io/card/dev/ORIGINE_R). GPL-3 licence, authors
 in the AUTHORS file.
 
 ## Development
@@ -480,5 +480,5 @@ python scripts/generate_catalog.py      # regenerates both catalogues
 ```
 
 CI: `.github/workflows/tests.yml` (pytest, card linter, ruff). What
-changed and when: [CHANGELOG.md](CHANGELOG.md). R to Python name mapping:
+changed and when: [CHANGELOG.md](https://github.com/lou-heraut/card/blob/main/CHANGELOG.md). R to Python name mapping:
 `docs/dev/RENAMING.md`. Open leads: `docs/dev/CHANTIERS.md`.
