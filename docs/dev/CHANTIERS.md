@@ -317,20 +317,16 @@ assèchement).
   le risque de crue des dates par une palette dédiée, c'est une
   décision à part.
 
-## Grand nettoyage docs et uniformisation (card, stase, card-api)
+## Nettoyage docs et uniformisation (card, stase, card-api)
 
-Ouvert le 2026-07-21, plan exécutable dans `PLAN_nettoyage.md`.
-Cloisonnement des trois paquets (ce qui traite de card dans card, du
-moteur dans stase, du service dans card-api), un rôle exclusif par
-fichier, et un `CHANGELOG.md` par paquet pour que la trace des
-livraisons ne repose pas seulement sur git.
+Campagne ouverte le 2026-07-21. Cloisonnement des trois paquets (ce qui
+traite de card dans card, du moteur dans stase, du service dans
+card-api), un rôle exclusif par fichier, et un `CHANGELOG.md` par paquet
+pour que la trace des livraisons ne repose pas seulement sur git.
 
-**Faites sur les trois dépôts** : les phases 0 à 2 (carte des rôles,
-CHANGELOG, archives badgées, CLAUDE.md élagués et uniformisés).
-**Restent** les phases 3 à 6, dont le détail et la checklist vivent dans
-`PLAN_nettoyage.md` : les README (3), la relecture des métadonnées à
-placeholder (4), le rôle de `docs/index.md` (5), les conventions
-inter-dépôts (6).
+La procédure, ses phases et **l'état de chacune** vivent dans
+`NETTOYAGE.md` : ce qui reste à faire se lit dans sa section « Campagne
+en cours », et n'est redit nulle part ailleurs.
 
 Deux points déjà appris, à ne pas reperdre :
 - **un historique n'est pas supprimable tel quel** : ces documents sont

@@ -1,13 +1,21 @@
-# Plan de nettoyage / uniformisation : card, stase, card-api
+> **Statut : procédure en vigueur.** Le mode d'emploi d'un coup de
+> nettoyage documentaire sur les trois dépôts : ce qu'on vérifie, dans
+> quel ordre, et à quoi on reconnaît que c'est fini. Il ne se périme pas,
+> il se rejoue. Seule la section « Campagne en cours » en fin de document
+> porte un état, et elle seule.
 
-Grand nettoyage transverse aux 3 packages : docs de dev, docs
-d'utilisation (README), pages web, métadonnées à placeholder, et surtout
+# Nettoyage et uniformisation : card, stase, card-api
+
+Nettoyage transverse aux 3 packages : docs de dev, docs d'utilisation
+(README), pages web, métadonnées à placeholder, et surtout
 **cloisonnement** (chaque info à un seul endroit) pour réduire le coût
 token du re-chargement de contexte des futurs Claude.
 
-Établi le 2026-07-21. **Phases 0 à 2 faites sur les trois dépôts** ; les
-phases 3 à 6 restent ouvertes, la checklist en fin de document fait foi.
-À supprimer une fois déroulé.
+Écrit le 2026-07-21 pour la première campagne, gardé comme procédure.
+Les phases ci-dessous décrivent le travail à faire et ne disent jamais
+où il en est : cet état vit dans la campagne en cours, et nulle part
+ailleurs. Une campagne close laisse une entrée de `CHANGELOG.md` ; la
+suivante rouvre les phases dont elle a besoin.
 
 ## Principes directeurs
 
@@ -49,20 +57,23 @@ docs/dev/
                    card-api : API
 ```
 
-## Carte « fichier -> rôle exclusif » (Phase 0 faite le 2026-07-22)
+## Carte « fichier -> rôle exclusif »
 
 Statuts : **SOURCE** (seul endroit qui définit l'info), **RENVOI** (ne
 fait que pointer), **GÉNÉRÉ** (produit par un script, ne pas éditer),
 **HISTORIQUE** (trace datée, non maintenue), **RÉFÉRENCE** (document
 externe), **TEMPORAIRE** (disparaît une fois exécuté).
 
+Un document créé dans `docs/dev/` s'inscrit ici en même temps qu'il est
+écrit : une carte qui ne couvre pas tout le dossier n'est plus un
+inventaire, et ne garantit donc plus le « un rôle par fichier ».
+
 ### card
 
-Le tableau portait à l'origine une colonne « lignes », recopiée à la
-main : elle avait dérivé sur chacune de ses treize lignes en deux
-semaines, ce que le principe 1 ci-dessus interdit précisément. Retirée le
-2026-08-04 ; `wc -l` la donne quand elle sert. Les chemins ci-dessous
-sont ceux d'aujourd'hui, après la phase 1.
+Aucune valeur dérivée dans ces tableaux, en particulier pas de colonne
+« lignes » : celle qu'ils portaient avait dérivé sur chacune de ses
+lignes en deux semaines (constaté le 2026-08-04). `wc -l` la donne quand
+elle sert.
 
 | fichier | rôle exclusif | statut |
 |---|---|---|
@@ -76,7 +87,8 @@ sont ceux d'aujourd'hui, après la phase 1.
 | docs/dev/RENAMING.md | journal daté des renommages et des changements de SORTIES (parité R rompue) | SOURCE |
 | docs/dev/CHANTIERS.md | registre des pistes ouvertes du corpus | SOURCE |
 | docs/dev/ORIGINE_R.md | origine R du corpus, validation croisée, divergences propres aux FICHES | SOURCE |
-| docs/dev/PLAN_nettoyage.md | ce plan | TEMPORAIRE |
+| docs/dev/NETTOYAGE.md | ce document : procédure de nettoyage documentaire des trois dépôts | SOURCE |
+| docs/dev/PLAN_R.md | décisions sur l'accès R au corpus et le sort des paquets R | TEMPORAIRE |
 | docs/dev/Oberlin_1994...edit.md | source scientifique du système de nommage (OCR) | RÉFÉRENCE |
 | docs/dev/archive/AUDIT_FICHES.md | constats et décisions de l'audit appliqué le 2026-07-15 | HISTORIQUE |
 | docs/dev/archive/ROADMAP.md | phases A à D de la refonte R vers Python | HISTORIQUE |
@@ -109,46 +121,33 @@ sont ceux d'aujourd'hui, après la phase 1.
 | docs/dev/PLAN_FAIR.md | revue FAIR du 2026-07-24 et son plan | SOURCE |
 | docs/dev/THEME_DOCS.md | thème de la documentation servie | SOURCE |
 
-### Redondances et affirmations périmées (vérifiées dans le code le 2026-07-22)
+## Phase 0 : inventaire et carte des redondances
 
-1. **`dataEX`/`metaEX` présentés comme alias vivants** (card RENAMING
-   « Clés de retour », stase RENAMING_PY, card-api API.md §2) alors
-   qu'ils ont été purgés : `card.extract` ne renvoie que `data`/`meta`.
-2. **`meta=` de `process_trend` présenté comme le canal du caractère
-   relatif** (card RENAMING, stase RENAMING_PY) alors qu'il a été retiré
-   en stase 0.4.0 au profit de `relative={variable: bool}`.
-3. **Le nombre de fiches est recopié dans trois docs vivantes** (card
-   docs/index.md, card-api README, stase README) alors que la source est
-   le catalogue généré. Les trois annonçaient déjà, ce jour-là, un
-   décompte différent de celui du catalogue. Depuis, le seul décompte du
-   dépôt est celui du README de card, entre les balises
-   `<!-- cards:count -->`, tenu par `scripts/generate_catalog.py`.
-4. **Alias R de l'API card documentés deux fois** : card RENAMING
-   « Fonctions (alias R conservés) » et VALIDATION_R « Noms hérités ».
-5. **Divergence du rolling à fenêtre paire** expliquée dans VALIDATION_R
-   puis redémontrée au long dans CHANTIERS §10 (résolu).
-6. **CHANTIERS (card) contredit sa propre règle d'en-tête** (« un
-   chantier terminé sort de ce fichier ») : trois blocs « Sorti le... »
-   et un §10 RÉSOLU de 70 lignes.
-7. **Renvoi croisé vers un doc candidat au retrait** : stase CLAUDE.md
-   pointe card `docs/dev/ROADMAP.md` pour « la refonte commune ».
+Tenir la carte ci-dessus à jour, puis chercher les redondances et les
+affirmations périmées. Toute trouvaille se vérifie **dans le code** avant
+d'être écrite : une redondance supposée est souvent une explication
+légitime à deux niveaux de détail.
 
-Rappel de cadrage, **métadonnées génériques par défaut (VOULU, pas un
-trou)** : sans suffixe, les fiches rendent « the target horizon »
-(défaut générique), métadonnée publique de `metadata_only`,
-volontairement générale ; le suffixe la clarifie avec le contexte.
-Cf. Phase 4 : vérifier la cohérence, pas figer du contexte.
+Les sept trouvées le 2026-07-22, toutes corrigées depuis, disent les
+formes que ça prend, et c'est cette liste qu'on rejoue :
 
-## Phase 0 : inventaire et carte des redondances (FAITE le 2026-07-22)
+1. une API donnée pour vivante alors qu'elle est purgée (les clés
+   `dataEX`/`metaEX`, le `meta=` de `process_trend`) ;
+2. une valeur dérivée recopiée dans des docs vivantes (le nombre de
+   fiches, alors qu'un script le génère) ;
+3. la même explication écrite deux fois (les alias R, la divergence du
+   rolling à fenêtre paire) ;
+4. un registre qui garde ce qu'il déclare ne pas garder (CHANTIERS et
+   ses chantiers livrés) ;
+5. un renvoi vers un document déplacé, archivé ou renommé.
 
-Carte ci-dessus, sept redondances relevées et vérifiées dans le
-code. À refaire à l'identique pour stase et card-api si la carte y est
-jugée insuffisante (elle a été établie sur les 3 dépôts d'un coup).
+Trois questions suffisent à trancher : qui **définit** cette
+information ? qui la **recopie** ? est-elle encore **vraie** ?
 
-## Phase 1 : ranger l'historique (FAITE sur les trois dépôts)
+## Phase 1 : ranger l'historique
 
-Recette établie sur card le 2026-07-22, rejouée telle quelle sur stase et
-card-api :
+Recette établie sur card le 2026-07-22, à rejouer telle quelle dans
+chaque dépôt :
 
 1. écrire le `CHANGELOG.md` du paquet à partir de `git log --reverse`,
    une section par jalon daté, 3 à 6 lignes par entrée, avec un renvoi
@@ -165,13 +164,11 @@ card-api :
 5. purger CHANTIERS de ce qui est livré, poser un bandeau de statut sur
    chaque document restant.
 
-Pour card : `ROADMAP.md` et `AUDIT_FICHES.md` archivés, `VALIDATION_R.md`
-renommé `ORIGINE_R.md` (même rôle que dans stase), CHANTIERS ramené aux
-pistes ouvertes et numéros de section abandonnés (un numéro ne se cite
-pas durablement dans un registre qui bouge).
-
-La même passe a suivi sur stase et sur card-api ; la checklist en fin de
-document dit où en est chaque phase.
+Exemple, première campagne sur card : `ROADMAP.md` et `AUDIT_FICHES.md`
+archivés, `VALIDATION_R.md` renommé `ORIGINE_R.md` (même rôle que dans
+stase), CHANTIERS ramené aux pistes ouvertes et numéros de section
+abandonnés (un numéro ne se cite pas durablement dans un registre qui
+bouge).
 
 ## Phase 2 : CLAUDE.md et mémoire (budget token)
 
@@ -181,16 +178,17 @@ document dit où en est chaque phase.
   la réduire à un pointeur (dernier chantier + lien CHANTIERS/git).
 - Uniformiser la structure des 3 CLAUDE.md (mêmes sections : Contexte,
   Structure, Règles, État, renvois).
-- Mémoire (`~/.claude/.../memory/`) : élaguer les entrées obsolètes
-  (project-state.md date du 2026-07-16, très en retard sur le code).
+- Mémoire (`~/.claude/.../memory/`) : élaguer les entrées obsolètes. Une
+  entrée dit ce qui était vrai le jour où elle a été écrite ; la
+  confronter au code avant de s'y fier.
 
 ## Phase 3 : README utilisateur (donner envie)
 
 Pour chacun des 3 README, parcours « pourquoi -> quoi -> comment », UN
 exemple exécuté par capacité :
 - **card** : extract (une fiche), plusieurs fiches, suffix (multi-seuils
-  DOE/DCR et obs/sim), horizons en colonnes (le nouveau), trend, dev de
-  sa propre fiche (copy_cards -> schema).
+  DOE/DCR et obs/sim), horizons en colonnes, trend, dev de sa propre
+  fiche (copy_cards -> schema).
 - **stase** : process_extraction (agrégation), sampling adaptatif,
   param_cols (covariables), process_trend.
 - **card-api** : table des endpoints, exemples curl/Python/R, jobs, clé
@@ -211,13 +209,11 @@ de métadonnée en plus, selon le contexte). C'est le but même des fiches
 qui exigent un paramétrage externe. Donc « target horizon » par défaut
 n'est PAS un bug : c'est la forme générique assumée.
 
-Statut 2026-07-21 : cohérence déjà VÉRIFIÉE. Exemples rendus sur
-delta-QA_H (générique « the target/cible horizon » cohérent ; clés nues
-« the H1 horizon » un peu sèches mais valides ; records riches
-« the near-future (2021-2050) horizon » informatifs). Scan des 62 fiches
-à placeholder = 0 anomalie (aucune accolade résiduelle, aucun mot
-double). Reste surtout l'avis utilisateur sur le terme générique et la
-doc d'usage.
+Mesure du 2026-07-21 : exemples rendus sur delta-QA_H (générique
+« the target/cible horizon » cohérent ; clés nues « the H1 horizon » un
+peu sèches mais valides ; records riches « the near-future (2021-2050)
+horizon » informatifs), et scan des fiches à placeholder sans une seule
+anomalie (aucune accolade résiduelle, aucun mot double).
 
 Le travail n'est donc pas de figer du contexte dans la fiche, mais de
 VÉRIFIER la cohérence :
@@ -248,12 +244,17 @@ VÉRIFIER la cohérence :
   (card <-> stase <-> card-api), en-têtes de licence.
 - Un « index » léger par repo : quel fichier pour quelle question.
 
-## Checklist
+## Campagne en cours (ouverte le 2026-07-21)
+
+**Seul état d'avancement** : ce qui est coché est fait, le reste est
+ouvert. Aucun autre document ne redit cet état, tous renvoient ici.
 
 Phase 0 :
-- [x] carte « fichier -> rôle exclusif » des 3 repos, redondances repérées.
+- [x] carte « fichier -> rôle exclusif » des 3 repos, redondances
+      repérées, puis toutes corrigées (2026-07-22, re-vérifiées le
+      2026-08-05).
 
-Phase 1 :
+Phase 1 (recette établie le 2026-07-22) :
 - [x] **card** : CHANGELOG écrit, ROADMAP et AUDIT_FICHES archivés,
       VALIDATION_R renommé ORIGINE_R, CHANTIERS purgé, bandeaux de
       statut posés, renvois re-routés.
@@ -284,15 +285,9 @@ Phase 4 :
 - [ ] `suffix_default` relu (le générique se lit bien).
 
 Phase 5 :
-- [ ] rôle de docs/index.md tranché (Phase 5).
+- [ ] rôle de docs/index.md tranché.
 - [x] doc API à jour : provenance documentée dans le README de card-api,
       liens yaml et archive dans /v1/cards/{id}.
 
 Phase 6 :
 - [ ] conventions communes appliquées ; renvois croisés cohérents.
-
-## Ordre conseillé
-
-0 (carte) puis 1 (ranger l'historique) sur les trois dépôts, puis 4
-(métadonnées, tant que le chantier horizon est frais), puis 3 (README),
-2 (CLAUDE et mémoire), 5, 6.

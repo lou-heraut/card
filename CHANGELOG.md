@@ -64,6 +64,29 @@ des deux endroits.
 
 ### Modifié
 
+- **`PLAN_nettoyage.md` devient `NETTOYAGE.md`, une procédure et non plus
+  un plan (2026-08-05).** Le document décrivait un ménage à faire une
+  fois puis à supprimer ; il décrit maintenant comment on nettoie, et se
+  rejoue quand il le faut. Son seul statut d'avancement est la section
+  « Campagne en cours » : le document lui-même, `CHANTIERS.md` et
+  `CLAUDE.md` en donnaient chacun une version, et les trois se
+  contredisaient (l'un annonçait « phases 0 à 2 faites » quand la
+  checklist en cochait quatre de plus), ce qu'interdit son propre
+  principe 1. Les trois autres endroits renvoient désormais sans rien
+  redire.
+
+  Dans la foulée, ce qui était du constat de campagne est devenu de la
+  procédure : les sept redondances relevées le 2026-07-22, toutes
+  corrigées et re-vérifiées dans les trois dépôts le 2026-08-05, ne se
+  lisent plus comme du travail à faire mais comme les cinq formes que
+  prend une redondance, à rechercher au prochain passage. La carte
+  « fichier -> rôle exclusif » couvre à nouveau tout `docs/dev/` et dit
+  qu'un document s'y inscrit en même temps qu'il est écrit, faute de quoi
+  elle cesse d'être un inventaire. Un renvoi mort trouvé au passage dans
+  `src/card/suffix.py`, vers un « CHANTIERS.md §9 » disparu avec
+  l'abandon des numéros de section : les trois règles qu'il citait sont
+  dans la docstring elle-même.
+
 - **Passe sur les documents de développement (2026-08-04).** Le README
   montrait, sous « Lire une fiche », une figure `card.info` d'avant la
   refonte : mauvais cadre, phrases qui n'existent plus, et jusqu'à la

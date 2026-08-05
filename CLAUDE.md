@@ -24,8 +24,11 @@ statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
 - docs/dev/archive/ : documents d'époque, non maintenus (`ROADMAP.md`,
   `AUDIT_FICHES.md`, `PLAN_METHOD.md`). On y va pour comprendre POURQUOI
   une décision a été prise, jamais pour savoir où en est le corpus.
-- docs/dev/`PLAN_nettoyage.md` : le plan du grand ménage transverse aux
-  trois dépôts, encore en cours (phases 0 à 2 faites pour card).
+- docs/dev/`NETTOYAGE.md` : la procédure du ménage documentaire transverse
+  aux trois dépôts, à rejouer quand il le faut ; sa section « Campagne en
+  cours » est le seul endroit qui dise où en est chaque phase.
+- docs/dev/`PLAN_R.md` : décisions sur l'accès R au corpus et le sort des
+  paquets R historiques.
 
 ## Structure
 

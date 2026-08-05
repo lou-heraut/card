@@ -20,7 +20,7 @@ En prose, `{suffix}` vaut `{suffix.short}`, et `{suffix.<champ>}`
 désigne n'importe quel champ. Le jeu de champs n'est pas fermé par le
 code : un besoin nouveau s'exprime dans les fiches, pas ici.
 
-Trois règles (cf. docs/dev/CHANTIERS.md §9) :
+Trois règles :
   1. aucune accolade ne sort jamais non résolue d'un champ de meta ;
   2. une fiche qui utilise {suffix.X} déclare X dans son suffix_default,
      dans chaque langue (vérifié par le linter, sans données) ;
