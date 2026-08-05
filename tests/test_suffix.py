@@ -15,7 +15,7 @@ import pandas as pd
 import pytest
 
 import conftest  # noqa: F401  (chemins card/stase sans installation)
-from card import extract, list_cards, suffix
+from card import extract, figure, info, list_cards, load_card, suffix
 from card.schema import validate_card
 
 
@@ -140,6 +140,22 @@ def test_list_cards_shows_sentences_not_templates():
     Constaté le 2026-08-06 en écrivant les exemples du README.
     """
     _sans_accolade(list_cards())
+
+
+def test_the_drawn_card_shows_sentences_too():
+    """Les QUATRE surfaces qui s'adressent à un humain, pas deux.
+
+    `extract(metadata_only=True)` et `list_cards()` sont couvertes plus
+    haut ; restent la figure et le dict que `info()` rend. Mesuré le
+    2026-08-06 : les quatre sont propres. `load_card()` en revanche garde
+    l'accolade, et c'est voulu, il rend la fiche TELLE QU'ELLE EST
+    ÉCRITE.
+    """
+    assert "{suffix" not in figure("delta-QA_H", lang="en")
+    assert "{suffix" not in figure("delta-QA_H", lang="fr")
+    assert "{suffix" not in str(info("delta-QA_H", quiet=True))
+    assert "{suffix" in str(load_card("delta-QA_H")), (
+        "load_card doit rendre la fiche telle qu'écrite, accolade comprise")
 
 
 def _sans_accolade(table):

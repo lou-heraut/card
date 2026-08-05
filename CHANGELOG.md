@@ -73,9 +73,11 @@ des deux endroits.
   catalogue aussi, et un commentaire du code disait « jamais l'accolade,
   comme le catalogue » : `list_cards` avait simplement été oubliée en
   passant par un constructeur de métadonnées qui ne résout pas.
-  L'invariant est désormais tenu sur les deux chemins par
-  `test_list_cards_shows_sentences_not_templates`. Trouvé en écrivant
-  les exemples du README sur données réelles.
+  L'invariant est désormais tenu sur les **quatre** surfaces qui
+  s'adressent à un humain, vérifiées une à une : `extract(metadata_only)`,
+  `list_cards()`, `figure()` et le dict de `info()`. `load_card()` garde
+  l'accolade, et c'est voulu : il rend la fiche telle qu'elle est écrite.
+  Trouvé en écrivant les exemples du README sur données réelles.
 
 - **Le paquet n'emportait aucune description : sa page PyPI aurait été
   vide (2026-08-06).** `pyproject.toml` ne déclarait pas de champ
