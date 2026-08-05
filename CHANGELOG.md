@@ -63,7 +63,22 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.3.0.
+Rien depuis la 0.3.1.
+
+## 0.3.1 (2026-08-05)
+
+### Corrigé
+
+- **La contrainte `stase>=` mentait, pour la deuxième fois.** card
+  déclarait `stase>=0.5.0` alors que son test de tendance lit `df["h"]`
+  et que son README documente la colonne `h` : ce nom n'existe que
+  depuis stase 0.6.0, publiée le jour même, le moteur rendant `H`
+  auparavant. Installé avec un stase 0.5.0, card aurait donc produit `H`
+  en documentant `h`. La contrainte passe à `stase>=0.6.0`. Même défaut
+  qu'avec `param_cols` en juillet, et même remède : la règle de
+  numérotation de stase le dit maintenant explicitement, une rupture du
+  moteur se publie le jour où elle est livrée et card remonte sa
+  contrainte dans la foulée.
 
 ## 0.3.0 (2026-08-05)
 
@@ -104,7 +119,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   catalogue périmé, décompte faux, balises disparues. Aucune étape de CI
   en plus, `pytest` y passait déjà.
 
-
 - **Le linter confronte `method` au `process` (2026-08-03).** Sept
   règles : une phrase par colonne réellement produite, aucune phrase
   orpheline, les mêmes clés dans les deux langues, un nom cité présenté
@@ -118,7 +132,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   étapes du corpus s'accordent sans une exception. Le contrôle a servi
   aussitôt : `QM` annonçait « agrégation mensuelle par année » pour un
   `time_step: month`.
-
 
 - **`tests/test_py_golden.py` : les fiches qui divergent volontairement du
   R sont enfin tenues par la CI (2026-07-31).** `tests/data/py_golden/`
@@ -153,7 +166,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   résolu par la scission, voir plus bas. `return_level` a été classée à la
   main après lecture, elle ajuste une loi et rend une valeur.
 
-
 - **Les docstrings des fonctions hydro sont bilingues, et se lisent comme
   une fiche (2026-08-01).** Les gloses de la figure viennent des
   docstrings, écrites en français, et s'affichaient telles quelles dans
@@ -184,7 +196,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   fonction bilingue au passage. Quatre tests, éprouvés par mutation : un
   bloc absent, un bloc recopié de l'autre langue, `glose()` ignorant la
   langue demandée, et la continuation par indentation désactivée.
-
 
 - **La clé du vocabulaire devient un slug neutre.** Dans `topics.yaml`,
   un concept s'identifiait par son libellé **anglais**, le français
@@ -268,7 +279,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   anglais, DD-MM en français, comme les métadonnées). Le défaut par
   défaut reste `lang="fr"` : aucun appelant n'est touché.
 
-
 - `over_period(X, func, dates, period_start, period_end)` : restreint un
   calcul à une sous-période puis délègue. Nécessaire parce que `nanmean`
   et `nanmedian` sont des fonctions numpy, auxquelles on ne peut pas
@@ -286,7 +296,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   n'en auraient pas souffert, mais toute fiche future en aurait hérité
   en silence. Restreindre DANS la fonction d'agrégation laisse au
   contraire la restriction invisible au comptage des lacunes.
-
 
 - **Chaque fiche porte son identifiant pérenne**, colonne `swhid` des
   métadonnées. Le SWHID de contenu d'un fichier est son hash de blob
@@ -529,7 +538,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   manque est là, une fiche sur deux n'ayant pas de description
   (CHANTIERS).
 
-
 - **Le drapeau `first` de `ratio` et `difference` est scindé en deux
   fonctions (2026-07-31).** Il ne réglait pas un détail, il changeait ce
   que la fonction produit : `ratio(a, b)` rend une valeur par pas de
@@ -628,7 +636,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   R sur le nom, plus la fenêtre pour `QJDC10`. Conception : NOMENCLATURE
   §3–§4–§6, trace RENAMING.md et ORIGINE_R.md.
 
-
 - **La figure nomme les variables par leur identifiant**, celui des
   colonnes produites, et non par leur nom traduit : une fiche annonçait
   « 2 sorties : CDC_p, CDC_Q » là où les données portent `FDC_p` et
@@ -665,7 +672,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   et tous les processus, là où `card.info` en dessine une lecture et
   retourne un dict aplati d'une seule langue.
 
-
 - **Douze fiches à horizon fixe disparaissent, sans en créer aucune.**
   La période devient une entrée **facultative** de `QM`, `FDC` et
   `QJD` (alors nommée `median-QJ`), qui existaient déjà : sans bornes elles calculent sur
@@ -697,7 +703,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   `FDC_Q_H1` à son horizon sous suffixe. Le `name` reste unique, la règle
   des coordonnées d'un même objet étant conservée.
 
-
 - `card.extract(metadata_only=True, suffix=[...])` ignorait le suffixe en
   silence. Il le signale désormais : sans données, le nombre de sorties
   suffixées ne peut pas être connu, la règle de fan-out de stase étant
@@ -710,7 +715,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   bout. `numbered=True` reste disponible pour ordonner un dossier de
   travail.
 
-
 - `script_path` publie le chemin dans le corpus (`flow/series/QA.yaml`)
   et non plus le chemin absolu sur la machine, qui n'apprenait rien à
   personne et exposait l'arborescence du serveur.
@@ -722,7 +726,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   `ratio_longest_run` reste : trois fiches s'en servent, et un drapeau
   qui change la cardinalité du retour rend le pas de temps d'un process
   indécidable à la lecture. Trace dans `RENAMING.md`.
-
 
 - Le mode `compact` du rendu, qui masquait les descriptions de fonctions.
   Seule la fonction interne l'exposait, `card.info` ne le passait jamais :
@@ -757,7 +760,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   Leçon de méthode : une suite verte en local ne dit rien tant qu'elle
   n'a pas tourné sur un arbre qui ne contient QUE ce que git suit.
 
-
 - **Six figures annonçaient l'inverse de ce qu'elles calculaient
   (2026-07-30).** `fQ01A`, `fQ05A`, `fQ10A` et leurs `delta-*_H`
   affichaient « transforme la série sans l'agréger, une valeur par jour »
@@ -773,7 +775,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   langues) avant et après : seules les six fiches annoncées changent,
   d'une ligne chacune. La suite de tests était verte avant comme après,
   d'où le test de garde ouvert dans `docs/dev/CHANTIERS.md`.
-
 
 - **La figure taisait les arguments positionnels littéraux
   (2026-08-01).** `render.appel` n'affichait que les colonnes :
@@ -798,7 +799,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   card employée par le corpus ne reste muette**, sauf celles qui le
   déclarent, et un test le vérifie. `BFM` gagne au passage l'exemple que
   la troncature lui mangeait.
-
 
 - **`QM` était classée `series`, c'est un régime donc une `curve`.** Le
   débit moyen mensuel collapse les années par mois civil : 12 valeurs
@@ -826,7 +826,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   rompue (le golden R garde les deux colonnes). Détail :
   `docs/dev/RENAMING.md` et `docs/dev/ORIGINE_R.md`.
 
-
 - **La figure annonçait l'unité et la description de la première sortie
   comme celles de la fiche entière.** `allLF` se disait « jour de l'année »
   alors qu'elle produit aussi une durée et un volume ; `QSA_season`
@@ -841,7 +840,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
 - Une valeur réduite puis diffusée sur toute la série (un seuil comme
   `upLim`) s'annonçait « transforme la série sans l'agréger, une valeur
   par jour », ce qui donnait à croire qu'elle variait chaque jour.
-
 
 - `card.info()` affichait le placeholder brut (`{suffix.name}`) au lieu
   de la forme générique, là où le catalogue la résout depuis toujours.
@@ -873,7 +871,6 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   d'une phrase, artefact d'un repli de confort dans le YAML que le bloc
   littéral `|` conserve. Replié à la lecture, donc réglé aussi pour les
   fiches à venir.
-
 
 - CI en échec depuis le 2026-07-21 : un import `pytest` devenu orphelin
   dans `tests/test_loader.py` faisait échouer `ruff`, donc le job de

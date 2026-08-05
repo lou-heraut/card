@@ -4,19 +4,23 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "card-stase"
-version = "0.3.0"
+version = "0.3.1"
 description = "CARD : hydroclimatic variable extraction from YAML parameterization files, powered by exstat"
 license = {text = "GPL-3.0-or-later"}
 authors = [{name = "Louis Héraut", email = "louis.heraut@inrae.fr"}]
 maintainers = [{name = "Louis Héraut", email = "louis.heraut@inrae.fr"}]
 requires-python = ">=3.10"
 dependencies = [
-    # 0.5.0 : rôle param_cols, sans lequel les fiches _H ne peuvent pas
-    # recevoir leurs bornes d'horizon en colonnes d'entrée. Inclut aussi
-    # 0.4.0 : suffixes résolus référence par référence (sans quoi les
-    # fiches rp-* multi-seuils seraient silencieusement fausses) et
-    # process_trend sans meta=.
-    "stase>=0.5.0",
+    # 0.6.0 : la colonne de significativité de la tendance s'appelle `h`
+    # et non plus `H`. card la documente sous ce nom dans son README et
+    # l'exige dans tests/test_trend.py : avec un stase antérieur, la
+    # sortie porterait `H` et card documenterait faussement la sienne.
+    # Inclut aussi 0.5.0 (rôle param_cols, sans lequel les fiches _H ne
+    # peuvent pas recevoir leurs bornes d'horizon en colonnes d'entrée)
+    # et 0.4.0 (suffixes résolus référence par référence, sans quoi les
+    # fiches rp-* multi-seuils seraient silencieusement fausses, et
+    # process_trend sans meta=).
+    "stase>=0.6.0",
     "numpy",
     "pandas>=2.0",
     "PyYAML",
