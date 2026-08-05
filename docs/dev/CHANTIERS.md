@@ -4,7 +4,7 @@
 > expliquant le détail. Les sections portent des titres et non des
 > numéros : le registre bouge, un numéro ne se cite pas durablement.
 
-# CHANTIERS : pistes ouvertes (mise à jour 2026-08-04)
+# CHANTIERS : pistes ouvertes (mise à jour 2026-08-05)
 
 ## Nom PyPI de card (PEP 541)
 
@@ -54,98 +54,6 @@ Objectif : valider les YAML pendant l'édition. Deux voies :
 - ou un checker flycheck maison qui appelle
   `python -m card.schema <fichier>` (déjà supporté en CLI, plus simple
   mais sans autocomplétion).
-
-## Provenance logicielle : unifier card et card-api (état des lieux 2026-08-04)
-
-**Le problème.** Trois niveaux de traçabilité sont annoncés (la
-définition, le corpus, le moteur) mais un seul sort de `card` employé
-seul :
-
-| | `card.extract` en local | via `card-api` |
-|---|---|---|
-| la définition, quelle fiche | `swhid` + `version` | idem |
-| le code qui a tourné | **rien** | `card_version` + `card_commit` |
-| le moteur | **rien** | `stase_version` + `stase_commit` |
-
-La colonne `functions` publie des noms, mais un nom sans version ne
-désigne aucun code : `apply_threshold` de mars et celui d'aujourd'hui
-portent le même. Un résultat calculé dans un carnet a donc une provenance
-logicielle vide, alors que la même requête passée au service est
-parfaitement tracée.
-
-**Ce qui existe déjà, et qui est bon.** `card-api` a résolu la question
-pour lui (`src/card_api/pipeline.py`, fonction `versions()`) :
-
-- les numéros viennent de `importlib.metadata.version()`, avec repli sur
-  `card-stase` tant que le nom PyPI n'est pas obtenu, et sur `"dev"` hors
-  installation ;
-- les commits sont résolus **à la construction de l'image** par
-  `scripts/resolve_refs.py`, qui écrit `build_refs.json` ;
-- le SWHID d'une révision est `swh:1:rev:<commit>`, calculable sans appel
-  d'API.
-
-Il n'y a donc **rien à inventer**, seulement à déplacer : la moitié
-« numéros » ne doit rien à Docker ni au service, elle marche partout où
-`card` est installé.
-
-**La piste à creuser, PEP 610.** Un paquet installé par
-`pip install git+https://…` porte un fichier `direct_url.json` normalisé
-(PEP 610) qui contient le commit sous `vcs_info.commit_id`, lisible à
-l'exécution par `importlib.metadata`. Or c'est exactement le mode
-d'installation documenté de `card` tant que PyPI n'est pas obtenu. Si
-cela se confirme, **`card` peut publier son propre commit sans aucune
-machinerie de build**, et `build_refs.json` ne reste nécessaire que pour
-une image construite depuis une copie de travail. Vérifié le 2026-08-04
-sur cet environnement : l'installation y est éditable, donc
-`direct_url.json` ne porte que `dir_info.editable`, sans commit. **À
-retester sur une vraie installation depuis GitHub avant de conclure.**
-
-**La difficulté qui reste, et elle est plus grave que je ne l'avais
-écrite.** Le numéro de version ne ment pas parce qu'il serait figé, il
-ment parce qu'il **retarde**, et parce que rien ne garantit qu'on lise le
-bon.
-
-Constaté le 2026-08-04, en trois points :
-
-- le paquet est en **0.2.0**, tagué `v0.2.0` le 2026-07-22 au commit
-  `677bd87`, et **plus de quatre-vingts commits** ont suivi. Publier
-  « 0.2.0 » à côté d'un résultat calculé aujourd'hui désigne donc un état
-  qui n'est pas celui qui a tourné ;
-- `src/card/__init__.py` annonçait `0.1.0` quand les trois autres
-  fichiers disaient `0.2.0`, parce que `tests/test_citation.py` ne
-  regardait pas ce fichier. Corrigé le même jour, `set_version.py`
-  l'écrit maintenant et le test refuse le désaccord ;
-- pire pour la provenance : dans une installation ÉDITABLE,
-  `importlib.metadata.version()` rend la valeur enregistrée au moment du
-  `pip install -e`, donc `0.1.0` ici alors que le dépôt est en `0.2.0`.
-  La source que `card-api` interroge peut donc être périmée sans que rien
-  ne le signale.
-
-**Conclusion : le numéro seul ne suffit jamais.** Il faut le commit, ou
-rien. Et il reste à décider si card publie un numéro du tout dans ses
-métadonnées, ou seulement un commit.
-
-**Question de fond à trancher d'abord**, avant toute ligne de code : la
-gestion des versions elle-même. Publier rarement et laisser le commit
-tracer (doctrine actuelle) est cohérent, mais fabrique un numéro qui
-retarde de quatre-vingts commits, et un `CITATION.cff` qui fait citer un
-état vieux de deux semaines. À reprendre en session dédiée.
-
-**Procédure unifiée proposée**, à valider avant d'écrire une ligne :
-
-1. `card` expose une fonction publique de provenance qui rend les
-   numéros de `card` et de `stase`, et leurs commits quand ils sont
-   connaissables (PEP 610, variable d'environnement, ou fichier de
-   build) ;
-2. `card.extract` publie ces champs dans la table `meta`, à côté de
-   `swhid` et `version`, de sorte qu'un résultat local dise avec quel
-   logiciel il a été calculé ;
-3. `card-api` **consomme** cette fonction au lieu de la réimplémenter, et
-   n'ajoute que ce qui lui est propre : `api_version`, et les commits
-   résolus au build quand PEP 610 ne peut pas répondre.
-
-Le point 3 est l'enjeu réel : deux méthodes divergentes pour le même
-fait finiraient par se contredire, et c'est déjà à moitié le cas.
 
 ## Deux réserves laissées dans des descriptions (2026-08-03)
 
