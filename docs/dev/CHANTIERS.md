@@ -8,16 +8,18 @@
 
 ## Nom PyPI de card (PEP 541)
 
-Le nom `card` sur PyPI est un squat manifeste : release unique 0.0.1 du
-2019-08-23, résumé « card », page d'accueil github.com/pipname/card.
-Plan validé le 2026-07-12, en attente d'action de l'utilisateur :
+Le nom `card` sur PyPI est occupé par une réservation VIDE : mesuré le
+2026-08-05, la release unique de 2019 ne contient aucun module Python et
+`pip install card` n'installe rien. C'est le motif le plus solide de
+PEP 541, celui du projet invalide.
 
-1. déposer une demande PEP 541 (transfert de nom pour squatting) sur
-   github.com/pypi/support, depuis le compte PyPI de l'utilisateur ;
-2. ne rien publier sur PyPI en attendant (installation depuis GitHub),
-   pour pouvoir publier directement sous `card` si la demande aboutit ;
-3. `card-stase` reste le nom de repli dans `pyproject.toml`, l'import
-   étant `card` dans tous les cas.
+**En attente d'action de l'utilisateur.** Les preuves, les trois textes
+à envoyer et les dates d'envoi vivent dans `PLAN_PYPI.md`, qui est le
+seul endroit qui les porte.
+
+Ne rien publier sur PyPI tant que la demande n'est pas tranchée :
+`card-stase` reste le nom de repli du `pyproject.toml`, et l'import est
+`card` dans tous les cas.
 
 ## Signalement amont des fiches R cassées
 
