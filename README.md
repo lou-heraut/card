@@ -31,6 +31,14 @@ pip install https://github.com/lou-heraut/stase/archive/refs/heads/main.tar.gz \
             https://github.com/lou-heraut/card/archive/refs/heads/main.tar.gz
 ```
 
+**Depuis R**, le même recueil s'utilise avec
+[card4r](https://github.com/lou-heraut/card4r), qui appelle card sans le
+réécrire, et provisionne Python tout seul :
+
+```r
+remotes::install_github("lou-heraut/card4r")
+```
+
 ## Démarrage rapide
 
 ```python
@@ -408,6 +416,16 @@ src/card/
 Toute la mécanique de données (sampling adaptatif, sorties
 vectorielles, filtres de lacunes) est portée par le moteur stase.
 card ne gère que les fiches et leurs métadonnées.
+
+## L'écosystème
+
+| | |
+|---|---|
+| **card** | le recueil de fiches, en Python (vous êtes ici) |
+| [stase](https://github.com/lou-heraut/stase) | le moteur d'agrégation et de tendance |
+| [card4r](https://github.com/lou-heraut/card4r) | le même recueil, appelé depuis R |
+| [card-api](https://github.com/lou-heraut/card-api) | le service web, sur les débits Hub'Eau |
+| [CARD-R](https://github.com/lou-heraut/CARD-R) · [EXstat](https://github.com/lou-heraut/EXstat) | les paquets R historiques, remplacés |
 
 ## Citer
 
