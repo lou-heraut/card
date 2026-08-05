@@ -24,7 +24,7 @@ Chaque entrée dit ce qui a changé et renvoie au document qui l'explique.
 Rien n'est recopié ici : une information recopiée finit par mentir à un
 des deux endroits.
 
-## Versions, en quatre phrases
+## Versions, en cinq phrases
 
 1. **Au quotidien, on ne touche à aucun numéro.** La production suit
    `main` : une correction de fiche part en ligne au prochain
@@ -35,17 +35,58 @@ des deux endroits.
    (`swh:1:rev:<commit>`, qui résout puisque les trois dépôts y sont
    archivés depuis le 2026-07-22), et chaque variable porte la version de
    sa fiche. Rien à faire, rien à oublier.
-3. **Publier une version reste rare, et tient en une commande.**
-   `python scripts/set_version.py 0.3.0` accorde `pyproject.toml`,
-   `CITATION.cff` et `codemeta.json`, les trois seuls endroits où le
-   numéro est écrit. Ne jamais les éditer à la main :
-   `tests/test_citation.py` refuse le désaccord.
+3. **Publier une version tient en une commande.**
+   `python scripts/set_version.py 0.3.0` accorde tous les fichiers où le
+   numéro est écrit (son docstring en tient la liste). Ne jamais les
+   éditer à la main : `tests/test_citation.py` refuse le désaccord.
 4. **Le seul geste manuel régulier, c'est ce fichier.** Un changement
    qui mérite d'être retenu s'écrit sous `## Non publié`.
+5. **Quand couper ? Sur du contenu, jamais sur un calendrier.** Trois cas
+   suffisent, et ils se tranchent sans rien mesurer :
+   - une entrée qui change les **sorties** du corpus (les valeurs d'une
+     fiche, le nom d'une colonne, une signature publique) se publie le
+     jour où elle est livrée : sans numéro, personne ne peut désigner la
+     rupture ni s'y arrêter ;
+   - sinon, on coupe **à la fin d'un chantier**, au moment précis où l'on
+     écrit l'entrée qui le clôt, si « Non publié » porte au moins une
+     chose qu'un lecteur extérieur remarquerait ;
+   - jamais au milieu d'un chantier, et jamais parce que du temps a
+     passé.
+
+   `python scripts/set_version.py --etat` dit où on en est sans avoir à y
+   penser : dernier tag, commits depuis, entrées non publiées. Ce que
+   coûte l'oubli est mesuré : le 2026-08-05, le paquet était encore en
+   0.2.0 avec quatre-vingt-treize commits derrière lui, si bien que
+   `CITATION.cff` faisait citer un logiciel qui n'était plus celui qui
+   tournait, et que « Non publié » pesait près de quatre fois toutes les
+   versions publiées réunies.
 
 ## Non publié
 
+Rien depuis la 0.3.0.
+
+## 0.3.0 (2026-08-05)
+
+Première version coupée depuis le 2026-07-22. Elle contient la refonte
+du champ `method`, les descriptions des fiches, les suffixes de scénario,
+les paramètres externes en colonnes d'entrée, et six fiches dont les
+valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
+
 ### Ajouté
+
+- **Une règle dit enfin QUAND couper une version (2026-08-05).** Le
+  paquet est resté en 0.2.0 pendant quatre-vingt-treize commits, non par
+  négligence mais parce que rien ne déclenchait la question : `CITATION.cff`
+  faisait donc citer un logiciel qui n'était plus celui qui tournait, et
+  « Non publié » pesait près de quatre fois toutes les versions publiées
+  réunies. La règle tient en trois cas (cinquième phrase de ce fichier) et
+  s'accroche au seul geste qu'on fait toujours en terminant un chantier :
+  écrire l'entrée qui le clôt. `scripts/set_version.py --etat` pose les
+  faits sous les yeux à ce moment-là (dernier tag, commits depuis, entrées
+  non publiées) sans rien décider, parce que le jugement reste humain.
+  Les vingt-deux blocs `###` empilés sous « Non publié » sont par ailleurs
+  regroupés en un par type, ce que le fichier annonçait déjà mais ne
+  tenait plus.
 
 - **La fraîcheur du catalogue est mesurée, plus consignée (2026-08-05).**
   `docs/CARDS.md` et le décompte du README entre les balises
@@ -63,34 +104,198 @@ des deux endroits.
   catalogue périmé, décompte faux, balises disparues. Aucune étape de CI
   en plus, `pytest` y passait déjà.
 
-### Corrigé
 
-- **Personne ne pouvait installer card en suivant le README.** La ligne
-  `pip install "card @ git+…"` échouait : pip confronte le nom demandé
-  aux métadonnées du dépôt, qui annoncent `card-stase`, et renonce
-  (« inconsistent name »). Il se rabattait alors sur PyPI, où `card` est
-  la release 0.0.1 d'un squat. La commande nomme maintenant
-  `card-stase`, et le README dit les trois choses qu'un lecteur ne peut
-  pas deviner : l'ordre des deux lignes compte (`stase` n'étant publié
-  nulle part, card installé seul ne résout pas son moteur), le nom
-  d'import reste `card`, et une variante par archives du dépôt installe
-  les deux sans git sur la machine. Les trois formes vérifiées dans des
-  environnements neufs, extraction d'une fiche comprise.
+- **Le linter confronte `method` au `process` (2026-08-03).** Sept
+  règles : une phrase par colonne réellement produite, aucune phrase
+  orpheline, les mêmes clés dans les deux langues, un nom cité présenté
+  par la phrase qui le produit, et la moitié gauche confrontée à ce que
+  le process calcule. Cette dernière est le seul contrôle croisé qui
+  existe sur `method`, et il n'existe que parce que la phrase est ÉCRITE.
+  Le pas de temps ne suffit pas à conclure : `RAl_ratio` P2 divise deux
+  séries déjà annuelles et n'agrège rien, là où `dtFlood` P3 agrège
+  vraiment parce que son entrée a été rediffusée sur la grille
+  journalière par un `keep: all` amont. En lisant ce détail, les 504
+  étapes du corpus s'accordent sans une exception. Le contrôle a servi
+  aussitôt : `QM` annonçait « agrégation mensuelle par année » pour un
+  `time_step: month`.
 
-- **La CI était rouge depuis le 2026-07-31, et le disait par mail à
-  chaque poussée.** `tests/test_py_golden.py`, arrivé ce jour-là pour que
-  la suite lise enfin les golden Python, lit `tests/data/test_data.csv`.
-  Ce fichier pèse dix-huit mégaoctets, il est hors git à juste titre
-  (`.gitignore`) puisqu'il est entièrement dérivable, mais **rien ne le
-  fabriquait ailleurs que sur une machine qui l'avait déjà** : dix-huit
-  `FileNotFoundError` sur le runner, et le même mur pour quiconque clone
-  le dépôt. `tests/conftest.py` le génère maintenant quand il manque, ce
-  qui répare la CI et le clone frais d'un seul geste. Vérifié en
-  supprimant le fichier local puis en rejouant la suite : il revient à
-  l'octet près (même md5), et les dix-huit fiches retrouvent leur golden.
 
-  Leçon de méthode : une suite verte en local ne dit rien tant qu'elle
-  n'a pas tourné sur un arbre qui ne contient QUE ce que git suit.
+- **`tests/test_py_golden.py` : les fiches qui divergent volontairement du
+  R sont enfin tenues par la CI (2026-07-31).** `tests/data/py_golden/`
+  fige la sortie Python des fiches dont la parité R est rompue sciemment,
+  seules fiches qu'aucun golden R ne peut juger. Ces fichiers n'étaient
+  lus que par `tests/run_py_corpus.py`, un script que la CI ne lance pas :
+  ils ne gardaient rien. Constaté en cherchant ce qui protégeait les
+  fiches `fQ*` après le changement de dénominateur, réponse : rien. Les
+  dix-huit fiches concernées sont maintenant vérifiées par `pytest`, dont
+  les six `fQ*` dont le golden est posé à cette occasion, et un test
+  refuse qu'un golden existe sans motif déclaré dans
+  `known_divergences.yaml` ou l'inverse. Éprouvé en remettant l'ancien
+  dénominateur : les six rougissent.
+
+- **`tests/test_nature_fonctions.py` : la nature d'une fonction est
+  désormais MESURÉE, plus déclarée sur parole (2026-07-30).** Sept tests
+  appellent chaque fonction avec les arguments que le corpus lui passe
+  vraiment, sur une chronique de synthèse, et comparent la longueur de la
+  sortie à celle de l'entrée. Le test central ne demande pas à
+  `decoupe()` d'où elle tient son verdict, il demande si son verdict est
+  vrai : c'est le seul qui aurait rougi le jour du renommage. Aucune
+  liste de noms à tenir à jour ; les sept fonctions qu'on ne peut pas
+  appeler hors du moteur, leurs arguments désignant des colonnes, sont
+  classées à la main dans `HORS_MESURE` avec leur raison, et un test
+  refuse que cette liste garde une fonction devenue mesurable. Éprouvé
+  par quatre mutations, chacune vue rouge sur le test attendu : le bug
+  d'origine réintroduit, une déclaration oubliée, une déclaration fausse,
+  et `decoupe()` ignorant la déclaration.
+
+  Deux trouvailles du test lui-même. `ratio` et `difference` n'avaient pas
+  de nature définissable, leur drapeau `first` en faisant deux fonctions :
+  résolu par la scission, voir plus bas. `return_level` a été classée à la
+  main après lecture, elle ajuste une loi et rend une valeur.
+
+
+- **Les docstrings des fonctions hydro sont bilingues, et se lisent comme
+  une fiche (2026-08-01).** Les gloses de la figure viennent des
+  docstrings, écrites en français, et s'affichaient telles quelles dans
+  la figure anglaise : c'était le dernier morceau de la figure à ne pas
+  passer par la table `_T`. Une docstring porte désormais un bloc `en:`
+  puis un bloc `fr:`, à égalité et dans cet ordre, plus ce qui n'a pas de
+  langue en dehors des blocs : c'est le découpage de `meta.en` /
+  `meta.fr` / `meta.global` d'une fiche, appliqué au code, avec les mêmes
+  codes ISO 639-1 en minuscules. Un marqueur en marge ouvre un bloc, les
+  lignes indentées le continuent, une ligne revenue en marge sans
+  marqueur est une note hors langue (parité R, dates, renvois internes),
+  qu'on ne traduit pas sous peine d'entretenir deux versions d'un même
+  fait daté.
+
+  Aucun standard Python n'existe pour cela, vérifié : `gettext` ne sait
+  pas envelopper un `__doc__`, qui doit rester un littéral, et
+  `sphinx-intl` traduit à la construction de la documentation, quand le
+  lecteur est ici une figure rendue à l'exécution. Le choix suit donc la
+  doctrine du dépôt, celle des métadonnées bilingues qui vivent dans la
+  fiche : une traduction rangée ailleurs dérive de son original sans que
+  personne ne le voie. Elle n'entre pas non plus dans `_T`, indexée sur
+  des concepts et non sur des noms de fonctions, qui redeviendrait la
+  table distante dont `render.py` s'est débarrassé deux fois cette
+  semaine.
+
+  40 fonctions récrites, description **complète** dans les deux langues
+  et non un résumé anglais greffé sur un corps français. `help()` rend la
+  fonction bilingue au passage. Quatre tests, éprouvés par mutation : un
+  bloc absent, un bloc recopié de l'autre langue, `glose()` ignorant la
+  langue demandée, et la continuation par indentation désactivée.
+
+
+- **La clé du vocabulaire devient un slug neutre.** Dans `topics.yaml`,
+  un concept s'identifiait par son libellé **anglais**, le français
+  n'étant qu'une propriété : l'anglais faisait office d'identité, et le
+  nom des dossiers se *dérivait* de sa formulation (reformuler un libellé
+  aurait déplacé des fiches). La clé est désormais un slug déclaré
+  (`low-flows: {en: low flows, fr: basses eaux}`) : il identifie le
+  concept, nomme le dossier, et fournira l'URI d'un futur export SKOS où
+  `en` et `fr` sont deux étiquettes **à égalité**. Le linter retrouve un
+  concept par son étiquette, dans n'importe quelle langue.
+  `card.vocabulary()` rend `{facette: {slug: {en, fr, ...}}}`. Aucun
+  dossier déplacé (les slugs déclarés valent les noms existants), aucune
+  fiche modifiée. Détail : `docs/dev/TOPICS.md`.
+
+- **`card.figure`, `card.vocabulary` et `card.info(quiet=True)`**, pour
+  servir card ailleurs qu'un terminal. `info` imprimait la figure et
+  retournait le dict : parfait pour un humain, inutilisable pour un
+  programme, qui veut soit la figure en **chaîne**, soit le dict **sans
+  rien imprimer** (un service web n'a pas de terminal et voyait la figure
+  partir dans ses logs à chaque requête, calculée pour rien).
+  `card.figure(nom)` rend la chaîne sans imprimer, `card.info(quiet=True)`
+  rend le seul dict, et `card.info(nom)` ne change pas d'un iota.
+  `card.vocabulary()` expose la liste fermée des valeurs de facette
+  (fr/en), c'est-à-dire les filtres valides de `list_cards` : un client
+  peut les proposer au lieu de les deviner. Demandé par la revue FAIR de
+  card-api, qui sert désormais la figure et le vocabulaire.
+
+- **Toute variate a désormais un phénomène** (23 fiches complétées).
+  Les cumuls de pluie (`RA`, `RMA`, `RSA`…), les températures moyennes
+  (`TA`, `TMA`, `TSA`) et l'évapotranspiration (`ETPA`…) semblaient
+  « sans régime » ; en réalité leur magnitude moyenne est un phénomène à
+  part entière, pendant de « moyennes eaux » côté débit. Trois phénomènes
+  ajoutés à `topics.yaml` : `mean precipitation` / précipitations
+  moyennes, `mean temperatures` / températures moyennes,
+  `evaporative demand` / demande évaporative. Les fractions liquide/solide
+  (`RA_ratio`, `RAl_ratio`) rejoignent `neige` ; `CR`/`CRS_season` (rapport
+  simulé/observé des précipitations) deviennent `purpose: model
+  performance`, comme `Bias`. Renverse une décision antérieure de
+  `TOPICS.md` (« mean ne devient pas un phénomène »), pour permettre de
+  ranger le corpus par régime observé. Métadonnée seule, valeurs
+  inchangées, patch de version sur les 23. Détail : `docs/dev/TOPICS.md`.
+
+- **`QJ`, le régime journalier moyen brut, complète la famille.** Il
+  existait comme intermédiaire de `QJC10` mais pas comme fiche : le
+  régime moyen non lissé n'était pas extractible seul, alors que sa
+  variante médiane (`QJD`) l'était. La famille est désormais complète et
+  symétrique : `QJ`/`QJD` non lissés (moyen/médian), `QJC10`/`QJDC10`
+  lissés sur 10 jours. `QJ` reçoit la période facultative comme `QJD`. La
+  moyenne reste implicite (aucun préfixe, NOMENCLATURE §4).
+
+- **La période facultative gagne `QJC10` et le régime médian.** `QJC10`
+  (régime moyen lissé) et `QJDC10` (régime médian lissé) reçoivent
+  `period_start`/`period_end` en entrées facultatives, comme `QJD` et
+  `QM` : leur P1 passe par `over_period`. Sans période, le résultat est
+  inchangé (vérifié à 3·10⁻¹⁵ près sur `QJC10`, fiche protégée). Les deux
+  fiches lissées ne diffèrent plus que par moyenne/médiane, mêmes fenêtre
+  (10 j) et seuils de lacunes.
+
+- **`card.info` dessine la fiche au lieu d'en lister les champs.** Une
+  fiche contient tout ce qu'il faut pour comprendre son calcul, mais
+  aplati en liste cela se lit mal. La figure montre la chaîne des étapes,
+  les fonctions et leurs réglages, la fenêtre d'échantillonnage sur douze
+  mois, et ce qui est produit. Le dict retourné ne change pas : c'est lui
+  que consomme le code appelant.
+
+  Trois principes. La figure suit la **forme de sortie**, déjà une
+  facette de la classification : une série montre son axe de temps, un
+  changement la frise des deux fenêtres qu'il compare, une courbe l'axe
+  qui l'indexe. Un kwarg qui nomme une colonne est une **référence**, pas
+  un réglage, et s'affiche comme telle. Une **enveloppe se déplie** :
+  `over_period` cacherait que la fiche calcule une médiane.
+
+  Généré depuis le YAML, jamais écrit à la main ; un test vérifie que les
+  225 fiches du corpus se rendent sans exception.
+
+- **La figure parle les deux langues.** La prose de la figure (pas de
+  temps, fenêtre, lacunes, forme de sortie) était française en dur :
+  `info(lang="en")` échouait en silence et retombait sur l'ancienne liste
+  de champs. Elle passe par une table de traduction, et les 225 fiches se
+  rendent désormais dans les deux langues, dates comprises (MM-DD en
+  anglais, DD-MM en français, comme les métadonnées). Le défaut par
+  défaut reste `lang="fr"` : aucun appelant n'est touché.
+
+
+- `over_period(X, func, dates, period_start, period_end)` : restreint un
+  calcul à une sous-période puis délègue. Nécessaire parce que `nanmean`
+  et `nanmedian` sont des fonctions numpy, auxquelles on ne peut pas
+  ajouter de paramètres. Une borne absente laisse son côté ouvert.
+  `_const_date` et `_subset_period`, jusque-là dupliqués dans deux
+  modules, y sont rassemblés.
+
+  **La voie plus élégante a été écartée par la mesure**, et c'est à
+  retenir avant de la reproposer : une fonction `mask_period` rendant la
+  série avec des NaN hors fenêtre, suivie des agrégations habituelles
+  inchangées, marche mais **les NaN du masque comptent comme des
+  lacunes**. Mesuré le 2026-07-22, une agrégation mensuelle avec
+  `max_na_pct=3` sur une série masquée à 20 ans sur 51 rend 0 mois sur
+  12 au lieu de 12. Les fiches concernées n'employaient pas ce seuil et
+  n'en auraient pas souffert, mais toute fiche future en aurait hérité
+  en silence. Restreindre DANS la fonction d'agrégation laisse au
+  contraire la restriction invisible au comptage des lacunes.
+
+
+- **Chaque fiche porte son identifiant pérenne**, colonne `swhid` des
+  métadonnées. Le SWHID de contenu d'un fichier est son hash de blob
+  git : il se calcule donc localement, sans réseau ni dépôt, et désigne
+  la **définition** exacte employée, indépendamment du dépôt et de la
+  révision d'où elle vient. Un résultat archivé permet ainsi de
+  retrouver la fiche telle qu'elle était, en ouvrant
+  `https://archive.softwareheritage.org/swh:1:cnt:...`. Vérifié de bout
+  en bout : la fiche est bien récupérable depuis l'archive.
 
 ### Modifié
 
@@ -324,143 +529,6 @@ des deux endroits.
   manque est là, une fiche sur deux n'ayant pas de description
   (CHANTIERS).
 
-### Ajouté
-
-- **Le linter confronte `method` au `process` (2026-08-03).** Sept
-  règles : une phrase par colonne réellement produite, aucune phrase
-  orpheline, les mêmes clés dans les deux langues, un nom cité présenté
-  par la phrase qui le produit, et la moitié gauche confrontée à ce que
-  le process calcule. Cette dernière est le seul contrôle croisé qui
-  existe sur `method`, et il n'existe que parce que la phrase est ÉCRITE.
-  Le pas de temps ne suffit pas à conclure : `RAl_ratio` P2 divise deux
-  séries déjà annuelles et n'agrège rien, là où `dtFlood` P3 agrège
-  vraiment parce que son entrée a été rediffusée sur la grille
-  journalière par un `keep: all` amont. En lisant ce détail, les 504
-  étapes du corpus s'accordent sans une exception. Le contrôle a servi
-  aussitôt : `QM` annonçait « agrégation mensuelle par année » pour un
-  `time_step: month`.
-
-### Retiré
-
-- **`difference_longest_run` (2026-08-03).** Créée par symétrie le
-  2026-07-31, aucune fiche ne l'a jamais employée. Sa jumelle
-  `ratio_longest_run` reste : trois fiches s'en servent, et un drapeau
-  qui change la cardinalité du retour rend le pas de temps d'un process
-  indécidable à la lecture. Trace dans `RENAMING.md`.
-
-### Corrigé
-
-- **Six figures annonçaient l'inverse de ce qu'elles calculaient
-  (2026-07-30).** `fQ01A`, `fQ05A`, `fQ10A` et leurs `delta-*_H`
-  affichaient « transforme la série sans l'agréger, une valeur par jour »
-  sous un `exceedance_quantile` qui réduit toute la chronique à un seuil
-  unique. `decoupe()` de `render.py` devinait la nature d'une fonction
-  d'après son nom, en cherchant le préfixe `nan` et deux noms écrits en
-  dur, dont `quantile` : le renommage `compute_Qp` vers
-  `exceedance_quantile` (RENAMING.md) avait laissé la chaîne derrière
-  lui. La nature se lit désormais dans `is_transform`, propriété déclarée
-  à côté de la fonction, qui existait déjà et que personne ne lisait. Le
-  défaut est « réduit », transformer étant le cas rare et délibéré.
-  Vérifié par capture des 452 figures du corpus (226 fiches, deux
-  langues) avant et après : seules les six fiches annoncées changent,
-  d'une ligne chacune. La suite de tests était verte avant comme après,
-  d'où le test de garde ouvert dans `docs/dev/CHANTIERS.md`.
-
-### Ajouté
-
-- **`tests/test_py_golden.py` : les fiches qui divergent volontairement du
-  R sont enfin tenues par la CI (2026-07-31).** `tests/data/py_golden/`
-  fige la sortie Python des fiches dont la parité R est rompue sciemment,
-  seules fiches qu'aucun golden R ne peut juger. Ces fichiers n'étaient
-  lus que par `tests/run_py_corpus.py`, un script que la CI ne lance pas :
-  ils ne gardaient rien. Constaté en cherchant ce qui protégeait les
-  fiches `fQ*` après le changement de dénominateur, réponse : rien. Les
-  dix-huit fiches concernées sont maintenant vérifiées par `pytest`, dont
-  les six `fQ*` dont le golden est posé à cette occasion, et un test
-  refuse qu'un golden existe sans motif déclaré dans
-  `known_divergences.yaml` ou l'inverse. Éprouvé en remettant l'ancien
-  dénominateur : les six rougissent.
-
-- **`tests/test_nature_fonctions.py` : la nature d'une fonction est
-  désormais MESURÉE, plus déclarée sur parole (2026-07-30).** Sept tests
-  appellent chaque fonction avec les arguments que le corpus lui passe
-  vraiment, sur une chronique de synthèse, et comparent la longueur de la
-  sortie à celle de l'entrée. Le test central ne demande pas à
-  `decoupe()` d'où elle tient son verdict, il demande si son verdict est
-  vrai : c'est le seul qui aurait rougi le jour du renommage. Aucune
-  liste de noms à tenir à jour ; les sept fonctions qu'on ne peut pas
-  appeler hors du moteur, leurs arguments désignant des colonnes, sont
-  classées à la main dans `HORS_MESURE` avec leur raison, et un test
-  refuse que cette liste garde une fonction devenue mesurable. Éprouvé
-  par quatre mutations, chacune vue rouge sur le test attendu : le bug
-  d'origine réintroduit, une déclaration oubliée, une déclaration fausse,
-  et `decoupe()` ignorant la déclaration.
-
-  Deux trouvailles du test lui-même. `ratio` et `difference` n'avaient pas
-  de nature définissable, leur drapeau `first` en faisant deux fonctions :
-  résolu par la scission, voir plus bas. `return_level` a été classée à la
-  main après lecture, elle ajuste une loi et rend une valeur.
-
-### Ajouté
-
-- **Les docstrings des fonctions hydro sont bilingues, et se lisent comme
-  une fiche (2026-08-01).** Les gloses de la figure viennent des
-  docstrings, écrites en français, et s'affichaient telles quelles dans
-  la figure anglaise : c'était le dernier morceau de la figure à ne pas
-  passer par la table `_T`. Une docstring porte désormais un bloc `en:`
-  puis un bloc `fr:`, à égalité et dans cet ordre, plus ce qui n'a pas de
-  langue en dehors des blocs : c'est le découpage de `meta.en` /
-  `meta.fr` / `meta.global` d'une fiche, appliqué au code, avec les mêmes
-  codes ISO 639-1 en minuscules. Un marqueur en marge ouvre un bloc, les
-  lignes indentées le continuent, une ligne revenue en marge sans
-  marqueur est une note hors langue (parité R, dates, renvois internes),
-  qu'on ne traduit pas sous peine d'entretenir deux versions d'un même
-  fait daté.
-
-  Aucun standard Python n'existe pour cela, vérifié : `gettext` ne sait
-  pas envelopper un `__doc__`, qui doit rester un littéral, et
-  `sphinx-intl` traduit à la construction de la documentation, quand le
-  lecteur est ici une figure rendue à l'exécution. Le choix suit donc la
-  doctrine du dépôt, celle des métadonnées bilingues qui vivent dans la
-  fiche : une traduction rangée ailleurs dérive de son original sans que
-  personne ne le voie. Elle n'entre pas non plus dans `_T`, indexée sur
-  des concepts et non sur des noms de fonctions, qui redeviendrait la
-  table distante dont `render.py` s'est débarrassé deux fois cette
-  semaine.
-
-  40 fonctions récrites, description **complète** dans les deux langues
-  et non un résumé anglais greffé sur un corps français. `help()` rend la
-  fonction bilingue au passage. Quatre tests, éprouvés par mutation : un
-  bloc absent, un bloc recopié de l'autre langue, `glose()` ignorant la
-  langue demandée, et la continuation par indentation désactivée.
-
-### Corrigé
-
-- **La figure taisait les arguments positionnels littéraux
-  (2026-08-01).** `render.appel` n'affichait que les colonnes :
-  `[ratio_longest_run, "dQXA", 2]` se rendait `ratio_longest_run(dQXA)`,
-  et rien ne disait que le seuil de crue de `dtFlood` vaut la **moitié**
-  du maximum annuel d'écoulement rapide. L'information la plus utile de
-  la ligne était celle qui manquait. Trois fiches concernées, une ligne
-  chacune. Un entier s'affiche sans décimale, sinon la fiche semble
-  annoncer une précision qu'elle n'a pas.
-
-- **Sept fonctions n'expliquaient rien, ou expliquaient un moignon, dans
-  les figures (2026-07-31).** `glose()` coupait la docstring au premier
-  point suivi d'une espace : `RAT` n'affichait plus que son sigle, coupé
-  après « (Nicolle et al », et `circular_median` finissait sur « , ex ».
-  Le découpeur connaît maintenant les abréviations courantes, plutôt que
-  d'obliger le code à écrire sans « et al. » pour ménager son afficheur.
-  Quatre autres rendaient une glose vide, leur première phrase dépassant
-  le seuil de 120 caractères : c'étaient des paragraphes déguisés en
-  phrases (`return_level` en faisait 186), raccourcis sans rien perdre,
-  le détail descendant d'un cran. `RAT` et `circular_median` ont eu le
-  même traitement une fois le découpeur réparé. **Plus aucune fonction de
-  card employée par le corpus ne reste muette**, sauf celles qui le
-  déclarent, et un test le vérifie. `BFM` gagne au passage l'exemple que
-  la troncature lui mangeait.
-
-### Modifié
 
 - **Le drapeau `first` de `ratio` et `difference` est scindé en deux
   fonctions (2026-07-31).** Il ne réglait pas un détail, il changeait ce
@@ -560,91 +628,6 @@ des deux endroits.
   R sur le nom, plus la fenêtre pour `QJDC10`. Conception : NOMENCLATURE
   §3–§4–§6, trace RENAMING.md et ORIGINE_R.md.
 
-### Ajouté
-
-- **La clé du vocabulaire devient un slug neutre.** Dans `topics.yaml`,
-  un concept s'identifiait par son libellé **anglais**, le français
-  n'étant qu'une propriété : l'anglais faisait office d'identité, et le
-  nom des dossiers se *dérivait* de sa formulation (reformuler un libellé
-  aurait déplacé des fiches). La clé est désormais un slug déclaré
-  (`low-flows: {en: low flows, fr: basses eaux}`) : il identifie le
-  concept, nomme le dossier, et fournira l'URI d'un futur export SKOS où
-  `en` et `fr` sont deux étiquettes **à égalité**. Le linter retrouve un
-  concept par son étiquette, dans n'importe quelle langue.
-  `card.vocabulary()` rend `{facette: {slug: {en, fr, ...}}}`. Aucun
-  dossier déplacé (les slugs déclarés valent les noms existants), aucune
-  fiche modifiée. Détail : `docs/dev/TOPICS.md`.
-
-- **`card.figure`, `card.vocabulary` et `card.info(quiet=True)`**, pour
-  servir card ailleurs qu'un terminal. `info` imprimait la figure et
-  retournait le dict : parfait pour un humain, inutilisable pour un
-  programme, qui veut soit la figure en **chaîne**, soit le dict **sans
-  rien imprimer** (un service web n'a pas de terminal et voyait la figure
-  partir dans ses logs à chaque requête, calculée pour rien).
-  `card.figure(nom)` rend la chaîne sans imprimer, `card.info(quiet=True)`
-  rend le seul dict, et `card.info(nom)` ne change pas d'un iota.
-  `card.vocabulary()` expose la liste fermée des valeurs de facette
-  (fr/en), c'est-à-dire les filtres valides de `list_cards` : un client
-  peut les proposer au lieu de les deviner. Demandé par la revue FAIR de
-  card-api, qui sert désormais la figure et le vocabulaire.
-
-- **Toute variate a désormais un phénomène** (23 fiches complétées).
-  Les cumuls de pluie (`RA`, `RMA`, `RSA`…), les températures moyennes
-  (`TA`, `TMA`, `TSA`) et l'évapotranspiration (`ETPA`…) semblaient
-  « sans régime » ; en réalité leur magnitude moyenne est un phénomène à
-  part entière, pendant de « moyennes eaux » côté débit. Trois phénomènes
-  ajoutés à `topics.yaml` : `mean precipitation` / précipitations
-  moyennes, `mean temperatures` / températures moyennes,
-  `evaporative demand` / demande évaporative. Les fractions liquide/solide
-  (`RA_ratio`, `RAl_ratio`) rejoignent `neige` ; `CR`/`CRS_season` (rapport
-  simulé/observé des précipitations) deviennent `purpose: model
-  performance`, comme `Bias`. Renverse une décision antérieure de
-  `TOPICS.md` (« mean ne devient pas un phénomène »), pour permettre de
-  ranger le corpus par régime observé. Métadonnée seule, valeurs
-  inchangées, patch de version sur les 23. Détail : `docs/dev/TOPICS.md`.
-
-- **`QJ`, le régime journalier moyen brut, complète la famille.** Il
-  existait comme intermédiaire de `QJC10` mais pas comme fiche : le
-  régime moyen non lissé n'était pas extractible seul, alors que sa
-  variante médiane (`QJD`) l'était. La famille est désormais complète et
-  symétrique : `QJ`/`QJD` non lissés (moyen/médian), `QJC10`/`QJDC10`
-  lissés sur 10 jours. `QJ` reçoit la période facultative comme `QJD`. La
-  moyenne reste implicite (aucun préfixe, NOMENCLATURE §4).
-
-- **La période facultative gagne `QJC10` et le régime médian.** `QJC10`
-  (régime moyen lissé) et `QJDC10` (régime médian lissé) reçoivent
-  `period_start`/`period_end` en entrées facultatives, comme `QJD` et
-  `QM` : leur P1 passe par `over_period`. Sans période, le résultat est
-  inchangé (vérifié à 3·10⁻¹⁵ près sur `QJC10`, fiche protégée). Les deux
-  fiches lissées ne diffèrent plus que par moyenne/médiane, mêmes fenêtre
-  (10 j) et seuils de lacunes.
-
-- **`card.info` dessine la fiche au lieu d'en lister les champs.** Une
-  fiche contient tout ce qu'il faut pour comprendre son calcul, mais
-  aplati en liste cela se lit mal. La figure montre la chaîne des étapes,
-  les fonctions et leurs réglages, la fenêtre d'échantillonnage sur douze
-  mois, et ce qui est produit. Le dict retourné ne change pas : c'est lui
-  que consomme le code appelant.
-
-  Trois principes. La figure suit la **forme de sortie**, déjà une
-  facette de la classification : une série montre son axe de temps, un
-  changement la frise des deux fenêtres qu'il compare, une courbe l'axe
-  qui l'indexe. Un kwarg qui nomme une colonne est une **référence**, pas
-  un réglage, et s'affiche comme telle. Une **enveloppe se déplie** :
-  `over_period` cacherait que la fiche calcule une médiane.
-
-  Généré depuis le YAML, jamais écrit à la main ; un test vérifie que les
-  225 fiches du corpus se rendent sans exception.
-
-- **La figure parle les deux langues.** La prose de la figure (pas de
-  temps, fenêtre, lacunes, forme de sortie) était française en dur :
-  `info(lang="en")` échouait en silence et retombait sur l'ancienne liste
-  de champs. Elle passe par une table de traduction, et les 225 fiches se
-  rendent désormais dans les deux langues, dates comprises (MM-DD en
-  anglais, DD-MM en français, comme les métadonnées). Le défaut par
-  défaut reste `lang="fr"` : aucun appelant n'est touché.
-
-### Modifié
 
 - **La figure nomme les variables par leur identifiant**, celui des
   colonnes produites, et non par leur nom traduit : une fiche annonçait
@@ -682,58 +665,6 @@ des deux endroits.
   et tous les processus, là où `card.info` en dessine une lecture et
   retourne un dict aplati d'une seule langue.
 
-### Retiré
-
-- Le mode `compact` du rendu, qui masquait les descriptions de fonctions.
-  Seule la fonction interne l'exposait, `card.info` ne le passait jamais :
-  personne ne pouvait s'en servir.
-
-### Corrigé
-
-- **`QM` était classée `series`, c'est un régime donc une `curve`.** Le
-  débit moyen mensuel collapse les années par mois civil : 12 valeurs
-  indexées par mois, une courbe, comme le régime journalier `QJC10`. Elle
-  passe en `courbe` et rejoint `flow/curve/` (version 1.2, valeur
-  inchangée, seule l'étiquette de forme change).
-- **`Bias_season` était classée `series`, elle produit des scalaires.**
-  Elle rend 4 biais saisonniers (`Bias_DJF..SON`), un par saison, une
-  valeur par série : un critère de performance, pas un régime ni une
-  série temporelle. Elle passe en `scalaire` et rejoint `flow/scalar/`
-  (version 1.1, valeur inchangée).
-- **`BFM` était classée `output: curve`, elle produit un scalaire.** Sa
-  fonction rend `(max - min) / max` des débits de base agrégés, soit une
-  seule valeur par série ; l'extraction donne une ligne et une colonne.
-  La classification passe à `scalaire`, la fiche quitte `flow/curve/`
-  pour `flow/scalar/` (le linter impose chemin == classification), et la
-  version passe à 1.1. La valeur calculée ne change pas, seule
-  l'étiquette de forme qui voyage dans les métadonnées de sortie. Repéré
-  en mesurant la sortie réelle pendant la reprise de `card.info`.
-- **Le régime médian lissé (désormais `QJDC10`) était deux fiches en
-  une.** Il sortait le régime médian brut **et** sa version lissée, alors
-  que le régime brut a déjà sa fiche autonome (`QJD`). Il passe de
-  `keep: all` à `keep: [QJDC10]`, comme `QJC10` le fait déjà, et ne
-  produit plus que sa colonne (une sortie retirée). Parité R volontairement
-  rompue (le golden R garde les deux colonnes). Détail :
-  `docs/dev/RENAMING.md` et `docs/dev/ORIGINE_R.md`.
-
-### Corrigé
-
-- **La figure annonçait l'unité et la description de la première sortie
-  comme celles de la fiche entière.** `allLF` se disait « jour de l'année »
-  alors qu'elle produit aussi une durée et un volume ; `QSA_season`
-  affichait « Mois de décembre, janvier et février », qui ne décrit que
-  DJF. L'unité monte en facette si elle vaut pour toutes les sorties et
-  descend par sortie sinon ; la description ne s'affiche que si elle est
-  commune.
-- La figure datait ses fenêtres en MM-DD y compris en français, où les
-  métadonnées écrivent DD-MM depuis toujours.
-- Un titre long était tronqué (`[...]`) au lieu d'être replié sur une
-  seconde ligne, ce qui perdait la moitié du nom des fiches `delta-`.
-- Une valeur réduite puis diffusée sur toute la série (un seuil comme
-  `upLim`) s'annonçait « transforme la série sans l'agréger, une valeur
-  par jour », ce qui donnait à croire qu'elle variait chaque jour.
-
-### Modifié
 
 - **Douze fiches à horizon fixe disparaissent, sans en créer aucune.**
   La période devient une entrée **facultative** de `QM`, `FDC` et
@@ -766,27 +697,151 @@ des deux endroits.
   `FDC_Q_H1` à son horizon sous suffixe. Le `name` reste unique, la règle
   des coordonnées d'un même objet étant conservée.
 
-### Ajouté
 
-- `over_period(X, func, dates, period_start, period_end)` : restreint un
-  calcul à une sous-période puis délègue. Nécessaire parce que `nanmean`
-  et `nanmedian` sont des fonctions numpy, auxquelles on ne peut pas
-  ajouter de paramètres. Une borne absente laisse son côté ouvert.
-  `_const_date` et `_subset_period`, jusque-là dupliqués dans deux
-  modules, y sont rassemblés.
+- `card.extract(metadata_only=True, suffix=[...])` ignorait le suffixe en
+  silence. Il le signale désormais : sans données, le nombre de sorties
+  suffixées ne peut pas être connu, la règle de fan-out de stase étant
+  conditionnelle.
 
-  **La voie plus élégante a été écartée par la mesure**, et c'est à
-  retenir avant de la reproposer : une fonction `mask_period` rendant la
-  série avec des NaN hors fenêtre, suivie des agrégations habituelles
-  inchangées, marche mais **les NaN du masque comptent comme des
-  lacunes**. Mesuré le 2026-07-22, une agrégation mensuelle avec
-  `max_na_pct=3` sur une série masquée à 20 ans sur 51 rend 0 mois sur
-  12 au lieu de 12. Les fiches concernées n'employaient pas ce seuil et
-  n'en auraient pas souffert, mais toute fiche future en aurait hérité
-  en silence. Restreindre DANS la fonction d'agrégation laisse au
-  contraire la restriction invisible au comptage des lacunes.
+- `copy_cards` ne numérote plus les fichiers par défaut. Le linter exige
+  que l'identifiant d'une fiche soit aussi son nom de fichier : une copie
+  nommée `001_VCN10.yaml` échouait donc au premier contrôle, et le
+  parcours « copier un modèle puis valider » se contredisait de bout en
+  bout. `numbered=True` reste disponible pour ordonner un dossier de
+  travail.
+
+
+- `script_path` publie le chemin dans le corpus (`flow/series/QA.yaml`)
+  et non plus le chemin absolu sur la machine, qui n'apprenait rien à
+  personne et exposait l'arborescence du serveur.
+
+### Retiré
+
+- **`difference_longest_run` (2026-08-03).** Créée par symétrie le
+  2026-07-31, aucune fiche ne l'a jamais employée. Sa jumelle
+  `ratio_longest_run` reste : trois fiches s'en servent, et un drapeau
+  qui change la cardinalité du retour rend le pas de temps d'un process
+  indécidable à la lecture. Trace dans `RENAMING.md`.
+
+
+- Le mode `compact` du rendu, qui masquait les descriptions de fonctions.
+  Seule la fonction interne l'exposait, `card.info` ne le passait jamais :
+  personne ne pouvait s'en servir.
 
 ### Corrigé
+
+- **Personne ne pouvait installer card en suivant le README.** La ligne
+  `pip install "card @ git+…"` échouait : pip confronte le nom demandé
+  aux métadonnées du dépôt, qui annoncent `card-stase`, et renonce
+  (« inconsistent name »). Il se rabattait alors sur PyPI, où `card` est
+  la release 0.0.1 d'un squat. La commande nomme maintenant
+  `card-stase`, et le README dit les trois choses qu'un lecteur ne peut
+  pas deviner : l'ordre des deux lignes compte (`stase` n'étant publié
+  nulle part, card installé seul ne résout pas son moteur), le nom
+  d'import reste `card`, et une variante par archives du dépôt installe
+  les deux sans git sur la machine. Les trois formes vérifiées dans des
+  environnements neufs, extraction d'une fiche comprise.
+
+- **La CI était rouge depuis le 2026-07-31, et le disait par mail à
+  chaque poussée.** `tests/test_py_golden.py`, arrivé ce jour-là pour que
+  la suite lise enfin les golden Python, lit `tests/data/test_data.csv`.
+  Ce fichier pèse dix-huit mégaoctets, il est hors git à juste titre
+  (`.gitignore`) puisqu'il est entièrement dérivable, mais **rien ne le
+  fabriquait ailleurs que sur une machine qui l'avait déjà** : dix-huit
+  `FileNotFoundError` sur le runner, et le même mur pour quiconque clone
+  le dépôt. `tests/conftest.py` le génère maintenant quand il manque, ce
+  qui répare la CI et le clone frais d'un seul geste. Vérifié en
+  supprimant le fichier local puis en rejouant la suite : il revient à
+  l'octet près (même md5), et les dix-huit fiches retrouvent leur golden.
+
+  Leçon de méthode : une suite verte en local ne dit rien tant qu'elle
+  n'a pas tourné sur un arbre qui ne contient QUE ce que git suit.
+
+
+- **Six figures annonçaient l'inverse de ce qu'elles calculaient
+  (2026-07-30).** `fQ01A`, `fQ05A`, `fQ10A` et leurs `delta-*_H`
+  affichaient « transforme la série sans l'agréger, une valeur par jour »
+  sous un `exceedance_quantile` qui réduit toute la chronique à un seuil
+  unique. `decoupe()` de `render.py` devinait la nature d'une fonction
+  d'après son nom, en cherchant le préfixe `nan` et deux noms écrits en
+  dur, dont `quantile` : le renommage `compute_Qp` vers
+  `exceedance_quantile` (RENAMING.md) avait laissé la chaîne derrière
+  lui. La nature se lit désormais dans `is_transform`, propriété déclarée
+  à côté de la fonction, qui existait déjà et que personne ne lisait. Le
+  défaut est « réduit », transformer étant le cas rare et délibéré.
+  Vérifié par capture des 452 figures du corpus (226 fiches, deux
+  langues) avant et après : seules les six fiches annoncées changent,
+  d'une ligne chacune. La suite de tests était verte avant comme après,
+  d'où le test de garde ouvert dans `docs/dev/CHANTIERS.md`.
+
+
+- **La figure taisait les arguments positionnels littéraux
+  (2026-08-01).** `render.appel` n'affichait que les colonnes :
+  `[ratio_longest_run, "dQXA", 2]` se rendait `ratio_longest_run(dQXA)`,
+  et rien ne disait que le seuil de crue de `dtFlood` vaut la **moitié**
+  du maximum annuel d'écoulement rapide. L'information la plus utile de
+  la ligne était celle qui manquait. Trois fiches concernées, une ligne
+  chacune. Un entier s'affiche sans décimale, sinon la fiche semble
+  annoncer une précision qu'elle n'a pas.
+
+- **Sept fonctions n'expliquaient rien, ou expliquaient un moignon, dans
+  les figures (2026-07-31).** `glose()` coupait la docstring au premier
+  point suivi d'une espace : `RAT` n'affichait plus que son sigle, coupé
+  après « (Nicolle et al », et `circular_median` finissait sur « , ex ».
+  Le découpeur connaît maintenant les abréviations courantes, plutôt que
+  d'obliger le code à écrire sans « et al. » pour ménager son afficheur.
+  Quatre autres rendaient une glose vide, leur première phrase dépassant
+  le seuil de 120 caractères : c'étaient des paragraphes déguisés en
+  phrases (`return_level` en faisait 186), raccourcis sans rien perdre,
+  le détail descendant d'un cran. `RAT` et `circular_median` ont eu le
+  même traitement une fois le découpeur réparé. **Plus aucune fonction de
+  card employée par le corpus ne reste muette**, sauf celles qui le
+  déclarent, et un test le vérifie. `BFM` gagne au passage l'exemple que
+  la troncature lui mangeait.
+
+
+- **`QM` était classée `series`, c'est un régime donc une `curve`.** Le
+  débit moyen mensuel collapse les années par mois civil : 12 valeurs
+  indexées par mois, une courbe, comme le régime journalier `QJC10`. Elle
+  passe en `courbe` et rejoint `flow/curve/` (version 1.2, valeur
+  inchangée, seule l'étiquette de forme change).
+- **`Bias_season` était classée `series`, elle produit des scalaires.**
+  Elle rend 4 biais saisonniers (`Bias_DJF..SON`), un par saison, une
+  valeur par série : un critère de performance, pas un régime ni une
+  série temporelle. Elle passe en `scalaire` et rejoint `flow/scalar/`
+  (version 1.1, valeur inchangée).
+- **`BFM` était classée `output: curve`, elle produit un scalaire.** Sa
+  fonction rend `(max - min) / max` des débits de base agrégés, soit une
+  seule valeur par série ; l'extraction donne une ligne et une colonne.
+  La classification passe à `scalaire`, la fiche quitte `flow/curve/`
+  pour `flow/scalar/` (le linter impose chemin == classification), et la
+  version passe à 1.1. La valeur calculée ne change pas, seule
+  l'étiquette de forme qui voyage dans les métadonnées de sortie. Repéré
+  en mesurant la sortie réelle pendant la reprise de `card.info`.
+- **Le régime médian lissé (désormais `QJDC10`) était deux fiches en
+  une.** Il sortait le régime médian brut **et** sa version lissée, alors
+  que le régime brut a déjà sa fiche autonome (`QJD`). Il passe de
+  `keep: all` à `keep: [QJDC10]`, comme `QJC10` le fait déjà, et ne
+  produit plus que sa colonne (une sortie retirée). Parité R volontairement
+  rompue (le golden R garde les deux colonnes). Détail :
+  `docs/dev/RENAMING.md` et `docs/dev/ORIGINE_R.md`.
+
+
+- **La figure annonçait l'unité et la description de la première sortie
+  comme celles de la fiche entière.** `allLF` se disait « jour de l'année »
+  alors qu'elle produit aussi une durée et un volume ; `QSA_season`
+  affichait « Mois de décembre, janvier et février », qui ne décrit que
+  DJF. L'unité monte en facette si elle vaut pour toutes les sorties et
+  descend par sortie sinon ; la description ne s'affiche que si elle est
+  commune.
+- La figure datait ses fenêtres en MM-DD y compris en français, où les
+  métadonnées écrivent DD-MM depuis toujours.
+- Un titre long était tronqué (`[...]`) au lieu d'être replié sur une
+  seconde ligne, ce qui perdait la moitié du nom des fiches `delta-`.
+- Une valeur réduite puis diffusée sur toute la série (un seuil comme
+  `upLim`) s'annonçait « transforme la série sans l'agréger, une valeur
+  par jour », ce qui donnait à croire qu'elle variait chaque jour.
+
 
 - `card.info()` affichait le placeholder brut (`{suffix.name}`) au lieu
   de la forme générique, là où le catalogue la résout depuis toujours.
@@ -819,43 +874,11 @@ des deux endroits.
   littéral `|` conserve. Replié à la lecture, donc réglé aussi pour les
   fiches à venir.
 
-### Modifié
-
-- `card.extract(metadata_only=True, suffix=[...])` ignorait le suffixe en
-  silence. Il le signale désormais : sans données, le nombre de sorties
-  suffixées ne peut pas être connu, la règle de fan-out de stase étant
-  conditionnelle.
-
-- `copy_cards` ne numérote plus les fichiers par défaut. Le linter exige
-  que l'identifiant d'une fiche soit aussi son nom de fichier : une copie
-  nommée `001_VCN10.yaml` échouait donc au premier contrôle, et le
-  parcours « copier un modèle puis valider » se contredisait de bout en
-  bout. `numbered=True` reste disponible pour ordonner un dossier de
-  travail.
-
-### Corrigé
 
 - CI en échec depuis le 2026-07-21 : un import `pytest` devenu orphelin
   dans `tests/test_loader.py` faisait échouer `ruff`, donc le job de
   lint, donc un mail d'échec à chaque push. La routine de vérification
   ignorait `ruff`, elle est corrigée dans CLAUDE.md.
-
-### Ajouté
-
-- **Chaque fiche porte son identifiant pérenne**, colonne `swhid` des
-  métadonnées. Le SWHID de contenu d'un fichier est son hash de blob
-  git : il se calcule donc localement, sans réseau ni dépôt, et désigne
-  la **définition** exacte employée, indépendamment du dépôt et de la
-  révision d'où elle vient. Un résultat archivé permet ainsi de
-  retrouver la fiche telle qu'elle était, en ouvrant
-  `https://archive.softwareheritage.org/swh:1:cnt:...`. Vérifié de bout
-  en bout : la fiche est bien récupérable depuis l'archive.
-
-### Modifié
-
-- `script_path` publie le chemin dans le corpus (`flow/series/QA.yaml`)
-  et non plus le chemin absolu sur la machine, qui n'apprenait rien à
-  personne et exposait l'arborescence du serveur.
 
 ## 0.2.0 (2026-07-22)
 

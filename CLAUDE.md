@@ -249,10 +249,13 @@ rappelle :
   goldens re-figés), mineur pour method/description, patch sinon. Elle
   part dans les métadonnées de sortie.
 - **Chaînage à ne pas rater**, rappelé ici exprès : une modif notable se
-  note sous `## Non publié` du CHANGELOG ; publier une version se fait
-  par `scripts/set_version.py`, jamais à la main ; un changement de
-  moteur nécessaire à card impose de remonter `stase>=` dans le
-  pyproject. Détail : « Versions et citation » plus bas.
+  note sous `## Non publié` du CHANGELOG ; **écrire l'entrée qui CLÔT un
+  chantier, c'est le moment où l'on se demande s'il faut couper une
+  version** (`scripts/set_version.py --etat` donne les faits, la règle
+  est la cinquième phrase du CHANGELOG) ; publier se fait par
+  `scripts/set_version.py`, jamais à la main ; un changement de moteur
+  nécessaire à card impose de remonter `stase>=` dans le pyproject.
+  Détail : « Versions et citation » plus bas.
 - Pas de PDF ni de `*~` sous git.
 - **Jamais de fenêtre de choix à cocher** (outil de question à options).
   Elle coupe la conversation au lieu de la nourrir. Une décision à
@@ -283,17 +286,23 @@ rappelle :
 
 ## Versions et citation
 
-Doctrine complète : « Versions, en quatre phrases », en tête de
+Doctrine complète : « Versions, en cinq phrases », en tête de
 `CHANGELOG.md`. Ce qu'il ne faut pas rater :
 
 - **Au quotidien : rien.** La production suit `main`, le service publie
   le commit et le SWHID de card et de stase dans chaque réponse. Le seul
   geste régulier est l'entrée `## Non publié` du CHANGELOG. **Le
   proposer soi-même**, l'utilisateur ne le demandera pas.
-- **Publier une version** (rare : PyPI, dépôt citable) :
-  `python scripts/set_version.py 0.3.0` accorde `pyproject.toml`,
-  `CITATION.cff` et `codemeta.json`. Ne JAMAIS y écrire un numéro à la
-  main : `tests/test_citation.py` refuse le désaccord. Puis section de
+- **Quand couper une version** : une rupture de SORTIES se publie le jour
+  où elle est livrée, le reste attend la fin du chantier en cours, jamais
+  le calendrier. Critères exacts : cinquième phrase du CHANGELOG.
+  `python scripts/set_version.py --etat` donne les faits (dernier tag,
+  commits depuis, entrées non publiées). **Le proposer soi-même** aussi :
+  l'utilisateur ne le demandera pas, il l'a dit explicitement le
+  2026-08-05.
+- **Publier une version** : `python scripts/set_version.py 0.3.0` accorde
+  tous les fichiers qui portent le numéro. Ne JAMAIS y écrire un numéro à
+  la main : `tests/test_citation.py` refuse le désaccord. Puis section de
   CHANGELOG, commit, `git tag -a vX.Y.Z`, `git push --tags`.
 - **SWHID** : `swh:1:rev:<hash du commit>` EST l'identifiant Software
   Heritage d'une révision git, calculable sans aucun appel d'API. Il ne

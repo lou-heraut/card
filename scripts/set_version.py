@@ -17,17 +17,60 @@ oubli. Ce script les accorde, et `tests/test_citation.py` vérifie qu'ils
 le sont restés.
 
 Usage (depuis la racine du dépôt) :
+    python scripts/set_version.py --etat  # faut-il couper une version ?
     python scripts/set_version.py 0.3.0   # fixe la version partout
     python scripts/set_version.py         # propage celle du pyproject
+
+`--etat` ne décide rien : couper une version est un jugement, et la règle
+qui le guide est la cinquième phrase de `CHANGELOG.md`. Il pose seulement
+les faits sous les yeux au moment où la question se pose, parce que
+personne ne va les chercher spontanément. C'est ainsi qu'un paquet reste
+en 0.2.0 pendant quatre-vingt-treize commits.
 """
 
 import datetime as dt
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+def _git(*args):
+    """Sortie d'une commande git, ou None si elle échoue (dépôt sans tag,
+    archive sans .git)."""
+    try:
+        out = subprocess.run(("git", "-C", str(ROOT)) + args,
+                             capture_output=True, text=True, check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+    return out.stdout.strip()
+
+
+def etat():
+    """Les faits qui portent la décision de couper une version."""
+    version = lire_version()
+    print(f"version du paquet    : {version}")
+
+    tag = _git("describe", "--tags", "--abbrev=0")
+    if tag:
+        date = _git("log", "-1", "--format=%ad", "--date=short", tag)
+        depuis = _git("rev-list", "--count", f"{tag}..HEAD")
+        print(f"dernier tag          : {tag} ({date})")
+        print(f"commits depuis       : {depuis}")
+    else:
+        print("dernier tag          : aucun")
+
+    texte = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    section = re.search(r"^## Non publié\n(.*?)(?=^## )", texte, re.M | re.S)
+    entrees = re.findall(r"^- \*\*", section.group(1), re.M) if section else []
+    print(f"entrées non publiées : {len(entrees)}")
+    print()
+    print("Couper ou non : cf. « Versions, en cinq phrases » du CHANGELOG.")
+    print("En deux mots : une rupture de sorties se publie le jour même, le")
+    print("reste attend la fin du chantier en cours.")
 
 
 def lire_version():
@@ -51,6 +94,9 @@ def ecrire(chemin, motif, remplacement):
 
 
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] in ("--etat", "--état"):
+        etat()
+        return
     version = sys.argv[1] if len(sys.argv) > 1 else lire_version()
     if not re.fullmatch(r"\d+\.\d+(\.\d+)?", version):
         sys.exit(f"version '{version}' mal formée : attendu majeur.mineur[.patch]")

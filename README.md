@@ -387,7 +387,7 @@ l'utilisez dans un travail publié.
 
 ```
 Héraut L., Dorchies D., Sauquet É., Vidal J.-P., Horner I., Santos L.
-(2026). card : recueil de fiches hydroclimatiques CARD (version 0.2.0).
+(2026). card : recueil de fiches hydroclimatiques CARD (version 0.3.0).
 Software Heritage : swh:1:rev:<commit>
 https://github.com/lou-heraut/card
 ```
