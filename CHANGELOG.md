@@ -65,6 +65,30 @@ des deux endroits.
 
 ### Modifié
 
+- **Le catalogue s'adresse enfin à un humain qui cherche une variable
+  (2026-08-05).** Il affichait `m^{3}.s^{-1}` là où `card.info` écrit
+  déjà `m³·s⁻¹` : même donnée, joliment rendue dans la figure et brute
+  dans le catalogue. Il répétait le nom de la fiche dans une colonne
+  « variable(s) » qui n'apprend quelque chose que pour les rares fiches
+  multi-sorties. Et il ne disait nulle part que les identifiants sont un
+  SYSTÈME, alors que c'est ce qui transforme 226 noms opaques en noms
+  qu'on prédit.
+
+  Désormais : unités lisibles (la fonction de la figure est réemployée,
+  pas réécrite), sept colonnes au lieu de neuf avec les facettes
+  regroupées, colonne « variables » remplie seulement quand elle
+  distingue, et le décodage d'un nom en tête de fichier. Le catalogue est
+  publié dans les **deux langues** du corpus, `CARDS.md` et
+  `CARDS.fr.md`, qui se renvoient l'une à l'autre : n'en publier qu'une
+  jetait la moitié de ce que les fiches portent. La garde de fraîcheur
+  couvre les deux.
+
+  `docs/index.md` devient une page d'aiguillage : ce que card calcule en
+  trois lignes, les deux catalogues mis en avant, le décodage d'un nom,
+  et trois portes selon qu'on vient de Python, de R ou du web. Rien du
+  README n'y est recopié, ni installation ni exemples ni citation : deux
+  vitrines divergent, un aiguillage ne peut pas mentir.
+
 - **« au regard de » disait mal ce que la fiche calcule (2026-08-05).**
   Les trois fiches `rp-` annonçaient une période de retour « au regard
   des minimums annuels », tournure administrative qui reste vague : une

@@ -274,8 +274,9 @@ classification vocabulary is the safe path to find a family
 the collection).
 
 The full catalogue is available online:
-[lou-heraut.github.io/card](https://lou-heraut.github.io/card/) or
-[docs/CARDS.md](docs/CARDS.md).
+[lou-heraut.github.io/card](https://lou-heraut.github.io/card/), or as
+files: [docs/CARDS.md](docs/CARDS.md) and its French counterpart
+[docs/CARDS.fr.md](docs/CARDS.fr.md).
 
 ## Decoding a card name
 
@@ -475,7 +476,7 @@ in the AUTHORS file.
 ```bash
 pip install -e . && pytest              # full suite
 python -m card.schema                   # linter for the YAML cards
-python scripts/generate_catalog.py      # regenerates docs/CARDS.md
+python scripts/generate_catalog.py      # regenerates both catalogues
 ```
 
 CI: `.github/workflows/tests.yml` (pytest, card linter, ruff). What

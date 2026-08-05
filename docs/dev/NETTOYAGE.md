@@ -80,8 +80,8 @@ elle sert.
 | README.md | vitrine et parcours d'usage : installer, extraire, suffixes, tendance, écrire sa fiche | SOURCE |
 | CLAUDE.md | contexte de session : format d'une fiche, règles de travail, état court | SOURCE |
 | CHANGELOG.md | journal daté des livraisons, une section par jalon | SOURCE |
-| docs/index.md | landing Pages : renvoi vers catalogue et dépôt | RENVOI |
-| docs/CARDS.md | catalogue, une ligne par fiche | GÉNÉRÉ |
+| docs/index.md | landing Pages : aiguillage vers les catalogues et les trois portes | RENVOI |
+| docs/CARDS.md, docs/CARDS.fr.md | catalogue, une ligne par fiche, une langue par fichier | GÉNÉRÉ |
 | docs/dev/NOMENCLATURE.md | grammaire des noms de variables et rédaction des métadonnées (R1 à R7, Oberlin) | SOURCE |
 | docs/dev/TOPICS.md | classification à facettes : modèle, vocabulaire, arbitrages | SOURCE |
 | docs/dev/RENAMING.md | journal daté des renommages et des changements de SORTIES (parité R rompue) | SOURCE |
@@ -300,6 +300,10 @@ Phase 3 :
       Fait le 2026-07-29, jamais coché ici.
 
 Phase 4 :
+- [x] avis de l'utilisateur rendu (2026-08-05) : « cible » validé, le
+      gabarit anglais confirmé bon (seule une étiquette à parenthèse
+      l'alourdissait), et « au regard de » reformulé en « dans la
+      distribution de » sur les trois fiches `rp-`.
 - [x] vérification scriptée (2026-08-05) : les 68 fiches à placeholder
       rendues dans les trois formes qu'un appelant produit (aucun nom,
       clé nue, nom fourni), en deux langues, zéro anomalie. Devenue une
@@ -308,11 +312,13 @@ Phase 4 :
       une ponctuation restée seule.
 - [x] `suffix_default` relu : trois défauts distincts seulement pour 68
       fiches, ce qui réduit le jugement humain à trois phrases.
-- [ ] **avis de l'utilisateur** sur ces trois défauts (exemples rendus
-      fournis le 2026-08-05).
 
 Phase 5 :
-- [ ] rôle de docs/index.md tranché.
+- [x] rôle de docs/index.md tranché (2026-08-05) : page d'AIGUILLAGE.
+      Elle ne redit rien du README (ni installation, ni exemples, ni
+      citation, qui divergeraient), elle met en avant la seule chose que
+      la page web fait mieux que GitHub, le catalogue, et donne trois
+      portes selon la langue d'où l'on vient.
 - [x] doc API à jour : provenance documentée dans le README de card-api,
       liens yaml et archive dans /v1/cards/{id}.
 

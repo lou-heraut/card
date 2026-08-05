@@ -18,12 +18,15 @@ RELANCE = "relance `python scripts/generate_catalog.py`"
 
 
 def test_catalogue_et_decompte_a_jour():
-    texte, n_cards, n_vars, _ = gc.render()
-
-    assert gc.OUT.exists(), f"{gc.OUT} manque : {RELANCE}"
-    assert gc.OUT.read_text(encoding="utf-8") == texte, (
-        f"{gc.OUT.name} ne correspond plus aux fiches du dépôt : {RELANCE}"
-    )
+    # Les deux langues sont générées du même corpus : en oublier une
+    # laisserait un catalogue périmé sans que rien ne le dise, ce qui est
+    # exactement ce que ce test existe pour empêcher.
+    for lang, chemin in gc.OUT.items():
+        texte, n_cards, n_vars, _ = gc.render(lang)
+        assert chemin.exists(), f"{chemin} manque : {RELANCE}"
+        assert chemin.read_text(encoding="utf-8") == texte, (
+            f"{chemin.name} ne correspond plus aux fiches du dépôt : {RELANCE}"
+        )
 
     m = gc.README_COUNT.search(gc.README.read_text(encoding="utf-8"))
     assert m, (
