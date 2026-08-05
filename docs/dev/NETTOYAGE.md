@@ -1,13 +1,13 @@
 > **Statut : procédure en vigueur.** Le mode d'emploi d'un coup de
-> nettoyage documentaire sur les trois dépôts : ce qu'on vérifie, dans
-> quel ordre, et à quoi on reconnaît que c'est fini. Il ne se périme pas,
-> il se rejoue. Seule la section « Campagne en cours » en fin de document
-> porte un état, et elle seule.
+> nettoyage documentaire sur les dépôts de l'écosystème : ce qu'on
+> vérifie, dans quel ordre, et à quoi on reconnaît que c'est fini. Il ne
+> se périme pas, il se rejoue. Seule la section « Campagne en cours » en
+> fin de document porte un état, et elle seule.
 
-# Nettoyage et uniformisation : card, stase, card-api
+# Nettoyage et uniformisation : card, stase, card4r, card-api
 
-Nettoyage transverse aux 3 packages : docs de dev, docs d'utilisation
-(README), pages web, métadonnées à placeholder, et surtout
+Nettoyage transverse aux paquets de l'écosystème : docs de dev, docs
+d'utilisation (README), pages web, métadonnées à placeholder, et surtout
 **cloisonnement** (chaque info à un seul endroit) pour réduire le coût
 token du re-chargement de contexte des futurs Claude.
 
@@ -43,7 +43,7 @@ suivante rouvre les phases dont elle a besoin.
 5. **Sobre et exécuté.** Docs utilisateur : parcours clair, exemples
    RÉELLEMENT exécutés, Python puis R en parallèle (cf. feedback style).
 
-## Structure cible, identique dans les trois dépôts
+## Structure cible, identique dans tous les dépôts
 
 ```
 README.md          vitrine et usage
@@ -87,7 +87,7 @@ elle sert.
 | docs/dev/RENAMING.md | journal daté des renommages et des changements de SORTIES (parité R rompue) | SOURCE |
 | docs/dev/CHANTIERS.md | registre des pistes ouvertes du corpus | SOURCE |
 | docs/dev/ORIGINE_R.md | origine R du corpus, validation croisée, divergences propres aux FICHES | SOURCE |
-| docs/dev/NETTOYAGE.md | ce document : procédure de nettoyage documentaire des trois dépôts | SOURCE |
+| docs/dev/NETTOYAGE.md | ce document : procédure de nettoyage documentaire de l'écosystème | SOURCE |
 | docs/dev/PLAN_R.md | décisions sur l'accès R au corpus et le sort des paquets R | TEMPORAIRE |
 | docs/dev/Oberlin_1994...edit.md | source scientifique du système de nommage (OCR) | RÉFÉRENCE |
 | docs/dev/archive/AUDIT_FICHES.md | constats et décisions de l'audit appliqué le 2026-07-15 | HISTORIQUE |
@@ -293,7 +293,11 @@ Phase 3 :
       colonnes, provenance d'un résultat, list_cards, info, copy_cards
       puis schema). Tous rejoués le 2026-08-04, sorties conformes ; la
       figure de « Lire une fiche » est régénérée à la même date.
-- [ ] README stase et card-api : un exemple exécuté par capacité.
+- [x] **stase** : quick start, stationnarité, enchaînement, fenêtre
+      adaptative, `param_cols`, tous avec leur sortie. Fait le
+      2026-07-28, jamais coché ici.
+- [x] **card-api** : endpoints, curl, Python, R, jobs, clé de priorité.
+      Fait le 2026-07-29, jamais coché ici.
 
 Phase 4 :
 - [ ] exemples rendus (générique vs records) fournis à l'utilisateur.
@@ -306,4 +310,11 @@ Phase 5 :
       liens yaml et archive dans /v1/cards/{id}.
 
 Phase 6 :
-- [ ] conventions communes appliquées ; renvois croisés cohérents.
+- [x] conventions communes et renvois croisés (2026-08-05) : bloc
+      « écosystème » identique dans les six README, About alignés,
+      bandeaux `superseded` sur les deux paquets historiques, liens
+      croisés réparés, carte des rôles étendue au quatrième dépôt.
+- [x] langue tranchée : anglais pour les paquets (card, stase, card4r,
+      et les deux historiques qui l'étaient déjà), **français assumé
+      pour card-api**, dont les utilisateurs, les données et les
+      mentions légales le sont.
