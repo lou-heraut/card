@@ -67,9 +67,37 @@ python3 run_py_corpus.py        # rapport dans data/corpus_report.csv
 CARD_ROLL_COMPAT=rcpp python3 run_py_corpus.py   # mode parité RcppRoll
 ```
 
-Les références R (`tests/data/`, ~37 Mo) ne sont pas versionnées :
-elles se régénèrent avec les commandes ci-dessus. La suite pytest est
-autonome et n'en a pas besoin.
+### La référence R est GELÉE dans le dépôt (2026-08-05)
+
+`tests/data/R_corpus/` (206 fiches) et `R_out/` sont désormais versionnés.
+Ils ne l'étaient pas, et se régénéraient par les commandes ci-dessus,
+**tant que le paquet R s'installe et tourne**. Or dplyr en casse déjà 11
+sur 217, et l'écart ne fera que croître : le jour où R ne tourne plus,
+cette preuve extérieure du portage serait perdue, et il faudrait
+reconstituer un R d'époque pour la retrouver. Elle ne redeviendra jamais
+plus facile à geler qu'aujourd'hui.
+
+Coût assumé : 20 Mo bruts, 5,8 Mo dans git, payés une fois puisqu'une
+référence gelée n'est jamais réécrite. **Rien n'en part dans le paquet
+distribué** : mesuré le même jour, la roue ne contient aucun test et la
+sdist ne prend que les `.py` de `tests/` ; `MANIFEST.in` rend cette
+exclusion explicite plutôt que dépendante d'un défaut de setuptools.
+
+L'entrée, elle, reste hors git : `test_data.csv` pèse 18 Mo et
+`make_test_data.py` le refabrique à l'octet près depuis la graine 42.
+C'est son **empreinte** qui est gelée, dans `R_corpus/_input.md5`, et
+`run_py_corpus.py` refuse de comparer si elle ne correspond pas. Sans
+ça, un changement du générateur rendrait la référence incomparable en
+silence, et on lirait les écarts comme des régressions du code.
+
+**Les deux modes ne répondent pas à la même question**, et les
+confondre trompe. En mode normal, la comparaison juge Python contre R et
+laisse voir la divergence de rolling. En mode `CARD_ROLL_COMPAT=rcpp`,
+elle s'aligne sur R et cette divergence disparaît, mais les fiches à
+fenêtre paire ne correspondent alors plus à leur golden Python, figé en
+mode normal : le script les marque « RÉGRESSION », ce qui n'en est pas
+une. La garde de non-régression, c'est `pytest tests/test_py_golden.py`,
+et il tourne en mode normal.
 
 ## Divergences assumées avec le R
 

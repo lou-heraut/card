@@ -1,0 +1,7 @@
+# La référence R gelée (tests/data/R_corpus/, 20 Mo) est une PREUVE
+# d'archive, pas du contenu de paquet : elle n'a rien à faire dans ce que
+# pip télécharge. Mesuré le 2026-08-05 avant de la geler : la roue ne
+# contient aucun test, et la sdist ne prend que les fichiers .py de
+# tests/. Cette règle rend cette exclusion EXPLICITE plutôt que
+# dépendante d'un défaut de setuptools qui pourrait changer.
+prune tests/data

@@ -12,6 +12,7 @@ Comparaison générique :
   ex. convention rolling pandas vs RcppRoll pour k pair).
 """
 
+import hashlib
 import sys
 import traceback
 import warnings
@@ -127,7 +128,35 @@ def compare_frames(r_df, p_df, id_col="id"):
     return out
 
 
+def _verifier_l_entree():
+    """La référence R est gelée : elle ne vaut que face à SON entrée.
+
+    `R_corpus/` a été produit par le paquet R sur un `test_data.csv`
+    précis. Ce fichier est hors git, entièrement refabriqué par
+    `make_test_data.py` depuis la graine 42 ; son empreinte, elle, est
+    gelée à côté de la référence. Si un jour le générateur change, la
+    comparaison n'a plus de sens, et elle doit s'arrêter au lieu de
+    rendre des divergences qu'on croirait dues au code.
+    """
+    empreinte = R_ROOT / "_input.md5"
+    if not empreinte.exists():
+        return
+    csv = TESTS / "data" / "test_data.csv"
+    attendu = empreinte.read_text(encoding="utf-8").strip()
+    obtenu = hashlib.md5(csv.read_bytes()).hexdigest()
+    if obtenu != attendu:
+        sys.exit(
+            f"L'entrée ne correspond pas à la référence R gelée.\n"
+            f"  {csv.name} : {obtenu}\n"
+            f"  attendu    : {attendu}\n"
+            "La référence de tests/data/R_corpus/ a été produite sur une "
+            "autre entrée : soit make_test_data.py a changé, soit le "
+            "fichier a été édité. Comparer les deux ne dirait plus rien "
+            "sur le portage.")
+
+
 def main(only=None):
+    _verifier_l_entree()
     data = pd.read_csv(TESTS / "data" / "test_data.csv", parse_dates=["date"])
     r_status = pd.read_csv(R_ROOT / "_status.csv").set_index("card")
     yaml_cards = find_yaml_cards()
