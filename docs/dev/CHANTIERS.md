@@ -38,6 +38,21 @@ Ce qui reste à faire, et qui n'est écrit qu'ici :
 - le diagnostic vaut pour la version de R installée ici : le rejouer sur
   l'environnement de l'utilisateur avant d'ouvrir le signalement.
 
+## Référence R gelée : deux pistes optionnelles
+
+La référence croisée est dans le dépôt depuis le 2026-08-05
+(`ORIGINE_R.md`). Deux choses restent possibles, aucune nécessaire.
+
+- **La porter de 206 à 217 fiches.** Onze fiches ne tournent plus dans le
+  paquet R avec dplyr >= 1.1, donc la référence gelée ne les couvre pas.
+  Les récupérer demande un R d'époque, image rocker ou snapshot Posit
+  daté. Ne redeviendra jamais plus facile qu'aujourd'hui, et se périme un
+  peu plus chaque année.
+- **Câbler `run_py_corpus.py` en CI.** Devenu possible maintenant que la
+  référence est versionnée, mais demande de refabriquer les 18 Mo
+  d'entrée à chaque exécution. Bonus, pas un manque : la garde de
+  non-régression est `test_py_golden.py`, et elle tourne déjà.
+
 ## Références bibliographiques externes dans les fiches
 
 Ancrer les fiches standardisées sur leurs références : identifiants

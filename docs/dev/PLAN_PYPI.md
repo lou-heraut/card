@@ -1,7 +1,8 @@
-> **Statut : plan, rien n'est envoyé.** Réclamer le nom `card` sur PyPI,
-> occupé depuis 2019 par une réservation vide. Contient les preuves
-> mesurées et les trois textes prêts à envoyer. Les dates d'envoi se
-> notent ici au fur et à mesure : c'est le seul endroit qui les porte.
+> **Statut : plan en cours, le contact est pris.** Réclamer le nom `card`
+> sur PyPI, occupé depuis 2019 par une réservation vide. Le courriel et
+> l'issue sont partis le 2026-08-06 ; la demande PEP 541 peut suivre à
+> partir du 2026-09-06. Contient les preuves mesurées et les textes. Les
+> dates vivent ici, et nulle part ailleurs.
 > À supprimer une fois le nom obtenu ou la demande refusée.
 
 # Réclamer `card` sur PyPI (PEP 541)
@@ -42,13 +43,17 @@ fait donc sérieusement, et publiquement pour qu'elle soit montrable.
 
 | # | quoi | où | date d'envoi |
 |---|---|---|---|
-| 1 | courriel au propriétaire | `longniao@gmail.com` | à noter ici |
-| 2 | issue publique, trace horodatée | `github.com/pipname/card/issues` | à noter ici |
-| 3 | demande PEP 541 | `github.com/pypi/support/issues/new/choose`, modèle de demande de nom de projet | à noter ici |
+| 1 | courriel au propriétaire | `longniao@gmail.com` | **envoyé le 2026-08-06** |
+| 2 | issue publique, trace horodatée | `github.com/pipname/card/issues` | **ouverte le 2026-08-06** |
+| 3 | demande PEP 541 | `github.com/pypi/support/issues/new/choose`, modèle de demande de nom de projet | **à partir du 2026-09-06** |
 
 Entre 2 et 3, **attendre un mois**. Ce délai n'est pas une politesse : il
 rend la demande inattaquable, personne ne pouvant dire que le
 propriétaire n'a pas eu sa chance.
+
+**Le délai court depuis le 2026-08-06**, donc la demande PEP 541 peut
+partir à partir du **2026-09-06**. Si une réponse arrive d'ici là, elle
+change tout : ce plan s'arrête et le nom de repli reste.
 
 Compter ensuite plusieurs mois de traitement. Rien ne presse : `card-stase`
 fonctionne, et le nom d'import est déjà `card`.
@@ -125,8 +130,9 @@ ci-dessous répond au reste.
 > pushed on 2019-08-23, the same day, and has never been updated.
 >
 > **Contact attempts**: I emailed the owner at the address published in
-> the project metadata on <DATE 1>, and opened an issue on the linked
-> repository on <DATE 2>: <LIEN>. No answer as of <DATE 3>.
+> the project metadata on 2026-08-06, and opened an issue on the linked
+> repository the same day: <LIEN DE L'ISSUE>. No answer as of
+> <DATE DU JOUR>.
 >
 > **What I would publish**: `card`, a collection of over 200
 > hydroclimatic variable definitions (low flows, floods, seasonality,

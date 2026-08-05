@@ -22,16 +22,19 @@ statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
   divergences assumées).
 - docs/dev/`CHANTIERS.md` : pistes ouvertes seulement.
 - docs/dev/archive/ : documents d'époque, non maintenus (`ROADMAP.md`,
-  `AUDIT_FICHES.md`, `PLAN_METHOD.md`). On y va pour comprendre POURQUOI
-  une décision a été prise, jamais pour savoir où en est le corpus.
-- docs/dev/`NETTOYAGE.md` : la procédure du ménage documentaire transverse
-  aux trois dépôts, à rejouer quand il le faut ; sa section « Campagne en
-  cours » est le seul endroit qui dise où en est chaque phase.
-- docs/dev/`PLAN_R.md` : décisions sur l'accès R au corpus et le sort des
-  paquets R historiques. Le front R lui-même vit dans `../card4r/`
-  (paquet mince qui APPELLE card, ne le réimplémente pas) ; les paquets R
-  historiques `../CARD-R/` et `../../EXstat_project/EXstat/` restent sans
-  fichiers IA.
+  `AUDIT_FICHES.md`, `PLAN_METHOD.md`, `PLAN_R.md`). On y va pour
+  comprendre POURQUOI une décision a été prise, jamais pour savoir où en
+  est le corpus.
+- docs/dev/`NETTOYAGE.md` : la procédure du ménage documentaire de
+  l'écosystème, à rejouer quand il le faut ; sa section « Campagne en
+  cours » est le seul endroit qui dise où en est chaque phase, et elle
+  dit aujourd'hui qu'aucune n'est ouverte.
+- docs/dev/`PLAN_PYPI.md` : réclamation du nom `card` sur PyPI, preuves
+  et dates d'envoi.
+- **Écosystème R** : le front vit dans `../card4r/` (paquet mince qui
+  APPELLE card, ne le réimplémente pas) ; les paquets historiques
+  `../CARD-R/` et `../../EXstat_project/EXstat/` sont `superseded` et
+  restent **sans fichiers IA**. Pourquoi ces choix : `archive/PLAN_R.md`.
 
 ## Structure
 

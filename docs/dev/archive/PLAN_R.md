@@ -1,12 +1,20 @@
-> **Statut : plan, en cours.** Comment un utilisateur R accède au corpus
-> card sans qu'aucun moteur ne soit écrit deux fois, et ce que
-> deviennent les paquets R historiques. Le chantier 2 est **fait**
-> (`card4r` existe et tourne), les autres non. Ce qui est **décidé**, ce
-> qui est **écarté** et ce qui reste **ouvert** sont distingués exprès.
-> Sans rapport avec `NETTOYAGE.md`, procédure d'hygiène documentaire.
-> **À supprimer une fois déroulé**, en répartissant son reste : ce qui
-> concerne le front R ira dans `card4r`, ce qui concerne la référence
-> gelée dans `ORIGINE_R.md`.
+> **Statut : archive, rangée le 2026-08-06. Non maintenue.**
+>
+> Ce plan a conduit le sort de l'écosystème R, du 2026-08-05 au
+> 2026-08-06. **Ses quatre chantiers sont sortis** : le `Package:` de
+> CARD-R réparé, `card4r` écrit et publié, les badges `superseded` posés
+> sur CARD et EXstat, la référence R gelée dans le dépôt. Seul
+> l'archivage GitHub des paquets historiques a été écarté, l'utilisateur
+> le jugeant non souhaitable tant qu'une conversation y est ouverte.
+>
+> Il est conservé pour ce qu'il explique et non pour ce qu'il annonce :
+> les options écartées avec leurs raisons, et les mesures qui ont décidé
+> de la forme de `card4r`.
+>
+> **Ne pas y chercher l'état courant.** Ce qui a été livré se lit dans
+> les `CHANGELOG.md`, ce qui reste ouvert dans `CHANTIERS.md`, la
+> référence gelée dans `ORIGINE_R.md`, et le front R dans son propre
+> dépôt.
 
 # Plan : l'écosystème R après le port Python
 

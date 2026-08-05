@@ -88,12 +88,12 @@ elle sert.
 | docs/dev/CHANTIERS.md | registre des pistes ouvertes du corpus | SOURCE |
 | docs/dev/ORIGINE_R.md | origine R du corpus, validation croisée, divergences propres aux FICHES | SOURCE |
 | docs/dev/NETTOYAGE.md | ce document : procédure de nettoyage documentaire de l'écosystème | SOURCE |
-| docs/dev/PLAN_R.md | décisions sur l'accès R au corpus et le sort des paquets R | TEMPORAIRE |
 | docs/dev/PLAN_PYPI.md | réclamation du nom `card` sur PyPI : preuves, textes, dates d'envoi | TEMPORAIRE |
 | docs/dev/Oberlin_1994...edit.md | source scientifique du système de nommage (OCR) | RÉFÉRENCE |
 | docs/dev/archive/AUDIT_FICHES.md | constats et décisions de l'audit appliqué le 2026-07-15 | HISTORIQUE |
 | docs/dev/archive/ROADMAP.md | phases A à D de la refonte R vers Python | HISTORIQUE |
 | docs/dev/archive/PLAN_METHOD.md | conception de la refonte du champ `method`, août 2026 | HISTORIQUE |
+| docs/dev/archive/PLAN_R.md | sort de l'écosystème R : options écartées et mesures qui ont décidé de card4r | HISTORIQUE |
 
 ### stase
 
