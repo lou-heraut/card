@@ -8,6 +8,8 @@ extractions mono-seuil, et que les PHRASES restent lisibles dans tous
 les régimes (sans suffixe, avec suffixe nommé, avec suffixe nu).
 """
 
+import re
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -129,6 +131,36 @@ def test_no_placeholder_survives_anywhere_in_the_corpus_metadata():
         if meta[col].dtype == object:
             leaked = meta[col].astype(str).str.contains(r"\{suffix", na=False)
             assert not leaked.any(), f"{col} : {meta.loc[leaked, col].tolist()}"
+
+
+def test_the_substituted_sentence_still_reads_like_a_sentence():
+    """Une accolade résolue peut laisser une phrase bancale.
+
+    Le test voisin garantit qu'aucun `{suffix.X}` ne sort. Il ne dit rien
+    de ce qui sort À LA PLACE : un gabarit « l'horizon {suffix.name} »
+    rencontrant un nom « l'horizon proche » donne « l'horizon l'horizon
+    proche », qui n'a pas d'accolade et ne veut rien dire.
+
+    On éprouve donc les trois formes qu'un appelant produit vraiment :
+    aucun nom (défaut de la fiche), la clé nue, et un nom fourni. Vérifié
+    le 2026-08-05 sur les 68 fiches à placeholder, zéro anomalie.
+    """
+    for scenario in (None,
+                     ["H1"],
+                     {"H1": {"en": {"name": "near future (2021-2050)"},
+                             "fr": {"name": "futur proche (2021-2050)"}}}):
+        meta = extract(pd.DataFrame(), cards=None, metadata_only=True,
+                       suffix=scenario)["meta"]
+        for col in meta.columns:
+            for value in meta[col]:
+                # `astype(str)` laisse les NaN en flottants sous pandas 3 :
+                # on filtre sur le type réel plutôt que de convertir.
+                if not isinstance(value, str):
+                    continue
+                assert not re.search(r"\b(\w+) \1\b", value, re.I), \
+                    f"mot doublé dans {col} : {value}"
+                assert "  " not in value and " ," not in value, \
+                    f"ponctuation dans {col} : {value}"
 
 
 # --- La prose n'est pas toujours à plat : method est une table ---------

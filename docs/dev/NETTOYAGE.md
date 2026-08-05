@@ -300,9 +300,16 @@ Phase 3 :
       Fait le 2026-07-29, jamais coché ici.
 
 Phase 4 :
-- [ ] exemples rendus (générique vs records) fournis à l'utilisateur.
-- [ ] toutes les phrases `{suffix.X}` cohérentes EN/FR (vérif scriptée).
-- [ ] `suffix_default` relu (le générique se lit bien).
+- [x] vérification scriptée (2026-08-05) : les 68 fiches à placeholder
+      rendues dans les trois formes qu'un appelant produit (aucun nom,
+      clé nue, nom fourni), en deux langues, zéro anomalie. Devenue une
+      garde durable, `test_the_substituted_sentence_still_reads_like_a_sentence`,
+      qui attrape ce que l'absence d'accolade ne dit pas : un mot doublé,
+      une ponctuation restée seule.
+- [x] `suffix_default` relu : trois défauts distincts seulement pour 68
+      fiches, ce qui réduit le jugement humain à trois phrases.
+- [ ] **avis de l'utilisateur** sur ces trois défauts (exemples rendus
+      fournis le 2026-08-05).
 
 Phase 5 :
 - [ ] rôle de docs/index.md tranché.
