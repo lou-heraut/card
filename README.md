@@ -7,11 +7,11 @@
 [![License: GPL v3](https://img.shields.io/badge/license-GPL--3.0-bd0000)](LICENSE)
 <!-- badges: end -->
 
-**card** calcule des variables hydroclimatiques prêtes à l'emploi :
-<!-- cards:count -->226 fiches, 472 variables<!-- /cards:count -->
-(étiages, crues, saisonnalité, changement climatique...) définies en YAML
-et exécutées par le moteur [stase](https://github.com/lou-heraut/stase).
-Vous choisissez vos fiches, card fait le reste.
+**card** computes ready-to-use hydroclimatic variables:
+<!-- cards:count -->226 cards, 472 variables<!-- /cards:count -->
+(low flows, floods, seasonality, climate change...) defined in YAML and
+executed by the [stase](https://github.com/lou-heraut/stase) engine. You
+pick your cards, card does the rest.
 
 ## Installation
 
@@ -20,138 +20,138 @@ pip install "stase @ git+https://github.com/lou-heraut/stase.git"
 pip install "card-stase @ git+https://github.com/lou-heraut/card.git"
 ```
 
-Dans cet ordre : `stase` n'est pas publié sur PyPI, donc card installé
-seul ne saurait pas où trouver son moteur. Le nom d'installation est
-`card-stase`, le nom `card` étant déjà pris sur PyPI ; le nom d'import
-reste `card`. Sans git sur la machine, les mêmes paquets s'installent
-depuis les archives du dépôt :
+In that order: `stase` is not published on PyPI, so card installed alone
+would not know where to find its engine. The install name is
+`card-stase`, the name `card` being already taken on PyPI; the import
+name stays `card`. Without git on the machine, the same packages install
+from repository archives:
 
 ```bash
 pip install https://github.com/lou-heraut/stase/archive/refs/heads/main.tar.gz \
             https://github.com/lou-heraut/card/archive/refs/heads/main.tar.gz
 ```
 
-**Depuis R**, le même recueil s'utilise avec
-[card4r](https://github.com/lou-heraut/card4r), qui appelle card sans le
-réécrire, et provisionne Python tout seul :
+**From R**, the same collection is used through
+[card4r](https://github.com/lou-heraut/card4r), which calls card rather
+than rewriting it, and provisions Python on its own:
 
 ```r
 remotes::install_github("lou-heraut/card4r")
 ```
 
-## Démarrage rapide
+## Quick start
 
 ```python
 import numpy as np
 import pandas as pd
 import card
 
-# une chronique journalière : une colonne datetime, une colonne texte
-# (identifiant de série) et les colonnes numériques requises par les fiches.
-# Ici une série synthétique : saisonnière, en baisse lente.
+# a daily record: a datetime column, a text column (series identifier)
+# and the numeric columns the cards require. Here a synthetic series:
+# seasonal, slowly decreasing.
 dates = pd.date_range("1970-01-01", "2020-12-31", freq="D")
-saison = 1 + 0.6 * np.cos(2 * np.pi * (dates.dayofyear.to_numpy() - 30) / 365)
+season = 1 + 0.6 * np.cos(2 * np.pi * (dates.dayofyear.to_numpy() - 30) / 365)
 data = pd.DataFrame({
     "date": dates,
     "Q": (np.random.default_rng(0).gamma(2, 5, len(dates))
-          * saison * np.linspace(1.0, 0.75, len(dates))),
-    "id": "ma_station",
+          * season * np.linspace(1.0, 0.75, len(dates))),
+    "id": "my_station",
 })
 
 res = card.extract(data, cards=["QA", "VCN10"])
-res["data"]["VCN10"]     # un DataFrame par fiche : id, date, valeur
-res["meta"]              # une ligne par variable : unité, nom, classification
+res["data"]["VCN10"]     # one DataFrame per card: id, date, value
+res["meta"]              # one row per variable: unit, name, classification
 ```
 
-Les fiches référencent les colonnes d'entrée par leur nom (`Q` pour le
-débit, `T` pour la température...). Si vos colonnes s'appellent
-autrement, passez `rename={"Qm3s": "Q"}` ; avec une seule colonne
-numérique et une fiche à variable unique, la correspondance est
-automatique (un avertissement le signale). Une colonne de dates en texte
-au format ISO `YYYY-MM-DD` est convertie automatiquement.
+Cards refer to input columns by name (`Q` for discharge, `T` for
+temperature...). If your columns are named otherwise, pass
+`rename={"Qm3s": "Q"}`; with a single numeric column and a
+single-variable card, the match is automatic (a warning says so). A date
+column given as text in ISO `YYYY-MM-DD` format is converted
+automatically.
 
-## Tendance
+## Trend
 
 ```python
 tr = card.trend(res)
 tr["data"]["VCN10"][["id", "h", "p", "a", "a_relative"]]
 #         id    h        p         a  a_relative
-# ma_station True 0.017107 -0.010074   -0.440127
+# my_station True 0.017107 -0.010074   -0.440127
 ```
 
-`h` dit si la tendance est significative au seuil demandé, `a` est la
-pente de Sen dans l'unité de la variable et par an, `a_relative` la même
-en pourcentage de la moyenne. Le test tient compte de l'autocorrélation
-d'ordre 1 par défaut, les séries d'étiage en présentant le plus souvent.
+`h` tells whether the trend is significant at the requested level, `a` is
+the Sen slope in the unit of the variable per year, `a_relative` the same
+as a percentage of the mean. The test accounts for first-order
+autocorrelation by default, low-flow series showing it most often.
 
-## Choisir la fenêtre annuelle
+## Choosing the annual window
 
-Les fiches de basses eaux et de crue adaptent par défaut leur fenêtre à
-chaque série : l'année démarre au mois le plus favorable, ce qui évite de
-couper un événement en deux. Pour comparer des stations entre elles ou
-rejouer un calcul à l'identique, on impose la même fenêtre partout :
+Low-flow and flood cards adapt their window to each series by default:
+the year starts at the most favourable month, which avoids cutting an
+event in two. To compare stations with one another, or to replay a
+computation identically, the same window is imposed everywhere:
 
 ```python
-card.extract(data, cards=["VCN10"], sampling_period="preferred")  # celle déclarée par la fiche
-card.extract(data, cards=["VCN10"], sampling_period="09-01")      # une fenêtre choisie
+card.extract(data, cards=["VCN10"], sampling_period="preferred")  # the one the card declares
+card.extract(data, cards=["VCN10"], sampling_period="09-01")      # a chosen window
 ```
 
-Seules les fenêtres annuelles sont écrasées. Une fenêtre partielle, comme
-le mai-novembre d'une fiche estivale, fait partie de la définition de la
-variable et n'est jamais touchée.
+Only annual windows are overridden. A partial window, such as the
+May-November of a summer card, is part of the definition of the variable
+and is never touched.
 
-## Fiches à paramètre : seuils et horizons
+## Cards with a parameter: thresholds and horizons
 
-Certaines fiches ont besoin d'une valeur que vous seul connaissez. Elle
-se fournit comme une colonne du tableau d'entrée, constante par série.
+Some cards need a value that only you know. It is supplied as a column of
+the input table, constant per series.
 
-Un seuil réglementaire, par exemple, pour les fiches `rp-` qui donnent la
-période de retour d'un débit donné par les textes :
+A regulatory threshold, for instance, for the `rp-` cards that give the
+return period of a discharge set by law:
 
 ```python
 d = data.assign(Q_lim=2.2)
 card.extract(d, cards=["rp-VCN10"])["data"]["rp-VCN10"]
 #         id  rp-VCN10
-# ma_station  2.302126      -> ce seuil est atteint environ tous les 2,3 ans
+# my_station  2.302126      -> that threshold is reached about every 2.3 years
 ```
 
-Une station a souvent plusieurs seuils. `suffix=` applique la fiche à
-chacun en un seul appel, à partir d'une colonne par seuil :
+A station often has several thresholds. `suffix=` applies the card to
+each of them in a single call, from one column per threshold:
 
 ```python
 d = data.assign(Q_lim_DOE=2.2, Q_lim_DCR=1.7)
 card.extract(d, cards=["rp-VCN10"], suffix=["DOE", "DCR"])["data"]["rp-VCN10"]
 #         id  rp-VCN10_DOE  rp-VCN10_DCR
-# ma_station      2.302126     24.988053
+# my_station      2.302126     24.988053
 ```
 
-La chronique `Q`, partagée par les deux calculs, n'est lue qu'une fois.
-Chaque sortie a sa propre ligne dans `res["meta"]`, avec une colonne
-`suffix` qui rappelle la variante. Pour que ces lignes portent un nom
-lisible plutôt que la clé brute, nommez les variantes :
+The `Q` record, shared by both computations, is read only once. Each
+output has its own row in `res["meta"]`, with a `suffix` column recalling
+the variant. For those rows to carry a readable name rather than the raw
+key, name the variants:
 
 ```python
 card.extract(d, cards=["rp-VCN10"], suffix={
-    "DOE": {"fr": {"name": "débit objectif d'étiage"}},
-    "DCR": {"fr": {"name": "débit de crise"}},
+    "DOE": {"en": {"name": "low-flow objective"}},
+    "DCR": {"en": {"name": "crisis flow threshold"}},
 })
-# name_fr -> "Période de retour du débit objectif d'étiage au regard [...]"
+# name_en -> "Return period of the low-flow objective with respect to [...]"
 ```
 
-Une période, de même, se fournit en colonnes plutôt que d'être figée dans
-la fiche. Les fiches `delta-` comparent une référence à un horizon et
-prennent donc quatre bornes, ce qui permet des horizons propres à chaque
-station, par exemple définis par un degré de réchauffement :
+A period, likewise, is supplied as columns rather than frozen in the
+card. The `delta-` cards compare a reference with a horizon and therefore
+take four bounds, which allows horizons specific to each station, defined
+for instance by a warming level:
 
 ```python
 h = data.assign(ref_start="1970-01-01", ref_end="2000-12-31",
                 horizon_start="2001-01-01", horizon_end="2020-12-31")
 card.extract(h, cards=["delta-QA_H"])["data"]["delta-QA_H"]
 #         id   delta-QA
-# ma_station -14.671572     -> le module baisse de 14,7 % entre les deux périodes
+# my_station -14.671572     -> the mean flow drops by 14.7 % between the two periods
 ```
 
-Plusieurs horizons en un appel, avec le même mécanisme de suffixe :
+Several horizons in one call, with the same suffix mechanism:
 
 ```python
 h = data.assign(
@@ -161,182 +161,182 @@ h = data.assign(
     horizon_start_H2="2011-01-01", horizon_end_H2="2020-12-31")
 card.extract(h, cards=["delta-QA_H"], suffix=["H1", "H2"])["data"]["delta-QA_H"]
 #         id  delta-QA_H1  delta-QA_H2
-# ma_station    -11.51997   -18.173351
+# my_station    -11.51997   -18.173351
 ```
 
-D'autres fiches ne comparent rien : elles calculent sur **une** période,
-qu'elle soit future ou observée. Elles prennent alors `period_start` et
-`period_end`, et leur métadonnée parle de période et non d'horizon :
+Other cards compare nothing: they compute over **one** period, future or
+observed. They then take `period_start` and `period_end`, and their
+metadata speaks of a period rather than a horizon:
 
 ```python
 p = data.assign(period_start_obs="1976-01-01", period_end_obs="2005-12-31",
                 period_start_fin="2001-01-01", period_end_fin="2020-12-31")
 card.extract(p, cards=["QM"], suffix={
-    "obs": {"fr": {"name": "la période observée 1976-2005"}},
-    "fin": {"fr": {"name": "la période récente 2001-2020"}},
+    "obs": {"en": {"name": "the observed period 1976-2005"}},
+    "fin": {"en": {"name": "the recent period 2001-2020"}},
 })
-# -> colonnes QM_obs et QM_fin
-# name_fr -> "Débit moyen mensuel sur la période observée 1976-2005"
+# -> columns QM_obs and QM_fin
+# name_en -> "Mean monthly discharge over the observed period 1976-2005"
 ```
 
-Ces bornes sont **facultatives** (`period_start?` dans les entrées de la
-fiche) : sans elles, la même fiche calcule sur toute la chronique et
-l'annonce, « Débit moyen mensuel sur la chronique entière ». Une fiche
-suffit donc là où il en fallait une par période. Le nom que vous donnez à
-une variante est repris tel quel, article compris : écrivez « la période
-observée » ou « le futur lointain » selon ce qui se lit le mieux.
+These bounds are **optional** (`period_start?` in the card's inputs):
+without them, the same card computes over the whole record and says so,
+"Mean monthly discharge over the whole record". One card therefore
+suffices where one per period used to be needed. The name you give a
+variant is taken as is, article included: write "the observed period" or
+"the far future" depending on what reads best.
 
-Le même mécanisme sert à comparer deux jeux d'une même variable sur
-n'importe quelle fiche, par exemple des colonnes `Q_obs` et `Q_sim` avec
-`suffix=["obs", "sim"]`. `card.trend` suit ensuite ces variantes sans
-qu'il faille les redéclarer.
+The same mechanism serves to compare two sets of one variable on any
+card, for instance columns `Q_obs` and `Q_sim` with
+`suffix=["obs", "sim"]`. `card.trend` then follows those variants without
+having to redeclare them.
 
-## Ce qu'un résultat dit de lui-même
+## What a result says about itself
 
-`res["meta"]` ne décrit pas seulement la variable, il identifie la
-définition qui l'a produite :
+`res["meta"]` does not only describe the variable, it identifies the
+definition that produced it:
 
 ```python
-res["meta"][["variable_fr", "version", "swhid", "script_path"]]
-# variable_fr version                swhid                    script_path
+res["meta"][["variable_en", "version", "swhid", "script_path"]]
+# variable_en version                swhid                    script_path
 #          QA     1.0 swh:1:cnt:e1197d4d… flow/mean-flows/series/QA.yaml
 ```
 
-(le SWHID est abrégé ici : c'est le hash du fichier de fiche, il change
-avec elle.)
+(the SWHID is abbreviated here: it is the hash of the card file, and it
+changes with it.)
 
-`version` est celle de la fiche, qui change dès que ses sorties changent.
-`swhid` identifie le fichier lui-même dans [Software
-Heritage](https://archive.softwareheritage.org/) : en collant
-`https://archive.softwareheritage.org/` devant, on obtient la fiche telle
-qu'elle était au moment du calcul, même des années plus tard, et même si
-le dépôt a changé depuis. De quoi archiver un résultat sans perdre la
-définition qui va avec.
+`version` is that of the card, which changes as soon as its outputs
+change. `swhid` identifies the file itself in [Software
+Heritage](https://archive.softwareheritage.org/): prefixing it with
+`https://archive.softwareheritage.org/` gives the card as it was at the
+time of the computation, even years later, and even if the repository has
+changed since. Enough to archive a result without losing the definition
+that goes with it.
 
-Ça, c'est la **définition**. Quatre colonnes de plus disent quel
-**logiciel** l'a exécutée :
+That is the **definition**. Four more columns say which **software**
+executed it:
 
 ```python
 res["meta"][["card_version", "card_commit", "stase_version", "stase_commit"]]
 # card_version card_commit stase_version stase_commit
-#        0.3.1 c015502385… 0.6.1         836dfae29f…
+#        0.4.0 64c4d50c07… 0.6.1         f3067f115a…
 ```
 
-Le numéro de version se lit facilement, mais il ne désigne un état unique
-que le jour où il est publié : entre deux versions, des dizaines de
-commits portent le même numéro. C'est le **commit** qui identifie
-exactement le code qui a tourné, et `swh:1:rev:` suivi de ce commit en
-est l'identifiant Software Heritage citable, sur le même modèle que
-celui de la fiche.
+A version number is easy to read, but it designates a unique state only
+on the day it is published: between two versions, dozens of commits carry
+the same number. It is the **commit** that identifies exactly the code
+that ran, and `swh:1:rev:` followed by that commit is its citable
+Software Heritage identifier, on the same pattern as the card's.
 
-Les mêmes valeurs se demandent seules, sans lancer de calcul :
+The same values can be asked for on their own, without running a
+computation:
 
 ```python
 card.provenance()
-# {'card_version': '0.3.1', 'card_commit': 'c015502385…',
-#  'stase_version': '0.6.1', 'stase_commit': '836dfae29f…'}
+# {'card_version': '0.4.0', 'card_commit': '64c4d50c07…',
+#  'stase_version': '0.6.1', 'stase_commit': 'f3067f115a…'}
 ```
 
-**Une colonne de commit vide n'est pas une panne.** Elle dit que le code
-qui a tourné venait d'une copie de travail modifiée, donc qu'il ne
-correspond exactement à aucun commit publié : c'est le cas normal pendant
-qu'on développe, et le signal qu'un tel résultat ne se cite pas.
+**An empty commit column is not a failure.** It says that the code that
+ran came from a modified working copy, and therefore matches no published
+commit exactly: that is the normal case while developing, and the signal
+that such a result is not to be cited.
 
-## Trouver sa fiche
+## Finding a card
 
 ```python
-card.list_cards()                          # toutes les variables, une par ligne
-card.list_cards(phenomenon="basses eaux")  # filtre par phénomène (fr ou en)
-card.list_cards(output="série")            # série, scalaire ou courbe
-card.list_cards(season="estivale")         # fenêtre d'échantillonnage
-card.list_cards(operator="delta")          # opérateur (delta, median...)
-card.list_cards(variable="VCN")            # filtre par nom de variable
-card.list_cards(search="minimum annuel")   # recherche dans les noms fr et en
-card.info("VCN10")                         # la fiche, dessinée (voir plus bas)
+card.list_cards()                        # every variable, one per row
+card.list_cards(phenomenon="low flows")  # by phenomenon (English or French)
+card.list_cards(output="series")         # series, scalar or curve
+card.list_cards(season="summer")         # sampling window
+card.list_cards(operator="delta")        # operator (delta, median...)
+card.list_cards(variable="VCN")          # by variable name
+card.list_cards(search="annual minimum") # full text over English and French names
+card.info("VCN10")                       # the card, drawn (see below)
 ```
 
-Les facettes acceptent le français comme l'anglais (`output="série"` ou
-`output="series"`). La recherche plein texte porte sur les noms, les
-descriptions et les noms de variables : elle ne connaît que les mots
-employés par les fiches, et le vocabulaire de la classification est le
-chemin sûr pour trouver une famille (`phenomenon="basses eaux"` plutôt
-que « étiage », qui n'est pas un mot du corpus).
+Facets accept English as well as French (`output="series"` or
+`output="série"`). Full-text search covers names, descriptions and
+variable names: it only knows the words the cards use, and the
+classification vocabulary is the safe path to find a family
+(`phenomenon="low flows"` rather than "drought", which is not a word of
+the collection).
 
-Le catalogue complet est consultable en ligne :
-[lou-heraut.github.io/card](https://lou-heraut.github.io/card/) ou
+The full catalogue is available online:
+[lou-heraut.github.io/card](https://lou-heraut.github.io/card/) or
 [docs/CARDS.md](docs/CARDS.md).
 
-## Décoder un nom de fiche
+## Decoding a card name
 
-Les identifiants ne sont pas arbitraires : ils se lisent de gauche à
-droite, position par position (système Oberlin). Une fois la grille en
-tête, un nom se déchiffre sans ouvrir la fiche.
+Identifiers are not arbitrary: they read left to right, position by
+position (Oberlin system). Once the grid is in mind, a name deciphers
+without opening the card.
 
 ```
-  Q      J        D          A            (+ préfixe, + suffixe)
-grandeur pas-de-temps  statistique   saison
+  Q      J        D          A            (+ prefix, + suffix)
+quantity time-step statistic  season
 ```
 
-- **Grandeur** : `Q` débit, `R` précipitations, `T` température, `ETP`
-  évapotranspiration.
-- **Pas de temps** : `A` année, `M` mois, `S` saison, `J` jour.
-- **Statistique d'ordre** : `N` minimum, `D` médiane, `X` maximum,
-  *rien* = moyenne (implicite), `Pq` = percentile *q* %.
-- **Préfixe** (opération en plus, transforme la sortie) : `delta-`
-  changement entre deux périodes, `mean-`/`median-` moyenne/médiane
-  inter-annuelle d'une série, `rp-` période de retour, `alpha-` pente de
-  tendance, `n-` dénombrement d'années.
-- **Suffixe** : `-10` période de retour 10 ans, `_summer`/`_winter`
-  saison restreinte, `_H` horizon de projection, `_month`/`_season`
-  déclinaison (une sortie par mois / saison).
+- **Quantity**: `Q` discharge, `R` precipitation, `T` temperature, `ETP`
+  evapotranspiration.
+- **Time step**: `A` year, `M` month, `S` season, `J` day.
+- **Order statistic**: `N` minimum, `D` median, `X` maximum, *nothing* =
+  mean (implicit), `Pq` = percentile *q* %.
+- **Prefix** (an extra operation, transforming the output): `delta-`
+  change between two periods, `mean-`/`median-` inter-annual mean/median
+  of a series, `rp-` return period, `alpha-` trend slope, `n-` count of
+  years.
+- **Suffix**: `-10` ten-year return period, `_summer`/`_winter`
+  restricted season, `_H` projection horizon, `_month`/`_season` variant
+  (one output per month / season).
 
-Quelques noms décodés :
+A few names decoded:
 
-| Nom | Lecture |
+| Name | Reading |
 |---|---|
-| `QA` | débit, annuel, moyenne (implicite) : moyenne annuelle du débit |
-| `QJXA` | débit, journalier, maximum, annuel : débit journalier maximal annuel |
-| `QMNA` | débit, mensuel, minimum, annuel : minimum annuel des débits mensuels |
-| `VCN10` | volume (moyenne sur durée continue), min, 10 jours : min annuel du débit moyen sur 10 j |
-| `QJDC10` | débit, journalier, médiane, lissé 10 j : régime journalier médian lissé sur 10 jours |
-| `delta-QA_H` | changement de `QA` entre historique et horizon `H` |
-| `rp-VCN10` | période de retour d'un `VCN10` au regard d'un seuil fourni |
+| `QA` | discharge, annual, mean (implicit): annual mean discharge |
+| `QJXA` | discharge, daily, maximum, annual: annual maximum daily discharge |
+| `QMNA` | discharge, monthly, minimum, annual: annual minimum of monthly discharges |
+| `VCN10` | volume (mean over a continuous duration), min, 10 days: annual min of 10-day mean flow |
+| `QJDC10` | discharge, daily, median, smoothed over 10 days: median daily regime smoothed over 10 days |
+| `delta-QA_H` | change of `QA` between the historical period and horizon `H` |
+| `rp-VCN10` | return period of a `VCN10` with respect to a supplied threshold |
 
-La grille complète, avec les cas particuliers, est dans
+The complete grid, with its special cases, is in
 [docs/dev/NOMENCLATURE.md](docs/dev/NOMENCLATURE.md).
 
-## Lire une fiche
+## Reading a card
 
-`card.info` dessine ce que la fiche calcule, plutôt que d'en lister les
-champs : ce qui la classe, la chaîne des étapes avec leurs réglages, la
-fenêtre d'échantillonnage sur douze mois, et ce qui est produit.
+`card.info` draws what the card computes, rather than listing its fields:
+what classifies it, the chain of steps with their settings, the sampling
+window over twelve months, and what comes out.
 
 ```
   ╭──────────────────────────────────────────────────────────────────────────╮
-  │  VCN10    Minimum annuel de la moyenne sur 10 jours du débit journalier  │
+  │  VCN10                    Annual minimum of 10-day mean daily discharge  │
   ╰──────────────────────────────────────────────────────────────────────────╯
 
-      phénomène ─ basses eaux
-         saison ─ annuelle
-          forme ─ série
-          unité ─ m³·s⁻¹
-         entrée ─ Q [m³·s⁻¹]
+     phenomenon ─ low flows
+         season ─ annual
+           form ─ series
+           unit ─ m³·s⁻¹
+          input ─ Q [m³·s⁻¹]
 
             ╷
             ├── rollmean_center(Q)
-            │   └─ Moyenne mobile centrée sur 10 jours
-            │    ◦ Une valeur par jour
-            │    ◦ Coupée au-delà de 10 années manquantes
+            │   └─ 10-day centered moving average
+            │    ◦ One value per day
+            │    ◦ Cut beyond 10 missing years
             ▼
            VC10
             ╷
             ├── nanmin(VC10)
             │   └─ Minimum
-            │    ◦ Une valeur par année
-            │    ◦ Au plus 3 % de lacunes
-            │    ◦ J  F  M  A  M  J  J  A  S  O  N  D  
+            │    ◦ One value per year
+            │    ◦ At most 3 % missing
+            │    ◦ J  F  M  A  M  J  J  A  S  O  N  D
             │      ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-            │      Fenêtre adaptative, propre à chaque série
+            │      Adaptive window, specific to each series
             ▼
            VCN10
 
@@ -345,129 +345,128 @@ fenêtre d'échantillonnage sur douze mois, et ce qui est produit.
   https://archive.softwareheritage.org/swh:1:cnt:17009e1e8ed488f299499c441bd8a5a41410f28d
 ```
 
-Chaque étape porte, sous un coude, la phrase que la **fiche** écrit pour
-cette colonne (son champ `method`), et sur le rang décalé, marqués `◦`,
-les réglages du process. Dans la bande de douze mois, `▓` marque un mois
-retenu, `·` un mois écarté et `┃` une borne : une fenêtre estivale donne
-`············┃▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓┃···`. Une fiche à plusieurs sorties les
-annonce chacune par un `◇`, identifiant d'abord et nom traduit entre
-parenthèses quand il diffère : ce sont les noms des colonnes que vous
-recevrez. La figure ne dit que ce que la fiche détermine, un process
-`time_step: none` annonçant « aucune agrégation temporelle » plutôt
-qu'une granularité de lignes, qui dépend là de ce que la fonction rend.
+Each step carries, under an elbow, the sentence the **card** writes for
+that column (its `method` field), and on the indented rank, marked `◦`,
+the settings of the process. In the twelve-month band, `▓` marks a month
+kept, `·` a month left out and `┃` a bound: a summer window gives
+`············┃▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓┃···`. A card with several outputs
+announces each with a `◇`, identifier first and translated name in
+parentheses when it differs: those are the names of the columns you will
+receive. The figure says only what the card determines, a process with
+`time_step: none` announcing "no temporal aggregation" rather than a row
+granularity, which there depends on what the function returns.
 
-`card.info` accepte `lang="en"` et retourne par ailleurs le dict des
-champs, inchangé, pour le code qui en dépend. Pour lire une fiche telle
-qu'elle est écrite, `card.load_card("VCN10")` rend le dict complet
-(les deux langues, tous les processus, le SWHID et le chemin du
-fichier).
+`card.info` accepts `lang="en"` and also returns the dict of fields,
+unchanged, for code that depends on it. To read a card as it is written,
+`card.load_card("VCN10")` returns the full dict (both languages, all
+processes, the SWHID and the file path).
 
-Trois entrées selon l'usage :
-
-```python
-card.info("VCN10")               # imprime la figure, retourne le dict
-card.info("VCN10", quiet=True)   # ne rien imprimer : juste le dict
-card.figure("VCN10")             # la figure en CHAÎNE, pour la servir
-card.vocabulary()                # valeurs valides des facettes (fr/en)
-```
-
-`card.figure` est ce qu'il faut pour afficher une fiche ailleurs qu'un
-terminal (page web, notebook) ; `card.vocabulary` donne la liste fermée
-des valeurs que `list_cards` accepte en filtre, de quoi peupler un menu
-sans les deviner.
-
-## Développer sa propre fiche
+Three entry points depending on use:
 
 ```python
-card.copy_cards(["VCN10"], dest="./mes_fiches")   # partir d'un modèle
-
-# ... éditer mes_fiches/VCN10.yaml : renommer l'id ET le fichier,
-# ajuster func, classification, métadonnées des deux langues
-
-card.extract(data, cards=["VCN20"], path="./mes_fiches")      # tester
+card.info("VCN10")               # prints the figure, returns the dict
+card.info("VCN10", quiet=True)   # print nothing: just the dict
+card.figure("VCN10")             # the figure as a STRING, to serve it
+card.vocabulary()                # valid facet values (fr/en)
 ```
 
-Valider avant de proposer en contribution :
+`card.figure` is what you need to display a card somewhere other than a
+terminal (web page, notebook); `card.vocabulary` gives the closed list of
+values `list_cards` accepts as filters, enough to populate a menu without
+guessing them.
+
+## Writing your own card
+
+```python
+card.copy_cards(["VCN10"], dest="./my_cards")   # start from a model
+
+# ... edit my_cards/VCN10.yaml: rename the id AND the file,
+# adjust func, classification, metadata in both languages
+
+card.extract(data, cards=["VCN20"], path="./my_cards")      # test it
+```
+
+Validate before proposing a contribution:
 
 ```bash
-python -m card.schema ./mes_fiches   # structure, vocabulaire de
-                                     # classification, entrées connues,
-                                     # cohérence des fenêtres, version
+python -m card.schema ./my_cards   # structure, classification vocabulary,
+                                   # known inputs, window consistency,
+                                   # version
 ```
 
-Les règles de nommage et de rédaction sont dans
-[docs/dev/NOMENCLATURE.md](docs/dev/NOMENCLATURE.md), la classification
-dans [docs/dev/TOPICS.md](docs/dev/TOPICS.md) ; les unités des
-variables d'entrée sont définies une fois pour toutes dans
-`src/card/inputs.yaml`.
+Naming and writing rules are in
+[docs/dev/NOMENCLATURE.md](docs/dev/NOMENCLATURE.md), the classification
+in [docs/dev/TOPICS.md](docs/dev/TOPICS.md); the units of input variables
+are defined once and for all in `src/card/inputs.yaml`.
 
 ## Architecture
 
 ```
 src/card/
-  loader.py       # YAML vers processus : défauts, horizons $Hx, tuples func
-  extraction.py   # card.extract : chaîne P1..Pn via stase.extract
+  loader.py       # YAML to processes: defaults, $Hx horizons, func tuples
+  extraction.py   # card.extract: chains P1..Pn through stase.extract
   management.py   # card.list_cards, card.info, card.copy_cards
-  functions/      # fonctions hydro (baseflow, return_level, NSE, KGE...)
-  cards/          # les fiches YAML, rangées par régime
-                  #   (cards/<domaine>/<phénomène>/<forme>/)
+  provenance.py   # which software computed, and how it is known
+  functions/      # hydrological functions (baseflow, return_level, NSE, KGE...)
+  cards/          # the YAML cards, filed by regime
+                  #   (cards/<domain>/<phenomenon>/<form>/)
 ```
 
-Toute la mécanique de données (sampling adaptatif, sorties
-vectorielles, filtres de lacunes) est portée par le moteur stase.
-card ne gère que les fiches et leurs métadonnées.
+All the data machinery (adaptive sampling, vector outputs, gap filters)
+is carried by the stase engine. card only handles the cards and their
+metadata.
 
-## L'écosystème
+## The ecosystem
 
 | | |
 |---|---|
-| **card** | le recueil de fiches, en Python (vous êtes ici) |
-| [stase](https://github.com/lou-heraut/stase) | le moteur d'agrégation et de tendance |
-| [card4r](https://github.com/lou-heraut/card4r) | le même recueil, appelé depuis R |
-| [card-api](https://github.com/lou-heraut/card-api) | le service web, sur les débits Hub'Eau |
-| [CARD-R](https://github.com/lou-heraut/CARD-R) · [EXstat](https://github.com/lou-heraut/EXstat) | les paquets R historiques, remplacés |
+| **card** | the card collection, in Python (you are here) |
+| [stase](https://github.com/lou-heraut/stase) | the aggregation and trend engine |
+| [card4r](https://github.com/lou-heraut/card4r) | the same collection, called from R |
+| [card-api](https://github.com/lou-heraut/card-api) | the web service, on Hub'Eau discharge data |
+| [CARD-R](https://github.com/lou-heraut/CARD-R) · [EXstat](https://github.com/lou-heraut/EXstat) | the historical R packages, superseded |
 
-## Citer
+## Citing
 
-Ce recueil est un logiciel scientifique : merci de le citer si vous
-l'utilisez dans un travail publié.
+This collection is scientific software: please cite it if you use it in
+published work.
 
 ```
 Héraut L., Dorchies D., Sauquet É., Vidal J.-P., Horner I., Santos L.
-(2026). card : recueil de fiches hydroclimatiques CARD (version 0.4.0).
-Software Heritage : swh:1:rev:<commit>
+(2026). card: the CARD collection of hydroclimatic cards (version 0.4.0).
+Software Heritage: swh:1:rev:<commit>
 https://github.com/lou-heraut/card
 ```
 
-Le dépôt est archivé sur [Software
+The repository is archived on [Software
 Heritage](https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/lou-heraut/card),
-qui donne un identifiant pérenne par révision. Métadonnées lisibles par
-machine : `CITATION.cff` et `codemeta.json` à la racine ; GitHub propose
-d'ailleurs « Cite this repository » à partir du premier.
+which gives a persistent identifier per revision. Machine-readable
+metadata: `CITATION.cff` and `codemeta.json` at the root; GitHub offers
+"Cite this repository" from the former.
 
-Si vous citez un résultat produit par le service
-[card-api](https://github.com/lou-heraut/card-api), chaque réponse porte
-déjà le commit et le SWHID exacts du code qui l'a calculé, ainsi que la
-version de chaque fiche employée : reprenez-les plutôt que ce modèle.
+If you are citing a result produced by the
+[card-api](https://github.com/lou-heraut/card-api) service, every
+response already carries the exact commit and SWHID of the code that
+computed it, along with the version of each card used: take those rather
+than this template.
 
-## Origine
+## Origin
 
-card est le port Python du package R
-[CARD](https://github.com/lou-heraut/CARD) (INRAE, UR RiverLy), validé
-par comparaison croisée avec R sur le corpus complet des fiches. Le
-détail de la validation et les divergences documentées sont dans
-[docs/dev/ORIGINE_R.md](docs/dev/ORIGINE_R.md). Licence GPL-3,
-auteurs dans le fichier AUTHORS.
+card is the Python port of the R package
+[CARD](https://github.com/lou-heraut/CARD-R) (INRAE, UR RiverLy),
+validated by cross-comparison with R over the complete collection of
+cards. The details of the validation and the documented divergences are
+in [docs/dev/ORIGINE_R.md](docs/dev/ORIGINE_R.md). GPL-3 licence, authors
+in the AUTHORS file.
 
-## Développement
+## Development
 
 ```bash
-pip install -e . && pytest              # suite complète
-python -m card.schema                   # linter des fiches YAML
-python scripts/generate_catalog.py      # régénère docs/CARDS.md
+pip install -e . && pytest              # full suite
+python -m card.schema                   # linter for the YAML cards
+python scripts/generate_catalog.py      # regenerates docs/CARDS.md
 ```
 
-CI : `.github/workflows/tests.yml` (pytest, linter de fiches, ruff).
-Ce qui a changé et quand : [CHANGELOG.md](CHANGELOG.md). Correspondance
-des noms R vers Python : `docs/dev/RENAMING.md`. Pistes ouvertes :
-`docs/dev/CHANTIERS.md`.
+CI: `.github/workflows/tests.yml` (pytest, card linter, ruff). What
+changed and when: [CHANGELOG.md](CHANGELOG.md). R to Python name mapping:
+`docs/dev/RENAMING.md`. Open leads: `docs/dev/CHANTIERS.md`.

@@ -56,7 +56,7 @@ README_COUNT = re.compile(
 
 def count_label(n_cards, n_vars):
     """Le décompte tel qu'il s'écrit entre les balises du README."""
-    return f"{n_cards} fiches, {n_vars} variables"
+    return f"{n_cards} cards, {n_vars} variables"
 
 
 def _sync_readme(n_cards, n_vars):
