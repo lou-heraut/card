@@ -63,7 +63,18 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.4.0.
+### Modifié
+
+- **Le corpus a un front R, et les docs de card le disent (2026-08-05).**
+  `card4r` est un quatrième dépôt, paquet R mince qui **appelle** card
+  par reticulate au lieu de le réimplémenter : un `data.frame` entre, des
+  `data.frame` et leurs métadonnées sortent. Rien ne change dans card, ni
+  dans le corpus, ni dans une sortie ; c'est pour cela que cette entrée
+  ne coupe pas de version. Ce qui change ici : `PLAN_R.md` est repris
+  avec ce qui a été mesuré en le construisant, la carte des rôles de
+  `NETTOYAGE.md` couvre le quatrième dépôt pour que le cloisonnement ne
+  se relâche pas, et le CLAUDE.md dit où vit le front R et lesquels des
+  dépôts R restent sans fichiers IA.
 
 ## 0.4.0 (2026-08-05)
 

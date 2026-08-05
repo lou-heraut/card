@@ -108,6 +108,22 @@ elle sert.
 | docs/dev/archive/PLAN.md | audit du 2026-07-12 et son plan, clôturé | HISTORIQUE |
 | docs/dev/archive/harnais_R/ | harnais de comparaison R, figé | HISTORIQUE |
 
+### card4r
+
+Quatrième dépôt depuis le 2026-08-05, front R du corpus. Il suit les
+mêmes conventions, avec les noms attendus d'un paquet R là où ils
+diffèrent (`DESCRIPTION`, `man/`).
+
+| fichier | rôle exclusif | statut |
+|---|---|---|
+| README.md | vitrine et usage : installer, extraire, tendance, ce que le paquet ne fera pas | SOURCE |
+| CHANGELOG.md | journal daté, et la règle de coupe propre au paquet | SOURCE |
+| CITATION.cff | métadonnées de citation ; accord avec DESCRIPTION tenu par un test | SOURCE |
+| DESCRIPTION | identité du paquet R, version, dépendances | SOURCE |
+| R/zzz.R | le pont : provisionnement Python et refs épinglées de card et stase | SOURCE |
+| R/card.R | l'API R, et le traitement des dates | SOURCE |
+| man/ | pages d'aide | GÉNÉRÉ (roxygen2) |
+
 ### card-api
 
 | fichier | rôle exclusif | statut |

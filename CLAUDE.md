@@ -28,7 +28,10 @@ statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
   aux trois dépôts, à rejouer quand il le faut ; sa section « Campagne en
   cours » est le seul endroit qui dise où en est chaque phase.
 - docs/dev/`PLAN_R.md` : décisions sur l'accès R au corpus et le sort des
-  paquets R historiques.
+  paquets R historiques. Le front R lui-même vit dans `../card4r/`
+  (paquet mince qui APPELLE card, ne le réimplémente pas) ; les paquets R
+  historiques `../CARD-R/` et `../../EXstat_project/EXstat/` restent sans
+  fichiers IA.
 
 ## Structure
 
