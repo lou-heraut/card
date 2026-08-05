@@ -65,6 +65,18 @@ des deux endroits.
 
 ### Corrigé
 
+- **`list_cards` affichait des gabarits, pas des phrases (2026-08-06).**
+  La fonction de découverte du corpus rendait « between the
+  {suffix.name} horizon » sur les 83 fiches `delta-`, c'est-à-dire une
+  accolade brute à l'endroit exact où quelqu'un cherche une variable.
+  `info()` résolvait déjà le placeholder avec le défaut de la fiche, le
+  catalogue aussi, et un commentaire du code disait « jamais l'accolade,
+  comme le catalogue » : `list_cards` avait simplement été oubliée en
+  passant par un constructeur de métadonnées qui ne résout pas.
+  L'invariant est désormais tenu sur les deux chemins par
+  `test_list_cards_shows_sentences_not_templates`. Trouvé en écrivant
+  les exemples du README sur données réelles.
+
 - **Le paquet n'emportait aucune description : sa page PyPI aurait été
   vide (2026-08-06).** `pyproject.toml` ne déclarait pas de champ
   `readme`, si bien que la roue construite ne portait que 678 caractères

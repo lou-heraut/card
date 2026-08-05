@@ -25,7 +25,8 @@ from pathlib import Path
 
 import pandas as pd
 
-from .extraction import _DEFAULT_CARD_DIR, _corpus_path, _find_cards, _meta_rows
+from .extraction import (_DEFAULT_CARD_DIR, _corpus_path, _find_cards,
+                         _meta_frame)
 from . import method as _method
 from . import suffix as _sfx
 from .loader import load_card
@@ -82,8 +83,16 @@ def list_cards(path=None, include_experimental=False,
     if path is None:
         path = _DEFAULT_CARD_DIR
     cards = _find_cards(path, None)
-    rows = [_meta_rows(load_card(p)) for p in cards.values()]
+    # `_meta_frame` et non `_meta_rows` : il résout les placeholders de
+    # suffixe avec le défaut de la fiche, comme le font `info()` et le
+    # catalogue. Sans lui, la fonction de découverte du corpus affichait
+    # « between the {suffix.name} horizon » sur les 83 fiches delta-,
+    # c'est-à-dire un gabarit brut là où on cherche une variable.
+    rows = [_meta_frame(load_card(p)) for p in cards.values()]
     metaEX = pd.concat(rows, ignore_index=True) if rows else pd.DataFrame()
+    # `suffix` n'a pas de sens dans un listing : aucune variante n'est
+    # demandée ici, la colonne serait vide sur toutes les lignes.
+    metaEX = metaEX.drop(columns=["suffix"], errors="ignore")
     if not include_experimental and "is_experimental" in metaEX.columns:
         metaEX = metaEX[~metaEX["is_experimental"].astype(bool)]
 

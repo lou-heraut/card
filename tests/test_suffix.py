@@ -15,7 +15,7 @@ import pandas as pd
 import pytest
 
 import conftest  # noqa: F401  (chemins card/stase sans installation)
-from card import extract, suffix
+from card import extract, list_cards, suffix
 from card.schema import validate_card
 
 
@@ -127,10 +127,26 @@ def test_metadata_only_matches_the_suffixless_extraction():
 
 def test_no_placeholder_survives_anywhere_in_the_corpus_metadata():
     meta = extract(pd.DataFrame(), cards=None, metadata_only=True)["meta"]
-    for col in meta.columns:
-        if meta[col].dtype == object:
-            leaked = meta[col].astype(str).str.contains(r"\{suffix", na=False)
-            assert not leaked.any(), f"{col} : {meta.loc[leaked, col].tolist()}"
+    _sans_accolade(meta)
+
+
+def test_list_cards_shows_sentences_not_templates():
+    """La fonction de DÉCOUVERTE doit lire comme une phrase.
+
+    `info()` résolvait le placeholder avec le défaut de la fiche, le
+    catalogue aussi, et `list_cards` avait été oubliée : elle affichait
+    « between the {suffix.name} horizon » sur les 83 fiches delta-, soit
+    un gabarit brut à l'endroit exact où quelqu'un cherche une variable.
+    Constaté le 2026-08-06 en écrivant les exemples du README.
+    """
+    _sans_accolade(list_cards())
+
+
+def _sans_accolade(table):
+    for col in table.columns:
+        if table[col].dtype == object:
+            leaked = table[col].astype(str).str.contains(r"\{suffix", na=False)
+            assert not leaked.any(), f"{col} : {table.loc[leaked, col].tolist()}"
 
 
 def test_the_substituted_sentence_still_reads_like_a_sentence():
