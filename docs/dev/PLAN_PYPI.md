@@ -144,6 +144,21 @@ ci-dessous répond au reste.
 > import name is `card`.
 > https://github.com/lou-heraut/card
 
+## Le jour où le nom est obtenu
+
+Deux choses, mesurées le 2026-08-06, à ne pas découvrir ce jour-là.
+
+**`stase` doit être publié aussi**, et son nom est libre (vérifié). Sans
+lui, un `pip install card` depuis PyPI ne résout pas sa dépendance : le
+moteur n'est nulle part. Ce n'est pas une option, c'est la même
+opération en deux paquets.
+
+**Le `readme` de stase n'est pas déclaré** dans son `pyproject.toml`, et
+ses liens sont relatifs : sa page PyPI serait vide et ses liens morts,
+exactement le défaut trouvé côté card. Deux lignes à faire au moment de
+publier, pas avant, puisque rien ne les rend nécessaires tant que
+l'installation se fait depuis GitHub.
+
 ## Ce qui reste vrai quoi qu'il arrive
 
 Ne rien publier sur PyPI tant que la demande n'est pas tranchée : publier
