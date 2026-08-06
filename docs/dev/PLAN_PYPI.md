@@ -153,11 +153,12 @@ lui, un `pip install card` depuis PyPI ne résout pas sa dépendance : le
 moteur n'est nulle part. Ce n'est pas une option, c'est la même
 opération en deux paquets.
 
-**Le `readme` de stase n'est pas déclaré** dans son `pyproject.toml`, et
-ses liens sont relatifs : sa page PyPI serait vide et ses liens morts,
-exactement le défaut trouvé côté card. Deux lignes à faire au moment de
-publier, pas avant, puisque rien ne les rend nécessaires tant que
-l'installation se fait depuis GitHub.
+**Les deux paquets sont prêts à être publiés**, ce qui n'était pas le cas
+avant le 2026-08-06 : ni card ni stase ne déclaraient de champ `readme`,
+donc leurs pages PyPI auraient été vides, et leurs liens relatifs morts.
+Corrigé des deux côtés, `twine check` passe sur les quatre artefacts.
+Reste, le jour venu, `python -m build` puis `twine upload`, stase
+d'abord.
 
 ## Ce qui reste vrai quoi qu'il arrive
 
