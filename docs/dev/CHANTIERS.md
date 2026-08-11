@@ -156,26 +156,6 @@ et les blocs classification des fiches).
   renvoie vers ces URIs. C'est un renvoi, pas une source : la vérité
   reste ici.
 
-## `metadata_only` recouvre-t-il encore un besoin propre ? (2026-08-11)
-
-Question posée par l'utilisateur en découvrant que la colonne `card`
-manquait, non tranchée parce qu'elle est sortie au milieu d'un autre
-chantier.
-
-Les deux surfaces répondent à des questions différentes, et c'est ce qui
-les a gardées séparées : `list_cards()` dit ce que le CORPUS contient
-(tout le corpus, filtré par facettes, une ligne par variable),
-`extract(metadata_only=True)` dit ce que CETTE extraction rendrait sans
-la lancer (les fiches demandées, en `{data, meta}` comme une vraie
-extraction, et `path=` accepté pour des fiches locales que `list_cards`
-ne voit pas).
-
-Le recouvrement a grandi avec la colonne `card`, qui rendait justement
-`list_cards` chaînable. Mesuré le 2026-08-11 : `metadata_only` est
-utilisé par cinq tests de card et par **aucun** appelant de card-api, qui
-passe par `list_cards()`. À reprendre à froid, la question étant s'il
-reste un appelant pour qui la forme `{data, meta}` compte.
-
 ## Unités machine-lisibles (UCUM) (différé)
 
 Les unités sont des chaînes LaTeX-ish (`m^{3}.s^{-1}`, `hm^{3}`, `jour de
