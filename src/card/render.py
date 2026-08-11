@@ -60,7 +60,8 @@ deux. Elle lit maintenant `method`, écrit par étape et par colonne
 produite (`card/method.py`), dont seule la moitié droite est affichée :
 la maille d'agrégation est déjà DESSINÉE, ligne de grain et bande de
 douze mois, et la réécrire serait une redite. Les docstrings n'ont rien
-perdu, elles changent de destinataire (`card/docstring.py`).
+perdu, elles changent de destinataire : `help()`, qui ouvre le fichier,
+et la documentation des fonctions du site.
 
 Le rendu est généré depuis le YAML, jamais écrit à la main, et tout le
 corpus passe, dans les deux langues.

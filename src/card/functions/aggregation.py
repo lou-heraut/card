@@ -65,17 +65,19 @@ def _squeeze_scalar(x):
 # le drapeau `first` a été scindé le 2026-07-31 (cf. RENAMING.md).
 
 def difference(a, b):
-    """
-    en: Difference a - b, term by term.
+    """Difference between two series, term by term.
 
-        NaN if either side is all NaN. A result of length 1 is returned as a
-        number, for convenience of type: it is still one value per time step.
+    Parameters
+    ----------
+    a, b : array-like
+        The two series.
 
-    fr: Différence a - b, terme à terme.
-
-        Tout-NaN d'un côté → NaN. Un résultat de longueur 1 est rendu comme
-        un nombre, par commodité de type : c'est toujours une valeur par pas
-        de temps.
+    Returns
+    -------
+    numpy.ndarray or float
+        ``a - b``, NaN if either side is all NaN. A result of length 1 is
+        returned as a number, for convenience of type: it is still one value
+        per time step.
     """
     a = _to_float_array(a)
     b = _to_float_array(b)
@@ -85,14 +87,17 @@ def difference(a, b):
 
 
 def ratio(a, b):
-    """
-    en: Ratio a / b, term by term.
+    """Ratio of two series, term by term.
 
-        Same conventions as difference.
+    Parameters
+    ----------
+    a, b : array-like
+        The two series.
 
-    fr: Rapport a / b, terme à terme.
-
-        Mêmes conventions que difference.
+    Returns
+    -------
+    numpy.ndarray or float
+        ``a / b``, under the same conventions as :func:`difference`.
     """
     a = _to_float_array(a)
     b = _to_float_array(b)
@@ -102,23 +107,27 @@ def ratio(a, b):
 
 
 def ratio_longest_run(a, b):
-    """
-    en: Ratio of the longest-run values of a and b: ONE value.
+    """Ratio of the longest-run values of two series: ONE value.
 
-        For columns that are constant over the group (a threshold broadcast
-        by an upstream `keep: all`) whose value is wanted once. The longest
-        run is taken after dropping the gaps, so a hole in the column does
-        not contaminate the result, where a term-by-term division would
-        return NaN on that day. NaN if either side is all NaN.
+    For columns that are constant over the group, a threshold broadcast by
+    an upstream ``keep: all`` for instance, whose value is wanted once.
 
-    fr: Rapport des valeurs du plus long palier de a et de b : UNE valeur.
+    Parameters
+    ----------
+    a, b : array-like
+        The two columns.
 
-        Sert quand a et b sont des colonnes constantes sur le groupe (un seuil
-        rediffusé par un `keep: all` en amont) et qu'on en veut la valeur, une
-        seule fois. Le plus long palier est retenu après avoir écarté les
-        lacunes, si bien qu'un trou dans la colonne ne contamine pas le
-        résultat, là où la division terme à terme rendrait NaN ce jour-là.
-        Tout-NaN d'un côté → NaN.
+    Returns
+    -------
+    float
+        The ratio of the two longest-run values, NaN if either side is all
+        NaN.
+
+    Notes
+    -----
+    The longest run is taken after dropping the gaps, so a hole in the
+    column does not contaminate the result, where a term-by-term division
+    would return NaN on that day.
     """
     a = _to_float_array(a)
     b = _to_float_array(b)
@@ -137,16 +146,20 @@ def ratio_longest_run(a, b):
 # celles qui utilisaient nansum_strict gardent la version stricte.
 
 def nansum_strict(X, div=1):
-    """
-    en: Sum ignoring the gaps, but NaN when everything is a gap.
+    """Sum ignoring the gaps, but NaN when everything is a gap.
 
-        A period without any data is not a zero total, whereas np.nansum
-        answers 0.0. Result divided by div.
+    Parameters
+    ----------
+    X : array-like
+        The values to sum.
+    div : float, default 1
+        The result is divided by this.
 
-    fr: Somme ignorant les lacunes, mais NaN si tout est lacune.
-
-        Une période sans aucune donnée n'est pas un cumul nul, alors que
-        np.nansum y répond 0.0. Résultat divisé par div.
+    Returns
+    -------
+    float
+        The sum, or NaN when no value is available. A period without any
+        data is not a zero total, whereas ``np.nansum`` answers 0.0.
     """
     x = _to_float_array(X)
     if np.all(np.isnan(x)):
@@ -185,22 +198,22 @@ def _roll_cyclical(x: np.ndarray, k: int, stat: str) -> np.ndarray:
 
 
 def rollmean_center(X, k, cyclical=False):
-    """
-    en: Centred rolling mean over a window of k: smooths the series without
-        shifting it in time.
+    """Centred rolling mean: smooths the series without shifting it in time.
 
-        Window aligned on its centre (pandas center=True), gaps propagated
-        strictly: a window containing a NaN is NaN. cyclical=True: the series
-        is taken as circular (interannual regimes). Output has the same
-        length as X (transform).
+    Parameters
+    ----------
+    X : array-like
+        The series to smooth.
+    k : int
+        Width of the window.
+    cyclical : bool, default False
+        Treat the series as circular, for inter-annual regimes.
 
-    fr: Moyenne mobile centrée de fenêtre k : lisse la série sans la décaler
-        dans le temps.
-
-        Fenêtre alignée sur son centre (pandas center=True), lacunes
-        propagées strictement : une fenêtre contenant un NaN vaut NaN.
-        cyclical=True : la série est considérée circulaire (régimes
-        interannuels). Sortie de même longueur que X (transform).
+    Returns
+    -------
+    numpy.ndarray
+        Same length as X (transform). The window is aligned on its centre
+        and gaps propagate strictly: a window containing a NaN is NaN.
     """
     x = _to_float_array(X)
     if cyclical:
@@ -209,18 +222,22 @@ def rollmean_center(X, k, cyclical=False):
 
 
 def rollsum_center(X, k, cyclical=False):
-    """
-    en: Centred rolling sum over a window of k: running total over k time
-        steps, without shift.
+    """Centred rolling sum: running total over k time steps, without shift.
 
-        Same conventions as rollmean_center. Output has the same length as X
-        (transform).
+    Parameters
+    ----------
+    X : array-like
+        The series to accumulate.
+    k : int
+        Width of the window.
+    cyclical : bool, default False
+        Treat the series as circular, for inter-annual regimes.
 
-    fr: Somme mobile centrée de fenêtre k : cumul glissant sur k pas de
-        temps, sans décalage.
-
-        Mêmes conventions que rollmean_center. Sortie de même longueur que X
-        (transform).
+    Returns
+    -------
+    numpy.ndarray
+        Same length as X (transform), under the same conventions as
+        :func:`rollmean_center`.
     """
     x = _to_float_array(X)
     if cyclical:
@@ -249,49 +266,60 @@ def _circular_tweak(X, Y, periodicity):
 
 
 def circular_difference(X, Y, periodicity):
-    """
-    en: Difference X - Y on a circular axis of the given period.
+    """Difference between two series on a circular axis.
 
-        When the gap exceeds half a period, the smaller term is shifted by
-        one period (for instance days of the year, periodicity=365.25).
+    Parameters
+    ----------
+    X, Y : array-like
+        The two series, on a cyclic axis.
+    periodicity : float
+        Length of one period, 365.25 for days of the year for instance.
 
-    fr: Différence X - Y sur un axe circulaire de période donnée.
-
-        Quand l'écart dépasse une demi-période, le plus petit terme est
-        décalé d'une période (par exemple des jours de l'année,
-        periodicity=365.25).
+    Returns
+    -------
+    numpy.ndarray
+        ``X - Y``, the smaller term being shifted by one period when the gap
+        exceeds half a period.
     """
     X, Y = _circular_tweak(X, Y, periodicity)
     return _squeeze_scalar(X - Y)
 
 
 def circular_ratio(X, Y, periodicity):
-    """
-    en: Ratio X / Y after circular realignment of both terms.
+    """Ratio of two series after circular realignment of both terms.
 
-        Same realignment as circular_difference.
+    Parameters
+    ----------
+    X, Y : array-like
+        The two series, on a cyclic axis.
+    periodicity : float
+        Length of one period.
 
-    fr: Rapport X / Y après recalage circulaire des deux termes.
-
-        Même recalage que circular_difference.
+    Returns
+    -------
+    numpy.ndarray
+        ``X / Y``, realigned as in :func:`circular_difference`.
     """
     X, Y = _circular_tweak(X, Y, periodicity)
     return _squeeze_scalar(X / Y)
 
 
 def circular_median(X, periodicity):
-    """
-    en: Median of a cyclic quantity, for instance a date within the year.
+    """Median of a cyclic quantity, a date within the year for instance.
 
-        Computed as the arctangent of the medians of the sine and the cosine,
-        on an axis of period `periodicity`: a plain mean would place on 1 July
-        the median of two dates straddling 1 January.
+    Parameters
+    ----------
+    X : array-like
+        The values, on a cyclic axis.
+    periodicity : float
+        Length of one period.
 
-    fr: Médiane d'une grandeur cyclique, par exemple une date dans l'année.
-
-        Calculée par l'arctangente des médianes du sinus et du cosinus, sur
-        un axe de période `periodicity` : la moyenne ordinaire placerait au
-        1er juillet la médiane de deux dates encadrant le 1er janvier.
+    Returns
+    -------
+    float
+        The arctangent of the medians of the sine and the cosine. A plain
+        mean would place on 1 July the median of two dates straddling
+        1 January.
     """
     x = _to_float_array(X)
     scaling = 2 * np.pi / periodicity

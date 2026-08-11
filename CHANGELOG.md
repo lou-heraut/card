@@ -63,7 +63,34 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.5.1.
+Rien depuis la 0.5.2.
+
+## 0.5.2 (2026-08-11)
+
+### Modifié
+
+- **Les fonctions hydro se documentent comme le reste, et un module
+  disparaît (2026-08-11).** Leurs docstrings s'écrivaient en deux blocs
+  `en:` et `fr:`, convention propre à card, lue par un module dédié,
+  `card/docstring.py`. Mesuré ce jour : **ce module n'était appelé par
+  aucun code de production**, seulement par des tests. La figure a cessé
+  de lire les docstrings de fonctions quand `method` a pris le relais,
+  et rien d'autre ne les consommait, ni dans card, ni dans card-api.
+
+  Les blocs français avaient donc un lecteur humain et aucun lecteur
+  machine. Or ce qu'un hydrologue francophone doit savoir d'une
+  **variable** vit dans la fiche (`meta.fr`), qui reste bilingue et
+  publiée dans le catalogue ; une docstring décrit une **fonction**, et
+  son destinataire est celui qui code.
+
+  Les 42 fonctions publiques de `functions/` passent donc à l'anglais
+  avec sections NumPy, la règle posée la veille pour l'API. `docstring.py`
+  est **supprimé**, et les trois tests qui tenaient la convention
+  bilingue deviennent un seul, qui applique aux fonctions du corpus la
+  règle de `tests/test_docstrings.py`. Une convention, un module et deux
+  tests en moins, pour une norme unique dans les deux paquets.
+
+  Aucun comportement ne bouge, aucune fiche n'est touchée.
 
 ## 0.5.1 (2026-08-11)
 

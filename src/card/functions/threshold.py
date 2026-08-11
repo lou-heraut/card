@@ -70,29 +70,34 @@ def _contiguous_periods(ID: np.ndarray) -> list[np.ndarray]:
 
 def apply_threshold(X, lim, where="<=", what="X", select="all",
                     dates=None, period=None, period_start=None, period_end=None):
-    """
-    en: Analysis of the episodes where X crosses a threshold lim.
+    """Analyse the episodes where X crosses a threshold.
 
-        Comparison where: '<=', '<', '>=', '>'.
+    An episode is a contiguous run of indices satisfying the condition.
 
-        what : quantity returned: 'X' (values), 'length' (episode duration),
-               'first'/'last' (0-based index of start/end)...
-        select : 'all', 'longest', 'shortest', or a target duration.
-        dates/period (pair) or period_start/period_end (bounds, often columns
-        constant per series) restrict the analysis to a sub-period. An
-        episode is a contiguous run of indices satisfying the condition.
+    Parameters
+    ----------
+    X : array-like
+        The series to examine.
+    lim : float or array-like
+        The threshold, a scalar or a column.
+    where : {"<=", "<", ">=", ">"}, default "<="
+        Comparison defining an episode.
+    what : str, default "X"
+        Quantity returned: ``"X"`` for the values, ``"length"`` for the
+        duration of the episodes, ``"first"`` or ``"last"`` for the 0-based
+        index of their start or end.
+    select : str or int, default "all"
+        ``"all"``, ``"longest"``, ``"shortest"``, or a target duration.
+    dates : array-like, optional
+        Column of dates, aligned on X.
+    period : list, optional
+        Pair of bounds restricting the analysis.
+    period_start, period_end : optional
+        The same bounds given separately, often columns constant per series.
 
-    fr: Analyse des épisodes où X franchit un seuil lim.
-
-        Comparaison where : '<=', '<', '>=', '>'.
-
-        what : grandeur retournée : 'X' (valeurs), 'length' (durée des
-               épisodes), 'first'/'last' (index 0-based de début/fin)...
-        select : 'all', 'longest', 'shortest', ou une durée cible.
-        dates/period (paire) ou period_start/period_end (bornes, souvent des
-        colonnes constantes par série) restreignent l'analyse à une
-        sous-période. Épisode = run contigu d'indices satisfaisant la
-        condition.
+    Returns
+    -------
+    The quantity named by ``what``, over the episodes named by ``select``.
     """
     X = _to_float_array(X)
 
@@ -182,16 +187,20 @@ def _extract_what(X: np.ndarray, idx: np.ndarray, what: str):
 
 
 def deficit_volume(Q, threshold):
-    """
-    en: Deficit volume (hm³) below the threshold, over the longest continuous
-        episode.
+    """Deficit volume below a threshold, over the longest continuous episode.
 
-        Sum of the discharges below the threshold × 86400 / 10^6.
+    Parameters
+    ----------
+    Q : array-like
+        Discharge series, in m³/s.
+    threshold : float or array-like
+        The threshold below which the deficit is counted.
 
-    fr: Volume de déficit (hm³) sous le seuil, sur le plus long épisode
-        continu.
-
-        Somme des débits sous le seuil × 86400 / 10^6.
+    Returns
+    -------
+    float
+        The volume in hm³, the sum of the discharges below the threshold
+        multiplied by 86400 and divided by 10⁶.
     """
     Qdef = apply_threshold(Q, lim=threshold, where="<=", what="X",
                            select="longest")

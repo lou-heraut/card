@@ -51,14 +51,13 @@ src/card/
                              #   / low-flows|high-flows|… / series|scalar|curve ;
                              #   le linter impose chemin == classification
                              #   (domaine / phénomène-ou-purpose / forme)
-  functions/     # fonctions hydro portées de R. Une docstring s'y écrit
-                 #   comme une FICHE : bloc `en:` puis bloc `fr:`, à
-                 #   égalité et dans cet ordre, puis ce qui n'a pas de
-                 #   langue HORS bloc (parité R, dates, renvois internes)
-                 #   comme le fait meta.global. Elle décrit la FONCTION,
-                 #   pas ce qu'une fiche en fait : la figure ne la lit
-                 #   plus, elle lit le `method` de la fiche. Ses lecteurs
-                 #   sont `help()` et qui ouvre le fichier.
+  functions/     # fonctions hydro portées de R. Docstring en ANGLAIS
+                 #   avec sections NumPy, comme le reste de l'API et
+                 #   comme stase : ses lecteurs sont `help()`, qui ouvre
+                 #   le fichier, et la documentation des fonctions du
+                 #   site. Elle décrit la FONCTION, pas ce qu'une fiche
+                 #   en fait : la figure ne la lit plus, elle lit le
+                 #   `method` de la fiche.
                  #   Une fonction TRANSFORME (une valeur par pas de temps)
                  #   ou RÉDUIT, jamais les deux : `is_transform = True` se
                  #   déclare à côté d'elle pour le premier cas, l'absence
@@ -70,7 +69,6 @@ src/card/
                  #   grain temporel de chaque colonne, et assemblage de la
                  #   forme publiée en remontant la chaîne de dépendances
                  #   que la fiche DÉCLARE. Ne fabrique jamais une phrase.
-  docstring.py   # lecture des blocs `en:`/`fr:` des docstrings hydro
   loader.py      # YAML -> processus ($Hx, tuples func, défauts)
   extraction.py  # card.extract -> {data, meta} (chaîne P1..Pn via stase)
   suffix.py      # suffixes de scénario : vocabulaire {clé: enregistrement},
@@ -256,14 +254,14 @@ rappelle :
   (grammaire, casse, cohérence) ; réécriture scientifique = validation.
 - Noms de fonctions/paramètres : RENAMING.md fait foi, tout nouveau
   renommage validé par l'utilisateur.
-- **Docstring d'une fonction PUBLIQUE** (tout ce que `card.__all__`
-  annonce) : **anglais, sections NumPy**, comme dans stase. C'est de la
-  documentation, pas un commentaire. Mesuré par
-  `tests/test_docstrings.py`, qui porte aussi les raisons. Ne pas
-  confondre avec les fonctions de `functions/`, dont la docstring reste
-  bilingue `en:`/`fr:` comme une fiche : elles décrivent une MÉTHODE
-  hydrologique à des hydrologues, pas une API à des développeurs. La
-  machinerie interne, elle, écrit dans la langue qu'elle veut.
+- **Docstring d'une fonction PUBLIQUE ou d'une fonction hydro** : elles
+  suivent la MÊME règle depuis le 2026-08-11, **anglais et sections
+  NumPy**, comme dans stase. C'est de la documentation, pas un
+  commentaire, et elle nourrira la documentation des fonctions du site.
+  Mesuré deux fois : `tests/test_docstrings.py` pour ce que
+  `card.__all__` annonce, `tests/test_render.py` pour les fonctions que
+  les fiches emploient. La machinerie interne, elle, écrit dans la
+  langue qu'elle veut : elle s'adresse à qui ouvre le fichier.
 - **Version d'une fiche** (champ `version:` de son YAML) : majeur si ses
   SORTIES changent (+ trace RENAMING.md, parité R rompue documentée,
   goldens re-figés), mineur pour method/description, patch sinon. Elle

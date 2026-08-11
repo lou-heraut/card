@@ -41,27 +41,38 @@ def _one_date(v):
 
 def delta(X, dates, ref_start, ref_end, horizon_start, horizon_end, relative,
           return_period=None, water_type="low", Q_for_BFI=None):
-    """
-    en: Change in X between a reference period and a horizon period.
+    """Change in X between a reference period and a horizon period.
 
-        The four bounds are dates, scalars or columns constant per series
-        (horizon parameters supplied as input, from which the constant value
-        is taken). X is aggregated over [ref_start, ref_end] then over
-        [horizon_start, horizon_end] (mean by default; return level if
-        `return_period`; BFI if `Q_for_BFI`), and the function returns
-        horizon minus reference (`relative=False`) or the relative change in
-        per cent (`relative=True`).
+    Parameters
+    ----------
+    X : array-like
+        The values to aggregate over each period.
+    dates : array-like, optional
+        Column of dates, aligned on X.
+    ref_start, ref_end : optional
+        Bounds of the reference period.
+    horizon_start, horizon_end : optional
+        Bounds of the horizon period.
+    relative : bool, default False
+        Return the relative change in per cent rather than the difference.
+    return_period : float, optional
+        Aggregate with a return level of that period instead of a mean.
+    water_type : {"low", "high"}, default "low"
+        Which tail the return level is fitted on.
+    Q_for_BFI : array-like, optional
+        Aggregate with a base flow index instead of a mean.
 
-    fr: Différence de X entre une période de référence et une période
-        d'horizon.
+    Returns
+    -------
+    float
+        Horizon minus reference, or the relative change in per cent when
+        ``relative`` is set.
 
-        Les quatre bornes sont des dates, scalaires ou colonnes constantes
-        par série (paramètres d'horizon fournis en entrée, dont on extrait la
-        valeur constante). X est agrégé sur [ref_start, ref_end] puis sur
-        [horizon_start, horizon_end] (moyenne par défaut ; niveau de retour
-        si `return_period` ; BFI si `Q_for_BFI`), et la fonction retourne
-        horizon − référence (`relative=False`) ou le changement relatif en %
-        (`relative=True`).
+    Notes
+    -----
+    The four bounds are dates, scalars or columns constant per series
+    (horizon parameters supplied as input, from which the constant value is
+    taken).
     """
     x = _to_float_array(X)
     d = pd.to_datetime(pd.Series(dates) if not isinstance(dates, pd.Series)

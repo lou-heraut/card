@@ -4,12 +4,22 @@ Le rendu est généré depuis le YAML : il doit tenir sur n'importe quelle
 fiche du corpus, sans exception, sinon il ne sert à rien.
 """
 
+import re
+
 import pytest
 
 from card.extraction import _DEFAULT_CARD_DIR
 from card.render import figure, rendu
 from card.loader import load_card
 from card.extraction import _meta_frame
+
+# Mêmes règles et mêmes motifs que `tests/test_docstrings.py`, qui les
+# tient pour l'API publique : ici pour les fonctions du corpus.
+_FRANCAIS = re.compile(
+    r"\b(fiche|fiches|une|des|qui|dans|pour|avec|chaque|selon|sont|"
+    r"est|les|la|du|aux|leur|cette|ce|par|sans|plus|donc)\b"
+)
+_SECTION = re.compile(r"^\s*(Parameters|Returns|Yields)\s*\n\s*-{3,}", re.M)
 
 
 def _toutes():
@@ -274,68 +284,31 @@ def test_la_figure_de_dtFlood_ne_reabstrait_plus_son_geste():
     assert "franchit un seuil lim" not in f
 
 
-def test_les_blocs_de_langue_se_decoupent_comme_annonce():
-    """La règle de lecture doit tenir sur un cas construit.
-
-    Un marqueur en marge ouvre un bloc, les lignes indentées le
-    continuent, une ligne revenue en marge sans marqueur est une note
-    hors langue.
-    """
-    from card.docstring import blocs
-
-    b = blocs("""
-    en: First sentence.
-
-        Second paragraph.
-
-    fr: Première phrase.
-
-        Second paragraphe.
-
-    Note hors langue.
-    """)
-    assert set(b) == {"en", "fr"}
-    assert b["en"] == "First sentence.\n\nSecond paragraph."
-    assert b["fr"] == "Première phrase.\n\nSecond paragraphe."
-    # Une docstring sans marqueur reste lisible : pas de bloc, et le
-    # texte sert pour toutes les langues (fonction écrite par un tiers).
-    assert blocs("Juste une phrase.") == {}
-
-
-def test_chaque_fonction_de_card_a_ses_deux_blocs_de_langue():
-    """Une docstring hydro s'écrit dans les deux langues, à égalité.
+def test_the_corpus_functions_are_documented_in_english():
+    """Une fonction hydro se documente comme le reste de l'API.
 
     Elle ne nourrit plus la figure, qui lit le `method` de la fiche, mais
-    elle reste la description de la FONCTION, lue par `help()` et par qui
-    ouvre le fichier. Un bloc manquant ferait retomber le lecteur sur
-    l'autre langue sans que rien ne le signale, d'où ce test.
+    elle reste la description de la FONCTION, lue par `help()`, par qui
+    ouvre le fichier, et demain par le site. Les blocs `en:`/`fr:` qui
+    tenaient ici jusqu'au 2026-08-11 n'avaient plus aucun lecteur
+    machine : `card/docstring.py`, écrit pour les découper, n'était
+    appelé que par ce fichier de tests.
+
+    La règle est donc devenue celle de `tests/test_docstrings.py`,
+    appliquée aux fonctions que les fiches emploient.
     """
-    from card.docstring import LANGUES, blocs
     from card.extraction import resolve
 
-    manquantes = []
+    fautives = []
     for nom in _fonctions_du_corpus():
         fn = resolve(nom)
         if not getattr(fn, "__module__", "").startswith("card"):
             continue
-        absents = [x for x in LANGUES if x not in blocs(fn.__doc__ or "")]
-        if absents:
-            manquantes.append(f"{nom} : pas de bloc {absents} dans sa docstring")
-    assert not manquantes, "\n".join(manquantes)
-
-
-def test_le_bloc_anglais_diffère_bien_du_français():
-    """Un bloc `en:` recopié du français est un oubli, pas une traduction."""
-    from card.docstring import paragraphe
-    from card.extraction import resolve
-
-    identiques = []
-    for nom in _fonctions_du_corpus():
-        fn = resolve(nom)
-        if not getattr(fn, "__module__", "").startswith("card"):
-            continue
-        fr, en = paragraphe(fn.__doc__, "fr"), paragraphe(fn.__doc__, "en")
-        if fr and en and fr == en:
-            identiques.append(nom)
-    assert not identiques, (
-        f"{identiques} : bloc anglais identique au français. Traduire.")
+        doc = fn.__doc__ or ""
+        if not doc.strip():
+            fautives.append(f"{nom} : aucune docstring")
+        elif not _SECTION.search(doc):
+            fautives.append(f"{nom} : pas de section NumPy")
+        elif len(set(_FRANCAIS.findall(doc.lower()))) >= 2:
+            fautives.append(f"{nom} : docstring en français")
+    assert not fautives, "\n".join(fautives)

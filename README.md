@@ -454,7 +454,7 @@ published work.
 
 ```
 Héraut L., Dorchies D., Sauquet É., Vidal J.-P., Horner I., Santos L.
-(2026). card: the CARD collection of hydroclimatic cards (version 0.5.1).
+(2026). card: the CARD collection of hydroclimatic cards (version 0.5.2).
 Software Heritage: swh:1:rev:<commit>
 https://github.com/lou-heraut/card
 ```

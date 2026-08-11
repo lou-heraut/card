@@ -523,3 +523,24 @@ du paquet (0.5.0), sur le précédent des quatre colonnes de provenance :
 
 Les fiches ne sont pas touchées : leur `version:` ne bouge pas, aucune
 définition n'ayant changé.
+
+## Suppression du module `card.docstring` (2026-08-11)
+
+`card/docstring.py` lisait les blocs `en:`/`fr:` des docstrings hydro.
+Mesuré ce jour avant de le retirer : **aucun code de production ne
+l'appelait**, ni dans card, ni dans card-api ; seuls trois tests le
+faisaient. La figure avait cessé de lire les docstrings de fonctions
+lorsque `method` a pris le relais.
+
+Les docstrings des 42 fonctions publiques de `functions/` passent à
+l'anglais avec sections NumPy, comme l'API publique la veille et comme
+stase. Les blocs de langue disparaissent avec le module qui les lisait.
+
+Ce n'est pas un changement de SORTIES : aucune colonne, aucune valeur,
+aucune fiche n'est touchée. C'est une suppression d'API interne, jamais
+documentée comme publique et absente de `card.__all__`. Elle est
+consignée ici parce qu'un module retiré est un import qui casse, et que
+`RENAMING.md` est l'endroit où l'on vient chercher ce qui a disparu.
+
+Parité R : sans objet, le paquet R n'a pas de convention de docstring
+bilingue.

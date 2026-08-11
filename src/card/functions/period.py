@@ -85,45 +85,39 @@ def _subset_period(x, dates, period):
 
 def over_period(X, func=None, dates=None, period=None,
                 period_start=None, period_end=None, **kwargs):
-    """
-    en: Applies `func` to the values of X falling inside the period only.
+    """Apply ``func`` to the values of X falling inside the period only.
 
-        Generic wrapper, for the aggregations that cannot take bounds
-        themselves: `nanmean` and `nanmedian` are numpy functions, one does
-        not add parameters to them.
+    Generic wrapper, for the aggregations that cannot take bounds
+    themselves: ``nanmean`` and ``nanmedian`` are numpy functions, one does
+    not add parameters to them.
 
-        func   : name of the function to apply (resolved as in a card,
-                 card.functions then numpy), or a callable.
-        dates  : column of dates, aligned on X.
-        period_start / period_end : bounds, usually columns constant per
-                 series; `period` also accepts the pair.
-        kwargs : passed through to `func`. The names of this wrapper (func,
-                 dates, period, period_start, period_end) are reserved and
-                 cannot be passed through.
+    Parameters
+    ----------
+    X : array-like
+        The values to aggregate.
+    func : str or callable, optional
+        Name of the function to apply, resolved as in a card
+        (``card.functions`` then numpy), or a callable.
+    dates : array-like, optional
+        Column of dates, aligned on X.
+    period : list, optional
+        The pair of bounds, as an alternative to the two below.
+    period_start, period_end : optional
+        Bounds, usually columns constant per series.
+    **kwargs
+        Passed through to ``func``. The names of this wrapper (``func``,
+        ``dates``, ``period``, ``period_start``, ``period_end``) are
+        reserved and cannot be passed through.
 
-        A missing bound leaves its side open, and two missing bounds amount
-        to computing over the whole record: a card whose caller does not
-        supply the horizon returns a result rather than a column of NaN.
+    Returns
+    -------
+    Whatever ``func`` returns on the restricted series.
 
-    fr: Applique `func` aux seules valeurs de X situées dans la période.
-
-        Enveloppe générique, pour les agrégations qui ne peuvent pas recevoir
-        elles-mêmes des bornes : `nanmean` et `nanmedian` sont des fonctions
-        numpy, on ne leur ajoute pas de paramètres.
-
-        func   : nom de la fonction à appliquer (résolu comme dans une fiche,
-                 card.functions puis numpy), ou callable.
-        dates  : colonne de dates, alignée sur X.
-        period_start / period_end : bornes, généralement des colonnes
-                 constantes par série ; `period` accepte aussi la paire.
-        kwargs : transmis tels quels à `func`. Les noms de cette enveloppe
-                 (func, dates, period, period_start, period_end) lui sont
-                 réservés et ne peuvent donc pas être transmis.
-
-        Une borne absente laisse son côté ouvert, et deux bornes absentes
-        reviennent à calculer sur toute la chronique : une fiche dont
-        l'appelant ne renseigne pas l'horizon rend un résultat plutôt qu'une
-        colonne de NaN.
+    Notes
+    -----
+    A missing bound leaves its side open, and two missing bounds amount to
+    computing over the whole record: a card whose caller does not supply the
+    horizon returns a result rather than a column of NaN.
     """
     if func is None:
         raise ValueError("over_period : le nom de la fonction à appliquer "

@@ -26,18 +26,20 @@ from .aggregation import _rle_most_frequent, _to_float_array
 
 
 def exceedance_quantile(Q, p):
-    """
-    en: Discharge exceeded a fraction p of the time, read off the flow
-        duration curve.
+    """Discharge exceeded a fraction of the time, read off the flow duration curve.
 
-        Equals quantile(Q, 1-p), linear interpolation (R type 7, the numpy
+    Parameters
+    ----------
+    Q : array-like
+        Discharge series.
+    p : float
+        Fraction of the time the value is exceeded, between 0 and 1.
+
+    Returns
+    -------
+    float
+        ``quantile(Q, 1 - p)``, by linear interpolation (R type 7, the numpy
         default). Gaps are dropped before the computation.
-
-    fr: Débit dépassé une fraction p du temps, lu sur la courbe des débits
-        classés.
-
-        Vaut quantile(Q, 1-p), interpolation linéaire (type 7 R = défaut
-        numpy). Les lacunes sont écartées avant le calcul.
     """
     q = _to_float_array(Q)
     q = q[~np.isnan(q)]
@@ -47,27 +49,25 @@ def exceedance_quantile(Q, p):
 
 
 def exceedance_frequency(Q, threshold):
-    """
-    en: Exceedance frequency of the threshold: share of the OBSERVED time
-        when Q is strictly above threshold.
+    """Share of the OBSERVED time when Q is strictly above a threshold.
 
-        Equals n(Q > threshold) / N, where N counts only the recorded time
-        steps, like the numerator. A missing day is a day nothing is known
-        about, not a day without exceedance. A fully missing series gives
-        NaN, no longer 0.
+    Parameters
+    ----------
+    Q : array-like
+        Discharge series.
+    threshold : float or array-like
+        The threshold to exceed.
 
-    fr: Fréquence de dépassement du seuil : part du temps OBSERVÉ où Q est
-        strictement supérieur à threshold.
+    Returns
+    -------
+    float
+        ``n(Q > threshold) / N``, where N counts only the recorded time
+        steps, like the numerator.
 
-        Vaut n(Q > threshold) / N, où N ne compte que les pas de temps
-        renseignés, comme le numérateur. Un jour manquant est un jour dont on
-        ne sait rien, pas un jour de non-dépassement. Série entièrement
-        manquante : NaN, et non plus 0.
-
-    Compter les lacunes au dénominateur abaissait la fréquence exactement de
-    leur part, et cette part diminuant avec les années, le biais se lisait
-    comme une tendance à la hausse. Rupture de parité R assumée le
-    2026-07-30, cf. docs/dev/ORIGINE_R.md.
+    Notes
+    -----
+    A missing day is a day nothing is known about, not a day without
+    exceedance. A fully missing series therefore gives NaN, not 0.
     """
     q = _to_float_array(Q)
     lim_arr = _to_float_array(threshold) if np.ndim(threshold) > 0 else \
@@ -80,10 +80,19 @@ def exceedance_frequency(Q, threshold):
 
 
 def fdc_slope(Q, p=(0.33, 0.66)):
-    """
-    en: Slope of the middle segment of the flow duration curve.
+    """Slope of the middle segment of the flow duration curve.
 
-    fr: Pente du segment médian de la courbe des débits classés.
+    Parameters
+    ----------
+    Q : array-like
+        Discharge series.
+    p : tuple of float, default (0.33, 0.66)
+        The two exceedance probabilities bounding the segment.
+
+    Returns
+    -------
+    float
+        The slope of the curve between the two probabilities.
     """
     p = np.asarray(p, dtype=float)
     qp = exceedance_quantile(Q, p)
@@ -98,29 +107,41 @@ def _fdc_p(n, norm_spacing):
 
 
 def fdc_probabilities(X=None, n=1000, norm_spacing=False):
-    """
-    en: Probability axis of the flow duration curve, over n points.
+    """Probability axis of the flow duration curve.
 
-        Points evenly spread, or spaced along a standard normal law if
-        norm_spacing.
+    Parameters
+    ----------
+    X : array-like, optional
+        Kept for signature compatibility with the curve it accompanies.
+    n : int, default 1000
+        Number of points.
+    norm_spacing : bool, default False
+        Space the points along a standard normal law rather than evenly.
 
-    fr: Axe des probabilités de la courbe des débits classés, en n points.
-
-        Points uniformément répartis, ou espacés selon une loi normale
-        centrée réduite si norm_spacing.
-
-    `X` est accepté et ignoré : cette fonction ne dépend d'aucune donnée,
-    elle produit l'axe des abscisses de la courbe. Mais le moteur affecte
-    d'office la première colonne numérique à une fonction qui ne déclare
-    aucune colonne, et cette valeur doit bien atterrir quelque part. Sans ce
-    paramètre, elle se liait à `n` et faisait échouer l'appel : les cinq
-    fiches FDC plantaient depuis l'origine du portage, trois d'entre elles le
-    masquant par une période sans données (corrigé 2026-07-22).
+    Returns
+    -------
+    numpy.ndarray
+        The probability axis, of length ``n``.
     """
     return _fdc_p(n, norm_spacing)
 
 
 def fdc_quantiles(Q, n=1000, norm_spacing=False):
-    """Quantiles de la courbe des débits classés (mêmes probabilités que
-    fdc_probabilities)."""
+    """Quantiles of the flow duration curve.
+
+    Parameters
+    ----------
+    Q : array-like
+        Discharge series.
+    n : int, default 1000
+        Number of points, over the same probabilities as
+        :func:`fdc_probabilities`.
+    norm_spacing : bool, default False
+        Space the points along a standard normal law rather than evenly.
+
+    Returns
+    -------
+    numpy.ndarray
+        The discharges of the curve, of length ``n``.
+    """
     return exceedance_quantile(Q, _fdc_p(n, norm_spacing))
