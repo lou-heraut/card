@@ -484,3 +484,42 @@ faux. Ordre de résolution et raisons : docstring de
 
 Parité R : sans objet, le paquet R n'a pas de notion de provenance
 logicielle.
+
+## La colonne `card`, perdue au portage, rétablie (2026-08-11)
+
+`list_cards()` et `card.extract` rendent désormais une colonne `card` :
+le nom de la FICHE qui produit la variable de la ligne, c'est-à-dire
+exactement ce qu'`extract(cards=...)` accepte.
+
+**C'est une parité rétablie, pas une nouveauté.** Le CSV du paquet R,
+`inst/extdata/metaEX_all.csv`, portait `CARD_name` en PREMIÈRE colonne.
+Mesuré le 2026-08-11 sur ses 565 lignes : `CARD_name` valait
+`variable_en` partout, sans une exception, une fiche R produisant une
+variable et une seule. La colonne a donc été droppée au portage comme
+une redondance, ce qui se tenait ce jour-là, et cette suppression n'a
+jamais été consignée ici.
+
+Ce qui a changé depuis est le fan-out. Une fiche `_month` ou `_season`
+produit douze ou quatre variables, et les fiches multi-sorties en
+produisent plusieurs : `mean-TMA_jan` est une variable de la fiche
+`mean-TMA_month`. Mesuré le même jour sur le corpus Python : **343 des
+472 variables listées, soit 73 %, ne portent pas le nom de leur fiche**.
+La colonne est devenue porteuse au moment précis où elle n'était plus
+là, si bien que l'enchaînement le plus naturel du paquet, lister une
+famille puis la calculer, échouait sur un `FileNotFoundError`. Le seul
+recours était de reconstruire le nom depuis `script_path`, donc de faire
+dépendre du code utilisateur d'une convention d'arborescence.
+
+Ajout pur quant au CONTENU : aucune colonne existante ne change de nom,
+de type ni de valeur, et aucun calcul ne bouge. Deux réserves qui en
+font tout de même un changement de sorties, et donc une version mineure
+du paquet (0.5.0), sur le précédent des quatre colonnes de provenance :
+
+- une colonne apparaît, donc un consommateur qui compte les colonnes ou
+  fige un schéma la voit ;
+- elle est placée **en tête**, comme dans le CSV du paquet R, ce qui
+  décale la position de toutes les autres. Un consommateur qui lit par
+  position, et non par nom, est concerné.
+
+Les fiches ne sont pas touchées : leur `version:` ne bouge pas, aucune
+définition n'ayant changé.

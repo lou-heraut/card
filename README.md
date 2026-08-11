@@ -139,6 +139,18 @@ family: `phenomenon="low flows"` rather than "drought", which is not a
 word the cards use. `card.vocabulary()` gives the closed list of values
 each facet accepts, enough to populate a menu without guessing.
 
+**Selecting a family is also how you compute one.** The listing has one
+row per variable; the `card` column says which card produces it, and
+that is what `extract` takes:
+
+```python
+low = card.list_cards(phenomenon="low flows", output="series")
+res = card.extract(data, cards=low["card"].unique())
+```
+
+The two names differ whenever one card produces several columns:
+`mean-TMA_jan` is a variable of the card `mean-TMA_month`.
+
 **Names are systematic, so they can be read** rather than looked up.
 Left to right:
 
@@ -442,7 +454,7 @@ published work.
 
 ```
 Héraut L., Dorchies D., Sauquet É., Vidal J.-P., Horner I., Santos L.
-(2026). card: the CARD collection of hydroclimatic cards (version 0.4.1).
+(2026). card: the CARD collection of hydroclimatic cards (version 0.5.0).
 Software Heritage: swh:1:rev:<commit>
 https://github.com/lou-heraut/card
 ```

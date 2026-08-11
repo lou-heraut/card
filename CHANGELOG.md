@@ -63,7 +63,41 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.4.1.
+Rien depuis la 0.5.0.
+
+## 0.5.0 (2026-08-11)
+
+### Ajouté
+
+- **Ce qu'on liste, on peut enfin le calculer.** `list_cards()` et
+  `extract` rendent une colonne `card` : le nom de la FICHE qui produit
+  la variable de la ligne, c'est-à-dire ce qu'`extract(cards=...)`
+  attend. L'enchaînement le plus naturel du paquet, lister une famille
+  puis la calculer, échouait :
+
+  ```python
+  temp = card.list_cards(domain="temperature")
+  card.extract(data, cards=temp["variable_en"])   # FileNotFoundError
+  card.extract(data, cards=temp["card"].unique()) # désormais
+  ```
+
+  `list_cards` rend une ligne par VARIABLE, ce qui est juste quand on
+  cherche une variable, mais le fan-out par mois ou par saison sépare les
+  deux noms : `mean-TMA_jan` est une variable de la fiche
+  `mean-TMA_month`. Mesuré le 2026-08-11 : **343 des 472 variables
+  listées, soit 73 %, ne portent pas le nom de leur fiche**. Le seul
+  recours était de le reconstruire depuis `script_path`, donc de faire
+  dépendre du code utilisateur d'une convention d'arborescence.
+
+  **C'est une parité rétablie, pas une nouveauté** : le CSV du paquet R
+  portait `CARD_name` en première colonne, où elle valait `variable_en`
+  sur ses 565 lignes sans exception, une fiche R sortant une variable et
+  une seule. Elle a été droppée au portage comme une redondance, et le
+  fan-out l'a rendue nécessaire après coup. Détail et réserves de
+  compatibilité : `RENAMING.md`.
+
+  Trouvé en portant sur card4r la vignette écrite en 2025 pour le paquet
+  R, qui fait exactement ce geste.
 
 ## 0.4.1 (2026-08-11)
 

@@ -62,6 +62,12 @@ def list_cards(path=None, include_experimental=False,
     Contrairement au package R (qui lit un CSV pré-généré), les métadonnées
     sont lues directement depuis les blocs meta des YAML.
 
+    Une ligne par VARIABLE. La colonne `card` donne la fiche qui la
+    produit, et c'est elle qu'attend `extract(cards=...)` : les deux
+    noms diffèrent dès qu'une fiche sort plusieurs colonnes
+    (`mean-TMA_jan` vient de `mean-TMA_month`). Enchaîner les deux
+    fonctions se fait donc sur `card`, dédoublonné.
+
     Filtres optionnels (insensibles à la casse ; pour les facettes de
     classification, le slug du vocabulaire et les libellés fr/en sont
     équivalents : `phenomenon='low-flows'`, `'low flows'` et

@@ -201,6 +201,17 @@ def _meta_rows(card) -> pd.DataFrame:
         return ""
 
     return pd.DataFrame({
+        # La FICHE qui produit cette variable, et donc ce qu'il faut
+        # passer à `extract(cards=...)`. Les deux noms coïncident tant
+        # qu'une fiche sort une colonne, mais le fan-out par mois ou par
+        # saison les sépare : `mean-TMA_jan` est une variable de la fiche
+        # `mean-TMA_month`. Sans cette colonne, enchaîner `list_cards()`
+        # puis `extract()` échoue, et le seul recours est de deviner le
+        # nom depuis `script_path`. Le CSV de CARD-R portait déjà la
+        # colonne, où elle valait toujours `variable_en` faute de fiche
+        # multi-sorties ; elle a été perdue au portage comme une
+        # redondance, et le fan-out l'a rendue nécessaire (RENAMING.md).
+        "card": [card.get("id") or Path(card["path"]).stem] * n,
         "variable_en": _as_list(variable_en, n),
         "unit_en": field(en, "unit"),
         "name_en": field(en, "name"),

@@ -2,7 +2,30 @@
 
 import pytest
 
-from card import CARD_list_all, CARD_management
+from card import CARD_list_all, CARD_management, extract, list_cards
+
+
+def test_what_is_listed_can_be_extracted():
+    """L'enchaînement le plus naturel du paquet doit marcher.
+
+    On liste une famille, on la calcule. Il échouait : `list_cards()`
+    rend une ligne par VARIABLE, `extract()` attend un nom de FICHE, et
+    le fan-out par mois ou par saison les sépare (`mean-TMA_jan` est une
+    variable de la fiche `mean-TMA_month`). Mesuré le 2026-08-11 : 343
+    des 472 variables listées ne portent pas le nom de leur fiche, soit
+    73 %, donc ce n'est pas un cas de bord.
+
+    La colonne `card` est ce qu'`extract` accepte, et ce test l'éprouve
+    plutôt que de le promettre : tout ce qui est listé est chargeable, et
+    tout ce qui est listé ressort. Sans calcul, `metadata_only` suffit.
+    """
+    meta = list_cards()
+    assert (meta["card"] != meta["variable_en"]).any(), (
+        "sans fiche multi-sorties, la colonne ne prouve rien")
+
+    sortie = extract(None, cards=sorted(meta["card"].unique()),
+                     metadata_only=True)["meta"]
+    assert set(sortie["variable_en"]) >= set(meta["variable_en"])
 
 
 def test_list_all_covers_corpus():
