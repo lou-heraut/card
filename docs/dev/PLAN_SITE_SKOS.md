@@ -253,30 +253,74 @@ valider comme il valide `topics.yaml` : toute URI citée doit être
 résolvable, et tout `input_vars` du registre doit être couvert ou
 explicitement marqué « pas d'équivalent ».
 
-### La tâche à faire AVANT d'écrire le générateur
+### Confrontation avec I-ADOPT, faite le 2026-08-11
 
-**Confronter ce que les fiches portent à ce que le standard attend**, et
-n'ajouter que le manquant. Une métadonnée importante qui ne se dérive pas
-de façon robuste doit vivre dans la donnée d'origine, donc dans le YAML ;
-mais rien ne doit y être ajouté qui s'y trouve déjà sous un autre nom.
+**Résultat : aucune fiche n'a besoin d'un champ de plus.** Le pronostic
+« il manque le modificateur statistique et la fenêtre temporelle » est
+FAUX, et c'est pour ça qu'on mesure au lieu de croire.
 
-Le travail, précis et borné : poser côte à côte les propriétés I-ADOPT
-(`hasProperty`, `hasObjectOfInterest`, `hasMatrix`, `hasContextObject`,
-`hasConstraint`, `hasStatisticalModifier`) et ce que la fiche déclare
-(`input_vars`, `classification`, `sampling_period`, `method`, `operator`,
-la grammaire du nom), puis sortir la liste de ce qui manque VRAIMENT.
+Ce que le cadre exige, et où ça se trouve déjà :
 
-Pronostic à vérifier, pas à croire : il ne manquera que le **modificateur
-statistique** et la **fenêtre temporelle**. Deux champs, pas dix.
+| I-ADOPT | obligatoire | où c'est déclaré dans card |
+|---|---|---|
+| `hasProperty` | oui, exactement 1 | `input_vars` de la fiche, et le registre `inputs.yaml` |
+| `hasObjectOfInterest` | oui, exactement 1 | idem : la grandeur et son objet vont **par paire**, pas séparément |
+| `hasStatisticalModifier` | non | la **chaîne de process** et le drapeau `is_transform` |
+| `hasConstraint` | non | `time_step` et `sampling_period` **du process** |
+| `hasMatrix`, `hasContextObject` | non | sans objet ici |
 
-Le cas du modificateur statistique est le plus net. La statistique
-d'ordre (`N`, `D`, `X`, rien, `Pq`) n'est **déclarée nulle part
-aujourd'hui** : `list_cards` expose `operator`, mais il vient du PRÉFIXE
-de l'identifiant (`delta-`, `mean-`), pas de la position 3. Le dériver en
-analysant le nom ferait dépendre une sortie publiée d'une chaîne écrite
-en dur, ce qui a déjà coûté six figures fausses ici (`compute_Qp`, cf.
-CLAUDE.md). Donc il se déclare, sauf si la confrontation ci-dessus montre
-qu'il est déjà porté ailleurs de façon fiable.
+**Le modificateur statistique se lit dans la chaîne, pas dans le nom.**
+C'est le point qui change tout. Une fiche déclare ses process, et chaque
+fonction dit si elle transforme ou réduit :
+
+```
+VCN10 :  T:rollmean_center → R:nanmin
+         « minimum d'une moyenne mobile de 10 jours »
+```
+
+C'est de la donnée DÉCLARÉE, pas un nom analysé, donc le piège
+`compute_Qp` ne s'applique pas. Mesuré : 226 fiches, de 1 à 5 process,
+42 fonctions employées, 5 déclarées `is_transform`.
+
+**La contrainte temporelle est déclarée aussi.** `time_step` est écrit
+dans TOUS les process, le linter l'exige : `none` 249, `year` 208,
+`year-month` 22, `year-season` 18, `yearday` 5, `month` et `season` 1.
+Et `sampling_period` du process vaut `None` (298), `adaptive` (96), une
+paire partielle (53), `09-01` (39) ou `01-01` (18).
+
+> **Attention au piège** : c'est le `sampling_period` du **process** qu'il
+> faut lire, machine-lisible, et non `meta.sampling_period`, qui mélange
+> prose et littéral (piste ouverte connue de `CHANTIERS.md`). De même,
+> la colonne `operator` ne vient que du PRÉFIXE de l'identifiant et ne
+> dit rien de la statistique d'ordre : elle est vide sur 322 lignes.
+
+**Ce qui manque n'est pas de la donnée, ce sont des TABLES de
+correspondance.** Trois, toutes destinées à `alignments.yaml` :
+
+1. **19 combinaisons d'`input_vars`** vers des paires (propriété, objet
+   d'intérêt). Les six paramètres de type `date` de `inputs.yaml`
+   (`ref_start`, `horizon_end`…) se filtrent tout seuls : ce sont des
+   paramètres, pas des grandeurs observées ;
+2. **42 fonctions** vers des concepts, dont **19 sont des modificateurs**
+   appliqués à une grandeur (`nanmin`, `exceedance_quantile`, `delta`,
+   `return_level`…) et **23 DÉFINISSENT une grandeur nouvelle** (`BFI`,
+   `KGE`, `elasticity`, `runoff_coefficient`, `deficit_volume`…). Les
+   secondes ne sont pas des modificateurs : ce sont des propriétés que
+   card doit définir lui-même, aucune n'existant chez Theia ;
+3. **les formes de fenêtre** vers des contraintes temporelles, sept pas
+   de temps et cinq formes de fenêtre.
+
+**Un cas à modéliser, 26 fiches sur 226.** I-ADOPT exige EXACTEMENT une
+propriété et un objet, or ces fiches ont plusieurs entrées réelles :
+`Q_obs, Q_sim` (12), `Q, R` (6), `Q, T` (5), `R, Rl, Rs` (5)… Le cadre
+prévoit ce cas, avec `AsymmetricSystem` et ses `hasNumerator` /
+`hasDenominator` / `hasSource` / `hasTarget`. Et le rôle est dérivable :
+**l'ordre des arguments du tuple `func` le donne**, `ratio(Q, R)`
+désignant sans ambiguïté son numérateur et son dénominateur.
+
+Enfin, la facette `aspect` (typologie IHA : magnitude, duration, timing,
+frequency) **n'a aucun équivalent I-ADOPT**. Elle reste une facette de
+classification propre à card, publiée comme telle.
 
 ## Comment ça se lie à la documentation de card
 
@@ -487,9 +531,9 @@ regarde, **on ne publie rien**.
 |---|---|---|---|
 | 0 | fonctions publiques en anglais, sections NumPy, garde dans les deux paquets | rien | **fait** (card 0.5.1, stase 0.6.3) |
 | 1 | docstrings hydro de `functions/` en anglais NumPy, `docstring.py` et son test retirés | décision | à valider |
-| 2 | **confrontation** métadonnées des fiches contre attendus I-ADOPT, et liste de ce qui manque vraiment | rien | à faire |
-| 3 | les champs manquants déclarés dans les fiches, linter à jour | 2 | à faire |
-| 4 | `src/card/alignments.yaml` et sa validation par le linter | 2 | à faire |
+| 2 | **confrontation** métadonnées des fiches contre attendus I-ADOPT | rien | **fait** : rien à ajouter aux fiches |
+| 3 | ~~champs manquants dans les fiches~~ | — | **sans objet**, l'étape 2 l'a montré |
+| 4 | `src/card/alignments.yaml` : trois tables de correspondance, et sa validation par le linter | 2 | à faire |
 | 5 | `scripts/generate_skos.py` → `card.ttl`, base d'URI manifestement provisoire, métadonnées de schéma, garde de fraîcheur étendue | 3, 4 | à faire |
 | 6 | Skosmos **local** sur ce `.ttl`, pour voir le rendu avant tout dépôt | 5 | à faire |
 | 7 | site MkDocs Material **en localhost** : sans `dev/`, URLs minuscules, catalogue filtrable rendu en HTML, fonctions en deux sections | rien | à faire |
