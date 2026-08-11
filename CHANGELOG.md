@@ -63,6 +63,10 @@ des deux endroits.
 
 ## Non publié
 
+Rien depuis la 0.4.1.
+
+## 0.4.1 (2026-08-11)
+
 ### Modifié
 
 - **Le README ne compte plus les fiches par facette (2026-08-11).** Les
