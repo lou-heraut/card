@@ -62,16 +62,25 @@ def _vocab():
 
 
 def vocabulary():
-    """Vocabulaire de contrôle de la classification (topics.yaml).
+    """Controlled vocabulary of the classification.
 
-    `{facette: {slug: {'en': étiquette, 'fr': étiquette, ...}}}`. La clé
-    est un slug neutre : l'identifiant du concept, stable si un libellé est
-    reformulé, utilisable dans un chemin de dossier et demain dans une URI.
-    `en` et `fr` sont deux étiquettes à égalité, aucune langue n'est
-    l'identifiant. C'est la liste fermée des valeurs qu'un `classification`
-    peut prendre, donc aussi celle des filtres valides de `list_cards`.
-    Publique pour qu'un client (service web, formulaire) propose les bonnes
-    valeurs au lieu de les deviner.
+    Returns
+    -------
+    dict
+        ``{facet: {slug: {"en": label, "fr": label, ...}}}``. This is
+        the closed list of values a ``classification`` block may take,
+        and therefore also the list of valid filters for
+        :func:`card.list_cards`.
+
+    Notes
+    -----
+    The key is a neutral slug: the identifier of the concept, stable
+    when a label is reworded, usable as a directory name and one day as
+    a URI. ``en`` and ``fr`` are two labels of equal standing, neither
+    language being the identifier.
+
+    Public so that a client, a web service or a form, can offer the
+    right values instead of guessing them.
     """
     return copy.deepcopy(_vocab())
 

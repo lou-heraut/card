@@ -57,34 +57,68 @@ def list_cards(path=None, include_experimental=False,
                domain=None, phenomenon=None, aspect=None, season=None,
                output=None, purpose=None, operator=None, function=None,
                variable=None, search=None) -> pd.DataFrame:
-    """Liste toutes les fiches CARD disponibles avec leurs métadonnées.
+    """List the available CARD cards with their metadata.
 
-    Contrairement au package R (qui lit un CSV pré-généré), les métadonnées
-    sont lues directement depuis les blocs meta des YAML.
+    One row per VARIABLE. The ``card`` column gives the card that
+    produces it, and that is what :func:`card.extract` expects: the two
+    names differ as soon as one card yields several columns
+    (``mean-TMA_jan`` comes from ``mean-TMA_month``). Chaining the two
+    functions therefore goes through ``card``, deduplicated.
 
-    Une ligne par VARIABLE. La colonne `card` donne la fiche qui la
-    produit, et c'est elle qu'attend `extract(cards=...)` : les deux
-    noms diffèrent dès qu'une fiche sort plusieurs colonnes
-    (`mean-TMA_jan` vient de `mean-TMA_month`). Enchaîner les deux
-    fonctions se fait donc sur `card`, dédoublonné.
+    Unlike the R package, which reads a pre-generated CSV, the metadata
+    is read straight from the ``meta`` blocks of the YAML cards, so it
+    cannot fall out of step with them.
 
-    Filtres optionnels (insensibles à la casse ; pour les facettes de
-    classification, le slug du vocabulaire et les libellés fr/en sont
-    équivalents : `phenomenon='low-flows'`, `'low flows'` et
-    `'basses eaux'` donnent le même résultat, cf. `card.vocabulary()` et
-    docs/dev/TOPICS.md) :
-    domain     : grandeur ('débit', 'flow', 'precipitation'...).
-    phenomenon : phénomène ('basses eaux', 'baseflow', 'snow'...).
-    aspect     : dimension IHA ('intensité', 'timing', 'duration'...).
-    season     : fenêtre d'échantillonnage ('estivale', 'annual'...).
-    output     : forme du résultat ('série', 'scalar', 'curve').
-    purpose    : finalité ('performance', 'sensitivity').
-    operator   : opérateur dérivé du préfixe de l'id ('delta', 'median',
-                 'mean', 'trend slope', 'trend test', 'count').
-    function   : sous-chaîne d'un nom de fonction du process
-                 (ex. 'baseflow', 'rollmean', 'delta').
-    variable   : sous-chaîne du nom de variable (ex. 'VCN').
-    search     : sous-chaîne cherchée dans nom, description et variable.
+    Parameters
+    ----------
+    path : str or pathlib.Path, optional
+        Directory of YAML cards. Defaults to the cards shipped with the
+        package.
+    include_experimental : bool, default False
+        Also list the cards flagged as experimental.
+    domain : str, optional
+        Measured quantity: ``"flow"``, ``"precipitation"``,
+        ``"temperature"``, ``"evapotranspiration"``.
+    phenomenon : str, optional
+        Hydrological phenomenon: ``"low flows"``, ``"baseflow"``,
+        ``"snow"``...
+    aspect : str, optional
+        IHA dimension: ``"magnitude"``, ``"timing"``, ``"duration"``...
+    season : str, optional
+        Sampling window: ``"annual"``, ``"summer"``, ``"by month"``...
+    output : str, optional
+        Shape of the result: ``"series"``, ``"scalar"``, ``"curve"``.
+    purpose : str, optional
+        ``"model performance"`` or ``"climate sensitivity"``.
+    operator : str, optional
+        Operator carried by the name prefix: ``"delta"``, ``"median"``,
+        ``"mean"``, ``"trend slope"``, ``"trend test"``, ``"count"``.
+    function : str, optional
+        Substring of a function name used by the process, such as
+        ``"baseflow"``, ``"rollmean"``, ``"delta"``.
+    variable : str, optional
+        Substring of a variable name, such as ``"VCN"``.
+    search : str, optional
+        Substring looked up in names, descriptions and variable names.
+
+    Returns
+    -------
+    pandas.DataFrame
+        One row per variable, with its unit, names, classification,
+        method, input columns and provenance.
+
+    Notes
+    -----
+    Filters are case-insensitive. For the classification facets, the
+    vocabulary slug and both labels are equivalent:
+    ``phenomenon="low-flows"``, ``"low flows"`` and ``"basses eaux"``
+    return the same rows. :func:`card.vocabulary` gives the closed list
+    of values each facet accepts.
+
+    Examples
+    --------
+    >>> low = card.list_cards(phenomenon="low flows", output="series")
+    >>> res = card.extract(data, cards=low["card"].unique())
     """
     if path is None:
         path = _DEFAULT_CARD_DIR
@@ -145,14 +179,32 @@ def list_cards(path=None, include_experimental=False,
 
 
 def info(name, path=None, lang="fr", quiet=False) -> dict:
-    """Dessine la fiche CARD et retourne ses métadonnées sous forme de dict.
+    """Draw one CARD card and return its metadata as a dict.
 
-    name : nom de la fiche (ex. 'QA', 'VCN10', 'dtLF').
-    lang : 'fr' (défaut) ou 'en'.
-    quiet : n'imprime rien, retourne seulement le dict. Pour un appel
-        programmatique (un service web n'a pas de terminal : la figure y
-        partirait dans les logs à chaque requête, calculée pour rien).
-        Pour obtenir la figure en tant que CHAÎNE, voir `card.figure`.
+    Parameters
+    ----------
+    name : str
+        Name of the card, such as ``"QA"``, ``"VCN10"``, ``"dtLF"``.
+    path : str or pathlib.Path, optional
+        Directory of YAML cards. Defaults to the cards shipped with the
+        package.
+    lang : {"fr", "en"}, default "fr"
+        Language the figure and the metadata are drawn in.
+    quiet : bool, default False
+        Print nothing and return the dict alone. Meant for programmatic
+        calls: a web service has no terminal, so the figure would be
+        computed for nothing and land in the logs at every request. To
+        get the figure as a STRING, use :func:`card.figure`.
+
+    Returns
+    -------
+    dict
+        The card metadata, with its placeholders resolved.
+
+    See Also
+    --------
+    card.figure : the same drawing, returned as a string.
+    card.list_cards : find the card to name here.
     """
     if path is None:
         path = _DEFAULT_CARD_DIR
@@ -211,16 +263,33 @@ def info(name, path=None, lang="fr", quiet=False) -> dict:
 def copy_cards(cards=("QA", "QJXA"), dest="./WIP",
                source=None, numbered=False, overwrite=False,
                verbose=False):
-    """Copie des fiches YAML dans un dossier de travail pour personnalisation.
+    """Copy YAML cards into a working directory, to adapt or extend them.
 
-    cards    : liste de noms, ou dict imbriqué {sous_dossier: [noms, ...]}
-               pour organiser en sous-dossiers numérotés.
-    dest     : dossier de destination.
-    source   : dossier source des fiches (défaut : fiches embarquées).
-    numbered : préfixe les fichiers copiés (001_, 002_, ...). Faux par
-               défaut : le linter exige que l'identifiant d'une fiche soit
-               aussi son nom de fichier, et un préfixe le ferait échouer.
-               N'a d'intérêt que pour ordonner un dossier de travail.
+    Parameters
+    ----------
+    cards : sequence of str or dict, default ``("QA", "QJXA")``
+        Card names, or a nested dict ``{subfolder: [names, ...]}`` to
+        organise the copy into numbered subfolders.
+    dest : str or pathlib.Path, default ``"./WIP"``
+        Destination directory.
+    source : str or pathlib.Path, optional
+        Directory to copy from. Defaults to the cards shipped with the
+        package.
+    numbered : bool, default False
+        Prefix the copied files (``001_``, ``002_``...). Left False,
+        because the linter requires the identifier of a card to also be
+        its file name, and a prefix would make it fail. It is only worth
+        turning on to order a working directory.
+    overwrite : bool, default False
+        Replace the destination directory if it already exists.
+    verbose : bool, default False
+        Print each file as it is copied.
+
+    Returns
+    -------
+    None
+        The cards are written under ``dest``. Point
+        ``card.extract(path=dest)`` at them to run your own versions.
     """
     if source is None:
         source = _DEFAULT_CARD_DIR

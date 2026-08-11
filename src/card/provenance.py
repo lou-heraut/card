@@ -161,14 +161,24 @@ def _commit(cle, noms, module):
 
 @lru_cache(maxsize=1)
 def provenance():
-    """Le logiciel qui a calculé, tel qu'il part avec le résultat.
+    """The software that computed, as it travels with the result.
 
-    Rendu une fois par processus : la réponse ne peut pas changer sans
-    réinstaller ou redémarrer, et `extract` la demande à chaque appel.
+    Returns
+    -------
+    dict
+        ``card_version``, ``card_commit``, ``stase_version`` and
+        ``stase_commit``. A commit is empty when the code comes from a
+        modified working copy: a commit is published only when it
+        designates exactly the code that ran.
 
-    Les clés portent les mêmes noms que les champs publiés par card-api,
-    pour qu'un résultat local et un résultat du service se lisent de la
-    même façon.
+    Notes
+    -----
+    Resolved once per process, since the answer cannot change without
+    reinstalling or restarting, and :func:`card.extract` asks for it at
+    every call.
+
+    The keys carry the same names as the fields card-api publishes, so
+    that a local result and a result from the service read the same way.
     """
     import card
 

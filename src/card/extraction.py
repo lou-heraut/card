@@ -465,55 +465,92 @@ def extract(data, cards=("QA", "QJXA"), path=None,
             simplify=False, metadata_only=False,
             rename=None, suffix=None, suffix_delimiter="_",
             verbose=False, CARD_name=None):
-    """Extrait des variables hydroclimatiques selon des fiches CARD YAML.
+    """Compute hydroclimatic variables from CARD YAML cards.
 
-    data : DataFrame avec une colonne datetime, une colonne texte
-           (identifiant de série) et les colonnes numériques d'entrée
-           requises par les fiches (référencées par leur nom, ex. 'Q' :
-           cf. input_vars des fiches, via card.list_cards() ou
-           card.info()).
-    cards : noms des fiches à exécuter (cf. card.list_cards()).
-    path : dossier des fiches YAML (défaut : fiches embarquées, ou la
-           variable d'environnement CARD_YML_PATH).
-    default_period : [début, fin] appliqué aux fiches sans période propre.
-    ignore_na_limits : désactive les seuils de lacunes des fiches
-           (max_na_pct, max_na_years).
-    sampling_period : écrase la fenêtre annuelle des fiches.
-           "preferred" : chaque fiche prend SON
-           meta.global.preferred_sampling_period (protocole MAKAHO,
-           reproductible : la fenêtre adaptative dépend des données).
-           "MM-DD" (ex. "09-01") : fenêtre imposée. Ne touche ni les
-           fenêtres partielles [début, fin] (définition de la
-           variable), ni les process sans fenêtre.
-    simplify : fusionne les DataFrames de sortie en un seul.
-    metadata_only : ne calcule rien, retourne seulement les métadonnées,
-           sous leur forme GÉNÉRIQUE : les placeholders {suffix.X} sont
-           résolus par le suffix_default de la fiche. Un suffix= passé
-           en même temps est ignoré, et signalé par un warning : sans
-           données, on ne peut pas savoir quelles fonctions vont
-           réellement éclater, la règle de stase étant conditionnelle.
-    rename : dict {nom_colonne_data: nom_variable_fiche} pour faire
-           correspondre vos colonnes aux noms attendus, ex.
-           rename={"Qm3s": "Q"}. Si les données n'ont qu'une seule
-           colonne numérique et la fiche une seule variable requise, la
-           correspondance est automatique (signalée par un warning).
-    suffix : applique les fiches à plusieurs variantes d'une entrée en
-           un appel (plusieurs seuils, obs/sim...). Liste de clés,
-           suffix=["DOE", "DCR"] : les colonnes 'Q_lim_DOE' et
-           'Q_lim_DCR' donnent les sorties 'rp-VCN10_DOE' et
-           'rp-VCN10_DCR', et les colonnes partagées (la chronique 'Q')
-           ne sont lues qu'une fois. Une fonction dont aucune référence
-           n'a de variante suffixée n'est calculée qu'une fois et sort
-           sans suffixe. Ou un dict pour nommer les variantes dans les
-           métadonnées, suffix={"DOE": {"fr": {"name": "débit objectif
-           d'étiage"}}} : chaque sortie a alors sa propre ligne de méta,
-           avec son nom, et la colonne 'suffix' rappelle la clé.
-    suffix_delimiter : délimiteur variable/suffixe (défaut "_").
-    CARD_name : alias hérité du R pour `cards` (prioritaire si fourni).
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        A datetime column, a text column holding the series identifier,
+        and the numeric input columns the cards ask for, referenced by
+        name (``Q``, ``R``, ``T``, ``ETP``...). Which ones a card needs
+        is given by its ``input_vars``, readable through
+        :func:`card.list_cards` or :func:`card.info`.
+    cards : sequence of str, default ``("QA", "QJXA")``
+        Names of the cards to run. The ``card`` column of
+        :func:`card.list_cards` holds them: one card can produce several
+        variables, so a variable name is not always a card name.
+    path : str or pathlib.Path, optional
+        Directory of YAML cards. Defaults to the cards shipped with the
+        package, or to the ``CARD_YML_PATH`` environment variable.
+    default_period : list of str, optional
+        ``[start, end]`` applied to the cards that declare no period of
+        their own.
+    ignore_na_limits : bool, default False
+        Ignore the gap tolerances the cards declare (``max_na_pct``,
+        ``max_na_years``).
+    sampling_period : {"preferred", "MM-DD"}, optional
+        Override the yearly window of the cards. ``"preferred"`` makes
+        each card take its own
+        ``meta.global.preferred_sampling_period``, which is what the
+        MAKAHO protocol does and what makes an adaptive window
+        reproducible, since an adaptive window otherwise depends on the
+        data. ``"MM-DD"`` (for instance ``"09-01"``) imposes one window
+        on all of them. Neither form touches the partial windows
+        ``[start, end]``, which are part of the definition of a
+        variable, nor the processes that declare no window.
+    simplify : bool, default False
+        Merge the output DataFrames into a single one.
+    metadata_only : bool, default False
+        Compute nothing and return the metadata alone, in its generic
+        form: the ``{suffix.X}`` placeholders are resolved with the
+        default of each card. A ``suffix`` passed at the same time is
+        ignored, with a warning, because without data there is no way to
+        know which functions will actually fan out: the rule in stase is
+        conditional on the columns present.
+    rename : dict, optional
+        ``{data_column: card_variable}``, to match your columns to the
+        expected names, for instance ``rename={"Qm3s": "Q"}``. When the
+        data holds a single numeric column and the card requires a
+        single variable, the match is made automatically and a warning
+        says so.
+    suffix : list or dict, optional
+        Apply the cards to several variants of one input in a single
+        call, such as several thresholds, or observed against simulated.
+        A list of keys, ``suffix=["DOE", "DCR"]``, makes the columns
+        ``Q_lim_DOE`` and ``Q_lim_DCR`` produce the outputs
+        ``rp-VCN10_DOE`` and ``rp-VCN10_DCR``, while the shared columns
+        (the ``Q`` record itself) are read once. A function whose
+        references have no suffixed variant is computed once and comes
+        out unsuffixed. A dict names the variants in the metadata,
+        ``suffix={"DOE": {"en": {"name": "low-flow target discharge"}}}``:
+        each output then gets its own metadata row, with its own name,
+        and the ``suffix`` column recalls the key.
+    suffix_delimiter : str, default ``"_"``
+        Delimiter between a variable and its suffix.
+    verbose : bool, default False
+        Print the progress of the extraction.
+    CARD_name : sequence of str, optional
+        Alias of ``cards`` inherited from the R package. Wins when both
+        are given.
 
-    Retourne {"data": {id_fiche: DataFrame}, "meta": DataFrame}, où la
-    sortie est de la donnée comme une autre : elle peut repartir en
-    entrée d'une nouvelle extraction ou de stase.trend.
+    Returns
+    -------
+    dict
+        ``{"data": {card_id: DataFrame}, "meta": DataFrame}``. The
+        output is data like any other: it can go back in as the input of
+        another extraction, or into :func:`card.trend`.
+
+    See Also
+    --------
+    card.list_cards : find the cards to pass to ``cards``.
+    card.info : read one card, drawn.
+    card.trend : test the stationarity of an extraction.
+
+    Examples
+    --------
+    >>> res = card.extract(data, cards=["QA", "VCN10"])
+    >>> res["data"]["QA"].head(2)
+    >>> res["meta"][["card", "variable_en", "unit_en"]]
     """
     if CARD_name is not None:
         cards = CARD_name

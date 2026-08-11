@@ -3,7 +3,7 @@
   "@type": "SoftwareSourceCode",
   "name": "card",
   "description": "Recueil de fiches YAML décrivant l'extraction de variables hydroclimatiques (étiages, crues, saisonnalité, indices climatiques, changements par horizon) à partir de séries journalières. Port Python du paquet R CARD.",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "datePublished": "2026-08-11",
   "codeRepository": "https://github.com/lou-heraut/card",
   "issueTracker": "https://github.com/lou-heraut/card/issues",

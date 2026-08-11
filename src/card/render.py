@@ -604,11 +604,30 @@ def _faits(p, lang):
 
 
 def figure(nom, path=None, lang="fr"):
-    """Figure texte d'une fiche, prête à imprimer.
+    """Draw one card as text, ready to print.
 
-    Reprend ce que la liste de champs disait en plus : description
-    éventuelle, version et identifiant pérenne, chemin dans le corpus.
-    Rien n'est perdu, tout est mieux placé.
+    Parameters
+    ----------
+    nom : str
+        Name of the card, such as ``"QA"``, ``"VCN10"``.
+    path : str or pathlib.Path, optional
+        Directory of YAML cards. Defaults to the cards shipped with the
+        package.
+    lang : {"fr", "en"}, default "fr"
+        Language the figure is drawn in.
+
+    Returns
+    -------
+    str
+        The figure. Nothing is printed: this is what a web service
+        needs, and what :func:`card.info` prints for a human.
+
+    Notes
+    -----
+    The drawing carries what a flat list of fields could not place: the
+    description when there is one, the version and the permanent
+    identifier of the card file, and its path inside the corpus. Each
+    step reads the sentence the CARD itself writes for that column.
     """
     from .extraction import _find_cards, _DEFAULT_CARD_DIR, _corpus_path
     from . import suffix as _sfx

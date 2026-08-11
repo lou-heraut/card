@@ -250,6 +250,14 @@ rappelle :
   (grammaire, casse, cohérence) ; réécriture scientifique = validation.
 - Noms de fonctions/paramètres : RENAMING.md fait foi, tout nouveau
   renommage validé par l'utilisateur.
+- **Docstring d'une fonction PUBLIQUE** (tout ce que `card.__all__`
+  annonce) : **anglais, sections NumPy**, comme dans stase. C'est de la
+  documentation, pas un commentaire. Mesuré par
+  `tests/test_docstrings.py`, qui porte aussi les raisons. Ne pas
+  confondre avec les fonctions de `functions/`, dont la docstring reste
+  bilingue `en:`/`fr:` comme une fiche : elles décrivent une MÉTHODE
+  hydrologique à des hydrologues, pas une API à des développeurs. La
+  machinerie interne, elle, écrit dans la langue qu'elle veut.
 - **Version d'une fiche** (champ `version:` de son YAML) : majeur si ses
   SORTIES changent (+ trace RENAMING.md, parité R rompue documentée,
   goldens re-figés), mineur pour method/description, patch sinon. Elle

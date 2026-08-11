@@ -34,7 +34,7 @@ authors:
     given-names: "Ivan"
   - family-names: "Santos"
     given-names: "Leonard"
-version: "0.5.0"
+version: "0.5.1"
 date-released: "2026-08-11"
 repository-code: "https://github.com/lou-heraut/card"
 license: "GPL-3.0-or-later"

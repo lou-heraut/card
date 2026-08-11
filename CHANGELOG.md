@@ -63,7 +63,41 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.5.0.
+Rien depuis la 0.5.1.
+
+## 0.5.1 (2026-08-11)
+
+### Modifié
+
+- **L'API publique se documente en anglais, en sections NumPy
+  (2026-08-11).** `help(card.extract)` répondait en français, en prose
+  libre, alors que le README, le catalogue, le site et la publication
+  scientifique sont en anglais. Le lecteur changeait donc de langue au
+  moment précis où il passait de la promesse à l'usage. Les treize noms
+  de `__all__` sont convertis, soit 1 132 mots sur neuf docstrings
+  uniques : `extract`, `trend`, `list_cards`, `info`, `figure`,
+  `copy_cards`, `load_card`, `vocabulary`, `provenance`, et les quatre
+  alias hérités du R. Aucun comportement ne bouge.
+
+  **Les sections ne sont pas une coquetterie de forme.** Un paragraphe
+  libre oblige le lecteur à chercher le sens de `sampling_period` dans
+  une phrase, et aucun générateur de documentation ne sait le rendre en
+  tableau. stase écrivait déjà ainsi une partie de son API : c'est
+  désormais la règle des deux côtés.
+
+  **Deux familles de docstrings ne sont PAS touchées**, et c'est
+  délibéré. Celles de `functions/` restent bilingues `en:`/`fr:` comme
+  une fiche : elles décrivent une méthode hydrologique à des
+  hydrologues, pas une API à des développeurs, et leur convention est
+  déjà mesurée par `test_render.py`. Celles de la machinerie interne
+  écrivent dans la langue qu'elles veulent : elles s'adressent à qui
+  ouvre le fichier.
+
+  `tests/test_docstrings.py` mesure les deux règles au lieu de compter
+  sur la mémoire, et le CLAUDE.md les énonce. Même fichier et mêmes
+  règles dans stase (0.6.3) : les deux paquets s'installent et se lisent
+  ensemble, une norme qui s'arrêterait à la frontière de l'un ne
+  servirait à rien.
 
 ## 0.5.0 (2026-08-11)
 

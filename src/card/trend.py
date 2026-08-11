@@ -54,33 +54,61 @@ def _suffixes_used(meta: pd.DataFrame) -> list:
 
 def trend(extraction, level=0.1, dependency="AR1", period=None,
           extremes_pool_suffixes=False, seed=None, verbose=False):
-    """Tendance Mann-Kendall + pente de Sen sur un résultat de card.extract.
+    """Mann-Kendall test and Sen slope on the result of an extraction.
 
-    extraction : le retour de card.extract, {"data": ..., "meta": ...},
-        data est un dict {id_fiche: DataFrame} (défaut) ou un DataFrame
-        unique (simplify=True).
-    level : niveau de signification du test (défaut 0.1).
-    dependency : 'AR1' (défaut, robuste à l'autocorrélation d'ordre 1,
-        fréquente sur les séries hydro annuelles ; Hamed & Rao 1998),
-        'INDE' (test standard) ou 'LTP' (mémoire longue, Hamed 2008).
-    extremes_pool_suffixes : sur une extraction suffixée (obs/sim,
-        plusieurs seuils), met les bornes de quantiles en commun entre
-        les variantes d'une même variable de base, ce qui les rend
-        comparables entre elles. Défaut False : chaque variante a ses
-        propres bornes.
-    period, seed, verbose : passés à stase.trend.
+    Parameters
+    ----------
+    extraction : dict
+        What :func:`card.extract` returned, ``{"data": ..., "meta":
+        ...}``, where ``data`` is a dict ``{card_id: DataFrame}`` or a
+        single DataFrame when the extraction ran with ``simplify=True``.
+    level : float, default 0.1
+        Significance level of the test.
+    dependency : {"AR1", "INDE", "LTP"}, default "AR1"
+        ``"AR1"`` is robust to first-order autocorrelation, which is
+        common in yearly hydrological series (Hamed & Rao, 1998).
+        ``"INDE"`` is the standard test, ``"LTP"`` accounts for long-term
+        persistence (Hamed, 2008).
+    period : list of str, optional
+        Passed on to :func:`stase.trend`.
+    extremes_pool_suffixes : bool, default False
+        On a suffixed extraction (observed against simulated, several
+        thresholds), pool the quantile bounds across the variants of one
+        base variable, which makes the variants comparable with each
+        other. Left False, each variant gets its own bounds.
+    seed : int, optional
+        Passed on to :func:`stase.trend`.
+    verbose : bool, default False
+        Print the progress of the computation.
 
-    Seules les fiches de facette `output: series` sont acceptées : la
-    tendance d'un scalaire ou d'une courbe n'a pas de sens, ValueError
-    explicite sinon.
+    Returns
+    -------
+    dict
+        ``{"data": {card_id: DataFrame} | DataFrame, "meta": DataFrame}``,
+        with ``data`` in the same shape as the input. The ``h`` column
+        says whether the trend is significant at ``level``, ``a`` is the
+        Sen slope per year, and ``a_relative`` the same as a percentage
+        of the mean.
 
-    Le caractère relatif de chaque variable vient des fiches
-    (meta.global.relative) et pilote a_relative et change_relative dans
-    la sortie. Rien à saisir : card le traduit pour stase, qui reste
-    agnostique du format des fiches.
+    Raises
+    ------
+    ValueError
+        If any card is not an ``output: series`` one. The trend of a
+        scalar or of a curve has no meaning, and the refusal is
+        explicit rather than silent.
 
-    Retourne {"data": {id_fiche: DataFrame} | DataFrame, "meta": meta}, où
-    même forme de data que l'entrée.
+    Notes
+    -----
+    Whether a variable is relative comes from the cards themselves
+    (``meta.global.relative``) and drives ``a_relative`` and
+    ``change_relative`` in the output. There is nothing to pass: card
+    translates it for stase, which stays agnostic of the card format.
+
+    Examples
+    --------
+    >>> res = card.extract(data, cards=["VCN10"])
+    >>> tr = card.trend(res)
+    >>> tr["data"]["VCN10"][["id", "h", "p", "a"]]
     """
     if not (isinstance(extraction, dict)
             and "data" in extraction and "meta" in extraction):
