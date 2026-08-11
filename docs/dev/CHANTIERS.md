@@ -127,34 +127,18 @@ complexité (kwargs-colonnes, colonnes creuses, fan-out).
   exemple complet de fiche commentée ligne à ligne ?
 - Pages : tutoriel pas-à-pas avec données réelles.
 
-## Export SKOS / thésaurus (différé de longue date)
+## Export SKOS et site de documentation
 
-La classification (`TOPICS.md`) fournit désormais les concepts et les
-paires français/anglais : chaque facette devient un concept scheme.
-Réévaluer quand le besoin Skosmos se concrétise.
+Le besoin s'est concrétisé le 2026-08-11 : ces deux pistes sont sorties du
+registre et ont leur propre plan, **`PLAN_SITE_SKOS.md`**, qui porte la
+reconnaissance du thésaurus Theia/OZCAR, l'architecture retenue et les
+questions ouvertes. Ne rien noter ici de ce qui le regarde.
 
-Le SKOS n'est pas un service : c'est un artefact de publication de la
-classification, dont la source de vérité est ici (`src/card/topics.yaml`
-et les blocs classification des fiches).
-
-- `scripts/generate_skos.py` (à écrire) : chaque facette devient un
-  `skos:ConceptScheme` (domain, phenomenon, aspect, season, output,
-  purpose) ; chaque valeur un `skos:Concept` avec `prefLabel` fr/en
-  (les paires sont déjà dans topics.yaml) et `exactMatch`/`closeMatch`
-  vers l'existant (aspect ↔ typologie IHA, fiches climat ↔ ETCCDI) ;
-  chaque fiche devient un concept rattaché à ses facettes
-  (`dcterms:subject`).
-- Publication statique : `docs/card.ttl` servi par GitHub Pages, aucun
-  serveur nécessaire pour être moissonnable.
-- URIs stables : demander un préfixe **w3id.org** (ex.
-  `https://w3id.org/card-hydro/...`) qui redirige vers les Pages,
-  gratuit, pérenne, indépendant de l'hébergement. Arbitrage du
-  2026-07-16 : à confirmer le moment venu, non bloquant.
-- Skosmos sur la VM : optionnel et purement cosmétique (navigation
-  humaine), il lit le même `card.ttl`.
-- Côté service, card-api pourrait exposer un `GET /v1/concepts` qui
-  renvoie vers ces URIs. C'est un renvoi, pas une source : la vérité
-  reste ici.
+Ce qui restait écrit ici et qui n'est pas dans le plan, parce que ça
+concerne le service et non le corpus : card-api pourrait exposer un
+`GET /v1/concepts` renvoyant vers les URIs des concepts. C'est un renvoi,
+pas une source : la vérité reste dans `src/card/topics.yaml` et dans les
+blocs `classification` des fiches.
 
 ## Unités machine-lisibles (UCUM) (différé)
 

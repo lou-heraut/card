@@ -31,6 +31,12 @@ statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
   dit aujourd'hui qu'aucune n'est ouverte.
 - docs/dev/`PLAN_PYPI.md` : réclamation du nom `card` sur PyPI, preuves
   et dates d'envoi.
+- docs/dev/`PLAN_SITE_SKOS.md` : le site de documentation et l'export
+  SKOS, tenus ensemble parce qu'ils partagent la question des
+  identifiants. Porte la reconnaissance du thésaurus Theia/OZCAR et
+  l'architecture retenue (deux étages, un alignement, jamais une
+  substitution). **Rien n'y est publié** tant que les identifiants ne
+  sont pas tranchés.
 - **Écosystème R** : le front vit dans `../card4r/` (paquet mince qui
   APPELLE card, ne le réimplémente pas) ; les paquets historiques
   `../CARD-R/` et `../../EXstat_project/EXstat/` sont `superseded` et
