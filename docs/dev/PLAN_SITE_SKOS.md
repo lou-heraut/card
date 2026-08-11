@@ -507,6 +507,72 @@ d'une **variable** vit dans la fiche (`meta.fr`), qui reste bilingue et
 publiée. Unifier retire un module, un test et une convention, au lieu
 d'ajouter.
 
+## Licence, cycle de vie, hébergement, URIs
+
+### Licence Ouverte, et l'équivalence affichée
+
+**Licence Ouverte 2.0 (Etalab)**, qui se déclare elle-même compatible
+avec CC-BY 4.0, ODbL et l'OGL britannique, et qui existe en français et
+en anglais. C'est la licence des données publiques françaises, et elle
+répond au réflexe de souveraineté. GPL-3 ne convient pas : c'est une
+licence de logiciel, elle ne dit rien d'un vocabulaire.
+
+L'équivalence s'**affiche** plutôt que de se deviner, pour qu'un
+moissonneur qui ne connaît que CC-BY comprenne :
+
+```turtle
+card: a skos:ConceptScheme ;
+    dcterms:license <https://www.etalab.gouv.fr/licence-ouverte-open-licence> ;
+    dcterms:rights  "Licence Ouverte 2.0 (Etalab), compatible CC-BY 4.0"@en ,
+                    "Licence Ouverte 2.0 (Etalab), compatible CC-BY 4.0"@fr .
+```
+
+### Un champ de cycle de vie, qui en absorbe un autre
+
+`meta.global.is_experimental` existe et **aucune fiche ne l'utilise**
+(mesuré le 2026-08-11). Il ne sert qu'à filtrer `list_cards`. Il est
+remplacé par un champ unique :
+
+```yaml
+meta:
+  global:
+    status: active          # experimental | active | deprecated
+    replaced_by: VCN10      # seulement si deprecated
+```
+
+**Et le point qui compte : une fiche dépréciée ne se supprime pas.**
+Effacer le YAML tue le concept, donc tue l'URI que quelqu'un a citée. La
+fiche devient **sa propre pierre tombale** : elle reste dans le corpus,
+n'est plus proposée à l'extraction ni listée par défaut, et continue de
+produire un concept `owl:deprecated true` avec son `dcterms:isReplacedBy`.
+C'est ce que fait Theia/OZCAR avec ses 439 concepts dépréciés.
+
+Réserve à ne pas escamoter : `is_experimental` est une **colonne de
+sortie publique** de `meta`. La remplacer est un changement de sorties,
+donc une entrée `RENAMING.md` et une version.
+
+### Aucun serveur, y compris avec le catalogue filtrable
+
+**Le JavaScript s'exécute dans le navigateur du visiteur, pas sur un
+serveur.** Un site statique avec du JS reste statique : GitHub Pages le
+sert, et le filtrage se fait sur la machine de qui consulte. Le domaine
+INRAE personnalisé fonctionne aussi avec Pages, par un enregistrement
+DNS, comme card-api. **Rien dans ce plan ne demande la VM.** La seule
+chose qui en demanderait un est Skosmos, et on ne le déploie pas.
+
+### Un identifiant n'est pas un emplacement
+
+Nos concepts portent **nos** URIs, dès la première génération. Si
+Theia/OZCAR sert notre `.ttl` dans leur Skosmos, les URIs à l'intérieur
+restent les nôtres : ils affichent nos concepts avec nos identifiants, et
+les alignements vers les leurs. Héberger un fichier ne change pas les
+identifiants qu'il contient, sinon aucun alignement ne tiendrait entre
+vocabulaires.
+
+Ce que l'hébergement change est la **résolution** : ce qu'un navigateur
+reçoit en ouvrant l'URI. C'est la seule décision réellement
+irréversible, et elle reste différée.
+
 ## Ce qui est tranché, et qu'on ne rouvre pas
 
 - **Vocabulaire à part, aligné depuis chez nous.** Ils n'ont rien à
@@ -525,15 +591,16 @@ d'ajouter.
 - **Le catalogue est filtrable, rendu en HTML complet**, le JavaScript ne
   faisant que masquer des lignes.
 
+- **Licence Ouverte 2.0**, équivalence CC-BY 4.0 affichée.
+- **`status` remplace `is_experimental`**, et une fiche dépréciée reste
+  dans le corpus comme sa propre pierre tombale.
+- **Pas de serveur**, GitHub Pages suffit, JS compris.
+- **Skosmos en conteneur local**, pour voir le rendu avant tout dépôt.
+
 ## Questions ouvertes
 
-1. **Licence du vocabulaire.** GPL-3 est une licence de logiciel et ne
-   convient pas à un artefact sémantique. CC-BY est l'usage. À trancher
-   avant toute publication.
-2. **Skosmos local** : conteneur jetable pour voir le rendu, ou le
-   `.ttl` et un validateur suffisent ?
-3. **Domaine du site** : `card.riverly.inrae.fr` comme card-api, ou on
+1. **Domaine du site** : `card.riverly.inrae.fr` comme card-api, ou on
    reste sur github.io tant que rien n'est publié ?
-4. **Dépréciation** : déclare-t-on les fiches retirées et leurs
-   remplaçantes dans `alignments.yaml`, ou accepte-t-on qu'aucun
-   `isReplacedBy` ne soit émis ?
+2. **Résolution des URIs** le jour de la publication : redirection par un
+   service tiers, ou adresse maîtrisée par INRAE ? Seule décision
+   irréversible du chantier, et elle attend les interlocuteurs.
