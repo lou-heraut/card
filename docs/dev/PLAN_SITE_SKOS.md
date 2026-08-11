@@ -147,6 +147,27 @@ Ils ont demandé « les variables de card » en croyant qu'elles complétaient
 leur liste, alors qu'elles ajoutent un axe. Le dire ainsi vaut mieux que
 d'envoyer un fichier.
 
+**La séparation est ÉDITORIALE, pas géographique.** Que le vocabulaire
+soit un objet distinct du leur n'implique pas qu'il vive ailleurs, et
+c'est même l'inverse qui est souhaitable : qui cherche des variables
+hydro doit les trouver au même endroit. Ordre de préférence pour
+l'hébergement, le jour où on publiera :
+
+1. **Theia/OZCAR sert le `.ttl` à côté du leur.** Skosmos est
+   multi-vocabulaire par conception, c'est pourquoi leur API a un point
+   `/vocabularies` qui rend une liste, aujourd'hui d'un seul élément.
+   Deux vocabulaires côte à côte, alignements natifs dans l'interface,
+   séparation éditoriale intacte. **Meilleur résultat.**
+2. **[EarthPortal](https://ontoportal.github.io/documentation/user_guide/EarthPortal)**,
+   sinon : catalogue d'artefacts sémantiques pour les sciences de la
+   Terre, technologie OntoPortal, porté par l'infrastructure **Data
+   Terra** dont Theia est un pôle. Public, français, et le bon domaine.
+   **Pas AgroPortal**, qui est l'instance agronomie : ce n'est pas notre
+   sujet.
+3. **De toute façon, le `.ttl` est en téléchargement sur le site de
+   card.** On met à disposition, qui le veut le prend. Aucun de ces
+   hébergements n'est un prérequis, et aucun n'est bloquant.
+
 ### À quoi ressemble l'alignement
 
 ```turtle
@@ -232,15 +253,30 @@ valider comme il valide `topics.yaml` : toute URI citée doit être
 résolvable, et tout `input_vars` du registre doit être couvert ou
 explicitement marqué « pas d'équivalent ».
 
-**Un point à trancher en codant, et à ne pas improviser** : le
-modificateur statistique d'une variable (`N`, `D`, `X`, rien, `Pq`) n'est
-**déclaré nulle part aujourd'hui**. `list_cards` expose `operator`, dérivé
-du PRÉFIXE de l'identifiant, pas la statistique d'ordre en position 3.
-Deux voies : le déclarer dans les fiches, ou le dériver du nom. La
-seconde revient à faire dépendre une sortie d'un nom écrit en dur, ce qui
-a déjà coûté cher au dépôt (cf. `compute_Qp`, CLAUDE.md). Si on la
-retient malgré tout, elle exige un test qui couvre **tout** le corpus et
-refuse une variable non classée.
+### La tâche à faire AVANT d'écrire le générateur
+
+**Confronter ce que les fiches portent à ce que le standard attend**, et
+n'ajouter que le manquant. Une métadonnée importante qui ne se dérive pas
+de façon robuste doit vivre dans la donnée d'origine, donc dans le YAML ;
+mais rien ne doit y être ajouté qui s'y trouve déjà sous un autre nom.
+
+Le travail, précis et borné : poser côte à côte les propriétés I-ADOPT
+(`hasProperty`, `hasObjectOfInterest`, `hasMatrix`, `hasContextObject`,
+`hasConstraint`, `hasStatisticalModifier`) et ce que la fiche déclare
+(`input_vars`, `classification`, `sampling_period`, `method`, `operator`,
+la grammaire du nom), puis sortir la liste de ce qui manque VRAIMENT.
+
+Pronostic à vérifier, pas à croire : il ne manquera que le **modificateur
+statistique** et la **fenêtre temporelle**. Deux champs, pas dix.
+
+Le cas du modificateur statistique est le plus net. La statistique
+d'ordre (`N`, `D`, `X`, rien, `Pq`) n'est **déclarée nulle part
+aujourd'hui** : `list_cards` expose `operator`, mais il vient du PRÉFIXE
+de l'identifiant (`delta-`, `mean-`), pas de la position 3. Le dériver en
+analysant le nom ferait dépendre une sortie publiée d'une chaîne écrite
+en dur, ce qui a déjà coûté six figures fausses ici (`compute_Qp`, cf.
+CLAUDE.md). Donc il se déclare, sauf si la confrontation ci-dessus montre
+qu'il est déjà porté ailleurs de façon fiable.
 
 ## Comment ça se lie à la documentation de card
 
@@ -311,18 +347,107 @@ Chacun a déjà mordu ce dépôt, ou mord tous les projets RDF.
 - **Les unités restent des chaînes** (`m^{3}.s^{-1}`). Les rendre
   machine-lisibles est un autre chantier, déjà au registre (UCUM), et il
   ne faut pas le faire à moitié en passant.
+- **Le schéma de concepts a besoin de ses propres métadonnées**, et on
+  les oublie toujours : `dcterms:title`, `dcterms:creator`,
+  `dcterms:license`, `dcterms:created`, `dcterms:modified`,
+  `owl:versionInfo`. **La licence est un vrai trou** : card est en
+  GPL-3, ce qui est une licence de LOGICIEL et ne dit rien d'un
+  vocabulaire. Un artefact sémantique se publie usuellement en CC-BY.
+  À trancher avant publication, pas après.
+- **La dépréciation demande une source lisible par une machine.**
+  `RENAMING.md` trace les renommages, mais c'est de la prose : le
+  générateur ne peut pas en tirer un `dcterms:isReplacedBy`. Soit on
+  déclare les fiches retirées et leurs remplaçantes dans
+  `alignments.yaml`, soit on assume qu'aucune dépréciation ne sera
+  émise. La première option est la seule qui tienne dès qu'une URI est
+  publiée.
+- **Le déploiement du site : les leçons de card4r, apprises à ses
+  dépens.** Un générateur de site ramasse volontiers ce qu'on ne lui
+  demande pas (pkgdown publiait `CLAUDE.md`), et une action de
+  déploiement en `clean: false` continue de servir un fichier qui n'est
+  plus produit. Vérifier ce que la branche publiée contient VRAIMENT,
+  pas ce que la construction a produit.
+- **La garde de fraîcheur doit couvrir les trois sorties.**
+  `test_catalogue.py` surveille aujourd'hui deux fichiers markdown ; il
+  devra surveiller la page catalogue, le JSON et le `.ttl`, sans quoi
+  deux d'entre eux périment en silence.
+- **`generate_catalog.py` a un second métier qu'on oublie** : il tient le
+  décompte du README entre les balises `<!-- cards:count -->`, seul
+  décompte du dépôt, et `test_catalogue.py` le vérifie. Toute
+  réorganisation du script doit le préserver, sous peine de faire mentir
+  la première phrase du README.
+- **Vérifier ce qui pointe vers l'ancien site avant de bouger les
+  chemins.** Inventaire du 2026-08-11 : huit liens dans le README de
+  card, quatre dans celui de card4r, un dans son `_pkgdown.yml`. card-api
+  n'en cite aucun. Les six qui visent `dev/` doivent partir vers GitHub,
+  les autres suivre les nouveaux chemins en minuscules.
 
 ## Ce que le site contient, et ne contient pas
 
 ```
 site de card = LA porte de l'écosystème
-├── Accueil          ce que card calcule, installation, première extraction
-├── Catalogue        une page bilingue, générée, un concept par ligne
-├── Grammaire        décodage d'un nom, nomenclature
-├── Référence API    généré des docstrings (anglais, sections NumPy)
-├── Écosystème       card / card4r / card-api / stase
-└── (plus tard)      les concepts, posés sur le Catalogue
+├── Accueil               l'aiguillage actuel (docs/index.md), PAS le README
+├── Catalogue             une page bilingue, générée, filtrable
+├── Grammaire             décodage d'un nom, nomenclature
+├── Fonctions
+│   ├── scientifiques     baseflow, compute_FDC, return_level…
+│   └── du paquet         extract, trend, list_cards, info…
+├── Écosystème            card / card4r / card-api / stase
+└── card.ttl              le fichier machine, en téléchargement
 ```
+
+**« Documentation des fonctions », jamais « référence API ».** Le mot API
+désigne déjà **card-api**, le service web, et l'ambiguïté a coûté un
+échange complet. Ce dont il s'agit ici, c'est la documentation des
+fonctions Python de card, générée depuis leurs docstrings : ce que
+`help(card.extract)` affiche, rendu en pages web.
+
+Elle se scinde en **deux sections**, et c'est une décision :
+
+- **fonctions scientifiques** (`card/functions/`) : `baseflow`,
+  `compute_FDC`, `return_level`, `apply_threshold`… C'est la mécanique
+  interne des fiches, mais un hydrologue veut pouvoir lire ce que fait
+  exactement `baseflow(method="Wal")` **sans ouvrir le paquet**. C'est
+  même le premier public du site après ceux qui installent ;
+- **fonctions du paquet** : les douze publiques, celles qu'on appelle.
+
+Cette séparation ne change rien au code, seulement au regroupement dans
+la navigation.
+
+**L'accueil reste `docs/index.md`**, l'aiguillage, et non le README. La
+décision est du 2026-08-06 et sa raison tient : deux vitrines divergent,
+un aiguillage ne peut pas mentir. Le README sert GitHub et PyPI, le site
+sert la navigation. Ne pas « simplifier » en fusionnant les deux.
+
+### Le catalogue filtrable n'est pas un bonus
+
+**Une page de plusieurs centaines de variables sans recherche ni filtre
+ne vaut pas mieux que le markdown d'aujourd'hui**, c'est le même tableau
+en plus long. Une page catalogue sans filtre ne mérite pas d'être
+construite.
+
+```
+scripts/generate_catalog.py  →  la page catalogue, en HTML complet
+                             →  docs/catalogue.json   (depuis list_cards)
+                             →  docs/card.ttl
+
+sur la page : recherche plein texte · filtres par facette (domaine,
+phénomène, saison, forme, finalité) · tri de colonnes · bascule fr/en
+```
+
+Trois contraintes de réalisation, chacune pour une raison :
+
+- **sans dépendance** : du JavaScript sans framework, une centaine de
+  lignes. Il n'implémente aucune logique de corpus, il filtre ce que
+  `list_cards()` a produit, donc il ne peut pas diverger ;
+- **le tableau complet est rendu à la construction, en HTML**, et le
+  JavaScript ne fait que **masquer des lignes déjà présentes**. Sans ça,
+  la page est vide pour un moteur de recherche, pour un lecteur d'écran
+  mal servi et pour qui coupe JS. Le catalogue markdown actuel est
+  indexable ; on ne doit pas régresser là-dessus ;
+- **la bascule de langue devient triviale** puisque chaque ligne porte
+  ses deux libellés, ce que deux fichiers markdown ne savaient pas
+  faire.
 
 Décidé, et à ne pas rediscuter en codant :
 
@@ -360,14 +485,16 @@ regarde, **on ne publie rien**.
 
 | # | quoi | dépend de | état |
 |---|---|---|---|
-| 0 | API publique en anglais, sections NumPy, garde dans les deux paquets | rien | **fait** (card 0.5.1, stase 0.6.3) |
+| 0 | fonctions publiques en anglais, sections NumPy, garde dans les deux paquets | rien | **fait** (card 0.5.1, stase 0.6.3) |
 | 1 | docstrings hydro de `functions/` en anglais NumPy, `docstring.py` et son test retirés | décision | à valider |
-| 2 | `src/card/alignments.yaml` et sa validation par le linter | rien | à faire |
-| 3 | `scripts/generate_skos.py`, `card.ttl`, base d'URI manifestement provisoire, garde de fraîcheur | 2 | à faire |
-| 4 | Skosmos **local** sur ce `.ttl`, pour voir le rendu | 3 | à faire |
-| 5 | site MkDocs Material **en localhost**, sans `dev/`, URLs minuscules, catalogue bilingue en une page | rien | à faire |
-| 6 | échange avec Theia/OZCAR : extension statistique, ou alignement seul ? | utilisateur | à faire |
-| 7 | base d'URI définitive, domaine, dépôt AgroPortal, publication | 6 | différé |
+| 2 | **confrontation** métadonnées des fiches contre attendus I-ADOPT, et liste de ce qui manque vraiment | rien | à faire |
+| 3 | les champs manquants déclarés dans les fiches, linter à jour | 2 | à faire |
+| 4 | `src/card/alignments.yaml` et sa validation par le linter | 2 | à faire |
+| 5 | `scripts/generate_skos.py` → `card.ttl`, base d'URI manifestement provisoire, métadonnées de schéma, garde de fraîcheur étendue | 3, 4 | à faire |
+| 6 | Skosmos **local** sur ce `.ttl`, pour voir le rendu avant tout dépôt | 5 | à faire |
+| 7 | site MkDocs Material **en localhost** : sans `dev/`, URLs minuscules, catalogue filtrable rendu en HTML, fonctions en deux sections | rien | à faire |
+| 8 | courriel à Theia/OZCAR : l'alignement existe, veulent-ils l'extension, veulent-ils servir le `.ttl` ? | utilisateur | à faire |
+| 9 | base d'URI définitive, licence du vocabulaire, domaine, hébergement, publication | 8 | différé |
 
 ### Pourquoi l'étape 1 est proposée
 
@@ -380,14 +507,33 @@ d'une **variable** vit dans la fiche (`meta.fr`), qui reste bilingue et
 publiée. Unifier retire un module, un test et une convention, au lieu
 d'ajouter.
 
+## Ce qui est tranché, et qu'on ne rouvre pas
+
+- **Vocabulaire à part, aligné depuis chez nous.** Ils n'ont rien à
+  faire ; l'interopérabilité est garantie et la séparation éditoriale
+  préservée. S'ils élargissent un jour leur périmètre, on leur passe le
+  fichier et les liens repointent, ce qui est indolore puisque leurs
+  URIs sont sous w3id.
+- **Le modificateur statistique se déclare** dans les fiches plutôt que
+  de se deviner depuis un nom, sauf si la confrontation de l'étape 2
+  montre qu'il est déjà porté ailleurs de façon fiable.
+- **La documentation des fonctions couvre les deux familles**,
+  scientifiques et paquet, en deux sections. Un hydrologue doit pouvoir
+  lire `baseflow` sans ouvrir le paquet.
+- **Hébergement, par ordre de préférence** : Theia/OZCAR à côté du leur,
+  sinon EarthPortal, et de toute façon en téléchargement chez nous.
+- **Le catalogue est filtrable, rendu en HTML complet**, le JavaScript ne
+  faisant que masquer des lignes.
+
 ## Questions ouvertes
 
-1. **Theia/OZCAR** : veulent-ils l'extension statistique et temporelle,
-   ou seulement l'alignement de nos entrées ? Décide du dimensionnement.
-   À leur demander, pas à deviner.
-2. **Modificateur statistique** : déclaré dans les fiches, ou dérivé du
-   nom avec un test qui couvre tout le corpus ?
-3. **Référence d'API du site** : les fonctions publiques seules, ou aussi
-   les fonctions hydro ?
-4. **Skosmos local** : conteneur jetable pour voir, ou le `.ttl` et un
-   validateur suffisent ?
+1. **Licence du vocabulaire.** GPL-3 est une licence de logiciel et ne
+   convient pas à un artefact sémantique. CC-BY est l'usage. À trancher
+   avant toute publication.
+2. **Skosmos local** : conteneur jetable pour voir le rendu, ou le
+   `.ttl` et un validateur suffisent ?
+3. **Domaine du site** : `card.riverly.inrae.fr` comme card-api, ou on
+   reste sur github.io tant que rien n'est publié ?
+4. **Dépréciation** : déclare-t-on les fiches retirées et leurs
+   remplaçantes dans `alignments.yaml`, ou accepte-t-on qu'aucun
+   `isReplacedBy` ne soit émis ?
