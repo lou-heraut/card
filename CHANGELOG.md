@@ -65,6 +65,15 @@ des deux endroits.
 
 ### Modifié
 
+- **Le README ne compte plus les fiches par facette (2026-08-11).** Les
+  exemples de `list_cards()` annonçaient « 114 variables », « 267 »,
+  « 83 » : trois nombres écrits à la main sur un corpus qui bouge, dans
+  un dépôt dont la règle dit que le SEUL décompte est celui des marqueurs
+  `<!-- cards:count -->`. Ils étaient encore exacts, ce qui est le
+  propre du piège. Les commentaires disent maintenant ce que la facette
+  SÉLECTIONNE, qui est ce que le lecteur a besoin de comprendre. Même
+  correction dans le README de card4r, qui les avait recopiés.
+
 - **Le README est réorganisé et tourne sur des données réelles
   (2026-08-06).** Quatorze sections à plat deviennent trois parties à
   deux niveaux : comment on s'en sert, ce qu'est une fiche, et le reste.
@@ -84,40 +93,6 @@ des deux endroits.
   La fiche `QA` est montrée en YAML, avec le partage `meta` écrit pour
   des humains et `process` qui s'exécute, juste avant « écrivez la
   vôtre ». `res["meta"]` est affichée au lieu d'être seulement annoncée.
-
-### Corrigé
-
-- **`list_cards` affichait des gabarits, pas des phrases (2026-08-06).**
-  La fonction de découverte du corpus rendait « between the
-  {suffix.name} horizon » sur les 83 fiches `delta-`, c'est-à-dire une
-  accolade brute à l'endroit exact où quelqu'un cherche une variable.
-  `info()` résolvait déjà le placeholder avec le défaut de la fiche, le
-  catalogue aussi, et un commentaire du code disait « jamais l'accolade,
-  comme le catalogue » : `list_cards` avait simplement été oubliée en
-  passant par un constructeur de métadonnées qui ne résout pas.
-  L'invariant est désormais tenu sur les **quatre** surfaces qui
-  s'adressent à un humain, vérifiées une à une : `extract(metadata_only)`,
-  `list_cards()`, `figure()` et le dict de `info()`. `load_card()` garde
-  l'accolade, et c'est voulu : il rend la fiche telle qu'elle est écrite.
-  Trouvé en écrivant les exemples du README sur données réelles.
-
-- **Le paquet n'emportait aucune description : sa page PyPI aurait été
-  vide (2026-08-06).** `pyproject.toml` ne déclarait pas de champ
-  `readme`, si bien que la roue construite ne portait que 678 caractères
-  de métadonnées et un résumé d'une ligne. Or **la page pypi.org d'un
-  paquet EST son README** : c'est la landing du monde Python, elle vient
-  gratuitement avec la publication, et card l'aurait affichée aussi vide
-  que celle du squat qu'on lui reproche. Trouvé en préparant la demande
-  PEP 541, avant de publier quoi que ce soit.
-
-  Les liens du README passent en absolu dans la foulée, PyPI ne résolvant
-  aucun chemin relatif : sept liens seraient morts et l'image d'en-tête
-  absente. Les catalogues et les normes pointent vers le site, qui les
-  rend ; le CHANGELOG et la licence vers GitHub, leur seul endroit.
-  Vérifié par `twine check` (les deux artefacts passent) et en
-  interrogeant chaque URL.
-
-### Modifié
 
 - **Le plan R est déroulé, il rejoint les archives (2026-08-06).** Ses
   quatre chantiers sont sortis : le `Package:` de CARD-R réparé, `card4r`
@@ -193,6 +168,59 @@ des deux endroits.
   `NETTOYAGE.md` couvre le quatrième dépôt pour que le cloisonnement ne
   se relâche pas, et le CLAUDE.md dit où vit le front R et lesquels des
   dépôts R restent sans fichiers IA.
+
+### Corrigé
+
+- **Le README annonçait un commit qui était faux dès le commit suivant
+  (2026-08-11).** La section « What a result says about itself » montrait
+  la table `meta` avec de vrais `card_commit` et `stase_commit`, relevés
+  au moment où l'exemple a été joué. C'est le seul endroit de
+  l'écosystème où un commit était écrit à la main, et c'était dans la
+  section qui explique justement qu'un commit ne ment jamais, contrairement
+  à un numéro de version. Il n'y avait pas de garde possible : la 0.4.0 a
+  posé qu'une copie de travail modifiée ne publie AUCUN commit, si bien
+  qu'un test comparant le README à la valeur réelle échouerait pendant
+  tout le travail, et que la valeur juste est vide la moitié du temps.
+  Les deux colonnes sont donc élidées comme le `swh:1:cnt:` qui les
+  jouxte déjà, et comme le chemin de l'interpréteur l'est chez card4r :
+  un `…` dit « valeur longue, coupée ici », ce qu'elle est. Ce que le
+  lecteur devait apprendre, la prose sous le bloc le dit. Même correction
+  dans le README de card4r, qui écrivait en plus les quarante caractères
+  entiers.
+
+  Ce qui reste écrit en dur, et pourquoi : les `swh:1:cnt:` identifient
+  le FICHIER de fiche, ne bougent que si le YAML bouge, et celui de la
+  figure `VCN10` est un lien qui résout pour de vrai.
+
+- **`list_cards` affichait des gabarits, pas des phrases (2026-08-06).**
+  La fonction de découverte du corpus rendait « between the
+  {suffix.name} horizon » sur les 83 fiches `delta-`, c'est-à-dire une
+  accolade brute à l'endroit exact où quelqu'un cherche une variable.
+  `info()` résolvait déjà le placeholder avec le défaut de la fiche, le
+  catalogue aussi, et un commentaire du code disait « jamais l'accolade,
+  comme le catalogue » : `list_cards` avait simplement été oubliée en
+  passant par un constructeur de métadonnées qui ne résout pas.
+  L'invariant est désormais tenu sur les **quatre** surfaces qui
+  s'adressent à un humain, vérifiées une à une : `extract(metadata_only)`,
+  `list_cards()`, `figure()` et le dict de `info()`. `load_card()` garde
+  l'accolade, et c'est voulu : il rend la fiche telle qu'elle est écrite.
+  Trouvé en écrivant les exemples du README sur données réelles.
+
+- **Le paquet n'emportait aucune description : sa page PyPI aurait été
+  vide (2026-08-06).** `pyproject.toml` ne déclarait pas de champ
+  `readme`, si bien que la roue construite ne portait que 678 caractères
+  de métadonnées et un résumé d'une ligne. Or **la page pypi.org d'un
+  paquet EST son README** : c'est la landing du monde Python, elle vient
+  gratuitement avec la publication, et card l'aurait affichée aussi vide
+  que celle du squat qu'on lui reproche. Trouvé en préparant la demande
+  PEP 541, avant de publier quoi que ce soit.
+
+  Les liens du README passent en absolu dans la foulée, PyPI ne résolvant
+  aucun chemin relatif : sept liens seraient morts et l'image d'en-tête
+  absente. Les catalogues et les normes pointent vers le site, qui les
+  rend ; le CHANGELOG et la licence vers GitHub, leur seul endroit.
+  Vérifié par `twine check` (les deux artefacts passent) et en
+  interrogeant chaque URL.
 
 ## 0.4.0 (2026-08-05)
 

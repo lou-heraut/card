@@ -124,9 +124,9 @@ The whole collection is browsable online:
 
 ```python
 card.list_cards()                        # every variable, one per row
-card.list_cards(phenomenon="low flows")  # 114 variables
-card.list_cards(output="series")         # 267, versus scalar or curve
-card.list_cards(operator="delta")        # 83, the change between two periods
+card.list_cards(phenomenon="low flows")  # by hydrological phenomenon
+card.list_cards(output="series")         # a series, versus a scalar or a curve
+card.list_cards(operator="delta")        # the change between two periods
 card.list_cards(season="summer")         # restricted sampling window
 card.list_cards(variable="VCN")          # by variable name
 card.list_cards(search="annual minimum") # over names and descriptions
@@ -254,8 +254,8 @@ them, and say so.
 
 ```python
 res["meta"][["variable_en", "version", "swhid", "card_commit", "stase_commit"]]
-# variable_en version                swhid card_commit stase_commit
-#          QA     1.0 swh:1:cnt:e1197d4d… 7ac773e0b3…  f3067f115a…
+# variable_en version               swhid card_commit stase_commit
+#          QA     1.0 swh:1:cnt:e1197d4d…           …            …
 ```
 
 `version` is that of the card, which changes as soon as its outputs
