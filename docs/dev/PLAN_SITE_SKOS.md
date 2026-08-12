@@ -416,33 +416,84 @@ Chiffré sur le corpus, ce que ça ferait : **22 concepts de contrainte en
 Ce n'est donc ni ingérable ni infini : c'est une vingtaine de concepts,
 et le standard fournit le patron.
 
-### Les deux manques, nommés
+### Les deux manques, tranchés le 2026-08-12
 
-**1. Le parent sans paramètre (`skos:broader`) n'existe pas.** Il n'y a
-pas de fiche `VCN` dont `VCN10` serait une variante : le corpus n'a que
-les variantes. Trois voies, aucune tranchée : créer des concepts parents
-purement sémantiques dans le générateur ; les dériver du nom, ce qui
-revient à analyser une chaîne ; ou se passer de hiérarchie, `skos:broader`
-étant facultatif. La troisième est la moins coûteuse et la moins
-satisfaisante.
+**1. Le parent : une famille CALCULÉE, pas déclarée.**
 
-**2. La valeur du paramètre n'est déclarée que dans le process.**
+Deux variables partagent un parent si elles ont les mêmes composants
+sémantiques (domaine, phénomène, aspect, statistique, saison, forme,
+entrées) et ne diffèrent que par un paramètre. Mesuré : **132 familles,
+dont 68 à plusieurs membres et 64 singletons.**
+
+La dérivation retrouve des parentés que le nom ne montre pas : la famille
+de `VCN10` contient `QNA`, qui est le cas d = 1 jour. Et elle sépare
+correctement `Q10` (hautes eaux), `Q50` (moyennes eaux) et `Q90` (basses
+eaux), que le phénomène distingue.
+
+**Pourquoi calculée et non déclarée**, alors qu'une famille déclarée
+serait autoportante : elle est **entièrement calculable depuis des
+facettes déjà déclarées**, donc le linter devrait la recalculer pour
+vérifier une déclaration ; et s'il sait la recalculer, la déclarer
+n'apporte aucune information, seulement une chose de plus à tenir et à se
+tromper. Déclarer aurait coûté 132 entrées de vocabulaire et 264
+libellés, dont 64 pour des familles d'un seul membre.
+
+**La différence avec `operator` est nette, et c'est elle qui autorise
+une colonne calculée ici** : `operator` dérive d'un PRÉFIXE DE NOM, la
+famille dérive de FACETTES DÉCLARÉES. Le premier est un lien que rien ne
+vérifie, la seconde est une conséquence de ce que la fiche affirme. Une
+colonne calculée n'est pas sale en soi ; calculer sur un nom l'est.
+
+**Le sens retenu est celui des frères sémantiques**, pas celui de la
+famille de nom. `card_list(variable="VCN")` rend déjà les 33 variables
+dont le nom contient VCN, `delta-VCN10` et `alpha-VCN10` compris, ce qui
+est la recherche humaine et suffit au quotidien. La famille, elle, rend
+les quatre vraies variantes d'un même concept, et c'est ce dont
+`skos:broader` a besoin.
+
+Le libellé du parent est **généré depuis ses composants** (« annual
+minimum of discharge »), parce qu'un parent EST ses composants et qu'un
+libellé qui les récite ne peut pas dériver. À rédiger plus tard si le
+rendu déplaît, et seulement pour les 68 qui ont de vrais membres.
+
+**2. Le paramètre : lu dans le process, via une table de noms.**
+
 `k: 10` pour `VCN10`, `p: 0.9` pour `Q90`, `return_period: 5` pour
-`VCN10-5` : ce sont des kwargs de `func`, donc de la spécification
-EXÉCUTABLE. Nuance importante par rapport au modificateur statistique :
-ces valeurs ne changeraient pas si on réécrivait le calcul, elles font
-partie de la définition et elles figurent dans le NOM de la variable.
-Les lire depuis le process est donc moins choquant que d'y lire une
-statistique, mais ça reste un couplage. Trois voies : les lire là où
-elles sont ; les déclarer en plus dans `meta`, au prix d'une répétition ;
-ou les déclarer dans `alignments.yaml` par identifiant de fiche, au prix
-de l'autoportance.
+`VCN10-5` sont des kwargs de `func`. Le générateur les lit là, et
+`alignments.yaml` porte la table disant lesquels sont sémantiques (`k`,
+`p`, `return_period`, `fraction`, `fraction1`, `fraction2`, `lim`
+numérique, soit sept noms) et lesquels sont des options d'implémentation
+(`method`, `n`, `what`, `select`, `where`).
 
-**Le mois d'un fan-out n'est PAS un manque**, contrairement à ce que
-j'avais annoncé : `meta.sampling_period` de `QMA_month` est une LISTE de
-douze paires, alignée positionnellement sur les douze variables, donc
-`QMA_jan` porte bien `['01-01', '01-31']`. Mon analyse ne regardait que
-les sept facettes et manquait ce champ.
+**Pourquoi lire ici est acceptable alors que lire la statistique ne
+l'était pas.** La statistique est une INTERPRÉTATION de la chaîne : quelle
+étape est terminale, ce que `apply_threshold` produit ici, comment
+composer deux étapes ; une réécriture du calcul changerait la lecture. Le
+paramètre est un LITTÉRAL NOMMÉ : il s'appelle `k`, il vaut 10, et aucune
+réécriture ne le changerait puisque c'est lui qui fait que `VCN10` n'est
+pas `VCN3`. Le premier demande un jugement, le second une lecture.
+
+Et l'argument qui tranche définitivement : un doublon déclaré que le
+linter doit vérifier contre le process est **strictement pire** que lire
+le process, puisqu'il peut être faux et qu'il ajoute une règle sans
+ajouter d'information.
+
+**Un cas à traiter proprement** : `lim` vaut tantôt `20` (littéral),
+tantôt `upLim` (référence à une colonne amont). Seuls les littéraux sont
+des contraintes. Le loader fait déjà cette distinction, donc c'est de la
+lecture et non de la devinette.
+
+### Deux états à ne pas prendre pour des manques
+
+- **`description` est vide sur 202 variables sur 472**, et c'est la règle
+  du corpus : elle ne se remplit que si le `name` ne porte pas déjà toute
+  l'information. `skos:definition` sera donc absent sur ces concepts, ce
+  qui est permis, et `card:method` porte de toute façon l'énoncé précis
+  du calcul. **Ne pas inventer de texte pour combler.**
+- **86 fenêtres sur 446 sont en prose** (« Month of maximum monthly
+  flows ») : ce sont les fenêtres ADAPTATIVES, qui ne peuvent pas
+  s'écrire en paire de dates. Elles deviennent des concepts de contrainte
+  nommés, pas une valeur. 25 fenêtres distinctes en tout.
 
 ## Comment ça se lie à la documentation de card
 
@@ -694,7 +745,8 @@ regarde, **on ne publie rien**.
 | 1 | docstrings hydro de `functions/` en anglais NumPy, `docstring.py` et son test retirés | décision | **fait** (card 0.5.2) |
 | 2 | **confrontation** métadonnées des fiches contre attendus I-ADOPT | rien | **fait** |
 | 3 | facette `statistic`, dix-huit termes sourcés, posée dans les 226 fiches, exposée par card-api et card4r | 2 | **fait** (card 0.6.0 et 0.7.0, card-api 0.3.2, card4r 0.1.3) |
-| 4 | trancher les deux manques : parent `skos:broader`, et où lire la valeur d'un paramètre | utilisateur | **à discuter** |
+| 4 | trancher les deux manques : parent `skos:broader`, et où lire la valeur d'un paramètre | utilisateur | **fait** (2026-08-12) |
+| 4b | colonne calculée `family` dans `list_cards()`, exposée en filtre, et libellé généré | 4 | à faire |
 | 5 | `src/card/alignments.yaml` : correspondances externes et concepts de contrainte, validés par le linter | 4 | à faire |
 | 6 | `scripts/generate_skos.py` → `card.ttl`, base d'URI manifestement provisoire, métadonnées de schéma, garde de fraîcheur étendue | 3, 5 | à faire |
 | 7 | Skosmos **local** sur ce `.ttl`, pour voir le rendu avant tout dépôt | 6 | à faire |
