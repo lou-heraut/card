@@ -328,6 +328,122 @@ Enfin, la facette `aspect` (typologie IHA : magnitude, duration, timing,
 frequency) **n'a aucun équivalent I-ADOPT**. Elle reste une facette de
 classification propre à card, publiée comme telle.
 
+## Tous les champs du thésaurus, et d'où vient chacun
+
+Établi le 2026-08-12. C'est la table de référence du générateur : chaque
+ligne dit une propriété RDF, ce qu'elle affirme, et l'endroit EXACT de la
+fiche qui la remplit. Une ligne sans source est un manque, et elles sont
+signalées comme telles.
+
+### Les quatre vocabulaires employés, et ce que chacun décrit
+
+On les mélange souvent, ils ne parlent pas de la même chose :
+
+| vocabulaire | décrit | exemple chez nous |
+|---|---|---|
+| **SKOS** | des CONCEPTS et leurs relations : libellés, notation, hiérarchie, alignements | `VCN10` est un concept, il a deux libellés et un symbole |
+| **I-ADOPT** (`iop:`) | la COMPOSITION d'une variable observée ou dérivée | `VCN10` = débit + minimum + fenêtre annuelle + 10 jours |
+| **Dublin Core** (`dcterms:`) | des métadonnées DESCRIPTIVES sur une ressource | titre, auteur, licence, date du schéma |
+| **RDFS / OWL** | la mécanique RDF de base : typage, définition, dépréciation | « ce concept est défini par cette fiche » |
+
+**PROV-O n'est pas dans la liste, et c'est délibéré** : il décrit ce qui
+s'est PASSÉ, une entité produite par une activité, à un moment, par un
+agent. C'est le bon vocabulaire pour un RÉSULTAT de calcul, ce que
+card-api trace déjà avec ses commits et ses swhid. Le thésaurus, lui,
+décrit des définitions, pas des exécutions.
+
+### Le concept d'une variable
+
+| propriété | ce qu'elle dit | source dans la fiche |
+|---|---|---|
+| `a skos:Concept, iop:Variable` | c'est une variable | par construction |
+| `skos:notation` | le symbole, porte d'entrée de card | `meta.<lang>.variable` |
+| `skos:prefLabel@en/@fr` | le nom lisible | `meta.<lang>.name` |
+| `skos:definition@en/@fr` | ce qu'est la variable | `meta.<lang>.description` |
+| `skos:inScheme` | appartenance au vocabulaire | par construction |
+| `iop:hasProperty` | la grandeur mesurée | `input_vars` + `inputs.yaml` + `alignments.yaml` |
+| `iop:hasObjectOfInterest` | l'objet observé | idem : la paire vient ensemble |
+| `iop:hasStatisticalModifier` | l'opération | `classification.statistic` (facette, 18 termes) |
+| `iop:hasConstraint` | ce qui restreint la portée | fenêtre : `meta.sampling_period` ; paramètres : voir plus bas |
+| `dcterms:subject` | les facettes de classification | `classification` (domain, phenomenon, aspect, season, output, purpose) |
+| `rdfs:isDefinedBy` | la ou les fiches qui la calculent | colonne `card` de `list_cards()`, **répétable** |
+| `skos:exactMatch` / `closeMatch` | l'alignement externe | `alignments.yaml` |
+| `owl:deprecated`, `dcterms:isReplacedBy` | le cycle de vie | futur champ `status` |
+
+### La ressource fiche, qui n'est PAS un concept
+
+| propriété | source |
+|---|---|
+| `dcterms:title` | l'identifiant de la fiche |
+| `card:method` | `meta.<lang>.method`, forme publiée |
+| `owl:versionInfo` | `version` de la fiche |
+| `dcterms:identifier` | le `swhid` du fichier |
+| `card:path` | `script_path` |
+
+### La contrainte paramétrée : le mécanisme existe, Theia le montre
+
+C'est la question qui semblait ingénérable, « il faudra un concept pour
+les seuils, un pour les périodes de retour, un pour les durées, et je ne
+vois pas de généralisation ». **Il y en a une, et c'est `hasConstraint`.**
+Mesuré sur leur vocabulaire, « Air temperature at 2 meters height » :
+
+```turtle
+c_2585eba5  a skos:Concept, iop:Variable ;
+    skos:broader      c_6f0c66da ;          # « Air temperature », sans paramètre
+    iop:hasConstraint c_e610cd16 .
+
+c_e610cd16  a skos:Concept, iop:Constraint ;
+    skos:prefLabel "2 meters height"@en ;
+    skos:broader   <Space constraint> .     # la FAMILLE
+```
+
+Donc : **un paramètre devient un concept de contrainte, rangé sous une
+famille, et la variable pointe vers son parent sans paramètre.** Un seul
+mécanisme pour tous les cas, et la hiérarchie `skos:broader` donne
+gratuitement les familles de variables.
+
+Chiffré sur le corpus, ce que ça ferait : **22 concepts de contrainte en
+5 familles**.
+
+| famille | valeurs | variables concernées |
+|---|---|---|
+| durée de moyenne mobile | 3, 5, 10, 30 jours | `VCN3`, `VCN10`, `VCN30`, `VCX10`… |
+| probabilité de dépassement | 0.01 … 0.99, 9 valeurs | `Q01A`, `Q90`, `Q99A`… |
+| période de retour | 2, 5, 10 ans | `VCN10-5`, `QJXA-10`, `QMNA-5` |
+| fraction cumulée | 0.1, 0.5, 0.9 | `startBF`, `centerBF`, `endBF` |
+| seuil de précipitation | 1, 20, 50 mm | `dtRMA20mm`, `dtCWDA`… |
+
+Ce n'est donc ni ingérable ni infini : c'est une vingtaine de concepts,
+et le standard fournit le patron.
+
+### Les deux manques, nommés
+
+**1. Le parent sans paramètre (`skos:broader`) n'existe pas.** Il n'y a
+pas de fiche `VCN` dont `VCN10` serait une variante : le corpus n'a que
+les variantes. Trois voies, aucune tranchée : créer des concepts parents
+purement sémantiques dans le générateur ; les dériver du nom, ce qui
+revient à analyser une chaîne ; ou se passer de hiérarchie, `skos:broader`
+étant facultatif. La troisième est la moins coûteuse et la moins
+satisfaisante.
+
+**2. La valeur du paramètre n'est déclarée que dans le process.**
+`k: 10` pour `VCN10`, `p: 0.9` pour `Q90`, `return_period: 5` pour
+`VCN10-5` : ce sont des kwargs de `func`, donc de la spécification
+EXÉCUTABLE. Nuance importante par rapport au modificateur statistique :
+ces valeurs ne changeraient pas si on réécrivait le calcul, elles font
+partie de la définition et elles figurent dans le NOM de la variable.
+Les lire depuis le process est donc moins choquant que d'y lire une
+statistique, mais ça reste un couplage. Trois voies : les lire là où
+elles sont ; les déclarer en plus dans `meta`, au prix d'une répétition ;
+ou les déclarer dans `alignments.yaml` par identifiant de fiche, au prix
+de l'autoportance.
+
+**Le mois d'un fan-out n'est PAS un manque**, contrairement à ce que
+j'avais annoncé : `meta.sampling_period` de `QMA_month` est une LISTE de
+douze paires, alignée positionnellement sur les douze variables, donc
+`QMA_jan` porte bien `['01-01', '01-31']`. Mon analyse ne regardait que
+les sept facettes et manquait ce champ.
+
 ## Comment ça se lie à la documentation de card
 
 Le catalogue et le thésaurus ne sont pas deux objets, ce sont **deux
@@ -578,12 +694,14 @@ regarde, **on ne publie rien**.
 | 1 | docstrings hydro de `functions/` en anglais NumPy, `docstring.py` et son test retirés | décision | **fait** (card 0.5.2) |
 | 2 | **confrontation** métadonnées des fiches contre attendus I-ADOPT | rien | **fait** |
 | 3 | facette `statistic`, dix-huit termes sourcés, posée dans les 226 fiches, exposée par card-api et card4r | 2 | **fait** (card 0.6.0 et 0.7.0, card-api 0.3.2, card4r 0.1.3) |
-| 4 | `src/card/alignments.yaml` : trois tables de correspondance, et sa validation par le linter | 2 | à faire |
-| 5 | `scripts/generate_skos.py` → `card.ttl`, base d'URI manifestement provisoire, métadonnées de schéma, garde de fraîcheur étendue | 3, 4 | à faire |
-| 6 | Skosmos **local** sur ce `.ttl`, pour voir le rendu avant tout dépôt | 5 | à faire |
-| 7 | site MkDocs Material **en localhost** : sans `dev/`, URLs minuscules, catalogue filtrable rendu en HTML, fonctions en deux sections | rien | à faire |
-| 8 | courriel à Theia/OZCAR : l'alignement existe, veulent-ils l'extension, veulent-ils servir le `.ttl` ? | utilisateur | à faire |
-| 9 | base d'URI définitive, licence du vocabulaire, domaine, hébergement, publication | 8 | différé |
+| 4 | trancher les deux manques : parent `skos:broader`, et où lire la valeur d'un paramètre | utilisateur | **à discuter** |
+| 5 | `src/card/alignments.yaml` : correspondances externes et concepts de contrainte, validés par le linter | 4 | à faire |
+| 6 | `scripts/generate_skos.py` → `card.ttl`, base d'URI manifestement provisoire, métadonnées de schéma, garde de fraîcheur étendue | 3, 5 | à faire |
+| 7 | Skosmos **local** sur ce `.ttl`, pour voir le rendu avant tout dépôt | 6 | à faire |
+| 8 | site MkDocs Material **en localhost** : sans `dev/`, URLs minuscules, catalogue filtrable rendu en HTML, fonctions en deux sections | rien | à faire |
+| 9 | retrait d'`operator`, coordonné card et card-api | 3 | à faire |
+| 10 | courriel à Theia/OZCAR : l'alignement existe, veulent-ils l'extension, veulent-ils servir le `.ttl` ? | utilisateur | à faire |
+| 11 | base d'URI définitive, licence du vocabulaire, domaine, hébergement, publication | 10 | différé |
 
 ### Pourquoi l'étape 1 est proposée
 
