@@ -63,6 +63,10 @@ des deux endroits.
 
 ## Non publié
 
+Rien depuis la 0.9.0.
+
+## 0.9.0 (2026-08-13)
+
 ### Retiré
 
 - **La colonne `operator` (2026-08-13).** Elle n'était pas déclarée par
