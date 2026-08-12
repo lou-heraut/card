@@ -191,6 +191,54 @@ def _meta_rows(card) -> pd.DataFrame:
             v = ", ".join(str(x) for x in v)
         return _as_list(v if v is not None else "", n)
 
+    def familles():
+        """Identifiant de famille, une valeur par variable produite.
+
+        Deux variables sont de la même famille quand elles ont les MÊMES
+        composants sémantiques et ne diffèrent que par un paramètre :
+        `VCN3`, `VCN10`, `VCN30` et `QNA` sont le même concept à quatre
+        durées, la dernière valant un jour. C'est ce que `skos:broader`
+        exprimera dans l'export, et ce qui permet de demander les
+        variantes d'une variable sans passer par son nom.
+
+        L'identifiant est fait de SLUGS et non d'étiquettes : reformuler
+        un libellé de `topics.yaml` ne doit pas changer l'identité d'une
+        famille. Import tardif de `_slug_of` parce que `schema` importe
+        déjà ce module.
+
+        À ne pas confondre avec `card.list_cards(variable="VCN")`, qui
+        est une recherche de sous-chaîne : elle rend aussi `delta-VCN10`
+        et `alpha-VCN10`, qui sont d'autres concepts, et manque `QNA`.
+        """
+        from .schema import _slug_of, input_registry
+        facettes = ["domain", "phenomenon", "aspect", "statistic",
+                    "season", "output", "purpose"]
+        colonnes = {f: cfield(en, f) for f in facettes}
+        # Les paramètres de période (`ref_start`, `horizon_end`…) sont des
+        # bornes fournies par l'appelant, pas des grandeurs mesurées : les
+        # compter séparerait `delta-VCN10` de ses frères pour une raison
+        # qui n'est pas sémantique. `inputs.yaml` les marque `type: date`.
+        registre = input_registry()
+        dates = {k for k, v in registre.items()
+                 if isinstance(v, dict) and v.get("type") == "date"}
+        entrees = "+".join(sorted(
+            v.strip().rstrip("?").strip().lower()
+            for v in str(gl.get("input_vars", "")).split(",")
+            if v.strip() and v.strip().rstrip("?").strip() not in dates))
+        out = []
+        for i in range(n):
+            morceaux = []
+            for f in facettes:
+                brut = colonnes[f][i]
+                if not brut:
+                    continue
+                # une facette multi-valeurs (domain: [flow, precipitation])
+                # garde ses deux slugs, l'ordre venant de la fiche
+                morceaux += [_slug_of(f, x.strip()) or x.strip().lower()
+                             for x in str(brut).split(",") if x.strip()]
+            out.append(".".join(morceaux + ([entrees] if entrees else [])))
+        return out
+
     _OPERATORS = [("delta-", "delta"), ("median-", "median"), ("mean-", "mean"),
                   ("alpha-", "trend slope"), ("hyp-", "trend test"), ("n-", "count")]
 
@@ -238,6 +286,7 @@ def _meta_rows(card) -> pd.DataFrame:
         "season_fr": cfield(fr, "season"),
         "output_fr": cfield(fr, "output"),
         "purpose_fr": cfield(fr, "purpose"),
+        "family": familles(),
         "operator": [operator(v) for v in _as_list(variable_en, n)],
         "functions": [", ".join(dict.fromkeys(
             e["fn_name"] for p in card["processes"] for e in p["func"]))] * n,

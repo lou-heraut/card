@@ -63,7 +63,31 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.7.0.
+### Ajouté
+
+- **La colonne `family` : les variantes d'un même concept (2026-08-12).**
+  Deux variables sont de la même famille quand elles ont les mêmes
+  composants sémantiques et ne diffèrent que par un paramètre.
+
+  ```python
+  card.list_cards(family_of="VCN10")   # QNA, VCN3, VCN10, VCN30
+  card.list_cards(family_of="KGE")     # KGE, KGEsqrt, NSE, NSEinv, NSElog, NSEsqrt
+  ```
+
+  `QNA` dans la famille des VCN est ce qui montre l'intérêt : c'est le
+  cas d'une moyenne mobile d'UN jour, et aucune recherche par nom ne le
+  trouverait. À l'inverse, `card.list_cards(variable="VCN")` rend aussi
+  `delta-VCN10` et `alpha-VCN10`, qui sont d'autres concepts.
+
+  **Calculée, jamais déclarée**, et c'est un choix argumenté : tout vient
+  de facettes que la fiche affirme déjà, donc le linter devrait recalculer
+  la famille pour vérifier une déclaration, et déclarer n'ajouterait
+  qu'une chose à tenir. La différence avec la colonne héritée `operator`
+  est nette : celle-ci dérive d'un PRÉFIXE DE NOM, la famille de facettes
+  DÉCLARÉES. 132 familles sur 472 variables.
+
+  Elle sera le `skos:broader` de l'export SKOS. Conception et limites :
+  `PLAN_SITE_SKOS.md` et `RETOUR_SKOS.md`.
 
 ## 0.7.0 (2026-08-12)
 

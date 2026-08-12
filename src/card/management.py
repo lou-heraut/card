@@ -56,7 +56,8 @@ def _describe_inputs(raw, lang="fr"):
 def list_cards(path=None, include_experimental=False,
                domain=None, phenomenon=None, aspect=None, statistic=None,
                season=None, output=None, purpose=None, operator=None,
-               function=None, variable=None, search=None) -> pd.DataFrame:
+               function=None, variable=None, search=None,
+               family=None, family_of=None) -> pd.DataFrame:
     """List the available CARD cards with their metadata.
 
     One row per VARIABLE. The ``card`` column gives the card that
@@ -105,6 +106,15 @@ def list_cards(path=None, include_experimental=False,
         Substring of a variable name, such as ``"VCN"``.
     search : str, optional
         Substring looked up in names, descriptions and variable names.
+    family : str, optional
+        Family identifier, as the ``family`` column holds it.
+    family_of : str, optional
+        Name of a variable: returns the variables sharing its family,
+        that is the ones that differ from it only by a parameter.
+        ``family_of="VCN10"`` gives ``QNA``, ``VCN3``, ``VCN10``,
+        ``VCN30``, the same concept at four durations. Not to be confused
+        with ``variable="VCN"``, a substring search that also returns
+        ``delta-VCN10`` and misses ``QNA``.
 
     Returns
     -------
@@ -175,6 +185,20 @@ def list_cards(path=None, include_experimental=False,
             for n in _needles(facette, needle):
                 mask |= _contains(cols, n)
             metaEX = metaEX[mask]
+    if family_of is not None:
+        # Résolu AVANT tout filtrage de facette : sinon la variable citée
+        # pourrait avoir déjà été écartée, et la famille serait vide sans
+        # que rien ne le dise.
+        cible = metaEX[metaEX["variable_en"].astype(str) == str(family_of)]
+        if cible.empty:
+            cible = metaEX[metaEX["variable_fr"].astype(str) == str(family_of)]
+        if cible.empty:
+            raise ValueError(
+                f"family_of='{family_of}' : aucune variable de ce nom. "
+                "Voir la colonne 'variable_en' de card.list_cards().")
+        metaEX = metaEX[metaEX["family"] == cible.iloc[0]["family"]]
+    if family is not None:
+        metaEX = metaEX[metaEX["family"].astype(str) == str(family)]
     if variable is not None:
         metaEX = metaEX[_contains(["variable_fr", "variable_en"], variable)]
     if search is not None:
