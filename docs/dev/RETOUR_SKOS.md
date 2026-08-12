@@ -359,3 +359,60 @@ parfaits. Je le laisserais tel quel.
 
 **Les 202 concepts sans définition** ne se voient pas dans ce rendu
 textuel. Ils se verront à l'écran.
+
+---
+
+# Ce qu'il faut regarder ensemble
+
+Cinq points, par ordre de ce qui bloque le plus la suite.
+
+## 1. Sept variables décrites deux fois, autrement
+
+**Le seul défaut du CORPUS trouvé pendant ce chantier**, et il n'a rien à
+voir avec le SKOS : la même variable porte deux `name` ou deux
+`description` selon la fiche qui la produit. Ce sont des synonymes, pas
+deux sens. Détail et deux façons de le traiter : `CHANTIERS.md`, entrée
+« Sept variables décrites deux fois ».
+
+Il faut choisir laquelle des deux formulations garder, sept fois. C'est
+la seule chose de cette liste qui demande un arbitrage scientifique.
+
+## 2. Le retrait d'`operator`
+
+Provablement redondant, inventaire des neuf endroits fait, seul piège
+connu : `operator="mean"` devient deux filtres. Il manque ta décision
+entre retrait sec et période de coexistence, parce que card-api l'expose
+publiquement.
+
+## 3. Le libellé des familles
+
+`débit · basses eaux · minimum · annuelle · série`. Honnête, ne peut pas
+dériver, pas beau. Mon avis après avoir vu la hiérarchie dépliée : le
+laisser, parce qu'un parent sert à REGROUPER et que son libellé est lu
+une fois pour dix libellés d'enfants qui sont parfaits. À confirmer si tu
+vois le rendu autrement.
+
+## 4. La grossièreté des familles de variables dérivées
+
+`delta-VCN10` se retrouve avec les écarts d'autres variables de base.
+Ce n'est pas faux, `skos:broader` voulant dire « a pour concept plus
+large », mais c'est moins fin qu'ailleurs. Affiner demanderait de
+déclarer la variable de BASE d'une variable dérivée, donc un champ de
+plus sur les fiches `delta-`, `median-`, `alpha-`. À trancher seulement
+si ça gêne à l'usage.
+
+## 5. Skosmos, si tu veux vraiment l'écran
+
+Abandonné en autonomie pour de bonnes raisons (images fermées ou non
+maintenues). Deux voies : construire les images depuis le dépôt Skosmos,
+ce qui est une session à part ; ou demander à Theia de charger le fichier
+chez eux, ce qui est de toute façon l'étape suivante du plan.
+
+---
+
+# Ce qui reste à faire, sans question ouverte
+
+- **le site MkDocs en localhost** (étape 8) : indépendant de tout ce qui
+  précède, aucune décision en attente ;
+- **le courriel à Theia/OZCAR** (étape 10) : t'appartient, et rien ne le
+  bloque, l'alignement se faisant de notre côté.
