@@ -102,3 +102,64 @@ Suite complète verte, linter des fiches vert, ruff propre.
 les variantes, elle diffère d'une recherche par sous-chaîne, les
 paramètres de période ne la scindent pas, elle est faite de slugs et non
 d'étiquettes, aucune variable n'en est dépourvue, et un nom inconnu lève.
+
+## Étape 5 : `alignments.yaml` — **faite**
+
+### Ce qui marche
+
+**Les quatre grandeurs d'entrée de card sont alignées chez Theia**, et
+les URIs ont été RELEVÉES sur leur service, jamais devinées :
+
+| entrée | propriété | objet d'intérêt |
+|---|---|---|
+| `Q` | Discharge | Surface water |
+| `R` | Volume per area | Precipitation |
+| `T` | Temperature | Air |
+| `ETP` | Volume per area | Evapotranspiration |
+
+Plus deux correspondances de VARIABLE entière (`same_as`), quand elle
+existe chez eux : `T` vers « Air temperature », `ETP` vers « Potential
+evapotranspiration ». Et cinq des dix-huit statistiques : Average,
+Median, Minimum, Maximum, Accumulation.
+
+`scripts/verifie_alignements.py` résout les **30 références externes** sur
+leur service : toutes répondent.
+
+### Une découverte qui a changé la table
+
+Leur « Air temperature » est un `iop:Variable` **sans décomposition** :
+seuls ses enfants (« at 2 meters height »…) portent `hasProperty` et
+`hasObjectOfInterest`. Donc les entrées de card ne s'alignent pas sur
+leurs *propriétés* mais correspondent à leurs *variables*, dont il faut
+lire les composants. D'où deux champs distincts dans la table : les
+composants pour bâtir nos variables, et `same_as` pour l'alignement
+proprement dit. Une table à un seul champ aurait été fausse.
+
+### Le test a fait son travail avant moi
+
+`test_every_parameter_of_the_corpus_is_decided` a refusé le fichier :
+trois paramètres employés par le corpus n'y figuraient nulle part,
+`cyclical`, `norm_spacing` et `relative`. Je ne les avais pas vus.
+
+Les trois sont des options et non des contraintes, et la raison est
+écrite dans le fichier pour chacune. Le cas de `relative` mérite d'être
+retenu : un écart en pourcentage et un écart en unité SONT deux
+grandeurs différentes, donc j'ai hésité. Mais la différence est déjà dite
+par `meta.unit`, et le choix découle de la nature de la variable
+(`meta.global.relative`) au lieu de distinguer deux fiches frères. Il ne
+crée donc pas de contrainte.
+
+### Ce qui reste en doute
+
+**`S`, la surface du bassin, n'a aucun alignement.** Je n'ai pas trouvé
+d'équivalent chez eux et j'ai préféré laisser `null` que rattacher de
+force. C'est une colonne constante fournie par l'appelant, pas une
+grandeur observée, donc l'absence se défend. À revoir si un jour une
+fiche la publie en sortie.
+
+**Le réseau n'est pas dans la suite de tests**, et c'est un choix : un
+test qui sort échoue les jours où le service d'en face tousse, et ce
+qu'on apprend alors n'est pas ce qu'on cherchait. La suite vérifie la
+cohérence interne (toute entrée traitée, tout slug réel, tout paramètre
+décidé, aucun déclaré deux fois, aucune famille vide), et le script
+vérifie la résolution à la demande.

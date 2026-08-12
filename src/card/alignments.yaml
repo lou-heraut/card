@@ -1,0 +1,199 @@
+# Correspondances du corpus vers les vocabulaires EXTERNES, et vers les
+# concepts que card doit définir lui-même faute d'équivalent.
+#
+# Ce fichier ne porte QUE ce qui n'est pas dérivable des fiches. Tout le
+# reste (libellés, unités, facettes, méthode, version, swhid) se lit dans
+# les fiches, et rien n'est recopié ici. Cf. docs/dev/PLAN_SITE_SKOS.md,
+# section « Tous les champs du thésaurus, et d'où vient chacun ».
+#
+# Les URIs de `theia` ont été RELEVÉES sur leur service, pas devinées :
+#   https://in-situ.theia-land.fr/skosmos/rest/v1/theia_ozcar_thesaurus/
+# Elles sont vérifiées par tests/test_alignments.py, qui les résout.
+
+namespaces:
+  skos:  http://www.w3.org/2004/02/skos/core#
+  iop:   https://w3id.org/iadopt/ont/
+  dcterms: http://purl.org/dc/terms/
+  owl:   http://www.w3.org/2002/07/owl#
+  rdfs:  http://www.w3.org/2000/01/rdf-schema#
+  theia: https://w3id.org/ozcar-theia/
+
+# ── Variables d'ENTRÉE ────────────────────────────────────────────────
+#
+# I-ADOPT exige exactement une propriété et un objet d'intérêt. Ils vont
+# donc par PAIRE, et non par deux tables séparées : `R` n'est pas « la
+# propriété précipitation », c'est « un volume par unité de surface, de
+# la précipitation ».
+#
+# `same_as` désigne la VARIABLE équivalente chez eux, quand elle existe :
+# c'est l'alignement proprement dit, `hasProperty` et `hasObjectOfInterest`
+# n'étant que les composants dont card se sert pour bâtir les siennes.
+#
+# `role` sert aux fiches à plusieurs entrées, qu'I-ADOPT décrit par un
+# `AsymmetricSystem` : l'observé est la source, le simulé la cible.
+inputs:
+  Q:
+    property: theia:c_7742e5f0            # Discharge
+    object:   theia:c_d73ddccf            # Surface water
+  Q_obs:
+    property: theia:c_7742e5f0
+    object:   theia:c_d73ddccf
+    role: source
+  Q_sim:
+    property: theia:c_7742e5f0
+    object:   theia:c_d73ddccf
+    role: target
+  Q_lim:
+    property: theia:c_7742e5f0
+    object:   theia:c_d73ddccf
+    parameter: true                       # colonne de seuil fournie
+  R:
+    property: theia:c_fb752be1            # Volume per area
+    object:   theia:c_2b48133e            # Precipitation
+  R_obs:
+    property: theia:c_fb752be1
+    object:   theia:c_2b48133e
+    role: source
+  R_sim:
+    property: theia:c_fb752be1
+    object:   theia:c_2b48133e
+    role: target
+  Rl:
+    property: theia:c_fb752be1
+    object:   theia:c_2b48133e
+    constraint: liquid-phase              # défini plus bas
+  Rs:
+    property: theia:c_fb752be1
+    object:   theia:c_2b48133e
+    constraint: solid-phase
+  T:
+    property: theia:c_650214c2            # Temperature
+    object:   theia:c_d57d0742            # Air
+    same_as:  theia:c_6f0c66da            # Air temperature
+  T_obs:
+    property: theia:c_650214c2
+    object:   theia:c_d57d0742
+    role: source
+  ETP:
+    property: theia:c_fb752be1            # Volume per area
+    object:   theia:c_b45bee9c            # Evapotranspiration
+    same_as:  theia:c_6db0faac            # Potential evapotranspiration
+  ET0_obs:
+    property: theia:c_fb752be1
+    object:   theia:c_b45bee9c
+    role: source
+  S:
+    # Surface du bassin, colonne constante. Aucun équivalent relevé chez
+    # eux : laissé sans alignement plutôt que rattaché de force.
+    property: null
+    object:   null
+    parameter: true
+
+# ── Opérations statistiques ───────────────────────────────────────────
+#
+# Les clés sont les slugs de la facette `statistic` de topics.yaml, dont
+# la clé `cf` nomme déjà le terme des conventions Climate and Forecast.
+# Ici on ajoute l'URI résolvable de Theia, quand elle existe : cinq sur
+# dix-huit, la statistique hydrologique n'ayant pas d'équivalent ailleurs.
+statistic:
+  mean:     {same_as: theia:c_00302ed7}   # Average
+  median:   {same_as: theia:c_acc85532}
+  minimum:  {same_as: theia:c_f91fc633}
+  maximum:  {same_as: theia:c_e8336e2e}
+  sum:      {same_as: theia:c_790e80ee}   # Accumulation
+  # Les treize suivants sont propres à card : quantile,
+  # threshold-exceedance, return-period, change, trend-slope,
+  # trend-significance, ratio, bias, efficiency, elasticity,
+  # correlation, slope, filter. Aucun alignement à déclarer, leurs
+  # libellés vivent dans topics.yaml.
+
+# ── Paramètres qui font une contrainte ────────────────────────────────
+#
+# Ce que le générateur doit lire dans les `func` des process, et ce
+# qu'il doit ignorer. Un paramètre sémantique distingue une variable de
+# ses frères (`VCN10` de `VCN3`) ; une option d'implémentation ne change
+# pas la variable, elle change la façon de la calculer.
+#
+# Seuls les LITTÉRAUX comptent : `lim: 20` est une contrainte, `lim:
+# upLim` est une référence à une colonne amont, et le loader distingue
+# déjà les deux.
+parameters:
+  k:             {family: rolling-window, unit: day}
+  p:             {family: exceedance-probability}
+  return_period: {family: return-period, unit: year}
+  fraction:      {family: cumulative-fraction}
+  fraction1:     {family: cumulative-fraction}
+  fraction2:     {family: cumulative-fraction}
+  lim:           {family: precipitation-threshold, unit: mm, literal_only: true}
+
+ignored_parameters:
+  # Options d'implémentation : elles ne définissent pas la variable.
+  - method          # Wallingford ou Lyne & Hollick, même débit de base
+  - n               # nombre de points d'une courbe
+  - what            # ce qu'apply_threshold renvoie, déjà dit par `aspect`
+  - select
+  - where
+  - water_type      # déjà dit par `phenomenon`
+  - func            # enveloppe over_period, la fonction est lue ailleurs
+  - dates
+  - level
+  - thresh
+  - periodicity
+  - cyclical        # moyenne mobile refermée sur l'année : une façon de
+                    #   calculer la moyenne, pas une autre grandeur
+  - norm_spacing    # espacement de l'axe de probabilité d'une courbe
+  - relative        # écart en % ou en unité : la différence est déjà dite
+                    #   par `meta.unit`, et le choix découle de la nature
+                    #   de la variable (`meta.global.relative`), il ne
+                    #   distingue pas deux fiches frères
+  # Références de colonnes, jamais des littéraux : ce sont des entrées.
+  - X
+  - Q
+  - Q_for_BFI
+  - threshold
+  - period_start
+  - period_end
+  - ref_start
+  - ref_end
+  - horizon_start
+  - horizon_end
+
+# ── Familles de contrainte définies par card ──────────────────────────
+#
+# Aucune n'existe chez Theia : leur branche `Constraint` porte des
+# contraintes physiques (rayonnement, phase, sédiment), jamais une
+# fenêtre ni un paramètre statistique. Ce sont donc des concepts propres,
+# et c'est l'extension qu'on peut leur proposer.
+constraint_families:
+  rolling-window:
+    en: rolling window
+    fr: fenêtre glissante
+  exceedance-probability:
+    en: exceedance probability
+    fr: probabilité de dépassement
+  return-period:
+    en: return period
+    fr: période de retour
+  cumulative-fraction:
+    en: cumulative fraction
+    fr: fraction cumulée
+  precipitation-threshold:
+    en: precipitation threshold
+    fr: seuil de précipitation
+  sampling-window:
+    en: sampling window
+    fr: fenêtre d'échantillonnage
+  phase:
+    en: phase
+    fr: phase
+
+# Contraintes nommées, hors paramètre numérique.
+constraints:
+  liquid-phase:
+    en: liquid phase
+    fr: phase liquide
+    family: phase
+  solid-phase:
+    en: solid phase
+    fr: phase solide
+    family: phase
