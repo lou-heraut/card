@@ -188,7 +188,7 @@ card:VCN10
     card:hasSamplingWindow       card:hydrological-year ;
 
     # ── ce qu'un thésaurus ne peut pas porter : reste ici ─────────
-    prov:wasGeneratedBy  card:card-VCN10 ;          # la ou LES fiches
+    rdfs:isDefinedBy  card:fiche-VCN10 , card:fiche-allLF ;  # une ou PLUSIEURS
     card:method      "annual aggregation [09-01, 08-31] - minimum of 10-day mean" ;
     card:version     "1.1" ;
     card:swhid       "swh:1:cnt:…" .
@@ -228,7 +228,7 @@ recopier :
 | `definition` | `meta.<lang>.description` |
 | unité | `meta.<lang>.unit` |
 | rattachement aux facettes | bloc `classification` |
-| `card:method`, `version`, `swhid`, `prov:wasGeneratedBy` | la fiche et `list_cards()` |
+| `card:method`, `version`, `swhid`, `rdfs:isDefinedBy` | la fiche et `list_cards()` |
 | propriété d'entrée | `input_vars` et `src/card/inputs.yaml` |
 
 Ce qui **n'est pas dérivable** et doit être déclaré, dans un fichier
@@ -380,10 +380,36 @@ Chacun a déjà mordu ce dépôt, ou mord tous les projets RDF.
   encore plus vrai demain : une fiche `QMA_jan` seule est un besoin
   identifié, à côté de `QMA_month` qui les produit toutes les douze.
 
-  La propriété à employer est celle de PROV-O, `prov:wasGeneratedBy`,
-  qui est faite pour ça et qui est répétable. Ne pas inventer de nom
-  maison : les exemples de ce plan en montraient un, `card:computedBy`,
-  qui n'existe ni dans card ni dans un standard.
+  **La propriété retenue est `rdfs:isDefinedBy`** (décidé le
+  2026-08-12). Elle dit littéralement « la ressource qui définit ce
+  concept », elle n'a aucune contrainte de cardinalité donc elle est
+  répétable, et sa portée est une ressource quelconque, ce qui convient
+  à une fiche.
+
+  **Pourquoi pas PROV-O**, un temps envisagé : `prov:wasGeneratedBy` lie
+  une entité à une ACTIVITÉ, donc il décrit ce qui s'est passé. C'est le
+  bon vocabulaire pour un RÉSULTAT de calcul, ce que card-api trace déjà
+  avec ses commits et ses swhid. Ici on ne décrit pas une exécution, on
+  décrit une définition. Garder les deux vocabulaires sur leurs deux
+  étages est cohérent avec toute l'architecture de ce plan.
+
+### Règle de nommage des propriétés du `.ttl`
+
+Elle vaut pour toutes celles qu'il faudra choisir, pas seulement pour
+celle-là :
+
+1. **réemployer une propriété standard quand elle dit EXACTEMENT ça**,
+   et non « à peu près » : `skos:prefLabel`, `skos:notation`,
+   `skos:definition`, `rdfs:isDefinedBy`, `dcterms:license`,
+   `owl:deprecated`, `dcterms:isReplacedBy` ;
+2. **définir une propriété `card:` quand rien ne dit ça**, ce qui est le
+   cas de `method`, qui est une notion propre au corpus ;
+3. **ne jamais inventer un nom qui ressemble à un standard** sans
+   vérifier : un `card:computedBy` figurait dans les exemples de ce plan
+   avant le 2026-08-12 et n'existait nulle part ;
+4. **déclarer la provenance de chaque propriété empruntée** en tête du
+   fichier, par ses préfixes, comme `topics.yaml` déclare `cf:` et
+   `iha:` pour ses termes.
 - **Une seule `prefLabel` par langue et par concept**, c'est une
   contrainte SKOS. Les fiches multi-sorties dont les métadonnées sont des
   listes doivent être éclatées, pas concaténées.
@@ -549,9 +575,9 @@ regarde, **on ne publie rien**.
 | # | quoi | dépend de | état |
 |---|---|---|---|
 | 0 | fonctions publiques en anglais, sections NumPy, garde dans les deux paquets | rien | **fait** (card 0.5.1, stase 0.6.3) |
-| 1 | docstrings hydro de `functions/` en anglais NumPy, `docstring.py` et son test retirés | décision | à valider |
+| 1 | docstrings hydro de `functions/` en anglais NumPy, `docstring.py` et son test retirés | décision | **fait** (card 0.5.2) |
 | 2 | **confrontation** métadonnées des fiches contre attendus I-ADOPT | rien | **fait** |
-| 3 | facette `statistic`, seize termes sourcés, posée dans 225 fiches | 2 | **fait** (card 0.6.0) |
+| 3 | facette `statistic`, dix-huit termes sourcés, posée dans les 226 fiches, exposée par card-api et card4r | 2 | **fait** (card 0.6.0 et 0.7.0, card-api 0.3.2, card4r 0.1.3) |
 | 4 | `src/card/alignments.yaml` : trois tables de correspondance, et sa validation par le linter | 2 | à faire |
 | 5 | `scripts/generate_skos.py` → `card.ttl`, base d'URI manifestement provisoire, métadonnées de schéma, garde de fraîcheur étendue | 3, 4 | à faire |
 | 6 | Skosmos **local** sur ce `.ttl`, pour voir le rendu avant tout dépôt | 5 | à faire |
