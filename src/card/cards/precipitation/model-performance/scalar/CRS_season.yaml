@@ -52,6 +52,7 @@ meta:
       - ["09-01", "11-30"]
     classification:
       domain: precipitation
+      statistic: [ratio, ratio, ratio, ratio]
       season: by season
       output: scalar
       purpose: model performance
@@ -108,6 +109,7 @@ meta:
       - ["01-09", "30-11"]
     classification:
       domain: précipitations
+      statistic: [rapport, rapport, rapport, rapport]
       season: par saison
       output: scalaire
       purpose: performance de modèle

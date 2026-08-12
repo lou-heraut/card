@@ -19,6 +19,7 @@ meta:
       domain: flow
       phenomenon: low flows
       aspect: magnitude
+      statistic: change
       season: summer
       output: scalar
     suffix_default:
@@ -39,6 +40,7 @@ meta:
       domain: débit
       phenomenon: basses eaux
       aspect: intensité
+      statistic: écart
       season: estivale
       output: scalaire
     suffix_default:

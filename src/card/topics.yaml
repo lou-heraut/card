@@ -39,6 +39,39 @@ aspect:
   frequency: {en: frequency, fr: fréquence, iha: frequency}
   rate-of-change: {en: rate of change, fr: taux de variation, iha: rate of change}
 
+statistic:
+  # L'opération statistique qui produit la variable, c'est-à-dire son
+  # opération TERMINALE : celle du dernier process, une par variable
+  # produite. Répond à `iop:hasStatisticalModifier` du cadre I-ADOPT.
+  #
+  # La clé `cf` nomme le terme équivalent de l'annexe E des conventions
+  # Climate and Forecast (cell_methods), qui est aussi celui du thésaurus
+  # Theia/OZCAR quand il existe. Son absence signifie qu'aucun de ces deux
+  # vocabulaires ne porte le concept : c'est le cas de onze termes sur
+  # seize, la statistique hydrologique n'ayant pas d'équivalent ailleurs.
+  #
+  # ORTHOGONALE à `aspect` : `aspect` dit quelle dimension du régime la
+  # variable décrit, `statistic` dit par quelle opération on l'obtient.
+  # `VCN10` et `tVCN10` sont tous deux `statistic: minimum`, le premier
+  # `aspect: magnitude` (la valeur), le second `aspect: timing` (sa date).
+  # Ne jamais dupliquer l'un dans l'autre.
+  mean:      {en: mean, fr: moyenne, cf: mean}
+  median:    {en: median, fr: médiane, cf: median}
+  minimum:   {en: minimum, fr: minimum, cf: minimum}
+  maximum:   {en: maximum, fr: maximum, cf: maximum}
+  sum:       {en: sum, fr: somme, cf: sum}
+  quantile:  {en: quantile, fr: quantile}
+  threshold-exceedance: {en: threshold exceedance, fr: dépassement de seuil}
+  return-period: {en: return period, fr: période de retour}
+  change:    {en: change, fr: écart}
+  trend:     {en: trend, fr: tendance}
+  ratio:     {en: ratio, fr: rapport}
+  bias:      {en: bias, fr: biais}
+  efficiency: {en: efficiency, fr: efficience}
+  elasticity: {en: elasticity, fr: élasticité}
+  correlation: {en: correlation, fr: corrélation}
+  slope:     {en: slope, fr: pente}
+
 season:
   # position 4 d'Oberlin (1992) : la fenêtre d'échantillonnage
   annual: {en: annual, fr: annuelle}

@@ -19,6 +19,7 @@ meta:
       domain: flow
       phenomenon: baseflow
       aspect: magnitude
+      statistic: sum
       season: annual
       output: series
 
@@ -37,6 +38,7 @@ meta:
       domain: débit
       phenomenon: débit de base
       aspect: intensité
+      statistic: somme
       season: annuelle
       output: série
 

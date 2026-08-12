@@ -17,6 +17,7 @@ meta:
       domain: flow
       phenomenon: baseflow
       aspect: duration
+      statistic: quantile
       season: annual
       output: series
 
@@ -33,6 +34,7 @@ meta:
       domain: débit
       phenomenon: débit de base
       aspect: durée
+      statistic: quantile
       season: annuelle
       output: série
 

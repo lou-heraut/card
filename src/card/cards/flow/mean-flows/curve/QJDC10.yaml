@@ -22,6 +22,7 @@ meta:
       domain: flow
       phenomenon: mean flows
       aspect: magnitude
+      statistic: mean
       season: record
       output: curve
 
@@ -43,6 +44,7 @@ meta:
       domain: débit
       phenomenon: moyennes eaux
       aspect: intensité
+      statistic: moyenne
       season: chronique
       output: courbe
 

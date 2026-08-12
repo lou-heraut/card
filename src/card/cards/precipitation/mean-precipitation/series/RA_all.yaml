@@ -22,6 +22,7 @@ meta:
       domain: precipitation
       phenomenon: mean precipitation
       aspect: magnitude
+      statistic: [sum, sum, sum]
       season: annual
       output: series
 
@@ -43,6 +44,7 @@ meta:
       domain: précipitations
       phenomenon: précipitations moyennes
       aspect: intensité
+      statistic: [somme, somme, somme]
       season: annuelle
       output: série
 

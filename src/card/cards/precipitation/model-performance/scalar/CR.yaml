@@ -23,6 +23,7 @@ meta:
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: precipitation
+      statistic: ratio
       season: annual
       output: scalar
       purpose: model performance
@@ -46,6 +47,7 @@ meta:
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: précipitations
+      statistic: rapport
       season: annuelle
       output: scalaire
       purpose: performance de modèle

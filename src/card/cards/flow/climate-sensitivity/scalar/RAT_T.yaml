@@ -22,6 +22,7 @@ meta:
     sampling_period: ["09-01", "08-31"]
     classification:
       domain: [flow, temperature]
+      statistic: correlation
       season: annual
       output: scalar
       purpose: climate sensitivity
@@ -44,6 +45,7 @@ meta:
     sampling_period: ["01-09", "31-08"]
     classification:
       domain: [débit, température]
+      statistic: corrélation
       season: annuelle
       output: scalaire
       purpose: sensibilité climatique

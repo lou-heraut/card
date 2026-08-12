@@ -18,6 +18,7 @@ meta:
       domain: flow
       phenomenon: high flows
       aspect: magnitude
+      statistic: quantile
       season: annual
       output: series
 
@@ -35,6 +36,7 @@ meta:
       domain: débit
       phenomenon: hautes eaux
       aspect: intensité
+      statistic: quantile
       season: annuelle
       output: série
 

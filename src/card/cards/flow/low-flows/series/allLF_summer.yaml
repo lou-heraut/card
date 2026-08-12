@@ -37,6 +37,12 @@ meta:
       domain: flow
       phenomenon: low flows
       aspect: [timing, timing, timing, duration, magnitude]
+      statistic:
+        - threshold exceedance
+        - threshold exceedance
+        - threshold exceedance
+        - threshold exceedance
+        - sum
       season: summer
       output: series
 
@@ -78,6 +84,12 @@ meta:
         - saisonnalité
         - durée
         - intensité
+      statistic:
+        - dépassement de seuil
+        - dépassement de seuil
+        - dépassement de seuil
+        - dépassement de seuil
+        - somme
       season: estivale
       output: série
 

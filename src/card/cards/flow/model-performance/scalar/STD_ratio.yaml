@@ -17,6 +17,7 @@ meta:
         STD_ratio: no temporal aggregation - ratio of standard deviations sd(sim)/sd(obs)
     classification:
       domain: flow
+      statistic: ratio
       season: record
       output: scalar
       purpose: model performance
@@ -34,6 +35,7 @@ meta:
         STD_ratio: aucune agrégation temporelle - rapport des écarts-types sd(sim)/sd(obs)
     classification:
       domain: débit
+      statistic: rapport
       season: chronique
       output: scalaire
       purpose: performance de modèle

@@ -21,6 +21,7 @@ meta:
       domain: flow
       phenomenon: high flows
       aspect: frequency
+      statistic: threshold exceedance
       season: annual
       output: scalar
     suffix_default:
@@ -43,6 +44,7 @@ meta:
       domain: débit
       phenomenon: hautes eaux
       aspect: fréquence
+      statistic: dépassement de seuil
       season: annuelle
       output: scalaire
     suffix_default:

@@ -16,6 +16,7 @@ meta:
         NSEinv: no temporal aggregation - inverse of daily data, then NSE
     classification:
       domain: flow
+      statistic: efficiency
       season: record
       output: scalar
       purpose: model performance
@@ -32,6 +33,7 @@ meta:
         NSEinv: aucune agrégation temporelle - inverse des données journalières puis NSE
     classification:
       domain: débit
+      statistic: efficience
       season: chronique
       output: scalaire
       purpose: performance de modèle

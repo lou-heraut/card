@@ -23,6 +23,7 @@ meta:
       domain: flow
       phenomenon: low flows
       aspect: magnitude
+      statistic: sum
       season: annual
       output: series
 
@@ -45,6 +46,7 @@ meta:
       domain: débit
       phenomenon: basses eaux
       aspect: intensité
+      statistic: somme
       season: annuelle
       output: série
 

@@ -76,6 +76,19 @@ meta:
       domain: precipitation
       phenomenon: heavy rain
       aspect: duration
+      statistic:
+        - threshold exceedance
+        - threshold exceedance
+        - threshold exceedance
+        - threshold exceedance
+        - threshold exceedance
+        - threshold exceedance
+        - threshold exceedance
+        - threshold exceedance
+        - threshold exceedance
+        - threshold exceedance
+        - threshold exceedance
+        - threshold exceedance
       season: by month
       output: series
 
@@ -151,6 +164,19 @@ meta:
       domain: précipitations
       phenomenon: pluies fortes
       aspect: durée
+      statistic:
+        - dépassement de seuil
+        - dépassement de seuil
+        - dépassement de seuil
+        - dépassement de seuil
+        - dépassement de seuil
+        - dépassement de seuil
+        - dépassement de seuil
+        - dépassement de seuil
+        - dépassement de seuil
+        - dépassement de seuil
+        - dépassement de seuil
+        - dépassement de seuil
       season: par mois
       output: série
 

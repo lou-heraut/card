@@ -23,6 +23,7 @@ meta:
       domain: flow
       phenomenon: low flows
       aspect: frequency
+      statistic: return period
       season: by month
       output: scalar
     suffix_default:
@@ -48,6 +49,7 @@ meta:
       domain: débit
       phenomenon: basses eaux
       aspect: fréquence
+      statistic: période de retour
       season: par mois
       output: scalaire
     suffix_default:

@@ -16,6 +16,7 @@ meta:
         NSEsqrt: no temporal aggregation - square root of simulated and reference data, then NSE
     classification:
       domain: flow
+      statistic: efficiency
       season: record
       output: scalar
       purpose: model performance
@@ -32,6 +33,7 @@ meta:
         NSEsqrt: aucune agrégation temporelle - racine carrée des données simulées et de référence puis NSE
     classification:
       domain: débit
+      statistic: efficience
       season: chronique
       output: scalaire
       purpose: performance de modèle

@@ -60,6 +60,7 @@ meta:
       - timing
       - duration
       - magnitude
+      statistic: [change, change, change, change, change]
       season: summer
       output: scalar
     suffix_default:
@@ -121,6 +122,7 @@ meta:
       - saisonnalité
       - durée
       - intensité
+      statistic: [écart, écart, écart, écart, écart]
       season: estivale
       output: scalaire
     suffix_default:

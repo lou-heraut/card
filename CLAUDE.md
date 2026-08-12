@@ -129,6 +129,9 @@ meta:
       domain: flow          #   (liste si plusieurs grandeurs)
       phenomenon: mean flows  # scalaire/liste/absent, jamais forcé
       aspect: magnitude     # IHA ; interdit si purpose présent
+      statistic: mean       # l'opération TERMINALE, orthogonale à aspect
+                            #   (VCN10 et tVCN10 sont tous deux `minimum`) ;
+                            #   absente si la sortie vient d'un filtre
       season: annual        # annual|summer|winter|by season|by month|record
       output: series        # series|scalar|curve, doit matcher le dossier
       # purpose: model performance | climate sensitivity (optionnel)

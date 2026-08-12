@@ -53,6 +53,19 @@ meta:
       domain: flow
       phenomenon: mean flows
       aspect: magnitude
+      statistic:
+        - mean
+        - mean
+        - mean
+        - mean
+        - mean
+        - mean
+        - mean
+        - mean
+        - mean
+        - mean
+        - mean
+        - mean
       season: by month
       output: series
 
@@ -105,6 +118,19 @@ meta:
       domain: débit
       phenomenon: moyennes eaux
       aspect: intensité
+      statistic:
+        - moyenne
+        - moyenne
+        - moyenne
+        - moyenne
+        - moyenne
+        - moyenne
+        - moyenne
+        - moyenne
+        - moyenne
+        - moyenne
+        - moyenne
+        - moyenne
       season: par mois
       output: série
 

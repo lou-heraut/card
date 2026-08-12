@@ -54,9 +54,9 @@ def _describe_inputs(raw, lang="fr"):
 
 
 def list_cards(path=None, include_experimental=False,
-               domain=None, phenomenon=None, aspect=None, season=None,
-               output=None, purpose=None, operator=None, function=None,
-               variable=None, search=None) -> pd.DataFrame:
+               domain=None, phenomenon=None, aspect=None, statistic=None,
+               season=None, output=None, purpose=None, operator=None,
+               function=None, variable=None, search=None) -> pd.DataFrame:
     """List the available CARD cards with their metadata.
 
     One row per VARIABLE. The ``card`` column gives the card that
@@ -84,6 +84,11 @@ def list_cards(path=None, include_experimental=False,
         ``"snow"``...
     aspect : str, optional
         IHA dimension: ``"magnitude"``, ``"timing"``, ``"duration"``...
+    statistic : str, optional
+        Statistical operation the variable comes from: ``"mean"``,
+        ``"minimum"``, ``"quantile"``, ``"trend"``... Orthogonal to
+        ``aspect``: ``VCN10`` and ``tVCN10`` are both a ``"minimum"``,
+        one being its value and the other its date.
     season : str, optional
         Sampling window: ``"annual"``, ``"summer"``, ``"by month"``...
     output : str, optional
@@ -158,6 +163,7 @@ def list_cards(path=None, include_experimental=False,
         (domain, ["domain_fr", "domain_en"], "domain"),
         (phenomenon, ["phenomenon_fr", "phenomenon_en"], "phenomenon"),
         (aspect, ["aspect_fr", "aspect_en"], "aspect"),
+        (statistic, ["statistic_fr", "statistic_en"], "statistic"),
         (season, ["season_fr", "season_en"], "season"),
         (output, ["output_fr", "output_en"], "output"),
         (purpose, ["purpose_fr", "purpose_en"], "purpose"),

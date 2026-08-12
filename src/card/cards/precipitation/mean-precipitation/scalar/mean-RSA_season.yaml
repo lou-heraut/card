@@ -37,6 +37,7 @@ meta:
       domain: precipitation
       phenomenon: mean precipitation
       aspect: magnitude
+      statistic: [mean, mean, mean, mean]
       season: by season
       output: scalar
 
@@ -73,6 +74,7 @@ meta:
       domain: précipitations
       phenomenon: précipitations moyennes
       aspect: intensité
+      statistic: [moyenne, moyenne, moyenne, moyenne]
       season: par saison
       output: scalaire
 

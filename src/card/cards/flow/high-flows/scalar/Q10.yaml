@@ -17,6 +17,7 @@ meta:
       domain: flow
       phenomenon: high flows
       aspect: magnitude
+      statistic: quantile
       season: record
       output: scalar
 
@@ -33,6 +34,7 @@ meta:
       domain: débit
       phenomenon: hautes eaux
       aspect: intensité
+      statistic: quantile
       season: chronique
       output: scalaire
 

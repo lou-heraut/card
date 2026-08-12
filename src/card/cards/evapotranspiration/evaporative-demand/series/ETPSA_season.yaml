@@ -32,6 +32,7 @@ meta:
       domain: evapotranspiration
       phenomenon: evaporative demand
       aspect: magnitude
+      statistic: [sum, sum, sum, sum]
       season: by season
       output: series
 
@@ -63,6 +64,7 @@ meta:
       domain: évapotranspiration
       phenomenon: demande évaporative
       aspect: intensité
+      statistic: [somme, somme, somme, somme]
       season: par saison
       output: série
 

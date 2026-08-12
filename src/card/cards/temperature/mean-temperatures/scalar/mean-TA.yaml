@@ -19,6 +19,7 @@ meta:
       domain: temperature
       phenomenon: mean temperatures
       aspect: magnitude
+      statistic: mean
       season: annual
       output: scalar
 
@@ -37,6 +38,7 @@ meta:
       domain: température
       phenomenon: températures moyennes
       aspect: intensité
+      statistic: moyenne
       season: annuelle
       output: scalaire
 

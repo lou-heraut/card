@@ -17,6 +17,7 @@ meta:
       domain: evapotranspiration
       phenomenon: evaporative demand
       aspect: magnitude
+      statistic: sum
       season: annual
       output: series
 
@@ -33,6 +34,7 @@ meta:
       domain: évapotranspiration
       phenomenon: demande évaporative
       aspect: intensité
+      statistic: somme
       season: annuelle
       output: série
 

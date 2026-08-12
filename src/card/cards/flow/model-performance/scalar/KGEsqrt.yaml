@@ -16,6 +16,7 @@ meta:
         KGEsqrt: no temporal aggregation - square root of simulated and reference data, then KGE calculation
     classification:
       domain: flow
+      statistic: efficiency
       season: record
       output: scalar
       purpose: model performance
@@ -32,6 +33,7 @@ meta:
         KGEsqrt: aucune agrégation temporelle - racine carrée des données simulées et de référence puis KGE
     classification:
       domain: débit
+      statistic: efficience
       season: chronique
       output: scalaire
       purpose: performance de modèle

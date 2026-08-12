@@ -32,6 +32,7 @@ meta:
       domain: temperature
       phenomenon: mean temperatures
       aspect: magnitude
+      statistic: [mean, mean, mean, mean]
       season: by season
       output: series
 
@@ -63,6 +64,7 @@ meta:
       domain: température
       phenomenon: températures moyennes
       aspect: intensité
+      statistic: [moyenne, moyenne, moyenne, moyenne]
       season: par saison
       output: série
 

@@ -164,6 +164,68 @@ Les trois sorties possibles, aucune satisfaisante en l'état :
 sens. Elle ne peut donc pas fonder un alignement sémantique, et
 `PLAN_SITE_SKOS.md` l'écarte explicitement de l'export SKOS.
 
+## `operator` : une colonne publiée, dérivée d'un nom (2026-08-12)
+
+`list_cards()` et `meta` publient une colonne `operator`, calculée **dans
+le code** à partir du PRÉFIXE de l'identifiant de la fiche :
+
+```python
+_OPERATORS = [("delta-", "delta"), ("median-", "median"), ("mean-", "mean"),
+              ("alpha-", "trend slope"), ("hyp-", "trend test"), ("n-", "count")]
+```
+
+Six préfixes écrits en dur. C'est exactement le motif dont le dépôt se
+méfie depuis `compute_Qp` : une sortie publiée qui dépend d'une chaîne
+que ni l'import, ni le linter, ni les tests ne suivent. Renommer un
+préfixe de fiche laisserait la liste en arrière sans que rien ne
+rougisse.
+
+Mesuré le 2026-08-12 : la colonne est **vide sur 322 lignes sur 472**,
+puisqu'elle ne décrit que les fiches préfixées.
+
+Trois questions à trancher ensemble, pas séparément :
+
+- l'information est-elle utile ? Elle sert de filtre à `list_cards` et à
+  card-api (`operator=delta`), donc oui, au moins pour la recherche ;
+- si elle est utile, doit-elle être **déclarée** dans la fiche plutôt que
+  dérivée du nom ? C'est la même question que celle qui a produit la
+  facette `statistic`, et une partie de la réponse s'y trouve peut-être
+  déjà : `delta-` correspond à `statistic: change`, `mean-` et `median-`
+  à une statistique inter-annuelle, `alpha-` à `trend` ;
+- si `statistic` la recouvre, `operator` devient une **dette à retirer**,
+  ce qui est un changement de sorties, donc RENAMING.md et une version.
+
+À reprendre après la facette `statistic`, pas avant : c'est elle qui dira
+ce qui reste vraiment à `operator`.
+
+## Raffiner `method` par étape, en plus de la classification (2026-08-12)
+
+La facette `statistic` classe la variable par son opération TERMINALE,
+une valeur par variable produite. Elle répond au besoin de familles et à
+`hasStatisticalModifier` d'I-ADOPT, qui est facultatif et peut être
+unique.
+
+Elle ne dit rien de la **chaîne** : `VCN10` est un minimum d'une moyenne
+mobile de dix jours, et seule la première moitié est classée. Le besoin
+est réel mais **différent** : la chaîne ne permettrait pas la
+classification globale d'une variable, et la classification ne permet pas
+de décrire la chaîne. Aucune des deux ne remplace l'autre.
+
+Si on la veut un jour, sa place est identifiée : `method` est indexé par
+process et par colonne produite, soit **856 entrées** dans le corpus, et
+c'est exactement la granularité où une opération vaut un mot. Deux formes
+possibles :
+
+- un bloc parallèle indexé comme `method`, que le linter vérifierait de
+  la même façon qu'il vérifie déjà la correspondance des clés ;
+- ou l'entrée de `method` qui devient une table,
+  `{statistic: mean, text: "..."}`, plus juste mais imposant une
+  migration de format sur les 856 entrées, alors que `method` vient
+  d'être refondu (`archive/PLAN_METHOD.md`).
+
+Le vocabulaire, lui, serait le même : celui de la facette `statistic`.
+Donc rien de ce travail n'est perdu si on s'y met plus tard.
+
 ## Revue de code du package (lisibilité, dé-boîte-noire)
 
 Crainte utilisateur : code trop compliqué ou alambiqué par endroits.

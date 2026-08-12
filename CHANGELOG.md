@@ -63,7 +63,52 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.5.2.
+Rien depuis la 0.6.0.
+
+## 0.6.0 (2026-08-12)
+
+### Ajouté
+
+- **Le corpus se classe enfin par sa statistique (2026-08-12).** Six
+  facettes disaient la grandeur, le phénomène, la dimension du régime,
+  la fenêtre, la forme et la finalité. **Aucune ne disait par quelle
+  OPÉRATION la variable est obtenue.** « Toutes les variables qui sont
+  un minimum » ne se demandait pas. La septième facette, `statistic`, le
+  permet, sur les 472 variables du corpus.
+
+  ```python
+  card.list_cards(statistic="minimum")     # 18 variables
+  card.list_cards(statistic="quantile")    # 18
+  card.list_cards(statistic="dépassement de seuil")   # 115
+  ```
+
+  **Elle est orthogonale à `aspect`, et c'est ce qui la rend juste.**
+  `aspect` dit quelle dimension du régime la variable décrit, `statistic`
+  par quelle opération on l'obtient : `VCN10` et `tVCN10` sont tous deux
+  un `minimum`, l'un en `magnitude` (la valeur), l'autre en `timing` (sa
+  date). Vérifié sur tout le corpus avant d'écrire quoi que ce soit, une
+  même suite d'opérations donnant `duration` pour `dtLF` et `timing` pour
+  `startLF`. Aucune des deux ne se déduit de l'autre, donc rien n'est
+  dupliqué. Elle classe en outre les 31 fiches à `purpose`, qui n'ont pas
+  d'`aspect` : KGE et NSE sont `efficiency`, Bias est `bias`.
+
+  **Chaque terme dit d'où il vient.** Cinq des seize viennent de l'annexe
+  E des conventions Climate and Forecast (`cell_methods`), qui sont aussi
+  les termes du thésaurus Theia/OZCAR : mean, median, minimum, maximum,
+  sum. Les onze autres sont propres à card, aucun vocabulaire existant ne
+  portant la statistique hydrologique, ce qui a été mesuré et non
+  supposé. La clé `cf` de `topics.yaml` le dit terme par terme, comme la
+  clé `iha` le fait pour `aspect` depuis juillet.
+
+  **L'absence veut dire quelque chose** : une variable produite par un
+  FILTRE et non par une statistique n'a pas la facette. `BF-LH` est la
+  seule du corpus, d'où une facette optionnelle plutôt que requise.
+
+  Les versions de fiches ne bougent pas, sur le précédent de
+  l'introduction de `classification` le 2026-07-16 : une facette qui aide
+  à trouver une fiche ne fait pas partie de sa définition. Détail des
+  sorties et provenance des termes : `RENAMING.md` ; conception et table
+  croisée : `TOPICS.md`.
 
 ## 0.5.2 (2026-08-11)
 

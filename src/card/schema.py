@@ -567,7 +567,12 @@ def _check_adaptive_convention(card, issues):
             )
 
 
-_CL_KEYS = ("domain", "phenomenon", "aspect", "season", "output", "purpose")
+_CL_KEYS = ("domain", "phenomenon", "aspect", "statistic", "season",
+            "output", "purpose")
+# `statistic` n'est pas requise : une fiche dont la sortie est produite
+# par un filtre, et non par une opération statistique, n'en a pas (le
+# débit de base d'un Lyne & Hollick, par exemple). L'absence veut donc
+# dire quelque chose, et c'est écrit dans topics.yaml.
 _CL_REQUIRED = ("domain", "season", "output")
 
 

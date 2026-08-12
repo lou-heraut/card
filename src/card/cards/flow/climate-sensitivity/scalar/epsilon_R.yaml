@@ -21,6 +21,7 @@ meta:
     sampling_period: Month of minimum monthly flows
     classification:
       domain: [flow, precipitation]
+      statistic: elasticity
       season: annual
       output: scalar
       purpose: climate sensitivity
@@ -42,6 +43,7 @@ meta:
     sampling_period: Mois du minimum des débits mensuels
     classification:
       domain: [débit, précipitations]
+      statistic: élasticité
       season: annuelle
       output: scalaire
       purpose: sensibilité climatique

@@ -544,3 +544,44 @@ consignée ici parce qu'un module retiré est un import qui casse, et que
 
 Parité R : sans objet, le paquet R n'a pas de convention de docstring
 bilingue.
+
+## Facette `statistic` : deux colonnes de sortie de plus (2026-08-12)
+
+`meta` et `list_cards()` rendent désormais `statistic_en` et
+`statistic_fr` : l'opération statistique TERMINALE qui produit la
+variable, une valeur par variable produite, prise dans un vocabulaire
+fermé de seize termes (`topics.yaml`, section `statistic`).
+
+**Pourquoi elle existe.** Le corpus n'avait aucune classification
+statistique. `aspect` dit quelle dimension du régime une variable décrit
+(typologie IHA), pas par quelle opération on l'obtient, et les deux sont
+orthogonales : `VCN10` et `tVCN10` sont tous deux un `minimum`, l'un en
+`magnitude`, l'autre en `timing`. Elle répond aussi à
+`iop:hasStatisticalModifier` du cadre I-ADOPT, prérequis de l'export SKOS
+(`PLAN_SITE_SKOS.md`).
+
+**Provenance de chaque terme.** Cinq viennent de l'annexe E des
+conventions Climate and Forecast (`cell_methods`), qui sont aussi les
+termes du thésaurus Theia/OZCAR : mean, median, minimum, maximum, sum.
+Les onze autres sont propres à card, aucun vocabulaire existant ne
+portant la statistique hydrologique. La clé `cf` de `topics.yaml` le dit
+terme par terme, comme la clé `iha` le fait pour `aspect` depuis juillet.
+
+Ajout pur quant au CONTENU : aucune colonne existante ne change de nom,
+de type ni de valeur, aucun calcul ne bouge, aucune fiche ne change de
+définition. C'est néanmoins un changement de sorties, donc une version
+mineure du paquet (0.6.0), sur le précédent des quatre colonnes de
+provenance.
+
+**Les versions de FICHES ne bougent pas**, et c'est le précédent du
+2026-07-16 : l'introduction du bloc `classification` entier, qui
+remplaçait `topic`, n'en avait bumpé aucune. La version d'une fiche
+identifie sa DÉFINITION, et une facette qui aide à la trouver n'en fait
+pas partie.
+
+**Une réserve de signature** : `list_cards()` gagne un paramètre
+`statistic=`, inséré après `aspect=` pour suivre l'ordre des facettes.
+Un appel POSITIONNEL au-delà du troisième argument serait décalé. Aucun
+appelant connu ne le fait, card-api passant tout par mots-clés.
+
+Parité R : sans objet, le paquet R n'a pas de classification à facettes.

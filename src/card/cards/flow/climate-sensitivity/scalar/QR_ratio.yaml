@@ -19,6 +19,7 @@ meta:
         QR_ratio: no temporal aggregation - sum of flows divided by sum of precipitation
     classification:
       domain: [flow, precipitation]
+      statistic: ratio
       season: record
       output: scalar
       purpose: climate sensitivity
@@ -38,6 +39,7 @@ meta:
         QR_ratio: aucune agrégation temporelle - somme des débits divisée par la somme des précipitations
     classification:
       domain: [débit, précipitations]
+      statistic: rapport
       season: chronique
       output: scalaire
       purpose: sensibilité climatique

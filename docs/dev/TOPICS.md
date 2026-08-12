@@ -166,6 +166,67 @@ change.
 `aspect` requis pour toutes les fiches descriptives ; interdit quand
 `purpose` est présent (performance, sensibilité).
 
+### statistic : l'opération qui produit la variable (2026-08-12 ; optionnel)
+
+**Ce qu'elle est.** L'opération statistique **terminale**, celle du
+dernier process, une valeur par variable produite. Elle répond à
+`iop:hasStatisticalModifier` du cadre I-ADOPT, et elle donne au corpus la
+classification statistique qui lui manquait : « toutes les variables qui
+sont un minimum » ne se demandait pas avant.
+
+**Ce qu'elle n'est pas.** Elle ne décrit pas la CHAÎNE : `VCN10` est un
+minimum d'une moyenne mobile de dix jours, et seule l'opération finale
+est classée. Le raffinement par étape est un autre besoin, noté dans
+`CHANTIERS.md`, et il ne remplacerait pas celle-ci puisqu'il ne
+classerait pas la variable.
+
+**Elle est ORTHOGONALE à `aspect`, et il ne faut jamais dupliquer l'une
+dans l'autre.** `aspect` dit quelle dimension du régime la variable
+décrit, `statistic` par quelle opération on l'obtient. Vérifié sur le
+corpus :
+
+| variable | statistic | aspect |
+|---|---|---|
+| `VCN10` | minimum | magnitude (la valeur) |
+| `tVCN10` | minimum | timing (sa date) |
+| `VCN10-5` | return period | magnitude (le niveau) |
+| `rp-VCN10` | return period | frequency (la période) |
+| `dtLF` | threshold exceedance | duration |
+| `startLF` | threshold exceedance | timing |
+
+Et elle classe les fiches à `purpose`, qui n'ont pas d'`aspect` : KGE et
+NSE sont `efficiency`, Bias est `bias`, RAT est `correlation`.
+
+**Vocabulaire, seize termes.** La clé `cf` de `topics.yaml` nomme le
+terme équivalent de l'annexe E des conventions Climate and Forecast
+(`cell_methods`), qui est aussi celui du thésaurus Theia/OZCAR quand il
+existe. Cinq termes en viennent, onze sont propres à card : mesuré le
+2026-08-12, la statistique hydrologique n'a pas d'équivalent ailleurs.
+
+| Slug | en | fr | source | emploi |
+|---|---|---|---|---|
+| mean | mean | moyenne | CF · Theia | 78 |
+| median | median | médiane | CF · Theia | 21 |
+| minimum | minimum | minimum | CF · Theia | 18 |
+| maximum | maximum | maximum | CF · Theia | 8 |
+| sum | sum | somme | CF · Theia | 78 |
+| quantile | quantile | quantile | card | 18 |
+| threshold-exceedance | threshold exceedance | dépassement de seuil | card | 115 |
+| return-period | return period | période de retour | card | 7 |
+| change | change | écart | card | 83 |
+| trend | trend | tendance | card | 6 |
+| ratio | ratio | rapport | card | 14 |
+| bias | bias | biais | card | 5 |
+| efficiency | efficiency | efficience | card | 6 |
+| elasticity | elasticity | élasticité | card | 10 |
+| correlation | correlation | corrélation | card | 3 |
+| slope | slope | pente | card | 1 |
+
+**L'absence veut dire quelque chose.** Une fiche dont la sortie vient
+d'un FILTRE et non d'une statistique n'a pas la facette : `BF-LH`, le
+débit de base d'un Lyne & Hollick, est la seule du corpus. C'est pour
+cela que `statistic` n'est pas requise par le linter.
+
 ### season : la fenêtre d'échantillonnage (obligatoire ; position 4 d'Oberlin)
 
 Axe fermé, une valeur par fiche, déterminable mécaniquement depuis le

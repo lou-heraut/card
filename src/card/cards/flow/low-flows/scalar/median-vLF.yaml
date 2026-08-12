@@ -25,6 +25,7 @@ meta:
       domain: flow
       phenomenon: low flows
       aspect: magnitude
+      statistic: median
       season: annual
       output: scalar
 
@@ -49,6 +50,7 @@ meta:
       domain: débit
       phenomenon: basses eaux
       aspect: intensité
+      statistic: médiane
       season: annuelle
       output: scalaire
 

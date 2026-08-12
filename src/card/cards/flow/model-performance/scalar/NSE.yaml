@@ -18,6 +18,7 @@ meta:
         NSE: no temporal aggregation - NSE calculation
     classification:
       domain: flow
+      statistic: efficiency
       season: record
       output: scalar
       purpose: model performance
@@ -36,6 +37,7 @@ meta:
         NSE: aucune agrégation temporelle - calcul du NSE
     classification:
       domain: débit
+      statistic: efficience
       season: chronique
       output: scalaire
       purpose: performance de modèle

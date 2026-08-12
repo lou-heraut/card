@@ -16,6 +16,7 @@ meta:
         Bias: no temporal aggregation - Bias calculation
     classification:
       domain: flow
+      statistic: bias
       season: record
       output: scalar
       purpose: model performance
@@ -32,6 +33,7 @@ meta:
         Bias: aucune agrégation temporelle - calcul du Biais
     classification:
       domain: débit
+      statistic: biais
       season: chronique
       output: scalaire
       purpose: performance de modèle

@@ -39,6 +39,7 @@ meta:
       - ["09-01", "11-30"]
     classification:
       domain: [flow, precipitation]
+      statistic: [elasticity, elasticity, elasticity, elasticity]
       season: by season
       output: scalar
       purpose: climate sensitivity
@@ -78,6 +79,7 @@ meta:
       - ["01-09", "30-11"]
     classification:
       domain: [débit, précipitations]
+      statistic: [élasticité, élasticité, élasticité, élasticité]
       season: par saison
       output: scalaire
       purpose: sensibilité climatique

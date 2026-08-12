@@ -32,6 +32,7 @@ meta:
       domain: flow
       phenomenon: high flows
       aspect: duration
+      statistic: change
       season: annual
       output: scalar
 
@@ -64,6 +65,7 @@ meta:
       domain: débit
       phenomenon: hautes eaux
       aspect: durée
+      statistic: écart
       season: annuelle
       output: scalaire
 

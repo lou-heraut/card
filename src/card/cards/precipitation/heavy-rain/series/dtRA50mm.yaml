@@ -17,6 +17,7 @@ meta:
       domain: precipitation
       phenomenon: heavy rain
       aspect: duration
+      statistic: threshold exceedance
       season: annual
       output: series
 
@@ -33,6 +34,7 @@ meta:
       domain: précipitations
       phenomenon: pluies fortes
       aspect: durée
+      statistic: dépassement de seuil
       season: annuelle
       output: série
 

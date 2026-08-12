@@ -45,6 +45,7 @@ meta:
       domain: flow
       phenomenon: mean flows
       aspect: magnitude
+      statistic: [change, change, change, change]
       season: by season
       output: scalar
     suffix_default:
@@ -91,6 +92,7 @@ meta:
       domain: débit
       phenomenon: moyennes eaux
       aspect: intensité
+      statistic: [écart, écart, écart, écart]
       season: par saison
       output: scalaire
     suffix_default:

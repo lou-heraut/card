@@ -25,6 +25,7 @@ meta:
       domain: flow
       phenomenon: low flows
       aspect: duration
+      statistic: threshold exceedance
       season: annual
       output: series
 
@@ -49,6 +50,7 @@ meta:
       domain: débit
       phenomenon: basses eaux
       aspect: durée
+      statistic: dépassement de seuil
       season: annuelle
       output: série
 

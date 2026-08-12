@@ -32,6 +32,7 @@ meta:
       domain: precipitation
       phenomenon: snow
       aspect: magnitude
+      statistic: [sum, sum, sum, sum]
       season: by season
       output: series
 
@@ -63,6 +64,7 @@ meta:
       domain: précipitations
       phenomenon: neige
       aspect: intensité
+      statistic: [somme, somme, somme, somme]
       season: par saison
       output: série
 

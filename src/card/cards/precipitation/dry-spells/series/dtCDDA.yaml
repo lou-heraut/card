@@ -17,6 +17,7 @@ meta:
       domain: precipitation
       phenomenon: dry spells
       aspect: duration
+      statistic: threshold exceedance
       season: annual
       output: series
 
@@ -33,6 +34,7 @@ meta:
       domain: précipitations
       phenomenon: périodes sèches
       aspect: durée
+      statistic: dépassement de seuil
       season: annuelle
       output: série
 

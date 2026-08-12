@@ -43,6 +43,7 @@ meta:
       domain: flow
       phenomenon: low flows
       aspect: [timing, timing, timing, duration, magnitude]
+      statistic: [median, median, median, median, median]
       season: annual
       output: scalar
 
@@ -90,6 +91,7 @@ meta:
         - saisonnalité
         - durée
         - intensité
+      statistic: [médiane, médiane, médiane, médiane, médiane]
       season: annuelle
       output: scalaire
 

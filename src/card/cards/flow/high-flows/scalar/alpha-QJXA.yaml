@@ -23,6 +23,7 @@ meta:
       domain: flow
       phenomenon: high flows
       aspect: magnitude
+      statistic: [trend, trend]
       season: annual
       output: scalar
 
@@ -46,6 +47,7 @@ meta:
       domain: débit
       phenomenon: hautes eaux
       aspect: intensité
+      statistic: [tendance, tendance]
       season: annuelle
       output: scalaire
 
