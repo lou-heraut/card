@@ -118,13 +118,17 @@ statistic:
 # upLim` est une référence à une colonne amont, et le loader distingue
 # déjà les deux.
 parameters:
-  k:             {family: rolling-window, unit: day}
+  k:             {family: rolling-window, unit: {en: day, fr: jour}}
   p:             {family: exceedance-probability}
-  return_period: {family: return-period, unit: year}
+  return_period: {family: return-period, unit: {en: year, fr: an}}
   fraction:      {family: cumulative-fraction}
   fraction1:     {family: cumulative-fraction}
   fraction2:     {family: cumulative-fraction}
-  lim:           {family: precipitation-threshold, unit: mm, literal_only: true}
+  # `invariable` : un SYMBOLE ne prend pas la marque du pluriel, un mot
+  # si. Déclaré plutôt que deviné : « an » et « mm » font deux caractères
+  # chacun, aucune règle de forme ne les sépare.
+  lim:           {family: precipitation-threshold, literal_only: true,
+                  unit: {en: mm, fr: mm, invariable: true}}
 
 ignored_parameters:
   # Options d'implémentation : elles ne définissent pas la variable.

@@ -92,9 +92,18 @@ src/card/
                  #   `en` et `fr` sont deux étiquettes à égalité ; le slug
                  #   nomme aussi le dossier (cf. docs/dev/TOPICS.md)
   inputs.yaml    # unités/définitions des variables d'entrée (invariants)
+  alignments.yaml # ce que les fiches ne peuvent PAS dire : correspondances
+                 #   vers les vocabulaires externes (Theia/OZCAR), familles
+                 #   de contrainte propres à card, et table des paramètres
+                 #   de process qui sont sémantiques. Rien de dérivable.
 tests/           # pytest (goldens R, loader, lint, suffixes, UX, rendu)
                  #   pas de décompte ici : il périme, cf. README
 scripts/generate_catalog.py   # docs/CARDS.md, relancer après toute modif
+scripts/generate_skos.py      # docs/card.ttl : le corpus en SKOS + I-ADOPT.
+                              #   Base d'URI PROVISOIRE et fausse : rien
+                              #   n'est publié, cf. PLAN_SITE_SKOS.md.
+scripts/verifie_alignements.py # résout les URIs externes, sur le réseau,
+                              #   donc hors de la suite de tests
 scripts/analyse_classification.py  # santé des facettes : redondance,
                               #   pouvoir de résolution, colonnes dérivées.
                               #   À lancer AVANT d'ajouter, retirer ou
@@ -107,7 +116,10 @@ Env : venv `.python_env/` ; `tests/conftest.py` rend card, stase et
 dans cet ordre) : `pytest`, `python -m card.schema`, `ruff check src tests
 scripts`. Le catalogue n'est plus à retenir : si une fiche a bougé,
 `tests/test_catalogue.py` échoue et réclame `scripts/generate_catalog.py`
-en le nommant. Oublier ruff
+en le nommant. Même chose pour `docs/card.ttl` et
+`tests/test_skos.py`, avec une dépendance de plus : le fichier porte la
+version du PAQUET, donc il se régénère APRÈS `set_version.py`, jamais
+avant. Le test le dit s'il est oublié. Oublier ruff
 casse le CI en silence et envoie un mail d'échec à l'utilisateur à chaque
 push, ce qui est arrivé du 2026-07-21 au 2026-07-22.
 

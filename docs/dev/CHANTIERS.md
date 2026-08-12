@@ -254,6 +254,42 @@ possibles :
 Le vocabulaire, lui, serait le même : celui de la facette `statistic`.
 Donc rien de ce travail n'est perdu si on s'y met plus tard.
 
+## Sept variables décrites deux fois, autrement (2026-08-12)
+
+**28 variables sont produites par DEUX fiches**, et c'est voulu : `vLF`
+vient de la fiche `vLF` et de la fiche groupée `allLF`, parce qu'on veut
+parfois un lot et parfois une variable seule. Le corpus le permet et
+continuera : une fiche `QMA_jan` seule à côté de `QMA_month` est un
+besoin identifié.
+
+Mais **sept d'entre elles portent des métadonnées qui divergent** selon
+la fiche qui les produit. Trouvé par le test SKOS, qui refusait deux
+`skos:prefLabel` pour un même concept dans une même langue :
+
+| variable | champ | les deux versions |
+|---|---|---|
+| `RA` | `name_en` | « Cumulative annual total precipitation » / « Annual total precipitation » |
+| `RAl`, `RAs` | `name_en` | même écart, décliné |
+| `vLF` | `name_en` | « Volume deficit of low flows » / « Low flow deficit volume » |
+| `delta-vLF`, `median-vLF`, `median-centerLF` | `description_en` | deux formulations |
+
+Ce sont des **synonymes**, pas deux sens : la même variable dite deux
+façons. Le générateur SKOS s'en accommode, le premier libellé devenant le
+terme retenu et l'autre un `skos:altLabel`, ce qui ne perd rien. Mais
+côté corpus c'est une dérive, et elle grandira à chaque fiche groupée
+ajoutée.
+
+Deux façons de la traiter, à trancher :
+
+- **une règle de linter** : deux fiches produisant la même variable
+  doivent en écrire les mêmes `name` et `description`. Le contrôle est
+  simple et il empêche la dérive future ; il faut d'abord choisir laquelle
+  des deux formulations garder, sept fois ;
+- **assumer** que la formulation dépende du contexte de la fiche, et s'en
+  remettre à `altLabel` côté vocabulaire. Moins coûteux, mais alors deux
+  catalogues affichent deux noms pour une même variable, ce qui est
+  exactement ce que le corpus évite ailleurs.
+
 ## Revue de code du package (lisibilité, dé-boîte-noire)
 
 Crainte utilisateur : code trop compliqué ou alambiqué par endroits.

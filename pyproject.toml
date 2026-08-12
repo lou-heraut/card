@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "card-stase"
-version = "0.7.0"
+version = "0.8.0"
 description = "CARD : hydroclimatic variable extraction from YAML parameterization files, powered by exstat"
 # La page pypi.org d'un paquet EST son README : sans ce champ, elle
 # n'affiche que le résumé d'une ligne ci-dessus. Les liens du README
@@ -32,7 +32,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest"]
+# `rdflib` ne sert qu'à `scripts/generate_skos.py` et au test qui relit
+# son fichier. Il reste hors des dépendances d'exécution : personne
+# n'installe card pour produire du RDF, et alourdir l'installation de
+# tout le monde pour un script de génération serait payer pour les autres.
+dev = ["pytest", "rdflib"]
 
 [project.urls]
 Repository = "https://github.com/lou-heraut/card"

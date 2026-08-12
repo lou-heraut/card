@@ -163,3 +163,120 @@ qu'on apprend alors n'est pas ce qu'on cherchait. La suite vérifie la
 cohérence interne (toute entrée traitée, tout slug réel, tout paramètre
 décidé, aucun déclaré deux fois, aucune famille vide), et le script
 vérifie la résolution à la demande.
+
+## Étape 6 : `generate_skos.py` et `card.ttl` — **faite**
+
+### Ce qui marche
+
+```
+docs/card.ttl : 10 455 triplets, 657 concepts, 132 familles
+base d'URI PROVISOIRE : https://example.invalid/card/  (rien n'est publié)
+```
+
+`.invalid` est réservé par la RFC 2606 et ne résoudra **jamais** : personne
+ne peut prendre une URI de ce fichier pour un identifiant pérenne. Un test
+refuse toute URI hors de cette base, pour que le jour où la vraie arrive,
+ce soit une DÉCISION et non un oubli.
+
+Un concept complet, tel qu'il sort :
+
+```turtle
+card:variable/VCN10
+    a skos:Concept, iop:Variable ;
+    skos:notation   "VCN10" ;
+    skos:prefLabel  "Annual minimum of 10-day mean daily discharge"@en ,
+                    "Minimum annuel de la moyenne sur 10 jours du débit journalier"@fr ;
+    skos:broader    card:family/flow.low-flows.magnitude.minimum.annual.series.q ;
+    iop:hasProperty            theia:c_7742e5f0 ;   # Discharge, chez EUX
+    iop:hasObjectOfInterest    theia:c_d73ddccf ;   # Surface water, chez EUX
+    iop:hasStatisticalModifier card:statistic/minimum ;
+    iop:hasConstraint          card:constraint/rolling-window-10 ;
+    rdfs:isDefinedBy           card:card/VCN10 ;
+    dcterms:subject card:domain/flow, card:phenomenon/low-flows,
+                    card:aspect/magnitude, card:season/annual,
+                    card:output/series .
+```
+
+`VCN10-5` porte bien ses **deux** contraintes, durée et période de retour.
+
+### Trois défauts de libellé, trouvés en lisant les valeurs
+
+Aucun n'aurait été vu en relisant le code :
+
+- « fenêtre glissante de 10 **day** » : l'unité n'était pas traduite. Les
+  unités sont devenues bilingues dans `alignments.yaml` ;
+- « seuil de précipitation de 20 **mms** » : ma règle de pluriel prenait
+  `mm` pour un mot. `invariable` est maintenant DÉCLARÉ, parce que « an »
+  et « mm » font deux caractères chacun et qu'aucune règle de forme ne
+  les sépare ;
+- `fdc_slope` reçoit `p: (0.33, 0.66)`, une PAIRE et non une valeur : la
+  contrainte est un intervalle, et elle se lit désormais « exceedance
+  probability between 0.33 and 0.66 ».
+
+### Le libellé des familles : liste, pas phrase
+
+`flow · low flows · minimum · annual · series`. J'ai d'abord essayé une
+phrase (« annual minimum of flow »), et le français casse à la première
+question d'accord : « minimum annuel » mais « moyenne annuelle ». Le
+séparateur dit franchement qu'on énumère, ce qui est la vérité, et une
+`editorialNote` précise que le parent est généré.
+
+À revoir en voyant le rendu dans Skosmos : c'est exactement le genre de
+chose qui se juge à l'écran.
+
+### Le test a encore trouvé avant moi, et cette fois dans le CORPUS
+
+`test_one_preflabel_per_language_and_concept` a refusé le fichier : quatre
+variables portaient deux `skos:prefLabel` anglais. La cause n'est pas le
+générateur, c'est que **28 variables sont produites par deux fiches** et
+que **sept d'entre elles sont décrites autrement selon la fiche** :
+
+```
+RA   « Cumulative annual total precipitation »  (fiche RA)
+     « Annual total precipitation »             (fiche RA_all)
+vLF  « Volume deficit of low flows »            (fiche allLF)
+     « Low flow deficit volume »                (fiche vLF)
+```
+
+Ce sont des synonymes, pas deux sens. Le générateur retient le premier et
+fait de l'autre un `skos:altLabel`, ce qui respecte la norme et ne perd
+rien. Mais **c'est une dérive du corpus**, et elle grandira à chaque fiche
+groupée ajoutée : consignée dans `CHANTIERS.md` avec les deux façons de
+la traiter.
+
+### Choix d'implémentation
+
+- **rdflib plutôt qu'un gabarit de texte** : l'échappement Turtle, les
+  étiquettes de langue et la sérialisation canonique ne se réécrivent pas
+  à la main sans se tromper une fois sur dix. Il reste hors des
+  dépendances d'exécution (`dev` seulement) : personne n'installe card
+  pour produire du RDF.
+- **La garde est un test qui RELANCE le générateur** et compare, comme
+  `test_catalogue.py`. La ligne `dcterms:modified` est exclue de la
+  comparaison, sans quoi le test échouerait chaque jour sans que rien
+  n'ait bougé.
+- **Aucune référence pendante** : un test vérifie que toute URI interne
+  citée est aussi décrite. Les URIs externes sont exclues, elles sont
+  décrites chez leur propriétaire, c'est tout l'intérêt d'un alignement.
+
+### Ce qui reste en doute
+
+**Le libellé des familles**, à juger à l'écran.
+
+**Les 202 `skos:definition` absentes** : c'est la règle du corpus, mais un
+navigateur de thésaurus affichera 202 concepts sans définition. À voir si
+ça choque dans Skosmos, sachant que `card:method` porte l'énoncé du
+calcul et pourrait servir de repli.
+
+**Rien n'est fait pour la dépréciation** : aucune fiche n'est retirée
+aujourd'hui, donc `owl:deprecated` n'a pas de cas d'usage. Le jour où une
+fiche part, il faudra le champ `status` prévu au plan, sans quoi le
+concept disparaîtra du fichier au lieu d'être marqué.
+
+### Une dépendance d'ordre, trouvée par la garde
+
+Le `.ttl` porte `owl:versionInfo` du PAQUET. Il périme donc à chaque coupe
+de version, et il faut le régénérer **après** `set_version.py`, jamais
+avant. C'est le test qui me l'a appris, en refusant le fichier juste après
+la montée en 0.8.0. La règle est écrite dans le CLAUDE.md, à côté de celle
+du catalogue.

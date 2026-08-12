@@ -63,7 +63,42 @@ des deux endroits.
 
 ## Non publié
 
+Rien depuis la 0.8.0.
+
+## 0.8.0 (2026-08-12)
+
 ### Ajouté
+
+- **Le corpus s'exporte en SKOS, et rien n'est publié (2026-08-12).**
+  `python scripts/generate_skos.py` produit `docs/card.ttl` : 657
+  concepts, 132 familles, 10 455 triplets. Chaque variable y est un
+  concept, avec son symbole, ses deux libellés, ses composants I-ADOPT,
+  sa contrainte de paramètre, son parent de famille, et la ou les fiches
+  qui la définissent.
+
+  **La base d'URI est manifestement fausse**, `https://example.invalid/`,
+  un domaine que la RFC 2606 réserve et qui ne résoudra jamais. Un test
+  refuse toute URI hors de cette base : le jour où la vraie arrivera, ce
+  sera une décision et non un oubli. La question des identifiants
+  pérennes demande des interlocuteurs, pas une réflexion de plus.
+
+  **Ce qui pointe vers l'extérieur pointe pour de vrai** : les quatre
+  grandeurs d'entrée sont alignées sur les concepts de Theia/OZCAR, dont
+  les URIs ont été relevées sur leur service et non devinées, et cinq des
+  dix-huit statistiques sur leurs méthodes statistiques.
+  `scripts/verifie_alignements.py` les résout à la demande.
+
+  Le fichier est gardé comme le catalogue l'est : un test le régénère et
+  refuse qu'il ait pris du retard, vérifie qu'il se relit, qu'aucune
+  référence interne n'est pendante, que tout littéral porte une langue et
+  qu'aucun concept n'a deux libellés dans une même langue. Conception :
+  `PLAN_SITE_SKOS.md` ; déroulé et doutes : `RETOUR_SKOS.md`.
+
+- **`src/card/alignments.yaml`** : ce que les fiches ne peuvent pas dire.
+  Les correspondances vers les vocabulaires externes, les familles de
+  contrainte que card définit lui-même faute d'équivalent, et la table
+  disant quels paramètres de process sont sémantiques. Rien de dérivable
+  n'y figure.
 
 - **La colonne `family` : les variantes d'un même concept (2026-08-12).**
   Deux variables sont de la même famille quand elles ont les mêmes

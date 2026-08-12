@@ -746,9 +746,9 @@ regarde, **on ne publie rien**.
 | 2 | **confrontation** métadonnées des fiches contre attendus I-ADOPT | rien | **fait** |
 | 3 | facette `statistic`, dix-huit termes sourcés, posée dans les 226 fiches, exposée par card-api et card4r | 2 | **fait** (card 0.6.0 et 0.7.0, card-api 0.3.2, card4r 0.1.3) |
 | 4 | trancher les deux manques : parent `skos:broader`, et où lire la valeur d'un paramètre | utilisateur | **fait** (2026-08-12) |
-| 4b | colonne calculée `family` dans `list_cards()`, exposée en filtre, et libellé généré | 4 | à faire |
-| 5 | `src/card/alignments.yaml` : correspondances externes et concepts de contrainte, validés par le linter | 4 | à faire |
-| 6 | `scripts/generate_skos.py` → `card.ttl`, base d'URI manifestement provisoire, métadonnées de schéma, garde de fraîcheur étendue | 3, 5 | à faire |
+| 4b | colonne calculée `family` dans `list_cards()`, exposée en filtre, et libellé généré | 4 | **fait** |
+| 5 | `src/card/alignments.yaml` : correspondances externes et concepts de contrainte, validés par le linter | 4 | **fait** |
+| 6 | `scripts/generate_skos.py` → `card.ttl`, base d'URI manifestement provisoire, métadonnées de schéma, garde de fraîcheur étendue | 3, 5 | **fait** (card 0.8.0) |
 | 7 | Skosmos **local** sur ce `.ttl`, pour voir le rendu avant tout dépôt | 6 | à faire |
 | 8 | site MkDocs Material **en localhost** : sans `dev/`, URLs minuscules, catalogue filtrable rendu en HTML, fonctions en deux sections | rien | à faire |
 | 9 | retrait d'`operator`, coordonné card et card-api | 3 | à faire |
