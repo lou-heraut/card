@@ -585,3 +585,29 @@ Un appel POSITIONNEL au-delà du troisième argument serait décalé. Aucun
 appelant connu ne le fait, card-api passant tout par mots-clés.
 
 Parité R : sans objet, le paquet R n'a pas de classification à facettes.
+
+## `statistic` totale et requise, `trend` scindé (2026-08-12)
+
+Correction de la facette publiée la veille, sur deux points.
+
+**`filter` entre au vocabulaire, et la facette devient requise.** Une
+variable sur 472 n'en avait pas, `BF-LH`, au motif qu'une séparation
+d'hydrogramme n'est pas une statistique. Le raisonnement était juste, la
+conception fausse : une facette dont l'absence signifie quelque chose ne
+distingue pas un choix d'un oubli, règle déjà écrite pour `time_step`.
+Un filtre EST une opération, elle décompose au lieu de résumer.
+
+**`trend` devient `trend slope` et `trend significance`.** `alpha-QA`
+produit la pente et le résultat du test ; un terme unique les rendait
+indiscernables. Deux valeurs publiées changent donc, sur six variables.
+
+Conséquence mesurée : la colonne `operator` est désormais **entièrement
+déterminée** par `(statistic, output, aspect)`, aucune des 37
+combinaisons du corpus n'étant ambiguë. Elle est candidate au retrait,
+piste ouverte dans `CHANTIERS.md`, coordination avec card-api requise.
+
+Version mineure du paquet (0.7.0) : deux valeurs publiées changent, et
+une facette requise de plus fait refuser par le linter une fiche
+personnelle qui ne la porterait pas.
+
+Parité R : sans objet.

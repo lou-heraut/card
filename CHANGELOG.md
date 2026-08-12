@@ -63,7 +63,43 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.6.0.
+Rien depuis la 0.7.0.
+
+## 0.7.0 (2026-08-12)
+
+### Modifié
+
+- **La facette `statistic` devient totale et requise (2026-08-12).**
+  Publiée la veille, elle laissait une variable sur 472 sans valeur,
+  `BF-LH`, au motif qu'une séparation d'hydrogramme n'est pas une
+  statistique. C'était un raisonnement juste et une conception fausse :
+  **une facette dont l'ABSENCE veut dire quelque chose ne sait pas
+  distinguer un choix d'un oubli.** C'est la règle déjà écrite pour
+  `time_step`, et elle vaut ici. Le vocabulaire porte donc `filter`, les
+  472 variables sont classées, et le linter exige la facette.
+
+  Un filtre EST une opération, et c'est la remarque qui a déclenché la
+  correction : Lyne & Hollick est un filtre récursif, Wallingford une
+  procédure de minima lissés. Ils décomposent un signal au lieu de le
+  résumer, ce qui est une nature, pas une absence.
+
+- **`trend` est scindé en `trend slope` et `trend significance`
+  (2026-08-12).** La fiche `alpha-QA` produit la pente ET le résultat du
+  test, deux variables qu'un terme unique rendait indiscernables. La
+  mesure l'a montrée : c'était la seule combinaison ambiguë du corpus.
+
+  **Conséquence mesurée, et elle vaut d'être notée** : avec cette
+  scission, la colonne héritée `operator` devient **entièrement
+  déterminée** par `(statistic, output, aspect)`, sans une seule des 37
+  combinaisons du corpus qui reste ambiguë. Elle ne porte donc plus
+  aucune information propre, alors qu'elle est dérivée d'un PRÉFIXE
+  d'identifiant là où le reste de la classification est déclaré. Son
+  retrait est ouvert dans `CHANTIERS.md` : il est correct, mais il
+  demande d'être coordonné avec card-api, qui l'expose en filtre.
+
+  Version mineure : deux valeurs publiées changent, et une facette
+  devient requise, donc une fiche personnelle qui ne la porte pas est
+  désormais refusée par le linter.
 
 ## 0.6.0 (2026-08-12)
 

@@ -18,6 +18,7 @@ meta:
       domain: flow
       phenomenon: baseflow
       aspect: magnitude
+      statistic: filter
       season: record
       output: scalar
 
@@ -35,6 +36,7 @@ meta:
       domain: débit
       phenomenon: débit de base
       aspect: intensité
+      statistic: filtre
       season: chronique
       output: scalaire
 

@@ -64,13 +64,22 @@ statistic:
   threshold-exceedance: {en: threshold exceedance, fr: dépassement de seuil}
   return-period: {en: return period, fr: période de retour}
   change:    {en: change, fr: écart}
-  trend:     {en: trend, fr: tendance}
+  # Deux termes et non un : `alpha-QA` produit la pente ET le résultat du
+  # test, deux variables qu'un `trend` unique rendait indiscernables.
+  trend-slope: {en: trend slope, fr: pente de tendance}
+  trend-significance: {en: trend significance, fr: significativité de tendance}
   ratio:     {en: ratio, fr: rapport}
   bias:      {en: bias, fr: biais}
   efficiency: {en: efficiency, fr: efficience}
   elasticity: {en: elasticity, fr: élasticité}
   correlation: {en: correlation, fr: corrélation}
   slope:     {en: slope, fr: pente}
+  # Une séparation d'hydrogramme (Lyne & Hollick, Wallingford) est un
+  # filtre récursif : elle décompose un signal, elle ne le résume pas.
+  # Le terme existe pour que la facette soit TOTALE : une facette dont
+  # l'absence voudrait dire quelque chose ne saurait pas distinguer un
+  # choix d'un oubli, et c'est la règle déjà écrite pour `time_step`.
+  filter:    {en: filter, fr: filtre}
 
 season:
   # position 4 d'Oberlin (1992) : la fenêtre d'échantillonnage

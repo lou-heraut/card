@@ -183,20 +183,28 @@ rougisse.
 Mesuré le 2026-08-12 : la colonne est **vide sur 322 lignes sur 472**,
 puisqu'elle ne décrit que les fiches préfixées.
 
-Trois questions à trancher ensemble, pas séparément :
+**Mesuré le 2026-08-12, après la facette `statistic`** : `operator` est
+**entièrement déterminé** par le triplet `(statistic, output, aspect)`.
+Sur les 37 combinaisons que le corpus présente, **aucune n'est ambiguë**.
+Il ne porte donc plus aucune information propre.
 
-- l'information est-elle utile ? Elle sert de filtre à `list_cards` et à
-  card-api (`operator=delta`), donc oui, au moins pour la recherche ;
-- si elle est utile, doit-elle être **déclarée** dans la fiche plutôt que
-  dérivée du nom ? C'est la même question que celle qui a produit la
-  facette `statistic`, et une partie de la réponse s'y trouve peut-être
-  déjà : `delta-` correspond à `statistic: change`, `mean-` et `median-`
-  à une statistique inter-annuelle, `alpha-` à `trend` ;
-- si `statistic` la recouvre, `operator` devient une **dette à retirer**,
-  ce qui est un changement de sorties, donc RENAMING.md et une version.
+Il a fallu pour cela scinder `trend` en `trend-slope` et
+`trend-significance` : `alpha-QA` produit la pente ET le résultat du
+test, et un terme unique les rendait indiscernables. C'était le seul cas
+ambigu, et le corriger a rendu la redondance totale.
 
-À reprendre après la facette `statistic`, pas avant : c'est elle qui dira
-ce qui reste vraiment à `operator`.
+Reste donc **une dette à retirer**, et une seule question, celle du
+comment :
+
+- côté card, retirer la colonne `operator` de `meta` et le paramètre
+  `operator=` de `list_cards()` est un changement de SORTIES : entrée
+  `RENAMING.md` et version mineure ;
+- côté card-api, `operator` est un **filtre exposé** de `/v1/cards`, donc
+  son retrait casse un client qui l'utilise. Il faut soit une période où
+  les deux coexistent, soit une coupe de version du service annoncée.
+
+C'est la seule raison pour laquelle ce n'est pas déjà fait : la
+suppression est correcte, sa coordination ne l'est pas encore.
 
 ## Raffiner `method` par étape, en plus de la classification (2026-08-12)
 

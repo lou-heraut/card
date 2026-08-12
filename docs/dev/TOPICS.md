@@ -57,11 +57,11 @@ capitalisent au besoin).
   en/fr entre les deux blocs : une divergence (la cause des ~15 bugs
   de l'ancien `topic` en texte libre) devient une erreur de lint,
   plus jamais un bug silencieux.
-- **Règle de complétude** (linter) : `domain`, `aspect`, `season`,
-  `output` requis pour les fiches descriptives ; `purpose`
-  (performance | sensitivity) optionnel : s'il est présent, `aspect`
-  est interdit (la ligne purpose explique son absence) ; `tags` libre
-  (0..n).
+- **Règle de complétude** (linter) : `domain`, `statistic`, `season`,
+  `output` requis pour TOUTES les fiches ; `aspect` requis en plus pour
+  les fiches descriptives ; `purpose` (performance | sensitivity)
+  optionnel : s'il est présent, `aspect` est interdit (la ligne purpose
+  explique son absence) ; `tags` libre (0..n).
 - `card.list_cards()` expose chaque facette en colonne dans les deux
   langues → filtrage dans sa langue (`aspect="Intensité"` ou
   `aspect="Magnitude"`), y compris `tags` (appartenance). Le catalogue
@@ -71,6 +71,13 @@ capitalisent au besoin).
 - L'**opérateur** (delta, tendance, médiane inter-annuelle...) n'est
   PAS une facette stockée : il est dérivé du préfixe de l'id (grammaire
   NOMENCLATURE.md) et exposé comme colonne calculée de `list_cards()`.
+  **Décision de 2026-07-16, périmée depuis le 2026-08-12** : la facette
+  `statistic` le rend **entièrement déterminé**, aucune des 37
+  combinaisons `(statistic, output, aspect)` du corpus n'étant ambiguë.
+  Il ne porte donc plus aucune information propre, et il dépend d'un
+  préfixe de nom là où le reste de la classification est déclaré. Son
+  retrait est un changement de sorties coordonné avec card-api, qui
+  l'expose en filtre : la piste est ouverte dans `CHANTIERS.md`.
 
 ## 2. Les facettes et leur vocabulaire
 
@@ -197,10 +204,10 @@ corpus :
 Et elle classe les fiches à `purpose`, qui n'ont pas d'`aspect` : KGE et
 NSE sont `efficiency`, Bias est `bias`, RAT est `correlation`.
 
-**Vocabulaire, seize termes.** La clé `cf` de `topics.yaml` nomme le
+**Vocabulaire, dix-huit termes.** La clé `cf` de `topics.yaml` nomme le
 terme équivalent de l'annexe E des conventions Climate and Forecast
 (`cell_methods`), qui est aussi celui du thésaurus Theia/OZCAR quand il
-existe. Cinq termes en viennent, onze sont propres à card : mesuré le
+existe. Cinq termes en viennent, treize sont propres à card : mesuré le
 2026-08-12, la statistique hydrologique n'a pas d'équivalent ailleurs.
 
 | Slug | en | fr | source | emploi |
@@ -214,18 +221,29 @@ existe. Cinq termes en viennent, onze sont propres à card : mesuré le
 | threshold-exceedance | threshold exceedance | dépassement de seuil | card | 115 |
 | return-period | return period | période de retour | card | 7 |
 | change | change | écart | card | 83 |
-| trend | trend | tendance | card | 6 |
+| trend-slope | trend slope | pente de tendance | card | 3 |
+| trend-significance | trend significance | significativité de tendance | card | 3 |
 | ratio | ratio | rapport | card | 14 |
 | bias | bias | biais | card | 5 |
 | efficiency | efficiency | efficience | card | 6 |
 | elasticity | elasticity | élasticité | card | 10 |
 | correlation | correlation | corrélation | card | 3 |
 | slope | slope | pente | card | 1 |
+| filter | filter | filtre | card | 1 |
 
-**L'absence veut dire quelque chose.** Une fiche dont la sortie vient
-d'un FILTRE et non d'une statistique n'a pas la facette : `BF-LH`, le
-débit de base d'un Lyne & Hollick, est la seule du corpus. C'est pour
-cela que `statistic` n'est pas requise par le linter.
+**La facette est TOTALE et REQUISE**, 472 variables sur 472. Une sortie
+qui vient d'une séparation d'hydrogramme, filtre récursif de Lyne &
+Hollick ou minima lissés de Wallingford, porte `filter` : elle décompose
+un signal, elle ne le résume pas. Le terme existe pour que l'absence ne
+veuille rien dire, parce qu'une facette dont l'absence signifierait
+quelque chose ne saurait pas distinguer un choix d'un oubli. C'est la
+règle déjà écrite pour `time_step`.
+
+**`trend` est scindé en deux**, et la mesure l'a imposé : `alpha-QA`
+produit la pente ET le résultat du test, deux variables qu'un terme
+unique rendait indiscernables. Avec la scission, la colonne héritée
+`operator` devient **entièrement déterminée** par `(statistic, output,
+aspect)`, sans une seule combinaison ambiguë sur les 37 du corpus.
 
 ### season : la fenêtre d'échantillonnage (obligatoire ; position 4 d'Oberlin)
 

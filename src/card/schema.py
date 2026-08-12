@@ -569,11 +569,12 @@ def _check_adaptive_convention(card, issues):
 
 _CL_KEYS = ("domain", "phenomenon", "aspect", "statistic", "season",
             "output", "purpose")
-# `statistic` n'est pas requise : une fiche dont la sortie est produite
-# par un filtre, et non par une opération statistique, n'en a pas (le
-# débit de base d'un Lyne & Hollick, par exemple). L'absence veut donc
-# dire quelque chose, et c'est écrit dans topics.yaml.
-_CL_REQUIRED = ("domain", "season", "output")
+# `statistic` est REQUISE, et c'est la règle déjà écrite pour `time_step` :
+# une facette dont l'ABSENCE voudrait dire quelque chose ne sait pas
+# distinguer un choix d'un oubli. Le vocabulaire porte donc `filter` pour
+# les sorties qui viennent d'une séparation d'hydrogramme et non d'une
+# statistique, plutôt que de les laisser sans facette.
+_CL_REQUIRED = ("domain", "statistic", "season", "output")
 
 
 def _check_classification(card, issues):
