@@ -206,6 +206,26 @@ comment :
 C'est la seule raison pour laquelle ce n'est pas déjà fait : la
 suppression est correcte, sa coordination ne l'est pas encore.
 
+**Inventaire de ce qu'il faut toucher** (2026-08-12), pour que le jour
+venu personne ne le refasse :
+
+| dépôt | ce qui cite `operator` |
+|---|---|
+| card | `extraction.py` (calcul), `management.py` (paramètre), `README.md` (un exemple), `tests/test_ux.py` |
+| card-api | `main.py` (paramètre de requête), `README.md` (un `curl` publié) |
+| card4r | `README.md`, `man/card_list.Rd`, `R/card.R` |
+
+**La substitution n'est pas toujours mot pour mot**, et c'est le seul
+piège : `operator="delta"` devient `statistic="change"`, exactement le
+même ensemble ; mais `operator="mean"` devient
+`statistic="mean", output="scalar"`, parce que le préfixe `mean-`
+désignait la moyenne INTER-ANNUELLE et que la facette, elle, désigne
+toutes les moyennes. L'information est entière, elle demande deux
+filtres au lieu d'un.
+
+Vérifier avec `python scripts/analyse_classification.py`, dont la
+troisième section dit si la redondance tient toujours.
+
 ## Raffiner `method` par étape, en plus de la classification (2026-08-12)
 
 La facette `statistic` classe la variable par son opération TERMINALE,

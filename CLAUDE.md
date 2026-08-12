@@ -95,6 +95,11 @@ src/card/
 tests/           # pytest (goldens R, loader, lint, suffixes, UX, rendu)
                  #   pas de décompte ici : il périme, cf. README
 scripts/generate_catalog.py   # docs/CARDS.md, relancer après toute modif
+scripts/analyse_classification.py  # santé des facettes : redondance,
+                              #   pouvoir de résolution, colonnes dérivées.
+                              #   À lancer AVANT d'ajouter, retirer ou
+                              #   fusionner une facette ; ses chiffres ne
+                              #   sont recopiés nulle part, ils bougent.
 ```
 
 Env : venv `.python_env/` ; `tests/conftest.py` rend card, stase et

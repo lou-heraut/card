@@ -79,6 +79,24 @@ capitalisent au besoin).
   retrait est un changement de sorties coordonné avec card-api, qui
   l'expose en filtre : la piste est ouverte dans `CHANTIERS.md`.
 
+### Mesurer la santé de la classification
+
+```bash
+python scripts/analyse_classification.py
+```
+
+Trois questions qu'on se pose avant d'ajouter, de retirer ou de fusionner
+une facette, et auxquelles on répondait par des scripts jetables :
+**redondance** (une facette en détermine-t-elle une autre à 100 % ?),
+**pouvoir de résolution** (que reste-t-il d'indistinct, et pourquoi ?),
+et **colonnes dérivées** (`operator` porte-t-il encore une information
+propre ?).
+
+Aucun de ces chiffres n'est recopié ici, volontairement : ils bougent
+avec le corpus, et une valeur écrite dans un document finit par mentir.
+C'est la commande qui fait foi, et le script porte dans sa docstring ce
+que chaque mesure veut dire.
+
 ## 2. Les facettes et leur vocabulaire
 
 ### domain : la grandeur (liste autorisée)

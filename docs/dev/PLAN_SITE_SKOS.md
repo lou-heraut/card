@@ -188,7 +188,7 @@ card:VCN10
     card:hasSamplingWindow       card:hydrological-year ;
 
     # ── ce qu'un thésaurus ne peut pas porter : reste ici ─────────
-    card:computedBy  card:card-VCN10 ;              # la FICHE
+    prov:wasGeneratedBy  card:card-VCN10 ;          # la ou LES fiches
     card:method      "annual aggregation [09-01, 08-31] - minimum of 10-day mean" ;
     card:version     "1.1" ;
     card:swhid       "swh:1:cnt:…" .
@@ -228,7 +228,7 @@ recopier :
 | `definition` | `meta.<lang>.description` |
 | unité | `meta.<lang>.unit` |
 | rattachement aux facettes | bloc `classification` |
-| `card:method`, `version`, `swhid`, `computedBy` | la fiche et `list_cards()` |
+| `card:method`, `version`, `swhid`, `prov:wasGeneratedBy` | la fiche et `list_cards()` |
 | propriété d'entrée | `input_vars` et `src/card/inputs.yaml` |
 
 Ce qui **n'est pas dérivable** et doit être déclaré, dans un fichier
@@ -368,9 +368,22 @@ Chacun a déjà mordu ce dépôt, ou mord tous les projets RDF.
   le `.ttl` publie des accolades. C'est exactement le défaut corrigé en
   0.4.1, sur quatre surfaces ; le `.ttl` en serait une cinquième.
 - **Le concept est la VARIABLE, pas la fiche.** Une fiche `_month` produit
-  douze variables. Chaque variable est un concept, et pointe vers la
-  fiche qui la calcule par `card:computedBy`. La colonne `card` de
-  `list_cards()` (0.5.0) donne exactement ce lien.
+  douze variables. Chaque variable est un concept, et pointe vers la ou
+  les fiches qui la calculent. La colonne `card` de `list_cards()`
+  (0.5.0) donne le lien.
+
+  **Le lien n'est PAS un à un, et la propriété doit être répétable.**
+  Mesuré le 2026-08-12 : **28 variables sont produites par deux fiches
+  différentes**, et c'est voulu. `centerLF` vient de la fiche `centerLF`
+  et de la fiche groupée `allLF`, qui en produit cinq d'un coup, parce
+  qu'on veut parfois un lot et parfois une seule variable. Ce sera
+  encore plus vrai demain : une fiche `QMA_jan` seule est un besoin
+  identifié, à côté de `QMA_month` qui les produit toutes les douze.
+
+  La propriété à employer est celle de PROV-O, `prov:wasGeneratedBy`,
+  qui est faite pour ça et qui est répétable. Ne pas inventer de nom
+  maison : les exemples de ce plan en montraient un, `card:computedBy`,
+  qui n'existe ni dans card ni dans un standard.
 - **Une seule `prefLabel` par langue et par concept**, c'est une
   contrainte SKOS. Les fiches multi-sorties dont les métadonnées sont des
   listes doivent être éclatées, pas concaténées.
