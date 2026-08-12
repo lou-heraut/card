@@ -112,6 +112,58 @@ figure doit reformater pour le rendre lisible. Même famille de problème
 que `method` avant sa refonte : un champ qui porte deux formes sans règle.
 Repéré pendant le chantier `method`, pas traité.
 
+## Une donnée de FONCTION complète les métadonnées affichées d'une fiche (2026-08-12)
+
+Gêne exprimée par l'utilisateur, non tranchée. Elle est réelle et voici
+sa mesure exacte.
+
+La figure d'une fiche tire toutes ses **phrases** du `method` de la
+fiche : plus aucune docstring de fonction n'y entre, c'était l'objet du
+chantier `method`. Mais elle dessine aussi un **grain**, les lignes
+marquées `◦` (« Une valeur par jour », « Une seule valeur, répétée sur
+toute la chronique »), et celui-là se calcule depuis `time_step` et
+`keep` du process.
+
+Dans un cas, ces deux champs ne suffisent pas : `time_step: none` avec
+`keep: all`, qui recouvre deux comportements opposés. `render.decoupe`
+consulte alors `is_transform`, attribut posé **sur la fonction Python**
+dans `card/functions/`. C'est le seul endroit du paquet qui le lise.
+
+Mesuré le 2026-08-12 : **124 process sur 504, dans 91 fiches**. Deux
+exemples, dont les YAML sont identiques à cet endroit :
+
+```
+VCN10 P1        time_step: none, keep: all, rollmean_center
+                → « Une valeur par jour »
+n-VCN10-5_H P3  time_step: none, keep: all, return_level
+                → « Une seule valeur, répétée sur toute la chronique »
+```
+
+**Pourquoi il existe** : la version précédente devinait, en cherchant le
+préfixe `nan` et deux noms écrits en dur dont `quantile`. Le renommage
+`compute_Qp` → `exceedance_quantile` a laissé la chaîne derrière lui et
+six figures ont annoncé « une valeur par jour » pour un seuil unique.
+`is_transform` est la déclaration minimale qui a remplacé cette
+devinette.
+
+**Pourquoi ça gêne quand même** : une fiche doit être autoportante, et
+là une ligne de sa figure dépend de code hors de la fiche.
+
+Les trois sorties possibles, aucune satisfaisante en l'état :
+
+- **la fiche le déclare** : il faudrait le redire à chaque process, pour
+  une propriété inhérente à la fonction et identique partout où elle est
+  appelée. C'est de la duplication, et elle peut se contredire ;
+- **la figure renonce à la ligne** : on perd une information que le
+  lecteur utilise, et qui est juste ;
+- **une troisième voie reste à trouver**, par exemple faire porter la
+  nature de la sortie par le `func` de la fiche plutôt que par la
+  fonction, ou la déduire de la chaîne de colonnes déclarée.
+
+**Ce qui est déjà tranché** : c'est une propriété d'**affichage**, pas de
+sens. Elle ne peut donc pas fonder un alignement sémantique, et
+`PLAN_SITE_SKOS.md` l'écarte explicitement de l'export SKOS.
+
 ## Revue de code du package (lisibilité, dé-boîte-noire)
 
 Crainte utilisateur : code trop compliqué ou alambiqué par endroits.
