@@ -1,5 +1,5 @@
 id: RAl
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -7,7 +7,7 @@ meta:
   en:
     variable: RAl
     unit: mm
-    name: Cumulative annual liquid precipitation
+    name: Annual liquid precipitation
     description: ""
     method:
       P1:

@@ -122,3 +122,35 @@ def test_linter_refuse_une_metadonnee_en_liste_pour_une_variable_unique(tmp_path
     )
     issues = validate_card(bad)
     assert any("seul le premier serait publié" in i for i in issues), issues
+
+
+def test_linter_catches_two_wordings_for_one_variable(tmp_path):
+    """Deux fiches produisant la même variable doivent la nommer pareil.
+
+    Défaut réel du corpus, trouvé le 2026-08-12 : sept variables portaient
+    deux `name` ou `description` anglais selon la fiche qui les produit,
+    le français restant d'accord. Aucune fiche prise seule n'était fautive,
+    donc `validate_card` ne pouvait rien voir : la règle est inter-fiches
+    et vit dans `lint_cards`.
+    """
+    commun = ("meta:\n  {lang}: {{variable: vX, name: {nom}}}\n"
+              "  global: {{}}\nprocess: {{}}\n")
+    for fiche, nom in (("seule", "Deficit volume of low flows"),
+                       ("groupee", "Low flow deficit volume")):
+        (tmp_path / f"{fiche}.yaml").write_text(
+            f"id: {fiche}\nversion: \"1.0\"\n"
+            + commun.format(lang="en", nom=nom)
+        )
+    report = lint_cards(tmp_path)
+    assert set(report) == {"seule", "groupee"}, report
+    for fiche in ("seule", "groupee"):
+        assert any("deux formulations" in i for i in report[fiche]), report
+
+    # même variable, même libellé : le linter se tait
+    (tmp_path / "groupee.yaml").write_text(
+        "id: groupee\nversion: \"1.0\"\n"
+        + commun.format(lang="en", nom="Deficit volume of low flows")
+    )
+    report = lint_cards(tmp_path)
+    assert not any("deux formulations" in i
+                   for issues in report.values() for i in issues), report

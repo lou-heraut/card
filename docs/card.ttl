@@ -1541,12 +1541,11 @@
         <https://example.invalid/card/season/annual> ;
     rdfs:isDefinedBy <https://example.invalid/card/card/RA>,
         <https://example.invalid/card/card/RA_all> ;
-    skos:altLabel "Annual total precipitation"@en ;
     skos:broader <https://example.invalid/card/family/precipitation.mean-precipitation.magnitude.sum.annual.series.r>,
         <https://example.invalid/card/family/precipitation.mean-precipitation.magnitude.sum.annual.series.r+rl+rs> ;
     skos:inScheme card: ;
     skos:notation "RA" ;
-    skos:prefLabel "Cumulative annual total precipitation"@en,
+    skos:prefLabel "Annual total precipitation"@en,
         "Cumul annuel des précipitations totales"@fr ;
     iop:hasConstraint <https://example.invalid/card/constraint/liquid-phase>,
         <https://example.invalid/card/constraint/solid-phase> ;
@@ -1626,7 +1625,6 @@
         <https://example.invalid/card/season/annual> ;
     rdfs:isDefinedBy <https://example.invalid/card/card/RA_all>,
         <https://example.invalid/card/card/RAl> ;
-    skos:altLabel "Cumulative annual liquid precipitation"@en ;
     skos:broader <https://example.invalid/card/family/precipitation.mean-precipitation.magnitude.sum.annual.series.r+rl+rs>,
         <https://example.invalid/card/family/precipitation.mean-precipitation.magnitude.sum.annual.series.rl> ;
     skos:inScheme card: ;
@@ -1667,7 +1665,6 @@
         <https://example.invalid/card/season/annual> ;
     rdfs:isDefinedBy <https://example.invalid/card/card/RA_all>,
         <https://example.invalid/card/card/RAs> ;
-    skos:altLabel "Cumulative annual solid precipitation"@en ;
     skos:broader <https://example.invalid/card/family/precipitation.mean-precipitation.magnitude.sum.annual.series.r+rl+rs>,
         <https://example.invalid/card/family/precipitation.snow.magnitude.sum.annual.series.rs> ;
     skos:inScheme card: ;
@@ -4756,12 +4753,11 @@
     rdfs:isDefinedBy <https://example.invalid/card/card/delta-allLF_H>,
         <https://example.invalid/card/card/delta-vLF_H> ;
     skos:broader <https://example.invalid/card/family/flow.low-flows.magnitude.change.annual.scalar.q> ;
-    skos:definition "Sum of differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold"@en,
-        "Sum of the differences between the 10-day average and the maximum of the VCN10, over the longest sequence below this threshold"@en,
+    skos:definition "Sum of the differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold"@en,
         "Somme des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil"@fr ;
     skos:inScheme card: ;
     skos:notation "delta-vLF" ;
-    skos:prefLabel "Average change of low flow deficit volume between the target horizon and historical period"@en,
+    skos:prefLabel "Average change of the deficit volume of low flows between the target horizon and historical period"@en,
         "Changement moyen du volume de déficit des basses eaux entre l'horizon cible et la période historique"@fr ;
     iop:hasConstraint <https://example.invalid/card/constraint/rolling-window-10> ;
     iop:hasObjectOfInterest theia:c_d73ddccf ;
@@ -4777,11 +4773,11 @@
         <https://example.invalid/card/season/summer> ;
     rdfs:isDefinedBy <https://example.invalid/card/card/delta-allLF_summer_H> ;
     skos:broader <https://example.invalid/card/family/flow.low-flows.magnitude.change.summer.scalar.q> ;
-    skos:definition "In summer, sum of differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold (May to November)"@en,
+    skos:definition "In summer, sum of the differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold (May to November)"@en,
         "En été, somme des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil (mois de mai à novembre)"@fr ;
     skos:inScheme card: ;
     skos:notation "delta-vLF_summer" ;
-    skos:prefLabel "Average change of summer low flow deficit volume between the target horizon and historical period"@en,
+    skos:prefLabel "Average change of the deficit volume of summer low flows between the target horizon and historical period"@en,
         "Changement moyen du volume de déficit des basses eaux estivales entre l'horizon cible et la période historique"@fr ;
     iop:hasObjectOfInterest theia:c_d73ddccf ;
     iop:hasProperty theia:c_7742e5f0 ;
@@ -4796,11 +4792,11 @@
         <https://example.invalid/card/season/winter> ;
     rdfs:isDefinedBy <https://example.invalid/card/card/delta-allLF_winter_H> ;
     skos:broader <https://example.invalid/card/family/flow.low-flows.magnitude.change.winter.scalar.q> ;
-    skos:definition "In winter, sum of differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold (November to April)"@en,
+    skos:definition "In winter, sum of the differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold (November to April)"@en,
         "En hiver, somme des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil (mois de novembre à avril)"@fr ;
     skos:inScheme card: ;
     skos:notation "delta-vLF_winter" ;
-    skos:prefLabel "Average change of winter low flow deficit volume between the target horizon and historical period"@en,
+    skos:prefLabel "Average change of the deficit volume of winter low flows between the target horizon and historical period"@en,
         "Changement moyen du volume de déficit des basses eaux hivernales entre l'horizon cible et la période historique"@fr ;
     iop:hasObjectOfInterest theia:c_d73ddccf ;
     iop:hasProperty theia:c_7742e5f0 ;
@@ -7648,8 +7644,7 @@
     rdfs:isDefinedBy <https://example.invalid/card/card/median-allLF>,
         <https://example.invalid/card/card/median-centerLF> ;
     skos:broader <https://example.invalid/card/family/flow.low-flows.timing.median.annual.scalar.q> ;
-    skos:definition "Median of the date of the minimal 10-day mean flow value below the threshold set at the maximum of VCN10"@en,
-        "Median of the dates of the minimal 10-day mean flow value below the threshold set at the maximum of VCN10"@en,
+    skos:definition "Median of the dates of the minimal 10-day mean flow value below the threshold set at the maximum of VCN10"@en,
         "Médiane des dates de la valeur minimale des débits moyens sur 10 jours sous le seuil fixé au maximum des VCN10"@fr ;
     skos:inScheme card: ;
     skos:notation "median-centerLF" ;
@@ -7903,12 +7898,11 @@
     rdfs:isDefinedBy <https://example.invalid/card/card/median-allLF>,
         <https://example.invalid/card/card/median-vLF> ;
     skos:broader <https://example.invalid/card/family/flow.low-flows.magnitude.median.annual.scalar.q> ;
-    skos:definition "Median of sums of the differences between the 10-day average and the maximum of the VCN10, over the longest sequence below this threshold"@en,
-        "Median of the sums of differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold"@en,
+    skos:definition "Median of the sums of the differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold"@en,
         "Médiane des sommes des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil"@fr ;
     skos:inScheme card: ;
     skos:notation "median-vLF" ;
-    skos:prefLabel "Inter-annual median of low-flow deficit volumes"@en,
+    skos:prefLabel "Inter-annual median of the deficit volume of low flows"@en,
         "Médiane inter-annuelle des volumes de déficit des basses eaux"@fr ;
     iop:hasConstraint <https://example.invalid/card/constraint/rolling-window-10> ;
     iop:hasObjectOfInterest theia:c_d73ddccf ;
@@ -8233,14 +8227,12 @@
         <https://example.invalid/card/season/annual> ;
     rdfs:isDefinedBy <https://example.invalid/card/card/allLF>,
         <https://example.invalid/card/card/vLF> ;
-    skos:altLabel "Low flow deficit volume"@en ;
     skos:broader <https://example.invalid/card/family/flow.low-flows.magnitude.sum.annual.series.q> ;
-    skos:definition "Sum of differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold"@en,
-        "Sum of the differences between the 10-day average and the maximum of the VCN10, over the longest sequence below this threshold"@en,
+    skos:definition "Sum of the differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold"@en,
         "Somme des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil"@fr ;
     skos:inScheme card: ;
     skos:notation "vLF" ;
-    skos:prefLabel "Volume deficit of low flows"@en,
+    skos:prefLabel "Deficit volume of low flows"@en,
         "Volume de déficit des basses eaux"@fr ;
     iop:hasConstraint <https://example.invalid/card/constraint/rolling-window-10> ;
     iop:hasObjectOfInterest theia:c_d73ddccf ;
@@ -8261,7 +8253,7 @@
         "En été, somme des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil (mois de mai à novembre)"@fr ;
     skos:inScheme card: ;
     skos:notation "vLF_summer" ;
-    skos:prefLabel "Volume deficit of summer low flows"@en,
+    skos:prefLabel "Deficit volume of summer low flows"@en,
         "Volume de déficit des basses eaux estivales"@fr ;
     iop:hasConstraint <https://example.invalid/card/constraint/rolling-window-10> ;
     iop:hasObjectOfInterest theia:c_d73ddccf ;
@@ -8282,7 +8274,7 @@
         "En hiver, somme des écarts entre la moyenne sur 10 jours et le maximum des VCN10, sur la séquence la plus longue sous ce seuil (mois de novembre à avril)"@fr ;
     skos:inScheme card: ;
     skos:notation "vLF_winter" ;
-    skos:prefLabel "Volume deficit of winter low flows"@en,
+    skos:prefLabel "Deficit volume of winter low flows"@en,
         "Volume de déficit des basses eaux hivernales"@fr ;
     iop:hasConstraint <https://example.invalid/card/constraint/rolling-window-10> ;
     iop:hasObjectOfInterest theia:c_d73ddccf ;
@@ -8618,9 +8610,9 @@
         "1. agrégation annuelle [01-06, 31-10] - moyenne"@fr ;
     card:path "flow/mean-flows/series/QSA_JJASO.yaml" .
 
-<https://example.invalid/card/card/RA> dcterms:identifier "swh:1:cnt:e31330053851de0f096180b9868355f90c63d3f5" ;
+<https://example.invalid/card/card/RA> dcterms:identifier "swh:1:cnt:c444af7e1d144ea51572c124b7f8a8d692c63a65" ;
     dcterms:title "RA" ;
-    owl:versionInfo "1.0.1" ;
+    owl:versionInfo "1.1" ;
     card:method "1. annual aggregation [09-01, 08-31] - sum"@en,
         "1. agrégation annuelle [01-09, 31-08] - somme"@fr ;
     card:path "precipitation/mean-precipitation/series/RA.yaml" .
@@ -8652,9 +8644,9 @@
 2. aucune agrégation temporelle - RAT avec un seuil de significativité de 5 %"""@fr ;
     card:path "flow/climate-sensitivity/scalar/RAT_T.yaml" .
 
-<https://example.invalid/card/card/RAl> dcterms:identifier "swh:1:cnt:8b75270cde89897f2f37a30ac3e457866c6ca6f5" ;
+<https://example.invalid/card/card/RAl> dcterms:identifier "swh:1:cnt:18949f449ed2bb8ab7fca80029322a31b16656f4" ;
     dcterms:title "RAl" ;
-    owl:versionInfo "1.1" ;
+    owl:versionInfo "1.2" ;
     card:method "1. annual aggregation [09-01, 08-31] - sum"@en,
         "1. agrégation annuelle [01-09, 31-08] - somme"@fr ;
     card:path "precipitation/mean-precipitation/series/RAl.yaml" .
@@ -8668,9 +8660,9 @@
 2. aucune agrégation temporelle - rapport liquide/total"""@fr ;
     card:path "precipitation/snow/series/RAl_ratio.yaml" .
 
-<https://example.invalid/card/card/RAs> dcterms:identifier "swh:1:cnt:a2164602a432872aec23f807a3c3289c9ecd3af5" ;
+<https://example.invalid/card/card/RAs> dcterms:identifier "swh:1:cnt:9a19e2dc5c9a35ccacd0f8965949d077785e2b2e" ;
     dcterms:title "RAs" ;
-    owl:versionInfo "1.1" ;
+    owl:versionInfo "1.2" ;
     card:method "1. annual aggregation [09-01, 08-31] - sum"@en,
         "1. agrégation annuelle [01-09, 31-08] - somme"@fr ;
     card:path "precipitation/snow/series/RAs.yaml" .
@@ -9423,9 +9415,9 @@
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/baseflow/scalar/delta-vBF_H.yaml" .
 
-<https://example.invalid/card/card/delta-vLF_H> dcterms:identifier "swh:1:cnt:5a54b22f4748dd01939c03bc25a64a2446fcc53b" ;
+<https://example.invalid/card/card/delta-vLF_H> dcterms:identifier "swh:1:cnt:1b111dd4e91faa2351407d40526e29762c86d8ed" ;
     dcterms:title "delta-vLF_H" ;
-    owl:versionInfo "1.7" ;
+    owl:versionInfo "1.8" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [month of maximum monthly flows] - minimum of VC10 (VCN10)
 3. no temporal aggregation - maximum of VCN10, taken as the threshold (upLim)
@@ -9812,9 +9804,9 @@
 2. aucune agrégation temporelle - médiane inter-annuelle"""@fr ;
     card:path "flow/baseflow/scalar/median-vBF.yaml" .
 
-<https://example.invalid/card/card/median-vLF> dcterms:identifier "swh:1:cnt:defd73f9109f92aa430cd2d92280fd45f6c9c156" ;
+<https://example.invalid/card/card/median-vLF> dcterms:identifier "swh:1:cnt:1be7f2ed7b088bf6e60ca143a9ca3e08e8d1eba3" ;
     dcterms:title "median-vLF" ;
-    owl:versionInfo "1.5" ;
+    owl:versionInfo "1.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [month of maximum monthly flows] - minimum of VC10 (VCN10)
 3. no temporal aggregation - maximum of VCN10, taken as the threshold (upLim)
@@ -9989,9 +9981,9 @@
         "1. agrégation annuelle [01-09, 31-08] - somme des volumes écoulés chaque jour pour le débit de base (Wallingford)"@fr ;
     card:path "flow/baseflow/series/vBF.yaml" .
 
-<https://example.invalid/card/card/vLF> dcterms:identifier "swh:1:cnt:e3e0eda5b1a9a5121f0cc69e0114ffb8ba3ac5ad" ;
+<https://example.invalid/card/card/vLF> dcterms:identifier "swh:1:cnt:5d602be47d583993e8206c86f0d8a54af703536a" ;
     dcterms:title "vLF" ;
-    owl:versionInfo "1.5" ;
+    owl:versionInfo "1.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [month of maximum monthly flows] - minimum of VC10 (VCN10)
 3. no temporal aggregation - maximum of VCN10, taken as the threshold (upLim)
@@ -10002,9 +9994,9 @@
 4. agrégation annuelle [mois du maximum des débits mensuels] - somme des volumes écoulés chaque jour de la plus longue période sous upLim"""@fr ;
     card:path "flow/low-flows/series/vLF.yaml" .
 
-<https://example.invalid/card/card/vLF_summer> dcterms:identifier "swh:1:cnt:a78af65d3461b7dbede6bb8c8695a92ec77f86c0" ;
+<https://example.invalid/card/card/vLF_summer> dcterms:identifier "swh:1:cnt:f695ba2d359454480898fa7032b558e8d8ad4394" ;
     dcterms:title "vLF_summer" ;
-    owl:versionInfo "1.5" ;
+    owl:versionInfo "1.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [05-01, 11-30] - minimum of VC10 (VCN10_summer)
 3. no temporal aggregation - maximum of VCN10_summer, taken as the threshold (upLim)
@@ -10015,9 +10007,9 @@
 4. agrégation annuelle [01-05, 30-11] - somme des volumes écoulés chaque jour de la plus longue période sous upLim"""@fr ;
     card:path "flow/low-flows/series/vLF_summer.yaml" .
 
-<https://example.invalid/card/card/vLF_winter> dcterms:identifier "swh:1:cnt:beff0e8c7569fe96a4c3cf1721a541d11a1be4c4" ;
+<https://example.invalid/card/card/vLF_winter> dcterms:identifier "swh:1:cnt:65a2e94ece491725351b2c6e802bf477f0fcc2b8" ;
     dcterms:title "vLF_winter" ;
-    owl:versionInfo "1.5" ;
+    owl:versionInfo "1.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [11-01, 04-30] - minimum of VC10 (VCN10_winter)
 3. no temporal aggregation - maximum of VCN10_winter, taken as the threshold (upLim)
@@ -11136,9 +11128,9 @@
         "pente de tendance"@fr ;
     skos:topConceptOf <https://example.invalid/card/scheme/statistic> .
 
-<https://example.invalid/card/card/allLF> dcterms:identifier "swh:1:cnt:533389bb1b03609a90e6a33989a45d262c5a3e97" ;
+<https://example.invalid/card/card/allLF> dcterms:identifier "swh:1:cnt:f8c7d0212a16242f202dfdd0e206ac6c36bf762e" ;
     dcterms:title "allLF" ;
-    owl:versionInfo "1.4" ;
+    owl:versionInfo "1.5" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [month of maximum monthly flows] - minimum of VC10 (VCN10)
 3. no temporal aggregation - maximum of VCN10, taken as the threshold (upLim)
@@ -11149,9 +11141,9 @@
 4. agrégation annuelle [mois du maximum des débits mensuels] - date du premier jour de la plus longue période sous upLim"""@fr ;
     card:path "flow/low-flows/series/allLF.yaml" .
 
-<https://example.invalid/card/card/allLF_summer> dcterms:identifier "swh:1:cnt:907040d5245d7647be0f6f99442de2ee1da10388" ;
+<https://example.invalid/card/card/allLF_summer> dcterms:identifier "swh:1:cnt:5e47eaf271563e24457935b622819d30b4f8659b" ;
     dcterms:title "allLF_summer" ;
-    owl:versionInfo "1.5" ;
+    owl:versionInfo "1.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [05-01, 11-30] - minimum of VC10 (VCN10_summer)
 3. no temporal aggregation - maximum of VCN10_summer, taken as the threshold (upLim)
@@ -11162,9 +11154,9 @@
 4. agrégation annuelle [01-05, 30-11] - date du premier jour de la plus longue période sous upLim"""@fr ;
     card:path "flow/low-flows/series/allLF_summer.yaml" .
 
-<https://example.invalid/card/card/allLF_winter> dcterms:identifier "swh:1:cnt:5f1224c05e2b10740a46904d2c101433e8dd7c04" ;
+<https://example.invalid/card/card/allLF_winter> dcterms:identifier "swh:1:cnt:29553c2a77d73b5bcc59eb2ea4c20ca3e0584786" ;
     dcterms:title "allLF_winter" ;
-    owl:versionInfo "1.5" ;
+    owl:versionInfo "1.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [11-01, 04-30] - minimum of VC10 (VCN10_winter)
 3. no temporal aggregation - maximum of VCN10_winter, taken as the threshold (upLim)
@@ -11175,9 +11167,9 @@
 4. agrégation annuelle [01-11, 30-04] - date du premier jour de la plus longue période sous upLim"""@fr ;
     card:path "flow/low-flows/series/allLF_winter.yaml" .
 
-<https://example.invalid/card/card/delta-allLF_H> dcterms:identifier "swh:1:cnt:d7aebdd805ce797f315a98e6963f128da92630cb" ;
+<https://example.invalid/card/card/delta-allLF_H> dcterms:identifier "swh:1:cnt:645d3fc602f0aa24f3f37ddb030e36a1e72f99cc" ;
     dcterms:title "delta-allLF_H" ;
-    owl:versionInfo "2.5" ;
+    owl:versionInfo "2.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [month of maximum monthly flows] - minimum of VC10 (VCN10)
 3. no temporal aggregation - maximum of VCN10, taken as the threshold (upLim)
@@ -11190,9 +11182,9 @@
 5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-allLF_H.yaml" .
 
-<https://example.invalid/card/card/delta-allLF_summer_H> dcterms:identifier "swh:1:cnt:6ced938c2c74ffb63414703acf834fc9f197063d" ;
+<https://example.invalid/card/card/delta-allLF_summer_H> dcterms:identifier "swh:1:cnt:ace6e0c882b0226b78c0d685b12d4c9880179c49" ;
     dcterms:title "delta-allLF_summer_H" ;
-    owl:versionInfo "2.5" ;
+    owl:versionInfo "2.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [05-01, 11-30] - minimum of VC10 (VCN10_summer)
 3. no temporal aggregation - maximum of VCN10_summer, taken as the threshold (upLim)
@@ -11205,9 +11197,9 @@
 5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-allLF_summer_H.yaml" .
 
-<https://example.invalid/card/card/delta-allLF_winter_H> dcterms:identifier "swh:1:cnt:ae7aaf86ac5ae48cdb5c9593358efbadffb4c98f" ;
+<https://example.invalid/card/card/delta-allLF_winter_H> dcterms:identifier "swh:1:cnt:fc5a902402e73ab0bc66b2b050ca2684c694b63c" ;
     dcterms:title "delta-allLF_winter_H" ;
-    owl:versionInfo "2.5" ;
+    owl:versionInfo "2.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [11-01, 04-30] - minimum of VC10 (VCN10_winter)
 3. no temporal aggregation - maximum of VCN10_winter, taken as the threshold (upLim)
@@ -11220,9 +11212,9 @@
 5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-allLF_winter_H.yaml" .
 
-<https://example.invalid/card/card/median-allLF> dcterms:identifier "swh:1:cnt:2a63ded8949207688fe259bf47ebc545e3095e80" ;
+<https://example.invalid/card/card/median-allLF> dcterms:identifier "swh:1:cnt:bfe14e4a3517ae1eaac388b1af2e330538deb1b6" ;
     dcterms:title "median-allLF" ;
-    owl:versionInfo "1.5" ;
+    owl:versionInfo "1.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [month of maximum monthly flows] - minimum of VC10 (VCN10)
 3. no temporal aggregation - maximum of VCN10, taken as the threshold (upLim)
@@ -12125,7 +12117,7 @@ card: a skos:ConceptScheme ;
         "card : définitions de variables hydroclimatiques"@fr ;
     dcterms:creator "INRAE, UR RiverLy" ;
     dcterms:license <https://www.etalab.gouv.fr/licence-ouverte-open-licence> ;
-    dcterms:modified "2026-08-12" ;
+    dcterms:modified "2026-08-13" ;
     dcterms:rights "Licence Ouverte 2.0 (Etalab), compatible CC-BY 4.0"@en,
         "Licence Ouverte 2.0 (Etalab), compatible CC-BY 4.0"@fr ;
     dcterms:title "card: hydroclimatic variable definitions"@en,

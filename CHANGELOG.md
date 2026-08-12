@@ -65,6 +65,30 @@ des deux endroits.
 
 ### Modifié
 
+- **Une variable produite par deux fiches porte les mêmes libellés
+  (2026-08-13).** Sept variables étaient décrites autrement selon la
+  fiche qui les produit, toujours en anglais, le français restant
+  d'accord avec lui-même : c'est donc une dérive de traduction, pas un
+  désaccord sur ce qu'est la variable. Trois formulations unifiées, et
+  aucune sortie ne bouge :
+
+  - `RA`, `RAl`, `RAs` perdent « Cumulative » : « cumul annuel » se rend
+    par « annual total », et `RAl_ratio` le disait déjà ainsi ;
+  - la notion `vLF` s'écrit partout **« deficit volume of low flows »** :
+    `deficit_volume` est le nom de la fonction et le terme de la
+    littérature basses eaux, placé dans le patron « X of low flows » que
+    les quatre variables voisines de la même fiche emploient ;
+  - les descriptions de la famille disent « 10-day mean » et « of VCN10 »
+    sans article, et `median-centerLF` prend le pluriel « of the dates »,
+    comme ses quatre lignes voisines.
+
+  **Le linter tient maintenant la règle**, et c'est sa première règle
+  inter-fiches : elle ne pouvait pas vivre dans `validate_card`, chaque
+  fiche prise seule étant juste. Sans elle un catalogue affiche deux noms
+  pour une variable, et le vocabulaire deux `skos:prefLabel` dans une
+  même langue, ce qu'interdit la norme SKOS. C'est d'ailleurs
+  `tests/test_skos.py` qui a trouvé le défaut.
+
 - **Le vocabulaire se découpe en un schéma par facette (2026-08-12).**
   `skosify`, l'outil de qualité SKOS écrit par l'équipe de Skosmos,
   signalait **188 concepts orphelins** dans `card.ttl` : des concepts

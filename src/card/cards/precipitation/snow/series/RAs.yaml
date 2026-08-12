@@ -1,5 +1,5 @@
 id: RAs
-version: "1.1"
+version: "1.2"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -7,7 +7,7 @@ meta:
   en:
     variable: RAs
     unit: mm
-    name: Cumulative annual solid precipitation
+    name: Annual solid precipitation
     description: ""
     method:
       P1:

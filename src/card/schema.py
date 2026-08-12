@@ -792,6 +792,72 @@ def _check_path_coherence(card, path, issues):
         )
 
 
+def _libelles_par_variable(root):
+    """{(variable, lang, champ): {texte: [fiches]}} sur tout le corpus.
+
+    Une fiche multi-sorties apparie ses listes par INDICE : la n-ième
+    variable porte le n-ième name. Une métadonnée scalaire vaut pour
+    toutes les sorties de la fiche.
+    """
+    table = {}
+    for p in sorted(root.rglob("*.yaml")):
+        try:
+            card = yaml.safe_load(p.read_text(encoding="utf-8"))
+        except Exception:
+            continue          # la fiche est déjà en défaut par ailleurs
+        if not isinstance(card, dict):
+            continue
+        for lang in ("en", "fr"):
+            meta = (card.get("meta") or {}).get(lang) or {}
+            variables = meta.get("variable")
+            if variables is None:
+                continue
+            if not isinstance(variables, list):
+                variables = [variables]
+            for i, var in enumerate(variables):
+                for champ in ("name", "description"):
+                    v = meta.get(champ)
+                    if isinstance(v, list):
+                        if i >= len(v):
+                            continue
+                        v = v[i]
+                    if not isinstance(v, str) or not v.strip():
+                        continue
+                    cle = (str(var), lang, champ)
+                    table.setdefault(cle, {}).setdefault(v, []).append(p.stem)
+    return table
+
+
+def _check_libelles_partages(root, report):
+    """Deux fiches produisant la MÊME variable la nomment pareil.
+
+    Le corpus produit exprès certaines variables deux fois, par une fiche
+    seule et par une fiche groupée (`vLF` et `allLF`), parce qu'on veut
+    parfois un lot et parfois une variable seule. Rien n'obligeait alors
+    les deux à écrire le même `name`, et sept variables avaient dérivé,
+    toujours en anglais, le français restant d'accord avec lui-même.
+
+    Ce n'était pas visible : chaque fiche est juste, seul le corpus vu
+    d'ensemble est incohérent. Un catalogue affichait donc deux noms pour
+    une même variable, et le vocabulaire SKOS deux `prefLabel` dans une
+    même langue, ce qu'interdit la norme. Trouvé le 2026-08-12 par
+    `tests/test_skos.py`, corrigé, et gardé ici pour que la prochaine
+    fiche groupée ne le réintroduise pas.
+    """
+    for (var, lang, champ), textes in sorted(_libelles_par_variable(root).items()):
+        if len(textes) < 2:
+            continue
+        versions = "  |  ".join(
+            f"{'/'.join(fiches)}: {t!r}" for t, fiches in sorted(textes.items())
+        )
+        for fiches in textes.values():
+            for fiche in fiches:
+                report.setdefault(fiche, []).append(
+                    f"meta.{lang}.{champ} de '{var}': deux formulations "
+                    f"selon la fiche qui la produit  ->  {versions}"
+                )
+
+
 def lint_cards(CARD_path=None) -> dict:
     """Valide toutes les fiches d'une arborescence.
     Retourne {nom_de_fiche: [issues]} pour les fiches en défaut."""
@@ -801,6 +867,7 @@ def lint_cards(CARD_path=None) -> dict:
         issues = validate_card(p)
         if issues:
             report[p.stem] = issues
+    _check_libelles_partages(root, report)
     return report
 
 

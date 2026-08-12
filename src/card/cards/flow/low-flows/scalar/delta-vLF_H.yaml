@@ -1,5 +1,5 @@
 id: delta-vLF_H
-version: "1.7"
+version: "1.8"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -7,8 +7,8 @@ meta:
   en:
     variable: delta-vLF
     unit: "%"
-    name: Average change of low flow deficit volume between the {suffix.name} horizon and historical period
-    description: Sum of the differences between the 10-day average and the maximum of the VCN10, over the longest sequence below this threshold
+    name: Average change of the deficit volume of low flows between the {suffix.name} horizon and historical period
+    description: Sum of the differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold
     method:
       P1:
         VC10: no temporal aggregation - 10-day centered moving average (VC10)

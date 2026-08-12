@@ -366,16 +366,20 @@ textuel. Ils se verront à l'écran.
 
 Cinq points, par ordre de ce qui bloque le plus la suite.
 
-## 1. Sept variables décrites deux fois, autrement
+## 1. Sept variables décrites deux fois, autrement — **réglé le 2026-08-13**
 
-**Le seul défaut du CORPUS trouvé pendant ce chantier**, et il n'a rien à
-voir avec le SKOS : la même variable porte deux `name` ou deux
-`description` selon la fiche qui la produit. Ce sont des synonymes, pas
-deux sens. Détail et deux façons de le traiter : `CHANTIERS.md`, entrée
-« Sept variables décrites deux fois ».
+Ce qui semblait demander un arbitrage scientifique n'en demandait pas :
+**le français était identique dans les sept cas**, seul l'anglais avait
+dérivé. La question n'était donc pas « qu'est-ce que cette variable »
+mais « comment le dit-on en anglais », et le français faisait arbitre.
 
-Il faut choisir laquelle des deux formulations garder, sept fois. C'est
-la seule chose de cette liste qui demande un arbitrage scientifique.
+Unifié, et le linter tient désormais la règle inter-fiches. Détail :
+entrée du CHANGELOG du 2026-08-13.
+
+Ce qui reste à savoir, et qui ne se voit plus nulle part une fois le
+défaut corrigé : `deficit_volume` est le nom de la FONCTION et le terme
+de la littérature basses eaux. C'est lui qui a tranché entre les deux
+formulations concurrentes, pas le goût.
 
 ## 2. Le retrait d'`operator`
 

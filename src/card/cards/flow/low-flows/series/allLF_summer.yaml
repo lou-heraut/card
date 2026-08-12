@@ -1,5 +1,5 @@
 id: allLF_summer
-version: "1.5"
+version: "1.6"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-30"
 
@@ -12,7 +12,7 @@ meta:
       - Center of summer low flows
       - End of summer low flows
       - Duration of summer low flows
-      - Volume deficit of summer low flows
+      - Deficit volume of summer low flows
     description:
       - "In summer, date of the first 10-day mean flow value below the threshold set at the maximum of VCN10 (May to November)"
       - "In summer, date of the minimal 10-day mean flow value below the threshold set at the maximum of VCN10 (May to November)"

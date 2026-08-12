@@ -1,5 +1,5 @@
 id: delta-allLF_H
-version: "2.5"
+version: "2.6"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-21"
 
@@ -22,13 +22,13 @@ meta:
     - Average change of the center of low flows between the {suffix.name} horizon and historical period
     - Average change of the end of low flows between the {suffix.name} horizon and historical period
     - Average change of duration of low flows between the {suffix.name} horizon and historical period
-    - Average change of low flow deficit volume between the {suffix.name} horizon and historical period
+    - Average change of the deficit volume of low flows between the {suffix.name} horizon and historical period
     description:
     - Date of the first 10-day mean flow value below the threshold set at the maximum of VCN10
     - Date of the minimal 10-day mean flow value below the threshold set at the maximum of VCN10
     - Date of the last 10-day mean flow value below the threshold set at the maximum of VCN10
     - Duration of the longest continuous sequence with 10-day mean flows below the threshold set at the maximum of VCN10
-    - Sum of differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold
+    - Sum of the differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold
     method:
       P1:
         VC10: no temporal aggregation - 10-day centered moving average (VC10)

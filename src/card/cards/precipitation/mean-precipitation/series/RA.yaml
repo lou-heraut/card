@@ -1,5 +1,5 @@
 id: RA
-version: "1.0.1"
+version: "1.1"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -7,7 +7,7 @@ meta:
   en:
     variable: RA
     unit: mm
-    name: Cumulative annual total precipitation
+    name: Annual total precipitation
     description: ""
     method:
       P1:

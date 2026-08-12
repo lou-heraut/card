@@ -1,5 +1,5 @@
 id: vLF
-version: "1.5"
+version: "1.6"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -7,8 +7,8 @@ meta:
   en:
     variable: vLF
     unit: "hm^{3}"
-    name: Low flow deficit volume
-    description: Sum of the differences between the 10-day average and the maximum of the VCN10, over the longest sequence below this threshold
+    name: Deficit volume of low flows
+    description: Sum of the differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold
     method:
       P1:
         VC10: no temporal aggregation - 10-day centered moving average (VC10)

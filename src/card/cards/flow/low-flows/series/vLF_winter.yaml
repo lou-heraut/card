@@ -1,5 +1,5 @@
 id: vLF_winter
-version: "1.5"
+version: "1.6"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-15"
 
@@ -7,7 +7,7 @@ meta:
   en:
     variable: vLF_winter
     unit: "hm^{3}"
-    name: Volume deficit of winter low flows
+    name: Deficit volume of winter low flows
     description: "In winter, sum of the differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold (November to April)"
     method:
       P1:

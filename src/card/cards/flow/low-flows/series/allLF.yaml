@@ -1,5 +1,5 @@
 id: allLF
-version: "1.4"
+version: "1.5"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -12,13 +12,13 @@ meta:
       - Center of low flows
       - End of low flows
       - Duration of low flows
-      - Volume deficit of low flows
+      - Deficit volume of low flows
     description:
       - Date of the first 10-day mean flow value below the threshold set at the maximum of VCN10
       - Date of the minimal 10-day mean flow value below the threshold set at the maximum of VCN10
       - Date of the last 10-day mean flow value below the threshold set at the maximum of VCN10
       - Duration of the longest continuous sequence with 10-day mean flows below the threshold set at the maximum of VCN10
-      - Sum of differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold
+      - Sum of the differences between the 10-day mean and the maximum of VCN10, over the longest sequence below this threshold
     method:
       P1:
         VC10: no temporal aggregation - 10-day centered moving average (VC10)

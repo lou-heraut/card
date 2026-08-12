@@ -1,5 +1,5 @@
 id: allLF_winter
-version: "1.5"
+version: "1.6"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-30"
 
@@ -12,7 +12,7 @@ meta:
       - Center of winter low flows
       - End of winter low flows
       - Duration of winter low flows
-      - Volume deficit of winter low flows
+      - Deficit volume of winter low flows
     description:
       - "In winter, date of the first 10-day mean flow value below the threshold set at the maximum of VCN10 (November to April)"
       - "In winter, date of the minimal 10-day mean flow value below the threshold set at the maximum of VCN10 (November to April)"
