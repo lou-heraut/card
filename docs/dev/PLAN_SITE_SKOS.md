@@ -294,7 +294,13 @@ paire partielle (53), `09-01` (39) ou `01-01` (18).
 > la colonne `operator` ne vient que du PRÉFIXE de l'identifiant et ne
 > dit rien de la statistique d'ordre : elle est vide sur 322 lignes.
 
-**Ce qui manque n'est pas de la donnée, ce sont des TABLES de
+**Suite donnée le 2026-08-12** : la seule chose qui manquait vraiment,
+`hasStatisticalModifier`, est devenue la facette `statistic` (card
+0.6.0). Seize termes, dont cinq de CF et de Theia, chacun portant sa
+source dans `topics.yaml` comme `aspect` porte la sienne. Conception et
+table croisée avec `aspect` : `TOPICS.md`.
+
+**Ce qui reste à faire n'est pas de la donnée, ce sont des TABLES de
 correspondance.** Trois, toutes destinées à `alignments.yaml` :
 
 1. **19 combinaisons d'`input_vars`** vers des paires (propriété, objet
@@ -531,8 +537,8 @@ regarde, **on ne publie rien**.
 |---|---|---|---|
 | 0 | fonctions publiques en anglais, sections NumPy, garde dans les deux paquets | rien | **fait** (card 0.5.1, stase 0.6.3) |
 | 1 | docstrings hydro de `functions/` en anglais NumPy, `docstring.py` et son test retirés | décision | à valider |
-| 2 | **confrontation** métadonnées des fiches contre attendus I-ADOPT | rien | **fait** : rien à ajouter aux fiches |
-| 3 | ~~champs manquants dans les fiches~~ | — | **sans objet**, l'étape 2 l'a montré |
+| 2 | **confrontation** métadonnées des fiches contre attendus I-ADOPT | rien | **fait** |
+| 3 | facette `statistic`, seize termes sourcés, posée dans 225 fiches | 2 | **fait** (card 0.6.0) |
 | 4 | `src/card/alignments.yaml` : trois tables de correspondance, et sa validation par le linter | 2 | à faire |
 | 5 | `scripts/generate_skos.py` → `card.ttl`, base d'URI manifestement provisoire, métadonnées de schéma, garde de fraîcheur étendue | 3, 4 | à faire |
 | 6 | Skosmos **local** sur ce `.ttl`, pour voir le rendu avant tout dépôt | 5 | à faire |
