@@ -63,7 +63,22 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.8.0.
+### Modifié
+
+- **Le vocabulaire se découpe en un schéma par facette (2026-08-12).**
+  `skosify`, l'outil de qualité SKOS écrit par l'équipe de Skosmos,
+  signalait **188 concepts orphelins** dans `card.ttl` : des concepts
+  sans parent ni statut de tête, qu'un navigateur de thésaurus ne sait
+  pas par où prendre. Chaque facette est désormais son propre
+  `skos:ConceptScheme`, avec ses valeurs en concepts de tête, plus un
+  schéma pour les contraintes ; les 132 familles sont les têtes du
+  schéma principal. Il en reste zéro.
+
+  Il signalait aussi que le schéma n'avait **aucun libellé** :
+  `dcterms:title` ne suffit pas, les outils cherchent `rdfs:label`.
+
+  Deux tests gardent l'acquis sans imposer la dépendance : aucun concept
+  orphelin, aucun schéma sans libellé.
 
 ## 0.8.0 (2026-08-12)
 

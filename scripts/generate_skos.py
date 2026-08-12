@@ -80,14 +80,37 @@ def slug(texte):
     return "-".join(str(texte).lower().split())
 
 
+def sous_schema(g, cle, titre_en, titre_fr):
+    """Un schéma de concepts par facette, plus un pour les contraintes.
+
+    Sans ça, `skosify` signale 188 « concepts orphelins » : des concepts
+    qu'aucun `skos:broader` ne rattache, donc qu'aucun navigateur ne sait
+    par où prendre. Découper par facette est aussi ce que la conception
+    prévoyait dès l'origine, chaque facette étant un axe indépendant.
+    """
+    noeud = CARD[f"scheme/{cle}"]
+    g.add((noeud, RDF.type, SKOS.ConceptScheme))
+    for propriete in (DCTERMS.title, RDFS.label):
+        g.add((noeud, propriete, Literal(titre_en, lang="en")))
+        g.add((noeud, propriete, Literal(titre_fr, lang="fr")))
+    return noeud
+
+
+def sommet(g, concept, schema_):
+    """Concept de tête : le point d'entrée d'une hiérarchie."""
+    g.add((concept, SKOS.topConceptOf, schema_))
+    g.add((schema_, SKOS.hasTopConcept, concept))
+
+
 def schema(g, version):
     """Les métadonnées du vocabulaire lui-même, qu'on oublie toujours."""
     g.add((CARD[""], RDF.type, SKOS.ConceptScheme))
-    g.add((CARD[""], DCTERMS.title,
-           Literal("card: hydroclimatic variable definitions", lang="en")))
-    g.add((CARD[""], DCTERMS.title,
-           Literal("card : définitions de variables hydroclimatiques",
-                   lang="fr")))
+    for propriete in (DCTERMS.title, RDFS.label):
+        g.add((CARD[""], propriete,
+               Literal("card: hydroclimatic variable definitions", lang="en")))
+        g.add((CARD[""], propriete,
+               Literal("card : définitions de variables hydroclimatiques",
+                       lang="fr")))
     g.add((CARD[""], DCTERMS.creator, Literal("INRAE, UR RiverLy")))
     g.add((CARD[""], DCTERMS.license,
            URIRef("https://www.etalab.gouv.fr/licence-ouverte-open-licence")))
@@ -99,17 +122,22 @@ def schema(g, version):
            Literal(dt.date.today().isoformat())))
 
 
+FACETTES_FR = {"domain": "grandeur", "phenomenon": "phénomène",
+               "aspect": "dimension analysée", "statistic": "opération",
+               "season": "fenêtre d'échantillonnage", "output": "forme",
+               "purpose": "finalité"}
+
+
 def vocabulaire(g):
     """Les facettes et leurs valeurs : un schéma par facette."""
     for facette, valeurs in card.vocabulary().items():
-        noeud = CARD[f"facet/{facette}"]
-        g.add((noeud, RDF.type, SKOS.Collection))
-        g.add((noeud, SKOS.prefLabel, Literal(facette, lang="en")))
+        noeud = sous_schema(g, facette, facette,
+                            FACETTES_FR.get(facette, facette))
         for cle, etiquettes in valeurs.items():
             concept = CARD[f"{facette}/{cle}"]
             g.add((concept, RDF.type, SKOS.Concept))
-            g.add((concept, SKOS.inScheme, CARD[""]))
-            g.add((noeud, SKOS.member, concept))
+            g.add((concept, SKOS.inScheme, noeud))
+            sommet(g, concept, noeud)
             for lang in ("en", "fr"):
                 if etiquettes.get(lang):
                     g.add((concept, SKOS.prefLabel,
@@ -128,11 +156,13 @@ def vocabulaire(g):
 
 def contraintes(g):
     """Familles de contrainte et contraintes nommées, définies par card."""
+    schema_ = sous_schema(g, "constraint", "constraint", "contrainte")
     for cle, etiquettes in ALIGNEMENTS["constraint_families"].items():
         noeud = CARD[f"constraint-family/{cle}"]
         g.add((noeud, RDF.type, SKOS.Concept))
         g.add((noeud, RDF.type, IOP.Constraint))
-        g.add((noeud, SKOS.inScheme, CARD[""]))
+        g.add((noeud, SKOS.inScheme, schema_))
+        sommet(g, noeud, schema_)
         for lang in ("en", "fr"):
             g.add((noeud, SKOS.prefLabel,
                    Literal(etiquettes[lang], lang=lang)))
@@ -140,7 +170,7 @@ def contraintes(g):
         noeud = CARD[f"constraint/{cle}"]
         g.add((noeud, RDF.type, SKOS.Concept))
         g.add((noeud, RDF.type, IOP.Constraint))
-        g.add((noeud, SKOS.inScheme, CARD[""]))
+        g.add((noeud, SKOS.inScheme, schema_))
         g.add((noeud, SKOS.broader,
                CARD[f"constraint-family/{entree['family']}"]))
         for lang in ("en", "fr"):
@@ -165,7 +195,7 @@ def contrainte_valeur(g, famille, valeur, unite):
         familles = ALIGNEMENTS["constraint_families"][famille]
         g.add((noeud, RDF.type, SKOS.Concept))
         g.add((noeud, RDF.type, IOP.Constraint))
-        g.add((noeud, SKOS.inScheme, CARD[""]))
+        g.add((noeud, SKOS.inScheme, CARD["scheme/constraint"]))
         g.add((noeud, SKOS.broader, CARD[f"constraint-family/{famille}"]))
         gabarits = ((("en", "{famille} between {valeur}"),
                      ("fr", "{famille} entre {valeur}")) if intervalle else
@@ -234,6 +264,9 @@ def familles(g, meta):
             g.add((noeud, RDF.type, SKOS.Concept))
             g.add((noeud, RDF.type, IOP.Variable))
             g.add((noeud, SKOS.inScheme, CARD[""]))
+            # Les familles sont les points d'entrée du schéma : les
+            # variables pendent sous elles, rien ne pend sous elles-mêmes.
+            sommet(g, noeud, CARD[""])
             # Liste de composants, jamais une phrase : une phrase générée
             # se casse en français à la première question d'accord
             # (« minimum annuel » mais « moyenne annuelle »). Le séparateur

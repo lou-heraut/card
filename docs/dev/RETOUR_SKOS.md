@@ -280,3 +280,82 @@ de version, et il faut le régénérer **après** `set_version.py`, jamais
 avant. C'est le test qui me l'a appris, en refusant le fichier juste après
 la montée en 0.8.0. La règle est écrite dans le CLAUDE.md, à côté de celle
 du catalogue.
+
+## Étape 7 : voir le rendu — **partiellement faite**
+
+### Ce qui a marché, et c'est le plus utile
+
+**`skosify`, l'outil de qualité SKOS écrit par l'équipe de Skosmos
+elle-même**, passe sur le fichier. C'est le signal qui compte : si leur
+propre validateur est content, leur navigateur le sera.
+
+Il a trouvé deux vrais défauts de structure, corrigés :
+
+- **le schéma n'avait pas de libellé** : `dcterms:title` ne suffit pas,
+  les outils cherchent `rdfs:label`. Un vocabulaire sans nom s'affiche
+  sans nom ;
+- **188 concepts orphelins**, c'est-à-dire sans parent ni statut de tête,
+  donc qu'un navigateur ne sait pas par où prendre. Corrigé en découpant
+  en **un schéma de concepts par facette**, plus un pour les contraintes,
+  ce que la conception d'origine prévoyait d'ailleurs. Il en reste zéro.
+
+Deux tests gardent l'acquis sans imposer la dépendance : aucun concept
+orphelin, aucun schéma sans libellé.
+
+Ce que le fichier donne maintenant, tel qu'un navigateur l'afficherait :
+
+```
+Schémas
+   card:                    132 concepts de tête   (les familles)
+   card:scheme/statistic     18
+   card:scheme/phenomenon    11
+   card:scheme/constraint     7
+   …
+
+Une famille dépliée : « débit · basses eaux · minimum · annuelle · série »
+   └─ Minimum annuel du débit journalier
+   └─ Minimum annuel de la moyenne sur 10 jours du débit journalier
+        contrainte : fenêtre glissante de 10 jours
+   └─ Minimum annuel de la moyenne sur 3 jours du débit journalier
+        contrainte : fenêtre glissante de 3 jours
+   └─ Minimum annuel de la moyenne sur 30 jours du débit journalier
+        contrainte : fenêtre glissante de 30 jours
+```
+
+C'est exactement ce qu'on voulait obtenir, et `QNA` y figure sans
+contrainte, ce qui est juste : c'est le cas d'une fenêtre d'un jour.
+
+### Ce qui n'a pas marché : Skosmos en conteneur
+
+J'ai arrêté après deux tentatives, et je préfère le dire que de laisser
+croire que c'est fait.
+
+- **l'image officielle est fermée** : `ghcr.io/natlibfi/skosmos` répond
+  `denied` sans authentification ;
+- **les images tierces ont zéro étoile** et ne sont pas maintenues ;
+- **Fuseki démarre**, mais l'image la plus suivie (`secoresearch/fuseki`,
+  15 étoiles) sert son jeu de données en **lecture seule** : `POST` et
+  `PUT` répondent `405`. Il faudrait une autre image ou une configuration
+  Fuseki écrite à la main, puis un second conteneur Skosmos avec son
+  fichier de configuration PHP.
+
+Ça devenait le tank qu'on voulait éviter, pour un gain esthétique : la
+question « est-ce que ça marchera chez eux » est déjà répondue par
+`skosify`, qui est leur outil.
+
+**À reprendre si tu veux vraiment l'écran**, et ce sera une session à
+part : soit avec les images du dépôt Skosmos construites localement, soit
+en demandant à Theia de charger le fichier chez eux, ce qui est de toute
+façon l'étape suivante.
+
+### Ce qui reste en doute
+
+**Le libellé des familles** reste à juger : « débit · basses eaux ·
+minimum · annuelle · série ». Il est honnête et il ne peut pas dériver,
+mais il n'est pas beau. Maintenant qu'on voit la hiérarchie dépliée, la
+question se pose autrement : le parent sert surtout à REGROUPER, et son
+libellé est lu une fois pour dix libellés d'enfants qui, eux, sont
+parfaits. Je le laisserais tel quel.
+
+**Les 202 concepts sans définition** ne se voient pas dans ce rendu
+textuel. Ils se verront à l'écran.

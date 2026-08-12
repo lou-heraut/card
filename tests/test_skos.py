@@ -140,3 +140,31 @@ def test_the_expected_shape_of_one_variable(graphe):
     externes = [o for o in graphe.objects(v, iop.hasProperty)
                 if "ozcar-theia" in str(o)]
     assert externes, "VCN10 n'est aligné sur aucune propriété externe"
+
+
+def test_no_orphan_concept(graphe):
+    """Un concept sans parent ni statut de tête n'a aucun point d'entrée.
+
+    `skosify`, l'outil de qualité SKOS écrit par l'équipe de Skosmos, en
+    signalait 188 avant le découpage en un schéma par facette : autant de
+    concepts qu'un navigateur ne sait pas où ranger. Ce test garde
+    l'acquis sans imposer la dépendance, la règle tenant en une ligne.
+    """
+    orphelins = []
+    for concept in set(graphe.subjects(RDF.type, SKOS.Concept)):
+        if next(graphe.objects(concept, SKOS.broader), None) is not None:
+            continue
+        if next(graphe.objects(concept, SKOS.topConceptOf), None) is not None:
+            continue
+        orphelins.append(concept)
+    assert not orphelins, (
+        f"{len(orphelins)} concepts sans parent ni statut de tête : "
+        f"{sorted(orphelins)[:3]}")
+
+
+def test_every_scheme_has_a_label(graphe):
+    """Un schéma sans libellé s'affiche sans nom, et `skosify` le dit."""
+    from rdflib.namespace import RDFS
+    muets = [s for s in graphe.subjects(RDF.type, SKOS.ConceptScheme)
+             if next(graphe.objects(s, RDFS.label), None) is None]
+    assert not muets, f"schémas sans rdfs:label : {muets}"
