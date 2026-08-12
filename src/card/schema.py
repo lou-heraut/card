@@ -174,6 +174,67 @@ def _check_meta_lists(meta_lang, prefix, issues):
             )
 
 
+def _check_global_lists(card, prefix, issues):
+    """Une liste de `meta.global` a autant de valeurs que de variables.
+
+    `_check_meta_lists` tenait déjà cette règle, mais seulement sur les
+    blocs de LANGUE : `meta.global` n'a jamais été mesuré. Trois fiches
+    `delta-allLF_*` y déclaraient encore 15 valeurs pour 5 variables,
+    restées de l'époque où elles sortaient 5 variables fois 3 horizons ;
+    la conversion au modèle suffixe du 2026-07-22 a réduit les sorties
+    sans retailler ces listes. Le code prend les n premières, si bien que
+    `delta-dtLF` et `delta-vLF` se publiaient en DATES, avec la palette
+    des dates, alors que ce sont une durée et un volume. Rien ne
+    rougissait : chaque fiche était par ailleurs valide.
+    """
+    en = (card.get("meta") or {}).get("en") or {}
+    variable = en.get("variable")
+    n = len(variable) if isinstance(variable, list) else 1
+    gl = (card.get("meta") or {}).get("global") or {}
+    for champ in ("is_date", "relative", "is_experimental", "palette", "source"):
+        v = gl.get(champ)
+        if not isinstance(v, list):
+            continue
+        if champ == "palette" and v and not isinstance(v[0], list):
+            continue                      # une seule palette, en couleurs
+        if len(v) != n:
+            issues.append(
+                f"{prefix}.{champ}: {len(v)} valeurs pour {n} variable(s)"
+            )
+
+
+def _check_is_date(card, prefix, issues):
+    """`is_date` vaut exactement « la variable est de l'aspect timing ».
+
+    Mesuré sur le corpus le 2026-08-13 : 52 variables `timing`, toutes à
+    `true`, et aucune des 405 autres ne l'est. La règle n'est donc pas
+    une préférence, c'est ce que le corpus fait déjà partout.
+
+    Ne pas lire `is_date` comme « l'unité est une date » : `delta-tVCX10`
+    est un écart de dates, exprimé en jours, et il reste `timing` donc
+    `true`. Ce que le champ dit est de quel AXE la variable parle, ce qui
+    commande aussi sa palette.
+    """
+    en = (card.get("meta") or {}).get("en") or {}
+    variable = en.get("variable")
+    variables = variable if isinstance(variable, list) else [variable]
+    n = len(variables)
+    aspect = (en.get("classification") or {}).get("aspect")
+    aspects = aspect if isinstance(aspect, list) else [aspect] * n
+    gl = (card.get("meta") or {}).get("global") or {}
+    dates = gl.get("is_date", False)
+    dates = dates if isinstance(dates, list) else [dates] * n
+    for i, var in enumerate(variables):
+        if i >= len(aspects) or i >= len(dates):
+            continue                      # longueur déjà signalée
+        attendu = str(aspects[i]).strip().lower() == "timing"
+        if bool(dates[i]) != attendu:
+            issues.append(
+                f"{prefix}.is_date de '{var}': {bool(dates[i])} pour un "
+                f"aspect '{aspects[i]}' (attendu {attendu})"
+            )
+
+
 def _windows_in_processes(processes):
     """Fenêtres [début, fin] présentes dans les sampling_period process."""
     windows = set()
@@ -728,6 +789,8 @@ def validate_card(path) -> list[str]:
 
     for lang in ("en", "fr"):
         _check_meta_lists(card["meta"][lang], f"meta.{lang}", issues)
+    _check_global_lists(card, "meta.global", issues)
+    _check_is_date(card, "meta.global", issues)
 
     var_en = card["meta"]["en"].get("variable")
     var_fr = card["meta"]["fr"].get("variable")
@@ -792,14 +855,32 @@ def _check_path_coherence(card, path, issues):
         )
 
 
+# Ce qu'une variable EST, et qui ne peut donc pas dépendre de la fiche
+# qui la produit. Le reste (`method`, `functions`, `input_vars`, `swhid`,
+# `version`, `family`) diverge légitimement : une fiche groupée calcule
+# plus de choses, lit plus d'entrées, et doit désambiguïser ses phrases
+# de méthode (« sum » seul contre « sum of total precipitation »).
+_PARTAGES_LANG = ("name", "description", "unit")
+_PARTAGES_CLASS = ("domain", "phenomenon", "aspect", "statistic",
+                   "season", "output", "purpose")
+_PARTAGES_GLOBAL = ("is_date", "relative", "palette")
+
+
 def _libelles_par_variable(root):
-    """{(variable, lang, champ): {texte: [fiches]}} sur tout le corpus.
+    """{(variable, champ): {valeur: [fiches]}} sur tout le corpus.
 
     Une fiche multi-sorties apparie ses listes par INDICE : la n-ième
     variable porte le n-ième name. Une métadonnée scalaire vaut pour
     toutes les sorties de la fiche.
     """
     table = {}
+
+    def note(var, champ, valeur, fiche):
+        if valeur is None or (isinstance(valeur, str) and not valeur.strip()):
+            return
+        table.setdefault((str(var), champ), {}) \
+             .setdefault(str(valeur), []).append(fiche)
+
     for p in sorted(root.rglob("*.yaml")):
         try:
             card = yaml.safe_load(p.read_text(encoding="utf-8"))
@@ -807,54 +888,77 @@ def _libelles_par_variable(root):
             continue          # la fiche est déjà en défaut par ailleurs
         if not isinstance(card, dict):
             continue
+        meta = card.get("meta") or {}
+        reference = (meta.get("en") or {}).get("variable")
+        n = len(reference) if isinstance(reference, list) else 1
+
+        def ieme(v, i):
+            """La i-ème valeur d'une liste appariée aux variables ; une
+            valeur scalaire vaut pour toutes les sorties."""
+            if isinstance(v, list):
+                return v[i] if i < len(v) else None
+            return v
+
         for lang in ("en", "fr"):
-            meta = (card.get("meta") or {}).get(lang) or {}
-            variables = meta.get("variable")
+            bloc = meta.get(lang) or {}
+            variables = bloc.get("variable")
             if variables is None:
                 continue
             if not isinstance(variables, list):
                 variables = [variables]
+            classification = bloc.get("classification") or {}
             for i, var in enumerate(variables):
-                for champ in ("name", "description"):
-                    v = meta.get(champ)
-                    if isinstance(v, list):
-                        if i >= len(v):
-                            continue
-                        v = v[i]
-                    if not isinstance(v, str) or not v.strip():
-                        continue
-                    cle = (str(var), lang, champ)
-                    table.setdefault(cle, {}).setdefault(v, []).append(p.stem)
+                for champ in _PARTAGES_LANG:
+                    note(var, f"meta.{lang}.{champ}",
+                         ieme(bloc.get(champ), i), p.stem)
+                for champ in _PARTAGES_CLASS:
+                    note(var, f"classification.{lang}.{champ}",
+                         ieme(classification.get(champ), i), p.stem)
+
+        # `meta.global` n'est pas traduit : indexé sur les variables `en`
+        gl = meta.get("global") or {}
+        variables = reference if isinstance(reference, list) else [reference]
+        for i, var in enumerate(variables):
+            for champ in _PARTAGES_GLOBAL:
+                v = gl.get(champ)
+                if champ == "palette" and isinstance(v, list) \
+                        and v and not isinstance(v[0], list):
+                    v = [v] * n           # une seule palette pour toutes
+                note(var, f"meta.global.{champ}", ieme(v, i), p.stem)
     return table
 
 
 def _check_libelles_partages(root, report):
-    """Deux fiches produisant la MÊME variable la nomment pareil.
+    """Deux fiches produisant la MÊME variable en disent la même chose.
 
     Le corpus produit exprès certaines variables deux fois, par une fiche
     seule et par une fiche groupée (`vLF` et `allLF`), parce qu'on veut
     parfois un lot et parfois une variable seule. Rien n'obligeait alors
-    les deux à écrire le même `name`, et sept variables avaient dérivé,
-    toujours en anglais, le français restant d'accord avec lui-même.
+    les deux à s'accorder, et le corpus avait dérivé de trois façons :
+    sept variables portaient deux `name` ou `description` anglais (le
+    français restant d'accord avec lui-même, donc une dérive de
+    traduction) ; `RAs` était classée dans deux phénomènes ; six
+    variables recevaient deux `is_date` et deux palettes.
 
-    Ce n'était pas visible : chaque fiche est juste, seul le corpus vu
-    d'ensemble est incohérent. Un catalogue affichait donc deux noms pour
-    une même variable, et le vocabulaire SKOS deux `prefLabel` dans une
-    même langue, ce qu'interdit la norme. Trouvé le 2026-08-12 par
-    `tests/test_skos.py`, corrigé, et gardé ici pour que la prochaine
-    fiche groupée ne le réintroduise pas.
+    Rien de tout cela n'était visible fiche par fiche : chacune était
+    valide, seul le corpus vu d'ensemble ne l'était pas. C'est pourquoi
+    la règle vit ici et non dans `validate_card`. Les conséquences se
+    voyaient en aval : un catalogue affichant deux noms pour une variable,
+    et le vocabulaire SKOS deux `prefLabel` dans une même langue, ce
+    qu'interdit la norme. Trouvé le 2026-08-12 par `tests/test_skos.py`,
+    élargi le 2026-08-13 à tout ce qui décrit ce qu'une variable EST.
     """
-    for (var, lang, champ), textes in sorted(_libelles_par_variable(root).items()):
-        if len(textes) < 2:
+    for (var, champ), valeurs in sorted(_libelles_par_variable(root).items()):
+        if len(valeurs) < 2:
             continue
         versions = "  |  ".join(
-            f"{'/'.join(fiches)}: {t!r}" for t, fiches in sorted(textes.items())
+            f"{'/'.join(fiches)}: {t!r}" for t, fiches in sorted(valeurs.items())
         )
-        for fiches in textes.values():
+        for fiches in valeurs.values():
             for fiche in fiches:
                 report.setdefault(fiche, []).append(
-                    f"meta.{lang}.{champ} de '{var}': deux formulations "
-                    f"selon la fiche qui la produit  ->  {versions}"
+                    f"{champ} de '{var}': deux valeurs selon la fiche qui "
+                    f"la produit  ->  {versions}"
                 )
 
 

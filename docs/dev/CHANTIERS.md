@@ -164,68 +164,6 @@ Les trois sorties possibles, aucune satisfaisante en l'état :
 sens. Elle ne peut donc pas fonder un alignement sémantique, et
 `PLAN_SITE_SKOS.md` l'écarte explicitement de l'export SKOS.
 
-## `operator` : une colonne publiée, dérivée d'un nom (2026-08-12)
-
-`list_cards()` et `meta` publient une colonne `operator`, calculée **dans
-le code** à partir du PRÉFIXE de l'identifiant de la fiche :
-
-```python
-_OPERATORS = [("delta-", "delta"), ("median-", "median"), ("mean-", "mean"),
-              ("alpha-", "trend slope"), ("hyp-", "trend test"), ("n-", "count")]
-```
-
-Six préfixes écrits en dur. C'est exactement le motif dont le dépôt se
-méfie depuis `compute_Qp` : une sortie publiée qui dépend d'une chaîne
-que ni l'import, ni le linter, ni les tests ne suivent. Renommer un
-préfixe de fiche laisserait la liste en arrière sans que rien ne
-rougisse.
-
-Mesuré le 2026-08-12 : la colonne est **vide sur 322 lignes sur 472**,
-puisqu'elle ne décrit que les fiches préfixées.
-
-**Mesuré le 2026-08-12, après la facette `statistic`** : `operator` est
-**entièrement déterminé** par le triplet `(statistic, output, aspect)`.
-Sur les 37 combinaisons que le corpus présente, **aucune n'est ambiguë**.
-Il ne porte donc plus aucune information propre.
-
-Il a fallu pour cela scinder `trend` en `trend-slope` et
-`trend-significance` : `alpha-QA` produit la pente ET le résultat du
-test, et un terme unique les rendait indiscernables. C'était le seul cas
-ambigu, et le corriger a rendu la redondance totale.
-
-Reste donc **une dette à retirer**, et une seule question, celle du
-comment :
-
-- côté card, retirer la colonne `operator` de `meta` et le paramètre
-  `operator=` de `list_cards()` est un changement de SORTIES : entrée
-  `RENAMING.md` et version mineure ;
-- côté card-api, `operator` est un **filtre exposé** de `/v1/cards`, donc
-  son retrait casse un client qui l'utilise. Il faut soit une période où
-  les deux coexistent, soit une coupe de version du service annoncée.
-
-C'est la seule raison pour laquelle ce n'est pas déjà fait : la
-suppression est correcte, sa coordination ne l'est pas encore.
-
-**Inventaire de ce qu'il faut toucher** (2026-08-12), pour que le jour
-venu personne ne le refasse :
-
-| dépôt | ce qui cite `operator` |
-|---|---|
-| card | `extraction.py` (calcul), `management.py` (paramètre), `README.md` (un exemple), `tests/test_ux.py` |
-| card-api | `main.py` (paramètre de requête), `README.md` (un `curl` publié) |
-| card4r | `README.md`, `man/card_list.Rd`, `R/card.R` |
-
-**La substitution n'est pas toujours mot pour mot**, et c'est le seul
-piège : `operator="delta"` devient `statistic="change"`, exactement le
-même ensemble ; mais `operator="mean"` devient
-`statistic="mean", output="scalar"`, parce que le préfixe `mean-`
-désignait la moyenne INTER-ANNUELLE et que la facette, elle, désigne
-toutes les moyennes. L'information est entière, elle demande deux
-filtres au lieu d'un.
-
-Vérifier avec `python scripts/analyse_classification.py`, dont la
-troisième section dit si la redondance tient toujours.
-
 ## Raffiner `method` par étape, en plus de la classification (2026-08-12)
 
 La facette `statistic` classe la variable par son opération TERMINALE,

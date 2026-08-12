@@ -601,13 +601,50 @@ Un filtre EST une opération, elle décompose au lieu de résumer.
 produit la pente et le résultat du test ; un terme unique les rendait
 indiscernables. Deux valeurs publiées changent donc, sur six variables.
 
-Conséquence mesurée : la colonne `operator` est désormais **entièrement
-déterminée** par `(statistic, output, aspect)`, aucune des 37
-combinaisons du corpus n'étant ambiguë. Elle est candidate au retrait,
-piste ouverte dans `CHANTIERS.md`, coordination avec card-api requise.
+Conséquence mesurée : la colonne `operator` est devenue **entièrement
+déterminée** par `(statistic, output, aspect)`, aucune combinaison du
+corpus n'étant ambiguë. Elle a été retirée le 2026-08-13 ; sa table de
+conversion est plus bas.
 
 Version mineure du paquet (0.7.0) : deux valeurs publiées changent, et
 une facette requise de plus fait refuser par le linter une fiche
 personnelle qui ne la porterait pas.
 
 Parité R : sans objet.
+
+## Retrait de la colonne `operator` (2026-08-13)
+
+`meta` et `list_cards()` publiaient une colonne `operator`, calculée non
+pas depuis la fiche mais depuis le **préfixe de son identifiant** :
+`delta-` donnait `delta`, `hyp-` donnait `trend test`. Une fiche ne
+pouvait donc ni la déclarer ni la contredire, et renommer une variable
+changeait silencieusement une métadonnée publiée.
+
+La facette `statistic` (2026-08-12) dit la même chose en la déclarant.
+Mesuré avant retrait : chaque valeur non vide d'`operator` correspond à
+**exactement un** couple `(statistic, output)`, et aucun de ces couples
+n'apparaît ailleurs. La conversion est donc sans perte dans les deux
+sens. Les deux tiers du corpus avaient d'ailleurs `operator` vide, ce
+qui n'est pas le profil d'une facette mais d'un préfixe.
+
+Table de conversion, valable pour `card.list_cards()`, `/v1/cards` et
+`card4r::card_list()` :
+
+| avant | après |
+|---|---|
+| `operator="delta"` | `statistic="change"` |
+| `operator="trend slope"` | `statistic="trend slope"` |
+| `operator="trend test"` | `statistic="trend significance"` |
+| `operator="mean"` | `statistic="mean"` **et** `output="scalar"` |
+| `operator="median"` | `statistic="median"` **et** `output="scalar"` |
+| `operator="count"` | `statistic="threshold exceedance"` **et** `output="scalar"` |
+
+Les trois derniers demandent deux filtres, et c'est exactement
+l'information qu'`operator` cachait : une moyenne existe aussi en série
+et en courbe, `operator="mean"` ne rendait que sa forme scalaire sans
+le dire.
+
+Sorties modifiées : une colonne de `meta` disparaît. Version majeure du
+paquet (0.9.0), et `?operator=` de `/v1/cards` répond désormais 422.
+
+Parité R : sans objet, le CSV de CARD-R ne portait pas la colonne.

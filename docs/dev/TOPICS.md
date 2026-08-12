@@ -89,8 +89,8 @@ Trois questions qu'on se pose avant d'ajouter, de retirer ou de fusionner
 une facette, et auxquelles on répondait par des scripts jetables :
 **redondance** (une facette en détermine-t-elle une autre à 100 % ?),
 **pouvoir de résolution** (que reste-t-il d'indistinct, et pourquoi ?),
-et **colonnes dérivées** (`operator` porte-t-il encore une information
-propre ?).
+et **colonnes dérivées** (une colonne calculée depuis un nom porte-t-elle
+encore une information propre ?).
 
 Aucun de ces chiffres n'est recopié ici, volontairement : ils bougent
 avec le corpus, et une valeur écrite dans un document finit par mentir.
@@ -260,8 +260,9 @@ règle déjà écrite pour `time_step`.
 **`trend` est scindé en deux**, et la mesure l'a imposé : `alpha-QA`
 produit la pente ET le résultat du test, deux variables qu'un terme
 unique rendait indiscernables. Avec la scission, la colonne héritée
-`operator` devient **entièrement déterminée** par `(statistic, output,
-aspect)`, sans une seule combinaison ambiguë sur les 37 du corpus.
+`operator` est devenue entièrement déterminée par `(statistic, output)`,
+sans une seule combinaison ambiguë, et c'est ce qui a permis de la
+retirer (`RENAMING.md`).
 
 ### season : la fenêtre d'échantillonnage (obligatoire ; position 4 d'Oberlin)
 

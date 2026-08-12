@@ -1660,12 +1660,11 @@
     dcterms:subject <https://example.invalid/card/aspect/magnitude>,
         <https://example.invalid/card/domain/precipitation>,
         <https://example.invalid/card/output/series>,
-        <https://example.invalid/card/phenomenon/mean-precipitation>,
         <https://example.invalid/card/phenomenon/snow>,
         <https://example.invalid/card/season/annual> ;
     rdfs:isDefinedBy <https://example.invalid/card/card/RA_all>,
         <https://example.invalid/card/card/RAs> ;
-    skos:broader <https://example.invalid/card/family/precipitation.mean-precipitation.magnitude.sum.annual.series.r+rl+rs>,
+    skos:broader <https://example.invalid/card/family/precipitation.snow.magnitude.sum.annual.series.r+rl+rs>,
         <https://example.invalid/card/family/precipitation.snow.magnitude.sum.annual.series.rs> ;
     skos:inScheme card: ;
     skos:notation "RAs" ;
@@ -10611,6 +10610,14 @@
         "précipitations · neige · rapport · annuelle · série"@fr ;
     skos:topConceptOf card: .
 
+<https://example.invalid/card/family/precipitation.snow.magnitude.sum.annual.series.r+rl+rs> a skos:Concept,
+        iop:Variable ;
+    skos:editorialNote "Generated parent: the variables of this family differ only by a parameter. Its label enumerates its components."@en ;
+    skos:inScheme card: ;
+    skos:prefLabel "precipitation · snow · sum · annual · series"@en,
+        "précipitations · neige · somme · annuelle · série"@fr ;
+    skos:topConceptOf card: .
+
 <https://example.invalid/card/family/precipitation.snow.magnitude.sum.annual.series.rs> a skos:Concept,
         iop:Variable ;
     skos:editorialNote "Generated parent: the variables of this family differ only by a parameter. Its label enumerates its components."@en ;
@@ -10647,9 +10654,9 @@
         "pente"@fr ;
     skos:topConceptOf <https://example.invalid/card/scheme/statistic> .
 
-<https://example.invalid/card/card/RA_all> dcterms:identifier "swh:1:cnt:b8544d9ea76c5166b10a1463eec7bfcc8a0a57ed" ;
+<https://example.invalid/card/card/RA_all> dcterms:identifier "swh:1:cnt:5397f02a4393516237d95ff20a78f224fab5bafe" ;
     dcterms:title "RA_all" ;
-    owl:versionInfo "1.1" ;
+    owl:versionInfo "2.0" ;
     card:method "1. annual aggregation [09-01, 08-31] - sum of total precipitation"@en,
         "1. agrégation annuelle [01-09, 31-08] - somme des précipitations totales"@fr ;
     card:path "precipitation/mean-precipitation/series/RA_all.yaml" .
@@ -10749,6 +10756,14 @@
     skos:inScheme card: ;
     skos:prefLabel "precipitation · heavy rain · maximum · annual · series"@en,
         "précipitations · pluies fortes · maximum · annuelle · série"@fr ;
+    skos:topConceptOf card: .
+
+<https://example.invalid/card/family/precipitation.mean-precipitation.magnitude.sum.annual.series.r+rl+rs> a skos:Concept,
+        iop:Variable ;
+    skos:editorialNote "Generated parent: the variables of this family differ only by a parameter. Its label enumerates its components."@en ;
+    skos:inScheme card: ;
+    skos:prefLabel "precipitation · mean precipitation · sum · annual · series"@en,
+        "précipitations · précipitations moyennes · somme · annuelle · série"@fr ;
     skos:topConceptOf card: .
 
 <https://example.invalid/card/family/precipitation.snow.magnitude.ratio.annual.scalar.r+rl+rs> a skos:Concept,
@@ -11094,14 +11109,6 @@
         "débit · moyennes eaux · quantile · annuelle · série"@fr ;
     skos:topConceptOf card: .
 
-<https://example.invalid/card/family/precipitation.mean-precipitation.magnitude.sum.annual.series.r+rl+rs> a skos:Concept,
-        iop:Variable ;
-    skos:editorialNote "Generated parent: the variables of this family differ only by a parameter. Its label enumerates its components."@en ;
-    skos:inScheme card: ;
-    skos:prefLabel "precipitation · mean precipitation · sum · annual · series"@en,
-        "précipitations · précipitations moyennes · somme · annuelle · série"@fr ;
-    skos:topConceptOf card: .
-
 <https://example.invalid/card/scheme/purpose> a skos:ConceptScheme ;
     rdfs:label "purpose"@en,
         "finalité"@fr ;
@@ -11167,9 +11174,9 @@
 4. agrégation annuelle [01-11, 30-04] - date du premier jour de la plus longue période sous upLim"""@fr ;
     card:path "flow/low-flows/series/allLF_winter.yaml" .
 
-<https://example.invalid/card/card/delta-allLF_H> dcterms:identifier "swh:1:cnt:645d3fc602f0aa24f3f37ddb030e36a1e72f99cc" ;
+<https://example.invalid/card/card/delta-allLF_H> dcterms:identifier "swh:1:cnt:c3e0f9caf7fc63abbc615eca893fec9dfb9e5ea7" ;
     dcterms:title "delta-allLF_H" ;
-    owl:versionInfo "2.6" ;
+    owl:versionInfo "3.0" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [month of maximum monthly flows] - minimum of VC10 (VCN10)
 3. no temporal aggregation - maximum of VCN10, taken as the threshold (upLim)
@@ -11182,9 +11189,9 @@
 5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-allLF_H.yaml" .
 
-<https://example.invalid/card/card/delta-allLF_summer_H> dcterms:identifier "swh:1:cnt:ace6e0c882b0226b78c0d685b12d4c9880179c49" ;
+<https://example.invalid/card/card/delta-allLF_summer_H> dcterms:identifier "swh:1:cnt:75bc82053f0b9b492005bddbcce24541d5305074" ;
     dcterms:title "delta-allLF_summer_H" ;
-    owl:versionInfo "2.6" ;
+    owl:versionInfo "3.0" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [05-01, 11-30] - minimum of VC10 (VCN10_summer)
 3. no temporal aggregation - maximum of VCN10_summer, taken as the threshold (upLim)
@@ -11197,9 +11204,9 @@
 5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-allLF_summer_H.yaml" .
 
-<https://example.invalid/card/card/delta-allLF_winter_H> dcterms:identifier "swh:1:cnt:fc5a902402e73ab0bc66b2b050ca2684c694b63c" ;
+<https://example.invalid/card/card/delta-allLF_winter_H> dcterms:identifier "swh:1:cnt:49f50a47bce8f399b8a2b32414ff38d773873797" ;
     dcterms:title "delta-allLF_winter_H" ;
-    owl:versionInfo "2.6" ;
+    owl:versionInfo "3.0" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [11-01, 04-30] - minimum of VC10 (VCN10_winter)
 3. no temporal aggregation - maximum of VCN10_winter, taken as the threshold (upLim)
@@ -12243,6 +12250,7 @@ card: a skos:ConceptScheme ;
         <https://example.invalid/card/family/precipitation.snow.magnitude.ratio.annual.scalar.r+rl+rs>,
         <https://example.invalid/card/family/precipitation.snow.magnitude.ratio.annual.series.r+rl>,
         <https://example.invalid/card/family/precipitation.snow.magnitude.ratio.annual.series.r+rs>,
+        <https://example.invalid/card/family/precipitation.snow.magnitude.sum.annual.series.r+rl+rs>,
         <https://example.invalid/card/family/precipitation.snow.magnitude.sum.annual.series.rs>,
         <https://example.invalid/card/family/precipitation.snow.magnitude.sum.by-month.series.rs>,
         <https://example.invalid/card/family/precipitation.snow.magnitude.sum.by-season.series.rs>,

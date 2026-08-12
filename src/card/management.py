@@ -55,7 +55,7 @@ def _describe_inputs(raw, lang="fr"):
 
 def list_cards(path=None, include_experimental=False,
                domain=None, phenomenon=None, aspect=None, statistic=None,
-               season=None, output=None, purpose=None, operator=None,
+               season=None, output=None, purpose=None,
                function=None, variable=None, search=None,
                family=None, family_of=None) -> pd.DataFrame:
     """List the available CARD cards with their metadata.
@@ -96,9 +96,6 @@ def list_cards(path=None, include_experimental=False,
         Shape of the result: ``"series"``, ``"scalar"``, ``"curve"``.
     purpose : str, optional
         ``"model performance"`` or ``"climate sensitivity"``.
-    operator : str, optional
-        Operator carried by the name prefix: ``"delta"``, ``"median"``,
-        ``"mean"``, ``"trend slope"``, ``"trend test"``, ``"count"``.
     function : str, optional
         Substring of a function name used by the process, such as
         ``"baseflow"``, ``"rollmean"``, ``"delta"``.
@@ -177,7 +174,6 @@ def list_cards(path=None, include_experimental=False,
         (season, ["season_fr", "season_en"], "season"),
         (output, ["output_fr", "output_en"], "output"),
         (purpose, ["purpose_fr", "purpose_en"], "purpose"),
-        (operator, ["operator"], None),
         (function, ["functions"], None),
     ]:
         if needle is not None:

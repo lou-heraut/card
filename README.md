@@ -126,7 +126,7 @@ The whole collection is browsable online:
 card.list_cards()                        # every variable, one per row
 card.list_cards(phenomenon="low flows")  # by hydrological phenomenon
 card.list_cards(output="series")         # a series, versus a scalar or a curve
-card.list_cards(operator="delta")        # the change between two periods
+card.list_cards(statistic="change")      # the change between two periods
 card.list_cards(season="summer")         # restricted sampling window
 card.list_cards(variable="VCN")          # by variable name
 card.list_cards(search="annual minimum") # over names and descriptions

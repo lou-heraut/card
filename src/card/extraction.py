@@ -239,15 +239,6 @@ def _meta_rows(card) -> pd.DataFrame:
             out.append(".".join(morceaux + ([entrees] if entrees else [])))
         return out
 
-    _OPERATORS = [("delta-", "delta"), ("median-", "median"), ("mean-", "mean"),
-                  ("alpha-", "trend slope"), ("hyp-", "trend test"), ("n-", "count")]
-
-    def operator(var):
-        for prefix, op in _OPERATORS:
-            if str(var).startswith(prefix):
-                return op
-        return ""
-
     return pd.DataFrame({
         # La FICHE qui produit cette variable, et donc ce qu'il faut
         # passer à `extract(cards=...)`. Les deux noms coïncident tant
@@ -287,7 +278,6 @@ def _meta_rows(card) -> pd.DataFrame:
         "output_fr": cfield(fr, "output"),
         "purpose_fr": cfield(fr, "purpose"),
         "family": familles(),
-        "operator": [operator(v) for v in _as_list(variable_en, n)],
         "functions": [", ".join(dict.fromkeys(
             e["fn_name"] for p in card["processes"] for e in p["func"]))] * n,
         "is_experimental": _as_list(gl.get("is_experimental"), n),

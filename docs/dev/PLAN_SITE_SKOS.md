@@ -751,7 +751,7 @@ regarde, **on ne publie rien**.
 | 6 | `scripts/generate_skos.py` → `card.ttl`, base d'URI manifestement provisoire, métadonnées de schéma, garde de fraîcheur étendue | 3, 5 | **fait** (card 0.8.0) |
 | 7 | Skosmos **local** sur ce `.ttl`, pour voir le rendu avant tout dépôt | 6 | à faire |
 | 8 | site MkDocs Material **en localhost** : sans `dev/`, URLs minuscules, catalogue filtrable rendu en HTML, fonctions en deux sections | rien | à faire |
-| 9 | retrait d'`operator`, coordonné card et card-api | 3 | à faire |
+| 9 | retrait d'`operator`, coordonné card et card-api | 3 | **fait** (2026-08-13) |
 | 10 | courriel à Theia/OZCAR : l'alignement existe, veulent-ils l'extension, veulent-ils servir le `.ttl` ? | utilisateur | à faire |
 | 11 | base d'URI définitive, licence du vocabulaire, domaine, hébergement, publication | 10 | différé |
 

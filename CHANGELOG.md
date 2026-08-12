@@ -63,6 +63,65 @@ des deux endroits.
 
 ## Non publié
 
+### Retiré
+
+- **La colonne `operator` (2026-08-13).** Elle n'était pas déclarée par
+  les fiches mais calculée depuis le **préfixe de leur identifiant** :
+  renommer une variable changeait donc silencieusement une métadonnée
+  publiée. La facette `statistic` dit la même chose en la déclarant.
+  Mesuré avant retrait : chaque valeur non vide correspondait à
+  exactement un couple `(statistic, output)`, et aucun de ces couples
+  n'apparaissait ailleurs, donc la conversion est sans perte. Deux tiers
+  du corpus avaient `operator` vide, ce qui n'est pas le profil d'une
+  facette. Table de conversion : `RENAMING.md`. Coordonné avec card-api
+  (le filtre `?operator=` disparaît) et card4r.
+
+### Corrigé
+
+- **Six variables se publiaient en DATES sans en être (2026-08-13).**
+  `delta-dtLF` et `delta-vLF`, leurs variantes saisonnières, sortaient
+  des fiches `delta-allLF_*` avec `is_date: true` et la palette des
+  dates, alors que ce sont une durée et un volume. Cause : ces trois
+  fiches déclaraient encore **15 valeurs pour 5 variables** dans
+  `meta.global`, listes restées de l'époque où elles sortaient 5
+  variables fois 3 horizons ; la conversion au modèle suffixe du
+  2026-07-22 a réduit les sorties sans les retailler, et le code prenait
+  les cinq premières. Les fiches seules `delta-dtLF_H` et `delta-vLF_H`
+  donnaient les bonnes valeurs, ce qui a permis de confirmer la lecture.
+  Version majeure des trois fiches.
+
+- **`RAs` était classée dans deux phénomènes (2026-08-13).** `snow` par
+  sa fiche seule, `mean precipitation` par la fiche groupée `RA_all`.
+  C'est `snow` : le corpus range déjà dans le régime nival les vingt
+  autres variables solides (`RMAs_*`, `RSAs_*`, `RAs_ratio`) **et** les
+  ratios de partition de phase, `RAl_ratio` compris. Ce qui décide n'est
+  donc pas la phase mesurée mais ce dont la variable renseigne : une
+  fraction liquide parle du régime nival. `RA_all` déclare désormais une
+  liste par sortie ; elle reste dans son dossier, le contrôle de chemin
+  lisant le premier élément.
+
+### Ajouté
+
+- **Quatre règles de linter, dont la première inter-fiches (2026-08-13).**
+  Les trois défauts ci-dessus avaient en commun d'être invisibles fiche
+  par fiche : chacune était valide, seul le corpus vu d'ensemble ne
+  l'était pas. D'où une règle qui ne pouvait pas vivre dans
+  `validate_card` :
+
+  - deux fiches produisant la même variable en disent la même chose
+    (`name`, `description`, `unit`, les sept facettes, `is_date`,
+    `relative`, `palette`). Ce qui diverge légitimement reste libre et la
+    liste est écrite : `method`, `functions`, `input_vars`, `swhid`,
+    `version`, `family`, une fiche groupée calculant plus de choses et
+    devant désambiguïser ses phrases de méthode ;
+  - une liste de `meta.global` a autant de valeurs que de variables. Le
+    contrôle existait, mais seulement sur les blocs de LANGUE : c'est la
+    cause racine du défaut des `delta-allLF_*` ;
+  - `is_date` vaut exactement « aspect `timing` », mesuré sur les 457
+    variables saines du corpus, sans une exception. Ne pas le lire comme
+    « l'unité est une date » : `delta-tVCX10` est un écart de dates en
+    jours, et il reste `timing`.
+
 ### Modifié
 
 - **Une variable produite par deux fiches porte les mêmes libellés
