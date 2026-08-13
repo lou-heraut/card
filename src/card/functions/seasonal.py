@@ -66,7 +66,7 @@ def delta(X, dates, ref_start, ref_end, horizon_start, horizon_end, relative,
     -------
     float
         Horizon minus reference, or the relative change in per cent when
-        ``relative`` is set.
+        `relative` is set.
 
     Notes
     -----

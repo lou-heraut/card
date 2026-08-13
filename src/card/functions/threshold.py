@@ -83,11 +83,11 @@ def apply_threshold(X, lim, where="<=", what="X", select="all",
     where : {"<=", "<", ">=", ">"}, default "<="
         Comparison defining an episode.
     what : str, default "X"
-        Quantity returned: ``"X"`` for the values, ``"length"`` for the
-        duration of the episodes, ``"first"`` or ``"last"`` for the 0-based
+        Quantity returned: `"X"` for the values, `"length"` for the
+        duration of the episodes, `"first"` or `"last"` for the 0-based
         index of their start or end.
     select : str or int, default "all"
-        ``"all"``, ``"longest"``, ``"shortest"``, or a target duration.
+        `"all"`, `"longest"`, `"shortest"`, or a target duration.
     dates : array-like, optional
         Column of dates, aligned on X.
     period : list, optional
@@ -97,7 +97,7 @@ def apply_threshold(X, lim, where="<=", what="X", select="all",
 
     Returns
     -------
-    The quantity named by ``what``, over the episodes named by ``select``.
+    The quantity named by `what`, over the episodes named by `select`.
     """
     X = _to_float_array(X)
 

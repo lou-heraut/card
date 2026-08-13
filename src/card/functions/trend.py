@@ -59,7 +59,7 @@ def mannkendall_test(X, level=0.1, time_dependency_option="AR1"):
     Returns
     -------
     bool
-        True when the trend is significant at ``level``.
+        True when the trend is significant at `level`.
     """
     res = GeneralMannKendall(_to_float_array(X), level=level,
                              time_dependency_option=time_dependency_option,

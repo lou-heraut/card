@@ -60,14 +60,14 @@ def list_cards(path=None, include_experimental=False,
                family=None, family_of=None) -> pd.DataFrame:
     """List the available CARD cards with their metadata.
 
-    One row per VARIABLE. The ``card`` column gives the card that
-    produces it, and that is what :func:`card.extract` expects: the two
+    One row per VARIABLE. The `card` column gives the card that
+    produces it, and that is what `card.extract` expects: the two
     names differ as soon as one card yields several columns
-    (``mean-TMA_jan`` comes from ``mean-TMA_month``). Chaining the two
-    functions therefore goes through ``card``, deduplicated.
+    (`mean-TMA_jan` comes from `mean-TMA_month`). Chaining the two
+    functions therefore goes through `card`, deduplicated.
 
     Unlike the R package, which reads a pre-generated CSV, the metadata
-    is read straight from the ``meta`` blocks of the YAML cards, so it
+    is read straight from the `meta` blocks of the YAML cards, so it
     cannot fall out of step with them.
 
     Parameters
@@ -78,40 +78,40 @@ def list_cards(path=None, include_experimental=False,
     include_experimental : bool, default False
         Also list the cards flagged as experimental.
     domain : str, optional
-        Measured quantity: ``"flow"``, ``"precipitation"``,
-        ``"temperature"``, ``"evapotranspiration"``.
+        Measured quantity: `"flow"`, `"precipitation"`,
+        `"temperature"`, `"evapotranspiration"`.
     phenomenon : str, optional
-        Hydrological phenomenon: ``"low flows"``, ``"baseflow"``,
-        ``"snow"``...
+        Hydrological phenomenon: `"low flows"`, `"baseflow"`,
+        `"snow"`...
     aspect : str, optional
-        IHA dimension: ``"magnitude"``, ``"timing"``, ``"duration"``...
+        IHA dimension: `"magnitude"`, `"timing"`, `"duration"`...
     statistic : str, optional
-        Statistical operation the variable comes from: ``"mean"``,
-        ``"minimum"``, ``"quantile"``, ``"trend"``... Orthogonal to
-        ``aspect``: ``VCN10`` and ``tVCN10`` are both a ``"minimum"``,
+        Statistical operation the variable comes from: `"mean"`,
+        `"minimum"`, `"quantile"`, `"trend"`... Orthogonal to
+        `aspect`: `VCN10` and `tVCN10` are both a `"minimum"`,
         one being its value and the other its date.
     season : str, optional
-        Sampling window: ``"annual"``, ``"summer"``, ``"by month"``...
+        Sampling window: `"annual"`, `"summer"`, `"by month"`...
     output : str, optional
-        Shape of the result: ``"series"``, ``"scalar"``, ``"curve"``.
+        Shape of the result: `"series"`, `"scalar"`, `"curve"`.
     purpose : str, optional
-        ``"model performance"`` or ``"climate sensitivity"``.
+        `"model performance"` or `"climate sensitivity"`.
     function : str, optional
         Substring of a function name used by the process, such as
-        ``"baseflow"``, ``"rollmean"``, ``"delta"``.
+        `"baseflow"`, `"rollmean"`, `"delta"`.
     variable : str, optional
-        Substring of a variable name, such as ``"VCN"``.
+        Substring of a variable name, such as `"VCN"`.
     search : str, optional
         Substring looked up in names, descriptions and variable names.
     family : str, optional
-        Family identifier, as the ``family`` column holds it.
+        Family identifier, as the `family` column holds it.
     family_of : str, optional
         Name of a variable: returns the variables sharing its family,
         that is the ones that differ from it only by a parameter.
-        ``family_of="VCN10"`` gives ``QNA``, ``VCN3``, ``VCN10``,
-        ``VCN30``, the same concept at four durations. Not to be confused
-        with ``variable="VCN"``, a substring search that also returns
-        ``delta-VCN10`` and misses ``QNA``.
+        `family_of="VCN10"` gives `QNA`, `VCN3`, `VCN10`,
+        `VCN30`, the same concept at four durations. Not to be confused
+        with `variable="VCN"`, a substring search that also returns
+        `delta-VCN10` and misses `QNA`.
 
     Returns
     -------
@@ -123,8 +123,8 @@ def list_cards(path=None, include_experimental=False,
     -----
     Filters are case-insensitive. For the classification facets, the
     vocabulary slug and both labels are equivalent:
-    ``phenomenon="low-flows"``, ``"low flows"`` and ``"basses eaux"``
-    return the same rows. :func:`card.vocabulary` gives the closed list
+    `phenomenon="low-flows"`, `"low flows"` and `"basses eaux"`
+    return the same rows. `card.vocabulary` gives the closed list
     of values each facet accepts.
 
     Examples
@@ -210,7 +210,7 @@ def info(name, path=None, lang="fr", quiet=False) -> dict:
     Parameters
     ----------
     name : str
-        Name of the card, such as ``"QA"``, ``"VCN10"``, ``"dtLF"``.
+        Name of the card, such as `"QA"`, `"VCN10"`, `"dtLF"`.
     path : str or pathlib.Path, optional
         Directory of YAML cards. Defaults to the cards shipped with the
         package.
@@ -220,7 +220,7 @@ def info(name, path=None, lang="fr", quiet=False) -> dict:
         Print nothing and return the dict alone. Meant for programmatic
         calls: a web service has no terminal, so the figure would be
         computed for nothing and land in the logs at every request. To
-        get the figure as a STRING, use :func:`card.figure`.
+        get the figure as a STRING, use `card.figure`.
 
     Returns
     -------
@@ -293,16 +293,16 @@ def copy_cards(cards=("QA", "QJXA"), dest="./WIP",
 
     Parameters
     ----------
-    cards : sequence of str or dict, default ``("QA", "QJXA")``
-        Card names, or a nested dict ``{subfolder: [names, ...]}`` to
+    cards : sequence of str or dict, default ("QA", "QJXA")
+        Card names, or a nested dict `{subfolder: [names, ...]}` to
         organise the copy into numbered subfolders.
-    dest : str or pathlib.Path, default ``"./WIP"``
+    dest : str or pathlib.Path, default "./WIP"
         Destination directory.
     source : str or pathlib.Path, optional
         Directory to copy from. Defaults to the cards shipped with the
         package.
     numbered : bool, default False
-        Prefix the copied files (``001_``, ``002_``...). Left False,
+        Prefix the copied files (`001_`, `002_`...). Left False,
         because the linter requires the identifier of a card to also be
         its file name, and a prefix would make it fail. It is only worth
         turning on to order a working directory.
@@ -314,8 +314,8 @@ def copy_cards(cards=("QA", "QJXA"), dest="./WIP",
     Returns
     -------
     None
-        The cards are written under ``dest``. Point
-        ``card.extract(path=dest)`` at them to run your own versions.
+        The cards are written under `dest`. Point
+        `card.extract(path=dest)` at them to run your own versions.
     """
     if source is None:
         source = _DEFAULT_CARD_DIR

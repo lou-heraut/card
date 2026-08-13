@@ -67,16 +67,16 @@ def vocabulary():
     Returns
     -------
     dict
-        ``{facet: {slug: {"en": label, "fr": label, ...}}}``. This is
-        the closed list of values a ``classification`` block may take,
+        `{facet: {slug: {"en": label, "fr": label, ...}}}`. This is
+        the closed list of values a `classification` block may take,
         and therefore also the list of valid filters for
-        :func:`card.list_cards`.
+        `card.list_cards`.
 
     Notes
     -----
     The key is a neutral slug: the identifier of the concept, stable
     when a label is reworded, usable as a directory name and one day as
-    a URI. ``en`` and ``fr`` are two labels of equal standing, neither
+    a URI. `en` and `fr` are two labels of equal standing, neither
     language being the identifier.
 
     Public so that a client, a web service or a form, can offer the

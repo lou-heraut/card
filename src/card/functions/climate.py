@@ -37,7 +37,7 @@ def elasticity(Q, X):
     Returns
     -------
     float
-        Median of ``((Q - Qmean) / (X - Xmean)) * Xmean / Qmean``.
+        Median of `((Q - Qmean) / (X - Xmean)) * Xmean / Qmean`.
     """
     q = _to_float_array(Q)
     x = _to_float_array(X)
@@ -61,7 +61,7 @@ def runoff_coefficient(Q, R):
     Returns
     -------
     float
-        ``sum(Q) / sum(R)``.
+        `sum(Q) / sum(R)`.
     """
     q = _to_float_array(Q)
     r = _to_float_array(R)

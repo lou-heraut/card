@@ -75,7 +75,7 @@ def difference(a, b):
     Returns
     -------
     numpy.ndarray or float
-        ``a - b``, NaN if either side is all NaN. A result of length 1 is
+        `a - b`, NaN if either side is all NaN. A result of length 1 is
         returned as a number, for convenience of type: it is still one value
         per time step.
     """
@@ -97,7 +97,7 @@ def ratio(a, b):
     Returns
     -------
     numpy.ndarray or float
-        ``a / b``, under the same conventions as :func:`difference`.
+        `a / b`, under the same conventions as `difference`.
     """
     a = _to_float_array(a)
     b = _to_float_array(b)
@@ -110,7 +110,7 @@ def ratio_longest_run(a, b):
     """Ratio of the longest-run values of two series: ONE value.
 
     For columns that are constant over the group, a threshold broadcast by
-    an upstream ``keep: all`` for instance, whose value is wanted once.
+    an upstream `keep: all` for instance, whose value is wanted once.
 
     Parameters
     ----------
@@ -159,7 +159,7 @@ def nansum_strict(X, div=1):
     -------
     float
         The sum, or NaN when no value is available. A period without any
-        data is not a zero total, whereas ``np.nansum`` answers 0.0.
+        data is not a zero total, whereas `np.nansum` answers 0.0.
     """
     x = _to_float_array(X)
     if np.all(np.isnan(x)):
@@ -237,7 +237,7 @@ def rollsum_center(X, k, cyclical=False):
     -------
     numpy.ndarray
         Same length as X (transform), under the same conventions as
-        :func:`rollmean_center`.
+        `rollmean_center`.
     """
     x = _to_float_array(X)
     if cyclical:
@@ -278,7 +278,7 @@ def circular_difference(X, Y, periodicity):
     Returns
     -------
     numpy.ndarray
-        ``X - Y``, the smaller term being shifted by one period when the gap
+        `X - Y`, the smaller term being shifted by one period when the gap
         exceeds half a period.
     """
     X, Y = _circular_tweak(X, Y, periodicity)
@@ -298,7 +298,7 @@ def circular_ratio(X, Y, periodicity):
     Returns
     -------
     numpy.ndarray
-        ``X / Y``, realigned as in :func:`circular_difference`.
+        `X / Y`, realigned as in `circular_difference`.
     """
     X, Y = _circular_tweak(X, Y, periodicity)
     return _squeeze_scalar(X / Y)

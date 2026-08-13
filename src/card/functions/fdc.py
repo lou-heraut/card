@@ -38,7 +38,7 @@ def exceedance_quantile(Q, p):
     Returns
     -------
     float
-        ``quantile(Q, 1 - p)``, by linear interpolation (R type 7, the numpy
+        `quantile(Q, 1 - p)`, by linear interpolation (R type 7, the numpy
         default). Gaps are dropped before the computation.
     """
     q = _to_float_array(Q)
@@ -61,7 +61,7 @@ def exceedance_frequency(Q, threshold):
     Returns
     -------
     float
-        ``n(Q > threshold) / N``, where N counts only the recorded time
+        `n(Q > threshold) / N`, where N counts only the recorded time
         steps, like the numerator.
 
     Notes
@@ -121,7 +121,7 @@ def fdc_probabilities(X=None, n=1000, norm_spacing=False):
     Returns
     -------
     numpy.ndarray
-        The probability axis, of length ``n``.
+        The probability axis, of length `n`.
     """
     return _fdc_p(n, norm_spacing)
 
@@ -135,13 +135,13 @@ def fdc_quantiles(Q, n=1000, norm_spacing=False):
         Discharge series.
     n : int, default 1000
         Number of points, over the same probabilities as
-        :func:`fdc_probabilities`.
+        `fdc_probabilities`.
     norm_spacing : bool, default False
         Space the points along a standard normal law rather than evenly.
 
     Returns
     -------
     numpy.ndarray
-        The discharges of the curve, of length ``n``.
+        The discharges of the curve, of length `n`.
     """
     return exceedance_quantile(Q, _fdc_p(n, norm_spacing))

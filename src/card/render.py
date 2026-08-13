@@ -610,7 +610,7 @@ def figure(nom, path=None, lang="fr"):
     Parameters
     ----------
     nom : str
-        Name of the card, such as ``"QA"``, ``"VCN10"``.
+        Name of the card, such as `"QA"`, `"VCN10"`.
     path : str or pathlib.Path, optional
         Directory of YAML cards. Defaults to the cards shipped with the
         package.
@@ -621,7 +621,7 @@ def figure(nom, path=None, lang="fr"):
     -------
     str
         The figure. Nothing is printed: this is what a web service
-        needs, and what :func:`card.info` prints for a human.
+        needs, and what `card.info` prints for a human.
 
     Notes
     -----

@@ -65,49 +65,49 @@ def trend(extraction, level=0.1, dependency="AR1", period=None,
     Parameters
     ----------
     extraction : dict
-        What :func:`card.extract` returned, ``{"data": ..., "meta":
-        ...}``, where ``data`` is a dict ``{card_id: DataFrame}`` or a
-        single DataFrame when the extraction ran with ``simplify=True``.
+        What `card.extract` returned, `{"data": ..., "meta":
+        ...}`, where `data` is a dict `{card_id: DataFrame}` or a
+        single DataFrame when the extraction ran with `simplify=True`.
     level : float, default 0.1
         Significance level of the test.
     dependency : {"AR1", "INDE", "LTP"}, default "AR1"
-        ``"AR1"`` is robust to first-order autocorrelation, which is
+        `"AR1"` is robust to first-order autocorrelation, which is
         common in yearly hydrological series (Hamed & Rao, 1998).
-        ``"INDE"`` is the standard test, ``"LTP"`` accounts for long-term
+        `"INDE"` is the standard test, `"LTP"` accounts for long-term
         persistence (Hamed, 2008).
     period : list of str, optional
-        Passed on to :func:`stase.trend`.
+        Passed on to `stase.trend`.
     extremes_pool_suffixes : bool, default False
         On a suffixed extraction (observed against simulated, several
         thresholds), pool the quantile bounds across the variants of one
         base variable, which makes the variants comparable with each
         other. Left False, each variant gets its own bounds.
     seed : int, optional
-        Passed on to :func:`stase.trend`.
+        Passed on to `stase.trend`.
     verbose : bool, default False
         Print the progress of the computation.
 
     Returns
     -------
     dict
-        ``{"data": {card_id: DataFrame} | DataFrame, "meta": DataFrame}``,
-        with ``data`` in the same shape as the input. The ``h`` column
-        says whether the trend is significant at ``level``, ``a`` is the
-        Sen slope per year, and ``a_relative`` the same as a percentage
+        `{"data": {card_id: DataFrame} | DataFrame, "meta": DataFrame}`,
+        with `data` in the same shape as the input. The `h` column
+        says whether the trend is significant at `level`, `a` is the
+        Sen slope per year, and `a_relative` the same as a percentage
         of the mean.
 
     Raises
     ------
     ValueError
-        If any card is not an ``output: series`` one. The trend of a
+        If any card is not an `output: series` one. The trend of a
         scalar or of a curve has no meaning, and the refusal is
         explicit rather than silent.
 
     Notes
     -----
     Whether a variable is relative comes from the cards themselves
-    (``meta.global.relative``) and drives ``a_relative`` and
-    ``change_relative`` in the output. There is nothing to pass: card
+    (`meta.global.relative`) and drives `a_relative` and
+    `change_relative` in the output. There is nothing to pass: card
     translates it for stase, which stays agnostic of the card format.
 
     Examples

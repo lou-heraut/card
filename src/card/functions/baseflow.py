@@ -25,7 +25,7 @@ from .aggregation import _to_float_array
 def approx_extrap(x, y, xout):
     """Linear interpolation with linear extrapolation beyond the bounds.
 
-    Equivalent of R's ``approxExtrap``: outside the range, the slope of the
+    Equivalent of R's `approxExtrap`: outside the range, the slope of the
     first two or of the last two points is prolonged.
 
     Parameters
@@ -138,7 +138,7 @@ def baseflow(Q, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
     passes : int, default 3
         Lyne and Hollick only: number of filter passes.
     method : {"Wal", "LH"}, default "Wal"
-        ``"Wal"`` for Wallingford, smoothed minima; ``"LH"`` for the Lyne
+        `"Wal"` for Wallingford, smoothed minima; `"LH"` for the Lyne
         and Hollick filter.
 
     Returns
@@ -162,7 +162,7 @@ def quickflow(Q, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
     Q : array-like
         Discharge series.
     d, w, a, passes, method
-        Passed on to :func:`baseflow`.
+        Passed on to `baseflow`.
 
     Returns
     -------
@@ -190,7 +190,7 @@ def BFI(Q, BF):
     Returns
     -------
     float
-        ``sum(BF) / sum(Q)``, gaps ignored on both sums.
+        `sum(BF) / sum(Q)`, gaps ignored on both sums.
     """
     q = _to_float_array(Q)
     bf = _to_float_array(BF)
@@ -211,7 +211,7 @@ def BFM(BFA):
     Returns
     -------
     float
-        ``(max - min) / max`` of the aggregated values.
+        `(max - min) / max` of the aggregated values.
     """
     x = _to_float_array(BFA)
     bfa_max = np.nanmax(x)
@@ -227,13 +227,13 @@ def snowmelt_volume(Q, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
     Q : array-like
         Discharge series, in m³/s.
     d, w, a, passes, method
-        Passed on to :func:`baseflow`.
+        Passed on to `baseflow`.
 
     Returns
     -------
     float
         The volume in hm³, the base flow being converted to a daily volume
-        by ``× 86400 / 10⁶``.
+        by `× 86400 / 10⁶`.
     """
     BF = baseflow(Q, d=d, w=w, a=a, passes=passes, method=method)
     return np.nansum(BF) * 24 * 3600 / 1e6
@@ -249,13 +249,13 @@ def snowmelt_timing(Q, fraction, d=5, w=0.9, a=0.925, passes=3, method="Wal"):
     fraction : float
         Share of the total volume to reach, between 0 and 1.
     d, w, a, passes, method
-        Passed on to :func:`baseflow`.
+        Passed on to `baseflow`.
 
     Returns
     -------
     int
         A 0-based index into the series, which the pipeline converts to a
-        date under the ``is_date`` convention.
+        date under the `is_date` convention.
     """
     BF = baseflow(Q, d=d, w=w, a=a, passes=passes, method=method)
     vol = np.cumsum(BF)
@@ -278,7 +278,7 @@ def snowmelt_duration(Q, fraction1, fraction2, d=5, w=0.9, a=0.925, passes=3, me
     fraction1, fraction2 : float
         The two shares of the total volume, between 0 and 1.
     d, w, a, passes, method
-        Passed on to :func:`baseflow`.
+        Passed on to `baseflow`.
 
     Returns
     -------

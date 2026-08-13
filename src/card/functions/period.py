@@ -85,10 +85,10 @@ def _subset_period(x, dates, period):
 
 def over_period(X, func=None, dates=None, period=None,
                 period_start=None, period_end=None, **kwargs):
-    """Apply ``func`` to the values of X falling inside the period only.
+    """Apply `func` to the values of X falling inside the period only.
 
     Generic wrapper, for the aggregations that cannot take bounds
-    themselves: ``nanmean`` and ``nanmedian`` are numpy functions, one does
+    themselves: `nanmean` and `nanmedian` are numpy functions, one does
     not add parameters to them.
 
     Parameters
@@ -97,7 +97,7 @@ def over_period(X, func=None, dates=None, period=None,
         The values to aggregate.
     func : str or callable, optional
         Name of the function to apply, resolved as in a card
-        (``card.functions`` then numpy), or a callable.
+        (`card.functions` then numpy), or a callable.
     dates : array-like, optional
         Column of dates, aligned on X.
     period : list, optional
@@ -105,13 +105,13 @@ def over_period(X, func=None, dates=None, period=None,
     period_start, period_end : optional
         Bounds, usually columns constant per series.
     **kwargs
-        Passed through to ``func``. The names of this wrapper (``func``,
-        ``dates``, ``period``, ``period_start``, ``period_end``) are
+        Passed through to `func`. The names of this wrapper (`func`,
+        `dates`, `period`, `period_start`, `period_end`) are
         reserved and cannot be passed through.
 
     Returns
     -------
-    Whatever ``func`` returns on the restricted series.
+    Whatever `func` returns on the restricted series.
 
     Notes
     -----

@@ -166,15 +166,15 @@ def provenance():
     Returns
     -------
     dict
-        ``card_version``, ``card_commit``, ``stase_version`` and
-        ``stase_commit``. A commit is empty when the code comes from a
+        `card_version`, `card_commit`, `stase_version` and
+        `stase_commit`. A commit is empty when the code comes from a
         modified working copy: a commit is published only when it
         designates exactly the code that ran.
 
     Notes
     -----
     Resolved once per process, since the answer cannot change without
-    reinstalling or restarting, and :func:`card.extract` asks for it at
+    reinstalling or restarting, and `card.extract` asks for it at
     every call.
 
     The keys carry the same names as the fields card-api publishes, so

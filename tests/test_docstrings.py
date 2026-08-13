@@ -28,7 +28,9 @@ Ce fichier MESURE ces deux règles au lieu de compter sur la mémoire.
 Elles ont été appliquées le 2026-08-11, sur les treize noms exportés.
 """
 
+import ast
 import re
+from pathlib import Path
 
 import pytest
 
@@ -88,3 +90,57 @@ def test_every_exported_name_is_covered():
     assert card.__all__, "__all__ vide : les deux gardes ne testent rien"
     for nom in card.__all__:
         assert hasattr(card, nom), f"__all__ annonce {nom}, absent du paquet"
+
+
+# ── Le balisage : du Markdown, pas du reStructuredText ──────────────────
+#
+# Le style NumPy est né pour Sphinx, et sa syntaxe en ligne est donc du
+# reST : doubles accents graves pour du code, rôles `:func:` pour un
+# renvoi. Le site, lui, découpe les SECTIONS NumPy puis rend le CORPS en
+# Markdown, qui ne connaît ni l'un ni l'autre.
+#
+# Ce que ça coûtait, mesuré le 2026-08-13 : trente-huit `:func:` en clair
+# au milieu des phrases des deux pages de fonctions, et des paires
+# d'accents graves visibles dans les valeurs par défaut. Les doubles
+# accents graves, eux, passaient par chance, le Markdown les acceptant
+# comme délimiteurs de code.
+#
+# La règle retenue est donc : sections NumPy, corps en Markdown. Un
+# accent grave simple pour du code, aucun rôle. Un renvoi vers une autre
+# fonction s'écrit `card.list_cards`, sans lien : la syntaxe de lien de
+# mkdocstrings laisserait ses crochets dans `help()`, et le terminal est
+# le premier lecteur d'une docstring.
+
+REST = re.compile(r":(?:func|meth|class|mod|attr|data|obj|ref):`")
+DOUBLE = re.compile(r"``")
+
+
+def _docstrings_du_paquet():
+    """(fichier, docstring) pour tout le paquet, publiques ou non.
+
+    La règle porte sur le BALISAGE, pas sur la langue : elle vaut donc
+    aussi pour la machinerie interne, dont les docstrings finissent sous
+    les yeux de qui ouvre le fichier.
+    """
+    racine = Path(card.__file__).parent
+    for chemin in sorted(racine.rglob("*.py")):
+        arbre = ast.parse(chemin.read_text(encoding="utf-8"))
+        for noeud in ast.walk(arbre):
+            if isinstance(noeud, (ast.Module, ast.ClassDef, ast.FunctionDef,
+                                  ast.AsyncFunctionDef)):
+                texte = ast.get_docstring(noeud)
+                if texte:
+                    yield chemin.relative_to(racine), texte
+
+
+def test_les_docstrings_sont_ecrites_en_markdown():
+    fautes = []
+    for chemin, texte in _docstrings_du_paquet():
+        if REST.search(texte):
+            fautes.append(f"{chemin} : rôle reST (`:func:` et compagnie)")
+        if DOUBLE.search(texte):
+            fautes.append(f"{chemin} : doubles accents graves")
+    assert not fautes, (
+        "le corps d'une docstring s'écrit en Markdown : un accent grave "
+        "simple pour du code, aucun rôle.\n  " + "\n  ".join(sorted(set(fautes)))
+    )

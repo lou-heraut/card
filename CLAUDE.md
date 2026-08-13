@@ -305,6 +305,14 @@ rappelle :
   `card.__all__` annonce, `tests/test_render.py` pour les fonctions que
   les fiches emploient. La machinerie interne, elle, écrit dans la
   langue qu'elle veut : elle s'adresse à qui ouvre le fichier.
+  **Le balisage du corps est du MARKDOWN**, en revanche, et pour tout le
+  paquet : un accent grave SIMPLE pour du code, aucun rôle `:func:`. Le
+  style NumPy est né pour Sphinx et sa syntaxe en ligne est du reST, que
+  le site ne lit pas : il découpe les sections NumPy puis rend le corps
+  en Markdown. Un renvoi s'écrit donc `card.list_cards`, sans lien, la
+  syntaxe de lien de mkdocstrings laissant ses crochets dans `help()`.
+  Mesuré par `tests/test_docstrings.py`, et la même règle vaut dans
+  stase.
 - **Version d'une fiche** (champ `version:` de son YAML) : majeur si ses
   SORTIES changent (+ trace RENAMING.md, parité R rompue documentée,
   goldens re-figés), mineur pour method/description, patch sinon. Elle

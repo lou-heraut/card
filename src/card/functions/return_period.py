@@ -143,7 +143,7 @@ def _lognormal_period(X, threshold):
 
 def return_level(X, return_period, water_type="low", dates=None, period=None,
                  period_start=None, period_end=None):
-    """Value reached on average once every ``return_period`` years.
+    """Value reached on average once every `return_period` years.
 
     Parameters
     ----------
@@ -152,7 +152,7 @@ def return_level(X, return_period, water_type="low", dates=None, period=None,
     return_period : float
         Return period, in years.
     water_type : {"low", "high"}, default "low"
-        ``"low"`` fits a log-normal law on minima, ``"high"`` a Gumbel law
+        `"low"` fits a log-normal law on minima, `"high"` a Gumbel law
         on maxima.
     dates : array-like, optional
         Column of dates, aligned on X.
@@ -164,7 +164,7 @@ def return_level(X, return_period, water_type="low", dates=None, period=None,
     Returns
     -------
     float
-        The value of X reached on average once every ``return_period``
+        The value of X reached on average once every `return_period`
         years.
     """
     if period_start is not None:
@@ -190,8 +190,8 @@ def return_period(X, threshold, water_type="low", dates=None, period=None):
         constant per series, in which case the most frequent value is kept
         and NaN is returned when all are missing.
     water_type : {"low", "high"}, default "low"
-        ``"low"`` gives ``T = 1 / P(X <= threshold)`` under a mixed
-        log-normal law, ``"high"`` gives ``T = 1 / P(X > threshold)`` under
+        `"low"` gives `T = 1 / P(X <= threshold)` under a mixed
+        log-normal law, `"high"` gives `T = 1 / P(X > threshold)` under
         a Gumbel law.
     dates : array-like, optional
         Column of dates, aligned on X.

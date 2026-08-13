@@ -156,25 +156,25 @@ def _unwrap(meta_lang):
 def load_card(path):
     """Read one YAML card and normalise it.
 
-    The ``fr``, ``en`` and ``global`` metadata blocks are completed with
-    their defaults, and the processes ``P1..Pn`` come out ordered, with
-    their ``func`` tuples ready for stase.
+    The `fr`, `en` and `global` metadata blocks are completed with
+    their defaults, and the processes `P1..Pn` come out ordered, with
+    their `func` tuples ready for stase.
 
     Parameters
     ----------
     path : str or pathlib.Path
-        A file path, or more simply a card NAME (``"QA"``, ``"VCN10"``),
+        A file path, or more simply a card NAME (`"QA"`, `"VCN10"`),
         which is looked up in the corpus shipped with the package.
 
     Returns
     -------
     dict
-        ``{"id": ..., "path": ..., "meta": ..., "processes": ...}``.
+        `{"id": ..., "path": ..., "meta": ..., "processes": ...}`.
 
     Notes
     -----
     This is the way in to the metadata AS WRITTEN, placeholders
-    included, when :func:`card.info` is not what you want: that one
+    included, when `card.info` is not what you want: that one
     draws the card and returns a flat dict, in a single language, with
     the placeholders already resolved.
     """

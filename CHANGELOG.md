@@ -102,6 +102,15 @@ des deux endroits.
   qu'un lecteur cherche est le second. Toujours engendré, jamais écrit à
   la main.
 
+- **Les docstrings s'écrivent en Markdown (2026-08-13).** Le style NumPy
+  est né pour Sphinx, et sa syntaxe en ligne est du reStructuredText :
+  doubles accents graves, rôles `:func:`. Le site découpe les sections
+  NumPy puis rend le corps en Markdown, où ce balisage ressortait en
+  clair, trente-huit fois sur les deux pages de fonctions. Normalisé
+  dans les deux paquets, 205 occurrences ici et 114 dans stase, aucun
+  texte modifié par ailleurs. La règle est dans le CLAUDE.md et mesurée
+  par `tests/test_docstrings.py`.
+
 - **Le `Makefile` rassemble les commandes du quotidien (2026-08-13).**
   `make` seul les liste, `make check` est exactement ce que lance le CI.
   Il ne décide rien et ne recopie rien : c'est un bloc-notes.

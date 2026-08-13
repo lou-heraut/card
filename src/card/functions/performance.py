@@ -51,8 +51,8 @@ def bias(obs, sim, sim_minus_obs=True):
     Returns
     -------
     float
-        ``sum(sim - obs) / sum(obs)``, or the reverse direction when
-        ``sim_minus_obs`` is False. Pairs containing a NaN are dropped.
+        `sum(sim - obs) / sum(obs)`, or the reverse direction when
+        `sim_minus_obs` is False. Pairs containing a NaN are dropped.
     """
     obs, sim = _clean_pair(obs, sim)
     if sim_minus_obs:
@@ -103,7 +103,7 @@ def NSE_log(obs, sim, log_method="inf.na"):
     sim : array-like
         Simulated series, over the same time steps.
     log_method : str or float, default "inf.na"
-        ``"inf.na"`` turns ``log(0)`` into NaN, ``"Pushpalatha2012"`` shifts
+        `"inf.na"` turns `log(0)` into NaN, `"Pushpalatha2012"` shifts
         by one hundredth of the mean, and a number is added before the log.
 
     Returns
@@ -132,7 +132,7 @@ def NSE_inverse(obs, sim):
     Returns
     -------
     float
-        The efficiency computed on ``1 / X``, 1 being perfect.
+        The efficiency computed on `1 / X`, 1 being perfect.
     """
     obs = _to_float_array(obs)
     sim = _to_float_array(sim)
@@ -177,8 +177,8 @@ def KGE(obs, sim, method=1):
     sim : array-like
         Simulated series, over the same time steps.
     method : {1, 2}, default 1
-        1 uses ``alpha = sd(sim) / sd(obs)`` (Gupta et al., 2009), 2 uses
-        ``gamma = CV(sim) / CV(obs)`` (Kling et al., 2012).
+        1 uses `alpha = sd(sim) / sd(obs)` (Gupta et al., 2009), 2 uses
+        `gamma = CV(sim) / CV(obs)` (Kling et al., 2012).
 
     Returns
     -------
@@ -228,7 +228,7 @@ def std_ratio(obs, sim):
     Returns
     -------
     float
-        ``sd(sim) / sd(obs)``, 1 meaning the simulation spreads like the
+        `sd(sim) / sd(obs)`, 1 meaning the simulation spreads like the
         observations.
     """
     obs = _to_float_array(obs)
@@ -254,7 +254,7 @@ def RAT(Bias, X, thresh=0.05):
     -------
     bool
         True when the Spearman correlation between the criterion and the
-        variable is significant at ``thresh``: the criterion then depends on
+        variable is significant at `thresh`: the criterion then depends on
         the variable, so the model does not behave the same everywhere.
     """
     b = _to_float_array(Bias)
