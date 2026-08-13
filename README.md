@@ -119,8 +119,8 @@ format is converted automatically.
 ### Finding your variable
 
 The whole collection is browsable online:
-**[the catalogue](https://lou-heraut.github.io/card/catalogue/)**,
-filterable and in both languages. From Python:
+**[the catalogue](https://lou-heraut.github.io/card/CARDS)**, and
+[in French](https://lou-heraut.github.io/card/CARDS.fr). From Python:
 
 ```python
 card.list_cards()                        # every variable, one per row

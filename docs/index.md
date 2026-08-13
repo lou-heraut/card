@@ -4,8 +4,7 @@ Ready-to-use **hydroclimatic variables**: low flows, floods, seasonality,
 climate change. Each one is defined by a YAML card, and computed the same
 way whether you call it from Python, from R or over the web.
 
-[Browse the catalogue](catalogue.md){ .md-button .md-button--primary }
-[Read a name](grammar.md){ .md-button }
+**[Browse the catalogue](catalogue.md)** · **[read a name](grammar.md)**
 
 ## Start here
 

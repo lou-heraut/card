@@ -903,6 +903,26 @@ situation se décante, pas avant.
   elle porte toutes ses lignes en HTML avec leurs deux libellés. Le
   second est ce qui empêche la page de devenir une application.
 
+**Ce qu'il faudra basculer LE JOUR de la publication**, et rien avant.
+Tant que les Pages servent `main:/docs` en Jekyll, le site MkDocs n'est
+qu'un dossier de sources, et deux choses doivent rester dans leur état
+d'aujourd'hui pour que le site PUBLIC reste cohérent :
+
+1. la **source des Pages** passe de « Deploy from a branch » à « GitHub
+   Actions », faute de quoi `deploy-pages` refuse et envoie un mail
+   d'échec à chaque exécution ;
+2. le **déclenchement du workflow** : rétablir le bloc `push` mis en
+   commentaire en tête de `.github/workflows/site.yml` ;
+3. le **lien du README** vers le catalogue : il vise aujourd'hui
+   `/card/CARDS`, servi par Jekyll, et devra viser `/card/catalogue/`.
+   L'inverse casserait un lien public, ce qui a failli arriver le
+   2026-08-13.
+
+Et une règle qui vaut pour toujours : **`docs/index.md` n'emploie aucune
+syntaxe propre à MkDocs**. Il est servi par les deux moteurs pendant la
+transition, et un `{ .md-button }` s'affiche en clair chez Jekyll. Vérifié
+sur le site public le 2026-08-13, où il s'affichait effectivement.
+
 **Ce qui reste à faire sur le site**, par ordre d'utilité :
 
 - **le regarder à l'écran**, seule chose qui juge une page ;
