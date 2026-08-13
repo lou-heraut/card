@@ -243,9 +243,17 @@ complexité (kwargs-colonnes, colonnes creuses, fan-out).
 ## Export SKOS et site de documentation
 
 Le besoin s'est concrétisé le 2026-08-11 : ces deux pistes sont sorties du
-registre et ont leur propre plan, **`PLAN_SITE_SKOS.md`**, qui porte la
-reconnaissance du thésaurus Theia/OZCAR, l'architecture retenue et les
-questions ouvertes. Ne rien noter ici de ce qui le regarde.
+registre et ont leur propre plan. **Les deux sont livrées en 0.12.0**, et
+il en reste deux publications, chacune dans son document :
+
+- `PLAN_SITE_SKOS.md` : ce qui a été construit, l'audit des vocabulaires
+  qui reste la référence du modèle, et les trois bascules du jour où le
+  site part en ligne ;
+- `PLAN_THESAURUS.md` : la question restée ouverte, à côté de
+  Theia/OZCAR ou dedans, avec la mesure de leur thésaurus et ce qu'il
+  faut leur demander.
+
+Ne rien noter ici de ce qui les regarde.
 
 Ce qui restait écrit ici et qui n'est pas dans le plan, parce que ça
 concerne le service et non le corpus : card-api pourrait exposer un

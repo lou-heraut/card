@@ -1,13 +1,20 @@
-> **Statut : plan en cours, rien n'est publié.** Deux chantiers liés,
-> tenus ensemble parce qu'ils partagent une décision : un site de
-> documentation pour card, et l'export SKOS de la classification. Tout se
-> fait et se regarde **en local** tant que la question des identifiants
-> pérennes n'est pas tranchée, et elle ne le sera pas ici : elle demande
-> des interlocuteurs, pas une réflexion de plus.
-> Contient l'état des lieux mesuré, la reconnaissance du thésaurus
-> Theia/OZCAR, l'architecture retenue, le modèle de données et les
-> pièges à ne pas rencontrer en codant.
-> À archiver quand les deux chantiers seront livrés.
+> **Statut : construction CLOSE, publication en attente.** Les deux
+> chantiers que ce plan portait sont livrés en card 0.12.0 : le site de
+> documentation et l'export SKOS. Ce document garde ce qui a été
+> construit et POURQUOI, et il reste la référence du modèle : l'audit des
+> vocabulaires (ce que SKOS, I-ADOPT, CPM, CF, QUDT et OWL-Time savent
+> dire, et ce que card publie avec chacun) est ici et nulle part
+> ailleurs.
+>
+> Deux choses seulement en sortent encore :
+> - **la publication du site**, trois bascules listées en fin de
+>   document, à faire le jour venu et pas avant ;
+> - **la publication du vocabulaire**, qui dépend d'une question restée
+>   ouverte, à côté de Theia ou dedans. Elle a son propre document
+>   maintenant : `PLAN_THESAURUS.md`. Ne rien noter ici de ce qui la
+>   regarde.
+>
+> À archiver quand ces deux publications seront faites.
 
 # Site de documentation et export SKOS
 

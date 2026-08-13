@@ -32,11 +32,16 @@ statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
 - docs/dev/`PLAN_PYPI.md` : réclamation du nom `card` sur PyPI, preuves
   et dates d'envoi.
 - docs/dev/`PLAN_SITE_SKOS.md` : le site de documentation et l'export
-  SKOS, tenus ensemble parce qu'ils partagent la question des
-  identifiants. Porte la reconnaissance du thésaurus Theia/OZCAR et
-  l'architecture retenue (deux étages, un alignement, jamais une
-  substitution). **Rien n'y est publié** tant que les identifiants ne
-  sont pas tranchés.
+  SKOS, **construits et livrés en 0.12.0**, publication exceptée. Reste
+  la référence du MODÈLE : l'audit des vocabulaires (ce que SKOS,
+  I-ADOPT, CPM, CF, QUDT et OWL-Time savent dire, et ce que card publie
+  avec chacun) n'est écrit que là. Porte aussi les trois bascules du jour
+  de la publication du site.
+- docs/dev/`PLAN_THESAURUS.md` : la seule question encore ouverte du
+  vocabulaire, à côté de Theia/OZCAR ou dedans. Porte la mesure de LEUR
+  thésaurus faite sur le fichier entier, ce que card leur apporterait,
+  les trois options et ce qu'il faut leur demander. **Rien n'est publié**
+  tant qu'elle n'est pas tranchée.
 - **Écosystème R** : le front vit dans `../card4r/` (paquet mince qui
   APPELLE card, ne le réimplémente pas) ; les paquets historiques
   `../CARD-R/` et `../../EXstat_project/EXstat/` sont `superseded` et
