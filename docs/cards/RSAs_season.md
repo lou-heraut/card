@@ -88,6 +88,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   precipitation/snow/series/RSAs_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:a6eeb7b29d28d26e1df3d885e4753a633021f9cb</pre>
 
-**Variables produced**  [`RSAs_DJF`](../catalogue.md#RSAs_DJF) · [`RSAs_MAM`](../catalogue.md#RSAs_MAM) · [`RSAs_JJA`](../catalogue.md#RSAs_JJA) · [`RSAs_SON`](../catalogue.md#RSAs_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#RSAs_DJF"><code>RSAs_DJF</code></a></dt><dd><span lang="en">Cumulative daily solid precipitation of each winter</span><span lang="fr">Cumul des précipitations solides journalières de chaque hiver</span><span class="u">mm</span></dd><dt><a href="../../catalogue/#RSAs_MAM"><code>RSAs_MAM</code></a></dt><dd><span lang="en">Cumulative daily solid precipitation of each spring</span><span lang="fr">Cumul des précipitations solides journalières de chaque printemps</span><span class="u">mm</span></dd><dt><a href="../../catalogue/#RSAs_JJA"><code>RSAs_JJA</code></a></dt><dd><span lang="en">Cumulative daily solid precipitation of each summer</span><span lang="fr">Cumul des précipitations solides journalières de chaque été</span><span class="u">mm</span></dd><dt><a href="../../catalogue/#RSAs_SON"><code>RSAs_SON</code></a></dt><dd><span lang="en">Cumulative daily solid precipitation of each autumn</span><span lang="fr">Cumul des précipitations solides journalières de chaque automne</span><span class="u">mm</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/snow/series/RSAs_season.yaml) &middot; [back to the catalogue](../catalogue.md)

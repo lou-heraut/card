@@ -71,6 +71,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   precipitation/dry-spells/series/dtCDDA.yaml
   https://archive.softwareheritage.org/swh:1:cnt:f4309f5104c49ecf32c40a261bd6aadcef4a8de3</pre>
 
-**Variables produced**  [`dtCDDA`](../catalogue.md#dtCDDA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#dtCDDA"><code>dtCDDA</code></a></dt><dd><span lang="en">Maximum number of consecutive dry days in the year</span><span lang="fr">Nombre maximal de jours secs consécutifs dans l'année</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/dry-spells/series/dtCDDA.yaml) &middot; [back to the catalogue](../catalogue.md)

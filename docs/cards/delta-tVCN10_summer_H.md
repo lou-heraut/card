@@ -108,6 +108,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/low-flows/scalar/delta-tVCN10_summer_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:abb46a4a46ba0e9bec6c1a13a8c5f373775789bc</pre>
 
-**Variables produced**  [`delta-tVCN10_summer`](../catalogue.md#delta-tVCN10_summer)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-tVCN10_summer"><code>delta-tVCN10_summer</code></a></dt><dd><span lang="en">Average change of the date of the summer minimum of 10-day mean flows between the target horizon and historical period</span><span lang="fr">Changement moyen de la date du minimum estival des débits moyens sur 10 jours entre l'horizon cible et la période historique</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/delta-tVCN10_summer_H.yaml) &middot; [back to the catalogue](../catalogue.md)

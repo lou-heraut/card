@@ -129,6 +129,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.6   flow/low-flows/scalar/median-vLF.yaml
   https://archive.softwareheritage.org/swh:1:cnt:c1366503e9f3afec47e97009f0b6ffcad8efe7ee</pre>
 
-**Variables produced**  [`median-vLF`](../catalogue.md#median-vLF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#median-vLF"><code>median-vLF</code></a></dt><dd><span lang="en">Inter-annual median of the deficit volume of low flows</span><span lang="fr">Médiane inter-annuelle des volumes de déficit des basses eaux</span><span class="u">hm³</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/median-vLF.yaml) &middot; [back to the catalogue](../catalogue.md)

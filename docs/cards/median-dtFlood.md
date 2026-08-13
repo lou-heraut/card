@@ -130,6 +130,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v3.0   flow/high-flows/scalar/median-dtFlood.yaml
   https://archive.softwareheritage.org/swh:1:cnt:84fe5d1259fe449375a07bb78c4e82c4c5abeb5d</pre>
 
-**Variables produced**  [`median-dtFlood`](../catalogue.md#median-dtFlood)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#median-dtFlood"><code>median-dtFlood</code></a></dt><dd><span lang="en">Inter-annual median of the duration of floods</span><span lang="fr">Médiane inter-annuelle de la durée des crues</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/scalar/median-dtFlood.yaml) &middot; [back to the catalogue](../catalogue.md)

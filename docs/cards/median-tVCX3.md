@@ -90,6 +90,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.2   flow/high-flows/scalar/median-tVCX3.yaml
   https://archive.softwareheritage.org/swh:1:cnt:1e628235059135777d1d05f38738cc2eb4ba2a2b</pre>
 
-**Variables produced**  [`median-tVCX3`](../catalogue.md#median-tVCX3)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#median-tVCX3"><code>median-tVCX3</code></a></dt><dd><span lang="en">Inter-annual median of the dates of the annual maximum of 3-day mean flows</span><span lang="fr">Médiane inter-annuelle des dates du maximum annuel des débits moyens sur 3 jours</span><span class="u">yearday</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/scalar/median-tVCX3.yaml) &middot; [back to the catalogue](../catalogue.md)

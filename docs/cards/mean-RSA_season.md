@@ -112,6 +112,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.1   precipitation/mean-precipitation/scalar/mean-RSA_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:c22a5dfbe7bcab60e099dd249f0ced836463f3f8</pre>
 
-**Variables produced**  [`mean-RSA_DJF`](../catalogue.md#mean-RSA_DJF) · [`mean-RSA_MAM`](../catalogue.md#mean-RSA_MAM) · [`mean-RSA_JJA`](../catalogue.md#mean-RSA_JJA) · [`mean-RSA_SON`](../catalogue.md#mean-RSA_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#mean-RSA_DJF"><code>mean-RSA_DJF</code></a></dt><dd><span lang="en">Inter-annual mean of winter total precipitation (months of December, January and February)</span><span lang="fr">Moyenne inter-annuelle des précipitations totales d'hiver</span><span class="u">mm</span></dd><dt><a href="../../catalogue/#mean-RSA_MAM"><code>mean-RSA_MAM</code></a></dt><dd><span lang="en">Inter-annual mean of spring total precipitation (months of March, April and May)</span><span lang="fr">Moyenne inter-annuelle des précipitations totales de printemps</span><span class="u">mm</span></dd><dt><a href="../../catalogue/#mean-RSA_JJA"><code>mean-RSA_JJA</code></a></dt><dd><span lang="en">Inter-annual mean of summer total precipitation (months of June, July and August)</span><span lang="fr">Moyenne inter-annuelle des précipitations totales d'été</span><span class="u">mm</span></dd><dt><a href="../../catalogue/#mean-RSA_SON"><code>mean-RSA_SON</code></a></dt><dd><span lang="en">Inter-annual mean of fall total precipitation (months of September, October and November)</span><span lang="fr">Moyenne inter-annuelle des précipitations totales d'automne</span><span class="u">mm</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/mean-precipitation/scalar/mean-RSA_season.yaml) &middot; [back to the catalogue](../catalogue.md)

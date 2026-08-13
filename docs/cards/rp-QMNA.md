@@ -115,6 +115,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/low-flows/scalar/rp-QMNA.yaml
   https://archive.softwareheritage.org/swh:1:cnt:3b0b2f4e2124541c21d1ace3b99ee5cf7b81b6b7</pre>
 
-**Variables produced**  [`rp-QMNA`](../catalogue.md#rp-QMNA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#rp-QMNA"><code>rp-QMNA</code></a></dt><dd><span lang="en">Return period of the station's regulatory threshold discharge in the distribution of the annual minima of monthly flows</span><span lang="fr">Période de retour du débit seuil réglementaire de la station dans la distribution des minimums annuels des débits mensuels</span><span class="u">year</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/rp-QMNA.yaml) &middot; [back to the catalogue](../catalogue.md)

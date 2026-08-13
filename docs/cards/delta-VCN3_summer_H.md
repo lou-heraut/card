@@ -104,6 +104,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/low-flows/scalar/delta-VCN3_summer_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:4687926f60b5932c99c5a2394af6cc235dba5bfe</pre>
 
-**Variables produced**  [`delta-VCN3_summer`](../catalogue.md#delta-VCN3_summer)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-VCN3_summer"><code>delta-VCN3_summer</code></a></dt><dd><span lang="en">Average change of summer minimum of 3-day mean daily discharge between the target horizon and historical period</span><span lang="fr">Changement moyen du minimum estival de la moyenne sur 3 jours du débit journalier entre l'horizon cible et la période historique</span><span class="u">%</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/delta-VCN3_summer_H.yaml) &middot; [back to the catalogue](../catalogue.md)

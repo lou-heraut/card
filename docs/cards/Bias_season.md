@@ -104,6 +104,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/model-performance/scalar/Bias_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:0802d419aef8b1dc32a78a4275e4a9e5233a7c71</pre>
 
-**Variables produced**  [`Bias_DJF`](../catalogue.md#Bias_DJF) · [`Bias_MAM`](../catalogue.md#Bias_MAM) · [`Bias_JJA`](../catalogue.md#Bias_JJA) · [`Bias_SON`](../catalogue.md#Bias_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#Bias_DJF"><code>Bias_DJF</code></a></dt><dd><span lang="en">Winter Bias</span><span lang="fr">Biais hivernal</span><span class="u">without unit</span></dd><dt><a href="../../catalogue/#Bias_MAM"><code>Bias_MAM</code></a></dt><dd><span lang="en">Spring Bias</span><span lang="fr">Biais printanier</span><span class="u">without unit</span></dd><dt><a href="../../catalogue/#Bias_JJA"><code>Bias_JJA</code></a></dt><dd><span lang="en">Summer Bias</span><span lang="fr">Biais estival</span><span class="u">without unit</span></dd><dt><a href="../../catalogue/#Bias_SON"><code>Bias_SON</code></a></dt><dd><span lang="en">Autumn Bias</span><span lang="fr">Biais automnal</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/model-performance/scalar/Bias_season.yaml) &middot; [back to the catalogue](../catalogue.md)

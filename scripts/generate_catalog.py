@@ -527,12 +527,27 @@ def render_cards():
     pages = {}
     for nom, g in df.groupby("card"):
         chemin = str(g.iloc[0]["script_path"])
-        produites = list(dict.fromkeys(g["variable_en"]))
         figures = "\n".join(
             f'<pre class="fig" lang="{lang}" data-search-exclude>'
             f"{_esc(figure(nom, lang=lang))}</pre>"
             for lang in ("en", "fr"))
-        liste = " · ".join(f"[`{v}`](../catalogue.md#{v})" for v in produites)
+        # Ce que la fiche produit, EN TOUTES LETTRES et dans les deux
+        # langues. C'est ce qui rend une variable trouvable par la
+        # recherche du site : la figure est exclue de l'index (un dessin
+        # en caractères n'est fait que de bruit pour un moteur), et sans
+        # cette liste une page de fiche ne contenait que son symbole.
+        # Chercher « centre des basses eaux » ne rendait donc rien, alors
+        # que c'est le nom de la variable.
+        #
+        # La langue cachée reste dans la page, donc dans l'index : on
+        # cherche dans une langue et on lit dans l'autre.
+        lignes_var = "".join(
+            f'<dt><a href="../../catalogue/#{_esc(r["variable_en"])}">'
+            f'<code>{_esc(r["variable_en"])}</code></a></dt>'
+            f'<dd>{_bilingue(r["name_en"], r["name_fr"])}'
+            f'<span class="u">{_esc(unite(r["unit_en"]))}</span></dd>'
+            for _, r in g.drop_duplicates("variable_en").iterrows())
+        liste = f'<dl class="card-vars">{lignes_var}</dl>'
         pages[CARTES / f"{nom}.md"] = "\n".join([
             # Le sommaire de droite n'aurait qu'une entrée, le titre, et
             # il prend la largeur dont la figure a besoin : elle est
@@ -551,7 +566,8 @@ def render_cards():
             '<option value="fr">Français</option></select></label>',
             "</div>", "",
             figures, "",
-            f"**Variables produced**  {liste}", "",
+            "**Variables produced**", "",
+            liste, "",
             f"[The card itself, on GitHub]({DEPOT}{chemin}) &middot; "
             "[back to the catalogue](../catalogue.md)", "",
         ])

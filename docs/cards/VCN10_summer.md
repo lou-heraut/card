@@ -75,6 +75,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   flow/low-flows/series/VCN10_summer.yaml
   https://archive.softwareheritage.org/swh:1:cnt:0791d7ebc55e9d44b89d0a19c63f74c574bf547c</pre>
 
-**Variables produced**  [`VCN10_summer`](../catalogue.md#VCN10_summer)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#VCN10_summer"><code>VCN10_summer</code></a></dt><dd><span lang="en">Summer minimum of 10-day mean daily discharge</span><span lang="fr">Minimum estival de la moyenne sur 10 jours du débit journalier</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/VCN10_summer.yaml) &middot; [back to the catalogue](../catalogue.md)

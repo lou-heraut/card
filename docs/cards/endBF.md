@@ -70,6 +70,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/baseflow/series/endBF.yaml
   https://archive.softwareheritage.org/swh:1:cnt:4c0f7cad60764f76912684408a669b6a53db7704</pre>
 
-**Variables produced**  [`endBF`](../catalogue.md#endBF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#endBF"><code>endBF</code></a></dt><dd><span lang="en">End of Base Flow</span><span lang="fr">Fin des écoulements lents</span><span class="u">yearday</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/series/endBF.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -62,6 +62,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   precipitation/heavy-rain/series/RCXA1.yaml
   https://archive.softwareheritage.org/swh:1:cnt:cc3d70748dfc3e1f1b1658d5890110fa93942c9e</pre>
 
-**Variables produced**  [`RCXA1`](../catalogue.md#RCXA1)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#RCXA1"><code>RCXA1</code></a></dt><dd><span lang="en">Annual maximum of daily precipitation</span><span lang="fr">Maximum annuel des précipitations journalières</span><span class="u">mm</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/heavy-rain/series/RCXA1.yaml) &middot; [back to the catalogue](../catalogue.md)

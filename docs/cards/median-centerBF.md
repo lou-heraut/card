@@ -87,6 +87,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/baseflow/scalar/median-centerBF.yaml
   https://archive.softwareheritage.org/swh:1:cnt:5fe544355dfbf6e9c2e132038034e39e25a676b6</pre>
 
-**Variables produced**  [`median-centerBF`](../catalogue.md#median-centerBF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#median-centerBF"><code>median-centerBF</code></a></dt><dd><span lang="en">Inter-annual median of the center of baseflow</span><span lang="fr">Médiane inter-annuelle du centre des écoulements lents</span><span class="u">yearday</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/scalar/median-centerBF.yaml) &middot; [back to the catalogue](../catalogue.md)

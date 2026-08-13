@@ -144,6 +144,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.6   flow/low-flows/scalar/delta-centerLF_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:89663aca0f3ae21f4edcead058b2b1bfa7aad426</pre>
 
-**Variables produced**  [`delta-centerLF`](../catalogue.md#delta-centerLF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-centerLF"><code>delta-centerLF</code></a></dt><dd><span lang="en">Average change of the center of low flows between the target horizon and historical period</span><span lang="fr">Changement moyen du centre des basses eaux entre l'horizon cible et la période historique</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/delta-centerLF_H.yaml) &middot; [back to the catalogue](../catalogue.md)

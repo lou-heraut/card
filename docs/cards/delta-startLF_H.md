@@ -142,6 +142,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.6   flow/low-flows/scalar/delta-startLF_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:f81cc3ece71ebf434633c2fe11f2a4df131a640f</pre>
 
-**Variables produced**  [`delta-startLF`](../catalogue.md#delta-startLF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-startLF"><code>delta-startLF</code></a></dt><dd><span lang="en">Average change of the start of low flows between the target horizon and historical period</span><span lang="fr">Changement moyen du début des basses eaux entre l'horizon cible et la période historique</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/delta-startLF_H.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -88,6 +88,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0.1   temperature/mean-temperatures/series/TSA_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:0f9c9445c3284a464c82876fcb0626f4f99ea262</pre>
 
-**Variables produced**  [`TSA_DJF`](../catalogue.md#TSA_DJF) · [`TSA_MAM`](../catalogue.md#TSA_MAM) · [`TSA_JJA`](../catalogue.md#TSA_JJA) · [`TSA_SON`](../catalogue.md#TSA_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#TSA_DJF"><code>TSA_DJF</code></a></dt><dd><span lang="en">Annual winter temperatures</span><span lang="fr">Températures hivernales annuelles</span><span class="u">°C</span></dd><dt><a href="../../catalogue/#TSA_MAM"><code>TSA_MAM</code></a></dt><dd><span lang="en">Annual spring temperatures</span><span lang="fr">Températures printanières annuelles</span><span class="u">°C</span></dd><dt><a href="../../catalogue/#TSA_JJA"><code>TSA_JJA</code></a></dt><dd><span lang="en">Annual summer temperatures</span><span lang="fr">Températures estivales annuelles</span><span class="u">°C</span></dd><dt><a href="../../catalogue/#TSA_SON"><code>TSA_SON</code></a></dt><dd><span lang="en">Annual autumn temperatures</span><span lang="fr">Températures automnales annuelles</span><span class="u">°C</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/temperature/mean-temperatures/series/TSA_season.yaml) &middot; [back to the catalogue](../catalogue.md)

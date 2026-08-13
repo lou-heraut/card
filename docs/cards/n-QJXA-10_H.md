@@ -108,6 +108,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/high-flows/scalar/n-QJXA-10_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:a8e278b017aff89c9d761bc1202c8ac3d20ec2b6</pre>
 
-**Variables produced**  [`n-QJXA-10`](../catalogue.md#n-QJXA-10)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#n-QJXA-10"><code>n-QJXA-10</code></a></dt><dd><span lang="en">Number of years in the target horizon where QJXA is superior to QJXA-10 from the historical period</span><span lang="fr">Nombre d'années de l'horizon cible où le QJXA est supérieur au QJXA-10 de la période historique</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/scalar/n-QJXA-10_H.yaml) &middot; [back to the catalogue](../catalogue.md)

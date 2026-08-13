@@ -115,6 +115,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.5   flow/high-flows/scalar/delta-fQ10A_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:8c6952b78a2ad63ceb22c487e60f1aea22138a09</pre>
 
-**Variables produced**  [`delta-fQ10A`](../catalogue.md#delta-fQ10A)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-fQ10A"><code>delta-fQ10A</code></a></dt><dd><span lang="en">Average change of the annual frequency of exceeding Q10 between the target horizon and historical period</span><span lang="fr">Changement moyen de la fréquence annuelle de dépassement du Q10 entre l'horizon cible et la période historique</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/scalar/delta-fQ10A_H.yaml) &middot; [back to the catalogue](../catalogue.md)

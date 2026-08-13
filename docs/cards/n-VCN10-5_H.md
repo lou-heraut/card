@@ -120,6 +120,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/low-flows/scalar/n-VCN10-5_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:ebee4465a59545f4ee18fed2e48159562e873d80</pre>
 
-**Variables produced**  [`n-VCN10-5`](../catalogue.md#n-VCN10-5)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#n-VCN10-5"><code>n-VCN10-5</code></a></dt><dd><span lang="en">Number of years in the target horizon where VCN10 is below or equal to VCN10-5 from the historical period</span><span lang="fr">Nombre d'années de l'horizon cible où le VCN10 est inférieur ou égal au VCN10-5 de la période historique</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/n-VCN10-5_H.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -76,6 +76,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/baseflow/scalar/BFI-LH.yaml
   https://archive.softwareheritage.org/swh:1:cnt:eb4745d629bb3fddb5cf39ca37cb45db777d564d</pre>
 
-**Variables produced**  [`BFI-LH`](../catalogue.md#BFI-LH)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#BFI-LH"><code>BFI-LH</code></a></dt><dd><span lang="en">Baseflow index (Lyne and Hollick)</span><span lang="fr">Indice de débit de base (Lyne et Hollick)</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/scalar/BFI-LH.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -88,6 +88,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/climate-sensitivity/scalar/RAT_T.yaml
   https://archive.softwareheritage.org/swh:1:cnt:08337546c501730b16cf117d717fb1f70df9ac8a</pre>
 
-**Variables produced**  [`RAT_T`](../catalogue.md#RAT_T)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#RAT_T"><code>RAT_T</code></a></dt><dd><span lang="en">Robustness test to air temperature variation</span><span lang="fr">Test de robustesse à une variation de température de l'air</span><span class="u">bool</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/climate-sensitivity/scalar/RAT_T.yaml) &middot; [back to the catalogue](../catalogue.md)

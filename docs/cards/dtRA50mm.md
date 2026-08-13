@@ -68,6 +68,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   precipitation/heavy-rain/series/dtRA50mm.yaml
   https://archive.softwareheritage.org/swh:1:cnt:a121984f443031734cf3a2a2ce5b1beedb036701</pre>
 
-**Variables produced**  [`dtRA50mm`](../catalogue.md#dtRA50mm)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#dtRA50mm"><code>dtRA50mm</code></a></dt><dd><span lang="en">Number of extreme rain days in the year</span><span lang="fr">Nombre de jours de pluie extrême dans l'année</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/heavy-rain/series/dtRA50mm.yaml) &middot; [back to the catalogue](../catalogue.md)

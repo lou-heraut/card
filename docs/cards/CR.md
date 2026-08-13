@@ -100,6 +100,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.2   precipitation/model-performance/scalar/CR.yaml
   https://archive.softwareheritage.org/swh:1:cnt:e6c6567283641687716fff1bde3c6bb00df23e57</pre>
 
-**Variables produced**  [`CR`](../catalogue.md#CR)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#CR"><code>CR</code></a></dt><dd><span lang="en">Correction coefficient for precipitation</span><span lang="fr">Coefficient correctif des précipitations</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/model-performance/scalar/CR.yaml) &middot; [back to the catalogue](../catalogue.md)

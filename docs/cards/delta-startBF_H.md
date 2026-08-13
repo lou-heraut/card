@@ -98,6 +98,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/baseflow/scalar/delta-startBF_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:693d76af877c08e4a5264809f094ee6a21546c2f</pre>
 
-**Variables produced**  [`delta-startBF`](../catalogue.md#delta-startBF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-startBF"><code>delta-startBF</code></a></dt><dd><span lang="en">Average change of the start of low flows between the target horizon and historical period</span><span lang="fr">Changement moyen du début des écoulements lents entre l'horizon cible et la période historique</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/scalar/delta-startBF_H.yaml) &middot; [back to the catalogue](../catalogue.md)

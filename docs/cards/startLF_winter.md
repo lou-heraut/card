@@ -114,6 +114,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.4   flow/low-flows/series/startLF_winter.yaml
   https://archive.softwareheritage.org/swh:1:cnt:bce6f8caf0f9128f4f2087f66afea75cd549bc20</pre>
 
-**Variables produced**  [`startLF_winter`](../catalogue.md#startLF_winter)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#startLF_winter"><code>startLF_winter</code></a></dt><dd><span lang="en">Start of winter low flows</span><span lang="fr">Début des basses eaux hivernales</span><span class="u">yearday</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/startLF_winter.yaml) &middot; [back to the catalogue](../catalogue.md)

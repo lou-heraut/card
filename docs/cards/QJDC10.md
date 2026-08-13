@@ -82,6 +82,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v4.0   flow/mean-flows/curve/QJDC10.yaml
   https://archive.softwareheritage.org/swh:1:cnt:f271232a68abeed3324af077a5ea9cc83f5dc509</pre>
 
-**Variables produced**  [`QJDC10`](../catalogue.md#QJDC10)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#QJDC10"><code>QJDC10</code></a></dt><dd><span lang="en">Inter-annual median daily flow regime over the whole record smoothed over 10 days</span><span lang="fr">Régime journalier médian inter-annuel sur la chronique entière lissé sur 10 jours</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/mean-flows/curve/QJDC10.yaml) &middot; [back to the catalogue](../catalogue.md)

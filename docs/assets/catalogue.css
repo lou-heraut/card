@@ -257,6 +257,36 @@
   margin: .6rem 0;
 }
 
+/* Ce qu'une fiche produit, sur la page de la fiche : même grammaire que
+   le dépliage du catalogue, symbole à gauche, nom à droite. */
+.md-typeset dl.card-vars {
+  display: grid;
+  grid-template-columns: minmax(7rem, 11rem) 1fr;
+  gap: .15rem 1rem;
+  margin: .4rem 0 1.2rem;
+  font-size: .68rem;
+}
+
+.md-typeset dl.card-vars dt,
+.md-typeset dl.card-vars dd {
+  margin: 0;
+  padding: 0;
+}
+
+.md-typeset dl.card-vars dt {
+  text-align: right;
+}
+
+.md-typeset dl.card-vars dd {
+  color: var(--muted);
+}
+
+.md-typeset dl.card-vars dd .u {
+  color: var(--faint);
+  font-size: .9em;
+  margin-left: .5em;
+}
+
 
 /* ── la bascule de langue, pour tout le site ───────────────────────────
    Une seule règle, et tout ce qui porte `lang` la suit : un fragment de

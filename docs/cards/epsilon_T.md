@@ -88,6 +88,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/climate-sensitivity/scalar/epsilon_T.yaml
   https://archive.softwareheritage.org/swh:1:cnt:0fe16e6cd032458941bd8bbf32a71413d017131a</pre>
 
-**Variables produced**  [`epsilon_T`](../catalogue.md#epsilon_T)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#epsilon_T"><code>epsilon_T</code></a></dt><dd><span lang="en">Annual flow elasticity to air temperatures</span><span lang="fr">Élasticité annuelle du débit aux températures de l'air</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/climate-sensitivity/scalar/epsilon_T.yaml) &middot; [back to the catalogue](../catalogue.md)

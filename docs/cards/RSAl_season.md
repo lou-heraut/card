@@ -88,6 +88,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0.1   precipitation/mean-precipitation/series/RSAl_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:1a75a039b973ecc4596453c7d22f8c22746a303b</pre>
 
-**Variables produced**  [`RSAl_DJF`](../catalogue.md#RSAl_DJF) · [`RSAl_MAM`](../catalogue.md#RSAl_MAM) · [`RSAl_JJA`](../catalogue.md#RSAl_JJA) · [`RSAl_SON`](../catalogue.md#RSAl_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#RSAl_DJF"><code>RSAl_DJF</code></a></dt><dd><span lang="en">Cumulative daily liquid precipitation of each winter</span><span lang="fr">Cumul des précipitations liquides journalières de chaque hiver</span><span class="u">mm</span></dd><dt><a href="../../catalogue/#RSAl_MAM"><code>RSAl_MAM</code></a></dt><dd><span lang="en">Cumulative daily liquid precipitation of each spring</span><span lang="fr">Cumul des précipitations liquides journalières de chaque printemps</span><span class="u">mm</span></dd><dt><a href="../../catalogue/#RSAl_JJA"><code>RSAl_JJA</code></a></dt><dd><span lang="en">Cumulative daily liquid precipitation of each summer</span><span lang="fr">Cumul des précipitations liquides journalières de chaque été</span><span class="u">mm</span></dd><dt><a href="../../catalogue/#RSAl_SON"><code>RSAl_SON</code></a></dt><dd><span lang="en">Cumulative daily liquid precipitation of each autumn</span><span lang="fr">Cumul des précipitations liquides journalières de chaque automne</span><span class="u">mm</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/mean-precipitation/series/RSAl_season.yaml) &middot; [back to the catalogue](../catalogue.md)

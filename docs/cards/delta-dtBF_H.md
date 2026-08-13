@@ -100,6 +100,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v3.0   flow/baseflow/scalar/delta-dtBF_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:41993975e8c9b51db0e2b2e2bb9e1aff04660c7e</pre>
 
-**Variables produced**  [`delta-dtBF`](../catalogue.md#delta-dtBF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-dtBF"><code>delta-dtBF</code></a></dt><dd><span lang="en">Average change of the duration of low flows between the target horizon and historical period</span><span lang="fr">Changement moyen de la durée des écoulements lents entre l'horizon cible et la période historique</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/scalar/delta-dtBF_H.yaml) &middot; [back to the catalogue](../catalogue.md)

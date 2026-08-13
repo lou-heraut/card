@@ -98,6 +98,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/high-flows/scalar/alpha-QJXA.yaml
   https://archive.softwareheritage.org/swh:1:cnt:d5b9f938eb4c362c657f5df6c938c744dc58358b</pre>
 
-**Variables produced**  [`alpha-QJXA`](../catalogue.md#alpha-QJXA) · [`hyp-alpha-QJXA`](../catalogue.md#hyp-alpha-QJXA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#alpha-QJXA"><code>alpha-QJXA</code></a></dt><dd><span lang="en">Sen's slope of the series of annual maximum daily flows (QJXA)</span><span lang="fr">Pente de Sen de la série des débits journaliers maximaux annuels (QJXA)</span><span class="u">m³·s⁻¹·year⁻¹</span></dd><dt><a href="../../catalogue/#hyp-alpha-QJXA"><code>hyp-alpha-QJXA</code></a></dt><dd><span lang="en">Mann-Kendall test result on the series of annual maximum daily flows (QJXA)</span><span lang="fr">Résultat du test de Mann-Kendall sur la série des débits journaliers maximaux annuels (QJXA)</span><span class="u">bool</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/scalar/alpha-QJXA.yaml) &middot; [back to the catalogue](../catalogue.md)

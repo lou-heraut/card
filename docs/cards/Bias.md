@@ -60,6 +60,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   flow/model-performance/scalar/Bias.yaml
   https://archive.softwareheritage.org/swh:1:cnt:143ab1ee5db271c6034aef4bd948e9b2b0a1fcc8</pre>
 
-**Variables produced**  [`Bias`](../catalogue.md#Bias)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#Bias"><code>Bias</code></a></dt><dd><span lang="en">Bias</span><span lang="fr">Biais</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/model-performance/scalar/Bias.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -100,6 +100,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   precipitation/wet-days/series/dtCWDSA_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:98075e32f5d2aeffd55a0f391aa029b59e0b8366</pre>
 
-**Variables produced**  [`dtCWDSA_DJF`](../catalogue.md#dtCWDSA_DJF) · [`dtCWDSA_MAM`](../catalogue.md#dtCWDSA_MAM) · [`dtCWDSA_JJA`](../catalogue.md#dtCWDSA_JJA) · [`dtCWDSA_SON`](../catalogue.md#dtCWDSA_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#dtCWDSA_DJF"><code>dtCWDSA_DJF</code></a></dt><dd><span lang="en">Maximum number of consecutive rainy days in winter</span><span lang="fr">Nombre maximal de jours pluvieux consécutifs dans l'hiver</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtCWDSA_MAM"><code>dtCWDSA_MAM</code></a></dt><dd><span lang="en">Maximum number of consecutive rainy days in spring</span><span lang="fr">Nombre maximal de jours pluvieux consécutifs au printemps</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtCWDSA_JJA"><code>dtCWDSA_JJA</code></a></dt><dd><span lang="en">Maximum number of consecutive rainy days in summer</span><span lang="fr">Nombre maximal de jours pluvieux consécutifs en été</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtCWDSA_SON"><code>dtCWDSA_SON</code></a></dt><dd><span lang="en">Maximum number of consecutive rainy days in autumn</span><span lang="fr">Nombre maximal de jours pluvieux consécutifs en automne</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/wet-days/series/dtCWDSA_season.yaml) &middot; [back to the catalogue](../catalogue.md)

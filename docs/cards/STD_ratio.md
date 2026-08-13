@@ -62,6 +62,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v3.0   flow/model-performance/scalar/STD_ratio.yaml
   https://archive.softwareheritage.org/swh:1:cnt:2a6ac53aec6f847b8c814bfe06af14dd97692b50</pre>
 
-**Variables produced**  [`STD_ratio`](../catalogue.md#STD_ratio)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#STD_ratio"><code>STD_ratio</code></a></dt><dd><span lang="en">Ratio of simulated to observed standard deviations</span><span lang="fr">Rapport des écarts-types simulé/observé</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/model-performance/scalar/STD_ratio.yaml) &middot; [back to the catalogue](../catalogue.md)

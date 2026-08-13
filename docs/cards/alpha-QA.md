@@ -96,6 +96,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/mean-flows/scalar/alpha-QA.yaml
   https://archive.softwareheritage.org/swh:1:cnt:0afa3d8a973f0636126f6aa5dab83e1052f9b952</pre>
 
-**Variables produced**  [`alpha-QA`](../catalogue.md#alpha-QA) · [`hyp-alpha-QA`](../catalogue.md#hyp-alpha-QA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#alpha-QA"><code>alpha-QA</code></a></dt><dd><span lang="en">Sen's slope of the series of annual mean daily flows</span><span lang="fr">Pente de Sen de la série des débits moyens annuels</span><span class="u">m³·s⁻¹·year⁻¹</span></dd><dt><a href="../../catalogue/#hyp-alpha-QA"><code>hyp-alpha-QA</code></a></dt><dd><span lang="en">Mann-Kendall test result on the series of annual mean daily flows</span><span lang="fr">Résultat du test de Mann-Kendall sur la série des débits moyens annuels</span><span class="u">bool</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/mean-flows/scalar/alpha-QA.yaml) &middot; [back to the catalogue](../catalogue.md)

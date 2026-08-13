@@ -90,6 +90,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/climate-sensitivity/scalar/RAT_ET0.yaml
   https://archive.softwareheritage.org/swh:1:cnt:4b2cfe98c96ddda8e6afbb2ac70b6c84836161b5</pre>
 
-**Variables produced**  [`RAT_ET0`](../catalogue.md#RAT_ET0)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#RAT_ET0"><code>RAT_ET0</code></a></dt><dd><span lang="en">Robustness test to a variation in reference evapotranspiration</span><span lang="fr">Test de robustesse à une variation d'évapotranspiration de référence</span><span class="u">bool</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/climate-sensitivity/scalar/RAT_ET0.yaml) &middot; [back to the catalogue](../catalogue.md)

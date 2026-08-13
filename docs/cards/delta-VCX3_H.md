@@ -104,6 +104,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.2   flow/high-flows/scalar/delta-VCX3_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:eaf3b5be6ea5a0eb7c0b872f60bc51407fb55496</pre>
 
-**Variables produced**  [`delta-VCX3`](../catalogue.md#delta-VCX3)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-VCX3"><code>delta-VCX3</code></a></dt><dd><span lang="en">Average change of annual maximum of the 3-day moving average of daily flows between the target horizon and historical period</span><span lang="fr">Changement moyen du maximum annuel de la moyenne mobile sur 3 jours des débits journaliers entre l'horizon cible et la période historique</span><span class="u">%</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/scalar/delta-VCX3_H.yaml) &middot; [back to the catalogue](../catalogue.md)

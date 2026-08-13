@@ -118,6 +118,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.6   flow/low-flows/series/vLF_summer.yaml
   https://archive.softwareheritage.org/swh:1:cnt:b2d3154d4730f749cd3b9e12285745e77d091a74</pre>
 
-**Variables produced**  [`vLF_summer`](../catalogue.md#vLF_summer)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#vLF_summer"><code>vLF_summer</code></a></dt><dd><span lang="en">Deficit volume of summer low flows</span><span lang="fr">Volume de déficit des basses eaux estivales</span><span class="u">hm³</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/vLF_summer.yaml) &middot; [back to the catalogue](../catalogue.md)

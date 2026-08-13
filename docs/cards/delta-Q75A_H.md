@@ -95,6 +95,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/mean-flows/scalar/delta-Q75A_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:fcb10cc55eeb2e6fbc53fe374caf21c139a2a707</pre>
 
-**Variables produced**  [`delta-Q75A`](../catalogue.md#delta-Q75A)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-Q75A"><code>delta-Q75A</code></a></dt><dd><span lang="en">Average change of the annual first quartile of daily flows between the target horizon and historical period</span><span lang="fr">Changement moyen du premier quartile annuel des débits journaliers entre l'horizon cible et la période historique</span><span class="u">%</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/mean-flows/scalar/delta-Q75A_H.yaml) &middot; [back to the catalogue](../catalogue.md)

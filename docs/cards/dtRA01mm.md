@@ -68,6 +68,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   precipitation/wet-days/series/dtRA01mm.yaml
   https://archive.softwareheritage.org/swh:1:cnt:5d1e9b90fd5838bb7489217fda2dd77b317a7ea2</pre>
 
-**Variables produced**  [`dtRA01mm`](../catalogue.md#dtRA01mm)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#dtRA01mm"><code>dtRA01mm</code></a></dt><dd><span lang="en">Number of rainy days in the year</span><span lang="fr">Nombre de jours pluvieux dans l'année</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/wet-days/series/dtRA01mm.yaml) &middot; [back to the catalogue](../catalogue.md)

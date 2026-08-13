@@ -200,6 +200,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.6   flow/low-flows/series/allLF_winter.yaml
   https://archive.softwareheritage.org/swh:1:cnt:29553c2a77d73b5bcc59eb2ea4c20ca3e0584786</pre>
 
-**Variables produced**  [`startLF_winter`](../catalogue.md#startLF_winter) · [`centerLF_winter`](../catalogue.md#centerLF_winter) · [`endLF_winter`](../catalogue.md#endLF_winter) · [`dtLF_winter`](../catalogue.md#dtLF_winter) · [`vLF_winter`](../catalogue.md#vLF_winter)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#startLF_winter"><code>startLF_winter</code></a></dt><dd><span lang="en">Start of winter low flows</span><span lang="fr">Début des basses eaux hivernales</span><span class="u">yearday</span></dd><dt><a href="../../catalogue/#centerLF_winter"><code>centerLF_winter</code></a></dt><dd><span lang="en">Center of winter low flows</span><span lang="fr">Centre des basses eaux hivernales</span><span class="u">yearday</span></dd><dt><a href="../../catalogue/#endLF_winter"><code>endLF_winter</code></a></dt><dd><span lang="en">End of winter low flows</span><span lang="fr">Fin des basses eaux hivernales</span><span class="u">yearday</span></dd><dt><a href="../../catalogue/#dtLF_winter"><code>dtLF_winter</code></a></dt><dd><span lang="en">Duration of winter low flows</span><span lang="fr">Durée des basses eaux hivernales</span><span class="u">day</span></dd><dt><a href="../../catalogue/#vLF_winter"><code>vLF_winter</code></a></dt><dd><span lang="en">Deficit volume of winter low flows</span><span lang="fr">Volume de déficit des basses eaux hivernales</span><span class="u">hm³</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/allLF_winter.yaml) &middot; [back to the catalogue](../catalogue.md)

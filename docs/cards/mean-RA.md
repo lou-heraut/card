@@ -75,6 +75,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   precipitation/mean-precipitation/scalar/mean-RA.yaml
   https://archive.softwareheritage.org/swh:1:cnt:f9e9a1d3e9ccbe84fe4f4aaf7df988855ce62132</pre>
 
-**Variables produced**  [`mean-RA`](../catalogue.md#mean-RA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#mean-RA"><code>mean-RA</code></a></dt><dd><span lang="en">Inter-annual mean of the annual total precipitation</span><span lang="fr">Moyenne inter-annuelle du cumul annuel des précipitations totales</span><span class="u">mm</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/mean-precipitation/scalar/mean-RA.yaml) &middot; [back to the catalogue](../catalogue.md)

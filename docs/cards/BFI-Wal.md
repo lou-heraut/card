@@ -76,6 +76,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/baseflow/scalar/BFI-Wal.yaml
   https://archive.softwareheritage.org/swh:1:cnt:09676c5346276258419ce22dcf2dd3c266a7ba8c</pre>
 
-**Variables produced**  [`BFI-Wal`](../catalogue.md#BFI-Wal)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#BFI-Wal"><code>BFI-Wal</code></a></dt><dd><span lang="en">Baseflow index (Wallingford)</span><span lang="fr">Indice de débit de base (Wallingford)</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/scalar/BFI-Wal.yaml) &middot; [back to the catalogue](../catalogue.md)

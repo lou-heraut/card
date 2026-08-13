@@ -88,6 +88,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0.1   evapotranspiration/evaporative-demand/series/ETPSA_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:3b012aa1c680a0b3139909d81ab442199e68f4b5</pre>
 
-**Variables produced**  [`ETPSA_DJF`](../catalogue.md#ETPSA_DJF) · [`ETPSA_MAM`](../catalogue.md#ETPSA_MAM) · [`ETPSA_JJA`](../catalogue.md#ETPSA_JJA) · [`ETPSA_SON`](../catalogue.md#ETPSA_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#ETPSA_DJF"><code>ETPSA_DJF</code></a></dt><dd><span lang="en">Cumulative potential evapotranspiration of each winter</span><span lang="fr">Cumul de l'évapotranspiration potentielle de chaque hiver</span><span class="u">mm</span></dd><dt><a href="../../catalogue/#ETPSA_MAM"><code>ETPSA_MAM</code></a></dt><dd><span lang="en">Cumulative potential evapotranspiration of each spring</span><span lang="fr">Cumul de l'évapotranspiration potentielle de chaque printemps</span><span class="u">mm</span></dd><dt><a href="../../catalogue/#ETPSA_JJA"><code>ETPSA_JJA</code></a></dt><dd><span lang="en">Cumulative potential evapotranspiration of each summer</span><span lang="fr">Cumul de l'évapotranspiration potentielle de chaque été</span><span class="u">mm</span></dd><dt><a href="../../catalogue/#ETPSA_SON"><code>ETPSA_SON</code></a></dt><dd><span lang="en">Cumulative potential evapotranspiration of each autumn</span><span lang="fr">Cumul de l'évapotranspiration potentielle de chaque automne</span><span class="u">mm</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/evapotranspiration/evaporative-demand/series/ETPSA_season.yaml) &middot; [back to the catalogue](../catalogue.md)

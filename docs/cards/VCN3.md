@@ -74,6 +74,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/low-flows/series/VCN3.yaml
   https://archive.softwareheritage.org/swh:1:cnt:2fb861e75f2e7081b399fc43a8b9a777fc5342ea</pre>
 
-**Variables produced**  [`VCN3`](../catalogue.md#VCN3)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#VCN3"><code>VCN3</code></a></dt><dd><span lang="en">Annual minimum of 3-day mean daily discharge</span><span lang="fr">Minimum annuel de la moyenne sur 3 jours du débit journalier</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/VCN3.yaml) &middot; [back to the catalogue](../catalogue.md)

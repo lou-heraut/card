@@ -114,6 +114,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.4   flow/low-flows/series/startLF_summer.yaml
   https://archive.softwareheritage.org/swh:1:cnt:62e68a408245eece6134ea9ba9d40338e956702a</pre>
 
-**Variables produced**  [`startLF_summer`](../catalogue.md#startLF_summer)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#startLF_summer"><code>startLF_summer</code></a></dt><dd><span lang="en">Start of summer low flows</span><span lang="fr">Début des basses eaux estivales</span><span class="u">yearday</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/startLF_summer.yaml) &middot; [back to the catalogue](../catalogue.md)

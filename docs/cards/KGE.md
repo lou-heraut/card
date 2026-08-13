@@ -64,6 +64,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   flow/model-performance/scalar/KGE.yaml
   https://archive.softwareheritage.org/swh:1:cnt:7c0dea0d42c2a2c9ebebf2de0dcc8fa559d6c4e0</pre>
 
-**Variables produced**  [`KGE`](../catalogue.md#KGE)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#KGE"><code>KGE</code></a></dt><dd><span lang="en">Kling-Gupta Performance Coefficient</span><span lang="fr">Coefficient de performance de Kling-Gupta</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/model-performance/scalar/KGE.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -84,6 +84,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/baseflow/scalar/median-dtBF.yaml
   https://archive.softwareheritage.org/swh:1:cnt:0ece430056df3246ffe67a7c04a3362d49b0def8</pre>
 
-**Variables produced**  [`median-dtBF`](../catalogue.md#median-dtBF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#median-dtBF"><code>median-dtBF</code></a></dt><dd><span lang="en">Inter-annual median of the duration of baseflow</span><span lang="fr">Médiane inter-annuelle de la durée des écoulements lents</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/scalar/median-dtBF.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -194,6 +194,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.5   flow/low-flows/series/allLF.yaml
   https://archive.softwareheritage.org/swh:1:cnt:f8c7d0212a16242f202dfdd0e206ac6c36bf762e</pre>
 
-**Variables produced**  [`startLF`](../catalogue.md#startLF) · [`centerLF`](../catalogue.md#centerLF) · [`endLF`](../catalogue.md#endLF) · [`dtLF`](../catalogue.md#dtLF) · [`vLF`](../catalogue.md#vLF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#startLF"><code>startLF</code></a></dt><dd><span lang="en">Start of low flows</span><span lang="fr">Début des basses eaux</span><span class="u">yearday</span></dd><dt><a href="../../catalogue/#centerLF"><code>centerLF</code></a></dt><dd><span lang="en">Center of low flows</span><span lang="fr">Centre des basses eaux</span><span class="u">yearday</span></dd><dt><a href="../../catalogue/#endLF"><code>endLF</code></a></dt><dd><span lang="en">End of low flows</span><span lang="fr">Fin des basses eaux</span><span class="u">yearday</span></dd><dt><a href="../../catalogue/#dtLF"><code>dtLF</code></a></dt><dd><span lang="en">Duration of low flows</span><span lang="fr">Durée des basses eaux</span><span class="u">day</span></dd><dt><a href="../../catalogue/#vLF"><code>vLF</code></a></dt><dd><span lang="en">Deficit volume of low flows</span><span lang="fr">Volume de déficit des basses eaux</span><span class="u">hm³</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/allLF.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -118,6 +118,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   precipitation/snow/scalar/RA_ratio.yaml
   https://archive.softwareheritage.org/swh:1:cnt:8ec79783e6296d5b7af0e929cea4a45a17174c95</pre>
 
-**Variables produced**  [`Rl_ratio`](../catalogue.md#Rl_ratio) · [`Rs_ratio`](../catalogue.md#Rs_ratio)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#Rl_ratio"><code>Rl_ratio</code></a></dt><dd><span lang="en">Ratio of liquid to total precipitation</span><span lang="fr">Rapport des précipitations liquides aux précipitations totales</span><span class="u">without unit</span></dd><dt><a href="../../catalogue/#Rs_ratio"><code>Rs_ratio</code></a></dt><dd><span lang="en">Ratio of solid to total precipitation</span><span lang="fr">Rapport des précipitations solides aux précipitations totales</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/snow/scalar/RA_ratio.yaml) &middot; [back to the catalogue](../catalogue.md)

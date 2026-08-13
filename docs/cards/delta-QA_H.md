@@ -90,6 +90,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.2   flow/mean-flows/scalar/delta-QA_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:8d21dfef027705c7a6c3b8ab337cfc59fe54771e</pre>
 
-**Variables produced**  [`delta-QA`](../catalogue.md#delta-QA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-QA"><code>delta-QA</code></a></dt><dd><span lang="en">Average change of annual mean daily discharge between the historical period and the target horizon</span><span lang="fr">Changement moyen de la moyenne annuelle du débit journalier entre la période historique et l'horizon cible</span><span class="u">%</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/mean-flows/scalar/delta-QA_H.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -88,6 +88,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.2   flow/baseflow/scalar/BFM.yaml
   https://archive.softwareheritage.org/swh:1:cnt:20cf8811bf948cddcf3b4bad0725e20243d54bde</pre>
 
-**Variables produced**  [`BFM`](../catalogue.md#BFM)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#BFM"><code>BFM</code></a></dt><dd><span lang="en">Baseflow magnitude</span><span lang="fr">Magnitude du débit de base</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/scalar/BFM.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -74,6 +74,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/mean-flows/scalar/mean-QA.yaml
   https://archive.softwareheritage.org/swh:1:cnt:142bfd1ba6b180c08acd3179220060a4b8bf0ca9</pre>
 
-**Variables produced**  [`mean-QA`](../catalogue.md#mean-QA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#mean-QA"><code>mean-QA</code></a></dt><dd><span lang="en">Inter-annual mean of the annual mean daily flow</span><span lang="fr">Moyenne inter-annuelle du débit moyen annuel</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/mean-flows/scalar/mean-QA.yaml) &middot; [back to the catalogue](../catalogue.md)

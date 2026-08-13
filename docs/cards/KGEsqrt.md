@@ -62,6 +62,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   flow/model-performance/scalar/KGEsqrt.yaml
   https://archive.softwareheritage.org/swh:1:cnt:3c1799ea755ff7ace9744a25d1250ee216a697f5</pre>
 
-**Variables produced**  [`KGEsqrt`](../catalogue.md#KGEsqrt)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#KGEsqrt"><code>KGEsqrt</code></a></dt><dd><span lang="en">Kling-Gupta Efficiency of the square root of data</span><span lang="fr">Coefficient d'efficience de Kling-Gupta de la racine carrée des données</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/model-performance/scalar/KGEsqrt.yaml) &middot; [back to the catalogue](../catalogue.md)

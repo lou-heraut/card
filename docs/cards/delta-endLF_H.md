@@ -142,6 +142,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.5   flow/low-flows/scalar/delta-endLF_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:95ed6995e69d00d71d42f81af318b23b736b1574</pre>
 
-**Variables produced**  [`delta-endLF`](../catalogue.md#delta-endLF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-endLF"><code>delta-endLF</code></a></dt><dd><span lang="en">Average change of the end of low flows between the target horizon and historical period</span><span lang="fr">Changement moyen de la fin des basses eaux entre l'horizon cible et la période historique</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/delta-endLF_H.yaml) &middot; [back to the catalogue](../catalogue.md)

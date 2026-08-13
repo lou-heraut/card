@@ -106,6 +106,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.2   flow/low-flows/scalar/delta-VCN10-5_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:54bb2a011529ac92cb86d91f75b32698278c27ea</pre>
 
-**Variables produced**  [`delta-VCN10-5`](../catalogue.md#delta-VCN10-5)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-VCN10-5"><code>delta-VCN10-5</code></a></dt><dd><span lang="en">Change of annual minimum of 10-day mean daily discharge with a return period of 5 years between the target horizon and historical period</span><span lang="fr">Changement du minimum annuel de la moyenne sur 10 jours du débit journalier VCN10 de période de retour 5 ans entre l'horizon cible et la période historique</span><span class="u">%</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/delta-VCN10-5_H.yaml) &middot; [back to the catalogue](../catalogue.md)

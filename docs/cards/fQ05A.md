@@ -86,6 +86,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.4   flow/high-flows/series/fQ05A.yaml
   https://archive.softwareheritage.org/swh:1:cnt:f33ac33439abf3f2bee962e213b4fd12b1281808</pre>
 
-**Variables produced**  [`fQ05A`](../catalogue.md#fQ05A)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#fQ05A"><code>fQ05A</code></a></dt><dd><span lang="en">Annual frequency of exceeding Q05</span><span lang="fr">Fréquence annuelle de dépassement du Q05</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/series/fQ05A.yaml) &middot; [back to the catalogue](../catalogue.md)

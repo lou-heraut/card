@@ -75,6 +75,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   flow/low-flows/series/VCN30_winter.yaml
   https://archive.softwareheritage.org/swh:1:cnt:d733f6dbe6230883b85b3b0e188f9b1888985122</pre>
 
-**Variables produced**  [`VCN30_winter`](../catalogue.md#VCN30_winter)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#VCN30_winter"><code>VCN30_winter</code></a></dt><dd><span lang="en">Winter minimum of 30-day mean daily discharge</span><span lang="fr">Minimum hivernal de la moyenne sur 30 jours du débit journalier</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/VCN30_winter.yaml) &middot; [back to the catalogue](../catalogue.md)

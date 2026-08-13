@@ -86,6 +86,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/baseflow/scalar/median-startBF.yaml
   https://archive.softwareheritage.org/swh:1:cnt:bedf30207b4230270594a9222356db4d3689853f</pre>
 
-**Variables produced**  [`median-startBF`](../catalogue.md#median-startBF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#median-startBF"><code>median-startBF</code></a></dt><dd><span lang="en">Inter-annual median of the start of baseflow</span><span lang="fr">Médiane inter-annuelle du début des écoulements lents</span><span class="u">yearday</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/scalar/median-startBF.yaml) &middot; [back to the catalogue](../catalogue.md)

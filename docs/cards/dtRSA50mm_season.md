@@ -98,6 +98,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   precipitation/heavy-rain/series/dtRSA50mm_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:793dd6403de543691a7ef7f7d38a008e0a9753f0</pre>
 
-**Variables produced**  [`dtRSA50mm_DJF`](../catalogue.md#dtRSA50mm_DJF) · [`dtRSA50mm_MAM`](../catalogue.md#dtRSA50mm_MAM) · [`dtRSA50mm_JJA`](../catalogue.md#dtRSA50mm_JJA) · [`dtRSA50mm_SON`](../catalogue.md#dtRSA50mm_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#dtRSA50mm_DJF"><code>dtRSA50mm_DJF</code></a></dt><dd><span lang="en">Number of extreme rain days in winter</span><span lang="fr">Nombre de jours de pluie extrême en hiver</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtRSA50mm_MAM"><code>dtRSA50mm_MAM</code></a></dt><dd><span lang="en">Number of extreme rain days in spring</span><span lang="fr">Nombre de jours de pluie extrême au printemps</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtRSA50mm_JJA"><code>dtRSA50mm_JJA</code></a></dt><dd><span lang="en">Number of extreme rain days in summer</span><span lang="fr">Nombre de jours de pluie extrême en été</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtRSA50mm_SON"><code>dtRSA50mm_SON</code></a></dt><dd><span lang="en">Number of extreme rain days in autumn</span><span lang="fr">Nombre de jours de pluie extrême en automne</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/heavy-rain/series/dtRSA50mm_season.yaml) &middot; [back to the catalogue](../catalogue.md)

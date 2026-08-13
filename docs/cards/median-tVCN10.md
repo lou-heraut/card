@@ -90,6 +90,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.2   flow/low-flows/scalar/median-tVCN10.yaml
   https://archive.softwareheritage.org/swh:1:cnt:0cdf7ad135147e50c7f5e416e8c105b9b4168987</pre>
 
-**Variables produced**  [`median-tVCN10`](../catalogue.md#median-tVCN10)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#median-tVCN10"><code>median-tVCN10</code></a></dt><dd><span lang="en">Inter-annual median of the dates of the annual minimum of 10-day mean flows</span><span lang="fr">Médiane inter-annuelle des dates du minimum annuel des débits moyens sur 10 jours</span><span class="u">yearday</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/median-tVCN10.yaml) &middot; [back to the catalogue](../catalogue.md)

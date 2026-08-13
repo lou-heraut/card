@@ -96,6 +96,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/high-flows/scalar/delta-Q01A_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:d6c75ebb4cae58218f7daa02d633229a980c556b</pre>
 
-**Variables produced**  [`delta-Q01A`](../catalogue.md#delta-Q01A)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-Q01A"><code>delta-Q01A</code></a></dt><dd><span lang="en">Average change of the daily flow exceeded 1 % of the time within the year between the target horizon and historical period</span><span lang="fr">Changement moyen du débit journalier dépassé 1 % du temps de l'année entre l'horizon cible et la période historique</span><span class="u">%</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/scalar/delta-Q01A_H.yaml) &middot; [back to the catalogue](../catalogue.md)

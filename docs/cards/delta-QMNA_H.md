@@ -104,6 +104,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.4   flow/low-flows/scalar/delta-QMNA_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:392ebcd0d411a788835001a4f7b36c5298ef1220</pre>
 
-**Variables produced**  [`delta-QMNA`](../catalogue.md#delta-QMNA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-QMNA"><code>delta-QMNA</code></a></dt><dd><span lang="en">Average change of annual minimum of monthly flows between the target horizon and historical period</span><span lang="fr">Changement moyen du minimum annuel des débits mensuels entre l'horizon cible et la période historique</span><span class="u">%</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/delta-QMNA_H.yaml) &middot; [back to the catalogue](../catalogue.md)

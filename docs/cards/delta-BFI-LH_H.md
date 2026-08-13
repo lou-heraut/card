@@ -94,6 +94,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.2   flow/baseflow/scalar/delta-BFI-LH_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:7ce595034a0a59b9de466c5775e400a479a6457a</pre>
 
-**Variables produced**  [`delta-BFI-LH`](../catalogue.md#delta-BFI-LH)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-BFI-LH"><code>delta-BFI-LH</code></a></dt><dd><span lang="en">Average change of the baseflow index between the target horizon and historical period (Lyne and Hollick)</span><span lang="fr">Changement moyen de l'indice de débit de base entre l'horizon cible et la période historique (Lyne et Hollick)</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/scalar/delta-BFI-LH_H.yaml) &middot; [back to the catalogue](../catalogue.md)

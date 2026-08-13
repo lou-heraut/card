@@ -62,6 +62,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   flow/mean-flows/series/QSA_JJASO.yaml
   https://archive.softwareheritage.org/swh:1:cnt:55328e9c7a43399ccb3705073725282e557484ca</pre>
 
-**Variables produced**  [`QSA_JJASO`](../catalogue.md#QSA_JJASO)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#QSA_JJASO"><code>QSA_JJASO</code></a></dt><dd><span lang="en">Annual mean daily discharge from June to October</span><span lang="fr">Moyenne annuelle du débit journalier de juin à octobre</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/mean-flows/series/QSA_JJASO.yaml) &middot; [back to the catalogue](../catalogue.md)

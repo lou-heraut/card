@@ -91,6 +91,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/mean-flows/curve/FDC.yaml
   https://archive.softwareheritage.org/swh:1:cnt:d10d7bc8462f7b7eb242c5c06a5449027716e121</pre>
 
-**Variables produced**  [`FDC_p`](../catalogue.md#FDC_p) · [`FDC_Q`](../catalogue.md#FDC_Q)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#FDC_p"><code>FDC_p</code></a></dt><dd><span lang="en">Flow duration curve over the whole record</span><span lang="fr">Courbe des débits classés sur la chronique entière</span><span class="u">without unit</span></dd><dt><a href="../../catalogue/#FDC_Q"><code>FDC_Q</code></a></dt><dd><span lang="en">Flow duration curve over the whole record</span><span lang="fr">Courbe des débits classés sur la chronique entière</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/mean-flows/curve/FDC.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -75,6 +75,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/high-flows/series/VCX3.yaml
   https://archive.softwareheritage.org/swh:1:cnt:17908a4b7e125e2a8f5f61bddc562472b379b206</pre>
 
-**Variables produced**  [`VCX3`](../catalogue.md#VCX3)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#VCX3"><code>VCX3</code></a></dt><dd><span lang="en">Annual maximum of the 3-day moving average of daily flows</span><span lang="fr">Maximum annuel de la moyenne mobile sur 3 jours des débits journaliers</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/series/VCX3.yaml) &middot; [back to the catalogue](../catalogue.md)

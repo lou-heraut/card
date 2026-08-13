@@ -98,6 +98,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   precipitation/heavy-rain/series/dtRSA20mm_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:0b9f5977cc5b981d2fe620c056ec8b17390ef5d6</pre>
 
-**Variables produced**  [`dtRSA20mm_DJF`](../catalogue.md#dtRSA20mm_DJF) · [`dtRSA20mm_MAM`](../catalogue.md#dtRSA20mm_MAM) · [`dtRSA20mm_JJA`](../catalogue.md#dtRSA20mm_JJA) · [`dtRSA20mm_SON`](../catalogue.md#dtRSA20mm_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#dtRSA20mm_DJF"><code>dtRSA20mm_DJF</code></a></dt><dd><span lang="en">Number of heavy rain days in winter</span><span lang="fr">Nombre de jours de forte pluie en hiver</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtRSA20mm_MAM"><code>dtRSA20mm_MAM</code></a></dt><dd><span lang="en">Number of heavy rain days in spring</span><span lang="fr">Nombre de jours de forte pluie au printemps</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtRSA20mm_JJA"><code>dtRSA20mm_JJA</code></a></dt><dd><span lang="en">Number of heavy rain days in summer</span><span lang="fr">Nombre de jours de forte pluie en été</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtRSA20mm_SON"><code>dtRSA20mm_SON</code></a></dt><dd><span lang="en">Number of heavy rain days in autumn</span><span lang="fr">Nombre de jours de forte pluie en automne</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/heavy-rain/series/dtRSA20mm_season.yaml) &middot; [back to the catalogue](../catalogue.md)

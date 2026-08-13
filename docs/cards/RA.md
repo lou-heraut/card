@@ -62,6 +62,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   precipitation/mean-precipitation/series/RA.yaml
   https://archive.softwareheritage.org/swh:1:cnt:a07f07aff5cbf35dcf6947dde24e4a6989960076</pre>
 
-**Variables produced**  [`RA`](../catalogue.md#RA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#RA"><code>RA</code></a></dt><dd><span lang="en">Annual total precipitation</span><span lang="fr">Cumul annuel des précipitations totales</span><span class="u">mm</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/mean-precipitation/series/RA.yaml) &middot; [back to the catalogue](../catalogue.md)

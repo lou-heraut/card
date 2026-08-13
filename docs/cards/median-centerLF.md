@@ -130,6 +130,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.5   flow/low-flows/scalar/median-centerLF.yaml
   https://archive.softwareheritage.org/swh:1:cnt:c5ff9b43bb134256a9481413938f95a0472c5801</pre>
 
-**Variables produced**  [`median-centerLF`](../catalogue.md#median-centerLF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#median-centerLF"><code>median-centerLF</code></a></dt><dd><span lang="en">Inter-annual median of the center of low flows</span><span lang="fr">Médiane inter-annuelle du centre des basses eaux</span><span class="u">yearday</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/median-centerLF.yaml) &middot; [back to the catalogue](../catalogue.md)

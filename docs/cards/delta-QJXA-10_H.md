@@ -94,6 +94,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.4   flow/high-flows/scalar/delta-QJXA-10_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:415487a515a29072bb342ed2a34543caba7c8abf</pre>
 
-**Variables produced**  [`delta-QJXA-10`](../catalogue.md#delta-QJXA-10)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-QJXA-10"><code>delta-QJXA-10</code></a></dt><dd><span lang="en">Change of annual maximum daily flow with a 10-year return period between the target horizon and historical period</span><span lang="fr">Changement du débit journalier maximal annuel de période de retour 10 ans entre l'horizon cible et la période historique</span><span class="u">%</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/scalar/delta-QJXA-10_H.yaml) &middot; [back to the catalogue](../catalogue.md)

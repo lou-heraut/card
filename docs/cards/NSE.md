@@ -64,6 +64,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   flow/model-performance/scalar/NSE.yaml
   https://archive.softwareheritage.org/swh:1:cnt:3c3ad249978bc283aa485f57904c092e2e184a8f</pre>
 
-**Variables produced**  [`NSE`](../catalogue.md#NSE)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#NSE"><code>NSE</code></a></dt><dd><span lang="en">Nash-Sutcliffe Efficiency</span><span lang="fr">Coefficient d'efficience de Nash-Sutcliffe</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/model-performance/scalar/NSE.yaml) &middot; [back to the catalogue](../catalogue.md)

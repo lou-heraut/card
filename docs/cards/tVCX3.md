@@ -75,6 +75,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/high-flows/series/tVCX3.yaml
   https://archive.softwareheritage.org/swh:1:cnt:681eab7247ca397ec6e20096749fe3e93b35421f</pre>
 
-**Variables produced**  [`tVCX3`](../catalogue.md#tVCX3)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#tVCX3"><code>tVCX3</code></a></dt><dd><span lang="en">Date of the annual maximum of the 3-day mean of daily flow</span><span lang="fr">Date du maximum annuel de la moyenne sur 3 jours du débit journalier</span><span class="u">yearday</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/series/tVCX3.yaml) &middot; [back to the catalogue](../catalogue.md)

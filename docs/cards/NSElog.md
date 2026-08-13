@@ -61,6 +61,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   flow/model-performance/scalar/NSElog.yaml
   https://archive.softwareheritage.org/swh:1:cnt:dcea7a241d92b61c38e5aad56d887f6a3d695053</pre>
 
-**Variables produced**  [`NSElog`](../catalogue.md#NSElog)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#NSElog"><code>NSElog</code></a></dt><dd><span lang="en">Nash-Sutcliffe Efficiency of the logarithm of the data</span><span lang="fr">Coefficient d'efficience de Nash-Sutcliffe du logarithme des données</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/model-performance/scalar/NSElog.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -115,6 +115,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.4   flow/low-flows/series/dtLF_summer.yaml
   https://archive.softwareheritage.org/swh:1:cnt:be41180927e789b08a7b566bc0aa5c6fabe6beef</pre>
 
-**Variables produced**  [`dtLF_summer`](../catalogue.md#dtLF_summer)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#dtLF_summer"><code>dtLF_summer</code></a></dt><dd><span lang="en">Duration of summer low flows</span><span lang="fr">Durée des basses eaux estivales</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/dtLF_summer.yaml) &middot; [back to the catalogue](../catalogue.md)

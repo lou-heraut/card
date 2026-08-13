@@ -112,6 +112,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   temperature/mean-temperatures/scalar/mean-TSA_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:461a9ace1d2521f074a791d7e60ab730e081578d</pre>
 
-**Variables produced**  [`mean-TSA_DJF`](../catalogue.md#mean-TSA_DJF) · [`mean-TSA_MAM`](../catalogue.md#mean-TSA_MAM) · [`mean-TSA_JJA`](../catalogue.md#mean-TSA_JJA) · [`mean-TSA_SON`](../catalogue.md#mean-TSA_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#mean-TSA_DJF"><code>mean-TSA_DJF</code></a></dt><dd><span lang="en">Inter-annual mean of winter mean temperatures (months of December, January and February)</span><span lang="fr">Moyenne inter-annuelle des températures moyennes d'hiver</span><span class="u">°C</span></dd><dt><a href="../../catalogue/#mean-TSA_MAM"><code>mean-TSA_MAM</code></a></dt><dd><span lang="en">Inter-annual mean of spring mean temperatures (months of March, April and May)</span><span lang="fr">Moyenne inter-annuelle des températures moyennes de printemps</span><span class="u">°C</span></dd><dt><a href="../../catalogue/#mean-TSA_JJA"><code>mean-TSA_JJA</code></a></dt><dd><span lang="en">Inter-annual mean of summer mean temperatures (months of June, July and August)</span><span lang="fr">Moyenne inter-annuelle des températures moyennes d'été</span><span class="u">°C</span></dd><dt><a href="../../catalogue/#mean-TSA_SON"><code>mean-TSA_SON</code></a></dt><dd><span lang="en">Inter-annual mean of fall mean temperatures (months of September, October and November)</span><span lang="fr">Moyenne inter-annuelle des températures moyennes d'automne</span><span class="u">°C</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/temperature/mean-temperatures/scalar/mean-TSA_season.yaml) &middot; [back to the catalogue](../catalogue.md)

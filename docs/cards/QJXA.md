@@ -62,6 +62,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/high-flows/series/QJXA.yaml
   https://archive.softwareheritage.org/swh:1:cnt:82ee03262d7b119bfa07e5512319ddf965b3f7ac</pre>
 
-**Variables produced**  [`QJXA`](../catalogue.md#QJXA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#QJXA"><code>QJXA</code></a></dt><dd><span lang="en">Annual maximum daily flow</span><span lang="fr">Débit journalier maximal annuel</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/series/QJXA.yaml) &middot; [back to the catalogue](../catalogue.md)

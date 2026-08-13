@@ -61,6 +61,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   flow/model-performance/scalar/NSEsqrt.yaml
   https://archive.softwareheritage.org/swh:1:cnt:97545ccc3c650912d12467e1942f3e910969081e</pre>
 
-**Variables produced**  [`NSEsqrt`](../catalogue.md#NSEsqrt)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#NSEsqrt"><code>NSEsqrt</code></a></dt><dd><span lang="en">Nash-Sutcliffe Efficiency of the square root of the data</span><span lang="fr">Coefficient d'efficience de Nash-Sutcliffe de la racine carrée des données</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/model-performance/scalar/NSEsqrt.yaml) &middot; [back to the catalogue](../catalogue.md)

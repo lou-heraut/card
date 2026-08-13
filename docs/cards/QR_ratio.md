@@ -64,6 +64,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/climate-sensitivity/scalar/QR_ratio.yaml
   https://archive.softwareheritage.org/swh:1:cnt:56ef1880488c2a748757c32c1bd2d0edf29792f9</pre>
 
-**Variables produced**  [`QR_ratio`](../catalogue.md#QR_ratio)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#QR_ratio"><code>QR_ratio</code></a></dt><dd><span lang="en">Ratio of cumulative flow to cumulative precipitation</span><span lang="fr">Rapport des cumuls débit sur précipitations</span><span class="u">m³·s⁻¹·mm⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/climate-sensitivity/scalar/QR_ratio.yaml) &middot; [back to the catalogue](../catalogue.md)

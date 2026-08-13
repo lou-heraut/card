@@ -124,6 +124,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/climate-sensitivity/scalar/epsilon_R_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:571ac3702c0b243b197e3f78842b44a0db79f430</pre>
 
-**Variables produced**  [`epsilon_R_DJF`](../catalogue.md#epsilon_R_DJF) · [`epsilon_R_MAM`](../catalogue.md#epsilon_R_MAM) · [`epsilon_R_JJA`](../catalogue.md#epsilon_R_JJA) · [`epsilon_R_SON`](../catalogue.md#epsilon_R_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#epsilon_R_DJF"><code>epsilon_R_DJF</code></a></dt><dd><span lang="en">Winter flow elasticity to precipitation</span><span lang="fr">Élasticité hivernale du débit aux précipitations</span><span class="u">without unit</span></dd><dt><a href="../../catalogue/#epsilon_R_MAM"><code>epsilon_R_MAM</code></a></dt><dd><span lang="en">Spring flow elasticity to precipitation</span><span lang="fr">Élasticité printanière du débit aux précipitations</span><span class="u">without unit</span></dd><dt><a href="../../catalogue/#epsilon_R_JJA"><code>epsilon_R_JJA</code></a></dt><dd><span lang="en">Summer flow elasticity to precipitation</span><span lang="fr">Élasticité estivale du débit aux précipitations</span><span class="u">without unit</span></dd><dt><a href="../../catalogue/#epsilon_R_SON"><code>epsilon_R_SON</code></a></dt><dd><span lang="en">Autumn flow elasticity to precipitation</span><span lang="fr">Élasticité automnale du débit aux précipitations</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/climate-sensitivity/scalar/epsilon_R_season.yaml) &middot; [back to the catalogue](../catalogue.md)

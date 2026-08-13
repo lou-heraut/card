@@ -144,6 +144,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.8   flow/low-flows/scalar/delta-vLF_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:50e98386037712b041af045cbb2c5909bed09d55</pre>
 
-**Variables produced**  [`delta-vLF`](../catalogue.md#delta-vLF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-vLF"><code>delta-vLF</code></a></dt><dd><span lang="en">Average change of the deficit volume of low flows between the target horizon and historical period</span><span lang="fr">Changement moyen du volume de déficit des basses eaux entre l'horizon cible et la période historique</span><span class="u">%</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/delta-vLF_H.yaml) &middot; [back to the catalogue](../catalogue.md)

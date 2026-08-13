@@ -116,6 +116,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.4   flow/low-flows/series/centerLF.yaml
   https://archive.softwareheritage.org/swh:1:cnt:b53b0af9da2d4be6d5736c9c354781ba1d5e1418</pre>
 
-**Variables produced**  [`centerLF`](../catalogue.md#centerLF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#centerLF"><code>centerLF</code></a></dt><dd><span lang="en">Center of low flows</span><span lang="fr">Centre des basses eaux</span><span class="u">yearday</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/centerLF.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -92,6 +92,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v3.0   flow/low-flows/scalar/delta-QNA_winter_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:f97db0439d4f86ce91ddba1c0fa091b939b94e5f</pre>
 
-**Variables produced**  [`delta-QNA_winter`](../catalogue.md#delta-QNA_winter)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-QNA_winter"><code>delta-QNA_winter</code></a></dt><dd><span lang="en">Average change of winter minimum of daily discharge between the target horizon and historical period</span><span lang="fr">Changement moyen du minimum hivernal du débit journalier entre l'horizon cible et la période historique</span><span class="u">%</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/delta-QNA_winter_H.yaml) &middot; [back to the catalogue](../catalogue.md)

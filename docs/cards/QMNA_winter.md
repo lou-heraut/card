@@ -76,6 +76,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/low-flows/series/QMNA_winter.yaml
   https://archive.softwareheritage.org/swh:1:cnt:dcb1e184770f409004a7bfd8a3ec8ac5aa423688</pre>
 
-**Variables produced**  [`QMNA_winter`](../catalogue.md#QMNA_winter)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#QMNA_winter"><code>QMNA_winter</code></a></dt><dd><span lang="en">Winter minimum of monthly flows</span><span lang="fr">Minimum hivernal des débits mensuels</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/QMNA_winter.yaml) &middot; [back to the catalogue](../catalogue.md)

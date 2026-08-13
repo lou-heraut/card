@@ -155,6 +155,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v4.0   flow/high-flows/scalar/delta-dtFlood_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:a19bb307fa983914216e6d02a47fd2bd3995ba87</pre>
 
-**Variables produced**  [`delta-dtFlood`](../catalogue.md#delta-dtFlood)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-dtFlood"><code>delta-dtFlood</code></a></dt><dd><span lang="en">Average change of the duration of floods between the target horizon and historical period</span><span lang="fr">Changement moyen de la durée des crues entre l'horizon cible et la période historique</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/scalar/delta-dtFlood_H.yaml) &middot; [back to the catalogue](../catalogue.md)

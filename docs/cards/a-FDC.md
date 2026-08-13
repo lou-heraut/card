@@ -66,6 +66,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/mean-flows/scalar/a-FDC.yaml
   https://archive.softwareheritage.org/swh:1:cnt:c74884c1b877d1df158501505f21a26342fd5384</pre>
 
-**Variables produced**  [`a-FDC`](../catalogue.md#a-FDC)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#a-FDC"><code>a-FDC</code></a></dt><dd><span lang="en">Slope of the segment between the 33 % and 66 % quantiles of the flow duration curve</span><span lang="fr">Pente du segment entre les quantiles des débits journaliers à 33 % et 66 % de la courbe des débits classés</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/mean-flows/scalar/a-FDC.yaml) &middot; [back to the catalogue](../catalogue.md)

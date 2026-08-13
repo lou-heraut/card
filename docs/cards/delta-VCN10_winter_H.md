@@ -104,6 +104,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/low-flows/scalar/delta-VCN10_winter_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:939381c8f651822ab57d5184a894a0660a6c71d6</pre>
 
-**Variables produced**  [`delta-VCN10_winter`](../catalogue.md#delta-VCN10_winter)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-VCN10_winter"><code>delta-VCN10_winter</code></a></dt><dd><span lang="en">Average change of winter minimum of 10-day mean daily discharge between the target horizon and historical period</span><span lang="fr">Changement moyen du minimum hivernal de la moyenne sur 10 jours du débit journalier entre l'horizon cible et la période historique</span><span class="u">%</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/delta-VCN10_winter_H.yaml) &middot; [back to the catalogue](../catalogue.md)

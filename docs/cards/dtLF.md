@@ -114,6 +114,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.4   flow/low-flows/series/dtLF.yaml
   https://archive.softwareheritage.org/swh:1:cnt:dc49b55ca6bce101e298762b784ac7bfff20b1d1</pre>
 
-**Variables produced**  [`dtLF`](../catalogue.md#dtLF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#dtLF"><code>dtLF</code></a></dt><dd><span lang="en">Duration of low flows</span><span lang="fr">Durée des basses eaux</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/dtLF.yaml) &middot; [back to the catalogue](../catalogue.md)

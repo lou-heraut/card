@@ -72,6 +72,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   precipitation/wet-days/series/dtCWDA.yaml
   https://archive.softwareheritage.org/swh:1:cnt:f47be4c438c458c5827279d912d2fb69674265ee</pre>
 
-**Variables produced**  [`dtCWDA`](../catalogue.md#dtCWDA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#dtCWDA"><code>dtCWDA</code></a></dt><dd><span lang="en">Maximum number of consecutive rainy days in the year</span><span lang="fr">Nombre maximal de jours pluvieux consécutifs dans l'année</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/wet-days/series/dtCWDA.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -99,6 +99,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   precipitation/dry-spells/series/dtCDDSA_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:00b1d47f7e927d2479dbf83d1119d3b57b663d31</pre>
 
-**Variables produced**  [`dtCDDSA_DJF`](../catalogue.md#dtCDDSA_DJF) · [`dtCDDSA_MAM`](../catalogue.md#dtCDDSA_MAM) · [`dtCDDSA_JJA`](../catalogue.md#dtCDDSA_JJA) · [`dtCDDSA_SON`](../catalogue.md#dtCDDSA_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#dtCDDSA_DJF"><code>dtCDDSA_DJF</code></a></dt><dd><span lang="en">Maximum number of consecutive dry days in winter</span><span lang="fr">Nombre maximal de jours secs consécutifs dans l'hiver</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtCDDSA_MAM"><code>dtCDDSA_MAM</code></a></dt><dd><span lang="en">Maximum number of consecutive dry days in spring</span><span lang="fr">Nombre maximal de jours secs consécutifs au printemps</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtCDDSA_JJA"><code>dtCDDSA_JJA</code></a></dt><dd><span lang="en">Maximum number of consecutive dry days in summer</span><span lang="fr">Nombre maximal de jours secs consécutifs en été</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtCDDSA_SON"><code>dtCDDSA_SON</code></a></dt><dd><span lang="en">Maximum number of consecutive dry days in autumn</span><span lang="fr">Nombre maximal de jours secs consécutifs en automne</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/dry-spells/series/dtCDDSA_season.yaml) &middot; [back to the catalogue](../catalogue.md)

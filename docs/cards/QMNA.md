@@ -76,6 +76,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.2   flow/low-flows/series/QMNA.yaml
   https://archive.softwareheritage.org/swh:1:cnt:ee62aca7db238d8cfe5814c1889d50622b454be9</pre>
 
-**Variables produced**  [`QMNA`](../catalogue.md#QMNA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#QMNA"><code>QMNA</code></a></dt><dd><span lang="en">Annual minimum of monthly flows</span><span lang="fr">Minimum annuel des débits mensuels</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/QMNA.yaml) &middot; [back to the catalogue](../catalogue.md)

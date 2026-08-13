@@ -72,6 +72,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/baseflow/series/dtBF.yaml
   https://archive.softwareheritage.org/swh:1:cnt:c26e8e91b2819c26d96e52f6ee0253145e6853b2</pre>
 
-**Variables produced**  [`dtBF`](../catalogue.md#dtBF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#dtBF"><code>dtBF</code></a></dt><dd><span lang="en">Duration of low flows</span><span lang="fr">Durée des écoulements lents</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/series/dtBF.yaml) &middot; [back to the catalogue](../catalogue.md)

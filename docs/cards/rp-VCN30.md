@@ -109,6 +109,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/low-flows/scalar/rp-VCN30.yaml
   https://archive.softwareheritage.org/swh:1:cnt:f0af635092b1b1a939fb76d2f95138073a4b1d25</pre>
 
-**Variables produced**  [`rp-VCN30`](../catalogue.md#rp-VCN30)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#rp-VCN30"><code>rp-VCN30</code></a></dt><dd><span lang="en">Return period of the station's regulatory threshold discharge in the distribution of the annual minima of 30-day mean flows</span><span lang="fr">Période de retour du débit seuil réglementaire de la station dans la distribution des minimums annuels des débits moyens sur 30 jours</span><span class="u">year</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/rp-VCN30.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -88,6 +88,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   flow/mean-flows/series/QSA_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:7a4abefd9fefd8ec3517dd50fd2b97893da7c289</pre>
 
-**Variables produced**  [`QSA_DJF`](../catalogue.md#QSA_DJF) · [`QSA_MAM`](../catalogue.md#QSA_MAM) · [`QSA_JJA`](../catalogue.md#QSA_JJA) · [`QSA_SON`](../catalogue.md#QSA_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#QSA_DJF"><code>QSA_DJF</code></a></dt><dd><span lang="en">Average daily flows for each winter</span><span lang="fr">Moyenne des débits journaliers de chaque hiver</span><span class="u">m³·s⁻¹</span></dd><dt><a href="../../catalogue/#QSA_MAM"><code>QSA_MAM</code></a></dt><dd><span lang="en">Average daily flows for each spring</span><span lang="fr">Moyenne des débits journaliers de chaque printemps</span><span class="u">m³·s⁻¹</span></dd><dt><a href="../../catalogue/#QSA_JJA"><code>QSA_JJA</code></a></dt><dd><span lang="en">Average daily flows for each summer</span><span lang="fr">Moyenne des débits journaliers de chaque été</span><span class="u">m³·s⁻¹</span></dd><dt><a href="../../catalogue/#QSA_SON"><code>QSA_SON</code></a></dt><dd><span lang="en">Average daily flows for each autumn</span><span lang="fr">Moyenne des débits journaliers de chaque automne</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/mean-flows/series/QSA_season.yaml) &middot; [back to the catalogue](../catalogue.md)

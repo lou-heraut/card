@@ -111,6 +111,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/low-flows/scalar/alpha-VCN10.yaml
   https://archive.softwareheritage.org/swh:1:cnt:ed3525a9f7f4d3641b4094e0384087cd612b863b</pre>
 
-**Variables produced**  [`alpha-VCN10`](../catalogue.md#alpha-VCN10) · [`hyp-alpha-VCN10`](../catalogue.md#hyp-alpha-VCN10)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#alpha-VCN10"><code>alpha-VCN10</code></a></dt><dd><span lang="en">Sen's slope of the series of annual minima of 10-day mean flows (VCN10)</span><span lang="fr">Pente de Sen de la série des minimums annuels des débits moyens sur 10 jours (VCN10)</span><span class="u">m³·s⁻¹·year⁻¹</span></dd><dt><a href="../../catalogue/#hyp-alpha-VCN10"><code>hyp-alpha-VCN10</code></a></dt><dd><span lang="en">Mann-Kendall test result on the series of annual minima of 10-day mean flows (VCN10)</span><span lang="fr">Résultat du test de Mann-Kendall sur la série des minimums annuels des débits moyens sur 10 jours (VCN10)</span><span class="u">bool</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/alpha-VCN10.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -104,6 +104,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.3   flow/low-flows/scalar/delta-tVCN10_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:2fde723a15b755c3235b46ed301fe5e910400248</pre>
 
-**Variables produced**  [`delta-tVCN10`](../catalogue.md#delta-tVCN10)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-tVCN10"><code>delta-tVCN10</code></a></dt><dd><span lang="en">Average change of the date of the annual minimum of 10-day mean flows between the target horizon and historical period</span><span lang="fr">Changement moyen de la date du minimum annuel des débits moyens sur 10 jours entre l'horizon cible et la période historique</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/delta-tVCN10_H.yaml) &middot; [back to the catalogue](../catalogue.md)

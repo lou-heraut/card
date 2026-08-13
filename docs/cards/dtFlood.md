@@ -127,6 +127,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v3.0   flow/high-flows/series/dtFlood.yaml
   https://archive.softwareheritage.org/swh:1:cnt:005f6d5b9cbf8c3291695b5452a616e77cf7a1b8</pre>
 
-**Variables produced**  [`dtFlood`](../catalogue.md#dtFlood)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#dtFlood"><code>dtFlood</code></a></dt><dd><span lang="en">Duration of floods</span><span lang="fr">Durée des crues</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/series/dtFlood.yaml) &middot; [back to the catalogue](../catalogue.md)

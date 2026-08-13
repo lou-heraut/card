@@ -62,6 +62,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/low-flows/series/QNA_summer.yaml
   https://archive.softwareheritage.org/swh:1:cnt:055335c867397b81bd5b89bcaf597c24cc4ccadb</pre>
 
-**Variables produced**  [`QNA_summer`](../catalogue.md#QNA_summer)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#QNA_summer"><code>QNA_summer</code></a></dt><dd><span lang="en">Summer minimum of daily discharge</span><span lang="fr">Minimum estival du débit journalier</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/QNA_summer.yaml) &middot; [back to the catalogue](../catalogue.md)

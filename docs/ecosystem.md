@@ -54,6 +54,23 @@ res["meta"][["variable_en", "version", "swhid", "card_commit"]]
 Three levels of traceability, therefore: the definition, the collection,
 and the engine.
 
+## The collection as a vocabulary
+
+The classification is not only a set of filters: it is a structured
+vocabulary, and it is published as such in SKOS, with the I-ADOPT model
+for the composition of each variable.
+
+[**card.ttl**](card.ttl) holds one concept per variable, its symbol as
+`skos:notation`, its labels in both languages, the facets it belongs to,
+the family it varies within, and the alignments to the Theia/OZCAR
+thesaurus for the quantities that exist there.
+
+!!! warning "Nothing is published yet"
+    The URI base of this file is deliberately unresolvable
+    (`example.invalid`). The permanent identifiers are not decided, and
+    they will not be decided in a file: they need interlocutors. Read the
+    vocabulary, do not cite its URIs.
+
 ## Citing
 
 Each repository carries a `CITATION.cff`, which GitHub turns into a ready

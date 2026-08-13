@@ -62,6 +62,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v2.0   flow/baseflow/scalar/BF-LH.yaml
   https://archive.softwareheritage.org/swh:1:cnt:f16a55665d5f3f82c747e8c6a2aa9bdae3e369ba</pre>
 
-**Variables produced**  [`BF-LH`](../catalogue.md#BF-LH)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#BF-LH"><code>BF-LH</code></a></dt><dd><span lang="en">Base flow (Lyne and Hollick)</span><span lang="fr">Débit de base (Lyne et Hollick)</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/scalar/BF-LH.yaml) &middot; [back to the catalogue](../catalogue.md)

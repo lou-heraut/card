@@ -62,6 +62,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0.1   temperature/mean-temperatures/series/TA.yaml
   https://archive.softwareheritage.org/swh:1:cnt:adec15c2268543028fee50e587cc6b991767078a</pre>
 
-**Variables produced**  [`TA`](../catalogue.md#TA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#TA"><code>TA</code></a></dt><dd><span lang="en">Annual mean temperature</span><span lang="fr">Température moyenne annuelle</span><span class="u">°C</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/temperature/mean-temperatures/series/TA.yaml) &middot; [back to the catalogue](../catalogue.md)

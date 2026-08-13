@@ -112,6 +112,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1   flow/mean-flows/scalar/mean-QSA_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:429b125180e763bdf7aa32161b034b7b3b5a02fe</pre>
 
-**Variables produced**  [`mean-QSA_DJF`](../catalogue.md#mean-QSA_DJF) · [`mean-QSA_MAM`](../catalogue.md#mean-QSA_MAM) · [`mean-QSA_JJA`](../catalogue.md#mean-QSA_JJA) · [`mean-QSA_SON`](../catalogue.md#mean-QSA_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#mean-QSA_DJF"><code>mean-QSA_DJF</code></a></dt><dd><span lang="en">Inter-annual mean of winter mean daily flows (months of December, January and February)</span><span lang="fr">Moyenne inter-annuelle des débits moyens journaliers d'hiver</span><span class="u">m³·s⁻¹</span></dd><dt><a href="../../catalogue/#mean-QSA_MAM"><code>mean-QSA_MAM</code></a></dt><dd><span lang="en">Inter-annual mean of spring mean daily flows (months of March, April and May)</span><span lang="fr">Moyenne inter-annuelle des débits moyens journaliers de printemps</span><span class="u">m³·s⁻¹</span></dd><dt><a href="../../catalogue/#mean-QSA_JJA"><code>mean-QSA_JJA</code></a></dt><dd><span lang="en">Inter-annual mean of summer mean daily flows (months of June, July and August)</span><span lang="fr">Moyenne inter-annuelle des débits moyens journaliers d'été</span><span class="u">m³·s⁻¹</span></dd><dt><a href="../../catalogue/#mean-QSA_SON"><code>mean-QSA_SON</code></a></dt><dd><span lang="en">Inter-annual mean of fall mean daily flows (months of September, October and November)</span><span lang="fr">Moyenne inter-annuelle des débits moyens journaliers d'automne</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/mean-flows/scalar/mean-QSA_season.yaml) &middot; [back to the catalogue](../catalogue.md)

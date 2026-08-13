@@ -78,6 +78,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.2   flow/high-flows/scalar/median-tQJXA.yaml
   https://archive.softwareheritage.org/swh:1:cnt:833c237a36ff089f306db466f929c866587eebf4</pre>
 
-**Variables produced**  [`median-tQJXA`](../catalogue.md#median-tQJXA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#median-tQJXA"><code>median-tQJXA</code></a></dt><dd><span lang="en">Inter-annual median of the dates of the annual maximum daily discharge</span><span lang="fr">Médiane inter-annuelle des dates du débit journalier maximal annuel</span><span class="u">yearday</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/high-flows/scalar/median-tQJXA.yaml) &middot; [back to the catalogue](../catalogue.md)

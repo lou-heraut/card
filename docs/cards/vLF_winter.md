@@ -118,6 +118,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.6   flow/low-flows/series/vLF_winter.yaml
   https://archive.softwareheritage.org/swh:1:cnt:0512aa5af40788356d00846527695185240869ad</pre>
 
-**Variables produced**  [`vLF_winter`](../catalogue.md#vLF_winter)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#vLF_winter"><code>vLF_winter</code></a></dt><dd><span lang="en">Deficit volume of winter low flows</span><span lang="fr">Volume de déficit des basses eaux hivernales</span><span class="u">hm³</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/vLF_winter.yaml) &middot; [back to the catalogue](../catalogue.md)

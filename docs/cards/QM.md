@@ -64,6 +64,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.4   flow/mean-flows/curve/QM.yaml
   https://archive.softwareheritage.org/swh:1:cnt:5d1199d5f904228ff997cb18448b09d24d52bbdf</pre>
 
-**Variables produced**  [`QM`](../catalogue.md#QM)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#QM"><code>QM</code></a></dt><dd><span lang="en">Mean monthly discharge over the whole record</span><span lang="fr">Débit moyen mensuel sur la chronique entière</span><span class="u">m³·s⁻¹</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/mean-flows/curve/QM.yaml) &middot; [back to the catalogue](../catalogue.md)

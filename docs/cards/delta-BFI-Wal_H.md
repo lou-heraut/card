@@ -93,6 +93,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.2   flow/baseflow/scalar/delta-BFI-Wal_H.yaml
   https://archive.softwareheritage.org/swh:1:cnt:4267b9f632cc63ed3ae57184fc981395cb3cfc0b</pre>
 
-**Variables produced**  [`delta-BFI-Wal`](../catalogue.md#delta-BFI-Wal)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#delta-BFI-Wal"><code>delta-BFI-Wal</code></a></dt><dd><span lang="en">Average change of the baseflow index between the target horizon and historical period (Wallingford)</span><span lang="fr">Changement moyen de l'indice de débit de base entre l'horizon cible et la période historique (Wallingford)</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/scalar/delta-BFI-Wal_H.yaml) &middot; [back to the catalogue](../catalogue.md)

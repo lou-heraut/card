@@ -70,6 +70,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   flow/baseflow/series/startBF.yaml
   https://archive.softwareheritage.org/swh:1:cnt:80c8d8b8d80fe1c74d546a7fcbfa22c313f19218</pre>
 
-**Variables produced**  [`startBF`](../catalogue.md#startBF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#startBF"><code>startBF</code></a></dt><dd><span lang="en">Start of low flows</span><span lang="fr">Début des écoulements lents</span><span class="u">yearday</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/baseflow/series/startBF.yaml) &middot; [back to the catalogue](../catalogue.md)

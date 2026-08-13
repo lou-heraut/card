@@ -98,6 +98,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   precipitation/wet-days/series/dtRSA01mm_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:3cc3516ebe43958ba3f2154e1673fd04dccaf580</pre>
 
-**Variables produced**  [`dtRSA01mm_DJF`](../catalogue.md#dtRSA01mm_DJF) · [`dtRSA01mm_MAM`](../catalogue.md#dtRSA01mm_MAM) · [`dtRSA01mm_JJA`](../catalogue.md#dtRSA01mm_JJA) · [`dtRSA01mm_SON`](../catalogue.md#dtRSA01mm_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#dtRSA01mm_DJF"><code>dtRSA01mm_DJF</code></a></dt><dd><span lang="en">Number of rainy days in winter</span><span lang="fr">Nombre de jours pluvieux en hiver</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtRSA01mm_MAM"><code>dtRSA01mm_MAM</code></a></dt><dd><span lang="en">Number of rainy days in spring</span><span lang="fr">Nombre de jours pluvieux au printemps</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtRSA01mm_JJA"><code>dtRSA01mm_JJA</code></a></dt><dd><span lang="en">Number of rainy days in summer</span><span lang="fr">Nombre de jours pluvieux en été</span><span class="u">day</span></dd><dt><a href="../../catalogue/#dtRSA01mm_SON"><code>dtRSA01mm_SON</code></a></dt><dd><span lang="en">Number of rainy days in autumn</span><span lang="fr">Nombre de jours pluvieux en automne</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/wet-days/series/dtRSA01mm_season.yaml) &middot; [back to the catalogue](../catalogue.md)

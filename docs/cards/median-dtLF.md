@@ -126,6 +126,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.6   flow/low-flows/scalar/median-dtLF.yaml
   https://archive.softwareheritage.org/swh:1:cnt:1d8d281ca21d31a8eb3fa6559816e8be0ebcf54b</pre>
 
-**Variables produced**  [`median-dtLF`](../catalogue.md#median-dtLF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#median-dtLF"><code>median-dtLF</code></a></dt><dd><span lang="en">Inter-annual median of the duration of low flows</span><span lang="fr">Médiane inter-annuelle de la durée des basses eaux</span><span class="u">day</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/scalar/median-dtLF.yaml) &middot; [back to the catalogue](../catalogue.md)

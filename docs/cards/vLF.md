@@ -116,6 +116,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.6   flow/low-flows/series/vLF.yaml
   https://archive.softwareheritage.org/swh:1:cnt:78bcebfbc3170c0126d5944b2d0d9f178893346e</pre>
 
-**Variables produced**  [`vLF`](../catalogue.md#vLF)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#vLF"><code>vLF</code></a></dt><dd><span lang="en">Deficit volume of low flows</span><span lang="fr">Volume de déficit des basses eaux</span><span class="u">hm³</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/vLF.yaml) &middot; [back to the catalogue](../catalogue.md)

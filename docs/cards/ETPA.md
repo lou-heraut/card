@@ -62,6 +62,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.1.1   evapotranspiration/evaporative-demand/series/ETPA.yaml
   https://archive.softwareheritage.org/swh:1:cnt:b1336d286c80c8d34c8a2d3713370cb6994cd3c3</pre>
 
-**Variables produced**  [`ETPA`](../catalogue.md#ETPA)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#ETPA"><code>ETPA</code></a></dt><dd><span lang="en">Annual cumulative potential evapotranspiration</span><span lang="fr">Cumul annuel de l'évapotranspiration potentielle</span><span class="u">mm</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/evapotranspiration/evaporative-demand/series/ETPA.yaml) &middot; [back to the catalogue](../catalogue.md)

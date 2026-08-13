@@ -79,6 +79,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.0   flow/low-flows/series/tVCN10_winter.yaml
   https://archive.softwareheritage.org/swh:1:cnt:7b59c6c9ac83824eee476781486cf2427001bf94</pre>
 
-**Variables produced**  [`tVCN10_winter`](../catalogue.md#tVCN10_winter)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#tVCN10_winter"><code>tVCN10_winter</code></a></dt><dd><span lang="en">Date of the winter minimum of 10-day mean flows</span><span lang="fr">Date du minimum hivernal des débits moyens sur 10 jours</span><span class="u">yearday</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/low-flows/series/tVCN10_winter.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -170,6 +170,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.2   precipitation/model-performance/scalar/CRS_season.yaml
   https://archive.softwareheritage.org/swh:1:cnt:5d533c9113afab11612ac4ede5c1283141eac1db</pre>
 
-**Variables produced**  [`CRS_DJF`](../catalogue.md#CRS_DJF) · [`CRS_MAM`](../catalogue.md#CRS_MAM) · [`CRS_JJA`](../catalogue.md#CRS_JJA) · [`CRS_SON`](../catalogue.md#CRS_SON)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#CRS_DJF"><code>CRS_DJF</code></a></dt><dd><span lang="en">Winter precipitation correction coefficient</span><span lang="fr">Coefficient correctif des précipitations hivernales</span><span class="u">without unit</span></dd><dt><a href="../../catalogue/#CRS_MAM"><code>CRS_MAM</code></a></dt><dd><span lang="en">Spring precipitation correction coefficient</span><span lang="fr">Coefficient correctif des précipitations printanières</span><span class="u">without unit</span></dd><dt><a href="../../catalogue/#CRS_JJA"><code>CRS_JJA</code></a></dt><dd><span lang="en">Summer precipitation correction coefficient</span><span lang="fr">Coefficient correctif des précipitations estivales</span><span class="u">without unit</span></dd><dt><a href="../../catalogue/#CRS_SON"><code>CRS_SON</code></a></dt><dd><span lang="en">Autumn precipitation correction coefficient</span><span lang="fr">Coefficient correctif des précipitations automnales</span><span class="u">without unit</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/model-performance/scalar/CRS_season.yaml) &middot; [back to the catalogue](../catalogue.md)

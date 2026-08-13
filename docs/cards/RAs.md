@@ -62,6 +62,8 @@ The card as `card.info()` prints it, as `card4r` prints it, and as card-api serv
   v1.2   precipitation/snow/series/RAs.yaml
   https://archive.softwareheritage.org/swh:1:cnt:c473a316c168b020055501984f2c9720b0e621bd</pre>
 
-**Variables produced**  [`RAs`](../catalogue.md#RAs)
+**Variables produced**
+
+<dl class="card-vars"><dt><a href="../../catalogue/#RAs"><code>RAs</code></a></dt><dd><span lang="en">Annual solid precipitation</span><span lang="fr">Cumul annuel des précipitations solides</span><span class="u">mm</span></dd></dl>
 
 [The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/snow/series/RAs.yaml) &middot; [back to the catalogue](../catalogue.md)
