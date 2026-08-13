@@ -63,6 +63,10 @@ des deux endroits.
 
 ## Non publié
 
+Rien depuis la 0.10.0.
+
+## 0.10.0 (2026-08-13)
+
 ### Modifié
 
 - **`relative` s'écrit toujours, et gagne un troisième état (2026-08-13).**
