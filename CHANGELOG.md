@@ -63,6 +63,10 @@ des deux endroits.
 
 ## Non publié
 
+Rien depuis la 0.11.0.
+
+## 0.11.0 (2026-08-13)
+
 ### Modifié
 
 - **`is_date` s'écrit toujours (2026-08-13).** Il n'était écrit que pour

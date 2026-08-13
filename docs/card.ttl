@@ -12129,7 +12129,7 @@ card: a skos:ConceptScheme ;
         "Licence Ouverte 2.0 (Etalab), compatible CC-BY 4.0"@fr ;
     dcterms:title "card: hydroclimatic variable definitions"@en,
         "card : définitions de variables hydroclimatiques"@fr ;
-    owl:versionInfo "0.10.0" ;
+    owl:versionInfo "0.11.0" ;
     skos:hasTopConcept <https://example.invalid/card/family/evapotranspiration.evaporative-demand.magnitude.sum.annual.series.etp>,
         <https://example.invalid/card/family/evapotranspiration.evaporative-demand.magnitude.sum.by-month.series.etp>,
         <https://example.invalid/card/family/evapotranspiration.evaporative-demand.magnitude.sum.by-season.series.etp>,
