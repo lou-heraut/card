@@ -822,6 +822,89 @@ dernier process donne la période, la chaîne des process donne le
 `derivedFrom`, les kwargs donnent les valeurs de contrainte, `unit`
 donne l'unité. **Rien de neuf à écrire dans les 226 fiches.**
 
+### Une fenêtre n'est pas une durée : début plus durée, pour toutes
+
+Objection de l'utilisateur, et elle est juste : `_summer` et `_winter`
+ne durent pas un an. Mesuré sur le corpus, les fenêtres sont pourtant
+peu nombreuses :
+
+| fenêtre | process | ce que c'est |
+|---|---|---|
+| `05-01 → 11-30` | 26 | étiage estival, 7 mois |
+| `11-01 → 04-30` | 26 | étiage hivernal, 6 mois |
+| `06-01 → 10-31` | 1 | 5 mois |
+| `09-01` | 39 | année hydrologique, 12 mois |
+| `01-01` | 18 | année civile, 12 mois |
+| adaptative | 96 | 12 mois, début propre à chaque série |
+| aucune | 298 | pas de fenêtre |
+
+**Cinq fenêtres nommées, plus le cas adaptatif.** Et une seule forme les
+décrit toutes : un DÉBUT (mois et jour, sans année) et une DURÉE. La
+distinction « année ou pas année » n'existe donc pas, c'est la durée qui
+varie.
+
+Le vocabulaire pour ça est **OWL-Time** (`http://www.w3.org/2006/time#`),
+une recommandation du W3C. Il a exactement les deux pièces qu'il faut, et
+notamment un `DateTimeDescription` qui accepte un mois et un jour **sans
+année**, ce qui est précisément ce qu'est une fenêtre récurrente :
+
+```turtle
+card:period/summer-window  a time:ProperInterval ;
+    skos:prefLabel  "summer window, 1 May to 30 November"@en ;
+    time:hasBeginning  [ time:inDateTime [ a time:DateTimeDescription ;
+        time:month "--05"^^xsd:gMonth ; time:day "---01"^^xsd:gDay ] ] ;
+    time:hasEnd        [ time:inDateTime [ a time:DateTimeDescription ;
+        time:month "--11"^^xsd:gMonth ; time:day "---30"^^xsd:gDay ] ] ;
+    time:hasDurationDescription [ a time:DurationDescription ;
+        time:months 7 ] .
+
+card:period/hydrological-year  a time:ProperInterval ;
+    time:hasBeginning  [ … month 09, day 01 ] ;
+    time:hasDurationDescription [ time:months 12 ] .
+```
+
+Le cas **adaptatif** se dit honnêtement : durée de douze mois, début non
+déterminé, et une `skos:editorialNote` qui dit la règle (le mois du
+maximum, ou du minimum, propre à chaque série). Une fenêtre dont le début
+dépend de la donnée n'est pas une date, et prétendre le contraire serait
+faux.
+
+### Les unités : déclarées une fois, jamais devinées
+
+Question de l'utilisateur : comment se fait l'alignement UCUM, au moment
+de la génération ? **Non.** Un code d'unité deviné dans un générateur
+serait exactement le piège d'`operator` : une chaîne que rien ne vérifie.
+
+Il se DÉCLARE, dans `alignments.yaml`, à côté de ses voisins, et le
+linter refuse une unité du corpus qui n'y figure pas. Douze lignes, une
+par unité distincte. `scripts/verifie_alignements.py` résout ensuite les
+URIs sur le réseau, comme il le fait déjà pour Theia.
+
+**UCUM et QUDT ne sont pas la même chose, et il faut les deux :**
+
+- **UCUM** est une GRAMMAIRE : `m3.s-1`, `mm`, `Cel`, `d`, `%`, `1` pour
+  l'adimensionnel, et `m3.s-1.mm-1` se compose sans que personne n'ait à
+  l'avoir prévu. Toutes nos unités ont donc un code ;
+- **QUDT** est une LISTE de concepts nommés, avec URI résolvable, qui
+  porte le code UCUM, la dimension et les conversions. Vérifié : `m3/s`,
+  `mm`, `°C`, `jour`, `%` et `an` y sont ; `hm³` et les deux unités
+  composées (`m3.s-1.year-1`, `m3.s-1.mm-1`) n'ont pas de concept nommé.
+
+D'où la règle : **le code UCUM toujours, l'URI QUDT quand elle existe**,
+et rien d'inventé quand elle n'existe pas.
+
+**Trois de nos douze « unités » n'en sont pas**, et c'est une trouvaille
+de cet audit :
+
+| valeur | variables | ce que c'est vraiment |
+|---|---|---|
+| `yearday` | 40 | une POSITION dans l'année, pas une durée. Ces variables portent déjà `is_date: true` |
+| `bool` | 6 | un type de valeur |
+| `without unit` | 46 | l'adimensionnel, UCUM `1` |
+
+Les écrire comme des unités serait faux. Les deux premières demandent un
+type de valeur, pas une unité, et le corpus le déclare déjà par ailleurs.
+
 ### Ordre de travail proposé
 
 Chacune de ces étapes est indépendante des autres et de Theia.
