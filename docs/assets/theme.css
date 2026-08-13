@@ -285,22 +285,31 @@
   text-decoration: underline;
 }
 
-/* Le code en ligne, exactement comme dans la description d'une opération
-   de /docs : un fond à peine posé, pas un cadre. Material peint un
-   aplat plein, qui découpe la phrase en pastilles. */
+/* Le code en ligne, comme dans la description d'une opération de /docs :
+   fond à peine posé, gris moyen, aucune couleur. Ce qui le distingue du
+   texte est sa FORME, la chasse fixe, la graisse et le fond ; une teinte
+   en plus ferait clignoter les phrases qui en portent trois. */
 .md-typeset code {
-  font-size: .92em;
+  font-family: var(--mono);
+  font-size: .68rem;
+  font-weight: 600;
   padding: 1px 5px;
-  border-radius: 3px;
+  border-radius: 4px;
   background: rgba(236, 236, 236, .05);
-  color: var(--text);
+  color: var(--muted);
 }
 
+/* Un bloc n'est pas une incise : il retrouve la couleur, la graisse et
+   la taille du code, sans quoi les règles ci-dessus le repeindraient en
+   violet gras d'un bout à l'autre. */
 .md-typeset pre > code {
   background: var(--well);
   border: 1px solid var(--line-soft);
   border-radius: 3px;
   padding: .7rem .8rem;
+  color: var(--md-code-fg-color);
+  font-weight: 400;
+  font-size: .64rem;
 }
 
 /* La coloration de Material est vive (bleu franc, rouge, rose, violet)

@@ -20,7 +20,7 @@ Beyond these, a card can also name any `numpy` function, `nanmean` and
 
 ## Baseflow and low flows
 
-::: card.functions.baseflow
+::: card.functions.baseflow.baseflow
 ::: card.functions.quickflow
 ::: card.functions.BFI
 ::: card.functions.BFM
@@ -49,7 +49,7 @@ Beyond these, a card can also name any `numpy` function, `nanmean` and
 ## Extreme values
 
 ::: card.functions.return_level
-::: card.functions.return_period
+::: card.functions.return_period.return_period
 
 ## Snow
 

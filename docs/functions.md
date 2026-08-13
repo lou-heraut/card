@@ -11,7 +11,7 @@ stale.
 ## Computing
 
 ::: card.extract
-::: card.trend
+::: card.trend.trend
 
 ## Discovering the collection
 
@@ -24,7 +24,7 @@ stale.
 
 ::: card.copy_cards
 ::: card.load_card
-::: card.provenance
+::: card.provenance.provenance
 
 !!! note "Older names still work"
     `CARD_extraction`, `CARD_list_all`, `CARD_info` and `CARD_management`
