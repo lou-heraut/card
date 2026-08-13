@@ -198,22 +198,83 @@ Quatre différences, et chacune fait une question :
    compact, le nôtre plus explicite.
 3. **Deux étages temporels.** `VCN10` est un **minimum annuel** d'une
    **moyenne mobile de 10 jours** : deux fenêtres, pas une. Leur modèle
-   attache une période à une statistique, donc la question est réelle :
-   comment écrivent-ils une statistique DE statistique ?
+   attache une période à une statistique, et `cpm:derivedFrom` chaîne
+   les statistiques entre elles : la question n'est donc pas « savez-vous
+   le faire » mais « le faites-vous, et comment ? ». Aucun de leurs
+   concepts examinés n'emploie `derivedFrom`.
 4. **La hiérarchie.** Notre `skos:broader` mène à une famille calculée
    depuis nos facettes, le leur à une variable plus générale
    (« Minimum air temperature »). Deux façons de ranger, aucune fausse.
 
-### Deux conséquences pour card, à ne pas trancher avant leur réponse
+### Ce qu'est `cpm:`, et ce qu'il sait faire
 
-- **Notre fenêtre annuelle n'est nulle part dans le concept.** `VCN10`
-  porte `dcterms:subject card:season/annual`, qui est une facette de
-  classement, mais aucune contrainte ne dit que le minimum est annuel.
-  Leur `cpm:aggregationTimePeriod` vers `1 year` le dirait. C'est un
-  manque de notre export, indépendamment de ce qu'ils répondront.
-- **Nos concepts de contrainte pourraient viser leur branche Time**
-  plutôt que d'être uniquement des concepts `card:`. Les cibles
-  changeront s'ils reprennent l'extension, donc on attend.
+**Complex Property Model**, `purl.org/voc/cpm` : la mise en OWL du modèle
+défini par les **lignes directrices INSPIRE** pour *Observations &
+Measurements* et les normes Sensor Web Enablement. Ce n'est donc ni une
+invention de Theia ni une bricole de laboratoire, c'est le vocabulaire
+européen de la donnée d'observation.
+
+Ce qu'il apporte, et que ni SKOS ni I-ADOPT ne portent :
+
+```
+cpm:StatisticalMeasure       « une mesure statistique, par exemple
+                               "maximum journalier" ; la mesure est
+                               une fonction sur un temps ou un espace »
+  cpm:aggregationTimePeriod    sur quelle durée
+  cpm:aggregationArea / Length / Volume    sur quelle étendue
+  cpm:otherAggregation         point d'extension pour le reste
+  cpm:derivedFrom              ← range : cpm:StatisticalMeasure
+```
+
+**`cpm:derivedFrom` est la réponse à la question qu'on croyait ouverte.**
+Une mesure statistique peut être dérivée d'une autre mesure statistique,
+donc la statistique de statistique est native dans le modèle. C'est
+exactement la chaîne d'une fiche card :
+
+```turtle
+# ce que VCN10 pourrait dire, avec leur mécanisme
+[] a cpm:StatisticalMeasure ;                    # minimum annuel
+    skos:broader              <Temporal minimum> ;
+    cpm:aggregationTimePeriod <1 year> ;
+    cpm:derivedFrom [ a cpm:StatisticalMeasure ;  # de la moyenne 10 jours
+        skos:broader              <Temporal mean> ;
+        cpm:aggregationTimePeriod <10 days> ] .
+```
+
+### Le manque est chez nous : `time_step` ne part pas dans le SKOS
+
+Et c'est le vrai enseignement de cette confrontation. Le pas de temps est
+**déclaré dans TOUS les process**, le linter l'exige depuis la 0.11.0, et
+l'export n'en fait rien. Seule la facette `season` voyage, qui est une
+étiquette de classement, pas une durée d'agrégation.
+
+Mesuré le 2026-08-13, grain de la colonne PUBLIÉE, par variable produite :
+
+| `time_step` terminal | variables | ce que ça vaut comme période |
+|---|---|---|
+| `none` | 197 | aucune agrégation temporelle (scalaires, réductions inter-annuelles) |
+| `year-month` | 132 | 1 mois |
+| `year` | 91 | 1 an |
+| `year-season` | 44 | une saison |
+| `season`, `month`, `yearday`, `day` | 8 | leur durée respective |
+
+**272 variables sur 472 portent donc une période d'agrégation explicite
+que le `.ttl` ne dit pas.** Ce n'est pas une question d'alignement : même
+avec des concepts `card:` uniquement, l'export devrait la publier.
+
+Trois précautions pour le jour où on le fera :
+
+- **l'année hydrologique n'est pas « 1 an »**. Leur `1 year` est une
+  DURÉE ; la fenêtre de card commence au 1er septembre, ce qui est une
+  autre notion. La durée s'aligne, le décalage reste un concept à nous ;
+- **`yearday` n'est pas une agrégation journalière** mais un régime,
+  une valeur par jour calendaire sur toute la chronique ;
+- **`none` ne veut pas dire « rien »** : c'est soit une transformation,
+  soit une réduction de la chronique entière, et les deux se distinguent
+  déjà par `is_transform`.
+
+À faire après leur réponse, parce que les cibles changent selon qu'ils
+reprennent ou non l'extension, mais à faire.
 
 ## L'architecture retenue : deux étages, un alignement
 
