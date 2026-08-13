@@ -14926,7 +14926,7 @@ card: a skos:ConceptScheme ;
     dcterms:language "en",
         "fr" ;
     dcterms:license <https://www.etalab.gouv.fr/licence-ouverte-open-licence> ;
-    dcterms:modified "2026-08-13" ;
+    dcterms:modified "2026-08-14" ;
     dcterms:publisher "INRAE, UR RiverLy" ;
     dcterms:rights "Licence Ouverte 2.0 (Etalab), compatible CC-BY 4.0"@en,
         "Licence Ouverte 2.0 (Etalab), compatible CC-BY 4.0"@fr ;

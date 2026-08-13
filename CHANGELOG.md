@@ -394,7 +394,7 @@ Rien depuis la 0.12.0.
   refuse qu'il ait pris du retard, vérifie qu'il se relit, qu'aucune
   référence interne n'est pendante, que tout littéral porte une langue et
   qu'aucun concept n'a deux libellés dans une même langue. Conception :
-  `PLAN_SITE_SKOS.md` ; déroulé et doutes : `RETOUR_SKOS.md`.
+  `PLAN_SITE_SKOS.md`.
 
 - **`src/card/alignments.yaml`** : ce que les fiches ne peuvent pas dire.
   Les correspondances vers les vocabulaires externes, les familles de
@@ -424,7 +424,7 @@ Rien depuis la 0.12.0.
   DÉCLARÉES. 132 familles sur 472 variables.
 
   Elle sera le `skos:broader` de l'export SKOS. Conception et limites :
-  `PLAN_SITE_SKOS.md` et `RETOUR_SKOS.md`.
+  `PLAN_SITE_SKOS.md`.
 
 ## 0.7.0 (2026-08-12)
 

@@ -103,10 +103,23 @@ src/card/
                  #   de process qui sont sémantiques. Rien de dérivable.
 tests/           # pytest (goldens R, loader, lint, suffixes, UX, rendu)
                  #   pas de décompte ici : il périme, cf. README
-scripts/generate_catalog.py   # docs/CARDS.md, relancer après toute modif
-scripts/generate_skos.py      # docs/card.ttl : le corpus en SKOS + I-ADOPT.
-                              #   Base d'URI PROVISOIRE et fausse : rien
-                              #   n'est publié, cf. PLAN_SITE_SKOS.md.
+scripts/generate_catalog.py   # QUATRE sorties, relancer après toute modif :
+                              #   docs/CARDS.md et CARDS.fr.md (GitHub),
+                              #   docs/catalogue.md (le site, une entrée par
+                              #   VARIABLE), docs/cards/*.md (une page par
+                              #   fiche, portant sa figure) et le décompte
+                              #   du README
+scripts/generate_skos.py      # docs/card.ttl : le corpus en SKOS, I-ADOPT,
+                              #   CPM, QUDT et OWL-Time. Base d'URI
+                              #   PROVISOIRE et fausse : rien n'est publié,
+                              #   cf. PLAN_THESAURUS.md.
+mkdocs.yml                    # le site : `make serve` en local,
+docs/assets/                  #   .github/workflows/site.yml en ligne.
+                              #   theme.css porte l'identité (celle de la
+                              #   page /docs de card-api), catalogue.css et
+                              #   .js le catalogue. Le déclenchement est
+                              #   MANUEL tant que la publication n'est pas
+                              #   tranchée.
 scripts/verifie_alignements.py # résout les URIs externes, sur le réseau,
                               #   donc hors de la suite de tests
 scripts/analyse_classification.py  # santé des facettes : redondance,

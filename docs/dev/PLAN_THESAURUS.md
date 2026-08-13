@@ -215,6 +215,29 @@ Le doute sur le libellé des familles (`débit · basses eaux · minimum ·
 annuelle · série`) perd donc de son poids : ce libellé n'est plus la
 porte d'entrée, il n'est qu'une étiquette de regroupement.
 
+## Deux doutes hérités du journal d'exécution
+
+Ils viennent de `RETOUR_SKOS.md`, supprimé le 2026-08-14 une fois le
+chantier livré, et ils survivent parce qu'ils ne sont toujours pas
+tranchés.
+
+**La grossièreté des familles de variables dérivées.** `delta-VCN10` se
+retrouve dans la même famille que les écarts d'autres variables de base,
+parce que l'identité d'une variable dérivée dépend de sa variable de
+BASE, qui n'est pas une facette. Ce n'est pas faux au sens de
+`skos:broader`, c'est moins fin qu'ailleurs. Affiner demanderait de
+déclarer la variable de base sur les fiches `delta-`, `median-`,
+`alpha-`. À trancher seulement si ça gêne à l'usage, et l'usage
+commencera quand un navigateur affichera le fichier.
+
+**Skosmos en local**, abandonné après deux tentatives : l'image
+officielle est fermée, les images tierces ne sont pas maintenues, et
+Fuseki sert son jeu de données en lecture seule. Ce qu'on voulait
+savoir (« est-ce que ça passera chez eux ? ») est de toute façon répondu
+par `skosify`, qui est leur propre outil de qualité et qui passe. Si on
+veut vraiment l'écran, le plus court est de leur demander de charger le
+fichier.
+
 ## Pour la prochaine session
 
 Rien n'est à coder avant le courriel. Dans l'ordre :
