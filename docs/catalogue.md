@@ -2,6 +2,8 @@
 
 Every variable the collection produces, one per entry. Filter by facet or search in either language: each entry carries both. Unfold one for its inputs, its variants and the card that computes it.
 
+The same collection, for machines: [card.ttl](card.ttl), one SKOS concept per variable. Its URI base is deliberately unresolvable, nothing is published yet.
+
 <div class="cat-controls">
 <input type="search" id="cat-q" placeholder="Search a variable, a name, an input column…" aria-label="Search the catalogue">
 <label>domain<select data-facet="domain"><option value="">—</option><option value="flow">flow · débit</option><option value="precipitation">precipitation · précipitations</option><option value="temperature">temperature · température</option><option value="evapotranspiration">evapotranspiration · évapotranspiration</option></select></label>
