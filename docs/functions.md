@@ -1,7 +1,8 @@
-# Package functions
+# Python functions
 
 The functions you call. Everything else in the package is machinery: it
-is readable in the repository, and it is not documented here.
+is readable in the repository, and it is not documented here. For the
+operations a card declares, see the [toolbox](toolbox.md).
 
 Their docstrings are what `help(card.extract)` prints, rendered as a
 page. If the two ever disagree, the docstring is right and this page is

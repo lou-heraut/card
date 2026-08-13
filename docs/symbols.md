@@ -1,8 +1,9 @@
-# Reading a name
+# Reading a variable symbol
 
-Names in the collection are **systematic**, so a name can be read rather
-than looked up. `QJXA` is not a code to memorise: it is four decisions
-written side by side.
+Every variable in the collection is designated by a short symbol:
+`QA`, `QJXA`, `VCN10`, `delta-QA_H`. These symbols are **systematic**, so
+one can be read rather than looked up. `QJXA` is not a code to memorise:
+it is four decisions written side by side.
 
 ## The four positions
 
@@ -58,19 +59,27 @@ Put together, `delta-VCN10_summer` reads: *the change, between a
 reference period and a horizon, of the annual minimum of the 10-day mean
 discharge, over the summer window.*
 
-## What a card says beyond its name
+## What a card says beyond its symbol
 
-A name carries the definition, not the whole method. Three fields of each
-card are written for people, at three levels of detail:
+A symbol carries the definition, not the whole method. Three fields of
+each card are written for people, at three levels of detail:
 
-- **name** — short, sometimes vernacular: *Duration of low flows*.
-- **description** — what the variable *is*, scientifically, and it is
-  filled only when the name does not already carry it.
-- **method** — the aggregation, step by step, one sentence per column
+- **name**: short, sometimes vernacular, as in *Duration of low flows*.
+- **description**: what the variable *is*, scientifically. It is filled
+  only when the name does not already carry it.
+- **method**: the aggregation, step by step, one sentence per column
   produced, with the parameters.
 
 `card.info("VCN10")` prints all three, drawn as the chain of steps that
-computes it.
+computes it. The [catalogue](catalogue.md) links to that same drawing for
+every card.
+
+!!! note "Symbol, notation, identifier"
+    The three words designate the same string here. `VCN10` is the `id`
+    of the card, the value of `variable` in its metadata, and what the
+    SKOS export publishes as `skos:notation`, the standard property for a
+    code in a notation system. Names are what change between languages;
+    the symbol does not.
 
 !!! note "The full grammar"
     This page is the reading guide. The complete rules, including the

@@ -1,16 +1,22 @@
-# Hydrological functions
+# The toolbox cards draw from
 
-What the cards actually compute. A card is a declaration; these are the
-operations it declares.
+A card does not compute anything by itself: it **declares** a chain of
+operations, and names them. This page documents the operations it can
+name. They are not all hydrological, and some are plain statistics, but
+they have one thing in common: a card calls them, you do not. The
+functions *you* call are in [Python functions](functions.md).
 
-You rarely call them yourself. They are documented because reading a
-variable definition means knowing what `baseflow(method="Wal")` does
-exactly, and that should not require opening the package.
+They are documented here because reading a variable definition means
+knowing what `baseflow(method="Wal")` does exactly, and that should not
+require opening the package.
 
 Each one either **transforms** a series, one value per time step, or
 **reduces** it to one value per period. Never both: the distinction is
 declared next to the function and measured by the test suite, because a
 figure that gets it wrong describes the wrong thing.
+
+Beyond these, a card can also name any `numpy` function, `nanmean` and
+`nanargmax` among them.
 
 ## Baseflow and low flows
 
