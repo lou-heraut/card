@@ -1,0 +1,60 @@
+/* Catalogue : les commandes, la bascule de langue, la table. */
+
+.cat-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem .9rem;
+  align-items: flex-end;
+  margin: 1.2rem 0 .6rem;
+}
+
+.cat-controls label {
+  display: flex;
+  flex-direction: column;
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--md-default-fg-color--light);
+}
+
+.cat-controls select,
+.cat-controls input[type="search"] {
+  font-size: .8rem;
+  padding: .35rem .5rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .2rem;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+}
+
+.cat-controls input[type="search"] { min-width: 18rem; flex: 1 1 18rem; }
+
+.cat-controls button {
+  font-size: .8rem;
+  padding: .35rem .7rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .2rem;
+  background: none;
+  color: var(--md-default-fg-color--light);
+  cursor: pointer;
+}
+.cat-controls button:hover { color: var(--md-accent-fg-color); }
+
+.cat-count {
+  font-size: .75rem;
+  color: var(--md-default-fg-color--light);
+  margin: 0 0 .8rem;
+}
+
+/* Une ligne porte ses DEUX libellés : la bascule masque une colonne au
+   lieu de recharger une autre page. C'est ce que deux fichiers markdown
+   ne savaient pas faire. */
+table.cat [lang="fr"] { display: none; }
+table.cat.show-fr [lang="fr"] { display: table-cell; }
+table.cat.show-fr [lang="en"] { display: none; }
+
+table.cat { font-size: .78rem; width: 100%; }
+table.cat td, table.cat th { padding: .3rem .5rem; }
+table.cat td.v code { font-weight: 600; }
+table.cat td.u, table.cat td.i, table.cat td.c { white-space: nowrap; }
+table.cat tr[hidden] { display: none; }

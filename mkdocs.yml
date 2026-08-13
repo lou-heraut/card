@@ -1,0 +1,104 @@
+# Site de documentation de card. Construction : `mkdocs serve` en local,
+# `.github/workflows/site.yml` en ligne.
+#
+# Deux règles à ne pas défaire, chacune apprise à ses dépens :
+#
+# - `exclude_docs` tient la liste de ce qui vit dans `docs/` sans partir
+#   sur le site. Un générateur ramasse volontiers ce qu'on ne lui demande
+#   pas : pkgdown a publié le CLAUDE.md de card4r, et une action en
+#   `clean: false` a continué de servir un fichier qui n'était plus
+#   produit. Vérifier ce que la branche publiée contient VRAIMENT.
+# - `docs/dev/` reste dans le dépôt et hors du site. Les rouages sont
+#   lisibles sur GitHub, ce qui est un coût d'entrée légitime ; les y
+#   publier ferait du site une vitrine de chantier au lieu d'une porte.
+
+site_name: card
+site_description: >-
+  Ready-to-use hydroclimatic variables, defined by YAML cards and computed
+  the same way from Python, from R or over the web.
+site_url: https://lou-heraut.github.io/card/
+repo_url: https://github.com/lou-heraut/card
+repo_name: lou-heraut/card
+edit_uri: ""
+
+copyright: >-
+  INRAE, UR RiverLy &middot; GPL-3.0-or-later
+
+# Les fichiers restent dans le dépôt, ils ne partent pas sur le site.
+exclude_docs: |
+  dev/
+  CARDS.md
+  CARDS.fr.md
+
+theme:
+  name: material
+  language: en
+  favicon: img/flower_alt.png
+  logo: img/flower_alt.png
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.highlight
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+nav:
+  - Home: index.md
+  - Catalogue: catalogue.md
+  - Reading a name: grammar.md
+  - Functions:
+      - Hydrological: functions/hydrological.md
+      - Package: functions/package.md
+  - Ecosystem: ecosystem.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            # Ce que le site montre d'une fonction est ce que `help()`
+            # montre, rendu en pages : la signature, la docstring NumPy,
+            # rien de la machinerie. Pas de code source déplié, pas de
+            # membres privés : un hydrologue vient lire ce que fait
+            # `baseflow(method="Wal")`, pas parcourir un module.
+            docstring_style: numpy
+            show_source: false
+            show_root_heading: true
+            show_root_full_path: false
+            heading_level: 3
+            members_order: source
+            separate_signature: true
+            show_signature_annotations: true
+            signature_crossrefs: true
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+extra_css:
+  - assets/catalogue.css
+extra_javascript:
+  - assets/catalogue.js

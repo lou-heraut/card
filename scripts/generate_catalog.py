@@ -233,6 +233,127 @@ def render(lang="fr"):
     return "\n".join(lines), n_cards, n_vars, len(sections)
 
 
+
+
+
+
+# ── La page catalogue du site ────────────────────────────────────────────────
+#
+# Trois rendus du même corpus, trois publics, et c'est voulu :
+#   docs/CARDS.md, CARDS.fr.md   le dépôt, lisible sur GitHub sans rien bâtir
+#   docs/catalogue.md            le site, une ligne par VARIABLE, filtrable
+#   docs/card.ttl                les machines (scripts/generate_skos.py)
+#
+# Le site part de `list_cards()` et non de l'arborescence : une ligne par
+# variable produite, avec ses deux libellés et ses facettes. C'est ce qui
+# rend le filtrage possible, et surtout ce qui garantit que la page ne
+# peut pas diverger du paquet, puisqu'elle affiche exactement ce que la
+# fonction publique rend.
+SITE = ROOT / "docs" / "catalogue.md"
+
+# Les facettes proposées en menu, dans l'ordre où on les parcourt : du
+# plus large (quelle grandeur) au plus précis (quelle forme de sortie).
+_FACETTES_SITE = ("domain", "phenomenon", "aspect", "statistic",
+                  "season", "output")
+
+
+def _esc(x):
+    """Échappe pour du HTML. Les libellés viennent des fiches, donc de la
+    donnée : ne pas les traiter comme du balisage."""
+    return (str(x).replace("&", "&amp;").replace("<", "&lt;")
+            .replace(">", "&gt;").replace('"', "&quot;"))
+
+
+def render_site():
+    """La page catalogue du site, en HTML complet, et son décompte.
+
+    Le tableau ENTIER est écrit à la construction : le JavaScript ne fait
+    que masquer des lignes déjà présentes. Sans ça la page serait vide
+    pour un moteur de recherche, pour qui coupe JS et pour un lecteur
+    d'écran mal servi, alors que le catalogue markdown d'aujourd'hui est
+    indexable. On ne régresse pas là-dessus.
+    """
+    from card.management import list_cards
+    from card.schema import vocabulary, _slug_of
+
+    df = list_cards().sort_values(["domain_en", "phenomenon_en", "variable_en"])
+    vocab = vocabulary()
+
+    lignes = []
+    for _, r in df.iterrows():
+        # Les facettes voyagent en SLUG dans les attributs (l'identifiant
+        # du concept, stable quand un libellé est reformulé) et en libellé
+        # dans les menus. Une facette multi-valeurs garde ses deux slugs.
+        attrs = []
+        for f in _FACETTES_SITE:
+            brut = str(r.get(f"{f}_en", "") or "")
+            slugs = [_slug_of(f, x.strip()) or x.strip().lower()
+                     for x in brut.split(",") if x.strip()]
+            attrs.append(f'data-{f}="{_esc(" ".join(slugs))}"')
+        # Une seule chaîne de recherche, minuscule, couvrant les deux
+        # langues : le visiteur cherche « étiage » ou « low flow » sans
+        # avoir à savoir dans quelle langue la page est réglée.
+        cherche = " ".join(str(r.get(c, "") or "") for c in (
+            "variable_en", "variable_fr", "name_en", "name_fr",
+            "description_en", "description_fr", "card", "input_vars")).lower()
+        attrs.append(f'data-search="{_esc(cherche)}"')
+
+        chemin = str(r["script_path"])
+        lien = (f'<a href="https://github.com/lou-heraut/card/blob/main/'
+                f'src/card/cards/{_esc(chemin)}">{_esc(r["card"])}</a>')
+        lignes.append(
+            f'<tr {" ".join(attrs)}>'
+            f'<td class="v"><code>{_esc(r["variable_en"])}</code></td>'
+            f'<td lang="en">{_esc(r["name_en"])}</td>'
+            f'<td lang="fr">{_esc(r["name_fr"])}</td>'
+            f'<td class="u">{_esc(unite(r["unit_en"]))}</td>'
+            f'<td class="i"><code>{_esc(_inputs(r["input_vars"]))}</code></td>'
+            f'<td class="c">{lien}</td>'
+            f"</tr>"
+        )
+
+    menus = []
+    for f in _FACETTES_SITE:
+        # Seules les valeurs RÉELLEMENT présentes sont proposées : un menu
+        # qui offre un filtre ne rendant rien est une promesse en l'air.
+        presents = set()
+        for v in df[f"{f}_en"]:
+            for x in str(v or "").split(","):
+                if x.strip():
+                    presents.add(_slug_of(f, x.strip()) or x.strip().lower())
+        options = "".join(
+            f'<option value="{_esc(slug)}">{_esc(e["en"])} · {_esc(e["fr"])}</option>'
+            for slug, e in vocab.get(f, {}).items() if slug in presents)
+        if options:
+            menus.append(
+                f'<label>{f}<select data-facet="{f}">'
+                f'<option value="">—</option>{options}</select></label>')
+
+    return "\n".join([
+        "# Catalogue", "",
+        "Every variable the collection produces, one per row. Filter by "
+        "facet or search in either language: the table carries both.", "",
+        '<div class="cat-controls">',
+        '<input type="search" id="cat-q" placeholder="Search a variable, '
+        'a name, an input column…" aria-label="Search the catalogue">',
+        "\n".join(menus),
+        '<label>labels<select id="cat-lang">'
+        '<option value="en">English</option>'
+        '<option value="fr">français</option></select></label>',
+        '<button type="button" id="cat-reset">Reset</button>',
+        "</div>", "",
+        '<p class="cat-count"><span id="cat-shown">'
+        f"{len(df)}</span> of {len(df)} variables</p>", "",
+        '<table class="cat" id="cat-table">',
+        "<thead><tr><th>variable</th>"
+        '<th lang="en">name</th><th lang="fr">nom</th>'
+        "<th>unit</th><th>inputs</th><th>card</th></tr></thead>",
+        "<tbody>",
+        "\n".join(lignes),
+        "</tbody></table>", "",
+    ]), len(df)
+
+
 def main():
     for lang, chemin in OUT.items():
         texte, n_cards, n_vars, n_sections = render(lang)
@@ -240,6 +361,9 @@ def main():
         chemin.write_text(texte, encoding="utf-8")
         print(f"{chemin} : {count_label(n_cards, n_vars)}, "
               f"{n_sections} sections")
+    page, n_lignes = render_site()
+    SITE.write_text(page, encoding="utf-8")
+    print(f"{SITE} : {n_lignes} variables, une par ligne, filtrable")
     _sync_readme(n_cards, n_vars)
 
 

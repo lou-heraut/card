@@ -750,7 +750,7 @@ regarde, **on ne publie rien**.
 | 5 | `src/card/alignments.yaml` : correspondances externes et concepts de contrainte, validés par le linter | 4 | **fait** |
 | 6 | `scripts/generate_skos.py` → `card.ttl`, base d'URI manifestement provisoire, métadonnées de schéma, garde de fraîcheur étendue | 3, 5 | **fait** (card 0.8.0) |
 | 7 | Skosmos **local** sur ce `.ttl`, pour voir le rendu avant tout dépôt | 6 | à faire |
-| 8 | site MkDocs Material **en localhost** : sans `dev/`, URLs minuscules, catalogue filtrable rendu en HTML, fonctions en deux sections | rien | à faire |
+| 8 | site MkDocs Material **en localhost** : sans `dev/`, URLs minuscules, catalogue filtrable rendu en HTML, fonctions en deux sections | rien | **fait** (2026-08-13), à regarder à l'écran avant publication |
 | 9 | retrait d'`operator`, coordonné card et card-api | 3 | **fait** (2026-08-13) |
 | 10 | courriel à Theia/OZCAR : l'alignement existe, veulent-ils l'extension, veulent-ils servir le `.ttl` ? | utilisateur | à faire |
 | 11 | base d'URI définitive, licence du vocabulaire, domaine, hébergement, publication | 10 | différé |
@@ -855,6 +855,67 @@ irréversible, et elle reste différée.
   dans le corpus comme sa propre pierre tombale.
 - **Pas de serveur**, GitHub Pages suffit, JS compris.
 - **Skosmos en conteneur local**, pour voir le rendu avant tout dépôt.
+
+## Ce que la réalisation a appris (2026-08-13)
+
+Écrit ici pour que la reprise ne redécouvre pas, et pour que les écarts
+au plan soient assumés plutôt que subis.
+
+**Trois écarts au plan, chacun pour une raison.**
+
+- **`docs/catalogue.json` n'est pas produit.** Le plan le prévoyait, mais
+  la page rend son tableau en HTML et le JavaScript filtre des lignes
+  déjà présentes : le JSON n'aurait aucun lecteur. Les consommateurs
+  machine ont déjà `card.ttl` et `/v1/cards` de card-api. Un artefact
+  généré de plus est un artefact qui périme.
+- **`CARDS.md` et `CARDS.fr.md` restent.** Ils servent GitHub, où le
+  catalogue se lit sans rien bâtir, et le script les écrit déjà. Le site
+  les exclut, les liens du README pointent vers la page filtrable. Les
+  fusionner un jour est possible ; ce n'est pas urgent et ça coûterait
+  la lecture hors site.
+- **Le catalogue du site part de `list_cards()`**, pas de l'arborescence
+  comme les deux markdown : une ligne par VARIABLE et non par fiche.
+  C'est ce qui rend le filtrage utile, et ça garantit que la page ne peut
+  pas diverger du paquet, puisqu'elle affiche ce que la fonction publique
+  rend.
+
+**Un risque de pérennité, à connaître.** L'équipe de Material pour
+MkDocs annonce que **MkDocs 2.0 supprimera le système de greffons sans
+chemin de migration**, et qualifie la version d'inadaptée à la
+production. Les versions sont donc ÉPINGLÉES, dans `pyproject.toml`
+(extra `docs`) et dans le workflow, aux mêmes numéros. Une borne haute
+est ici une protection : sans elle, le site casserait un matin sans
+qu'aucun commit de ce dépôt ne l'explique. À réévaluer quand la
+situation se décante, pas avant.
+
+**Ce qui garde le site honnête**, et qu'il ne faut pas défaire :
+
+- `mkdocs build --strict` : un lien mort ou une référence de docstring
+  introuvable fait ÉCHOUER la construction. Un site qui se construit en
+  avertissant se dégrade sans que personne ne le voie ;
+- `exclude_docs` dans `mkdocs.yml` pour `dev/` et les deux markdown, plus
+  un `rm -f CLAUDE.md` dans le workflow : le premier couvre `docs/`, le
+  second la racine. C'est la leçon de pkgdown, qui publiait le CLAUDE.md
+  de card4r ;
+- la CI **régénère le catalogue et refuse un écart** avant de bâtir :
+  sans ça elle publierait un catalogue périmé en silence ;
+- deux tests de plus dans `test_catalogue.py` : la page est à jour, et
+  elle porte toutes ses lignes en HTML avec leurs deux libellés. Le
+  second est ce qui empêche la page de devenir une application.
+
+**Ce qui reste à faire sur le site**, par ordre d'utilité :
+
+- **le regarder à l'écran**, seule chose qui juge une page ;
+- **une page « écrire sa propre fiche »** : le README l'explique, le site
+  n'en dit rien, et c'est ce qui transforme un utilisateur en
+  contributeur. À écrire quand le reste est validé ;
+- **relier le catalogue et les familles** : `family_of()` existe, la page
+  ne l'expose pas. Un lien « les variantes de VCN10 » depuis une ligne
+  serait la première chose que le SKOS rendrait visible ;
+- **la recherche de Material n'indexe pas les lignes du tableau** telles
+  qu'un visiteur les cherche. Le filtre de la page les couvre, mais un
+  visiteur arrivant par la recherche du site ne le sait pas. À regarder
+  après l'écran.
 
 ## Questions ouvertes
 

@@ -37,6 +37,12 @@ dependencies = [
 # n'installe card pour produire du RDF, et alourdir l'installation de
 # tout le monde pour un script de génération serait payer pour les autres.
 dev = ["pytest", "rdflib"]
+# Le site : `mkdocs serve` en local, `.github/workflows/site.yml` en
+# ligne. Versions ÉPINGLÉES et non plancher : l'équipe de Material
+# annonce que MkDocs 2.0 supprimera le système de greffons sans chemin
+# de migration, donc une borne haute est ici une protection, pas une
+# rigidité. Le workflow épingle les mêmes.
+docs = ["mkdocs-material==9.7.7", "mkdocstrings[python]==1.0.6"]
 
 [project.urls]
 Repository = "https://github.com/lou-heraut/card"

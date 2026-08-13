@@ -1,0 +1,80 @@
+# Construction et publication du site de documentation.
+#
+# Trois précautions, chacune apprise à ses dépens sur card4r :
+#
+# - `--strict` : un lien mort ou une référence de docstring introuvable
+#   FAIT ÉCHOUER la construction au lieu de passer en avertissement. Un
+#   site qui se construit en avertissant se dégrade sans que personne ne
+#   le voie ;
+# - le CLAUDE.md est retiré après le checkout : un générateur ramasse
+#   volontiers ce qu'on ne lui demande pas, et pkgdown a publié celui de
+#   card4r. `exclude_docs` de mkdocs.yml couvre `docs/`, cette ligne
+#   couvre la racine ;
+# - les versions sont ÉPINGLÉES. L'équipe de Material annonce que
+#   MkDocs 2.0 supprimera le système de greffons sans chemin de
+#   migration : sans épinglage, le site casserait un matin sans qu'aucun
+#   commit de ce dépôt ne l'explique.
+
+name: site
+
+# DÉCLENCHEMENT MANUEL SEULEMENT, et c'est délibéré tant que la
+# publication n'est pas tranchée. Deux raisons, la seconde suffit :
+#   - le site se regarde d'abord en local (`mkdocs serve`) ;
+#   - les Pages du dépôt sont encore servies en mode « legacy » depuis
+#     `main:/docs`. `deploy-pages` exige la source « GitHub Actions », donc
+#     un déclenchement automatique échouerait à chaque push et enverrait
+#     un mail d'échec, ce qui est déjà arrivé pour ruff en juillet.
+# Le jour de la publication : basculer la source des Pages sur « GitHub
+# Actions », puis rétablir le bloc `push` ci-dessous.
+#
+#   push:
+#     branches: [main]
+#     paths: ["mkdocs.yml", "docs/**", "src/card/**", ".github/workflows/site.yml"]
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: rm -f CLAUDE.md
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Installer card et de quoi bâtir
+        run: |
+          pip install -e .
+          pip install "mkdocs-material==9.7.7" "mkdocstrings[python]==1.0.6"
+      - name: Le catalogue est-il à jour ?
+        # Le site rend la page catalogue telle qu'elle est VERSIONNÉE. Si
+        # elle a dérivé des fiches, la construction publierait un
+        # catalogue périmé sans rien dire : autant refuser ici, avec le
+        # nom de la commande qui répare.
+        run: |
+          python scripts/generate_catalog.py
+          git diff --exit-code --stat docs/ README.md \
+            || { echo "::error::catalogue périmé : relance scripts/generate_catalog.py"; exit 1; }
+      - run: mkdocs build --strict
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
