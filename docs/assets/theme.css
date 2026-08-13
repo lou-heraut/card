@@ -331,6 +331,25 @@
   color: var(--faint);
 }
 
+/* Survoler le BLOC ne fait qu'annoncer le bouton : la boîte se détache
+   un peu, l'icône ne bouge pas encore. Cette règle vient AVANT la
+   suivante et ce n'est pas indifférent : les deux ont la même
+   spécificité et s'appliquent ensemble quand on survole la boîte, qui
+   est dans le bloc, donc c'est la dernière écrite qui tranche. */
+:hover > .md-code__nav {
+  background-color: rgba(236, 236, 236, .08);
+}
+
+/* Le bouton est un objet d'un seul tenant : survoler sa boîte allume la
+   boîte ET l'icône, en même temps. Material fait dépendre l'icône du
+   survol de l'ICÔNE, si bien qu'en entrant par le bord on voyait la
+   boîte s'éclaircir et l'icône rester éteinte, comme deux objets
+   superposés. */
+.md-code__nav:hover {
+  background-color: rgba(236, 236, 236, .12);
+}
+
+.md-code__nav:hover .md-code__button,
 .md-code__button:hover,
 .md-code__button.focus-visible {
   color: var(--text);
@@ -338,10 +357,6 @@
 
 .md-code__button--active {
   color: var(--text) !important;
-}
-
-:hover > .md-code__nav {
-  background-color: rgba(236, 236, 236, .08);
 }
 
 
