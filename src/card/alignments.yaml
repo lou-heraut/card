@@ -111,8 +111,18 @@ units:
 # c'est l'alignement proprement dit, `hasProperty` et `hasObjectOfInterest`
 # n'étant que les composants dont card se sert pour bâtir les siennes.
 #
-# `role` sert aux fiches à plusieurs entrées, qu'I-ADOPT décrit par un
-# `AsymmetricSystem` : l'observé est la source, le simulé la cible.
+# `provenance` dit d'où vient la série : observée ou simulée. Ce n'est
+# PAS un composant de la variable, et le thésaurus ne le publie pas.
+#
+# Il s'est d'abord appelé `role`, avec les valeurs `source` et `target`,
+# en visant l'`AsymmetricSystem` d'I-ADOPT. C'était un contresens,
+# constaté le 2026-08-13 en lisant leur ontologie : `hasSource` et
+# `hasTarget` y désignent la source et le puits d'un FLUX, pas l'observé
+# et le simulé. Le nom a donc changé pour cesser de promettre un terme
+# standard qui ne dit pas ça, et l'information reste ici parce qu'elle
+# documente le registre, pas parce qu'elle sortira un jour en RDF : le
+# nom et la description de chaque variable la disent déjà en toutes
+# lettres.
 inputs:
   Q:
     property: theia:c_7742e5f0            # Discharge
@@ -121,11 +131,11 @@ inputs:
   Q_obs:
     property: theia:c_7742e5f0
     object:   theia:c_d73ddccf
-    role: source
+    provenance: observed
   Q_sim:
     property: theia:c_7742e5f0
     object:   theia:c_d73ddccf
-    role: target
+    provenance: simulated
   Q_lim:
     property: theia:c_7742e5f0
     object:   theia:c_d73ddccf
@@ -137,11 +147,11 @@ inputs:
   R_obs:
     property: theia:c_fb752be1
     object:   theia:c_2b48133e
-    role: source
+    provenance: observed
   R_sim:
     property: theia:c_fb752be1
     object:   theia:c_2b48133e
-    role: target
+    provenance: simulated
   Rl:
     property: theia:c_fb752be1
     object:   theia:c_2b48133e
@@ -158,7 +168,7 @@ inputs:
   T_obs:
     property: theia:c_650214c2
     object:   theia:c_d57d0742
-    role: source
+    provenance: observed
   ETP:
     property: theia:c_fb752be1            # Volume per area
     object:   theia:c_b45bee9c            # Evapotranspiration
@@ -167,7 +177,7 @@ inputs:
   ET0_obs:
     property: theia:c_fb752be1
     object:   theia:c_b45bee9c
-    role: source
+    provenance: observed
   S:
     # Surface du bassin, colonne constante. Aucun équivalent relevé chez
     # eux : laissé sans alignement plutôt que rattaché de force.

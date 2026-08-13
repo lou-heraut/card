@@ -1088,14 +1088,31 @@ rapports. Mais savoir QUI est au numérateur demande de lire l'ordre des
 arguments du `func`, donc de supposer la sémantique d'une fonction
 (`ratio(a, b)` vaut `a/b`). C'est le même piège.
 
-Deux questions, donc, et elles appellent une décision plutôt qu'un choix
-d'implémentation :
+**Les deux ont été tranchées le 2026-08-13, et dans le même sens : on
+n'en dit rien.**
 
-1. comment dire « observé » et « simulé » ? Ce n'est pas une composition
-   de variable, c'est une provenance de la donnée ;
-2. accepte-t-on de déclarer le rôle de chaque entrée dans la fiche
-   (`numerator`, `denominator`), ce qui ferait des `role:` actuels une
-   déclaration au lieu d'une devinette ?
+**Observé et simulé ne sont pas une composition de variable**, c'est une
+provenance de la donnée, et le nom comme la description de chaque
+variable la disent déjà en toutes lettres. Le champ d'`alignments.yaml`
+s'appelait `role: source|target` en visant I-ADOPT : il s'appelle
+maintenant `provenance: observed|simulated`, pour cesser de promettre un
+terme standard qui veut dire autre chose. Rien ne sort en RDF.
+
+**Le numérateur ne se déclarera pas non plus**, et l'argument est plus
+fort que le mien. Décomposer un rapport oblige à décomposer TOUTES les
+fonctions : `KGE` n'est pas un rapport mais une distance à trois
+composantes, l'élasticité est une régression, `BFI` un quotient de deux
+séries filtrées. Ou bien on décrit tout, ce qui n'est pas toujours
+possible, ou bien on décrit un cas facile et on laisse croire que le
+reste est du même ordre. Une décomposition partielle est **pire qu'une
+absence** : elle laisse penser que les variables sans composants n'en
+ont pas.
+
+Ce que le thésaurus dit reste donc vrai à son niveau : de quelles
+grandeurs une variable part, quelle opération la termine, sur quelle
+fenêtre. Comment ces grandeurs se combinent est une affaire de calcul,
+et le calcul a déjà son lieu : `card:method`, la figure, et la fiche
+elle-même.
 
 Aucune de ces neuf étapes ne dépend de Theia, et aucune ne demande
 d'écrire quoi que ce soit dans les 226 fiches : tout est déjà déclaré,

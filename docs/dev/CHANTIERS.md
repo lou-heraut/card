@@ -215,6 +215,16 @@ possibles :
 Le vocabulaire, lui, serait le même : celui de la facette `statistic`.
 Donc rien de ce travail n'est perdu si on s'y met plus tard.
 
+**Devenu un prérequis le 2026-08-13, et pas seulement un confort.** Le
+thésaurus sait maintenant dire qu'une statistique porte sa fenêtre
+(« minimum sur l'année hydrologique »), et le vocabulaire CPM sait
+chaîner une mesure statistique à une autre, ce qui écrirait « minimum
+annuel d'une moyenne sur 10 jours » d'un seul tenant. Ce qui manque pour
+le faire est exactement cette piste : la statistique de l'étape
+INTERMÉDIAIRE. La deviner voudrait dire lire un nom de fonction, c'est
+le piège d'`operator`. Détail et forme visée : `PLAN_SITE_SKOS.md`,
+section « Deux choses arrêtées en chemin ».
+
 ## Revue de code du package (lisibilité, dé-boîte-noire)
 
 Crainte utilisateur : code trop compliqué ou alambiqué par endroits.

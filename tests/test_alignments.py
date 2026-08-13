@@ -116,7 +116,7 @@ def test_every_prefix_used_is_declared():
             if ":" in mot and not mot.endswith(":") and "//" not in mot:
                 utilises.add(mot.split(":")[0].strip())
     inconnus = {p for p in utilises if p not in prefixes} - {
-        "en", "fr", "unit", "family", "role", "property", "object",
+        "en", "fr", "unit", "family", "provenance", "property", "object",
         "same_as", "parameter", "constraint", "literal_only"}
     assert not inconnus, f"préfixes utilisés non déclarés : {sorted(inconnus)}"
 
