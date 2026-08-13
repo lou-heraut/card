@@ -114,7 +114,9 @@ scripts/analyse_classification.py  # santé des facettes : redondance,
 Env : venv `.python_env/` ; `tests/conftest.py` rend card, stase et
 `scripts/` importables. **Vérifs après toute modif** (ce que lance le CI,
 dans cet ordre) : `pytest`, `python -m card.schema`, `ruff check src tests
-scripts`. Le catalogue n'est plus à retenir : si une fiche a bougé,
+scripts`, soit `make check`. Le `Makefile` est le bloc-notes des
+commandes de base, `make` seul les liste ; il ne décide rien, il évite de
+retenir, donc rien de ce qui est écrit ailleurs n'y est recopié. Le catalogue n'est plus à retenir : si une fiche a bougé,
 `tests/test_catalogue.py` échoue et réclame `scripts/generate_catalog.py`
 en le nommant. Même chose pour `docs/card.ttl` et
 `tests/test_skos.py`, avec une dépendance de plus : le fichier porte la
