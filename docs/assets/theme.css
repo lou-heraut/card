@@ -1,0 +1,502 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   theme.css : l'identité visuelle du site, posée sur Material.
+
+   Même principe que le thème de `/docs` dans card-api : un CALQUE, pas
+   un remplacement. Material garde sa mise en page, sa navigation, sa
+   recherche ; on ne retouche que ce qui se voit. Éditer ce fichier et
+   recharger la page, `mkdocs serve` s'occupe du reste.
+
+   La GAMME est celle de card-api (`src/card_api/static/theme-identity.css`,
+   conception dans son `docs/dev/THEME_DOCS.md`). Elle est recopiée ici
+   parce que deux dépôts ne partagent pas de feuille de style, et c'est le
+   seul endroit du site où elle est écrite : tout le reste la lit.
+
+   Un seul univers, sombre, comme card-api : pas de bascule jour/nuit.
+   Material réclame quand même le schéma `slate`, sans quoi il repart sur
+   ses gris à lui.
+
+   Piège silencieux, valable ici comme là-bas : un commentaire mal refermé
+   fait avaler la règle suivante par le navigateur, sans le moindre
+   message.
+   ═══════════════════════════════════════════════════════════════════ */
+
+
+/* ── 1. la gamme et les fontes ────────────────────────────────────────
+   Gamme volontairement OUVERTE : ce sont les paliers qui font le relief,
+   les tasser près du noir donne un filtre basse luminosité plutôt qu'un
+   thème. Gris strictement neutres.
+
+   Les fontes sont celles du système (`font: false` dans mkdocs.yml) :
+   aucun appel à Google Fonts, donc rien qui parte chez un tiers quand
+   quelqu'un ouvre la page. */
+:root {
+  --ground: #131313;
+  --surface: #1d1d1d;
+  --well: #0e0e0e;
+  --line: #383838;
+  --line-soft: #2a2a2a;
+  --text: #ececec;
+  --muted: #a5a5a5;
+  --faint: #7a7a7a;
+  --accent: #8ab4dc;   /* le bleu des GET de card-api : les liens */
+  --warm: #e09b78;     /* le orange des DELETE : les mises en garde */
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+
+/* ── 2. la gamme, traduite en variables Material ──────────────────────
+   Material dérive presque tout de ces variables : les redéfinir habille
+   la navigation, la recherche, les encarts et le pied de page sans avoir
+   à viser un seul de ses composants. */
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: var(--ground);
+  --md-default-bg-color--light: var(--surface);
+  --md-default-bg-color--lighter: var(--line-soft);
+  --md-default-bg-color--lightest: var(--line);
+
+  --md-default-fg-color: var(--text);
+  --md-default-fg-color--light: var(--muted);
+  --md-default-fg-color--lighter: var(--faint);
+  --md-default-fg-color--lightest: var(--line);
+
+  --md-typeset-color: var(--text);
+  --md-typeset-a-color: var(--accent);
+
+  /* L'en-tête et la barre d'onglets sont peints avec la couleur
+     « primaire » : on la ramène au fond de la page, l'en-tête n'ayant
+     pas à être un bandeau de couleur. */
+  --md-primary-fg-color: var(--ground);
+  --md-primary-fg-color--light: var(--surface);
+  --md-primary-fg-color--dark: var(--well);
+  --md-primary-bg-color: var(--text);
+  --md-primary-bg-color--light: var(--muted);
+
+  --md-accent-fg-color: var(--accent);
+  --md-accent-bg-color: var(--ground);
+
+  --md-code-bg-color: var(--well);
+  --md-code-fg-color: var(--text);
+
+  --md-footer-bg-color: var(--ground);
+  --md-footer-bg-color--dark: var(--ground);
+  --md-footer-fg-color: var(--text);
+  --md-footer-fg-color--light: var(--faint);
+  --md-footer-fg-color--lighter: var(--faint);
+
+  --md-typeset-table-color: var(--line-soft);
+  --md-admonition-bg-color: var(--surface);
+  --md-admonition-fg-color: var(--muted);
+
+  --md-text-font-family: var(--sans);
+  --md-code-font-family: var(--mono);
+
+  color-scheme: dark;
+}
+
+
+/* ── 3. densité et gouttière ──────────────────────────────────────────
+   Material compose en 16 px pour un texte de blog, sur une racine à
+   125 % (1 rem = 20 px). Le site est une documentation qu'on parcourt :
+   on reprend les 13,5 px de /docs, à la virgule près, pour que passer de
+   l'un à l'autre ne change pas d'échelle. */
+.md-typeset {
+  font-size: .675rem;   /* 13.5 px */
+  line-height: 1.6;
+}
+
+.md-typeset p,
+.md-typeset li {
+  color: var(--muted);
+}
+
+/* La colonne de texte reste courte pour rester lisible, mais le
+   catalogue a besoin de toute la largeur : il la reprend en section 7. */
+.md-grid {
+  max-width: 64rem;
+}
+
+
+/* ── 4. l'en-tête ─────────────────────────────────────────────────────
+   Un filet plutôt qu'une ombre : sur fond sombre une ombre portée ne se
+   voit pas, elle salit. */
+.md-header {
+  box-shadow: none;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.md-header__title {
+  font-family: var(--mono);
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+/* Le logo est une image en pixels : sans cette ligne, le navigateur la
+   lisse en la réduisant et elle devient une tache. */
+.md-header__button.md-logo img {
+  image-rendering: pixelated;
+}
+
+/* Le logo INRAE, à droite de la barre, comme sur /docs. Il est posé en
+   MASQUE et non en image de fond : le SVG ne sert que de découpe, la
+   couleur vient de la gamme, donc une retouche de celle-ci l'emmène avec
+   elle. En image de fond, son blanc pur resterait plus clair que le
+   texte juste à côté. Aucune balise injectée : si la règle cesse un jour
+   de s'appliquer, la barre reste une barre. */
+@media screen and (min-width: 60em) {
+  .md-header__inner::after {
+    content: "";
+    flex: 0 0 auto;
+    width: 88px;
+    height: 22px;
+    margin: 0 .3rem 0 1.2rem;
+    background: var(--text);
+    -webkit-mask: url("inrae.svg") no-repeat right center/contain;
+    mask: url("inrae.svg") no-repeat right center/contain;
+  }
+}
+
+.md-search__form {
+  background: var(--well);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  box-shadow: none;
+}
+
+.md-search__form:hover {
+  background: var(--well);
+  border-color: var(--line);
+}
+
+[data-md-toggle="search"]:checked ~ .md-header .md-search__form {
+  background: var(--well);
+  border-color: var(--accent);
+}
+
+.md-search__input::placeholder {
+  color: var(--faint);
+}
+
+
+/* ── 5. la navigation ─────────────────────────────────────────────────
+   Les titres de section reprennent l'étiquette des sections de Swagger :
+   petites capitales espacées, en gris moyen. C'est ce qui donne au plan
+   trois blocs qu'on distingue d'un coup d'œil, au lieu d'une liste. */
+.md-nav {
+  font-size: .68rem;
+}
+
+/* Le nom du site coiffe le plan comme une section de plus, « CARD »
+   au-dessus de « Home », puis « THE COLLECTION ». Il n'est pas
+   cliquable, et c'est bien ainsi : les trois étiquettes se lisent alors
+   comme trois blocs, et aucune page ne flotte au-dessus d'elles. */
+.md-nav__title {
+  font-family: var(--sans);
+  font-size: .525rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted);
+  padding: 0;
+  margin-bottom: .2rem;
+  box-shadow: none;
+  background: none;
+  line-height: 2;
+}
+
+/* Seules les SECTIONS portent l'étiquette en capitales. Une page posée
+   au premier rang (« Home ») est une page, pas un titre de bloc : en
+   capitales elle annonçait une section vide. */
+.md-nav__item--section > .md-nav__link {
+  font-size: .525rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted);
+  margin-top: 1.1rem;
+}
+
+.md-nav__link--active,
+.md-nav__link:focus,
+.md-nav__link:hover {
+  color: var(--accent);
+}
+
+/* Sommaire de droite : même famille, en plus discret encore. */
+.md-nav--secondary .md-nav__link {
+  color: var(--faint);
+}
+
+
+/* ── 6. le texte ──────────────────────────────────────────────────────
+   Les titres sont en gris clair et non en blanc pur : le contraste vient
+   de la graisse et de l'espace, pas d'un point lumineux.
+
+   La chasse fixe est réservée aux SYMBOLES. Un titre qui EST un symbole
+   s'écrit donc entre accents graves dans le markdown (`card`, `VCN10`),
+   et le `<code>` qui en résulte porte la chasse fixe sans habillage.
+   Tout autre titre est en linéale, la taille faisant le rang.
+
+   Les petites capitales espacées ont été essayées sur les `h2` : elles
+   sont l'étiquette de section de /docs, mais là-bas elles coiffent des
+   blocs, pas de la prose. Ici elles passaient SOUS les `h3` en poids
+   visuel, et un sous-titre plus fort que son titre est pire qu'un titre
+   fade. Elles restent donc à la navigation, qui est une liste. */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+.md-typeset h1 {
+  font-family: var(--sans);
+  font-size: 1.05rem;
+  margin-bottom: .9rem;
+}
+
+.md-typeset h1 code {
+  background: none;
+  padding: 0;
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.md-typeset h2 {
+  font-size: .85rem;
+  margin-top: 2rem;
+  padding-bottom: .3rem;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.md-typeset h3 {
+  font-size: .74rem;
+  margin-top: 1.4rem;
+}
+
+.md-typeset a {
+  text-decoration: none;
+}
+
+.md-typeset a:hover {
+  text-decoration: underline;
+}
+
+/* Le code en ligne, exactement comme dans la description d'une opération
+   de /docs : un fond à peine posé, pas un cadre. Material peint un
+   aplat plein, qui découpe la phrase en pastilles. */
+.md-typeset code {
+  font-size: .92em;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(236, 236, 236, .05);
+  color: var(--text);
+}
+
+.md-typeset pre > code {
+  background: var(--well);
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  padding: .7rem .8rem;
+}
+
+/* La coloration de Material est vive (bleu franc, rouge, rose, violet)
+   et elle jure avec une page qui n'emploie la couleur qu'en renfort. On
+   reprend les teintes de /docs, plus un violet de la même famille pour
+   les appels de fonction, qui ont besoin d'être distincts des mots-clés.
+
+   Le point qui fait tout tenir : le texte de base d'un bloc passe en
+   GRIS MOYEN. Des accents pastel posés sur du blanc pur se lisent comme
+   du blanc légèrement teinté, et la coloration semble absente ; c'est le
+   contraste avec un fond de texte plus sourd qui les fait exister, et
+   c'est exactement ce que fait le bloc de code de /docs. */
+[data-md-color-scheme="slate"] {
+  --md-code-fg-color: var(--muted);
+  --md-code-hl-keyword-color: #8ab4dc;
+  --md-code-hl-function-color: #b9a3d8;
+  --md-code-hl-string-color: #7fbfa8;
+  --md-code-hl-number-color: #d9c07f;
+  --md-code-hl-constant-color: #d9c07f;
+  --md-code-hl-special-color: #e09b78;
+  --md-code-hl-name-color: var(--text);
+  --md-code-hl-variable-color: var(--text);
+  --md-code-hl-operator-color: var(--faint);
+  --md-code-hl-punctuation-color: var(--faint);
+  --md-code-hl-comment-color: var(--faint);
+  --md-code-hl-generic-color: var(--muted);
+  --md-code-hl-color: var(--line);
+}
+
+/* Un encart est une remarque, pas une alerte : filet à gauche, aucun
+   aplat de couleur.
+
+   Material colore chaque type d'encart (bleu franc pour `note`, orange
+   pour `warning`…) sur trois surfaces à la fois : le filet, le fond du
+   titre et la pastille de l'icône. Les trois sont ramenés à la gamme.
+   Les sélecteurs doivent nommer les types, `.md-typeset .admonition.note`
+   étant plus spécifique que `.md-typeset .admonition`. */
+.md-typeset .admonition,
+.md-typeset details,
+.md-typeset .admonition.note,
+.md-typeset .admonition.info,
+.md-typeset .admonition.tip,
+.md-typeset .admonition.warning,
+.md-typeset .admonition.example,
+.md-typeset .admonition.abstract {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-left: 2px solid var(--line);
+  border-radius: 3px;
+  box-shadow: none;
+  font-size: .66rem;
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary,
+.md-typeset .note > .admonition-title,
+.md-typeset .info > .admonition-title,
+.md-typeset .tip > .admonition-title,
+.md-typeset .warning > .admonition-title,
+.md-typeset .example > .admonition-title,
+.md-typeset .abstract > .admonition-title {
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* L'icône est un masque coloré, et sa couleur est posée par type
+   (`.md-typeset .note>.admonition-title:before{background-color:#448aff}`).
+   C'est la pastille bleue qu'on voit de loin, et le chevron `:after` la
+   redouble. Les deux passent dans la gamme, sinon un encart de note est
+   la seule tache de couleur franche de la page. */
+.md-typeset .admonition-title::before,
+.md-typeset summary::before,
+.md-typeset .note > .admonition-title::before,
+.md-typeset .info > .admonition-title::before,
+.md-typeset .tip > .admonition-title::before,
+.md-typeset .warning > .admonition-title::before,
+.md-typeset .example > .admonition-title::before,
+.md-typeset .abstract > .admonition-title::before {
+  background-color: var(--faint);
+}
+
+.md-typeset .note > .admonition-title::after,
+.md-typeset .info > .admonition-title::after,
+.md-typeset .tip > .admonition-title::after,
+.md-typeset .warning > .admonition-title::after,
+.md-typeset .example > .admonition-title::after,
+.md-typeset .abstract > .admonition-title::after {
+  color: var(--faint);
+}
+
+
+/* ── 7. les tableaux ──────────────────────────────────────────────────
+   Material encadre et arrondit ; on garde des filets horizontaux et un
+   en-tête en petites capitales, comme les tables de paramètres de
+   /docs. Un tableau se lit par ses lignes, pas par sa bordure. */
+.md-typeset table:not([class]) {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  font-size: .72rem;
+}
+
+.md-typeset table:not([class]) th {
+  background: transparent;
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--muted);
+  font-size: .6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  padding: .5rem .6rem;
+}
+
+.md-typeset table:not([class]) td {
+  border-top: 0;
+  border-bottom: 1px solid var(--line-soft);
+  padding: .45rem .6rem;
+  color: var(--muted);
+}
+
+.md-typeset table:not([class]) tr:hover td {
+  background: rgba(236, 236, 236, .02);
+}
+
+
+/* ── 8. la documentation des fonctions (mkdocstrings) ─────────────────
+   Une signature est du code : elle se lit en chasse fixe, dans le creux
+   de la gamme, et son nom doit ressortir du reste de la page. */
+.doc-signature > pre > code,
+.doc-signature .highlight {
+  background: var(--well);
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+}
+
+.doc-heading code {
+  background: transparent;
+  color: var(--text);
+  font-size: 1em;
+  padding: 0;
+}
+
+.doc-section-title {
+  color: var(--muted);
+  font-size: .62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+/* Deux fonctions à la suite sans séparation se lisent comme une seule. */
+.doc-object + .doc-object {
+  margin-top: 1.6rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+
+/* ── 9. pied de page et divers ────────────────────────────────────────
+   Le pied de Material est un bandeau de couleur avec deux grosses
+   flèches de navigation. Ici c'est une ligne de mentions. */
+.md-footer {
+  border-top: 1px solid var(--line-soft);
+}
+
+.md-footer-meta {
+  background: var(--ground);
+}
+
+.md-copyright {
+  color: var(--faint);
+  font-size: .6rem;
+}
+
+::selection {
+  background: rgba(138, 180, 220, .28);
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ground);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2f2f2f;
+  border-radius: 6px;
+  border: 2px solid var(--ground);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3d3d3d;
+}

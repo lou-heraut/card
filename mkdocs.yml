@@ -30,41 +30,55 @@ exclude_docs: |
   CARDS.md
   CARDS.fr.md
 
+# Les pages de fiche sont hors du plan À DESSEIN : deux cent et quelques
+# entrées ne se parcourent pas dans une barre latérale, on y arrive par
+# le catalogue. Sans cette déclaration, chaque construction les liste une
+# à une en disant qu'elles manquent au plan.
+not_in_nav: |
+  cards/
+
 theme:
   name: material
   language: en
   favicon: img/flower_alt.png
   logo: img/flower_alt.png
+  # Les fontes du système, jamais celles de Google : sans cette ligne,
+  # Material va les chercher chez un tiers à chaque visite.
+  font: false
   features:
     - navigation.sections
     - navigation.top
     - content.code.copy
     - search.highlight
     - toc.follow
+  # UN SEUL univers, sombre, celui de la page /docs de card-api. Pas de
+  # bascule jour/nuit : deux thèmes sont deux choses à tenir, et celui-ci
+  # est une identité, pas une préférence. Material a besoin de `slate`
+  # pour partir de ses gris sombres ; la gamme exacte est posée par
+  # docs/assets/theme.css, qui tranche parce qu'il est chargé après.
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: teal
-      accent: teal
-      toggle:
-        icon: material/weather-night
-        name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: teal
-      accent: teal
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
+    scheme: slate
+    primary: custom
+    accent: custom
 
+# Trois blocs, trois questions, et c'est le plan qui doit les faire voir :
+# ce que je peux calculer, comment je m'en sers, où ça vit. Une liste
+# plate de six pages ne dit rien de leurs rapports, et le lecteur ne sait
+# pas si « Ecosystem » est un chapitre ou une annexe.
+#
+# Les fiches ont chacune leur page, engendrée dans `docs/cards/` par
+# scripts/generate_catalog.py : deux cent et quelques entrées n'ont rien
+# à faire dans un plan, on y arrive par le catalogue.
 nav:
   - Home: index.md
-  - Catalogue: catalogue.md
-  - Reading a name: grammar.md
-  - Functions:
-      - Hydrological: functions/hydrological.md
-      - Package: functions/package.md
-  - Ecosystem: ecosystem.md
+  - The collection:
+      - Catalogue: catalogue.md
+      - Symbols: symbols.md
+      - Toolbox: toolbox.md
+      - Write your own card: contribute.md
+  - Using card:
+      - Python functions: functions.md
+      - Ecosystem and provenance: ecosystem.md
 
 plugins:
   - search
@@ -98,7 +112,10 @@ markdown_extensions:
   - pymdownx.highlight
   - pymdownx.superfences
 
+# L'identité d'abord, le catalogue ensuite : la seconde feuille lit la
+# gamme posée par la première, et tranche sur ce qui la concerne.
 extra_css:
+  - assets/theme.css
   - assets/catalogue.css
 extra_javascript:
   - assets/catalogue.js
