@@ -43,8 +43,8 @@ import pathlib
 import sys
 
 import yaml
-from rdflib import Graph, Literal, Namespace, URIRef
-from rdflib.namespace import DCTERMS, OWL, RDF, RDFS, SKOS
+from rdflib import BNode, Graph, Literal, Namespace, URIRef
+from rdflib.namespace import DCTERMS, OWL, RDF, RDFS, SKOS, XSD
 
 import card
 from card.extraction import _DEFAULT_CARD_DIR, _find_cards
@@ -68,6 +68,8 @@ CARD = Namespace(BASE)
 IOP = Namespace("https://w3id.org/iadopt/ont/")
 QUDT = Namespace("http://qudt.org/schema/qudt/")
 VANN = Namespace("http://purl.org/vocab/vann/")
+CPM = Namespace("http://purl.org/voc/cpm#")
+TIME = Namespace("http://www.w3.org/2006/time#")
 
 ALIGNEMENTS = yaml.safe_load(
     (RACINE / "src" / "card" / "alignments.yaml").read_text(encoding="utf-8"))
@@ -153,6 +155,11 @@ def vocabulaire(g):
         for cle, etiquettes in valeurs.items():
             concept = CARD[f"{facette}/{cle}"]
             g.add((concept, RDF.type, SKOS.Concept))
+            # Une facette `statistic` EST un modificateur statistique au
+            # sens d'I-ADOPT : le dire évite que `hasStatisticalModifier`
+            # pointe vers un concept dont rien n'annonce le type.
+            if facette == "statistic":
+                g.add((concept, RDF.type, IOP.StatisticalModifier))
             g.add((concept, SKOS.inScheme, noeud))
             sommet(g, concept, noeud)
             for lang in ("en", "fr"):
@@ -212,8 +219,16 @@ def contrainte_valeur(g, famille, valeur, unite):
         familles = ALIGNEMENTS["constraint_families"][famille]
         g.add((noeud, RDF.type, SKOS.Concept))
         g.add((noeud, RDF.type, IOP.Constraint))
+        g.add((noeud, RDF.type, CPM.Constraint))
         g.add((noeud, SKOS.inScheme, CARD["scheme/constraint"]))
         g.add((noeud, SKOS.broader, CARD[f"constraint-family/{famille}"]))
+        # La VALEUR, et pas seulement le libellé qui la contient. « 10 »
+        # dans « fenêtre glissante de 10 jours » n'est lisible que par un
+        # humain ; `cpm:value` en fait de la donnée, et c'est le point du
+        # modèle CPM sur les contraintes. Une paire borne un intervalle,
+        # d'où deux valeurs et non une chaîne.
+        for part in (valeur if intervalle else [valeur]):
+            g.add((noeud, CPM.value, Literal(part)))
         gabarits = ((("en", "{famille} between {valeur}"),
                      ("fr", "{famille} entre {valeur}")) if intervalle else
                     (("en", "{valeur}{unite} {famille}"),
@@ -279,8 +294,32 @@ def familles(g, meta):
         if cle not in vus:
             vus[cle] = noeud
             g.add((noeud, RDF.type, SKOS.Concept))
-            g.add((noeud, RDF.type, IOP.Variable))
+            # Un ENSEMBLE de variables, pas une variable. I-ADOPT a la
+            # classe qu'il faut, et ses `hasApplicable…` disent ce que
+            # les membres partagent. Se déclarer `iop:Variable` était une
+            # petite fausseté : aucune fiche ne calcule une famille.
+            g.add((noeud, RDF.type, IOP.VariableSet))
             g.add((noeud, SKOS.inScheme, CARD[""]))
+            # Ce que les membres PARTAGENT, et rien d'autre : c'est la
+            # définition même d'une famille ici, deux variables qui ne
+            # diffèrent que par un paramètre.
+            from card.schema import _slug_of
+            cle_stat = _slug_of("statistic",
+                                str(ligne.get("statistic_en", "")).strip())
+            if cle_stat:
+                g.add((noeud, IOP.hasApplicableStatisticalModifier,
+                       CARD[f"statistic/{cle_stat}"]))
+            for entree in str(ligne["input_vars"]).split(","):
+                regle = ALIGNEMENTS["inputs"].get(
+                    entree.strip().rstrip("?").strip())
+                if not regle or regle.get("parameter"):
+                    continue
+                if regle.get("property"):
+                    g.add((noeud, IOP.hasApplicableProperty,
+                           uri(regle["property"])))
+                if regle.get("object"):
+                    g.add((noeud, IOP.hasApplicableObjectOfInterest,
+                           uri(regle["object"])))
             # Les familles sont les points d'entrée du schéma : les
             # variables pendent sous elles, rien ne pend sous elles-mêmes.
             sommet(g, noeud, CARD[""])
@@ -300,6 +339,158 @@ def familles(g, meta):
                 "only by a parameter. Its label enumerates its components.",
                 lang="en")))
     return vus
+
+
+def fenetre(process):
+    """La période d'agrégation d'un process : (clé, début, fin, durée).
+
+    La durée est en mois, sauf pour le jour. `None` quand le process
+    n'agrège sur aucune fenêtre.
+
+    Une fenêtre n'est PAS « une année ou pas » : c'est un DÉBUT et une
+    DURÉE, et c'est ce qui permet de traiter du même geste l'année
+    hydrologique, l'année civile et les fenêtres partielles d'étiage, qui
+    durent six ou sept mois. Le corpus n'en compte que six.
+    """
+    sp, pas = process["sampling_period"], process["time_step"]
+    if isinstance(sp, dict):            # {type: adaptive, func: …}
+        return ("adaptive-year", None, None, 12)
+    if isinstance(sp, (list, tuple)):
+        debut, fin = str(sp[0]), str(sp[1])
+        mois = (int(fin[:2]) - int(debut[:2])) % 12 + 1
+        return (f"from-{debut}-to-{fin}", debut, fin, mois)
+    if pas == "year":
+        # Sans fenêtre déclarée, l'agrégation annuelle part du 1er janvier.
+        debut = str(sp) if sp else "01-01"
+        return (f"year-from-{debut}", debut, None, 12)
+    if pas in ("year-month", "month"):
+        return ("1-month", None, None, 1)
+    if pas in ("year-season", "season"):
+        return ("1-season", None, None, 3)
+    if pas in ("yearday", "day"):
+        return ("1-day", None, None, None)
+    return None
+
+
+_DUREES = {"1-month": ("1 month", "1 mois"),
+           "1-season": ("1 season", "1 saison"),
+           "1-day": ("1 day", "1 jour"),
+           "adaptive-year": ("adaptive year, specific to each series",
+                             "année adaptative, propre à chaque série")}
+
+
+def periode(g, cle, debut, fin, mois):
+    """Un concept de période, posé une fois, rendu à qui le demande.
+
+    OWL-Time a exactement les deux pièces qu'il faut, dont un
+    `DateTimeDescription` qui accepte un mois et un jour SANS année :
+    c'est précisément ce qu'est une fenêtre qui revient chaque année.
+    """
+    from card.render import _jour
+    noeud = CARD[f"period/{cle}"]
+    if (noeud, RDF.type, SKOS.Concept) in g:
+        return noeud
+    g.add((noeud, RDF.type, SKOS.Concept))
+    g.add((noeud, RDF.type, TIME.ProperInterval))
+    g.add((noeud, SKOS.inScheme, CARD["scheme/period"]))
+    sommet(g, noeud, CARD["scheme/period"])
+    if cle in _DUREES:
+        for lang, texte in zip(("en", "fr"), _DUREES[cle]):
+            g.add((noeud, SKOS.prefLabel, Literal(texte, lang=lang)))
+    elif fin:
+        for lang in ("en", "fr"):
+            g.add((noeud, SKOS.prefLabel, Literal(
+                f"{_jour(debut, lang)} {'to' if lang == 'en' else 'au'} "
+                f"{_jour(fin, lang)}", lang=lang)))
+    else:
+        for lang, mot in (("en", "year from"), ("fr", "année à partir du")):
+            g.add((noeud, SKOS.prefLabel,
+                   Literal(f"{mot} {_jour(debut, lang)}", lang=lang)))
+
+    for propriete, date in ((TIME.hasBeginning, debut), (TIME.hasEnd, fin)):
+        if not date:
+            continue
+        instant, description = BNode(), BNode()
+        g.add((noeud, propriete, instant))
+        g.add((instant, TIME.inDateTime, description))
+        g.add((description, RDF.type, TIME.DateTimeDescription))
+        g.add((description, TIME.month,
+               Literal(f"--{date[:2]}", datatype=XSD.gMonth)))
+        g.add((description, TIME.day,
+               Literal(f"---{date[3:]}", datatype=XSD.gDay)))
+    duree = BNode()
+    g.add((noeud, TIME.hasDurationDescription, duree))
+    g.add((duree, RDF.type, TIME.DurationDescription))
+    if mois:
+        g.add((duree, TIME.months, Literal(mois, datatype=XSD.decimal)))
+    else:
+        g.add((duree, TIME.days, Literal(1, datatype=XSD.decimal)))
+    return noeud
+
+
+def mesure_statistique(g, statistique, periode_noeud, climatologique):
+    """La statistique ET sa fenêtre, en un concept, comme le fait CPM.
+
+    Le modèle vient des lignes directrices INSPIRE : une mesure
+    statistique est « une fonction sur un temps ou un espace », et elle
+    porte donc sa période. Theia s'en sert de la même façon, avec des
+    concepts comme « 1 day minimum ».
+
+    Les mesures sont MUTUALISÉES : « minimum sur l'année hydrologique »
+    est la même mesure pour les vingt variables qui l'emploient.
+    """
+    cle = f"{statistique}.{str(periode_noeud).rsplit('/', 1)[-1]}"
+    noeud = CARD[f"measure/{cle}"]
+    if (noeud, RDF.type, SKOS.Concept) in g:
+        return noeud
+    g.add((noeud, RDF.type, SKOS.Concept))
+    g.add((noeud, RDF.type, CPM.StatisticalMeasure))
+    g.add((noeud, SKOS.inScheme, CARD["scheme/statistic"]))
+    g.add((noeud, SKOS.broader, CARD[f"statistic/{statistique}"]))
+    g.add((noeud, CPM.aggregationTimePeriod, periode_noeud))
+    for lang in ("en", "fr"):
+        stat = next((o for o in g.objects(CARD[f"statistic/{statistique}"],
+                                          SKOS.prefLabel) if o.language == lang),
+                    Literal(statistique))
+        fen = next((o for o in g.objects(periode_noeud, SKOS.prefLabel)
+                    if o.language == lang), Literal(""))
+        g.add((noeud, SKOS.prefLabel, Literal(f"{stat} · {fen}", lang=lang)))
+    if climatologique:
+        # CF nomme ce cas : une statistique calculée « over years », par
+        # exemple une valeur par jour calendaire sur toute la chronique.
+        for lang, texte in (
+                ("en", "Computed over all years of the record "
+                       "(CF: climatological statistic)."),
+                ("fr", "Calculée sur toutes les années de la chronique "
+                       "(CF : statistique climatologique).")):
+            g.add((noeud, SKOS.editorialNote, Literal(texte, lang=lang)))
+    return noeud
+
+
+def agregation(fiche, colonne):
+    """La période d'agrégation d'une colonne publiée, ou None.
+
+    On prend le DERNIER process qui produit la colonne, et on ne retient
+    que s'il AGRÈGE vraiment. `method.aggregates` sait faire la
+    différence, et elle n'est pas cosmétique : `dtFlood` P3 résume une
+    année de lignes en une valeur, `RAl_ratio` P2 divise deux séries déjà
+    annuelles, et les deux portent `time_step: year`.
+    """
+    from card import method
+    etats = method.grains(fiche)
+    for i in range(len(fiche["processes"]) - 1, -1, -1):
+        p = fiche["processes"][i]
+        for col, entree in method.columns_and_entries(p):
+            if col != colonne:
+                continue
+            if not method.aggregates(p, entree, etats[i]):
+                return None
+            # `month`, `season` et `yearday` rangent la chronique ENTIÈRE
+            # par mois, saison ou jour calendaire : l'agrégation porte
+            # aussi sur les années, ce que CF appelle une statistique
+            # climatologique.
+            return fenetre(p), p["time_step"] in ("month", "season", "yearday")
+    return None
 
 
 def unites(g):
@@ -326,6 +517,45 @@ def unites(g):
         g.add((noeud, QUDT.ucumCode, Literal(regle["ucum"])))
         if regle.get("kind"):
             g.add((noeud, QUDT.hasQuantityKind, uri(regle["kind"])))
+
+
+def entrees(g):
+    """Un concept par grandeur d'entrée : ce dont tout le reste dérive.
+
+    Le registre `inputs.yaml` les décrit depuis toujours, dans les deux
+    langues et avec leur unité, et le thésaurus n'en disait rien : les
+    variables pointaient directement chez Theia, si bien qu'aucun endroit
+    ne portait ce que card entend par `Q`. C'est aussi le seul endroit
+    où l'alignement vers un `standard_name` CF a un sens : `VCN10` n'est
+    pas un débit, c'est une statistique d'un débit.
+
+    Les paramètres de période (`ref_start`, `horizon_end`…) sont exclus :
+    ce sont des dates fournies par l'appelant, pas des grandeurs.
+    """
+    from card.schema import input_registry
+    schema_ = sous_schema(g, "input", "input quantity", "grandeur d'entrée")
+    for symbole, decrit in input_registry().items():
+        if decrit.get("type") == "date":
+            continue
+        noeud = CARD[f"input/{symbole}"]
+        g.add((noeud, RDF.type, SKOS.Concept))
+        g.add((noeud, RDF.type, IOP.Variable))
+        g.add((noeud, SKOS.inScheme, schema_))
+        sommet(g, noeud, schema_)
+        g.add((noeud, SKOS.notation, Literal(symbole)))
+        for lang in ("en", "fr"):
+            if decrit.get(lang):
+                g.add((noeud, SKOS.prefLabel, Literal(decrit[lang], lang=lang)))
+        mesure(g, noeud, decrit.get("unit"))
+        regle = ALIGNEMENTS["inputs"].get(symbole) or {}
+        for champ, propriete in (("property", IOP.hasProperty),
+                                 ("object", IOP.hasObjectOfInterest),
+                                 ("same_as", SKOS.exactMatch),
+                                 # CF nomme la GRANDEUR, pas la définition
+                                 # de card : proche, pas identique.
+                                 ("cf", SKOS.closeMatch)):
+            if regle.get(champ):
+                g.add((noeud, propriete, uri(regle[champ])))
 
 
 def mesure(g, concept, unite_en):
@@ -357,8 +587,11 @@ def variables(g, meta, parents):
     """Un concept par variable produite, et sa ressource fiche."""
     cartes = _find_cards(_DEFAULT_CARD_DIR, None)
     par_fiche = {}
+    chargees = {}
     for _, ligne in meta.iterrows():
         nom = str(ligne["variable_en"])
+        fiche_source = chargees.setdefault(
+            str(ligne["card"]), load_card(cartes[str(ligne["card"])]))
         concept = CARD[f"variable/{nom}"]
         g.add((concept, RDF.type, SKOS.Concept))
         g.add((concept, RDF.type, IOP.Variable))
@@ -401,6 +634,19 @@ def variables(g, meta, parents):
             if regle.get("constraint"):
                 g.add((concept, IOP.hasConstraint,
                        CARD[f"constraint/{regle['constraint']}"]))
+        # La statistique ET sa fenêtre, quand l'étape terminale agrège
+        # vraiment. Le modificateur seul dit « un minimum » ; la mesure
+        # dit « un minimum sur l'année hydrologique », ce qui est la
+        # variable.
+        from card.schema import _slug_of as _slug_facette
+        stat = _slug_facette("statistic",
+                             str(ligne.get("statistic_en", "")).strip())
+        agr = agregation(fiche_source, nom)
+        if stat and agr and agr[0]:
+            (cle_p, debut, fin, mois), climato = agr
+            g.add((concept, CPM.statisticalMeasure, mesure_statistique(
+                g, stat, periode(g, cle_p, debut, fin, mois), climato)))
+
         for facette, propriete in (("statistic", IOP.hasStatisticalModifier),
                                    ("domain", DCTERMS.subject),
                                    ("phenomenon", DCTERMS.subject),
@@ -421,7 +667,6 @@ def variables(g, meta, parents):
         if fiche not in par_fiche:
             par_fiche[fiche] = ligne
             noeud = CARD[f"card/{fiche}"]
-            source = load_card(cartes[fiche])
             g.add((noeud, DCTERMS.title, Literal(fiche)))
             g.add((noeud, OWL.versionInfo, Literal(str(ligne["version"]))))
             if str(ligne.get("swhid", "")):
@@ -435,15 +680,16 @@ def variables(g, meta, parents):
                        URIRef(DEPOT + str(ligne["script_path"]))))
             # Qui a écrit cette définition, et quand. Une fiche est de la
             # donnée : elle se cite comme telle.
-            for auteur in source.get("authors") or []:
+            for auteur in fiche_source.get("authors") or []:
                 g.add((noeud, DCTERMS.creator, Literal(auteur)))
-            if source.get("date"):
-                g.add((noeud, DCTERMS.created, Literal(str(source["date"]))))
+            if fiche_source.get("date"):
+                g.add((noeud, DCTERMS.created,
+                       Literal(str(fiche_source["date"]))))
             for lang in ("en", "fr"):
                 if str(ligne.get(f"method_{lang}", "")):
                     g.add((noeud, CARD["method"],
                            Literal(ligne[f"method_{lang}"], lang=lang)))
-            for famille, valeur, unite in parametres_de(source):
+            for famille, valeur, unite in parametres_de(fiche_source):
                 g.add((concept, IOP.hasConstraint,
                        contrainte_valeur(g, famille, valeur, unite)))
 
@@ -460,7 +706,9 @@ def main():
     meta = card.list_cards()
     schema(graphe, card.__version__)
     vocabulaire(graphe)
+    sous_schema(graphe, "period", "aggregation period", "période d'agrégation")
     unites(graphe)
+    entrees(graphe)
     contraintes(graphe)
     parents = familles(graphe, meta)
     variables(graphe, meta, parents)

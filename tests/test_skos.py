@@ -238,3 +238,92 @@ def test_the_scheme_says_how_to_name_it(graphe):
                       DCTERMS.publisher, DCTERMS.language):
         assert next(graphe.objects(CARD[""], propriete), None) is not None, (
             f"le schéma ne déclare pas {propriete}")
+
+
+def test_a_window_is_a_beginning_and_a_duration(graphe):
+    """Une fenêtre n'est pas « une année ou pas ».
+
+    `_summer` court de mai à novembre, `_winter` de novembre à avril :
+    opposer l'année au reste n'avait pas de sens. OWL-Time décrit les
+    six fenêtres du corpus d'une seule forme, un début en mois-jour et
+    une durée, et son `DateTimeDescription` accepte un mois sans année,
+    ce qui est exactement ce qu'est une fenêtre qui revient.
+    """
+    time = Namespace("http://www.w3.org/2006/time#")
+    periodes = set(graphe.subjects(RDF.type, time.ProperInterval))
+    assert periodes, "aucune période : l'agrégation ne se dit plus"
+    for p in periodes:
+        assert next(graphe.objects(p, time.hasDurationDescription),
+                    None) is not None, f"{p} : période sans durée"
+    ete = CARD["period/from-05-01-to-11-30"]
+    debut = next(graphe.objects(ete, time.hasBeginning))
+    description = next(graphe.objects(debut, time.inDateTime))
+    assert str(next(graphe.objects(description, time.month))) == "--05"
+    assert str(next(graphe.objects(description, time.day))) == "---01"
+
+
+def test_a_statistic_carries_its_window(graphe):
+    """« un minimum » ne dit pas la variable ; « un minimum sur l'année
+    hydrologique » la dit.
+
+    C'est le modèle de CPM, celui des lignes directrices INSPIRE, et
+    celui que Theia emploie avec des concepts comme « 1 day minimum ».
+    Les mesures sont mutualisées : la même sert à toutes les variables
+    qui l'emploient.
+    """
+    cpm = Namespace("http://purl.org/voc/cpm#")
+    mesures = set(graphe.subjects(RDF.type, cpm.StatisticalMeasure))
+    assert mesures, "aucune mesure statistique"
+    for m in mesures:
+        assert next(graphe.objects(m, cpm.aggregationTimePeriod),
+                    None) is not None, f"{m} : mesure sans période"
+        assert next(graphe.objects(m, SKOS.broader), None) is not None, (
+            f"{m} : mesure qui ne dit pas de quelle statistique elle relève")
+    portent = set(graphe.subjects(cpm.statisticalMeasure, None))
+    assert len(portent) > 200, (
+        "trop peu de variables portent une mesure : le filtre "
+        "`method.aggregates` a-t-il changé ?")
+
+
+def test_a_parameterised_constraint_carries_its_value(graphe):
+    """« 10 » dans « fenêtre glissante de 10 jours » n'était lisible que
+    par un humain. `cpm:value` en fait de la donnée."""
+    cpm = Namespace("http://purl.org/voc/cpm#")
+    fenetre = CARD["constraint/rolling-window-10"]
+    assert str(next(graphe.objects(fenetre, cpm.value))) == "10"
+    for c in graphe.subjects(RDF.type, cpm.Constraint):
+        assert next(graphe.objects(c, cpm.value), None) is not None, (
+            f"{c} : contrainte paramétrée sans valeur")
+
+
+def test_a_family_is_a_set_of_variables(graphe):
+    """Une famille n'est pas une variable : aucune fiche ne la calcule.
+
+    I-ADOPT a la classe qu'il faut, `VariableSet`, et ses
+    `hasApplicable…` disent ce que les membres partagent.
+    """
+    iop = Namespace("https://w3id.org/iadopt/ont/")
+    familles = [s for s in graphe.subjects(RDF.type, iop.VariableSet)]
+    assert len(familles) > 100, "les familles ne sont plus des VariableSet"
+    for f in familles:
+        assert (f, RDF.type, iop.Variable) not in graphe, (
+            f"{f} : une famille se dit encore variable")
+    une = CARD["family/flow.low-flows.magnitude.minimum.annual.series.q"]
+    assert next(graphe.objects(une, iop.hasApplicableStatisticalModifier),
+                None) is not None
+
+
+def test_the_input_quantities_are_concepts(graphe):
+    """`VCN10` n'est pas un débit, c'est une statistique d'un débit.
+
+    L'alignement vers un `standard_name` CF n'a donc de sens que sur la
+    grandeur d'entrée, et il fallait pour cela qu'elle existe comme
+    concept. Le registre `inputs.yaml` la décrit depuis toujours.
+    """
+    q = CARD["input/Q"]
+    assert (q, RDF.type, SKOS.Concept) in graphe
+    assert str(next(graphe.objects(q, SKOS.notation))) == "Q"
+    assert len(set(graphe.objects(q, SKOS.prefLabel))) == 2
+    cf = [o for o in graphe.objects(q, SKOS.closeMatch)
+          if "standard_name" in str(o)]
+    assert cf, "Q n'est aligné sur aucun standard_name CF"

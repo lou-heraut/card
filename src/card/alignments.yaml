@@ -23,6 +23,11 @@ namespaces:
   time:  http://www.w3.org/2006/time#
   xsd:   http://www.w3.org/2001/XMLSchema#
   vann:  http://purl.org/vocab/vann/
+  # Les noms normalisés des conventions Climate & Forecast, servis en RDF
+  # par le serveur de vocabulaires du NERC. C'est le vocabulaire le plus
+  # employé du domaine, et il donne aussi l'unité canonique de chaque nom,
+  # ce qui permet de VÉRIFIER les nôtres au lieu de les affirmer.
+  cfname: http://vocab.nerc.ac.uk/standard_name/
 
 # ── UNITÉS ────────────────────────────────────────────────────────────
 #
@@ -112,6 +117,7 @@ inputs:
   Q:
     property: theia:c_7742e5f0            # Discharge
     object:   theia:c_d73ddccf            # Surface water
+    cf: cfname:water_volume_transport_in_river_channel/
   Q_obs:
     property: theia:c_7742e5f0
     object:   theia:c_d73ddccf
@@ -127,6 +133,7 @@ inputs:
   R:
     property: theia:c_fb752be1            # Volume per area
     object:   theia:c_2b48133e            # Precipitation
+    cf: cfname:precipitation_amount/
   R_obs:
     property: theia:c_fb752be1
     object:   theia:c_2b48133e
@@ -146,6 +153,7 @@ inputs:
   T:
     property: theia:c_650214c2            # Temperature
     object:   theia:c_d57d0742            # Air
+    cf: cfname:air_temperature/
     same_as:  theia:c_6f0c66da            # Air temperature
   T_obs:
     property: theia:c_650214c2
@@ -154,6 +162,7 @@ inputs:
   ETP:
     property: theia:c_fb752be1            # Volume per area
     object:   theia:c_b45bee9c            # Evapotranspiration
+    cf: cfname:water_potential_evaporation_amount/
     same_as:  theia:c_6db0faac            # Potential evapotranspiration
   ET0_obs:
     property: theia:c_fb752be1

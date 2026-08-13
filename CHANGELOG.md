@@ -105,6 +105,18 @@ des deux endroits.
   ses langues et le préfixe à employer. Table `units:` dans
   `alignments.yaml`, audit et raisons dans `docs/dev/PLAN_SITE_SKOS.md`.
 
+- **Le thésaurus dit la fenêtre d'agrégation, la valeur d'un paramètre
+  et la grandeur d'entrée (2026-08-13).** Une fenêtre est un DÉBUT et une
+  DURÉE, ce qui traite du même geste l'année hydrologique et les
+  fenêtres d'étiage de six ou sept mois : neuf périodes suffisent au
+  corpus, en OWL-Time. Vingt-cinq mesures statistiques les combinent
+  avec la statistique déclarée, et 254 variables en portent une. Les
+  contraintes paramétrées publient leur valeur au lieu de l'enfermer
+  dans un libellé, les familles deviennent des `iop:VariableSet` (aucune
+  fiche ne calcule une famille), et les quatre grandeurs d'entrée
+  deviennent des concepts, alignés sur leur `standard_name` CF. Détail
+  et décisions : `docs/dev/PLAN_SITE_SKOS.md`.
+
 ### Modifié
 
 - **`card.load_card` rend `authors` et `date` (2026-08-13).** Le YAML les

@@ -987,12 +987,12 @@ n'ait à être re-décidée en codant.
 | 1 | **l'unité**, la grandeur et le type de valeur | `qudt:hasUnit`, `qudt:ucumCode`, `qudt:hasQuantityKind`, `time:dayOfYear` pour les dates, `xsd:boolean` pour les booléens | **fait le 2026-08-13** |
 | 2 | **la traçabilité de la fiche** | `dcterms:creator`, `dcterms:created`, `dcterms:source` (URL GitHub), `rdfs:seeAlso` (URL SWH) | **fait le 2026-08-13** |
 | 3 | **les métadonnées de schéma** | `dcterms:publisher`, `dcterms:language`, `vann:preferredNamespacePrefix` et `…Uri` | **fait le 2026-08-13** |
-| 4 | **la période d'agrégation**, puis la chaîne | `cpm:StatisticalMeasure`, `cpm:aggregationTimePeriod`, `cpm:derivedFrom` | 5 |
-| 5 | **les fenêtres**, début et durée | `time:ProperInterval`, `time:hasBeginning` + `DateTimeDescription` (mois, jour), `time:hasDurationDescription` | rien |
-| 6 | **la valeur d'un paramètre** de contrainte | `cpm:Constraint`, `cpm:value`, `cpm:constraintProperty` | rien |
-| 7 | **les familles** | `iop:VariableSet` + `hasApplicableProperty`, `…StatisticalModifier`, `…ObjectOfInterest` | rien |
-| 8 | **les entrées multiples** | `iop:AsymmetricSystem` + `hasNumerator`/`hasDenominator`/`hasSource`/`hasTarget` | rôles déjà dans `alignments.yaml` |
-| 9 | **les alignements CF** des quatre grandeurs | `skos:closeMatch` vers le `standard_name`, unité canonique vérifiée | 1 |
+| 4 | **la période d'agrégation** | `cpm:StatisticalMeasure`, `cpm:aggregationTimePeriod` | **fait**, la chaîne exceptée, cf. plus bas |
+| 5 | **les fenêtres**, début et durée | `time:ProperInterval`, `time:hasBeginning` + `DateTimeDescription` (mois, jour), `time:hasDurationDescription` | **fait le 2026-08-13** |
+| 6 | **la valeur d'un paramètre** de contrainte | `cpm:Constraint`, `cpm:value` | **fait le 2026-08-13** |
+| 7 | **les familles** | `iop:VariableSet` + `hasApplicableProperty`, `…StatisticalModifier`, `…ObjectOfInterest` | **fait le 2026-08-13** |
+| 8 | **les entrées multiples** | `iop:AsymmetricSystem` + `hasNumerator`/`hasDenominator`/`hasSource`/`hasTarget` | **arrêté**, cf. plus bas |
+| 9 | **les alignements CF** des quatre grandeurs | `skos:closeMatch` vers le `standard_name`, porté par un concept de grandeur d'entrée | **fait le 2026-08-13** |
 
 ### Ce que les étapes 1 à 3 ont donné (2026-08-13)
 
@@ -1026,6 +1026,76 @@ corpus dans les deux sens (aucune unité employée absente, aucune entrée
 morte) ; et `verifie_alignements.py`, qui résout désormais aussi QUDT et
 OWL-Time, chacun par sa propre méthode, **toutes les références
 résolvent**.
+
+### Ce que les étapes 4 à 9 ont donné (2026-08-13)
+
+`docs/card.ttl` passe de 12 352 à 13 579 triplets et de 658 à 706
+concepts. **254 variables sur 444 portent une mesure statistique**,
+c'est-à-dire une statistique ET sa fenêtre ; les autres n'agrègent sur
+aucune période, ce qui est le cas des scalaires, des écarts entre
+périodes et des réductions inter-annuelles.
+
+Neuf périodes suffisent au corpus entier : les six fenêtres (année
+hydrologique, année civile, deux fenêtres d'étiage, une fenêtre
+particulière, année adaptative) et trois durées (mois, saison, jour).
+Vingt-cinq mesures statistiques les combinent avec les statistiques
+déclarées, et elles sont MUTUALISÉES : « minimum sur l'année
+hydrologique » est un concept, pas vingt.
+
+Quatre décisions valent d'être retenues :
+
+- **le filtre est `method.aggregates`**, la fonction que la figure
+  utilise déjà. Elle distingue une étape qui résume une année d'une
+  étape qui divise deux séries déjà annuelles, les deux portant
+  `time_step: year`. Sans elle, `RAl_ratio` aurait annoncé une
+  agrégation annuelle qu'il ne fait pas ;
+- **la statistique est typée `iop:StatisticalModifier`**. Elle ne
+  l'était pas, si bien que `hasStatisticalModifier` pointait vers un
+  concept dont rien n'annonçait le type ;
+- **les familles ne se disent plus `iop:Variable`.** Aucune fiche ne
+  calcule une famille : c'était une petite fausseté, et I-ADOPT a la
+  classe qu'il faut ;
+- **les grandeurs d'entrée deviennent des concepts.** `inputs.yaml` les
+  décrit depuis toujours, dans les deux langues et avec leur unité, et
+  le thésaurus n'en disait rien. C'est aussi le seul endroit où
+  l'alignement CF a un sens : `VCN10` n'est pas un débit, c'est une
+  statistique d'un débit.
+
+### Deux choses arrêtées en chemin, et pourquoi
+
+**La chaîne (`cpm:derivedFrom`) ne se remplit pas sans deviner.** Le
+mécanisme existe et il est exactement taillé pour card : une mesure
+statistique peut être dérivée d'une autre, donc « minimum annuel d'une
+moyenne sur 10 jours » s'écrit nativement. Mais card ne déclare la
+statistique que de l'étape TERMINALE, par la facette `statistic`. Nommer
+« moyenne » l'étape intermédiaire demanderait de lire le nom de la
+fonction, c'est-à-dire exactement le piège d'`operator`. Ce qui manque
+est donc la **statistique par étape**, qui est une piste déjà ouverte de
+`CHANTIERS.md` (« Raffiner `method` par étape ») : elle cesse d'être un
+confort et devient le prérequis de la chaîne.
+
+**Les entrées multiples n'ont pas de modèle honnête ici**, et la lecture
+de l'ontologie l'a montré. `iop:hasSource` et `iop:hasTarget` sont
+définis pour « un système qui représente un flux », la source et le
+puits de ce flux. Les employer pour distinguer l'observé du simulé
+serait un contresens, or c'est le cas de douze des quarante-huit
+variables à plusieurs entrées, et `alignments.yaml` déclare aujourd'hui
+`role: source` et `role: target` pour elles. **Ces deux rôles sont donc
+mal nommés au regard d'I-ADOPT.**
+
+Restent `hasNumerator` et `hasDenominator`, qui conviennent aux
+rapports. Mais savoir QUI est au numérateur demande de lire l'ordre des
+arguments du `func`, donc de supposer la sémantique d'une fonction
+(`ratio(a, b)` vaut `a/b`). C'est le même piège.
+
+Deux questions, donc, et elles appellent une décision plutôt qu'un choix
+d'implémentation :
+
+1. comment dire « observé » et « simulé » ? Ce n'est pas une composition
+   de variable, c'est une provenance de la donnée ;
+2. accepte-t-on de déclarer le rôle de chaque entrée dans la fiche
+   (`numerator`, `denominator`), ce qui ferait des `role:` actuels une
+   déclaration au lieu d'une devinette ?
 
 Aucune de ces neuf étapes ne dépend de Theia, et aucune ne demande
 d'écrire quoi que ce soit dans les 226 fiches : tout est déjà déclaré,

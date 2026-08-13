@@ -74,7 +74,7 @@ def libelle_rdf(uri, delai=30):
 RESOLVEURS = {
     "theia": libelle_skosmos,
     "qudt": libelle_rdf, "unit": libelle_rdf, "quantitykind": libelle_rdf,
-    "time": libelle_rdf,
+    "time": libelle_rdf, "cfname": libelle_rdf,
 }
 
 
