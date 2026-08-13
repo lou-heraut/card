@@ -74,8 +74,11 @@ concept en Turtle. La vérification d'un alignement est donc automatisable.
   Accumulation, Average, Minimum, Maximum, Median, Standard deviation,
   Uncertainty interval.
 - Leur branche `Constraint` porte des contraintes **physiques**
-  (rayonnement, phase, sédiment, instrument, espace), **jamais une
-  fenêtre temporelle**.
+  (rayonnement, phase, sédiment, instrument, espace), jamais une fenêtre
+  temporelle. **Ce qui ne veut pas dire qu'ils ne savent pas en
+  exprimer une** : elle vit ailleurs, dans une branche `Time` et dans
+  des statistiques composées, ce que la mesure du 2026-08-13 plus bas a
+  trouvé et que celle-ci avait manqué.
 
 ### La zone de recouvrement, mesurée
 
@@ -88,15 +91,129 @@ concept en Turtle. La vérification d'un alignement est donc automatisable.
 | moyenne, minimum, maximum, médiane, cumul, écart-type | **oui**, six de leurs sept |
 | quantile / percentile (`Pq`, Q90, FDC) | non |
 | moyenne mobile sur d jours (VCN10) | non |
-| fenêtre annuelle, année hydrologique, saison | non |
+| fenêtre annuelle, année hydrologique, saison | **en partie**, cf. la mesure du 2026-08-13 ci-dessous |
 | période de retour (`rp-`) | non |
 | moyenne inter-annuelle (`mean-`, `median-`) | non |
 | écart entre deux périodes (`delta-`) | non |
 | pente de tendance (`alpha-`), compte d'années (`n-`) | non |
 
-**Une dizaine de concepts en commun.** Tout le reste de card, c'est-à-dire
-la dimension temporelle et statistique hydrologique, n'a aucun équivalent
-chez eux. Ce n'est pas un recoupement, c'est **un axe complémentaire**.
+**Une dizaine de concepts en commun**, et un axe qui reste
+complémentaire. Mais la ligne « fenêtre » de ce tableau était trop
+tranchée, et la suivante dit ce qu'une mesure plus fine a montré.
+
+## Ce que leur modèle sait déjà faire (mesuré le 2026-08-13)
+
+Écrit ici parce que la mesure du 2026-08-11 s'était arrêtée à leurs
+étiquettes, et qu'une étiquette ne dit pas comment un concept est
+composé. Ce qui suit a été relevé **concept par concept sur leur
+service**, et change ce qu'il faut leur demander.
+
+### Ils composent une statistique avec sa période d'agrégation
+
+C'est le point qu'on avait manqué. Une variable comme « 1 day minimum
+air temperature » n'est pas un libellé, c'est un assemblage, et la
+fenêtre y figure :
+
+```turtle
+theia:c_217e8668  a skos:Concept , iop:Variable ;
+    skos:prefLabel           "1 day minimum air temperature"@en ;
+    iop:hasProperty          theia:c_650214c2 ;   # Air temperature
+    iop:hasObjectOfInterest  theia:c_d57d0742 ;   # Air
+    cpm:statisticalMeasure   theia:c_89a51daa ;   # « 1 day minimum »
+    skos:broader             theia:c_e5598b1a .   # Minimum air temperature
+
+theia:c_89a51daa  a cpm:StatisticalMeasure ;
+    skos:prefLabel             "1 day minimum"@en ;
+    cpm:aggregationTimePeriod  theia:c_f267ad2b ;  # « 1 day », branche Time
+    skos:broader               theia:c_c90deb22 .  # Temporal minimum
+```
+
+Trois choses à retenir :
+
+- la propriété qui porte la statistique n'est **pas** `iop:` mais
+  `cpm:statisticalMeasure`, du *Complex Property Model*
+  (`purl.org/voc/cpm`), un troisième vocabulaire ;
+- la statistique est elle-même un **concept composé**, qui porte sa
+  période par `cpm:aggregationTimePeriod` ;
+- leur branche **Time** existe et est fournie : 1 minute, 5, 10, 15, 30
+  minutes, 1 heure, 1 jour, 1 mois, 1 an, période estivale, période
+  hivernale, instantané.
+
+### Ce qui leur manque vraiment, requête par requête
+
+| cherché chez eux | trouvé |
+|---|---|
+| `moving average` | 0 |
+| `return period` | 0 |
+| `quantile`, `percentile` | 0 |
+| `trend` | 0 |
+| `minimum`, `median` | 8 et 5 concepts, dont des variantes temporelles |
+
+Leur branche `Statistical method` compte sept concepts de tête
+(Accumulation, Average, Minimum, Maximum, Median, Standard deviation,
+Uncertainty interval), et des concepts composés vivent dessous
+(« 1 day minimum », « 10 minutes minimum », « Temporal minimum »,
+« Spatial median »).
+
+Le manque est donc **plus étroit mais plus net** qu'annoncé : moyenne
+mobile sur d jours, période de retour, quantile de dépassement, année
+hydrologique (leur « 1 year » est une DURÉE, pas une fenêtre qui
+commence en septembre), et tout ce qui se calcule sur une série de
+valeurs annuelles.
+
+### La même idée, écrite des deux côtés
+
+C'est la comparaison à avoir sous les yeux pour poser les bonnes
+questions. À gauche ce que `card.ttl` publie aujourd'hui, à droite leur
+écriture.
+
+```turtle
+# ── CHEZ NOUS ────────────────────────────────────────────────────────
+card:variable/VCN10  a skos:Concept , iop:Variable ;
+    skos:notation               "VCN10" ;
+    iop:hasProperty             theia:c_7742e5f0 ;   # Discharge, CHEZ EUX
+    iop:hasObjectOfInterest     theia:c_d73ddccf ;   # Surface water, CHEZ EUX
+    iop:hasStatisticalModifier  card:statistic/minimum ;
+    iop:hasConstraint           card:constraint/rolling-window-10 ;
+    skos:broader                card:family/flow.low-flows.magnitude…
+    rdfs:isDefinedBy            card:card/VCN10 .
+
+card:constraint/rolling-window-10  a skos:Concept , iop:Constraint ;
+    skos:prefLabel  "10 day rolling window"@en ;
+    skos:broader    card:constraint-family/rolling-window .
+
+card:statistic/minimum  a skos:Concept ;
+    skos:exactMatch  theia:c_f91fc633 .              # leur Minimum
+```
+
+Quatre différences, et chacune fait une question :
+
+1. **La statistique.** `iop:hasStatisticalModifier` chez nous,
+   `cpm:statisticalMeasure` chez eux. Les deux sont défendables, mais
+   deux vocabulaires servis côte à côte diraient la même chose de deux
+   façons.
+2. **La fenêtre.** Nous en faisons une `iop:Constraint` autonome
+   (« fenêtre glissante de 10 jours »), eux la mettent DANS la
+   statistique (`cpm:aggregationTimePeriod`). Leur modèle est plus
+   compact, le nôtre plus explicite.
+3. **Deux étages temporels.** `VCN10` est un **minimum annuel** d'une
+   **moyenne mobile de 10 jours** : deux fenêtres, pas une. Leur modèle
+   attache une période à une statistique, donc la question est réelle :
+   comment écrivent-ils une statistique DE statistique ?
+4. **La hiérarchie.** Notre `skos:broader` mène à une famille calculée
+   depuis nos facettes, le leur à une variable plus générale
+   (« Minimum air temperature »). Deux façons de ranger, aucune fausse.
+
+### Deux conséquences pour card, à ne pas trancher avant leur réponse
+
+- **Notre fenêtre annuelle n'est nulle part dans le concept.** `VCN10`
+  porte `dcterms:subject card:season/annual`, qui est une facette de
+  classement, mais aucune contrainte ne dit que le minimum est annuel.
+  Leur `cpm:aggregationTimePeriod` vers `1 year` le dirait. C'est un
+  manque de notre export, indépendamment de ce qu'ils répondront.
+- **Nos concepts de contrainte pourraient viser leur branche Time**
+  plutôt que d'être uniquement des concepts `card:`. Les cibles
+  changeront s'ils reprennent l'extension, donc on attend.
 
 ## L'architecture retenue : deux étages, un alignement
 
@@ -944,3 +1061,18 @@ sur le site public le 2026-08-13, où il s'affichait effectivement.
 2. **Résolution des URIs** le jour de la publication : redirection par un
    service tiers, ou adresse maîtrisée par INRAE ? Seule décision
    irréversible du chantier, et elle attend les interlocuteurs.
+
+   Ce que w3id fait exactement, vérifié le 2026-08-13 : une redirection
+   `303`, et rien d'autre. `https://w3id.org/ozcar-theia/c_7742e5f0`
+   renvoie vers le Skosmos de Theia, qui sert le contenu. Le service est
+   tenu par un groupe communautaire du W3C, et un espace de noms
+   s'obtient par une proposition de modification publique sur leur
+   dépôt. **Leurs URIs sont en w3id partout**, y compris pour désigner
+   leur propre vocabulaire (`skos:inScheme <https://w3id.org/ozcar-theia/>`) :
+   l'adresse `in-situ.theia-land.fr` n'apparaît nulle part dans leurs
+   données, c'est une machine, pas une identité. C'est l'argument à
+   retenir : un nom et un hébergement sont deux choses séparées.
+
+3. **La statistique : `iop:hasStatisticalModifier` ou
+   `cpm:statisticalMeasure` ?** Question à leur poser plutôt qu'à
+   trancher seuls, cf. la mesure du 2026-08-13.
