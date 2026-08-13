@@ -36,8 +36,8 @@ REST = ("https://in-situ.theia-land.fr/skosmos/rest/v1/"
         "theia_ozcar_thesaurus/label")
 
 
-def libelle(uri, delai=20):
-    """Libellé du concept, ou None s'il ne résout pas."""
+def libelle_skosmos(uri, delai=20):
+    """Libellé chez Theia, dont le Skosmos a un point REST dédié."""
     url = f"{REST}?{urllib.parse.urlencode({'uri': uri, 'lang': 'en'})}"
     try:
         with urllib.request.urlopen(url, timeout=delai) as reponse:
@@ -46,19 +46,52 @@ def libelle(uri, delai=20):
         return None
 
 
+def libelle_rdf(uri, delai=30):
+    """Libellé d'une ressource qui se sert elle-même en RDF.
+
+    C'est le cas de QUDT et d'OWL-Time : on demande du Turtle, on lit le
+    libellé de la ressource visée. Pas de point d'API à connaître, c'est
+    le web sémantique tel qu'il est censé fonctionner.
+    """
+    from rdflib import Graph, URIRef
+    from rdflib.namespace import RDFS, SKOS
+    requete = urllib.request.Request(uri, headers={"Accept": "text/turtle"})
+    try:
+        with urllib.request.urlopen(requete, timeout=delai) as reponse:
+            g = Graph().parse(data=reponse.read(), format="turtle")
+    except Exception:
+        return None
+    sujet = URIRef(uri)
+    for propriete in (RDFS.label, SKOS.prefLabel):
+        for o in g.objects(sujet, propriete):
+            if getattr(o, "language", None) in (None, "en"):
+                return str(o)
+    return None
+
+
+# Comment résoudre, selon le préfixe. `xsd:` en est absent à dessein :
+# un type de données n'est pas une ressource qui porte un libellé.
+RESOLVEURS = {
+    "theia": libelle_skosmos,
+    "qudt": libelle_rdf, "unit": libelle_rdf, "quantitykind": libelle_rdf,
+    "time": libelle_rdf,
+}
+
+
 def uris(alignements):
-    """(où, uri) pour chaque référence externe du fichier."""
+    """(où, uri, résolveur) pour chaque référence externe du fichier."""
     prefixes = alignements["namespaces"]
     trouvees = []
-    for section in ("inputs", "statistic"):
+    for section in ("inputs", "statistic", "units"):
         for cle, valeur in (alignements.get(section) or {}).items():
             for champ, brut in (valeur or {}).items():
                 if not isinstance(brut, str) or ":" not in brut:
                     continue
                 prefixe, reste = brut.split(":", 1)
-                if prefixe in prefixes:
+                if prefixe in prefixes and prefixe in RESOLVEURS:
                     trouvees.append((f"{section}.{cle}.{champ}",
-                                     prefixes[prefixe] + reste))
+                                     prefixes[prefixe] + reste,
+                                     RESOLVEURS[prefixe]))
     return trouvees
 
 
@@ -69,13 +102,13 @@ def main():
     references = uris(alignements)
     print(f"{len(references)} références externes à résoudre\n")
     manquantes = []
-    for ou, uri in references:
-        nom = libelle(uri)
+    for ou, uri, resolveur in references:
+        nom = resolveur(uri)
         if nom is None:
             manquantes.append((ou, uri))
-            print(f"  ÉCHEC  {ou:28} {uri}")
+            print(f"  ÉCHEC  {ou:34} {uri}")
         else:
-            print(f"  ok     {ou:28} {nom}")
+            print(f"  ok     {ou:34} {nom}")
     if manquantes:
         print(f"\n{len(manquantes)} référence(s) ne résolvent pas.")
         print("Soit le service est indisponible, soit le concept a bougé.")

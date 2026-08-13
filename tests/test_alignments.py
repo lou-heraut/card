@@ -130,3 +130,39 @@ def test_the_constraint_families_are_all_referenced():
     # qui ne passent pas par la table des paramètres.
     orphelines = familles - citees - {"sampling-window"}
     assert not orphelines, f"familles sans membre : {sorted(orphelines)}"
+
+
+def test_every_unit_of_the_corpus_is_declared():
+    """Une unité inconnue de la table est une unité perdue à l'export.
+
+    Douze unités distinctes pour 472 variables : la table se tient à la
+    main, et c'est le seul endroit où un code UCUM est écrit. Le
+    calculer depuis la chaîne de l'unité serait le piège d'`operator`,
+    une valeur que rien ne vérifie.
+    """
+    import card
+
+    employees = {str(u).strip() for u in card.list_cards()["unit_en"]}
+    manquantes = employees - set(ALIGNEMENTS["units"])
+    assert not manquantes, (
+        f"unités du corpus absentes d'alignments.yaml : {sorted(manquantes)}")
+    mortes = set(ALIGNEMENTS["units"]) - employees
+    assert not mortes, f"unités déclarées, jamais employées : {sorted(mortes)}"
+
+
+def test_a_unit_is_either_a_measure_or_a_value_type():
+    """Trois des douze « unités » du corpus n'en sont pas.
+
+    Un jour de l'année est une position dans un cycle, un booléen est un
+    type de valeur. Les deux se déclarent par `value_type`, et jamais en
+    même temps qu'un code UCUM : une chose est mesurée dans une unité,
+    ou elle ne l'est pas.
+    """
+    for texte, regle in ALIGNEMENTS["units"].items():
+        mesure = bool(regle.get("ucum"))
+        typee = bool(regle.get("value_type"))
+        assert mesure != typee, (
+            f"{texte!r} : déclarer soit `ucum`, soit `value_type`, "
+            f"jamais les deux ni aucun")
+        if regle.get("qudt"):
+            assert mesure, f"{texte!r} : une URI QUDT sans code UCUM"

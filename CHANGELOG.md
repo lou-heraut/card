@@ -93,7 +93,23 @@ des deux endroits.
   JavaScript. Les vingt-huit variables produites par deux fiches n'ont
   plus deux entrées ni deux ancres.
 
+- **Le thésaurus dit enfin l'unité, et d'où vient une fiche
+  (2026-08-13).** Sur 10 809 triplets, l'unité n'apparaissait nulle
+  part : les 444 variables la publient maintenant, 410 par une unité
+  (`qudt:hasUnit`, sept chez QUDT et trois définies par card faute
+  d'équivalent) et 34 par un type de valeur, un jour de l'année ou un
+  booléen n'étant pas des mesures. La grandeur (`qudt:hasQuantityKind`)
+  s'y ajoute, et elle se déclare : une unité de QUDT en porte souvent
+  plusieurs. Chaque fiche porte son auteur, sa date, l'adresse de son
+  fichier et celle où son swhid se résout ; le schéma dit son éditeur,
+  ses langues et le préfixe à employer. Table `units:` dans
+  `alignments.yaml`, audit et raisons dans `docs/dev/PLAN_SITE_SKOS.md`.
+
 ### Modifié
+
+- **`card.load_card` rend `authors` et `date` (2026-08-13).** Le YAML les
+  porte depuis toujours, le loader les jetait. Deux clés de plus dans ce
+  qu'il rend, rien de retiré.
 
 - **Le décompte du README compte les variables distinctes
   (2026-08-13).** Il annonçait 472, qui est le nombre de COLONNES que le

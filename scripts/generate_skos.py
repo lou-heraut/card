@@ -53,12 +53,21 @@ from card.loader import load_card
 RACINE = pathlib.Path(__file__).resolve().parent.parent
 SORTIE = RACINE / "docs" / "card.ttl"
 
+# Où lire une fiche, et où résoudre un identifiant Software Heritage. Une
+# ressource qui ne mène nulle part n'est pas une ressource : le chemin
+# relatif qu'on publiait avant (`flow/low-flows/…`) ne s'ouvrait pour
+# personne.
+DEPOT = "https://github.com/lou-heraut/card/blob/main/src/card/cards/"
+SWH = "https://archive.softwareheritage.org/"
+
 # Base PROVISOIRE et manifestement fausse : `.invalid` est réservé par la
 # RFC 2606 et ne résoudra jamais. À remplacer le jour où l'hébergement
 # et les identifiants sont tranchés, et pas avant.
 BASE = "https://example.invalid/card/"
 CARD = Namespace(BASE)
 IOP = Namespace("https://w3id.org/iadopt/ont/")
+QUDT = Namespace("http://qudt.org/schema/qudt/")
+VANN = Namespace("http://purl.org/vocab/vann/")
 
 ALIGNEMENTS = yaml.safe_load(
     (RACINE / "src" / "card" / "alignments.yaml").read_text(encoding="utf-8"))
@@ -120,6 +129,14 @@ def schema(g, version):
     g.add((CARD[""], OWL.versionInfo, Literal(version)))
     g.add((CARD[""], DCTERMS.modified,
            Literal(dt.date.today().isoformat())))
+    g.add((CARD[""], DCTERMS.publisher, Literal("INRAE, UR RiverLy")))
+    for lang in ("en", "fr"):
+        g.add((CARD[""], DCTERMS.language, Literal(lang)))
+    # `vann:` est le vocabulaire d'annotation des vocabulaires : ces deux
+    # lignes disent à un outil tiers comment nous nommer, et sans elles
+    # il affiche une URI nue là où on lit `card:VCN10`.
+    g.add((CARD[""], VANN.preferredNamespacePrefix, Literal("card")))
+    g.add((CARD[""], VANN.preferredNamespaceUri, Literal(BASE)))
 
 
 FACETTES_FR = {"domain": "grandeur", "phenomenon": "phénomène",
@@ -285,6 +302,57 @@ def familles(g, meta):
     return vus
 
 
+def unites(g):
+    """Les unités que card doit définir lui-même, et rien d'autre.
+
+    QUDT est une liste de 2 575 unités nommées : sept des nôtres y sont,
+    trois n'y sont pas (`hm³` et les deux unités composées). Pour
+    celles-là card définit sa propre unité, à partir du seul code UCUM,
+    qui est une grammaire et les compose toutes. Même doctrine que pour
+    les contraintes : on réemploie quand ça existe, on définit quand ça
+    n'existe pas, on n'invente jamais une URI chez quelqu'un d'autre.
+
+    Ces unités ne sont PAS des `skos:Concept` : une unité n'est pas une
+    notion du vocabulaire de card, c'est une ressource à laquelle une
+    variable renvoie.
+    """
+    from card.render import unite as rendu
+    for texte, regle in ALIGNEMENTS["units"].items():
+        if regle.get("qudt") or not regle.get("ucum"):
+            continue
+        noeud = CARD[f"unit/{regle['ucum']}"]
+        g.add((noeud, RDF.type, QUDT.Unit))
+        g.add((noeud, RDFS.label, Literal(rendu(texte))))
+        g.add((noeud, QUDT.ucumCode, Literal(regle["ucum"])))
+        if regle.get("kind"):
+            g.add((noeud, QUDT.hasQuantityKind, uri(regle["kind"])))
+
+
+def mesure(g, concept, unite_en):
+    """Ce que valent les nombres d'une variable : unité, grandeur, ou type.
+
+    Trois des douze « unités » du corpus n'en sont pas. Un jour de
+    l'année est une position dans un cycle, un booléen est un type de
+    valeur : les publier comme des unités serait faux, et OWL-Time comme
+    XSD ont le terme juste.
+    """
+    regle = ALIGNEMENTS["units"].get(str(unite_en or "").strip())
+    if not regle:
+        return
+    if regle.get("value_type"):
+        g.add((concept, CARD["valueType"], uri(regle["value_type"])))
+        return
+    if regle.get("qudt"):
+        g.add((concept, QUDT.hasUnit, uri(regle["qudt"])))
+    elif regle.get("ucum"):
+        g.add((concept, QUDT.hasUnit, CARD[f"unit/{regle['ucum']}"]))
+    # La grandeur se DÉCLARE : une unité de QUDT en porte souvent
+    # plusieurs (`M3-PER-SEC` en déclare quatre, dont « vitesse volumique
+    # du son »), donc elle ne se déduit pas de l'unité.
+    if regle.get("kind"):
+        g.add((concept, QUDT.hasQuantityKind, uri(regle["kind"])))
+
+
 def variables(g, meta, parents):
     """Un concept par variable produite, et sa ressource fiche."""
     cartes = _find_cards(_DEFAULT_CARD_DIR, None)
@@ -317,6 +385,7 @@ def variables(g, meta, parents):
                 g.add((concept, SKOS.definition,
                        Literal(ligne[f"description_{lang}"], lang=lang)))
         g.add((concept, SKOS.broader, parents[str(ligne["family"])]))
+        mesure(g, concept, ligne.get("unit_en"))
 
         # Composants I-ADOPT, depuis les entrées et la facette statistique
         for entree in str(ligne["input_vars"]).split(","):
@@ -352,18 +421,29 @@ def variables(g, meta, parents):
         if fiche not in par_fiche:
             par_fiche[fiche] = ligne
             noeud = CARD[f"card/{fiche}"]
+            source = load_card(cartes[fiche])
             g.add((noeud, DCTERMS.title, Literal(fiche)))
             g.add((noeud, OWL.versionInfo, Literal(str(ligne["version"]))))
             if str(ligne.get("swhid", "")):
+                # L'identifiant, et l'adresse où il se résout : un
+                # `swh:1:cnt:…` est exact mais muet, et le fichier qu'il
+                # désigne s'ouvre en un clic.
                 g.add((noeud, DCTERMS.identifier, Literal(ligne["swhid"])))
+                g.add((noeud, RDFS.seeAlso, URIRef(SWH + ligne["swhid"])))
             if str(ligne.get("script_path", "")):
-                g.add((noeud, CARD["path"], Literal(ligne["script_path"])))
+                g.add((noeud, DCTERMS.source,
+                       URIRef(DEPOT + str(ligne["script_path"]))))
+            # Qui a écrit cette définition, et quand. Une fiche est de la
+            # donnée : elle se cite comme telle.
+            for auteur in source.get("authors") or []:
+                g.add((noeud, DCTERMS.creator, Literal(auteur)))
+            if source.get("date"):
+                g.add((noeud, DCTERMS.created, Literal(str(source["date"]))))
             for lang in ("en", "fr"):
                 if str(ligne.get(f"method_{lang}", "")):
                     g.add((noeud, CARD["method"],
                            Literal(ligne[f"method_{lang}"], lang=lang)))
-            for famille, valeur, unite in parametres_de(
-                    load_card(cartes[fiche])):
+            for famille, valeur, unite in parametres_de(source):
                 g.add((concept, IOP.hasConstraint,
                        contrainte_valeur(g, famille, valeur, unite)))
 
@@ -380,6 +460,7 @@ def main():
     meta = card.list_cards()
     schema(graphe, card.__version__)
     vocabulaire(graphe)
+    unites(graphe)
     contraintes(graphe)
     parents = familles(graphe, meta)
     variables(graphe, meta, parents)

@@ -984,15 +984,48 @@ n'ait à être re-décidée en codant.
 
 | # | quoi | avec quoi | dépend de |
 |---|---|---|---|
-| 1 | **l'unité**, la grandeur et le type de valeur | `qudt:hasUnit`, `qudt:ucumCode`, `qudt:hasQuantityKind`, `time:dayOfYear` pour les dates, `xsd:boolean` pour les booléens | table `units:` dans `alignments.yaml` |
-| 2 | **la traçabilité de la fiche** | `dcterms:creator`, `dcterms:created`, `dcterms:source` (URL GitHub), `rdfs:seeAlso` (URL SWH) | rien |
-| 3 | **les métadonnées de schéma** | `dcterms:publisher`, `dcterms:language`, `vann:preferredNamespacePrefix` et `…Uri` | rien |
+| 1 | **l'unité**, la grandeur et le type de valeur | `qudt:hasUnit`, `qudt:ucumCode`, `qudt:hasQuantityKind`, `time:dayOfYear` pour les dates, `xsd:boolean` pour les booléens | **fait le 2026-08-13** |
+| 2 | **la traçabilité de la fiche** | `dcterms:creator`, `dcterms:created`, `dcterms:source` (URL GitHub), `rdfs:seeAlso` (URL SWH) | **fait le 2026-08-13** |
+| 3 | **les métadonnées de schéma** | `dcterms:publisher`, `dcterms:language`, `vann:preferredNamespacePrefix` et `…Uri` | **fait le 2026-08-13** |
 | 4 | **la période d'agrégation**, puis la chaîne | `cpm:StatisticalMeasure`, `cpm:aggregationTimePeriod`, `cpm:derivedFrom` | 5 |
 | 5 | **les fenêtres**, début et durée | `time:ProperInterval`, `time:hasBeginning` + `DateTimeDescription` (mois, jour), `time:hasDurationDescription` | rien |
 | 6 | **la valeur d'un paramètre** de contrainte | `cpm:Constraint`, `cpm:value`, `cpm:constraintProperty` | rien |
 | 7 | **les familles** | `iop:VariableSet` + `hasApplicableProperty`, `…StatisticalModifier`, `…ObjectOfInterest` | rien |
 | 8 | **les entrées multiples** | `iop:AsymmetricSystem` + `hasNumerator`/`hasDenominator`/`hasSource`/`hasTarget` | rôles déjà dans `alignments.yaml` |
 | 9 | **les alignements CF** des quatre grandeurs | `skos:closeMatch` vers le `standard_name`, unité canonique vérifiée | 1 |
+
+### Ce que les étapes 1 à 3 ont donné (2026-08-13)
+
+`docs/card.ttl` passe de 10 809 à 12 352 triplets, et **les 444 variables
+disent toutes ce que valent leurs nombres** : 410 une unité, 34 un type
+de valeur, aucune ne se tait.
+
+Trois choix d'implémentation, chacun pour une raison :
+
+- **une unité est une RESSOURCE, pas une chaîne.** Sept pointent vers
+  QUDT, trois vers une unité que card définit lui-même faute d'équivalent
+  (`card:unit/hm3` et les deux composées), avec son code UCUM et sa
+  grandeur. Écrire `"m3.s-1"` sur la variable aurait été plus court et
+  aurait détourné une propriété dont le domaine est une unité, pas une
+  variable ;
+- **ces unités ne sont pas des `skos:Concept`.** Une unité n'est pas une
+  notion du vocabulaire de card, c'est une ressource citée ; les typer en
+  concepts les aurait fait apparaître dans le thésaurus, et le test des
+  orphelins aurait eu raison de se plaindre ;
+- **le loader rend enfin `authors` et `date`.** Le YAML les portait
+  depuis toujours et le loader les jetait : une fiche est de la donnée, et
+  une donnée sans auteur ni date se cite mal.
+
+Et `card:path` disparaît, remplacé par `dcterms:source` vers le fichier
+sur GitHub. Un chemin relatif ne s'ouvre pour personne.
+
+**Ce qui garde l'acquis** : quatre tests de plus, dont celui qui refuse
+une variable muette et celui qui refuse une unité définie sans code
+UCUM ; la table `units:` d'`alignments.yaml`, que le linter confronte au
+corpus dans les deux sens (aucune unité employée absente, aucune entrée
+morte) ; et `verifie_alignements.py`, qui résout désormais aussi QUDT et
+OWL-Time, chacun par sa propre méthode, **toutes les références
+résolvent**.
 
 Aucune de ces neuf étapes ne dépend de Theia, et aucune ne demande
 d'écrire quoi que ce soit dans les 226 fiches : tout est déjà déclaré,

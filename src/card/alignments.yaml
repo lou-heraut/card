@@ -17,6 +17,83 @@ namespaces:
   owl:   http://www.w3.org/2002/07/owl#
   rdfs:  http://www.w3.org/2000/01/rdf-schema#
   theia: https://w3id.org/ozcar-theia/
+  qudt:  http://qudt.org/schema/qudt/
+  unit:  http://qudt.org/vocab/unit/
+  quantitykind: http://qudt.org/vocab/quantitykind/
+  time:  http://www.w3.org/2006/time#
+  xsd:   http://www.w3.org/2001/XMLSchema#
+  vann:  http://purl.org/vocab/vann/
+
+# ── UNITÉS ────────────────────────────────────────────────────────────
+#
+# Une par unité DISTINCTE du corpus, et le linter refuse une unité qui
+# n'y figure pas. Rien n'est deviné à la génération : un code d'unité
+# calculé depuis une chaîne serait le piège d'`operator`, une valeur que
+# rien ne vérifie.
+#
+# Deux vocabulaires, et ils ne font pas la même chose (mesuré le
+# 2026-08-13, cf. PLAN_SITE_SKOS.md) :
+#
+#   UCUM  est une GRAMMAIRE : tout se compose, y compris `hm3` et
+#         `m3.s-1.mm-1`, que personne n'a eu à prévoir.
+#   QUDT  est une LISTE de 2 575 unités nommées, avec URI résolvable,
+#         conversions et grandeur. Trois des nôtres n'y sont pas.
+#
+# D'où les deux champs. `qudt` désigne l'unité de QUDT quand elle
+# existe ; sinon card définit la sienne, à partir du seul code UCUM, et
+# c'est la même doctrine que pour les contraintes.
+#
+# `kind` est la GRANDEUR, et elle se déclare : une unité de QUDT en
+# porte souvent plusieurs (`M3-PER-SEC` en déclare quatre, dont
+# « vitesse volumique du son »), donc elle ne se déduit pas de l'unité.
+#
+# `value_type` est pour ce qui n'EST PAS une unité. Un jour de l'année
+# est une position dans un cycle, pas une mesure : OWL-Time le nomme
+# `time:dayOfYear`. Le corpus le dit déjà autrement, ces variables
+# portant `is_date: true` et `aspect: timing`.
+units:
+  "m^{3}.s^{-1}":
+    ucum: m3.s-1
+    qudt: unit:M3-PER-SEC
+    kind: quantitykind:VolumeFlowRate
+  mm:
+    ucum: mm
+    qudt: unit:MilliM
+    kind: quantitykind:Length
+  "°C":
+    ucum: Cel
+    qudt: unit:DEG_C
+    kind: quantitykind:Temperature
+  day:
+    ucum: d
+    qudt: unit:DAY
+    kind: quantitykind:Time
+  year:
+    ucum: a
+    qudt: unit:YR
+    kind: quantitykind:Time
+  "%":
+    ucum: "%"
+    qudt: unit:PERCENT
+    kind: quantitykind:DimensionlessRatio
+  # `unit:UNITLESS` n'a PAS de code UCUM ; c'est `unit:NUM` qui porte `1`.
+  without unit:
+    ucum: "1"
+    qudt: unit:NUM
+    kind: quantitykind:Dimensionless
+  # Les trois suivantes n'ont pas de concept chez QUDT : card définit le
+  # sien, et le code UCUM reste valide et calculable.
+  "hm^{3}":
+    ucum: hm3
+    kind: quantitykind:Volume
+  "m^{3}.s^{-1}.year^{-1}":
+    ucum: m3.s-1.a-1
+  "m^{3}.s^{-1}.mm^{-1}":
+    ucum: m3.s-1.mm-1
+  yearday:
+    value_type: time:dayOfYear
+  bool:
+    value_type: xsd:boolean
 
 # ── Variables d'ENTRÉE ────────────────────────────────────────────────
 #

@@ -224,6 +224,12 @@ def load_card(path):
         # La version de la fiche voyage avec elle : c'est ce qui permet à un
         # résultat de dire avec quelle définition il a été calculé.
         "version": raw.get("version"),
+        # Qui a écrit cette définition, et quand. Le YAML les porte depuis
+        # toujours, le loader les jetait : une fiche est de la donnée, et
+        # une donnée sans auteur ni date se cite mal. L'export SKOS les
+        # publie en `dcterms:creator` et `dcterms:created`.
+        "authors": list(raw.get("authors") or []),
+        "date": raw.get("date"),
         "swhid": swhid,
         "meta": {
             "en": _unwrap(meta.get("en", {})),

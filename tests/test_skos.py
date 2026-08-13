@@ -28,8 +28,8 @@ import sys
 import pytest
 
 rdflib = pytest.importorskip("rdflib")
-from rdflib import Graph, Namespace  # noqa: E402
-from rdflib.namespace import RDF, SKOS  # noqa: E402
+from rdflib import Graph, Namespace, URIRef  # noqa: E402
+from rdflib.namespace import DCTERMS, RDF, RDFS, SKOS  # noqa: E402
 
 RACINE = pathlib.Path(__file__).resolve().parent.parent
 TTL = RACINE / "docs" / "card.ttl"
@@ -72,8 +72,11 @@ def test_no_dangling_reference(graphe):
     propriétaire, c'est tout l'intérêt d'un alignement.
     """
     decrits = {s for s in graphe.subjects() if str(s).startswith(BASE)}
+    # Seules les RÉFÉRENCES comptent. Le schéma déclare aussi son propre
+    # espace de noms en toutes lettres (`vann:preferredNamespaceUri`),
+    # qui est une chaîne et non un renvoi vers une ressource.
     cites = {o for o in graphe.objects()
-             if hasattr(o, "startswith") and str(o).startswith(BASE)}
+             if isinstance(o, URIRef) and str(o).startswith(BASE)}
     pendantes = cites - decrits
     assert not pendantes, f"références pendantes : {sorted(pendantes)[:5]}"
 
@@ -168,3 +171,70 @@ def test_every_scheme_has_a_label(graphe):
     muets = [s for s in graphe.subjects(RDF.type, SKOS.ConceptScheme)
              if next(graphe.objects(s, RDFS.label), None) is None]
     assert not muets, f"schémas sans rdfs:label : {muets}"
+
+
+def test_every_variable_says_what_its_numbers_are(graphe):
+    """Un thésaurus de variables sans unité renvoie au catalogue.
+
+    Zéro unité sur 10 809 triplets avant le 2026-08-13 : c'était le plus
+    gros manque de l'export. Chaque variable dit désormais soit son
+    unité (`qudt:hasUnit`), soit ce que ses nombres SONT quand ce n'est
+    pas une mesure (`card:valueType`, un jour de l'année ou un booléen).
+    """
+    qudt = Namespace("http://qudt.org/schema/qudt/")
+    muettes = []
+    for v in graphe.subjects(RDF.type,
+                             URIRef("https://w3id.org/iadopt/ont/Variable")):
+        if "/variable/" not in str(v):
+            continue
+        if (next(graphe.objects(v, qudt.hasUnit), None) is None
+                and next(graphe.objects(v, CARD["valueType"]), None) is None):
+            muettes.append(str(v).rsplit("/", 1)[-1])
+    assert not muettes, (
+        f"{len(muettes)} variable(s) sans unité ni type de valeur : "
+        f"{sorted(muettes)[:5]}")
+
+
+def test_the_units_card_defines_itself_are_complete(graphe):
+    """Trois unités n'existent pas chez QUDT : card définit les siennes.
+
+    Elles doivent alors porter ce qui les rend utilisables, c'est-à-dire
+    leur code UCUM, sans quoi on aurait remplacé une URI absente par une
+    URI vide. Et elles ne sont PAS des concepts du vocabulaire : une
+    unité n'est pas une notion de card, c'est une ressource citée.
+    """
+    qudt = Namespace("http://qudt.org/schema/qudt/")
+    notres = list(graphe.subjects(RDF.type, qudt.Unit))
+    assert notres, "aucune unité propre : la table a-t-elle changé ?"
+    for u in notres:
+        assert next(graphe.objects(u, qudt.ucumCode), None) is not None, (
+            f"{u} : unité définie sans code UCUM")
+        assert (u, RDF.type, SKOS.Concept) not in graphe, (
+            f"{u} : une unité n'est pas un concept du vocabulaire")
+
+
+def test_a_card_can_be_cited_and_opened(graphe):
+    """Une ressource qui ne mène nulle part n'est pas une ressource.
+
+    Le chemin relatif publié avant (`flow/low-flows/…`) ne s'ouvrait pour
+    personne, et le `swh:1:cnt:…` est exact mais muet. La fiche porte
+    donc son auteur, sa date, l'adresse de son fichier et celle où son
+    identifiant se résout.
+    """
+    fiche = CARD["card/VCN10"]
+    for propriete in (DCTERMS.creator, DCTERMS.created, DCTERMS.source,
+                      DCTERMS.identifier, RDFS.seeAlso):
+        assert next(graphe.objects(fiche, propriete), None) is not None, (
+            f"la fiche VCN10 ne dit pas {propriete}")
+    for propriete in (DCTERMS.source, RDFS.seeAlso):
+        assert str(next(graphe.objects(fiche, propriete))).startswith("http"), (
+            f"{propriete} doit être une adresse, pas une chaîne")
+
+
+def test_the_scheme_says_how_to_name_it(graphe):
+    """Sans `vann:`, un outil tiers affiche une URI nue au lieu de `card:`."""
+    vann = Namespace("http://purl.org/vocab/vann/")
+    for propriete in (vann.preferredNamespacePrefix, vann.preferredNamespaceUri,
+                      DCTERMS.publisher, DCTERMS.language):
+        assert next(graphe.objects(CARD[""], propriete), None) is not None, (
+            f"le schéma ne déclare pas {propriete}")
