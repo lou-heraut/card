@@ -46,6 +46,7 @@ meta:
 
   global:
     input_vars: "Q, R"
+    is_date: false
     relative: true
 
 process:

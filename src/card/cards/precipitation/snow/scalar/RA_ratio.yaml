@@ -62,6 +62,7 @@ meta:
 
   global:
     input_vars: "R, Rl, Rs"
+    is_date: false
     relative: false
 
 process:

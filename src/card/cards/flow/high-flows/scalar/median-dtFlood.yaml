@@ -1,5 +1,5 @@
 id: median-dtFlood
-version: "2.0"
+version: "3.0"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-18"
 
@@ -59,6 +59,7 @@ meta:
   global:
     input_vars: Q
     preferred_sampling_period: "09-01"
+    is_date: false
     relative: false
     palette: ["#60265e", "#893687", "#c05fbe", "#dba3da", "#edd1ec",
               "#f6ddd3", "#edbaa7", "#e08765", "#CD5629", "#8f3c1d"]
@@ -75,6 +76,7 @@ process:
     func:
       dQXA: [nanmax, "dQ"]
     time_step: year
+    max_na_pct: 3
     sampling_period:
       type: adaptive
       func: [nanmin, "Q"]

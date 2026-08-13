@@ -54,6 +54,7 @@ meta:
     input_vars: "Q_obs, Q_sim, T_obs"
     source: |
       NICOLLE, P. et al. (2021). « Technical note : RAT – a robustness assessment test for calibrated and uncalibrated hydrological models ». In : Hydrol. Earth Syst. Sci. 25, p. 5013-5027. DOI : 10.5194/hess-25-5013-2021.
+    is_date: false
     relative: null
 
 process:

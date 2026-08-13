@@ -269,6 +269,83 @@ def _check_relative(card, path, prefix, issues):
             )
 
 
+def _check_lacunes_ecrites(card, path, issues):
+    """Les seuils de lacunes s'écrivent là où ils ont un sens.
+
+    Ce ne sont pas des réglages fins : le corpus n'emploie qu'une valeur
+    pour chacun, 3 et 10. Ce sont des CRITÈRES de méthode, et leur silence
+    change les valeurs publiées sans que rien ne le dise.
+
+    Deux règles, que le corpus suivait déjà sans les écrire nulle part :
+
+    - **`max_na_years` est un critère sur la CHRONIQUE** : plus longue
+      suite d'années manquantes tolérée avant que stase ne tronque la
+      série autour du trou. Une fois par fiche, donc, pas une fois par
+      process. C'est ce qui trompe à la lecture : il paraît absent de 97
+      process alors qu'il est écrit une fois pour la fiche entière.
+    - **`max_na_pct` est un critère sur la CASE** : part de valeurs
+      manquantes tolérée dans un pas de temps. Il ne se pose que pour un
+      process qui range du JOURNALIER dans des cases. Sur `RAl_ratio` P2,
+      qui divise deux séries déjà annuelles, un pourcentage de jours
+      manquants ne veut rien dire, et l'écrire serait du bruit.
+
+    Ce que l'absence coûtait, mesuré le 2026-08-13 : `dtFlood` calculait
+    son maximum annuel sur une année même privée de la moitié de ses
+    jours, quand la fiche jumelle `dtLF` écartait la même année. L'écart
+    venait du corpus R et personne ne pouvait le voir, chaque fiche étant
+    par ailleurs valide.
+
+    Un seuil DÉLIBÉRÉMENT absent s'écrit `null` : `QJ` range ses valeurs
+    par jour calendaire, si bien qu'une case contient une quarantaine
+    d'ANNÉES et non 365 jours, et la valeur 3 y écarterait un jour dès
+    qu'une seule année manque. Un `null` écrit est une décision, une
+    absence est un silence.
+    """
+    brut = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
+    procs_brut = (brut.get("process") or {})
+
+    combien = sum(1 for p in procs_brut.values()
+                  if isinstance(p, dict) and "max_na_years" in p)
+    if combien != 1:
+        issues.append(
+            f"max_na_years écrit {combien} fois : il s'écrit UNE fois par "
+            "fiche, c'est un critère sur la chronique et non sur un pas "
+            "de temps."
+        )
+
+    _CASES = {"year", "year-month", "month", "year-season", "season", "yearday"}
+    # Colonnes réellement DENSES, c'est-à-dire portant une valeur par pas
+    # de temps d'entrée. `method.grains()` dit qu'un process `keep: all`
+    # rediffuse sa valeur sur la grille d'entrée et garde donc le grain de
+    # ses entrées : vrai d'une fonction qui TRANSFORME (`quickflow` rend un
+    # point par jour), faux d'une fonction qui RÉDUIT (`nanmax` sous
+    # `keep: all` rend un point par an posé sur une grille journalière,
+    # mesuré à 99,7 % de NaN sur `dtFlood`). Compter ces NaN de structure
+    # comme des lacunes rejetterait toutes les années : c'est ce qui vidait
+    # la fiche quand un seuil était posé sur son P3.
+    denses = {v.strip().rstrip("? ").strip()
+              for v in str(card["meta"]["global"].get("input_vars", "")).split(",")}
+    for (nom, raw), proc in zip(procs_brut.items(), card["processes"]):
+        if proc["time_step"] in _CASES:
+            journalier = any(col in denses
+                             for _, e in _method.columns_and_entries(proc)
+                             for col in _method._entrees(e))
+        else:
+            journalier = False
+        for colonne, e in _method.columns_and_entries(proc):
+            fn = e.get("fn")
+            if getattr(fn, "is_transform", False):
+                denses.add(colonne)
+        if journalier and "max_na_pct" not in (raw or {}):
+            issues.append(
+                f"process.{nom}: 'max_na_pct' non écrit alors que ce "
+                f"process range du journalier en '{proc['time_step']}'. "
+                "Il s'écrit toujours ici, `null` compris quand on ne veut "
+                "délibérément aucun filtrage : son absence se lit comme "
+                "un oubli et change les valeurs publiées."
+            )
+
+
 def _check_global_lists(card, prefix, issues):
     """Une liste de `meta.global` a autant de valeurs que de variables.
 
@@ -298,7 +375,7 @@ def _check_global_lists(card, prefix, issues):
             )
 
 
-def _check_is_date(card, prefix, issues):
+def _check_is_date(card, path, prefix, issues):
     """`is_date` vaut exactement « la variable est de l'aspect timing ».
 
     Mesuré sur le corpus le 2026-08-13 : 52 variables `timing`, toutes à
@@ -317,6 +394,16 @@ def _check_is_date(card, prefix, issues):
     aspect = (en.get("classification") or {}).get("aspect")
     aspects = aspect if isinstance(aspect, list) else [aspect] * n
     gl = (card.get("meta") or {}).get("global") or {}
+    # Écrit TOUJOURS, comme `time_step` et `relative` : la présence se lit
+    # dans le YAML brut, `load_card` fusionnant les défauts.
+    brut = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
+    if "is_date" not in (((brut.get("meta") or {}).get("global")) or {}):
+        issues.append(
+            f"{prefix}.is_date: non écrit. Ce champ s'écrit TOUJOURS, "
+            "`false` compris : il dit de quel axe parle la variable, et "
+            "son absence se lit comme un oubli."
+        )
+        return
     dates = gl.get("is_date", False)
     dates = dates if isinstance(dates, list) else [dates] * n
     for i, var in enumerate(variables):
@@ -885,8 +972,9 @@ def validate_card(path) -> list[str]:
     for lang in ("en", "fr"):
         _check_meta_lists(card["meta"][lang], f"meta.{lang}", issues)
     _check_global_lists(card, "meta.global", issues)
-    _check_is_date(card, "meta.global", issues)
+    _check_is_date(card, path, "meta.global", issues)
     _check_relative(card, path, "meta.global", issues)
+    _check_lacunes_ecrites(card, path, issues)
 
     var_en = card["meta"]["en"].get("variable")
     var_fr = card["meta"]["fr"].get("variable")

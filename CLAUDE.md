@@ -211,18 +211,33 @@ Règles clés (détail : NOMENCLATURE.md) :
   dans process, sampling_period/period/max_na_* null, seasons
   [DJF,MAM,JJA,SON], keep null, compress/expand false. Exception : un
   kwarg explicite dans la source reste explicite.
-  **`time_step` et `relative` font exception et s'écrivent TOUJOURS**, y
-  compris pour leur défaut, et le linter les exige. La règle qui les
-  sépare du reste : on omet un défaut qui veut dire « rien de
-  particulier » ; on écrit un défaut qui est un CHOIX, sans quoi son
-  absence se lit comme un oubli. Une fiche est de la donnée : elle porte
-  ce qu'elle affirme sans qu'on ait à connaître un défaut de code.
-  `time_step` est le cœur de l'agrégation, un choix parmi sept valeurs.
-  `relative` dit ce que la GRANDEUR autorise (cf. NOMENCLATURE.md) : tant
-  que `true` n'était qu'un défaut jamais écrit, « j'ai décidé que oui » et
-  « personne n'a rien écrit » étaient indiscernables, et une ligne oubliée
-  dans une fiche R a fait annoncer douze variables `RMAs` comme relatives,
-  seules de leur famille, pendant des années (corrigé le 2026-08-13).
+  **Quatre champs font exception et s'écrivent TOUJOURS**, y compris pour
+  leur défaut, et le linter les exige. La règle qui les sépare du reste :
+  on omet un défaut qui veut dire « rien de particulier » ; on écrit un
+  défaut qui est un CHOIX, sans quoi son absence se lit comme un oubli.
+  Une fiche est de la donnée : elle porte ce qu'elle affirme sans qu'on
+  ait à connaître un défaut de code.
+  - `time_step`, le cœur de l'agrégation, un choix parmi sept valeurs ;
+  - `is_date`, de quel axe parle la variable (`true` ssi `aspect: timing`) ;
+  - `relative`, ce que la GRANDEUR autorise, cf. NOMENCLATURE §7 bis ;
+  - `max_na_pct` **et seulement sur un process qui range du JOURNALIER
+    dans des cases**, avec `max_na_years` **une fois par fiche**, parce
+    que c'est un critère sur la chronique et non sur un pas de temps.
+
+  La règle n'est donc pas « écrire partout » mais **« écrire partout où ça
+  a un sens, et n'être silencieux nulle part où ça en a un »**. Sur un
+  process qui divise deux séries déjà annuelles, un pourcentage de jours
+  manquants ne veut rien dire, et l'écrire serait du bruit. Un seuil
+  DÉLIBÉRÉMENT absent s'écrit `null` : `QJ` range par jour calendaire,
+  donc une case contient des années et non des jours, et la valeur 3 y
+  écarterait un jour dès qu'une seule année manque.
+
+  Ce que le silence a coûté, deux fois : une ligne perdue dans la fiche R
+  de `RMAs_month` a fait annoncer douze variables comme relatives, seules
+  de leur famille ; et `dtFlood` calculait son maximum annuel sur une
+  année même privée de la moitié de ses jours, quand la fiche jumelle
+  `dtLF` écartait la même année. Les deux corrigés le 2026-08-13, et
+  aucun n'était visible fiche par fiche.
 - **multi-sorties** : métadonnées en listes si les sorties sont des
   variables distinctes ; name UNIQUE si ce sont les coordonnées d'un même
   objet (FDC_p/FDC_Q = une courbe).

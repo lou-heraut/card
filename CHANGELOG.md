@@ -63,7 +63,63 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.10.0.
+### Modifié
+
+- **`is_date` s'écrit toujours (2026-08-13).** Il n'était écrit que pour
+  ses 47 `true` : un « ce n'est pas une date » ne se distinguait donc pas
+  d'un oubli, exactement la situation de `relative`. Écrit sur les 226
+  fiches, `true` si et seulement si `aspect: timing`. Aucune valeur ne
+  change, la valeur écrite était déjà celle du défaut.
+
+- **Les seuils de lacunes s'écrivent là où ils ont un sens (2026-08-13).**
+  Deux règles que le corpus suivait déjà sans qu'aucun document ne les
+  écrive ni qu'aucun contrôle ne les tienne :
+
+  - `max_na_years` est un critère sur la CHRONIQUE (plus longue suite
+    d'années manquantes avant que la série soit tronquée), donc **une
+    fois par fiche**. Il paraissait absent de 97 process alors qu'il
+    était écrit une fois pour la fiche entière ;
+  - `max_na_pct` est un critère sur la CASE, donc sur **chaque process
+    qui range du journalier dans des cases** et sur ceux-là seulement.
+    Sur `RAl_ratio` P2, qui divise deux séries déjà annuelles, un
+    pourcentage de jours manquants ne veut rien dire.
+
+  Le bon discriminant n'est ni `time_step: year` ni la fonction
+  `method.aggregates`, qui compte aussi les moyennes mobiles et les
+  médianes de séries annuelles : c'est « lit une colonne au grain jour et
+  déclare un pas de temps qui la regroupe ». `method.grains()` le savait
+  déjà, son docstring nommait même la distinction utile.
+
+### Corrigé
+
+- **`QJ` et `QJD` n'avaient aucun seuil (2026-08-13)**, seules de tout le
+  corpus. Elles reçoivent `max_na_pct: 3` et `max_na_years: 10`, comme
+  `QJC10` et `QJDC10` qui partagent leur P1 au caractère près, et comme
+  la fiche R d'origine de `QJC10` qui écrit ces deux valeurs sur un
+  process `time_step: yearday`. Version majeure : un filtrage s'applique
+  désormais, même s'il ne mord sur aucune valeur du jeu de test.
+
+- **`dtFlood` filtrait ses lacunes sur une étape de moins que `dtLF`
+  (2026-08-13).** Les deux fiches ont la même forme depuis R, quatre
+  étapes, même `keep: all`, même `apply_threshold` final avec son seuil.
+  À une ligne près : `dtLF` pose `NApct_lim = 3` sur son P2, la réduction
+  du journalier en maximum annuel, et `dtFlood` ne pose rien sur le sien.
+  Corrigé sur `dtFlood`, `median-dtFlood` et `delta-dtFlood_H`, en version
+  majeure : un filtrage s'applique désormais, même s'il ne mord sur aucune
+  valeur du jeu de test, peu lacunaire.
+
+  Le seuil ne va PAS sur P3, et `dtLF` ne l'y met pas non plus : cette
+  étape lit `dQXA`, qui porte une valeur par an, donc un pourcentage de
+  jours manquants n'y veut rien dire. L'y poser vide la fiche, ses 263
+  valeurs deviennent NaN, mesuré. C'est le même cas que `RAl_ratio` P2,
+  qui divise deux séries déjà annuelles.
+
+### Ajouté
+
+- **Trois règles de linter (2026-08-13)** : `is_date` écrit,
+  `max_na_years` écrit une seule fois par fiche, `max_na_pct` écrit sur
+  tout process qui range du journalier en cases. `null` y est une valeur
+  écrite, donc une décision, par opposition à une absence.
 
 ## 0.10.0 (2026-08-13)
 

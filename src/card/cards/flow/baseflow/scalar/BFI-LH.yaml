@@ -52,6 +52,7 @@ meta:
       LYNE, V. et M. HOLLICK (1979). Stochastic time-variable rainfall-runoff
       modelling. Institute of Engineers Australia National Conference,
       p. 89-93.
+    is_date: false
     relative: false
 
 process:

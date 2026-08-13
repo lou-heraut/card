@@ -269,3 +269,78 @@ def test_linter_refuses_an_unclassified_unit(tmp_path):
         '      X: [nanmean, "Q"]\n'
     )
     assert any("hors de la table" in i for i in validate_card(bad))
+
+
+def test_linter_requires_is_date_to_be_written(tmp_path):
+    """`is_date` s'écrit toujours, `false` compris.
+
+    Il n'était écrit que pour ses 47 `true`, si bien qu'un « ce n'est pas
+    une date » ne se distinguait pas d'un oubli : la situation exacte de
+    `relative` avant le 2026-08-13.
+    """
+    bad = tmp_path / "X.yaml"
+    bad.write_text(
+        'id: X\nversion: "1.0"\nmeta:\n'
+        '  en: {variable: X, unit: "m^{3}.s^{-1}",\n'
+        "       classification: {aspect: magnitude}}\n"
+        "  fr: {variable: X}\n  global: {relative: true}\n"
+        'process:\n  P1:\n    time_step: year\n    max_na_pct: 3\n'
+        '    max_na_years: 10\n    func:\n      X: [nanmean, "Q"]\n'
+    )
+    assert any("is_date: non écrit" in i for i in validate_card(bad))
+
+
+def test_linter_wants_max_na_years_once_per_card(tmp_path):
+    """`max_na_years` est un critère sur la CHRONIQUE, donc une fois par
+    fiche. Il paraissait absent de 97 process alors qu'il était écrit une
+    fois pour la fiche entière : c'est la règle, pas une dérive."""
+    def fiche(p1, p2):
+        p = tmp_path / "X.yaml"
+        p.write_text(
+            'id: X\nversion: "1.0"\nmeta:\n'
+            '  en: {variable: X, unit: "m^{3}.s^{-1}",\n'
+            "       classification: {aspect: magnitude}}\n"
+            "  fr: {variable: X}\n  global: {is_date: false, relative: true}\n"
+            f'process:\n  P1:\n    time_step: none\n{p1}    func:\n'
+            '      Y: [rollmean_center, "Q", 10]\n'
+            f'  P2:\n    time_step: year\n    max_na_pct: 3\n{p2}    func:\n'
+            '      X: [nanmin, "Y"]\n'
+        )
+        return validate_card(p)
+
+    assert any("écrit 0 fois" in i for i in fiche("", ""))
+    assert any("écrit 2 fois" in i
+               for i in fiche("    max_na_years: 10\n", "    max_na_years: 10\n"))
+    assert not any("max_na_years" in i for i in fiche("", "    max_na_years: 10\n"))
+
+
+def test_linter_requires_max_na_pct_where_daily_data_is_bucketed(tmp_path):
+    """Défaut réel : `dtFlood` calculait son maximum annuel sur une année
+    même privée de la moitié de ses jours, quand la fiche jumelle `dtLF`
+    écartait la même année. Écart hérité du corpus R, invisible parce que
+    chaque fiche était par ailleurs valide.
+
+    La règle ne vaut QUE pour un process qui range du journalier dans des
+    cases : sur un process qui divise deux séries déjà annuelles, un
+    pourcentage de jours manquants ne veut rien dire.
+    """
+    def fiche(seuil):
+        p = tmp_path / "X.yaml"
+        p.write_text(
+            'id: X\nversion: "1.0"\nmeta:\n'
+            '  en: {variable: X, unit: "m^{3}.s^{-1}",\n'
+            "       classification: {aspect: magnitude}}\n"
+            "  fr: {variable: X}\n"
+            # `input_vars` est ce qui rend `Q` connu comme JOURNALIER :
+            # sans lui, aucun process ne paraît ranger du journalier.
+            "  global: {input_vars: Q, is_date: false, relative: true}\n"
+            'process:\n  P1:\n    time_step: year\n    max_na_years: 10\n'
+            f'{seuil}    func:\n      X: [nanmax, "Q"]\n'
+        )
+        return validate_card(p)
+
+    assert any("'max_na_pct' non écrit" in i for i in fiche(""))
+    assert not any("max_na_pct" in i for i in fiche("    max_na_pct: 3\n"))
+    # un seuil délibérément absent s'ÉCRIT : `QJ` range par jour
+    # calendaire, donc une case contient des années, pas des jours
+    assert not any("max_na_pct" in i for i in fiche("    max_na_pct: null\n"))

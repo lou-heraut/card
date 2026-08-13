@@ -52,6 +52,7 @@ meta:
 
   global:
     input_vars: "Q, ref_start, ref_end, horizon_start, horizon_end"
+    is_date: false
     relative: false
 
 process:

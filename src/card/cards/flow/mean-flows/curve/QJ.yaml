@@ -1,5 +1,5 @@
 id: QJ
-version: "1.1"
+version: "2.0"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-23"
 
@@ -46,6 +46,7 @@ meta:
 
   global:
     input_vars: "Q, period_start?, period_end?"
+    is_date: false
     relative: true
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
@@ -55,3 +56,5 @@ process:
     func:
       QJ: [over_period, "Q", {func: nanmean, dates: "date", period_start: "period_start", period_end: "period_end"}]
     time_step: yearday
+    max_na_pct: 3
+    max_na_years: 10
