@@ -174,6 +174,101 @@ def _check_meta_lists(meta_lang, prefix, issues):
             )
 
 
+# Ce que chaque unité du corpus autorise comme expression relative.
+# `relative` d'une fiche est un RACCOURCI : la variable annonce ce qu'elle
+# permet, pour que `stase`, une figure ou l'API n'aient pas à raisonner
+# sur l'unité. Cette table ne remplace pas le champ, elle le VÉRIFIE.
+#
+#   True  : la grandeur admet une expression relative. Zéro vrai, et
+#           valeur dépendant de la taille du bassin, donc seul le
+#           pourcentage permet de comparer le Rhône et un ruisseau.
+#   False : soit le zéro est conventionnel (une date part du 1er janvier,
+#           un °C du point de fusion), soit la grandeur est déjà
+#           comparable telle quelle (une lame d'eau en mm est divisée par
+#           la surface, une durée en jours ne dépend pas du bassin), soit
+#           elle est déjà sans dimension ou déjà relative.
+#           TOUT CE QUI SE MESURE EN TEMPS est ici : jour, date, durée,
+#           nombre d'années, période de retour.
+#   None  : la question ne se pose pas, ce n'est pas une grandeur mesurée
+#           (le verdict d'un test de Mann-Kendall, un test de robustesse).
+_UNITE_RELATIVE = {
+    "m^{3}.s^{-1}":           True,
+    "m^{3}.s^{-1}.year^{-1}": True,
+    "m^{3}.s^{-1}.mm^{-1}":   True,
+    "hm^{3}":                 True,
+    "%":                      True,   # un écart en % suppose une base
+                                      # extensive : c'est elle qu'on décrit
+    "mm":                     False,
+    "day":                    False,
+    "yearday":                False,
+    "year":                   False,
+    "°C":                     False,
+    "without unit":           False,
+    "bool":                   None,
+}
+
+
+def _check_relative(card, path, prefix, issues):
+    """`relative` est écrit, et il s'accorde avec l'unité.
+
+    Le champ est un raccourci à destination des consommateurs, donc il ne
+    vaut que si on peut lui faire confiance sans le vérifier. Deux règles
+    l'assurent.
+
+    **Il est ÉCRIT**, `true` compris, comme `time_step`. On omet un défaut
+    qui veut dire « rien de particulier » ; on écrit un défaut qui est un
+    CHOIX. Avant le 2026-08-13, `true` n'existait que comme défaut et
+    n'était écrit nulle part : « j'ai décidé que oui » et « personne n'a
+    rien écrit » étaient indiscernables, ce qui est le pire défaut
+    possible pour un champ dont tout l'intérêt est de porter une décision.
+    C'est ainsi que `RMAs_month` a annoncé douze variables relatives
+    pendant des années, seule de sa famille, faute d'une ligne oubliée
+    dans la fiche R d'origine.
+
+    **Il s'accorde avec l'unité**, qui détermine la propriété. Une fiche
+    qui s'en écarte est presque toujours une distraction ; si elle a une
+    vraie raison, c'est la table `_UNITE_RELATIVE` qu'il faut corriger, au
+    vu de la raison.
+    """
+    en = (card.get("meta") or {}).get("en") or {}
+    variable = en.get("variable")
+    variables = variable if isinstance(variable, list) else [variable]
+    n = len(variables)
+    gl = (card.get("meta") or {}).get("global") or {}
+    # La PRÉSENCE se lit dans le YAML brut : `load_card` fusionne les
+    # défauts, donc la fiche chargée porte toujours un `relative`, et le
+    # contrôle serait vide. Même raison que `_check_time_step_ecrit`.
+    brut = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+    brut_global = ((brut or {}).get("meta") or {}).get("global") or {}
+    if "relative" not in brut_global:
+        issues.append(
+            f"{prefix}.relative: non écrit. Ce champ s'écrit TOUJOURS, "
+            "`true` compris : c'est une décision sur ce que la variable "
+            "autorise, et son absence se lit comme un oubli."
+        )
+        return
+    valeurs = gl["relative"]
+    valeurs = valeurs if isinstance(valeurs, list) else [valeurs] * n
+    unites = en.get("unit")
+    unites = unites if isinstance(unites, list) else [unites] * n
+    for i, var in enumerate(variables):
+        if i >= len(valeurs) or i >= len(unites):
+            continue                      # longueur déjà signalée
+        unite = str(unites[i])
+        if unite not in _UNITE_RELATIVE:
+            issues.append(
+                f"{prefix}.unit de '{var}': unité '{unite}' hors de la "
+                f"table _UNITE_RELATIVE ; la classer avant de l'employer"
+            )
+            continue
+        attendu = _UNITE_RELATIVE[unite]
+        if valeurs[i] != attendu:
+            issues.append(
+                f"{prefix}.relative de '{var}': {valeurs[i]!r} pour une "
+                f"unité '{unite}' (attendu {attendu!r})"
+            )
+
+
 def _check_global_lists(card, prefix, issues):
     """Une liste de `meta.global` a autant de valeurs que de variables.
 
@@ -791,6 +886,7 @@ def validate_card(path) -> list[str]:
         _check_meta_lists(card["meta"][lang], f"meta.{lang}", issues)
     _check_global_lists(card, "meta.global", issues)
     _check_is_date(card, "meta.global", issues)
+    _check_relative(card, path, "meta.global", issues)
 
     var_en = card["meta"]["en"].get("variable")
     var_fr = card["meta"]["fr"].get("variable")

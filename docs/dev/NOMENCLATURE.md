@@ -272,6 +272,69 @@ lève toute ambiguïté.
   information, structure identique ; dates MM-DD en anglais, DD-MM en
   français ; sentence case partout.
 
+## 7 bis. `relative` : ce que la grandeur autorise
+
+Champ de `meta.global`, une valeur par variable produite. Il répond à une
+seule question : **cette grandeur admet-elle une expression relative**,
+c'est-à-dire un pourcentage.
+
+C'est une propriété de la GRANDEUR MESURÉE, pas de la variable publiée ni
+de la fonction qui la consomme. `delta-VCN10` s'affiche en pourcentage,
+et son `relative: true` ne parle pas de ce pourcentage : il parle de
+`VCN10`. Les variables dérivées héritent donc de leur base.
+
+Le champ est un **raccourci volontaire** : la variable annonce ce qu'elle
+permet, pour que `stase.trend`, une figure ou l'API n'aient pas à
+raisonner sur l'unité chacune de leur côté. Le kwarg `relative` de la
+fonction `delta` exprime la MÊME propriété, du côté du calcul plutôt que
+de la déclaration : mesuré le 2026-08-13, les deux s'accordaient déjà 77
+fois sur 82, et les 5 écarts étaient des erreurs.
+
+### Les trois valeurs
+
+| valeur | sens | exemples |
+|---|---|---|
+| `true` | la grandeur admet une expression relative | débits, volumes, écarts en % |
+| `false` | non | dates, durées, températures, indices sans dimension |
+| `null` | la question ne se pose pas, ce n'est pas une grandeur mesurée | verdict d'un test de Mann-Kendall, test de robustesse |
+
+**Il s'écrit toujours**, `true` compris, et le linter l'exige. Voir la
+règle des défauts dans le CLAUDE.md : tant que `true` n'était qu'un défaut
+jamais écrit, un choix ne se distinguait pas d'un oubli.
+
+### Ce qui décide
+
+Deux conditions, toutes deux nécessaires pour `true`.
+
+**Un zéro vrai.** Une échelle d'intervalle a un zéro conventionnel : le
+jour de l'année part du 1er janvier, le °C du point de fusion de l'eau.
+Un pourcentage y est mathématiquement vide.
+
+**Une dépendance à la taille du bassin.** Un débit ou un volume ne se
+comparent entre le Rhône et un ruisseau qu'en relatif. Une lame d'eau en
+mm est déjà divisée par la surface, une durée en jours ne dépend pas du
+bassin : leur valeur absolue est directement comparable, et le
+pourcentage n'apporte rien.
+
+En pratique, **tout ce qui se mesure en temps est `false`** : un jour,
+une date, une durée, un nombre d'années de dépassement, une période de
+retour. « Elle augmente d'un an tous les dix ans » se lit ; « elle
+augmente de 3 % par an » ne se lit pas.
+
+Et ce qui est déjà sans dimension est `false` : élasticités, critères de
+performance, indices, rapports. Pour une élasticité ou une pente il y a
+une raison de plus, qui n'est pas conventionnelle : elles peuvent être
+négatives ou passer par zéro, donc diviser par leur moyenne fait exploser
+le résultat.
+
+### Vérification
+
+L'unité détermine la propriété. La table `_UNITE_RELATIVE` de
+`src/card/schema.py` la porte, et le linter refuse une fiche qui s'en
+écarte comme une unité qu'elle ne classe pas. Cette table ne REMPLACE pas
+le champ, sans quoi le raccourci disparaîtrait et chaque consommateur
+devrait refaire le raisonnement : elle le vérifie.
+
 ## 8. Ancrages externes
 
 - **SANDRE / eaufrance** : pour les grandeurs normalisées françaises

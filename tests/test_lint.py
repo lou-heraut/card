@@ -202,3 +202,70 @@ def test_linter_catches_is_date_disagreeing_with_aspect(tmp_path):
     issues = validate_card(bad)
     assert any("is_date de 'dX'" in i for i in issues), issues
     assert not any("is_date de 'tX'" in i for i in issues), issues
+
+
+def test_linter_requires_relative_to_be_written(tmp_path):
+    """`relative` s'écrit toujours, `true` compris, comme `time_step`.
+
+    Avant le 2026-08-13, `true` n'existait que comme défaut et n'était
+    écrit dans aucune fiche : « j'ai décidé que oui » et « personne n'a
+    rien écrit » étaient indiscernables. Pour un champ dont tout le rôle
+    est de porter une décision à destination des consommateurs, c'est le
+    pire défaut possible, et il a laissé `RMAs_month` annoncer douze
+    variables relatives, seule de sa famille.
+    """
+    bad = tmp_path / "X.yaml"
+    bad.write_text(
+        'id: X\nversion: "1.0"\nmeta:\n'
+        '  en: {variable: X, unit: "m^{3}.s^{-1}"}\n'
+        "  fr: {variable: X}\n  global: {}\n"
+        'process:\n  P1:\n    time_step: year\n    func:\n'
+        '      X: [nanmean, "Q"]\n'
+    )
+    issues = validate_card(bad)
+    assert any("relative: non écrit" in i for i in issues), issues
+
+
+def test_linter_catches_relative_disagreeing_with_the_unit(tmp_path):
+    """L'unité détermine la propriété : elle sert de vérificateur.
+
+    Le champ reste dans la fiche, c'est un raccourci volontaire pour que
+    stase, une figure ou l'API n'aient pas à raisonner sur l'unité. Mais
+    un raccourci ne vaut que si on peut lui faire confiance sans le
+    vérifier, d'où cette garde. Un débit admet une expression relative,
+    une durée non : on ne sait pas lire « 10 % de jours ».
+    """
+    def fiche(unit, relative):
+        p = tmp_path / "X.yaml"
+        p.write_text(
+            f'id: X\nversion: "1.0"\nmeta:\n'
+            f'  en: {{variable: X, unit: "{unit}"}}\n'
+            f"  fr: {{variable: X}}\n  global: {{relative: {relative}}}\n"
+            'process:\n  P1:\n    time_step: year\n    func:\n'
+            '      X: [nanmean, "Q"]\n'
+        )
+        return validate_card(p)
+
+    assert any("attendu False" in i for i in fiche("day", "true"))
+    assert any("attendu True" in i for i in fiche("m^{3}.s^{-1}", "false"))
+    # le verdict d'un test n'est pas une grandeur mesurée : sans objet
+    assert any("attendu None" in i for i in fiche("bool", "false"))
+    # et ce qui s'accorde ne dit rien
+    for unit, val in (("day", "false"), ("m^{3}.s^{-1}", "true"),
+                      ("bool", "null"), ("yearday", "false"), ("%", "true")):
+        assert not any("relative de" in i for i in fiche(unit, val)), (unit, val)
+
+
+def test_linter_refuses_an_unclassified_unit(tmp_path):
+    """Une unité inconnue de la table force une décision au lieu de
+    passer en silence : c'est la seule façon que la garde reste vraie
+    quand le corpus s'étend."""
+    bad = tmp_path / "X.yaml"
+    bad.write_text(
+        'id: X\nversion: "1.0"\nmeta:\n'
+        '  en: {variable: X, unit: "furlong par quinzaine"}\n'
+        "  fr: {variable: X}\n  global: {relative: true}\n"
+        'process:\n  P1:\n    time_step: year\n    func:\n'
+        '      X: [nanmean, "Q"]\n'
+    )
+    assert any("hors de la table" in i for i in validate_card(bad))

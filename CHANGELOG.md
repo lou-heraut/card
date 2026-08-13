@@ -63,7 +63,61 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.9.0.
+### Modifié
+
+- **`relative` s'écrit toujours, et gagne un troisième état (2026-08-13).**
+  Le champ répond à une question de physique : cette grandeur admet-elle
+  une expression relative. C'est une propriété de la GRANDEUR MESURÉE, et
+  un raccourci volontaire, pour que `stase`, une figure ou l'API n'aient
+  pas à raisonner sur l'unité chacune de leur côté. Sa définition
+  complète, qui n'existait nulle part, est désormais en section 7 bis de
+  `NOMENCLATURE.md`.
+
+  Un raccourci ne vaut que si on peut lui faire confiance sans le
+  vérifier, et deux choses l'en empêchaient.
+
+  **`true` n'était écrit dans aucune fiche du corpus**, il n'existait que
+  comme défaut : « j'ai décidé que oui » et « personne n'a rien écrit »
+  étaient indiscernables. Il s'écrit maintenant toujours, comme
+  `time_step`, et le linter l'exige. Ce silence coûtait déjà : la fiche R
+  d'origine de `RMAs_month` avait perdu sa ligne, si bien que douze
+  variables s'annonçaient relatives, seules de leur famille, quand `RAs`
+  et `RSAs` disaient l'inverse explicitement.
+
+  **`null` est ajouté** pour ce qui n'est pas une grandeur mesurée : le
+  verdict d'un test de Mann-Kendall, un test de robustesse. Six variables.
+  Un consommateur qui calcule le traite comme `false`, un consommateur qui
+  affiche peut dire « sans objet » au lieu de « non ».
+
+### Corrigé
+
+- **49 valeurs de `relative` (2026-08-13), sur 32 fiches en version
+  majeure.** L'unité détermine la propriété, ce qui a permis de mesurer
+  les écarts au lieu de les deviner ; chaque bloc a ensuite été tranché
+  sur son mérite, et confronté aux fiches R d'origine quand elles
+  existaient.
+
+  - `QNA`, ses deux saisons et leurs `delta-`, plus `BF-LH` : des débits,
+    donc `true`, alors qu'ils disaient `false` là où `VCN3`, `VCN10` et
+    `VCN30`, la même variable à d'autres durées, disaient `true` ;
+  - `dtBF`, `dtFlood` et leurs dérivés : des durées, donc `false`. On ne
+    lit pas « 10 % de jours » ;
+  - les douze `RMAs` mensuelles : la ligne oubliée décrite plus haut ;
+  - élasticités, `FDC_p`, `a-FDC`, `STD_ratio` : déjà sans dimension. Pour
+    une élasticité et une pente il y a une raison de plus, non
+    conventionnelle : elles peuvent passer par zéro, donc diviser par leur
+    moyenne fait exploser le résultat ;
+  - `rp-*` et les comptes `n-*` : tout ce qui se mesure en temps est
+    `false`, période de retour et nombre d'années de dépassement compris ;
+  - les six booléens passent à `null`.
+
+### Ajouté
+
+- **Trois règles de linter sur `relative` (2026-08-13)** : il est écrit,
+  il s'accorde avec l'unité, et une unité non classée est refusée pour
+  que la garde reste vraie quand le corpus s'étend. La table
+  `_UNITE_RELATIVE` de `schema.py` ne REMPLACE pas le champ, sans quoi le
+  raccourci disparaîtrait : elle le vérifie.
 
 ## 0.9.0 (2026-08-13)
 

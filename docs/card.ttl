@@ -8287,9 +8287,9 @@
         "taux de variation"@fr ;
     skos:topConceptOf <https://example.invalid/card/scheme/aspect> .
 
-<https://example.invalid/card/card/BF-LH> dcterms:identifier "swh:1:cnt:945d9477cf7c02be974bcfbb9c3f1e5144c1f447" ;
+<https://example.invalid/card/card/BF-LH> dcterms:identifier "swh:1:cnt:cba26e75080b2f2ac8e0dd848c2d520d2f23f639" ;
     dcterms:title "BF-LH" ;
-    owl:versionInfo "1.1" ;
+    owl:versionInfo "2.0" ;
     card:method "1. no temporal aggregation - extraction of the base flow (Lyne and Hollick)"@en,
         "1. aucune agrégation temporelle - extraction du débit de base (Lyne et Hollick)"@fr ;
     card:path "flow/baseflow/scalar/BF-LH.yaml" .
@@ -8390,105 +8390,105 @@
         "1. aucune agrégation temporelle - racine carrée des données simulées et de référence puis NSE"@fr ;
     card:path "flow/model-performance/scalar/NSEsqrt.yaml" .
 
-<https://example.invalid/card/card/Q01A> dcterms:identifier "swh:1:cnt:40ee660ca9b57943ccd8ec876c4a3be255576c70" ;
+<https://example.invalid/card/card/Q01A> dcterms:identifier "swh:1:cnt:3cb98fcaface9722ef081547c2cf949dd23793b5" ;
     dcterms:title "Q01A" ;
     owl:versionInfo "1.0" ;
     card:method "1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 1 %"@en,
         "1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité de dépassement de 1 %"@fr ;
     card:path "flow/high-flows/series/Q01A.yaml" .
 
-<https://example.invalid/card/card/Q05A> dcterms:identifier "swh:1:cnt:26e48ed400366385fcbf339466ee213d0bbd9763" ;
+<https://example.invalid/card/card/Q05A> dcterms:identifier "swh:1:cnt:d5bf8014c2f9ab2622dbaaf366cfccb59f2d8c77" ;
     dcterms:title "Q05A" ;
     owl:versionInfo "1.0" ;
     card:method "1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 5 %"@en,
         "1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité de dépassement de 5 %"@fr ;
     card:path "flow/high-flows/series/Q05A.yaml" .
 
-<https://example.invalid/card/card/Q10> dcterms:identifier "swh:1:cnt:22b7e7250b60a6a9722fca7f69aea22bf440632b" ;
+<https://example.invalid/card/card/Q10> dcterms:identifier "swh:1:cnt:f89db2cbab9d5bfbe23f69a63162e0a492c2cd68" ;
     dcterms:title "Q10" ;
     owl:versionInfo "1.0" ;
     card:method "1. no temporal aggregation - quantile at the exceedance probability of 10 %"@en,
         "1. aucune agrégation temporelle - quantile à la probabilité de dépassement de 10 %"@fr ;
     card:path "flow/high-flows/scalar/Q10.yaml" .
 
-<https://example.invalid/card/card/Q10A> dcterms:identifier "swh:1:cnt:c97fb54609f496062e9d05de394b480a027f4bf0" ;
+<https://example.invalid/card/card/Q10A> dcterms:identifier "swh:1:cnt:1c6bb80879bb90bbdcbedeae2b2b1bcb46c316cc" ;
     dcterms:title "Q10A" ;
     owl:versionInfo "1.0" ;
     card:method "1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 10 %"@en,
         "1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité de dépassement de 10 %"@fr ;
     card:path "flow/high-flows/series/Q10A.yaml" .
 
-<https://example.invalid/card/card/Q25A> dcterms:identifier "swh:1:cnt:47ee067f3b2e4d71555eddb2df407503722dd2f2" ;
+<https://example.invalid/card/card/Q25A> dcterms:identifier "swh:1:cnt:62b32b4533206701aebb0b51f1e7c64fa1bb2425" ;
     dcterms:title "Q25A" ;
     owl:versionInfo "1.0" ;
     card:method "1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 25 %"@en,
         "1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité de dépassement de 25 %"@fr ;
     card:path "flow/mean-flows/series/Q25A.yaml" .
 
-<https://example.invalid/card/card/Q50> dcterms:identifier "swh:1:cnt:cefcc91b1a5ab3a4ed407c7bd6f44529971754c6" ;
+<https://example.invalid/card/card/Q50> dcterms:identifier "swh:1:cnt:45bcd91a43a9b44bc406b638f43fa0f52255393c" ;
     dcterms:title "Q50" ;
     owl:versionInfo "1.0" ;
     card:method "1. no temporal aggregation - quantile at the exceedance probability of 50 %"@en,
         "1. aucune agrégation temporelle - quantile à la probabilité de dépassement de 50 %"@fr ;
     card:path "flow/mean-flows/scalar/Q50.yaml" .
 
-<https://example.invalid/card/card/Q50A> dcterms:identifier "swh:1:cnt:a1e1115c40d1e80e0d07c7bb512de45d00a24523" ;
+<https://example.invalid/card/card/Q50A> dcterms:identifier "swh:1:cnt:7fbe87f26415cf4ccfb717756c10ab5e9c45c891" ;
     dcterms:title "Q50A" ;
     owl:versionInfo "1.0" ;
     card:method "1. annual aggregation [01-01, 12-31] - median"@en,
         "1. agrégation annuelle [01-01, 31-12] - médiane"@fr ;
     card:path "flow/mean-flows/series/Q50A.yaml" .
 
-<https://example.invalid/card/card/Q75A> dcterms:identifier "swh:1:cnt:0874cbc354fdcf3ddcf6dd91f9883101f8cf58f8" ;
+<https://example.invalid/card/card/Q75A> dcterms:identifier "swh:1:cnt:688ca79ffca6e3eb3876f414cda941117d86c21d" ;
     dcterms:title "Q75A" ;
     owl:versionInfo "1.0" ;
     card:method "1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 75 %"@en,
         "1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité de dépassement de 75 %"@fr ;
     card:path "flow/mean-flows/series/Q75A.yaml" .
 
-<https://example.invalid/card/card/Q90> dcterms:identifier "swh:1:cnt:85dbfc77e18998b93044131dad9332db051f95bb" ;
+<https://example.invalid/card/card/Q90> dcterms:identifier "swh:1:cnt:0debb2a8a3cf67b5899e8739fcb8608390a8e664" ;
     dcterms:title "Q90" ;
     owl:versionInfo "1.0" ;
     card:method "1. no temporal aggregation - quantile at the exceedance probability of 90 %"@en,
         "1. aucune agrégation temporelle - quantile à la probabilité de dépassement de 90 %"@fr ;
     card:path "flow/low-flows/scalar/Q90.yaml" .
 
-<https://example.invalid/card/card/Q90A> dcterms:identifier "swh:1:cnt:efe6c93fac43d004d75e782c6f6c6ba2fe512c75" ;
+<https://example.invalid/card/card/Q90A> dcterms:identifier "swh:1:cnt:0b4c3b6164d12ef8350d1838513b166faec73333" ;
     dcterms:title "Q90A" ;
     owl:versionInfo "1.1" ;
     card:method "1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 90 %"@en,
         "1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité de dépassement de 90 %"@fr ;
     card:path "flow/low-flows/series/Q90A.yaml" .
 
-<https://example.invalid/card/card/Q95A> dcterms:identifier "swh:1:cnt:d6924b453229e6af12fb90ba2a0208df097bbd69" ;
+<https://example.invalid/card/card/Q95A> dcterms:identifier "swh:1:cnt:1e06b5598e0115b2e20270a50bb821d18a0ea57f" ;
     dcterms:title "Q95A" ;
     owl:versionInfo "1.1" ;
     card:method "1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 95 %"@en,
         "1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité de dépassement de 95 %"@fr ;
     card:path "flow/low-flows/series/Q95A.yaml" .
 
-<https://example.invalid/card/card/Q99A> dcterms:identifier "swh:1:cnt:6ba6d5bdeacdd7ff601e7304fe886fd743d0d015" ;
+<https://example.invalid/card/card/Q99A> dcterms:identifier "swh:1:cnt:e78d184a960c1a834f14514279a35a3d30b78c72" ;
     dcterms:title "Q99A" ;
     owl:versionInfo "1.1" ;
     card:method "1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 99 %"@en,
         "1. agrégation annuelle [01-01, 31-12] - quantile à la probabilité de dépassement de 99 %"@fr ;
     card:path "flow/low-flows/series/Q99A.yaml" .
 
-<https://example.invalid/card/card/QA> dcterms:identifier "swh:1:cnt:d02628a3787b60f47e928c60d6de2f9cb961f2dc" ;
+<https://example.invalid/card/card/QA> dcterms:identifier "swh:1:cnt:a4204aa3b9624efaba89efd3579264f159050fc7" ;
     dcterms:title "QA" ;
     owl:versionInfo "1.0" ;
     card:method "1. annual aggregation [09-01, 08-31] - mean"@en,
         "1. agrégation annuelle [01-09, 31-08] - moyenne"@fr ;
     card:path "flow/mean-flows/series/QA.yaml" .
 
-<https://example.invalid/card/card/QJ> dcterms:identifier "swh:1:cnt:ee97080a9ad9525a0a7fbff20e2686bcb3e5fcfd" ;
+<https://example.invalid/card/card/QJ> dcterms:identifier "swh:1:cnt:32a59e306fee6610cb3f25e53423a042a9259674" ;
     dcterms:title "QJ" ;
     owl:versionInfo "1.1" ;
     card:method "1. aggregation by day of the year over the whole record - mean"@en,
         "1. agrégation par jour de l'année sur la chronique entière - moyenne"@fr ;
     card:path "flow/mean-flows/curve/QJ.yaml" .
 
-<https://example.invalid/card/card/QJC10> dcterms:identifier "swh:1:cnt:636632430c1508ff3688a3da857412e2a0324ba2" ;
+<https://example.invalid/card/card/QJC10> dcterms:identifier "swh:1:cnt:4db03e6bcc7d798fd28bfc96d4edb50ba4f1bcd6" ;
     dcterms:title "QJC10" ;
     owl:versionInfo "2.1" ;
     card:method """1. aggregation by day of the year over the whole record - mean
@@ -8497,14 +8497,14 @@
 2. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours"""@fr ;
     card:path "flow/mean-flows/curve/QJC10.yaml" .
 
-<https://example.invalid/card/card/QJD> dcterms:identifier "swh:1:cnt:4846e77c5394c45a8f05f28bdc80559098a88b4c" ;
+<https://example.invalid/card/card/QJD> dcterms:identifier "swh:1:cnt:6056d932b0693dbf5488b216cb2f5ffef7730ecb" ;
     dcterms:title "QJD" ;
     owl:versionInfo "2.1" ;
     card:method "1. aggregation by day of the year over the whole record - median"@en,
         "1. agrégation par jour de l'année sur la chronique entière - médiane"@fr ;
     card:path "flow/mean-flows/curve/QJD.yaml" .
 
-<https://example.invalid/card/card/QJDC10> dcterms:identifier "swh:1:cnt:d141d4f45f89cabefbd83fb324452752ef512629" ;
+<https://example.invalid/card/card/QJDC10> dcterms:identifier "swh:1:cnt:a379aed5b243856297cfa26e5b410f6dee596f33" ;
     dcterms:title "QJDC10" ;
     owl:versionInfo "4.0" ;
     card:method """1. aggregation by day of the year over the whole record - median
@@ -8513,14 +8513,14 @@
 2. aucune agrégation temporelle - moyenne mobile centrée sur 10 jours"""@fr ;
     card:path "flow/mean-flows/curve/QJDC10.yaml" .
 
-<https://example.invalid/card/card/QJXA> dcterms:identifier "swh:1:cnt:f23e33a52e27ad7672b9d5e4431de9688b98d232" ;
+<https://example.invalid/card/card/QJXA> dcterms:identifier "swh:1:cnt:a00ebad760be9bfcfb3a114b269c8d8efef27fad" ;
     dcterms:title "QJXA" ;
     owl:versionInfo "1.1" ;
     card:method "1. annual aggregation [month of minimum monthly flows] - maximum"@en,
         "1. agrégation annuelle [mois du minimum des débits mensuels] - maximum"@fr ;
     card:path "flow/high-flows/series/QJXA.yaml" .
 
-<https://example.invalid/card/card/QJXA-10> dcterms:identifier "swh:1:cnt:4d2ca04effbef557dbae091fed0b964ac3a8a195" ;
+<https://example.invalid/card/card/QJXA-10> dcterms:identifier "swh:1:cnt:99a34025a3e61b51b68ec739f45f9f69e71f47e2" ;
     dcterms:title "QJXA-10" ;
     owl:versionInfo "1.3" ;
     card:method """1. annual aggregation [month of minimum monthly flows] - maximum
@@ -8529,14 +8529,14 @@
 2. aucune agrégation temporelle - calcul du débit de période de retour 10 ans avec la loi de Gumbel"""@fr ;
     card:path "flow/high-flows/scalar/QJXA-10.yaml" .
 
-<https://example.invalid/card/card/QM> dcterms:identifier "swh:1:cnt:2f712d64dc8c6f584d6991027a611ca4dce57a2e" ;
+<https://example.invalid/card/card/QM> dcterms:identifier "swh:1:cnt:5c14b430d45c0612abd6f0456735f52373c4623b" ;
     dcterms:title "QM" ;
     owl:versionInfo "1.4" ;
     card:method "1. monthly aggregation over the whole record - mean"@en,
         "1. agrégation mensuelle sur la chronique entière - moyenne"@fr ;
     card:path "flow/mean-flows/curve/QM.yaml" .
 
-<https://example.invalid/card/card/QMNA> dcterms:identifier "swh:1:cnt:246e06001b44ac87b0f6b66dfd896fcc205d6459" ;
+<https://example.invalid/card/card/QMNA> dcterms:identifier "swh:1:cnt:13dec1c254f923ee450e48f2d0238d8837315300" ;
     dcterms:title "QMNA" ;
     owl:versionInfo "1.2" ;
     card:method """1. monthly aggregation for each year - mean
@@ -8545,7 +8545,7 @@
 2. agrégation annuelle [mois du maximum des débits mensuels] - minimum"""@fr ;
     card:path "flow/low-flows/series/QMNA.yaml" .
 
-<https://example.invalid/card/card/QMNA-5> dcterms:identifier "swh:1:cnt:49d61154d8a5cf6772664ca88d655e1d538353fe" ;
+<https://example.invalid/card/card/QMNA-5> dcterms:identifier "swh:1:cnt:7c4e61e95331da1681608b7b48d6650884432e04" ;
     dcterms:title "QMNA-5" ;
     owl:versionInfo "1.3" ;
     card:method """1. monthly aggregation for each year - mean
@@ -8556,7 +8556,7 @@
 3. aucune agrégation temporelle - calcul du débit de période de retour 5 ans avec la loi log-normale"""@fr ;
     card:path "flow/low-flows/scalar/QMNA-5.yaml" .
 
-<https://example.invalid/card/card/QMNA_summer> dcterms:identifier "swh:1:cnt:283c4b2f2c5fe62ae258bcffca4238da7474b17d" ;
+<https://example.invalid/card/card/QMNA_summer> dcterms:identifier "swh:1:cnt:650d3fd66ed3ce9d32b31b232d619e9f6472dbc4" ;
     dcterms:title "QMNA_summer" ;
     owl:versionInfo "1.1" ;
     card:method """1. monthly aggregation for each year - mean
@@ -8565,7 +8565,7 @@
 2. agrégation annuelle [01-05, 30-11] - minimum"""@fr ;
     card:path "flow/low-flows/series/QMNA_summer.yaml" .
 
-<https://example.invalid/card/card/QMNA_winter> dcterms:identifier "swh:1:cnt:ffd8fc5ee6ee9eccfd717ec57bf26967b3c64e6a" ;
+<https://example.invalid/card/card/QMNA_winter> dcterms:identifier "swh:1:cnt:c5a47971ee1e815b1371ed27d4aea52332b92ca6" ;
     dcterms:title "QMNA_winter" ;
     owl:versionInfo "1.1" ;
     card:method """1. monthly aggregation for each year - mean
@@ -8574,35 +8574,35 @@
 2. agrégation annuelle [01-11, 30-04] - minimum"""@fr ;
     card:path "flow/low-flows/series/QMNA_winter.yaml" .
 
-<https://example.invalid/card/card/QNA> dcterms:identifier "swh:1:cnt:869888f833253931533bdc15037e55095c7b4e0b" ;
+<https://example.invalid/card/card/QNA> dcterms:identifier "swh:1:cnt:2aab3ea58adaf9f27cde007878812d85511e9bd4" ;
     dcterms:title "QNA" ;
-    owl:versionInfo "1.1" ;
+    owl:versionInfo "2.0" ;
     card:method "1. annual aggregation [month of maximum monthly flows] - minimum"@en,
         "1. agrégation annuelle [mois du maximum des débits mensuels] - minimum"@fr ;
     card:path "flow/low-flows/series/QNA.yaml" .
 
-<https://example.invalid/card/card/QNA_summer> dcterms:identifier "swh:1:cnt:390812a8405cb41c102f3edd1d24d7c4e3b4c8d4" ;
+<https://example.invalid/card/card/QNA_summer> dcterms:identifier "swh:1:cnt:aae128d03e778736530f33b18d5cb581aa8d57ed" ;
     dcterms:title "QNA_summer" ;
-    owl:versionInfo "1.0" ;
+    owl:versionInfo "2.0" ;
     card:method "1. annual aggregation [05-01, 11-30] - minimum"@en,
         "1. agrégation annuelle [01-05, 30-11] - minimum"@fr ;
     card:path "flow/low-flows/series/QNA_summer.yaml" .
 
-<https://example.invalid/card/card/QNA_winter> dcterms:identifier "swh:1:cnt:4b7ba8f5f8fdc60d46a442442759a2fb800edb39" ;
+<https://example.invalid/card/card/QNA_winter> dcterms:identifier "swh:1:cnt:87a3fd020a57e9d125c9d0656c1104b61eb1bdef" ;
     dcterms:title "QNA_winter" ;
-    owl:versionInfo "1.0" ;
+    owl:versionInfo "2.0" ;
     card:method "1. annual aggregation [11-01, 04-30] - minimum"@en,
         "1. agrégation annuelle [01-11, 30-04] - minimum"@fr ;
     card:path "flow/low-flows/series/QNA_winter.yaml" .
 
-<https://example.invalid/card/card/QR_ratio> dcterms:identifier "swh:1:cnt:0751e3a72c31bde6e6df9a650e9331918a1dc028" ;
+<https://example.invalid/card/card/QR_ratio> dcterms:identifier "swh:1:cnt:b8bd984eed2dc35eea9f167ecfa52d1889e01d0d" ;
     dcterms:title "QR_ratio" ;
     owl:versionInfo "2.0" ;
     card:method "1. no temporal aggregation - sum of flows divided by sum of precipitation"@en,
         "1. aucune agrégation temporelle - somme des débits divisée par la somme des précipitations"@fr ;
     card:path "flow/climate-sensitivity/scalar/QR_ratio.yaml" .
 
-<https://example.invalid/card/card/QSA_JJASO> dcterms:identifier "swh:1:cnt:b3edbb1c037a09941fc7999a1f92d116cbc9c576" ;
+<https://example.invalid/card/card/QSA_JJASO> dcterms:identifier "swh:1:cnt:9f2a0b12bc412e9c5620b3da1fdb6f7549cd79aa" ;
     dcterms:title "QSA_JJASO" ;
     owl:versionInfo "1.0" ;
     card:method "1. annual aggregation [06-01, 10-31] - mean"@en,
@@ -8616,27 +8616,27 @@
         "1. agrégation annuelle [01-09, 31-08] - somme"@fr ;
     card:path "precipitation/mean-precipitation/series/RA.yaml" .
 
-<https://example.invalid/card/card/RAT_ET0> dcterms:identifier "swh:1:cnt:dafad7bfaf3ddf58715d29509a652215c558b7fb" ;
+<https://example.invalid/card/card/RAT_ET0> dcterms:identifier "swh:1:cnt:94b281ae65bc2cbcd5e7130164286f154b70fd6c" ;
     dcterms:title "RAT_ET0" ;
-    owl:versionInfo "1.2" ;
+    owl:versionInfo "2.0" ;
     card:method """1. annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow ; mean reference evapotranspiration
 2. no temporal aggregation - RAT with a 5 % significance level"""@en,
         """1. agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés ; évapotranspiration de référence moyenne
 2. aucune agrégation temporelle - RAT avec un seuil de significativité de 5 %"""@fr ;
     card:path "flow/climate-sensitivity/scalar/RAT_ET0.yaml" .
 
-<https://example.invalid/card/card/RAT_R> dcterms:identifier "swh:1:cnt:f5860dfcf28d9ce084493902f80943a21a8761ae" ;
+<https://example.invalid/card/card/RAT_R> dcterms:identifier "swh:1:cnt:5c6dae6e67c39d26645da6f86114c1cd6dcda1b9" ;
     dcterms:title "RAT_R" ;
-    owl:versionInfo "1.2" ;
+    owl:versionInfo "2.0" ;
     card:method """1. annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow ; mean precipitation
 2. no temporal aggregation - RAT with a 5 % significance level"""@en,
         """1. agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés ; précipitations moyennes
 2. aucune agrégation temporelle - RAT avec un seuil de significativité de 5 %"""@fr ;
     card:path "flow/climate-sensitivity/scalar/RAT_R.yaml" .
 
-<https://example.invalid/card/card/RAT_T> dcterms:identifier "swh:1:cnt:49cfab187467cc74a8fdadcf13bbb36b774f4f27" ;
+<https://example.invalid/card/card/RAT_T> dcterms:identifier "swh:1:cnt:0d98696fe4df64d419330494ccf34c1c337aebf3" ;
     dcterms:title "RAT_T" ;
-    owl:versionInfo "1.2" ;
+    owl:versionInfo "2.0" ;
     card:method """1. annual aggregation [09-01, 08-31] - relative bias of simulated vs observed flow ; mean air temperature
 2. no temporal aggregation - RAT with a 5 % significance level"""@en,
         """1. agrégation annuelle [01-09, 31-08] - biais relatif entre débits simulés et observés ; température moyenne de l'air
@@ -8691,9 +8691,9 @@
 2. agrégation annuelle [mois du minimum des précipitations mensuelles] - maximum"""@fr ;
     card:path "precipitation/heavy-rain/series/RCXA5.yaml" .
 
-<https://example.invalid/card/card/STD_ratio> dcterms:identifier "swh:1:cnt:661b606bd7efc2104baa34405db2e61e91e67d2f" ;
+<https://example.invalid/card/card/STD_ratio> dcterms:identifier "swh:1:cnt:16653fb748fe695ba096057c8b2561fa79f58732" ;
     dcterms:title "STD_ratio" ;
-    owl:versionInfo "2.0" ;
+    owl:versionInfo "3.0" ;
     card:method "1. no temporal aggregation - ratio of standard deviations sd(sim)/sd(obs)"@en,
         "1. aucune agrégation temporelle - rapport des écarts-types sd(sim)/sd(obs)"@fr ;
     card:path "flow/model-performance/scalar/STD_ratio.yaml" .
@@ -8705,7 +8705,7 @@
         "1. agrégation annuelle [01-09, 31-08] - moyenne"@fr ;
     card:path "temperature/mean-temperatures/series/TA.yaml" .
 
-<https://example.invalid/card/card/VCN10> dcterms:identifier "swh:1:cnt:10d4cb159d797edcfb4a42c74be0248845e3fb82" ;
+<https://example.invalid/card/card/VCN10> dcterms:identifier "swh:1:cnt:bb6d75d659e1d3ae16289290044413dd8a1f49ac" ;
     dcterms:title "VCN10" ;
     owl:versionInfo "1.1" ;
     card:method """1. no temporal aggregation - 10-day centered moving average
@@ -8714,7 +8714,7 @@
 2. agrégation annuelle [mois du maximum des débits mensuels] - minimum"""@fr ;
     card:path "flow/low-flows/series/VCN10.yaml" .
 
-<https://example.invalid/card/card/VCN10-5> dcterms:identifier "swh:1:cnt:8bf286d212b5afcc7b197e2850de74822150ee9d" ;
+<https://example.invalid/card/card/VCN10-5> dcterms:identifier "swh:1:cnt:29a9a993a00b9e65ca31ba6753278f40ac7fd989" ;
     dcterms:title "VCN10-5" ;
     owl:versionInfo "1.2" ;
     card:method """1. no temporal aggregation - 10-day centered moving average
@@ -8725,7 +8725,7 @@
 3. aucune agrégation temporelle - calcul du débit de période de retour 5 ans avec la loi log-normale"""@fr ;
     card:path "flow/low-flows/scalar/VCN10-5.yaml" .
 
-<https://example.invalid/card/card/VCN10_summer> dcterms:identifier "swh:1:cnt:4d96f8c3f5225b933c27feaa170714951baa1d92" ;
+<https://example.invalid/card/card/VCN10_summer> dcterms:identifier "swh:1:cnt:f560d98cd297c2cde42cf452f60b38b1bcf49ead" ;
     dcterms:title "VCN10_summer" ;
     owl:versionInfo "1.0" ;
     card:method """1. no temporal aggregation - 10-day centered moving average
@@ -8734,7 +8734,7 @@
 2. agrégation annuelle [01-05, 30-11] - minimum"""@fr ;
     card:path "flow/low-flows/series/VCN10_summer.yaml" .
 
-<https://example.invalid/card/card/VCN10_winter> dcterms:identifier "swh:1:cnt:5c8e6d257b3efd10889cfbaf73c94a90d945de0c" ;
+<https://example.invalid/card/card/VCN10_winter> dcterms:identifier "swh:1:cnt:978d2c99499b6be2bcb85b81b3751ff709d48a86" ;
     dcterms:title "VCN10_winter" ;
     owl:versionInfo "1.0" ;
     card:method """1. no temporal aggregation - 10-day centered moving average
@@ -8743,7 +8743,7 @@
 2. agrégation annuelle [01-11, 30-04] - minimum"""@fr ;
     card:path "flow/low-flows/series/VCN10_winter.yaml" .
 
-<https://example.invalid/card/card/VCN3> dcterms:identifier "swh:1:cnt:f245972559e6bd2bee194a5018fadc09ed6e000d" ;
+<https://example.invalid/card/card/VCN3> dcterms:identifier "swh:1:cnt:2294131ee2211d75bdad023e3261b2a6ffa61301" ;
     dcterms:title "VCN3" ;
     owl:versionInfo "1.1" ;
     card:method """1. no temporal aggregation - 3-day centered moving average
@@ -8752,7 +8752,7 @@
 2. agrégation annuelle [mois du maximum des débits mensuels] - minimum"""@fr ;
     card:path "flow/low-flows/series/VCN3.yaml" .
 
-<https://example.invalid/card/card/VCN30> dcterms:identifier "swh:1:cnt:0b7b9983b539a5440ae9f444327887aa359f31e6" ;
+<https://example.invalid/card/card/VCN30> dcterms:identifier "swh:1:cnt:3bf503b12f2e2a674ec01e481d5878aba24916aa" ;
     dcterms:title "VCN30" ;
     owl:versionInfo "1.1" ;
     card:method """1. no temporal aggregation - 30-day centered moving average
@@ -8761,7 +8761,7 @@
 2. agrégation annuelle [mois du maximum des débits mensuels] - minimum"""@fr ;
     card:path "flow/low-flows/series/VCN30.yaml" .
 
-<https://example.invalid/card/card/VCN30-2> dcterms:identifier "swh:1:cnt:0b348c253896f0d3fc778e4c284a3c05e129322b" ;
+<https://example.invalid/card/card/VCN30-2> dcterms:identifier "swh:1:cnt:7f409c0c2489ce5656e90b004a583d1f931121b6" ;
     dcterms:title "VCN30-2" ;
     owl:versionInfo "1.1" ;
     card:method """1. no temporal aggregation - 30-day centered moving average
@@ -8772,7 +8772,7 @@
 3. aucune agrégation temporelle - calcul du débit de période de retour 2 ans avec la loi log-normal"""@fr ;
     card:path "flow/low-flows/scalar/VCN30-2.yaml" .
 
-<https://example.invalid/card/card/VCN30_summer> dcterms:identifier "swh:1:cnt:8072305eb798ad44b39e0363a97475327f48c3d9" ;
+<https://example.invalid/card/card/VCN30_summer> dcterms:identifier "swh:1:cnt:65f6fcfeebf26c956014c2739fd5d7dd772a2cf7" ;
     dcterms:title "VCN30_summer" ;
     owl:versionInfo "1.0" ;
     card:method """1. no temporal aggregation - 30-day centered moving average
@@ -8781,7 +8781,7 @@
 2. agrégation annuelle [01-05, 30-11] - minimum"""@fr ;
     card:path "flow/low-flows/series/VCN30_summer.yaml" .
 
-<https://example.invalid/card/card/VCN30_winter> dcterms:identifier "swh:1:cnt:d0ab5e4e3bfe9936129adbdf300f4e3efbfbd46e" ;
+<https://example.invalid/card/card/VCN30_winter> dcterms:identifier "swh:1:cnt:4a3ac7ec118fa446e9c303af65ecc1d363300f2c" ;
     dcterms:title "VCN30_winter" ;
     owl:versionInfo "1.0" ;
     card:method """1. no temporal aggregation - 30-day centered moving average
@@ -8790,7 +8790,7 @@
 2. agrégation annuelle [01-11, 30-04] - minimum"""@fr ;
     card:path "flow/low-flows/series/VCN30_winter.yaml" .
 
-<https://example.invalid/card/card/VCN3_summer> dcterms:identifier "swh:1:cnt:1262bdbe63f4752eeaaa12f39f111e6688a690f5" ;
+<https://example.invalid/card/card/VCN3_summer> dcterms:identifier "swh:1:cnt:7e314a600ec5ff6b5ac5479e34f58cc51bfb9981" ;
     dcterms:title "VCN3_summer" ;
     owl:versionInfo "1.0" ;
     card:method """1. no temporal aggregation - 3-day centered moving average
@@ -8799,7 +8799,7 @@
 2. agrégation annuelle [01-05, 30-11] - minimum"""@fr ;
     card:path "flow/low-flows/series/VCN3_summer.yaml" .
 
-<https://example.invalid/card/card/VCN3_winter> dcterms:identifier "swh:1:cnt:8954dd34fe13f4c3d884b1fa95ea1e7c3838817a" ;
+<https://example.invalid/card/card/VCN3_winter> dcterms:identifier "swh:1:cnt:8e8cacdc578c702063673b35635696d82ecb1d3f" ;
     dcterms:title "VCN3_winter" ;
     owl:versionInfo "1.0" ;
     card:method """1. no temporal aggregation - 3-day centered moving average
@@ -8808,7 +8808,7 @@
 2. agrégation annuelle [01-11, 30-04] - minimum"""@fr ;
     card:path "flow/low-flows/series/VCN3_winter.yaml" .
 
-<https://example.invalid/card/card/VCX10> dcterms:identifier "swh:1:cnt:6705307aaacf95b5382103c4878f8b26b3333467" ;
+<https://example.invalid/card/card/VCX10> dcterms:identifier "swh:1:cnt:8bbc9f5ce931964af8a5f168aba04c717c8a5311" ;
     dcterms:title "VCX10" ;
     owl:versionInfo "1.1" ;
     card:method """1. no temporal aggregation - 10-day centered moving average
@@ -8817,7 +8817,7 @@
 2. agrégation annuelle [mois du minimum des débits mensuels] - maximum"""@fr ;
     card:path "flow/high-flows/series/VCX10.yaml" .
 
-<https://example.invalid/card/card/VCX3> dcterms:identifier "swh:1:cnt:0a84d53cd9c575c16c399d8d549c55bf0f83f0d7" ;
+<https://example.invalid/card/card/VCX3> dcterms:identifier "swh:1:cnt:ddc952b2b375678c321e03038e7564a354aefc1e" ;
     dcterms:title "VCX3" ;
     owl:versionInfo "1.1" ;
     card:method """1. no temporal aggregation - 3-day centered moving average
@@ -8826,9 +8826,9 @@
 2. agrégation annuelle [mois du minimum des débits mensuels] - maximum"""@fr ;
     card:path "flow/high-flows/series/VCX3.yaml" .
 
-<https://example.invalid/card/card/a-FDC> dcterms:identifier "swh:1:cnt:207c479b2a95b82160a9b2efebe8efe5edaf2e11" ;
+<https://example.invalid/card/card/a-FDC> dcterms:identifier "swh:1:cnt:792fa178dbff3f06a6b35861fe3c06fd49d5b2bb" ;
     dcterms:title "a-FDC" ;
-    owl:versionInfo "1.1" ;
+    owl:versionInfo "2.0" ;
     card:method "1. no temporal aggregation - computation of the flow duration curve and differences between quantiles"@en,
         "1. aucune agrégation temporelle - calcul de la courbe des débits classés et des différences entre quantiles"@fr ;
     card:path "flow/mean-flows/scalar/a-FDC.yaml" .
@@ -8897,7 +8897,7 @@
 2. aucune agrégation temporelle - calcul du changement de BFI entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/baseflow/scalar/delta-BFI-Wal_H.yaml" .
 
-<https://example.invalid/card/card/delta-Q01A_H> dcterms:identifier "swh:1:cnt:6e586380d5c74e49bc80be4d0e2c1093a35ddb97" ;
+<https://example.invalid/card/card/delta-Q01A_H> dcterms:identifier "swh:1:cnt:4a7eb459d60a821adc38466afa226c65c93e8d3b" ;
     dcterms:title "delta-Q01A_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 1 %
@@ -8906,7 +8906,7 @@
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/high-flows/scalar/delta-Q01A_H.yaml" .
 
-<https://example.invalid/card/card/delta-Q05A_H> dcterms:identifier "swh:1:cnt:f5bbf2a1b8e6a477aefebe74c044d5707b5642ef" ;
+<https://example.invalid/card/card/delta-Q05A_H> dcterms:identifier "swh:1:cnt:8d06e86ee1fb00fe3cb6987f292a3b2863a0dbeb" ;
     dcterms:title "delta-Q05A_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 5 %
@@ -8915,7 +8915,7 @@
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/high-flows/scalar/delta-Q05A_H.yaml" .
 
-<https://example.invalid/card/card/delta-Q10A_H> dcterms:identifier "swh:1:cnt:34a2714db204d6c9b18a0162eade72290d9ed1b7" ;
+<https://example.invalid/card/card/delta-Q10A_H> dcterms:identifier "swh:1:cnt:4e6906b17747d714ca8285a83a783079b1618187" ;
     dcterms:title "delta-Q10A_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 10 %
@@ -8924,7 +8924,7 @@
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/high-flows/scalar/delta-Q10A_H.yaml" .
 
-<https://example.invalid/card/card/delta-Q25A_H> dcterms:identifier "swh:1:cnt:26d232f18ef095e0f2650007e2145956333f7a47" ;
+<https://example.invalid/card/card/delta-Q25A_H> dcterms:identifier "swh:1:cnt:29ab64f2153c60623afe67d00f2b511a7e8d6832" ;
     dcterms:title "delta-Q25A_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 25 %
@@ -8933,7 +8933,7 @@
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/mean-flows/scalar/delta-Q25A_H.yaml" .
 
-<https://example.invalid/card/card/delta-Q50A_H> dcterms:identifier "swh:1:cnt:802110a2b4a94226e6e87dc55d69617cd5a2b3f3" ;
+<https://example.invalid/card/card/delta-Q50A_H> dcterms:identifier "swh:1:cnt:a47c2b76b54bacd8f930142c43aa3406cc32b1eb" ;
     dcterms:title "delta-Q50A_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. annual aggregation [01-01, 12-31] - median
@@ -8942,7 +8942,7 @@
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/mean-flows/scalar/delta-Q50A_H.yaml" .
 
-<https://example.invalid/card/card/delta-Q75A_H> dcterms:identifier "swh:1:cnt:22286c1eabce069ed44e7f1d72f8be170558a719" ;
+<https://example.invalid/card/card/delta-Q75A_H> dcterms:identifier "swh:1:cnt:dd4c37611a26b0237e83728778b1fba9c48f3e0e" ;
     dcterms:title "delta-Q75A_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 75 %
@@ -8951,7 +8951,7 @@
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/mean-flows/scalar/delta-Q75A_H.yaml" .
 
-<https://example.invalid/card/card/delta-Q90A_H> dcterms:identifier "swh:1:cnt:f2bd567af311439a4cdf069e3fd05cf360352fee" ;
+<https://example.invalid/card/card/delta-Q90A_H> dcterms:identifier "swh:1:cnt:98ca1d81f18f964cc8876ad2e1fa0730fcd5cb52" ;
     dcterms:title "delta-Q90A_H" ;
     owl:versionInfo "1.3" ;
     card:method """1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 90 %
@@ -8960,7 +8960,7 @@
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-Q90A_H.yaml" .
 
-<https://example.invalid/card/card/delta-Q95A_H> dcterms:identifier "swh:1:cnt:040dcfe03de05e756a16d5c0360dbeb3f8d7d596" ;
+<https://example.invalid/card/card/delta-Q95A_H> dcterms:identifier "swh:1:cnt:34653a8f954137578ac835c65eb8fe4183763bc4" ;
     dcterms:title "delta-Q95A_H" ;
     owl:versionInfo "1.3" ;
     card:method """1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 95 %
@@ -8969,7 +8969,7 @@
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-Q95A_H.yaml" .
 
-<https://example.invalid/card/card/delta-Q99A_H> dcterms:identifier "swh:1:cnt:a9c5bcdf8348914a9b484441f0fb1c7625f3956f" ;
+<https://example.invalid/card/card/delta-Q99A_H> dcterms:identifier "swh:1:cnt:bc65fb1bc0d0e42a36a7d44b0dc479df473f94c0" ;
     dcterms:title "delta-Q99A_H" ;
     owl:versionInfo "1.3" ;
     card:method """1. annual aggregation [01-01, 12-31] - quantile at the exceedance probability of 99 %
@@ -8978,7 +8978,7 @@
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-Q99A_H.yaml" .
 
-<https://example.invalid/card/card/delta-QA_H> dcterms:identifier "swh:1:cnt:2bbdaea58fd645fdb47f10459b78351c67055b26" ;
+<https://example.invalid/card/card/delta-QA_H> dcterms:identifier "swh:1:cnt:731a1192cdab7599a0a71e12b8439fa64679fafb" ;
     dcterms:title "delta-QA_H" ;
     owl:versionInfo "1.2" ;
     card:method """1. annual aggregation [09-01, 08-31] - mean
@@ -8987,7 +8987,7 @@
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/mean-flows/scalar/delta-QA_H.yaml" .
 
-<https://example.invalid/card/card/delta-QJXA-10_H> dcterms:identifier "swh:1:cnt:c9db0d7563b0d34bb042bb2c4208524b665b2881" ;
+<https://example.invalid/card/card/delta-QJXA-10_H> dcterms:identifier "swh:1:cnt:3fb0f16669d36af658ff6154f7c363581f81b220" ;
     dcterms:title "delta-QJXA-10_H" ;
     owl:versionInfo "1.4" ;
     card:method """1. annual aggregation [month of minimum monthly flows] - maximum
@@ -8996,7 +8996,7 @@
 2. aucune agrégation temporelle - calcul du débit de période de retour 10 ans avec la loi de Gumbel sur la période historique et en horizon cible puis calcul du changement moyen"""@fr ;
     card:path "flow/high-flows/scalar/delta-QJXA-10_H.yaml" .
 
-<https://example.invalid/card/card/delta-QJXA_H> dcterms:identifier "swh:1:cnt:ac5854dcb51a555e43ed22e1021c9c85d7417f22" ;
+<https://example.invalid/card/card/delta-QJXA_H> dcterms:identifier "swh:1:cnt:71acb3309d20c6f9e8692f872372f61aef6334ef" ;
     dcterms:title "delta-QJXA_H" ;
     owl:versionInfo "1.2" ;
     card:method """1. annual aggregation [month of minimum monthly flows] - maximum
@@ -9005,7 +9005,7 @@
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/high-flows/scalar/delta-QJXA_H.yaml" .
 
-<https://example.invalid/card/card/delta-QMNA_H> dcterms:identifier "swh:1:cnt:aa58213348e9bdb78602903cd974e708a1111bbc" ;
+<https://example.invalid/card/card/delta-QMNA_H> dcterms:identifier "swh:1:cnt:8a6094d4d65c7a8b6fbb36fff76d3f469c9c2eb1" ;
     dcterms:title "delta-QMNA_H" ;
     owl:versionInfo "1.4" ;
     card:method """1. monthly aggregation for each year - mean
@@ -9016,7 +9016,7 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-QMNA_H.yaml" .
 
-<https://example.invalid/card/card/delta-QMNA_summer_H> dcterms:identifier "swh:1:cnt:73ff21e4e9c530b75e3d41aa0f3f1dd047111d5e" ;
+<https://example.invalid/card/card/delta-QMNA_summer_H> dcterms:identifier "swh:1:cnt:697881bd18769ddc322349f5d3d6d38419bfd1a0" ;
     dcterms:title "delta-QMNA_summer_H" ;
     owl:versionInfo "1.2" ;
     card:method """1. monthly aggregation for each year - mean
@@ -9027,7 +9027,7 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-QMNA_summer_H.yaml" .
 
-<https://example.invalid/card/card/delta-QMNA_winter_H> dcterms:identifier "swh:1:cnt:040b0feb8a5cf410ebc9bb55d5687814ae60a41b" ;
+<https://example.invalid/card/card/delta-QMNA_winter_H> dcterms:identifier "swh:1:cnt:935f83b136afe807b6ae6b24c9e232665335fee0" ;
     dcterms:title "delta-QMNA_winter_H" ;
     owl:versionInfo "1.2" ;
     card:method """1. monthly aggregation for each year - mean
@@ -9038,34 +9038,34 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-QMNA_winter_H.yaml" .
 
-<https://example.invalid/card/card/delta-QNA_H> dcterms:identifier "swh:1:cnt:4eb7b33b5c336ffb86fb66716420094037823f09" ;
+<https://example.invalid/card/card/delta-QNA_H> dcterms:identifier "swh:1:cnt:9536c64be8f14c955bf878577b1d027c440fc477" ;
     dcterms:title "delta-QNA_H" ;
-    owl:versionInfo "2.3" ;
+    owl:versionInfo "3.0" ;
     card:method """1. annual aggregation [month of maximum monthly flows] - minimum
 2. no temporal aggregation - calculation of the average change between the historical period and the target horizon"""@en,
         """1. agrégation annuelle [mois du maximum des débits mensuels] - minimum
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-QNA_H.yaml" .
 
-<https://example.invalid/card/card/delta-QNA_summer_H> dcterms:identifier "swh:1:cnt:5968ead4550b1a667864319e08dff033150cfb8c" ;
+<https://example.invalid/card/card/delta-QNA_summer_H> dcterms:identifier "swh:1:cnt:0c3095a193d00954f280803f85753539b2f376f2" ;
     dcterms:title "delta-QNA_summer_H" ;
-    owl:versionInfo "2.2" ;
+    owl:versionInfo "3.0" ;
     card:method """1. annual aggregation [05-01, 11-30] - minimum
 2. no temporal aggregation - average change between the historical period and the target horizon"""@en,
         """1. agrégation annuelle [01-05, 30-11] - minimum
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-QNA_summer_H.yaml" .
 
-<https://example.invalid/card/card/delta-QNA_winter_H> dcterms:identifier "swh:1:cnt:45422aaff6009834c7f1ee498444efca8ace6a6a" ;
+<https://example.invalid/card/card/delta-QNA_winter_H> dcterms:identifier "swh:1:cnt:3ec743faf887ee6392660df9acbf947e81b9e8a4" ;
     dcterms:title "delta-QNA_winter_H" ;
-    owl:versionInfo "2.1" ;
+    owl:versionInfo "3.0" ;
     card:method """1. annual aggregation [11-01, 04-30] - minimum
 2. no temporal aggregation - calculation of the average change between the historical period and the target horizon"""@en,
         """1. agrégation annuelle [01-11, 30-04] - minimum
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-QNA_winter_H.yaml" .
 
-<https://example.invalid/card/card/delta-VCN10-5_H> dcterms:identifier "swh:1:cnt:264f4c93a1c2ddcc9ffd7d16eb2ccc0e21c109d7" ;
+<https://example.invalid/card/card/delta-VCN10-5_H> dcterms:identifier "swh:1:cnt:edb50899444b14d272a5984ba389f78b8368dc06" ;
     dcterms:title "delta-VCN10-5_H" ;
     owl:versionInfo "1.2" ;
     card:method """1. no temporal aggregation - 10-day centered moving average
@@ -9076,7 +9076,7 @@
 3. aucune agrégation temporelle - calcul du débit de période de retour 5 ans avec la loi log-normal sur la période historique et en horizon cible puis calcul du changement moyen"""@fr ;
     card:path "flow/low-flows/scalar/delta-VCN10-5_H.yaml" .
 
-<https://example.invalid/card/card/delta-VCN10_H> dcterms:identifier "swh:1:cnt:dc9933150191bd604219ae4903be4a1473fcc954" ;
+<https://example.invalid/card/card/delta-VCN10_H> dcterms:identifier "swh:1:cnt:d44583d119bd2d525410b2be217aab567580c249" ;
     dcterms:title "delta-VCN10_H" ;
     owl:versionInfo "1.3" ;
     card:method """1. no temporal aggregation - 10-day centered moving average
@@ -9087,7 +9087,7 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-VCN10_H.yaml" .
 
-<https://example.invalid/card/card/delta-VCN10_summer_H> dcterms:identifier "swh:1:cnt:f25715272942c6c9aa54b4afc68b601963e0032c" ;
+<https://example.invalid/card/card/delta-VCN10_summer_H> dcterms:identifier "swh:1:cnt:549bb939c9d1f4a7ae673b4c78f8e2a539695890" ;
     dcterms:title "delta-VCN10_summer_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. no temporal aggregation - 10-day centered moving average
@@ -9098,7 +9098,7 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-VCN10_summer_H.yaml" .
 
-<https://example.invalid/card/card/delta-VCN10_winter_H> dcterms:identifier "swh:1:cnt:d60e047818b76528da744fec73ba635727a01225" ;
+<https://example.invalid/card/card/delta-VCN10_winter_H> dcterms:identifier "swh:1:cnt:a857fd2f0fe53c4a4e383eb6b2396ab8f8a77908" ;
     dcterms:title "delta-VCN10_winter_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. no temporal aggregation - 10-day centered moving average
@@ -9109,7 +9109,7 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-VCN10_winter_H.yaml" .
 
-<https://example.invalid/card/card/delta-VCN30_H> dcterms:identifier "swh:1:cnt:1d8a5483c1c289856dabda079a64d06376183840" ;
+<https://example.invalid/card/card/delta-VCN30_H> dcterms:identifier "swh:1:cnt:d6aba131cf43f86214b25a72c4c7dfafaa66208b" ;
     dcterms:title "delta-VCN30_H" ;
     owl:versionInfo "1.3" ;
     card:method """1. no temporal aggregation - 30-day centered moving average
@@ -9120,7 +9120,7 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-VCN30_H.yaml" .
 
-<https://example.invalid/card/card/delta-VCN30_summer_H> dcterms:identifier "swh:1:cnt:72387f4de1ad71215e330fbf81df9cf01a226411" ;
+<https://example.invalid/card/card/delta-VCN30_summer_H> dcterms:identifier "swh:1:cnt:09071777129208cc6510f3e86cd999b2e1bed8cb" ;
     dcterms:title "delta-VCN30_summer_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. no temporal aggregation - 30-day centered moving average
@@ -9131,7 +9131,7 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-VCN30_summer_H.yaml" .
 
-<https://example.invalid/card/card/delta-VCN30_winter_H> dcterms:identifier "swh:1:cnt:6649db4ce53ba36a0d2443dd94c0a60b3ff15634" ;
+<https://example.invalid/card/card/delta-VCN30_winter_H> dcterms:identifier "swh:1:cnt:3a0852f8258f8adbd29dbe582d140c93a9242396" ;
     dcterms:title "delta-VCN30_winter_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. no temporal aggregation - 30-day centered moving average
@@ -9142,7 +9142,7 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-VCN30_winter_H.yaml" .
 
-<https://example.invalid/card/card/delta-VCN3_H> dcterms:identifier "swh:1:cnt:e877ef5390f3aac0eaac5e39102916e3fffcf365" ;
+<https://example.invalid/card/card/delta-VCN3_H> dcterms:identifier "swh:1:cnt:cf991f1c62945fe51abdeaa86f53933085843464" ;
     dcterms:title "delta-VCN3_H" ;
     owl:versionInfo "1.3" ;
     card:method """1. no temporal aggregation - 3-day centered moving average
@@ -9153,7 +9153,7 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-VCN3_H.yaml" .
 
-<https://example.invalid/card/card/delta-VCN3_summer_H> dcterms:identifier "swh:1:cnt:a37881b470edd343731b91716af02c6bc6f7ad04" ;
+<https://example.invalid/card/card/delta-VCN3_summer_H> dcterms:identifier "swh:1:cnt:b1e279b4962baf178630ce05ef326cc2a159c8d9" ;
     dcterms:title "delta-VCN3_summer_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. no temporal aggregation - 3-day centered moving average
@@ -9164,7 +9164,7 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-VCN3_summer_H.yaml" .
 
-<https://example.invalid/card/card/delta-VCN3_winter_H> dcterms:identifier "swh:1:cnt:5f94a50b380f6f30adcaecf5dc416ad145133fa0" ;
+<https://example.invalid/card/card/delta-VCN3_winter_H> dcterms:identifier "swh:1:cnt:13d0f7f03364ac3f856a9a44192e21a272643954" ;
     dcterms:title "delta-VCN3_winter_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. no temporal aggregation - 3-day centered moving average
@@ -9175,7 +9175,7 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-VCN3_winter_H.yaml" .
 
-<https://example.invalid/card/card/delta-VCX10_H> dcterms:identifier "swh:1:cnt:c1d4de90de31948dc91f16b689f907f4a47bbaba" ;
+<https://example.invalid/card/card/delta-VCX10_H> dcterms:identifier "swh:1:cnt:37cf6ce23598093e2062ed11047b9a05ddd2338b" ;
     dcterms:title "delta-VCX10_H" ;
     owl:versionInfo "1.2" ;
     card:method """1. no temporal aggregation - 10-day centered moving average
@@ -9186,7 +9186,7 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/high-flows/scalar/delta-VCX10_H.yaml" .
 
-<https://example.invalid/card/card/delta-VCX3_H> dcterms:identifier "swh:1:cnt:ebb6a18984ce935c205f3ed2e8a8586e5f447b4d" ;
+<https://example.invalid/card/card/delta-VCX3_H> dcterms:identifier "swh:1:cnt:6fac129aea3d1325223b0cbd92c7b1a6f2200c79" ;
     dcterms:title "delta-VCX3_H" ;
     owl:versionInfo "1.2" ;
     card:method """1. no temporal aggregation - 3-day centered moving average
@@ -9221,18 +9221,18 @@
 5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-centerLF_H.yaml" .
 
-<https://example.invalid/card/card/delta-dtBF_H> dcterms:identifier "swh:1:cnt:a667ad968fecd62685699cb1636ac000c2dac3d9" ;
+<https://example.invalid/card/card/delta-dtBF_H> dcterms:identifier "swh:1:cnt:e2da3431614a2c14fba2b77143155651e5dd16bf" ;
     dcterms:title "delta-dtBF_H" ;
-    owl:versionInfo "2.1" ;
+    owl:versionInfo "3.0" ;
     card:method """1. annual aggregation [09-01, 08-31] - number of days between the dates when the baseflow (Wallingford) sum corresponds to 10 % and 90 % of the total sum
 2. no temporal aggregation - calculation of the average change between the historical period and the target horizon"""@en,
         """1. agrégation annuelle [01-09, 31-08] - nombre de jours entre les dates auxquelles la somme du débit de base (Wallingford) correspond à 10 % et 90 % de la somme totale
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/baseflow/scalar/delta-dtBF_H.yaml" .
 
-<https://example.invalid/card/card/delta-dtFlood_H> dcterms:identifier "swh:1:cnt:5c98df46bc60eef133c2bfb3ba5b1436192b6c65" ;
+<https://example.invalid/card/card/delta-dtFlood_H> dcterms:identifier "swh:1:cnt:13c8ad0648d7111104a8df5ef40b373cb4c5f8b5" ;
     dcterms:title "delta-dtFlood_H" ;
-    owl:versionInfo "2.4" ;
+    owl:versionInfo "3.0" ;
     card:method """1. no temporal aggregation - difference between the daily flow and the base flow (dQ)
 2. annual aggregation [month of minimum monthly flows] - maximum of dQ (dQXA)
 3. annual aggregation [month of minimum monthly flows] - division by two of dQXA to obtain a threshold (lowLim)
@@ -9405,7 +9405,7 @@
 3. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/high-flows/scalar/delta-tVCX3_H.yaml" .
 
-<https://example.invalid/card/card/delta-vBF_H> dcterms:identifier "swh:1:cnt:0c4b0c3a63b2a6ec6a294c046583ca86da83f52e" ;
+<https://example.invalid/card/card/delta-vBF_H> dcterms:identifier "swh:1:cnt:934c518915e7e3e57c0e708fa087e2da283f5abf" ;
     dcterms:title "delta-vBF_H" ;
     owl:versionInfo "1.2" ;
     card:method """1. annual aggregation [09-01, 08-31] - sum of volumes discharged each day for base flow (Wallingford)
@@ -9414,7 +9414,7 @@
 2. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/baseflow/scalar/delta-vBF_H.yaml" .
 
-<https://example.invalid/card/card/delta-vLF_H> dcterms:identifier "swh:1:cnt:1b111dd4e91faa2351407d40526e29762c86d8ed" ;
+<https://example.invalid/card/card/delta-vLF_H> dcterms:identifier "swh:1:cnt:33fa68ee974888eeff1f941fa6e937ae0d15733d" ;
     dcterms:title "delta-vLF_H" ;
     owl:versionInfo "1.8" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
@@ -9429,9 +9429,9 @@
 5. aucune agrégation temporelle - calcul du changement moyen entre la période historique et l'horizon cible"""@fr ;
     card:path "flow/low-flows/scalar/delta-vLF_H.yaml" .
 
-<https://example.invalid/card/card/dtBF> dcterms:identifier "swh:1:cnt:f5e35e5f19d1097bf466f278f9760ff78879536d" ;
+<https://example.invalid/card/card/dtBF> dcterms:identifier "swh:1:cnt:ff121afa8912cedb48b85e214998ea065a14e508" ;
     dcterms:title "dtBF" ;
-    owl:versionInfo "1.0" ;
+    owl:versionInfo "2.0" ;
     card:method "1. annual aggregation [09-01, 08-31] - number of days between the dates when the baseflow (Wallingford) sum corresponds to 10 % and 90 % of the total sum"@en,
         "1. agrégation annuelle [01-09, 31-08] - nombre de jours entre les dates auxquelles la somme du débit de base (Wallingford) correspond à 10 % et 90 % de la somme totale"@fr ;
     card:path "flow/baseflow/series/dtBF.yaml" .
@@ -9450,9 +9450,9 @@
         "1. agrégation annuelle [01-09, 31-08] - durée de la plus longue période avec des précipitations d'au moins 1 mm"@fr ;
     card:path "precipitation/wet-days/series/dtCWDA.yaml" .
 
-<https://example.invalid/card/card/dtFlood> dcterms:identifier "swh:1:cnt:64fec4453dee5ddd52e518875929e61efa21d847" ;
+<https://example.invalid/card/card/dtFlood> dcterms:identifier "swh:1:cnt:d02ebca6e56962c4581aa5560ae49977e342d4ac" ;
     dcterms:title "dtFlood" ;
-    owl:versionInfo "1.4" ;
+    owl:versionInfo "2.0" ;
     card:method """1. no temporal aggregation - difference between the daily flow and the base flow (dQ)
 2. annual aggregation [month of minimum monthly flows] - maximum of dQ (dQXA)
 3. annual aggregation [month of minimum monthly flows] - division by two of dQXA to obtain a threshold (lowLim)
@@ -9569,18 +9569,18 @@
 4. agrégation annuelle [01-11, 30-04] - date du dernier jour de la plus longue période sous upLim"""@fr ;
     card:path "flow/low-flows/series/endLF_winter.yaml" .
 
-<https://example.invalid/card/card/epsilon_R> dcterms:identifier "swh:1:cnt:31c511444020ef8df22c89aae8bf13313bfe54ed" ;
+<https://example.invalid/card/card/epsilon_R> dcterms:identifier "swh:1:cnt:576648eb37e2e0915336510a32c9d5cd876fea6f" ;
     dcterms:title "epsilon_R" ;
-    owl:versionInfo "1.3" ;
+    owl:versionInfo "2.0" ;
     card:method """1. annual aggregation [month of minimum monthly flows] - mean flow ; mean total precipitation
 2. no temporal aggregation - calculation of elasticity ε"""@en,
         """1. agrégation annuelle [mois du minimum des débits mensuels] - débit moyen ; précipitations totales moyennes
 2. aucune agrégation temporelle - calcul de l'élasticité ε"""@fr ;
     card:path "flow/climate-sensitivity/scalar/epsilon_R.yaml" .
 
-<https://example.invalid/card/card/epsilon_T> dcterms:identifier "swh:1:cnt:a9967a07d1f552d4666114e6a4b536944f0f71f2" ;
+<https://example.invalid/card/card/epsilon_T> dcterms:identifier "swh:1:cnt:2ccfc3354b63b178b1d1d9afc81c0303370d7677" ;
     dcterms:title "epsilon_T" ;
-    owl:versionInfo "1.3" ;
+    owl:versionInfo "2.0" ;
     card:method """1. annual aggregation [month of minimum monthly flows] - mean flow ; mean temperatures
 2. no temporal aggregation - calculation of elasticity ε"""@en,
         """1. agrégation annuelle [mois du minimum des débits mensuels] - débit moyen ; températures moyennes
@@ -9614,7 +9614,7 @@
 2. agrégation annuelle [mois du minimum des débits mensuels] - rapport du nombre de jours où le débit dépasse lowLim par le nombre de jours dans l'année"""@fr ;
     card:path "flow/high-flows/series/fQ10A.yaml" .
 
-<https://example.invalid/card/card/mean-QA> dcterms:identifier "swh:1:cnt:ad16a95da65317a7ede192a5e150cb3d5f31af94" ;
+<https://example.invalid/card/card/mean-QA> dcterms:identifier "swh:1:cnt:16df65ff46f210f5d2114de083f8f00276c59740" ;
     dcterms:title "mean-QA" ;
     owl:versionInfo "1.1" ;
     card:method """1. annual aggregation [09-01, 08-31] - mean
@@ -9665,18 +9665,18 @@
 5. aucune agrégation temporelle - médiane inter-annuelle"""@fr ;
     card:path "flow/low-flows/scalar/median-centerLF.yaml" .
 
-<https://example.invalid/card/card/median-dtBF> dcterms:identifier "swh:1:cnt:9764897ec1f1d73212549e7817396e85e33ea8b4" ;
+<https://example.invalid/card/card/median-dtBF> dcterms:identifier "swh:1:cnt:02189f63ea8e2c2f22a4c4333af68f04392e08af" ;
     dcterms:title "median-dtBF" ;
-    owl:versionInfo "1.1" ;
+    owl:versionInfo "2.0" ;
     card:method """1. annual aggregation [09-01, 08-31] - number of days between the dates at which the baseflow (Wallingford) sum corresponds to 10 % and 90 % of the total baseflow sum
 2. no temporal aggregation - inter-annual median"""@en,
         """1. agrégation annuelle [01-09, 31-08] - nombre de jours entre les dates auxquelles la somme du débit de base (Wallingford) correspond à 10 % et 90 % de la somme totale
 2. aucune agrégation temporelle - médiane inter-annuelle"""@fr ;
     card:path "flow/baseflow/scalar/median-dtBF.yaml" .
 
-<https://example.invalid/card/card/median-dtFlood> dcterms:identifier "swh:1:cnt:f6466063fc8f163f503a84c9473e54113d768b0c" ;
+<https://example.invalid/card/card/median-dtFlood> dcterms:identifier "swh:1:cnt:dff0250396d10d7c721bd2a6e350a60780d7e741" ;
     dcterms:title "median-dtFlood" ;
-    owl:versionInfo "1.4" ;
+    owl:versionInfo "2.0" ;
     card:method """1. no temporal aggregation - difference between the daily flow and the base flow (dQ)
 2. annual aggregation [month of minimum monthly flows] - maximum of dQ (dQXA)
 3. annual aggregation [month of minimum monthly flows] - division by two of dQXA to obtain a threshold (lowLim)
@@ -9794,7 +9794,7 @@
 3. aucune agrégation temporelle - médiane inter-annuelle"""@fr ;
     card:path "flow/high-flows/scalar/median-tVCX3.yaml" .
 
-<https://example.invalid/card/card/median-vBF> dcterms:identifier "swh:1:cnt:6f2234ed48225f04fe940af85382d4c5328120db" ;
+<https://example.invalid/card/card/median-vBF> dcterms:identifier "swh:1:cnt:b880e6219b2a66bcd479e5b46bbe04a61f63c2ff" ;
     dcterms:title "median-vBF" ;
     owl:versionInfo "1.2" ;
     card:method """1. annual aggregation [09-01, 08-31] - sum of volumes discharged each day for base flow (Wallingford)
@@ -9803,7 +9803,7 @@
 2. aucune agrégation temporelle - médiane inter-annuelle"""@fr ;
     card:path "flow/baseflow/scalar/median-vBF.yaml" .
 
-<https://example.invalid/card/card/median-vLF> dcterms:identifier "swh:1:cnt:1be7f2ed7b088bf6e60ca143a9ca3e08e8d1eba3" ;
+<https://example.invalid/card/card/median-vLF> dcterms:identifier "swh:1:cnt:6e2b2e384fdca9de24674121ca6376b2229a3cd3" ;
     dcterms:title "median-vLF" ;
     owl:versionInfo "1.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
@@ -9818,9 +9818,9 @@
 5. aucune agrégation temporelle - médiane inter-annuelle"""@fr ;
     card:path "flow/low-flows/scalar/median-vLF.yaml" .
 
-<https://example.invalid/card/card/n-QJXA-10_H> dcterms:identifier "swh:1:cnt:f6c559b831496273082a7bd9ae5c3ed38ac02f79" ;
+<https://example.invalid/card/card/n-QJXA-10_H> dcterms:identifier "swh:1:cnt:e609a98d6dddf4f554cad339f0076fdbc3909200" ;
     dcterms:title "n-QJXA-10_H" ;
-    owl:versionInfo "1.4" ;
+    owl:versionInfo "2.0" ;
     card:method """1. annual aggregation [month of minimum monthly flows] - maximum of Q (QJXA)
 2. no temporal aggregation - calculation of the flow with a 10-year return period using the Gumbel distribution from the historical period (QJXA-10)
 3. no temporal aggregation - counting the number of QJXA in the target horizon above QJXA-10"""@en,
@@ -9829,9 +9829,9 @@
 3. aucune agrégation temporelle - décompte du nombre de QJXA de l'horizon cible au dessus du QJXA-10"""@fr ;
     card:path "flow/high-flows/scalar/n-QJXA-10_H.yaml" .
 
-<https://example.invalid/card/card/n-VCN10-5_H> dcterms:identifier "swh:1:cnt:fda5038f6d053560fee4490a19077d6b40ea7b80" ;
+<https://example.invalid/card/card/n-VCN10-5_H> dcterms:identifier "swh:1:cnt:b8228031867276c85eac6a417da935d53c87691e" ;
     dcterms:title "n-VCN10-5_H" ;
-    owl:versionInfo "1.2" ;
+    owl:versionInfo "2.0" ;
     card:method """1. no temporal aggregation - 10-day centered moving average
 2. annual aggregation [month of maximum monthly flows] - minimum (VCN10)
 3. no temporal aggregation - calculation of the 5-year return period flow with the log-normal distribution from the historical period (VCN10-5)
@@ -9842,9 +9842,9 @@
 4. aucune agrégation temporelle - décompte du nombre de VCN10 de l'horizon cible inférieurs ou égaux au VCN10-5"""@fr ;
     card:path "flow/low-flows/scalar/n-VCN10-5_H.yaml" .
 
-<https://example.invalid/card/card/rp-QMNA> dcterms:identifier "swh:1:cnt:5e69396732230ce267cb9eb40a2e7092895df7d7" ;
+<https://example.invalid/card/card/rp-QMNA> dcterms:identifier "swh:1:cnt:d58e652508f601b45f8fdd48be6086248dc6496c" ;
     dcterms:title "rp-QMNA" ;
-    owl:versionInfo "1.5" ;
+    owl:versionInfo "2.0" ;
     card:method """1. monthly aggregation for each year - mean of daily flows (QMA) ; mean of the Q_lim threshold
 2. annual aggregation [month of maximum monthly flows] - minimum of QMA ; mean of the Q_lim threshold
 3. no temporal aggregation - return period of the Q_lim threshold with the log-normal distribution"""@en,
@@ -9853,9 +9853,9 @@
 3. aucune agrégation temporelle - période de retour du seuil Q_lim avec la loi log-normale"""@fr ;
     card:path "flow/low-flows/scalar/rp-QMNA.yaml" .
 
-<https://example.invalid/card/card/rp-VCN10> dcterms:identifier "swh:1:cnt:997debcb4535ab799405b532e90a13fe1ae15d32" ;
+<https://example.invalid/card/card/rp-VCN10> dcterms:identifier "swh:1:cnt:db40627c53c83da829811ce83879c1d425b17f2b" ;
     dcterms:title "rp-VCN10" ;
-    owl:versionInfo "1.4" ;
+    owl:versionInfo "2.0" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
 2. annual aggregation [month of maximum monthly flows] - minimum of VC10 ; mean of the Q_lim threshold
 3. no temporal aggregation - return period of the Q_lim threshold with the log-normal distribution"""@en,
@@ -9864,9 +9864,9 @@
 3. aucune agrégation temporelle - période de retour du seuil Q_lim avec la loi log-normale"""@fr ;
     card:path "flow/low-flows/scalar/rp-VCN10.yaml" .
 
-<https://example.invalid/card/card/rp-VCN30> dcterms:identifier "swh:1:cnt:1d74fde66ea3efff1cdbc4ebe7d5186c287ab5e6" ;
+<https://example.invalid/card/card/rp-VCN30> dcterms:identifier "swh:1:cnt:cffbf8abb7ba81bea665e1fef9d5236ab8a8f389" ;
     dcterms:title "rp-VCN30" ;
-    owl:versionInfo "1.4" ;
+    owl:versionInfo "2.0" ;
     card:method """1. no temporal aggregation - 30-day centered moving average (VC30)
 2. annual aggregation [month of maximum monthly flows] - minimum of VC30 ; mean of the Q_lim threshold
 3. no temporal aggregation - return period of the Q_lim threshold with the log-normal distribution"""@en,
@@ -9973,14 +9973,14 @@
 2. agrégation annuelle [mois du minimum des débits mensuels] - date du maximum"""@fr ;
     card:path "flow/high-flows/series/tVCX3.yaml" .
 
-<https://example.invalid/card/card/vBF> dcterms:identifier "swh:1:cnt:d8bb395621be607bcdef37cc59b9ad4c142161ab" ;
+<https://example.invalid/card/card/vBF> dcterms:identifier "swh:1:cnt:faedea8e1601bbc6d5307406c0bf96000741f020" ;
     dcterms:title "vBF" ;
     owl:versionInfo "1.1" ;
     card:method "1. annual aggregation [09-01, 08-31] - sum of volumes discharged each day for base flow (Wallingford)"@en,
         "1. agrégation annuelle [01-09, 31-08] - somme des volumes écoulés chaque jour pour le débit de base (Wallingford)"@fr ;
     card:path "flow/baseflow/series/vBF.yaml" .
 
-<https://example.invalid/card/card/vLF> dcterms:identifier "swh:1:cnt:5d602be47d583993e8206c86f0d8a54af703536a" ;
+<https://example.invalid/card/card/vLF> dcterms:identifier "swh:1:cnt:fe6c213bd094a41301d3328b8895ecab19209408" ;
     dcterms:title "vLF" ;
     owl:versionInfo "1.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
@@ -9993,7 +9993,7 @@
 4. agrégation annuelle [mois du maximum des débits mensuels] - somme des volumes écoulés chaque jour de la plus longue période sous upLim"""@fr ;
     card:path "flow/low-flows/series/vLF.yaml" .
 
-<https://example.invalid/card/card/vLF_summer> dcterms:identifier "swh:1:cnt:f695ba2d359454480898fa7032b558e8d8ad4394" ;
+<https://example.invalid/card/card/vLF_summer> dcterms:identifier "swh:1:cnt:568e0469c8a1711c7b11114a58ac99fd2462134a" ;
     dcterms:title "vLF_summer" ;
     owl:versionInfo "1.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
@@ -10006,7 +10006,7 @@
 4. agrégation annuelle [01-05, 30-11] - somme des volumes écoulés chaque jour de la plus longue période sous upLim"""@fr ;
     card:path "flow/low-flows/series/vLF_summer.yaml" .
 
-<https://example.invalid/card/card/vLF_winter> dcterms:identifier "swh:1:cnt:65a2e94ece491725351b2c6e802bf477f0fcc2b8" ;
+<https://example.invalid/card/card/vLF_winter> dcterms:identifier "swh:1:cnt:3e97e6002b5605de2c4e151251444b85302a7af6" ;
     dcterms:title "vLF_winter" ;
     owl:versionInfo "1.6" ;
     card:method """1. no temporal aggregation - 10-day centered moving average (VC10)
@@ -10047,9 +10047,9 @@
     skos:prefLabel "5 day rolling window"@en,
         "fenêtre glissante de 5 jours"@fr .
 
-<https://example.invalid/card/card/FDC> dcterms:identifier "swh:1:cnt:01c3d24b61876aa994d56c9ba5711d74356d33d0" ;
+<https://example.invalid/card/card/FDC> dcterms:identifier "swh:1:cnt:b4fb8401b9f17fb0650c143b05c86badd9acab17" ;
     dcterms:title "FDC" ;
-    owl:versionInfo "1.3" ;
+    owl:versionInfo "2.0" ;
     card:method "1. no temporal aggregation over the whole record - exceedance probabilities of the 1000 points of the flow duration curve, spaced according to a centered reduced normal distribution"@en,
         "1. aucune agrégation temporelle sur la chronique entière - probabilités de dépassement des 1000 points de la courbe des débits classés, espacés selon une loi normale centrée réduite"@fr ;
     card:path "flow/mean-flows/curve/FDC.yaml" .
@@ -10065,27 +10065,27 @@
 3. aucune agrégation temporelle - rapport liquide/total"""@fr ;
     card:path "precipitation/snow/scalar/RA_ratio.yaml" .
 
-<https://example.invalid/card/card/alpha-QA> dcterms:identifier "swh:1:cnt:30d55553e622df38ef3f3dc4d2464c1a1ada8633" ;
+<https://example.invalid/card/card/alpha-QA> dcterms:identifier "swh:1:cnt:4cdb5a3403e238145c629296a7d7d62113dc4615" ;
     dcterms:title "alpha-QA" ;
-    owl:versionInfo "1.0.1" ;
+    owl:versionInfo "2.0" ;
     card:method """1. annual aggregation [09-01, 08-31] - mean
 2. no temporal aggregation - Sen's slope of the trend"""@en,
         """1. agrégation annuelle [01-09, 31-08] - moyenne
 2. aucune agrégation temporelle - pente de Sen de la tendance"""@fr ;
     card:path "flow/mean-flows/scalar/alpha-QA.yaml" .
 
-<https://example.invalid/card/card/alpha-QJXA> dcterms:identifier "swh:1:cnt:ab30aca65bf42755c37dd5e95f0276a7df6ff293" ;
+<https://example.invalid/card/card/alpha-QJXA> dcterms:identifier "swh:1:cnt:eb1d7c77afd726c0ee9b5250c220fedd26e1d89d" ;
     dcterms:title "alpha-QJXA" ;
-    owl:versionInfo "1.2" ;
+    owl:versionInfo "2.0" ;
     card:method """1. annual aggregation [month of minimum monthly flows] - maximum
 2. no temporal aggregation - Sen's slope of the trend"""@en,
         """1. agrégation annuelle [mois du minimum des débits mensuels] - maximum
 2. aucune agrégation temporelle - pente de Sen de la tendance"""@fr ;
     card:path "flow/high-flows/scalar/alpha-QJXA.yaml" .
 
-<https://example.invalid/card/card/alpha-VCN10> dcterms:identifier "swh:1:cnt:1ef48aa5378592f136053673276d9a4668e59b83" ;
+<https://example.invalid/card/card/alpha-VCN10> dcterms:identifier "swh:1:cnt:5fa7af11fbb521174c39a48e42e0bafd52c98d44" ;
     dcterms:title "alpha-VCN10" ;
-    owl:versionInfo "1.1" ;
+    owl:versionInfo "2.0" ;
     card:method """1. no temporal aggregation - 10-day centered moving average
 2. annual aggregation [month of maximum monthly flows] - minimum
 3. no temporal aggregation - Sen's slope of the trend"""@en,
@@ -10807,7 +10807,7 @@
         "1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - somme"@fr ;
     card:path "evapotranspiration/evaporative-demand/series/ETPSA_season.yaml" .
 
-<https://example.invalid/card/card/QSA_season> dcterms:identifier "swh:1:cnt:506f94d61152a06e21b18647770671e4a05da6b2" ;
+<https://example.invalid/card/card/QSA_season> dcterms:identifier "swh:1:cnt:2e281c933ea62e5642a53dca38fefb100614f708" ;
     dcterms:title "QSA_season" ;
     owl:versionInfo "1.0" ;
     card:method "1. seasonal annual aggregation [12-01, 02-28(29)] - mean"@en,
@@ -10842,7 +10842,7 @@
         "1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - moyenne"@fr ;
     card:path "temperature/mean-temperatures/series/TSA_season.yaml" .
 
-<https://example.invalid/card/card/delta-QSA_season_H> dcterms:identifier "swh:1:cnt:bcbc4ea5f53d3d6e81d9654c466c68e5498880bd" ;
+<https://example.invalid/card/card/delta-QSA_season_H> dcterms:identifier "swh:1:cnt:ce1bcfbedcaf3884cae4b1871b5ec77a772cd26f" ;
     dcterms:title "delta-QSA_season_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. seasonal annual aggregation [12-01, 02-28(29)] - mean
@@ -10886,25 +10886,25 @@
         "1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - nombre de jours avec des précipitations d'au moins 50 mm"@fr ;
     card:path "precipitation/heavy-rain/series/dtRSA50mm_season.yaml" .
 
-<https://example.invalid/card/card/epsilon_R_season> dcterms:identifier "swh:1:cnt:ebfe6a5a95ecb94ee2a371fa4c7222ae2cf5cd0b" ;
+<https://example.invalid/card/card/epsilon_R_season> dcterms:identifier "swh:1:cnt:93de3491f9547cce602d21e55683839edd5ccc54" ;
     dcterms:title "epsilon_R_season" ;
-    owl:versionInfo "1.1" ;
+    owl:versionInfo "2.0" ;
     card:method """1. seasonal annual aggregation [12-01, 02-28(29)] - mean flow ; mean total precipitation
 2. no temporal aggregation - calculation of elasticity ε"""@en,
         """1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - débit moyen ; précipitations totales moyennes
 2. aucune agrégation temporelle - calcul de l'élasticité ε"""@fr ;
     card:path "flow/climate-sensitivity/scalar/epsilon_R_season.yaml" .
 
-<https://example.invalid/card/card/epsilon_T_season> dcterms:identifier "swh:1:cnt:003abae4ea2e8871e1811ca0cb30589b7756cf2b" ;
+<https://example.invalid/card/card/epsilon_T_season> dcterms:identifier "swh:1:cnt:843d2a1a67d55b0150bc4988c25c3b51d484022a" ;
     dcterms:title "epsilon_T_season" ;
-    owl:versionInfo "1.1" ;
+    owl:versionInfo "2.0" ;
     card:method """1. seasonal annual aggregation [12-01, 02-28(29)] - mean flow ; mean temperatures
 2. no temporal aggregation - calculation of elasticity ε"""@en,
         """1. agrégation annuelle saisonnalisée [01-12, 28(29)-02] - débit moyen ; températures moyennes
 2. aucune agrégation temporelle - calcul de l'élasticité ε"""@fr ;
     card:path "flow/climate-sensitivity/scalar/epsilon_T_season.yaml" .
 
-<https://example.invalid/card/card/mean-QSA_season> dcterms:identifier "swh:1:cnt:4f2503900fd1767e3c21e1c5c00b3e083ee1ffae" ;
+<https://example.invalid/card/card/mean-QSA_season> dcterms:identifier "swh:1:cnt:fa9837a5cb7255b27b412d2a8c18f83dfba21008" ;
     dcterms:title "mean-QSA_season" ;
     owl:versionInfo "1.1" ;
     card:method """1. seasonal annual aggregation [12-01, 02-28(29)] - mean
@@ -11612,7 +11612,7 @@
         "1. agrégation mensuelle par année - somme"@fr ;
     card:path "evapotranspiration/evaporative-demand/series/ETPMA_month.yaml" .
 
-<https://example.invalid/card/card/QMA_month> dcterms:identifier "swh:1:cnt:3871fd8c666aa5104c645784bf6c07cd551276a0" ;
+<https://example.invalid/card/card/QMA_month> dcterms:identifier "swh:1:cnt:2b4b2b1c593cf7c10293a636d0448347171d4007" ;
     dcterms:title "QMA_month" ;
     owl:versionInfo "1.0" ;
     card:method "1. monthly aggregation for each year - mean"@en,
@@ -11633,9 +11633,9 @@
         "1. agrégation mensuelle par année - somme"@fr ;
     card:path "precipitation/mean-precipitation/series/RMAl_month.yaml" .
 
-<https://example.invalid/card/card/RMAs_month> dcterms:identifier "swh:1:cnt:5c43f38180956a9f50cc2bfb7940a406f0a9c8ef" ;
+<https://example.invalid/card/card/RMAs_month> dcterms:identifier "swh:1:cnt:0fbedffcfa5486f24654b854b03091b16a81d63f" ;
     dcterms:title "RMAs_month" ;
-    owl:versionInfo "1.0" ;
+    owl:versionInfo "2.0" ;
     card:method "1. monthly aggregation for each year - sum"@en,
         "1. agrégation mensuelle par année - somme"@fr ;
     card:path "precipitation/snow/series/RMAs_month.yaml" .
@@ -11647,7 +11647,7 @@
         "1. agrégation mensuelle par année - moyenne"@fr ;
     card:path "temperature/mean-temperatures/series/TMA_month.yaml" .
 
-<https://example.invalid/card/card/delta-QMA_month_H> dcterms:identifier "swh:1:cnt:ff9d900c7c1dfe1b00874523c4f0ca2ed7be7d18" ;
+<https://example.invalid/card/card/delta-QMA_month_H> dcterms:identifier "swh:1:cnt:b0f5d8f3944a8303da1e8a1fe171f71023cced08" ;
     dcterms:title "delta-QMA_month_H" ;
     owl:versionInfo "1.1" ;
     card:method """1. monthly aggregation for each year - mean

@@ -1,5 +1,5 @@
 id: alpha-QJXA
-version: "1.2"
+version: "2.0"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-26"
 
@@ -59,7 +59,7 @@ meta:
       SEN, P. K. (1968). « Estimates of the regression coefficient based on Kendall's tau ».
       In : Journal of the American Statistical Association 63, p. 1379-1389. DOI : doi:10.2307/2285891.
     preferred_sampling_period: "09-01"
-    relative: [true, false]
+    relative: [true, null]
     palette: ["#452C1A", "#7F4A23", "#B3762A", "#D4B86A", "#EFE0B0",
               "#BCE6DB", "#7ACEB9", "#449C93", "#2A6863", "#193830"]
 

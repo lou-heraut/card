@@ -1,5 +1,5 @@
 id: dtFlood
-version: "1.4"
+version: "2.0"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-04-28"
 
@@ -64,6 +64,7 @@ meta:
   global:
     input_vars: Q
     preferred_sampling_period: "09-01"
+    relative: false
     palette: ["#60265e", "#893687", "#c05fbe", "#dba3da", "#edd1ec",
               "#f6ddd3", "#edbaa7", "#e08765", "#CD5629", "#8f3c1d"]
 

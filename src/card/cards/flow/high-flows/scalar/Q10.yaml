@@ -41,6 +41,7 @@ meta:
   global:
     input_vars: Q
     preferred_sampling_period: "01-01"
+    relative: true
 
 process:
   P1:

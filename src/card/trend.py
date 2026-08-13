@@ -40,6 +40,12 @@ def _relative_by_variable(meta: pd.DataFrame) -> dict:
     Les clés sont les noms de variables tels que l'extraction les a
     produits, suffixe compris : depuis que la méta est par suffixe,
     QA_obs et QA_sim ont chacun leur ligne, donc leur propre valeur.
+
+    `relative` a trois états depuis le 2026-08-13, et `bool()` en écrase
+    volontairement deux : `null` veut dire « la question ne se pose pas,
+    ce n'est pas une grandeur mesurée » (le verdict d'un test), et pour
+    qui CALCULE, cela revient à `false`. La distinction sert à qui
+    AFFICHE, qui peut alors dire « sans objet » plutôt que « non ».
     """
     return {str(v): bool(r)
             for v, r in zip(meta["variable_en"], meta["relative"])}

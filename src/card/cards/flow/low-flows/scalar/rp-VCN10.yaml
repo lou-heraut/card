@@ -1,5 +1,5 @@
 id: rp-VCN10
-version: "1.4"
+version: "2.0"
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
 date: "2026-07-20"
 
@@ -57,6 +57,7 @@ meta:
   global:
     input_vars: "Q, Q_lim"
     preferred_sampling_period: "01-01"
+    relative: false
 
 process:
   P1:

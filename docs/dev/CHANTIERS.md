@@ -21,6 +21,29 @@ Ne rien publier sur PyPI tant que la demande n'est pas tranchée :
 `card-stase` reste le nom de repli du `pyproject.toml`, et l'import est
 `card` dans tous les cas.
 
+## Le kwarg `relative` de `delta` est déductible (2026-08-13)
+
+Mesuré pendant le chantier `relative` : le kwarg `relative` passé à la
+fonction `delta` dans un `process` et le champ `meta.global.relative`
+expriment **la même propriété**, l'un du côté du calcul, l'autre du côté
+de la déclaration. Ils s'accordaient déjà 77 fois sur 82 avant
+correction, et les 5 écarts se sont tous révélés être des erreurs.
+
+Le kwarg pourrait donc être déduit du `relative` de la variable de BASE
+que le `delta` consomme, au lieu d'être écrit une seconde fois. Même
+raisonnement que le retrait d'`operator` : une valeur écrite deux fois
+finit par diverger, et la fiche seule ne peut pas dire laquelle a raison.
+
+Ce qu'il faudrait regarder avant : le `delta` de `card.functions` est une
+fonction publique dont `relative` est un paramètre légitime ; le déduire
+côté fiche ne doit pas retirer à quelqu'un qui appelle la fonction
+directement la possibilité de le choisir. La piste porte donc sur le
+LOADER (remplir le kwarg depuis la déclaration quand la fiche ne l'écrit
+pas), pas sur la signature.
+
+Rien ne presse : depuis la correction, le linter tient déjà les deux
+d'accord par l'unité.
+
 ## Signalement amont des fiches R cassées
 
 Des fiches plantent dans le paquet R lui-même, donc sans référence

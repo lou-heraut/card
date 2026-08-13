@@ -206,17 +206,23 @@ Règles clés (détail : NOMENCLATURE.md) :
   fenêtres ANNUELLES (protocole MAKAHO = "preferred") ; les fenêtres
   partielles [début, fin] font partie de la définition, jamais écrasées.
 - **horizons** : déclarés dans meta.global.horizons, référencés `$H0..$H3`.
-- **défauts à omettre** : dans meta.global, is_date false, relative true,
+- **défauts à omettre** : dans meta.global, is_date false,
   is_experimental false, source/palette/preferred null, input_vars "X" ;
   dans process, sampling_period/period/max_na_* null, seasons
   [DJF,MAM,JJA,SON], keep null, compress/expand false. Exception : un
   kwarg explicite dans la source reste explicite.
-  **`time_step` fait exception et s'écrit TOUJOURS**, `year` compris, et
-  le linter l'exige. On omet un défaut qui veut dire « rien de
-  particulier » ; on écrit un défaut qui est un CHOIX parmi sept valeurs,
-  sans quoi son absence se lit comme un oubli. C'est le cœur de
-  l'agrégation, et une fiche est de la donnée : elle porte ce qu'elle
-  affirme sans qu'on ait à connaître un défaut de code pour la lire.
+  **`time_step` et `relative` font exception et s'écrivent TOUJOURS**, y
+  compris pour leur défaut, et le linter les exige. La règle qui les
+  sépare du reste : on omet un défaut qui veut dire « rien de
+  particulier » ; on écrit un défaut qui est un CHOIX, sans quoi son
+  absence se lit comme un oubli. Une fiche est de la donnée : elle porte
+  ce qu'elle affirme sans qu'on ait à connaître un défaut de code.
+  `time_step` est le cœur de l'agrégation, un choix parmi sept valeurs.
+  `relative` dit ce que la GRANDEUR autorise (cf. NOMENCLATURE.md) : tant
+  que `true` n'était qu'un défaut jamais écrit, « j'ai décidé que oui » et
+  « personne n'a rien écrit » étaient indiscernables, et une ligne oubliée
+  dans une fiche R a fait annoncer douze variables `RMAs` comme relatives,
+  seules de leur famille, pendant des années (corrigé le 2026-08-13).
 - **multi-sorties** : métadonnées en listes si les sorties sont des
   variables distinctes ; name UNIQUE si ce sont les coordonnées d'un même
   objet (FDC_p/FDC_Q = une courbe).
