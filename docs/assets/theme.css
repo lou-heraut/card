@@ -58,7 +58,12 @@
   --md-default-fg-color: var(--text);
   --md-default-fg-color--light: var(--muted);
   --md-default-fg-color--lighter: var(--faint);
-  --md-default-fg-color--lightest: var(--line);
+  /* Material tire de cette variable ses filets incidents : traits
+     horizontaux, bordures de tableau, filet gauche d'un encart. Au
+     niveau `--line` (#383838) ils tapent plus fort que ceux de /docs.
+     `--line-soft` est le filet de LECTURE ; `--line` reste celui des
+     objets qu'on manipule, champs et boutons, qui le déclarent eux. */
+  --md-default-fg-color--lightest: var(--line-soft);
 
   --md-typeset-color: var(--text);
   --md-typeset-a-color: var(--accent);
@@ -350,11 +355,19 @@
 .md-typeset .admonition,
 .md-typeset details,
 .md-typeset .admonition.note,
+.md-typeset details.note,
 .md-typeset .admonition.info,
+.md-typeset details.info,
 .md-typeset .admonition.tip,
+.md-typeset details.tip,
 .md-typeset .admonition.warning,
+.md-typeset details.warning,
 .md-typeset .admonition.example,
-.md-typeset .admonition.abstract {
+.md-typeset details.example,
+.md-typeset .admonition.quote,
+.md-typeset details.quote,
+.md-typeset .admonition.abstract,
+.md-typeset details.abstract {
   background: var(--surface);
   border: 1px solid var(--line-soft);
   border-left: 2px solid var(--line);
@@ -363,14 +376,28 @@
   font-size: .66rem;
 }
 
+/* Les mêmes types se déclinent en `.admonition-title` quand l'encart
+   vient de la prose (`!!! note`), et en `summary` quand il vient d'une
+   docstring : mkdocstrings rend une section « Notes » en
+   `<details class="note">`. Oublier la seconde forme laisse les blocs
+   Notes des fonctions en bleu Material au milieu d'une page qui n'a plus
+   aucune couleur franche. */
 .md-typeset .admonition-title,
 .md-typeset summary,
 .md-typeset .note > .admonition-title,
+.md-typeset .note > summary,
 .md-typeset .info > .admonition-title,
+.md-typeset .info > summary,
 .md-typeset .tip > .admonition-title,
+.md-typeset .tip > summary,
 .md-typeset .warning > .admonition-title,
+.md-typeset .warning > summary,
 .md-typeset .example > .admonition-title,
-.md-typeset .abstract > .admonition-title {
+.md-typeset .example > summary,
+.md-typeset .quote > .admonition-title,
+.md-typeset .quote > summary,
+.md-typeset .abstract > .admonition-title,
+.md-typeset .abstract > summary {
   background: transparent;
   border: 0;
   color: var(--text);
@@ -385,20 +412,36 @@
 .md-typeset .admonition-title::before,
 .md-typeset summary::before,
 .md-typeset .note > .admonition-title::before,
+.md-typeset .note > summary::before,
 .md-typeset .info > .admonition-title::before,
+.md-typeset .info > summary::before,
 .md-typeset .tip > .admonition-title::before,
+.md-typeset .tip > summary::before,
 .md-typeset .warning > .admonition-title::before,
+.md-typeset .warning > summary::before,
 .md-typeset .example > .admonition-title::before,
-.md-typeset .abstract > .admonition-title::before {
+.md-typeset .example > summary::before,
+.md-typeset .quote > .admonition-title::before,
+.md-typeset .quote > summary::before,
+.md-typeset .abstract > .admonition-title::before,
+.md-typeset .abstract > summary::before {
   background-color: var(--faint);
 }
 
 .md-typeset .note > .admonition-title::after,
+.md-typeset .note > summary::after,
 .md-typeset .info > .admonition-title::after,
+.md-typeset .info > summary::after,
 .md-typeset .tip > .admonition-title::after,
+.md-typeset .tip > summary::after,
 .md-typeset .warning > .admonition-title::after,
+.md-typeset .warning > summary::after,
 .md-typeset .example > .admonition-title::after,
-.md-typeset .abstract > .admonition-title::after {
+.md-typeset .example > summary::after,
+.md-typeset .quote > .admonition-title::after,
+.md-typeset .quote > summary::after,
+.md-typeset .abstract > .admonition-title::after,
+.md-typeset .abstract > summary::after {
   color: var(--faint);
 }
 
