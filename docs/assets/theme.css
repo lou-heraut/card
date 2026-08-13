@@ -317,6 +317,34 @@
   font-size: .64rem;
 }
 
+/* Le bouton « copier » d'un bloc de code, en gris. Material le peint à
+   la couleur d'accent au survol, ce qui pose une tache colorée sur un
+   fond sombre au lieu d'un repère, et sa boîte reste invisible tant
+   qu'on ne la survole pas. Trois états, trois gris : posé, survolé,
+   pressé. C'est le même parti que sur /docs, où « copier » et
+   « télécharger » sont des boutons gris sur le bloc. */
+.md-code__nav {
+  background-color: rgba(236, 236, 236, .04);
+}
+
+.md-code__button {
+  color: var(--faint);
+}
+
+.md-code__button:hover,
+.md-code__button.focus-visible {
+  color: var(--text);
+}
+
+.md-code__button--active {
+  color: var(--text) !important;
+}
+
+:hover > .md-code__nav {
+  background-color: rgba(236, 236, 236, .08);
+}
+
+
 /* La coloration de Material est vive (bleu franc, rouge, rose, violet)
    et elle jure avec une page qui n'emploie la couleur qu'en renfort. On
    reprend les teintes de /docs, plus un violet de la même famille pour
@@ -353,21 +381,14 @@
    Les sélecteurs doivent nommer les types, `.md-typeset .admonition.note`
    étant plus spécifique que `.md-typeset .admonition`. */
 .md-typeset .admonition,
-.md-typeset details,
+.md-typeset details:not(.cat-row),
 .md-typeset .admonition.note,
-.md-typeset details.note,
 .md-typeset .admonition.info,
-.md-typeset details.info,
 .md-typeset .admonition.tip,
-.md-typeset details.tip,
 .md-typeset .admonition.warning,
-.md-typeset details.warning,
 .md-typeset .admonition.example,
-.md-typeset details.example,
 .md-typeset .admonition.quote,
-.md-typeset details.quote,
-.md-typeset .admonition.abstract,
-.md-typeset details.abstract {
+.md-typeset .admonition.abstract {
   background: var(--surface);
   border: 1px solid var(--line-soft);
   border-left: 2px solid var(--line);
@@ -384,20 +405,14 @@
    aucune couleur franche. */
 .md-typeset .admonition-title,
 .md-typeset summary,
+.md-typeset details:not(.cat-row) > summary,
 .md-typeset .note > .admonition-title,
-.md-typeset .note > summary,
 .md-typeset .info > .admonition-title,
-.md-typeset .info > summary,
 .md-typeset .tip > .admonition-title,
-.md-typeset .tip > summary,
 .md-typeset .warning > .admonition-title,
-.md-typeset .warning > summary,
 .md-typeset .example > .admonition-title,
-.md-typeset .example > summary,
 .md-typeset .quote > .admonition-title,
-.md-typeset .quote > summary,
-.md-typeset .abstract > .admonition-title,
-.md-typeset .abstract > summary {
+.md-typeset .abstract > .admonition-title {
   background: transparent;
   border: 0;
   color: var(--text);
@@ -411,38 +426,50 @@
    la seule tache de couleur franche de la page. */
 .md-typeset .admonition-title::before,
 .md-typeset summary::before,
+.md-typeset details:not(.cat-row) > summary::before,
 .md-typeset .note > .admonition-title::before,
-.md-typeset .note > summary::before,
 .md-typeset .info > .admonition-title::before,
-.md-typeset .info > summary::before,
 .md-typeset .tip > .admonition-title::before,
-.md-typeset .tip > summary::before,
 .md-typeset .warning > .admonition-title::before,
-.md-typeset .warning > summary::before,
 .md-typeset .example > .admonition-title::before,
-.md-typeset .example > summary::before,
 .md-typeset .quote > .admonition-title::before,
-.md-typeset .quote > summary::before,
-.md-typeset .abstract > .admonition-title::before,
-.md-typeset .abstract > summary::before {
+.md-typeset .abstract > .admonition-title::before {
   background-color: var(--faint);
 }
 
-.md-typeset .note > .admonition-title::after,
-.md-typeset .note > summary::after,
-.md-typeset .info > .admonition-title::after,
-.md-typeset .info > summary::after,
-.md-typeset .tip > .admonition-title::after,
-.md-typeset .tip > summary::after,
-.md-typeset .warning > .admonition-title::after,
-.md-typeset .warning > summary::after,
-.md-typeset .example > .admonition-title::after,
-.md-typeset .example > summary::after,
-.md-typeset .quote > .admonition-title::after,
-.md-typeset .quote > summary::after,
-.md-typeset .abstract > .admonition-title::after,
-.md-typeset .abstract > summary::after {
-  color: var(--faint);
+
+/* Un encart de docstring ne se REPLIE PAS. mkdocstrings le rend en
+   `<details open>`, donc avec un chevron et un titre cliquable, alors
+   qu'il n'y a rien à replier : on n'affiche pas une note pour offrir de
+   la cacher, on l'affiche ou on ne l'écrit pas. Les encarts de prose
+   n'ont jamais eu ce chevron, d'où la différence que l'on voyait entre
+   une même « note » sur deux pages.
+
+   Le sélecteur vise TOUT `details` sauf ceux du catalogue, plutôt que
+   d'énumérer des types : mkdocstrings nomme sa classe d'après la
+   section de la docstring, si bien qu'une liste raterait toujours la
+   suivante. `note` était couvert, `see-also` ne l'était pas, et le
+   chevron restait là.
+
+   `.cat-row` est la seule exception, et elle est nommée : c'est le
+   catalogue, où le repli EST la fonction. Le jour où une page a besoin
+   d'un vrai bloc repliable, elle se nommera elle aussi.
+
+   Trois précautions, parce que le repli est un comportement natif : le
+   chevron disparaît, le titre cesse de recevoir les clics, et le contenu
+   reste affiché si le repli survient d'une autre façon, au clavier. */
+.md-typeset details:not(.cat-row) > summary {
+  pointer-events: none;
+  cursor: default;
+}
+
+.md-typeset details:not(.cat-row) > summary::after {
+  display: none;
+  content: none;
+}
+
+.md-typeset details:not(.cat-row):not([open]) > *:not(summary) {
+  display: block;
 }
 
 
