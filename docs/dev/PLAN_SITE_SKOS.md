@@ -673,6 +673,170 @@ lecture et non de la devinette.
   s'écrire en paire de dates. Elles deviennent des concepts de contrainte
   nommés, pas une valeur. 25 fenêtres distinctes en tout.
 
+## Audit des vocabulaires (2026-08-13)
+
+Fait à froid, en lisant **les ontologies elles-mêmes** et non les
+étiquettes qu'un service affiche. C'est la leçon du jour : la première
+confrontation (2026-08-11) avait parcouru l'arbre de Theia et conclu
+qu'il manquait la dimension temporelle, alors que la réponse était dans
+un troisième vocabulaire qu'ils emploient sans qu'aucune étiquette ne le
+dise. **On aurait dû commencer par là** : inventorier les termes
+disponibles, puis modéliser, puis aligner. Ce chapitre rattrape cet
+ordre.
+
+La question n'est plus « que dire à Theia » mais « **quelle est la
+métadonnée la plus juste pour ce que card sait déjà** ». Ce que Theia en
+fera vient après, et ne change rien à ce qui suit.
+
+### Les quatre vocabulaires lus, et ce que chacun sait dire
+
+| | ce qu'il porte | ce qu'il ne porte pas |
+|---|---|---|
+| **SKOS** | des concepts : libellés, notation, hiérarchie, alignements | rien de la composition d'une variable |
+| **I-ADOPT** (`iop:`) | la composition : propriété, objet, modificateur statistique, contrainte, et les **systèmes** (numérateur/dénominateur, source/cible), et `VariableSet` pour un ensemble de variables | le DÉTAIL d'une statistique : ni durée, ni chaîne |
+| **CPM** (`cpm:`) | la mesure statistique en détail : `aggregationTimePeriod`, `aggregationArea/Length/Volume`, `derivedFrom` (statistique d'une statistique), `unitOfMeasure`, une `Constraint` qui porte une **valeur** | la sémantique du contenu |
+| **CF** (conventions Climate & Forecast) | les `standard_name` du domaine, avec unité canonique, et les `cell_methods` (17 opérations) | rien de RDF, c'est une convention de fichier NetCDF |
+
+CPM, `purl.org/voc/cpm`, est la mise en OWL du modèle des **lignes
+directrices INSPIRE** pour *Observations & Measurements* et Sensor Web
+Enablement. Ce n'est ni une invention de Theia ni une bricole : c'est le
+modèle européen de la donnée d'observation.
+
+### Deux choses que j'avais dites de travers, corrigées
+
+- **« l'année hydrologique n'est pas 1 an »** : si. C'est une durée d'un
+  an, avec un DÉCALAGE de début. Deux affirmations, pas un cas
+  particulier : `cpm:aggregationTimePeriod` vaut « 1 an », et le début
+  au 1er septembre est une propriété de plus. Rien d'infaisable.
+- **« `yearday` n'est pas une agrégation »** : si. `QJ` rend une valeur
+  par jour calendaire sur toute la chronique, c'est-à-dire une agrégation
+  **par jour PUIS sur les années**. CF a exactement ce cas et le nomme,
+  c'est la *statistique climatologique* : `time: mean within days
+  time: mean over years`. Donc deux niveaux, comme `VCN10`, et le même
+  mécanisme les décrit.
+
+### Ce que card déclare, et le terme le plus juste pour le dire
+
+| ce que la fiche déclare | ce que le `.ttl` publie aujourd'hui | terme le plus juste | verdict |
+|---|---|---|---|
+| identifiant | `skos:notation` | idem | **bon** |
+| `name` fr/en | `skos:prefLabel` | idem | **bon** |
+| `description` fr/en | `skos:definition` | idem | **bon** |
+| `input_vars` (grandeur) | `iop:hasProperty` + `iop:hasObjectOfInterest` | idem, plus `skos:closeMatch` vers un `standard_name` CF | **incomplet** |
+| plusieurs entrées | rien | `iop:AsymmetricSystem` + `hasNumerator`/`hasDenominator`/`hasSource`/`hasTarget` | **manquant** |
+| `classification.statistic` | `iop:hasStatisticalModifier` | idem, plus `cpm:statisticalMeasure` pour le détail | **incomplet** |
+| `time_step` du process | **rien** | `cpm:StatisticalMeasure` + `cpm:aggregationTimePeriod` | **manquant** |
+| chaîne de process | rien (la prose de `card:method`) | `cpm:derivedFrom`, qui chaîne les mesures statistiques | **manquant** |
+| `unit` | **rien** | `cpm:unitOfMeasure`, et un code UCUM | **manquant** |
+| paramètre d'une contrainte (10 jours, 0.9, 5 ans, 20 mm) | seulement dans le libellé | `cpm:Constraint` + `cpm:value` + `cpm:constraintProperty` | **incomplet** |
+| famille | un faux `iop:Variable` parent | `iop:VariableSet` + `hasApplicableProperty`, `hasApplicableStatisticalModifier`… | **à corriger** |
+| `authors`, `date` de la fiche | rien | `dcterms:creator`, `dcterms:created` sur la ressource fiche | **manquant** |
+| `method` (la prose) | `card:method` | aucun standard ne décrit une procédure de calcul en toutes lettres | **bon, propriété locale assumée** |
+| `version`, `swhid`, chemin | `owl:versionInfo`, `dcterms:identifier`, `card:path` | idem | **bon** |
+| `is_date`, `relative`, `palette` | rien | rien : ce sont des propriétés d'AFFICHAGE | **hors sujet, à garder dehors** |
+
+### Les sept manques, par ordre de valeur
+
+1. **L'unité ne part pas.** Zéro occurrence dans 10 809 triplets, pour
+   472 variables et douze unités distinctes. C'est le manque le plus
+   grave : un thésaurus de variables sans unité oblige à revenir au
+   catalogue. `cpm:unitOfMeasure` porte la chaîne, un code **UCUM**
+   (`m3/s`, `Cel`, `mm`) la rend calculable, et CF donne l'unité
+   canonique de chaque `standard_name`, ce qui permet de VÉRIFIER les
+   nôtres au lieu de les affirmer.
+2. **La période d'agrégation ne part pas**, alors qu'elle est déclarée
+   dans TOUS les process (le linter l'exige) : 272 variables sur 472 en
+   portent une explicite. Avec `cpm:derivedFrom`, la chaîne entière se
+   dit : `VCN10` = minimum sur 1 an, dérivé d'une moyenne sur 10 jours.
+3. **La valeur d'un paramètre reste prisonnière du libellé.** « fenêtre
+   glissante de 10 jours » est une étiquette ; `cpm:value 10` et
+   `cpm:constraintProperty <durée>` sont de la donnée. Sept familles de
+   contrainte sont concernées.
+4. **Les familles se font passer pour des variables.** I-ADOPT a une
+   classe pour ça, `iop:VariableSet`, avec ses `hasApplicable*` qui
+   disent exactement ce que nos familles partagent. Un parent qui
+   s'annonce `iop:Variable` alors qu'il n'est calculable par aucune
+   fiche est une petite fausseté que rien ne nous oblige à écrire.
+5. **Les variables à plusieurs entrées n'ont pas de rôles**, alors
+   qu'`alignments.yaml` les DÉCLARE déjà (`role: source`, `role:
+   target`) et que l'export les ignore. Quarante-huit variables, dont
+   les douze couples observé/simulé.
+6. **Aucun alignement CF.** Les quatre grandeurs d'entrée de card ont un
+   `standard_name` vérifié : `water_volume_transport_in_river_channel`
+   (m3 s-1), `precipitation_amount` (kg m-2), `air_temperature` (K),
+   `water_potential_evaporation_amount` (kg m-2). C'est le vocabulaire
+   le plus employé de notre domaine, plus encore que Theia.
+7. **Ni auteur ni date sur la ressource fiche**, alors que chaque YAML
+   les porte. `dcterms:creator` et `dcterms:created` existent pour ça.
+
+### Ce qu'on n'adopte pas, et pourquoi
+
+- **PROV-O** : décrit ce qui s'est PASSÉ, une exécution. Le thésaurus
+  décrit des définitions. Inchangé.
+- **SOSA/SSN** : décrit des observations et des capteurs. Une fiche
+  n'observe rien, elle définit.
+- **Le modèle de classes de CPM en entier** (`ObservableProperty` et sa
+  hiérarchie). On emprunte ses PROPRIÉTÉS, pas son arbre : nos concepts
+  restent des `skos:Concept` et des `iop:Variable`. À noter quand même,
+  c'est une entorse : `cpm:statisticalMeasure` a pour domaine
+  `cpm:ObservableProperty`. Theia commet exactement la même, ce qui la
+  rend au moins conventionnelle ; on peut aussi typer nos variables des
+  deux façons, ce qui coûte une ligne et lève l'objection.
+
+### La cible, sur `VCN10`
+
+```turtle
+card:variable/VCN10  a skos:Concept , iop:Variable , cpm:ObservableProperty ;
+    skos:notation   "VCN10" ;
+    skos:prefLabel  "Annual minimum of 10-day mean daily discharge"@en ;
+
+    iop:hasProperty             theia:c_7742e5f0 ;   # Discharge
+    iop:hasObjectOfInterest     theia:c_d73ddccf ;   # Surface water
+    iop:hasStatisticalModifier  card:statistic/minimum ;
+    skos:closeMatch  cf:water_volume_transport_in_river_channel ;
+
+    cpm:unitOfMeasure       "m3/s" ;                 # UCUM
+    cpm:statisticalMeasure  card:measure/VCN10 ;
+
+    skos:broader     card:family/… ;                 # un iop:VariableSet
+    rdfs:isDefinedBy card:card/VCN10 .
+
+card:measure/VCN10  a cpm:StatisticalMeasure ;
+    skos:prefLabel             "annual minimum"@en ;
+    skos:broader               card:statistic/minimum ;
+    cpm:aggregationTimePeriod  card:period/hydrological-year ;
+    cpm:derivedFrom            card:measure/rolling-mean-10d .
+
+card:measure/rolling-mean-10d  a cpm:StatisticalMeasure ;
+    skos:broader               card:statistic/mean ;
+    cpm:aggregationTimePeriod  card:period/10-day .
+
+card:period/hydrological-year  a skos:Concept ;
+    skos:prefLabel  "hydrological year"@en ;
+    skos:broader    card:period/1-year ;             # une DURÉE d'un an
+    card:startsOn   "09-01" .                        # le décalage, chez nous
+```
+
+Tout y est dérivé de ce que la fiche déclare déjà : le `time_step` du
+dernier process donne la période, la chaîne des process donne le
+`derivedFrom`, les kwargs donnent les valeurs de contrainte, `unit`
+donne l'unité. **Rien de neuf à écrire dans les 226 fiches.**
+
+### Ordre de travail proposé
+
+Chacune de ces étapes est indépendante des autres et de Theia.
+
+| # | quoi | dépend de |
+|---|---|---|
+| 1 | unité dans l'export (chaîne), et `dcterms:creator` / `created` | rien |
+| 2 | codes UCUM par unité, et vérification contre l'unité canonique CF | 1 |
+| 3 | `cpm:StatisticalMeasure` : période d'agrégation, puis `derivedFrom` sur la chaîne | rien |
+| 4 | valeurs de contrainte (`cpm:value`) | rien |
+| 5 | familles en `iop:VariableSet` | rien |
+| 6 | rôles des entrées multiples (`AsymmetricSystem`) | rien |
+| 7 | alignements CF sur les quatre grandeurs | rien |
+
+
 ## Comment ça se lie à la documentation de card
 
 Le catalogue et le thésaurus ne sont pas deux objets, ce sont **deux
