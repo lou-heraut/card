@@ -63,7 +63,48 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.11.0.
+### Ajouté
+
+- **Un site de documentation, en local (2026-08-13).** MkDocs Material,
+  cinq pages plus une par fiche, construit par
+  `.github/workflows/site.yml` mais **rien n'est publié** : le
+  déclenchement reste manuel et les Pages servent toujours `main:/docs`.
+  Ce qu'il faudra basculer le jour de la publication, et pourquoi chaque
+  garde existe, sont dans `docs/dev/PLAN_SITE_SKOS.md`.
+
+  Le plan du site répond à trois questions plutôt que d'aligner six
+  pages : ce qu'on peut calculer, comment on s'en sert, où ça vit. Deux
+  pages changent de nom parce que l'ancien mentait, « Reading a name »
+  qui ne disait pas le nom de quoi, et « Hydrological functions » qui
+  n'étaient ni toutes hydrologiques ni celles qu'on appelle. Une page
+  manquait, « écrire sa propre fiche ».
+
+- **Une page par fiche, et le site ne redessine rien (2026-08-13).**
+  Chaque fiche a son adresse et porte la figure de `card.figure()`,
+  recopiée telle quelle : le même dessin que `card.info()` dans un
+  terminal, que card4r et que `/v1/cards/{id}/figure`. Un rendu de plus
+  aurait été une chose de plus à tenir d'accord avec les autres.
+  `tests/test_catalogue.py` tient la règle.
+
+- **Le catalogue du site est filtrable, et une entrée est une VARIABLE
+  (2026-08-13).** Recherche plein texte, filtres par facette, par
+  finalité et par variable d'entrée, état du filtre dans l'adresse pour
+  qu'une vue se partage, ancre stable par variable, dépliage natif sans
+  JavaScript. Les vingt-huit variables produites par deux fiches n'ont
+  plus deux entrées ni deux ancres.
+
+### Modifié
+
+- **Le décompte du README compte les variables distinctes
+  (2026-08-13).** Il annonçait 472, qui est le nombre de COLONNES que le
+  corpus rend, les deux catalogues markdown listant par fiche. Les
+  variables distinctes sont 444. Les deux nombres sont vrais ; celui
+  qu'un lecteur cherche est le second. Toujours engendré, jamais écrit à
+  la main.
+
+- **Le `Makefile` rassemble les commandes du quotidien (2026-08-13).**
+  `make` seul les liste, `make check` est exactement ce que lance le CI.
+  Il ne décide rien et ne recopie rien : c'est un bloc-notes.
 
 ## 0.11.0 (2026-08-13)
 

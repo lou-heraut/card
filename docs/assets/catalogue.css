@@ -1,4 +1,10 @@
-/* Catalogue : les commandes, la bascule de langue, la table. */
+/* Catalogue : les commandes, la bascule de langue, la liste des entrées.
+   La gamme et les fontes viennent de theme.css, chargé avant.
+
+   La liste n'est pas un tableau : chaque entrée est un `<details>`, donc
+   le dépliage est celui du navigateur. Aucun JavaScript n'y participe,
+   il ne sert qu'à filtrer. C'est ce qui garde la page lisible clavier
+   coupé, JS coupé, et pour un lecteur d'écran. */
 
 .cat-controls {
   display: flex;
@@ -11,50 +17,269 @@
 .cat-controls label {
   display: flex;
   flex-direction: column;
-  font-size: .7rem;
+  font-size: .55rem;
   text-transform: uppercase;
-  letter-spacing: .04em;
-  color: var(--md-default-fg-color--light);
+  letter-spacing: .1em;
+  color: var(--muted);
 }
 
+/* Les menus ont une largeur FIXE, sans quoi chacun prend celle de son
+   option la plus longue (« threshold exceedance · dépassement de
+   seuil ») : les commandes partaient alors en escalier sur cinq
+   rangées, et l'œil ne trouvait plus lesquelles étaient actives. */
 .cat-controls select,
 .cat-controls input[type="search"] {
-  font-size: .8rem;
-  padding: .35rem .5rem;
-  border: 1px solid var(--md-default-fg-color--lightest);
-  border-radius: .2rem;
-  background: var(--md-default-bg-color);
-  color: var(--md-default-fg-color);
+  font-size: .65rem;
+  font-family: var(--sans);
+  padding: .3rem .45rem;
+  margin-top: .2rem;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--well);
+  color: var(--text);
 }
 
-.cat-controls input[type="search"] { min-width: 18rem; flex: 1 1 18rem; }
+.cat-controls select {
+  width: 9.5rem;
+  text-overflow: ellipsis;
+}
+
+.cat-controls select:focus,
+.cat-controls input[type="search"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.cat-controls input[type="search"] {
+  min-width: 16rem;
+  flex: 1 1 16rem;
+}
 
 .cat-controls button {
-  font-size: .8rem;
-  padding: .35rem .7rem;
-  border: 1px solid var(--md-default-fg-color--lightest);
-  border-radius: .2rem;
+  font-size: .7rem;
+  padding: .3rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: 3px;
   background: none;
-  color: var(--md-default-fg-color--light);
+  color: var(--muted);
   cursor: pointer;
 }
-.cat-controls button:hover { color: var(--md-accent-fg-color); }
+
+.cat-controls button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
 
 .cat-count {
-  font-size: .75rem;
-  color: var(--md-default-fg-color--light);
+  font-size: .62rem;
+  color: var(--faint);
   margin: 0 0 .8rem;
 }
 
-/* Une ligne porte ses DEUX libellés : la bascule masque une colonne au
-   lieu de recharger une autre page. C'est ce que deux fichiers markdown
-   ne savaient pas faire. */
-table.cat [lang="fr"] { display: none; }
-table.cat.show-fr [lang="fr"] { display: table-cell; }
-table.cat.show-fr [lang="en"] { display: none; }
 
-table.cat { font-size: .78rem; width: 100%; }
-table.cat td, table.cat th { padding: .3rem .5rem; }
-table.cat td.v code { font-weight: 600; }
-table.cat td.u, table.cat td.i, table.cat td.c { white-space: nowrap; }
-table.cat tr[hidden] { display: none; }
+/* ── la liste ──────────────────────────────────────────────────────────
+   Trois colonnes visibles, et rien d'autre : le symbole, le nom, l'unité.
+   Tout le reste attend qu'on déplie. Une entrée qu'on parcourt et une
+   entrée qu'on lit ne demandent pas la même densité. */
+
+.cat-head,
+.md-typeset .cat-row > summary {
+  display: grid;
+  grid-template-columns: minmax(7rem, 11rem) 1fr auto;
+  gap: .2rem 1rem;
+  align-items: baseline;
+  padding: .35rem .5rem;
+}
+
+.cat-head {
+  font-size: .55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.cat-head .u,
+.md-typeset .cat-row .u {
+  text-align: right;
+  color: var(--faint);
+  font-size: .65rem;
+  white-space: nowrap;
+}
+
+/* Material habille `details` en encart : cadre, fond, icône, retrait.
+   Ici une entrée est une LIGNE d'une liste, pas un encart. */
+.md-typeset .cat-row {
+  display: block;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--line-soft);
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  font-size: .72rem;
+}
+
+.md-typeset .cat-row > summary {
+  background: none;
+  border: 0;
+  font-weight: 400;
+  cursor: pointer;
+  list-style: none;
+}
+
+.md-typeset .cat-row > summary::before,
+.md-typeset .cat-row > summary::after,
+.md-typeset .cat-row > summary::-webkit-details-marker {
+  display: none;
+  content: none;
+}
+
+.md-typeset .cat-row > summary:hover {
+  background: rgba(236, 236, 236, .03);
+}
+
+.md-typeset .cat-row[open] > summary {
+  background: rgba(236, 236, 236, .03);
+}
+
+.md-typeset .cat-row > summary:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: -1px;
+}
+
+/* Le symbole est du texte, pas un champ : sans `justify-self`, le fond
+   du `<code>` s'étire sur toute la colonne et l'entrée prend l'air d'un
+   formulaire. */
+.md-typeset .cat-row .v {
+  justify-self: start;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  color: var(--text);
+  font-weight: 600;
+  font-size: .68rem;
+  overflow-wrap: anywhere;
+}
+
+.md-typeset .cat-row[open] .v {
+  color: var(--accent);
+}
+
+.md-typeset .cat-row .n {
+  color: var(--muted);
+}
+
+
+/* ── le détail ─────────────────────────────────────────────────────────
+   Clé par clé, une ligne par clé : la forme du YAML dont ça sort, et
+   celle de l'en-tête de la figure. La clé est à droite de sa colonne,
+   contre sa valeur, pour que l'œil descende le long d'une seule règle. */
+
+.md-typeset .cat-detail {
+  padding: .1rem .5rem .8rem;
+  background: none;
+}
+
+.md-typeset .cat-detail .cat-desc {
+  color: var(--muted);
+  font-size: .7rem;
+  margin: 0 0 .5rem;
+  padding-left: calc(7rem + 1rem);
+}
+
+.md-typeset .cat-detail dl {
+  display: grid;
+  grid-template-columns: minmax(7rem, 11rem) 1fr;
+  gap: .15rem 1rem;
+  margin: 0;
+}
+
+.md-typeset .cat-detail dt {
+  text-align: right;
+  color: var(--faint);
+  font-size: .6rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin: 0;
+  padding-top: .1rem;
+}
+
+.md-typeset .cat-detail dd {
+  margin: 0;
+  color: var(--muted);
+}
+
+.md-typeset .cat-detail code {
+  background: none;
+  padding: 0 .1rem 0 0;
+  color: var(--text);
+}
+
+.md-typeset .cat-detail a code {
+  color: var(--accent);
+}
+
+.md-typeset .cat-detail .cat-more {
+  font-size: .65rem;
+}
+
+.md-typeset .cat-row[hidden] {
+  display: none;
+}
+
+
+/* ── la figure d'une fiche ─────────────────────────────────────────────
+   Le dessin est fait de caractères, et il ne tient que si rien ne le
+   replie : chasse fixe, pas de retour à la ligne, et un ascenseur
+   horizontal quand la fenêtre est trop étroite. */
+
+.md-typeset pre.fig {
+  background: var(--well);
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  padding: .8rem 1rem;
+  overflow-x: auto;
+  white-space: pre;
+  font-family: var(--mono);
+  font-size: .625rem;
+  line-height: 1.35;
+  color: var(--text);
+  /* Sans ça, Firefox pose un ascenseur CLAIR sous la figure : une barre
+     blanche au bas d'un bloc sombre, qu'aucune règle webkit ne touche. */
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a3a var(--well);
+}
+
+.cat-controls--lang {
+  margin: .6rem 0;
+}
+
+
+/* ── la bascule de langue, pour tout le site ───────────────────────────
+   Une seule règle, et tout ce qui porte `lang` la suit : un fragment de
+   phrase, une figure entière. `revert` rend à l'élément son affichage
+   par défaut, ce qui évite d'écrire une règle par balise.
+
+   Les sélecteurs sont doublés (`[lang]` seul, puis `.md-typeset [lang]`)
+   et ce n'est pas de la coquetterie : Material déclare
+   `.md-typeset pre{display:flow-root}`, qui est PLUS SPÉCIFIQUE qu'un
+   sélecteur d'attribut seul et gagnait donc contre le masquage. Les
+   figures des deux langues s'affichaient l'une sous l'autre. */
+
+[lang="fr"],
+.md-typeset [lang="fr"] {
+  display: none;
+}
+
+body.show-fr [lang="en"],
+body.show-fr .md-typeset [lang="en"] {
+  display: none;
+}
+
+body.show-fr [lang="fr"],
+body.show-fr .md-typeset [lang="fr"] {
+  display: revert;
+}

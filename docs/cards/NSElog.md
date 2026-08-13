@@ -1,0 +1,66 @@
+---
+hide:
+  - toc
+---
+
+# `NSElog`
+
+The card as `card.info()` prints it, as `card4r` prints it, and as card-api serves it. One drawing, read in three places.
+
+<div class="cat-controls cat-controls--lang">
+<label>labels<select id="cat-lang"><option value="en">English</option><option value="fr">Français</option></select></label>
+</div>
+
+<pre class="fig" lang="en" data-search-exclude>  ╭──────────────────────────────────────────────────────────────────────────╮
+  │  NSElog          Nash-Sutcliffe Efficiency of the logarithm of the data  │
+  ╰──────────────────────────────────────────────────────────────────────────╯
+
+     Identical to NSE, this score, however, gives strong emphasis on the
+     reconstruction of low values of the examined variable.
+
+         season ─ record
+           form ─ scalar
+        purpose ─ model performance
+           unit ─ without unit
+         inputs ─ Q_obs [m³·s⁻¹], Q_sim [m³·s⁻¹]
+
+            ╷
+            ├── NSE_log(Q_obs, Q_sim)
+            │   └─ Logarithm of daily data, then NSE
+            │    ◦ No temporal aggregation
+            │    ◦ Cut beyond 10 missing years
+            ▼
+           NSElog
+
+  ──────────────────────────────────────────────────────────────────────────
+  v1.0   flow/model-performance/scalar/NSElog.yaml
+  https://archive.softwareheritage.org/swh:1:cnt:dcea7a241d92b61c38e5aad56d887f6a3d695053</pre>
+<pre class="fig" lang="fr" data-search-exclude>  ╭──────────────────────────────────────────────────────────────────────────╮
+  │  NSElog    Coefficient d'efficience de Nash-Sutcliffe du logarithme des  │
+  │                                                                 données  │
+  ╰──────────────────────────────────────────────────────────────────────────╯
+
+     Identique au NSE, ce score donne cependant un poids fort à la
+     reconstitution des valeurs faibles de la variable examinée.
+
+         saison ─ chronique
+          forme ─ scalaire
+       finalité ─ performance de modèle
+          unité ─ sans unité
+        entrées ─ Q_obs [m³·s⁻¹], Q_sim [m³·s⁻¹]
+
+            ╷
+            ├── NSE_log(Q_obs, Q_sim)
+            │   └─ Logarithme des données journalières puis NSE
+            │    ◦ Aucune agrégation temporelle
+            │    ◦ Coupée au-delà de 10 années manquantes
+            ▼
+           NSElog
+
+  ──────────────────────────────────────────────────────────────────────────
+  v1.0   flow/model-performance/scalar/NSElog.yaml
+  https://archive.softwareheritage.org/swh:1:cnt:dcea7a241d92b61c38e5aad56d887f6a3d695053</pre>
+
+**Variables produced**  [`NSElog`](../catalogue.md#NSElog)
+
+[The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/flow/model-performance/scalar/NSElog.yaml) &middot; [back to the catalogue](../catalogue.md)

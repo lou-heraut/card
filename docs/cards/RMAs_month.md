@@ -1,0 +1,133 @@
+---
+hide:
+  - toc
+---
+
+# `RMAs_month`
+
+The card as `card.info()` prints it, as `card4r` prints it, and as card-api serves it. One drawing, read in three places.
+
+<div class="cat-controls cat-controls--lang">
+<label>labels<select id="cat-lang"><option value="en">English</option><option value="fr">Français</option></select></label>
+</div>
+
+<pre class="fig" lang="en" data-search-exclude>  ╭──────────────────────────────────────────────────────────────────────────╮
+  │  RMAs_month                                                  12 outputs  │
+  ╰──────────────────────────────────────────────────────────────────────────╯
+
+     ◇ RMAs_jan
+       Cumulative daily solid precipitation for each January
+
+     ◇ RMAs_feb
+       Cumulative daily solid precipitation for each February
+
+     ◇ RMAs_mar
+       Cumulative daily solid precipitation for each March
+
+     ◇ RMAs_apr
+       Cumulative daily solid precipitation for each April
+
+     ◇ RMAs_may
+       Cumulative daily solid precipitation for each May
+
+     ◇ RMAs_jun
+       Cumulative daily solid precipitation for each June
+
+     ◇ RMAs_jul
+       Cumulative daily solid precipitation for each July
+
+     ◇ RMAs_aug
+       Cumulative daily solid precipitation for each August
+
+     ◇ RMAs_sep
+       Cumulative daily solid precipitation for each September
+
+     ◇ RMAs_oct
+       Cumulative daily solid precipitation for each October
+
+     ◇ RMAs_nov
+       Cumulative daily solid precipitation for each November
+
+     ◇ RMAs_dec
+       Cumulative daily solid precipitation for each December
+
+     phenomenon ─ snow
+         season ─ by month
+           form ─ series
+           unit ─ mm
+          input ─ Rs [mm]
+
+            ╷
+            ├── nansum_strict(Rs)
+            │   └─ Sum
+            │    ◦ One value per month of each year
+            │    ◦ At most 3 % missing
+            │    ◦ Cut beyond 10 missing years
+            ▼
+           RMAs
+
+  ──────────────────────────────────────────────────────────────────────────
+  v2.0   precipitation/snow/series/RMAs_month.yaml
+  https://archive.softwareheritage.org/swh:1:cnt:622a5382fedaccdab3e3d267c25b061bfa2807a0</pre>
+<pre class="fig" lang="fr" data-search-exclude>  ╭──────────────────────────────────────────────────────────────────────────╮
+  │  RMAs_month                                                  12 sorties  │
+  ╰──────────────────────────────────────────────────────────────────────────╯
+
+     ◇ RMAs_jan (RMAs_janv)
+       Cumul des précipitations solides journalières de chaque janvier
+
+     ◇ RMAs_feb (RMAs_fevr)
+       Cumul des précipitations solides journalières de chaque février
+
+     ◇ RMAs_mar (RMAs_mars)
+       Cumul des précipitations solides journalières de chaque mars
+
+     ◇ RMAs_apr (RMAs_avril)
+       Cumul des précipitations solides journalières de chaque avril
+
+     ◇ RMAs_may (RMAs_mai)
+       Cumul des précipitations solides journalières de chaque mai
+
+     ◇ RMAs_jun (RMAs_juin)
+       Cumul des précipitations solides journalières de chaque juin
+
+     ◇ RMAs_jul (RMAs_juil)
+       Cumul des précipitations solides journalières de chaque juillet
+
+     ◇ RMAs_aug (RMAs_aout)
+       Cumul des précipitations solides journalières de chaque août
+
+     ◇ RMAs_sep (RMAs_sept)
+       Cumul des précipitations solides journalières de chaque septembre
+
+     ◇ RMAs_oct
+       Cumul des précipitations solides journalières de chaque octobre
+
+     ◇ RMAs_nov
+       Cumul des précipitations solides journalières de chaque novembre
+
+     ◇ RMAs_dec
+       Cumul des précipitations solides journalières de chaque décembre
+
+      phénomène ─ neige
+         saison ─ par mois
+          forme ─ série
+          unité ─ mm
+         entrée ─ Rs [mm]
+
+            ╷
+            ├── nansum_strict(Rs)
+            │   └─ Somme
+            │    ◦ Une valeur par mois de chaque année
+            │    ◦ Au plus 3 % de lacunes
+            │    ◦ Coupée au-delà de 10 années manquantes
+            ▼
+           RMAs
+
+  ──────────────────────────────────────────────────────────────────────────
+  v2.0   precipitation/snow/series/RMAs_month.yaml
+  https://archive.softwareheritage.org/swh:1:cnt:622a5382fedaccdab3e3d267c25b061bfa2807a0</pre>
+
+**Variables produced**  [`RMAs_jan`](../catalogue.md#RMAs_jan) · [`RMAs_feb`](../catalogue.md#RMAs_feb) · [`RMAs_mar`](../catalogue.md#RMAs_mar) · [`RMAs_apr`](../catalogue.md#RMAs_apr) · [`RMAs_may`](../catalogue.md#RMAs_may) · [`RMAs_jun`](../catalogue.md#RMAs_jun) · [`RMAs_jul`](../catalogue.md#RMAs_jul) · [`RMAs_aug`](../catalogue.md#RMAs_aug) · [`RMAs_sep`](../catalogue.md#RMAs_sep) · [`RMAs_oct`](../catalogue.md#RMAs_oct) · [`RMAs_nov`](../catalogue.md#RMAs_nov) · [`RMAs_dec`](../catalogue.md#RMAs_dec)
+
+[The card itself, on GitHub](https://github.com/lou-heraut/card/blob/main/src/card/cards/precipitation/snow/series/RMAs_month.yaml) &middot; [back to the catalogue](../catalogue.md)

@@ -8,7 +8,7 @@
 <!-- badges: end -->
 
 **card** computes ready-to-use hydroclimatic variables:
-<!-- cards:count -->226 cards, 472 variables<!-- /cards:count -->
+<!-- cards:count -->226 cards, 444 variables<!-- /cards:count -->
 (low flows, floods, seasonality, climate change...) defined in YAML and
 executed by the [stase](https://github.com/lou-heraut/stase) engine. You
 pick your cards, card does the rest.
@@ -485,6 +485,7 @@ licence, authors in the AUTHORS file.
 pip install -e . && pytest              # full suite
 python -m card.schema                   # linter for the YAML cards
 python scripts/generate_catalog.py      # regenerates both catalogues
+make                                    # every everyday command, listed
 ```
 
 ```

@@ -64,7 +64,16 @@ README_COUNT = re.compile(
 
 
 def count_label(n_cards, n_vars):
-    """Le décompte tel qu'il s'écrit entre les balises du README."""
+    """Le décompte tel qu'il s'écrit entre les balises du README.
+
+    `n_vars` compte les variables DISTINCTES, et pas les lignes des deux
+    catalogues markdown, qui listent par fiche : vingt-huit variables
+    sont produites par deux fiches (`centerLF` vient de sa fiche et de la
+    fiche groupée `allLF`), si bien que le corpus rend 472 colonnes pour
+    444 variables. Le README annonçait les colonnes en disant
+    « variables ». Les deux nombres sont vrais, mais celui qu'un lecteur
+    cherche est le nombre de choses différentes qu'il peut calculer.
+    """
     return f"{n_cards} cards, {n_vars} variables"
 
 
@@ -237,24 +246,38 @@ def render(lang="fr"):
 
 
 
-# ── La page catalogue du site ────────────────────────────────────────────────
+# ── Le site : la page catalogue, et une page par fiche ───────────────────────
 #
-# Trois rendus du même corpus, trois publics, et c'est voulu :
+# Quatre rendus du même corpus, quatre publics, et c'est voulu :
 #   docs/CARDS.md, CARDS.fr.md   le dépôt, lisible sur GitHub sans rien bâtir
-#   docs/catalogue.md            le site, une ligne par VARIABLE, filtrable
+#   docs/catalogue.md            le site : une entrée par VARIABLE, filtrable
+#   docs/cards/<id>.md           le site : une page par FICHE, sa figure
 #   docs/card.ttl                les machines (scripts/generate_skos.py)
 #
-# Le site part de `list_cards()` et non de l'arborescence : une ligne par
-# variable produite, avec ses deux libellés et ses facettes. C'est ce qui
-# rend le filtrage possible, et surtout ce qui garantit que la page ne
-# peut pas diverger du paquet, puisqu'elle affiche exactement ce que la
-# fonction publique rend.
+# LA RÈGLE QUI TIENT TOUT ÇA, et qu'il ne faut pas défaire : le site
+# n'invente AUCUNE façon de montrer une fiche. Le détail d'une fiche,
+# c'est la figure de `card.figure()`, celle que `card.info()` imprime et
+# que card-api sert sur `/v1/cards/{id}/figure`, recopiée telle quelle.
+# Un rendu de plus serait une chose de plus à tenir d'accord avec les
+# autres, et un visiteur qui a vu la fiche dans le terminal, dans l'API
+# et sur le site aurait vu trois objets différents.
+#
+# Le catalogue, lui, ne montre que ce qui est propre à une VARIABLE et
+# qu'une figure de fiche ne porte pas : ses entrées, ses variantes, la ou
+# les fiches qui la produisent. Il l'écrit clé par clé, comme le YAML
+# dont ça sort et comme l'en-tête de la figure.
 SITE = ROOT / "docs" / "catalogue.md"
+CARTES = ROOT / "docs" / "cards"
+DEPOT = "https://github.com/lou-heraut/card/blob/main/src/card/cards/"
 
 # Les facettes proposées en menu, dans l'ordre où on les parcourt : du
-# plus large (quelle grandeur) au plus précis (quelle forme de sortie).
+# plus large (quelle grandeur) au plus précis (quelle finalité).
 _FACETTES_SITE = ("domain", "phenomenon", "aspect", "statistic",
-                  "season", "output")
+                  "season", "output", "purpose")
+
+# Au-delà, la liste des variantes est un mur de symboles : on en montre
+# quelques-unes et on renvoie au filtre, qui les donne toutes.
+_VARIANTES_MONTREES = 8
 
 
 def _esc(x):
@@ -264,106 +287,303 @@ def _esc(x):
             .replace(">", "&gt;").replace('"', "&quot;"))
 
 
-def render_site():
-    """La page catalogue du site, en HTML complet, et son décompte.
+def _bilingue(en, fr, balise="span", classe=""):
+    """Un fragment qui porte ses DEUX langues, ou une seule si elles
+    coïncident.
 
-    Le tableau ENTIER est écrit à la construction : le JavaScript ne fait
-    que masquer des lignes déjà présentes. Sans ça la page serait vide
-    pour un moteur de recherche, pour qui coupe JS et pour un lecteur
-    d'écran mal servi, alors que le catalogue markdown d'aujourd'hui est
-    indexable. On ne régresse pas là-dessus.
+    C'est ce que deux fichiers markdown ne savaient pas faire : la
+    bascule masque une langue au lieu de recharger une autre page. Un
+    symbole identique dans les deux langues (`VCN10`) ne s'écrit qu'une
+    fois, un symbole qui diffère (`ETPMA_apr` / `ETPMA_avril`) s'écrit
+    deux fois. La page reste donc lisible sans JavaScript : elle affiche
+    alors l'anglais, jamais rien de vide.
+    """
+    en, fr = str(en or ""), str(fr or "")
+    cl = f' class="{classe}"' if classe else ""
+    if en == fr:
+        return f"<{balise}{cl}>{_esc(en)}</{balise}>"
+    return (f'<{balise}{cl} lang="en">{_esc(en)}</{balise}>'
+            f'<{balise}{cl} lang="fr">{_esc(fr)}</{balise}>')
+
+
+def _slugs(row, facette, slug_de):
+    """Les slugs d'une facette pour une ligne, une facette pouvant en
+    porter plusieurs (`domain: flow, precipitation`)."""
+    brut = str(row.get(f"{facette}_en", "") or "")
+    return [slug_de(facette, x.strip()) or x.strip().lower()
+            for x in brut.split(",") if x.strip()]
+
+
+def _cadre(df):
+    """Le corpus tel que le site le range : une entrée par VARIABLE.
+
+    Les deux markdown listent par FICHE, ce qui est la bonne unité quand
+    on parcourt une arborescence. Ici l'unité est la variable, parce que
+    c'est elle qu'on cherche, et parce que 28 variables sont produites
+    par deux fiches : les lister deux fois donnerait deux entrées pour un
+    même concept, et deux ancres pour une même URL.
+    """
+    from card.schema import _slug_of, input_registry, vocabulary
+
+    vocab = vocabulary()
+    registre = input_registry()
+
+    # Les familles servent aux « variantes » : les frères sémantiques
+    # d'une variable, ceux qui ne diffèrent que par un paramètre.
+    familles = {}
+    for fam, g in df.groupby("family"):
+        familles[fam] = list(dict.fromkeys(g["variable_en"]))
+
+    entrees = []
+    for var, g in df.groupby("variable_en", sort=False):
+        r = g.iloc[0]
+        facettes = {}
+        for f in _FACETTES_SITE:
+            vus = []
+            for _, ligne in g.iterrows():
+                for s in _slugs(ligne, f, _slug_of):
+                    if s not in vus:
+                        vus.append(s)
+            facettes[f] = vus
+        # Les paramètres de période (`ref_start`, `horizon_end`…) sont
+        # des dates fournies par l'appelant, pas des grandeurs observées :
+        # ils encombreraient le filtre des entrées sans rien distinguer.
+        entrees_var = []
+        for _, ligne in g.iterrows():
+            for x in str(ligne["input_vars"] or "").split(","):
+                x = x.strip()
+                if x and x not in entrees_var and \
+                        registre.get(x, {}).get("type") != "date":
+                    entrees_var.append(x)
+        fam = str(r["family"])
+        entrees.append({
+            "var_en": var, "var_fr": str(r["variable_fr"] or var),
+            "name_en": r["name_en"], "name_fr": r["name_fr"],
+            "desc_en": r["description_en"], "desc_fr": r["description_fr"],
+            "unit": unite(r["unit_en"]),
+            "inputs": entrees_var,
+            "family": fam,
+            "variants": [v for v in familles.get(fam, []) if v != var],
+            "cards": list(dict.fromkeys(g["card"])),
+            "facettes": facettes,
+        })
+
+    # ALPHABÉTIQUE, et rien d'autre. Le rangement par régime puis par
+    # phénomène était plus savant, mais il ne se VOYAIT pas : rien sur la
+    # page n'annonçait les groupes, si bien que l'ordre paraissait
+    # arbitraire et qu'on ne pouvait pas deviner où chercher un symbole.
+    # Grouper pour de bon, c'est le travail des filtres, et ils le font
+    # mieux qu'un ordre implicite. Le rang déclaré du vocabulaire sert
+    # encore aux MENUS, où l'ordre est celui d'une liste courte qu'on lit
+    # en entier.
+    entrees.sort(key=lambda e: e["var_en"].lower())
+    return entrees, vocab
+
+
+def _detail(e):
+    """Ce qu'une entrée dit d'elle-même quand on la déplie.
+
+    Clé par clé, une ligne par clé : c'est la forme du YAML dont ça
+    sort, et celle de l'en-tête de la figure. Rien ici ne redit ce que
+    la figure de la fiche porte déjà (méthode, fenêtre, grain, swhid) :
+    on y renvoie.
+    """
+    lignes = []
+    if str(e["desc_en"] or "") or str(e["desc_fr"] or ""):
+        lignes.append('<p class="cat-desc">'
+                      + _bilingue(e["desc_en"], e["desc_fr"]) + "</p>")
+
+    champs = []
+    if e["inputs"]:
+        champs.append(("inputs", " ".join(
+            f"<code>{_esc(x)}</code>" for x in e["inputs"])))
+
+    if e["variants"]:
+        montres = e["variants"][:_VARIANTES_MONTREES]
+        liens = " ".join(f'<a href="#{_esc(v)}"><code>{_esc(v)}</code></a>'
+                         for v in montres)
+        if len(e["variants"]) > len(montres):
+            liens += (f' <a class="cat-more" href="?family={_esc(e["family"])}">'
+                      f'all {len(e["variants"]) + 1}</a>')
+        champs.append(("variants", liens))
+
+    fiches = " ".join(
+        f'<a href="../cards/{_esc(c)}/"><code>{_esc(c)}</code></a>'
+        for c in e["cards"])
+    champs.append(("card", fiches))
+
+    lignes.append("<dl>" + "".join(
+        f"<dt>{k}</dt><dd>{v}</dd>" for k, v in champs) + "</dl>")
+    return "".join(lignes)
+
+
+def render_site():
+    """La page catalogue du site, et le nombre de variables qu'elle porte.
+
+    Toutes les entrées sont écrites à la construction, dépliage compris :
+    le JavaScript ne fait que masquer celles qui ne passent pas le
+    filtre, et le dépliage est celui du navigateur (`<details>`), donc il
+    marche sans lui. Sans ça la page serait vide pour un moteur de
+    recherche, pour qui coupe JS et pour un lecteur d'écran mal servi,
+    alors que le catalogue markdown qu'elle remplace est indexable. On ne
+    régresse pas là-dessus.
     """
     from card.management import list_cards
-    from card.schema import vocabulary, _slug_of
+    from card.schema import input_registry
 
-    df = list_cards().sort_values(["domain_en", "phenomenon_en", "variable_en"])
-    vocab = vocabulary()
+    df = list_cards()
+    entrees, vocab = _cadre(df)
 
-    lignes = []
-    for _, r in df.iterrows():
-        # Les facettes voyagent en SLUG dans les attributs (l'identifiant
-        # du concept, stable quand un libellé est reformulé) et en libellé
-        # dans les menus. Une facette multi-valeurs garde ses deux slugs.
-        attrs = []
-        for f in _FACETTES_SITE:
-            brut = str(r.get(f"{f}_en", "") or "")
-            slugs = [_slug_of(f, x.strip()) or x.strip().lower()
-                     for x in brut.split(",") if x.strip()]
-            attrs.append(f'data-{f}="{_esc(" ".join(slugs))}"')
-        # Une seule chaîne de recherche, minuscule, couvrant les deux
-        # langues : le visiteur cherche « étiage » ou « low flow » sans
-        # avoir à savoir dans quelle langue la page est réglée.
-        cherche = " ".join(str(r.get(c, "") or "") for c in (
-            "variable_en", "variable_fr", "name_en", "name_fr",
-            "description_en", "description_fr", "card", "input_vars")).lower()
-        attrs.append(f'data-search="{_esc(cherche)}"')
+    corps = []
+    for e in entrees:
+        # Une facette vide ne s'écrit pas : `purpose` ne concerne que
+        # trente et une variables, et 413 attributs vides pèsent autant
+        # qu'ils informent peu.
+        attrs = " ".join(
+            f'data-{f}="{_esc(" ".join(e["facettes"][f]))}"'
+            for f in _FACETTES_SITE if e["facettes"][f])
+        # Aucun `data-search` : le texte à chercher est DÉJÀ dans
+        # l'entrée, symboles, noms et description compris, dans les deux
+        # langues. Le recopier dans un attribut pesait 135 ko et créait
+        # une seconde version du même texte, qui aurait fini par diverger.
+        corps.append(
+            f'<details class="cat-row" id="{_esc(e["var_en"])}" {attrs} '
+            f'data-inputs="{_esc(" ".join(e["inputs"]))}" '
+            f'data-family="{_esc(e["family"])}">'
+            f"<summary>"
+            + _bilingue(e["var_en"], e["var_fr"], "code", "v")
+            + _bilingue(e["name_en"], e["name_fr"], "span", "n")
+            + f'<span class="u">{_esc(e["unit"])}</span>'
+            + "</summary>"
+            + f'<div class="cat-detail">{_detail(e)}</div>'
+            + "</details>")
 
-        chemin = str(r["script_path"])
-        lien = (f'<a href="https://github.com/lou-heraut/card/blob/main/'
-                f'src/card/cards/{_esc(chemin)}">{_esc(r["card"])}</a>')
-        lignes.append(
-            f'<tr {" ".join(attrs)}>'
-            f'<td class="v"><code>{_esc(r["variable_en"])}</code></td>'
-            f'<td lang="en">{_esc(r["name_en"])}</td>'
-            f'<td lang="fr">{_esc(r["name_fr"])}</td>'
-            f'<td class="u">{_esc(unite(r["unit_en"]))}</td>'
-            f'<td class="i"><code>{_esc(_inputs(r["input_vars"]))}</code></td>'
-            f'<td class="c">{lien}</td>'
-            f"</tr>"
-        )
-
+    # Seules les valeurs RÉELLEMENT présentes sont proposées : un menu qui
+    # offre un filtre ne rendant rien est une promesse en l'air.
     menus = []
     for f in _FACETTES_SITE:
-        # Seules les valeurs RÉELLEMENT présentes sont proposées : un menu
-        # qui offre un filtre ne rendant rien est une promesse en l'air.
-        presents = set()
-        for v in df[f"{f}_en"]:
-            for x in str(v or "").split(","):
-                if x.strip():
-                    presents.add(_slug_of(f, x.strip()) or x.strip().lower())
+        presents = {s for e in entrees for s in e["facettes"][f]}
         options = "".join(
-            f'<option value="{_esc(slug)}">{_esc(e["en"])} · {_esc(e["fr"])}</option>'
-            for slug, e in vocab.get(f, {}).items() if slug in presents)
+            f'<option value="{_esc(slug)}">{_esc(v["en"])} · {_esc(v["fr"])}</option>'
+            for slug, v in vocab.get(f, {}).items() if slug in presents)
         if options:
             menus.append(
                 f'<label>{f}<select data-facet="{f}">'
                 f'<option value="">—</option>{options}</select></label>')
 
+    # Le filtre des entrées répond à la première question d'un arrivant :
+    # « qu'est-ce que je peux calculer avec ce que j'ai ? ». Il n'est pas
+    # une facette de classification, d'où son menu à part, dans l'ordre
+    # du registre.
+    presents = {x for e in entrees for x in e["inputs"]}
+    options = "".join(
+        f'<option value="{_esc(k)}">{_esc(k)} · {_esc(v.get("en", k))}</option>'
+        for k, v in input_registry().items() if k in presents)
+    menus.append(f'<label>inputs<select data-facet="inputs">'
+                 f'<option value="">—</option>{options}</select></label>')
+
+    n = len(entrees)
     return "\n".join([
         "# Catalogue", "",
-        "Every variable the collection produces, one per row. Filter by "
-        "facet or search in either language: the table carries both.", "",
+        "Every variable the collection produces, one per entry. Filter by "
+        "facet or search in either language: each entry carries both. "
+        "Unfold one for its inputs, its variants and the card that "
+        "computes it.", "",
         '<div class="cat-controls">',
         '<input type="search" id="cat-q" placeholder="Search a variable, '
         'a name, an input column…" aria-label="Search the catalogue">',
         "\n".join(menus),
         '<label>labels<select id="cat-lang">'
         '<option value="en">English</option>'
-        '<option value="fr">français</option></select></label>',
+        '<option value="fr">Français</option></select></label>',
         '<button type="button" id="cat-reset">Reset</button>',
         "</div>", "",
-        '<p class="cat-count"><span id="cat-shown">'
-        f"{len(df)}</span> of {len(df)} variables</p>", "",
-        '<table class="cat" id="cat-table">',
-        "<thead><tr><th>variable</th>"
-        '<th lang="en">name</th><th lang="fr">nom</th>'
-        "<th>unit</th><th>inputs</th><th>card</th></tr></thead>",
-        "<tbody>",
-        "\n".join(lignes),
-        "</tbody></table>", "",
-    ]), len(df)
+        f'<p class="cat-count"><span id="cat-shown">{n}</span> of {n} '
+        f"variables, from {df['card'].nunique()} cards</p>", "",
+        '<div class="cat-head"><span class="v">variable</span>'
+        '<span class="n">name</span><span class="u">unit</span></div>',
+        '<div class="cat-list" id="cat-list">',
+        "\n".join(corps),
+        "</div>", "",
+    ]), n
+
+
+def render_cards():
+    """Une page par fiche : {chemin: contenu}.
+
+    La page ne dit presque rien elle-même. Elle porte la FIGURE, dans les
+    deux langues, telle que `card.figure()` la rend : c'est le seul rendu
+    humain d'une fiche dans tout l'écosystème, et le site en est un
+    lecteur de plus, pas un auteur de plus.
+
+    Elle existe parce qu'une ancre dans une longue page n'est pas une
+    adresse : une fiche citée dans un article a besoin d'une URL à elle,
+    et la recherche du site n'indexe que des pages.
+    """
+    from card.management import list_cards
+    from card.render import figure
+
+    df = list_cards()
+    pages = {}
+    for nom, g in df.groupby("card"):
+        chemin = str(g.iloc[0]["script_path"])
+        produites = list(dict.fromkeys(g["variable_en"]))
+        figures = "\n".join(
+            f'<pre class="fig" lang="{lang}" data-search-exclude>'
+            f"{_esc(figure(nom, lang=lang))}</pre>"
+            for lang in ("en", "fr"))
+        liste = " · ".join(f"[`{v}`](../catalogue.md#{v})" for v in produites)
+        pages[CARTES / f"{nom}.md"] = "\n".join([
+            # Le sommaire de droite n'aurait qu'une entrée, le titre, et
+            # il prend la largeur dont la figure a besoin : elle est
+            # dessinée en caractères, donc elle ne se replie pas.
+            "---", "hide:", "  - toc", "---", "",
+            # Le titre est un SYMBOLE : il s'écrit en chasse fixe, comme
+            # partout ailleurs, et les accents graves suffisent à le dire
+            # sans rien qui soit propre à MkDocs.
+            f"# `{nom}`", "",
+            "The card as `card.info()` prints it, as `card4r` prints it, "
+            "and as card-api serves it. One drawing, read in three places.",
+            "",
+            '<div class="cat-controls cat-controls--lang">',
+            '<label>labels<select id="cat-lang">'
+            '<option value="en">English</option>'
+            '<option value="fr">Français</option></select></label>',
+            "</div>", "",
+            figures, "",
+            f"**Variables produced**  {liste}", "",
+            f"[The card itself, on GitHub]({DEPOT}{chemin}) &middot; "
+            "[back to the catalogue](../catalogue.md)", "",
+        ])
+    return pages
 
 
 def main():
     for lang, chemin in OUT.items():
-        texte, n_cards, n_vars, n_sections = render(lang)
+        texte, n_cards, n_colonnes, n_sections = render(lang)
         chemin.parent.mkdir(parents=True, exist_ok=True)
         chemin.write_text(texte, encoding="utf-8")
-        print(f"{chemin} : {count_label(n_cards, n_vars)}, "
+        print(f"{chemin} : {n_cards} fiches, {n_colonnes} lignes, "
               f"{n_sections} sections")
-    page, n_lignes = render_site()
+    page, n_vars = render_site()
     SITE.write_text(page, encoding="utf-8")
-    print(f"{SITE} : {n_lignes} variables, une par ligne, filtrable")
+    print(f"{SITE} : {n_vars} variables, une par entrée, filtrable")
+
+    # Le dossier est ENTIÈREMENT engendré : on écrit les pages attendues
+    # et on retire celles qui restent. Sans ce ménage, une fiche renommée
+    # laisse sa page derrière elle, et le site sert indéfiniment une
+    # définition qui n'existe plus, ce qui est arrivé à card4r avec une
+    # action de déploiement en `clean: false`.
+    pages = render_cards()
+    CARTES.mkdir(parents=True, exist_ok=True)
+    for chemin, texte in pages.items():
+        chemin.write_text(texte, encoding="utf-8")
+    for reste in CARTES.glob("*.md"):
+        if reste not in pages:
+            reste.unlink()
+            print(f"{reste} : retirée, plus aucune fiche de ce nom")
+    print(f"{CARTES} : {len(pages)} pages de fiche, une figure par page")
+
     _sync_readme(n_cards, n_vars)
 
 
