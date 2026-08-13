@@ -727,7 +727,7 @@ modèle européen de la donnée d'observation.
 | `classification.statistic` | `iop:hasStatisticalModifier` | idem, plus `cpm:statisticalMeasure` pour le détail | **incomplet** |
 | `time_step` du process | **rien** | `cpm:StatisticalMeasure` + `cpm:aggregationTimePeriod` | **manquant** |
 | chaîne de process | rien (la prose de `card:method`) | `cpm:derivedFrom`, qui chaîne les mesures statistiques | **manquant** |
-| `unit` | **rien** | `cpm:unitOfMeasure`, et un code UCUM | **manquant** |
+| `unit` | **rien** | `qudt:hasUnit` (URI), `qudt:ucumCode`, `qudt:hasQuantityKind` | **manquant** |
 | paramètre d'une contrainte (10 jours, 0.9, 5 ans, 20 mm) | seulement dans le libellé | `cpm:Constraint` + `cpm:value` + `cpm:constraintProperty` | **incomplet** |
 | famille | un faux `iop:Variable` parent | `iop:VariableSet` + `hasApplicableProperty`, `hasApplicableStatisticalModifier`… | **à corriger** |
 | `authors`, `date` de la fiche | rien | `dcterms:creator`, `dcterms:created` sur la ressource fiche | **manquant** |
@@ -740,10 +740,10 @@ modèle européen de la donnée d'observation.
 1. **L'unité ne part pas.** Zéro occurrence dans 10 809 triplets, pour
    472 variables et douze unités distinctes. C'est le manque le plus
    grave : un thésaurus de variables sans unité oblige à revenir au
-   catalogue. `cpm:unitOfMeasure` porte la chaîne, un code **UCUM**
-   (`m3/s`, `Cel`, `mm`) la rend calculable, et CF donne l'unité
-   canonique de chaque `standard_name`, ce qui permet de VÉRIFIER les
-   nôtres au lieu de les affirmer.
+   catalogue. La table détaillée est plus bas ; en un mot, `qudt:hasUnit`
+   pour l'URI, `qudt:ucumCode` pour le code, `qudt:hasQuantityKind` pour
+   la grandeur, et CF donne l'unité canonique de chaque `standard_name`,
+   ce qui permet de VÉRIFIER les nôtres au lieu de les affirmer.
 2. **La période d'agrégation ne part pas**, alors qu'elle est déclarée
    dans TOUS les process (le linter l'exige) : 272 variables sur 472 en
    portent une explicite. Avec `cpm:derivedFrom`, la chaîne entière se
@@ -893,6 +893,76 @@ URIs sur le réseau, comme il le fait déjà pour Theia.
 D'où la règle : **le code UCUM toujours, l'URI QUDT quand elle existe**,
 et rien d'inventé quand elle n'existe pas.
 
+#### Ce que QUDT contient vraiment, mesuré le 2026-08-13
+
+Vocabulaire chargé en entier : **2 575 unités et 1 188 grandeurs**
+(*quantity kinds*). Nos douze unités, confrontées :
+
+| unité de card | UCUM | unité QUDT | grandeur QUDT |
+|---|---|---|---|
+| `m^{3}.s^{-1}` | `m3.s-1` | `unit:M3-PER-SEC` | `VolumeFlowRate` |
+| `mm` | `mm` | `unit:MilliM` | `Length` |
+| `°C` | `Cel` | `unit:DEG_C` | `Temperature` |
+| `day` | `d` | `unit:DAY` | `Time` |
+| `year` | `a` | `unit:YR` | `Time` |
+| `%` | `%` | `unit:PERCENT` | `DimensionlessRatio` |
+| `without unit` | `1` | `unit:NUM` | `Dimensionless` |
+| `hm^{3}` | `hm3` | **aucune** | `Volume` |
+| `m^{3}.s^{-1}.year^{-1}` | `m3.s-1.a-1` | **aucune** | à composer |
+| `m^{3}.s^{-1}.mm^{-1}` | `m3.s-1.mm-1` | **aucune** | à composer |
+| `yearday` | *sans objet* | *sans objet* | ce n'est pas une unité |
+| `bool` | *sans objet* | *sans objet* | ce n'est pas une unité |
+
+**Le classement est donc l'inverse de l'intuition** : QUDT est une liste,
+riche mais finie, et trois de nos unités n'y figurent pas ; UCUM est une
+grammaire, et il les compose toutes. Ce n'est pas un défaut de QUDT, ce
+sont deux objets différents, et QUDT apporte ce qu'UCUM ne peut pas :
+l'URI résolvable, les libellés, les facteurs de conversion, et surtout la
+**grandeur** (`qudt:hasQuantityKind`), qui dit qu'un `m³·s⁻¹` est un
+débit volumique et pas une vitesse du son.
+
+Deux pièges relevés en passant, tous deux vérifiés :
+
+- `unit:UNITLESS` **n'a pas de code UCUM** ; c'est `unit:NUM` qui porte
+  `1`. Pour l'adimensionnel, viser `NUM` ;
+- une unité QUDT porte SOUVENT plusieurs grandeurs (`unit:M3-PER-SEC` en
+  déclare quatre, dont `SoundVolumeVelocity`). La grandeur ne se déduit
+  donc pas de l'unité : elle se déclare, comme le reste.
+
+#### `yearday` : ce n'est pas une unité, c'est une position
+
+Et le terme juste existe, dans une recommandation du W3C :
+
+```turtle
+time:dayOfYear   « The number of the day within the year »
+                 range : xsd:nonNegativeInteger
+```
+
+Les quarante variables concernées portent déjà `is_date: true` et
+`aspect: timing` : le corpus dit déjà la vérité, c'est l'export qui la
+perdait en rangeant « jour de l'année » parmi les unités. Même chose pour
+`bool`, qui est un type de valeur (`xsd:boolean`).
+
+### Les métadonnées de traçabilité et de schéma, terme par terme
+
+| ce qu'on veut dire | ce qu'on écrit aujourd'hui | verdict |
+|---|---|---|
+| version d'une fiche | `owl:versionInfo` | **bon**, c'est sa définition |
+| identifiant du fichier de fiche | `dcterms:identifier "swh:1:cnt:…"` | bon, mais **muet** : ajouter un `rdfs:seeAlso` vers l'URL Software Heritage, qui résout |
+| où vit la fiche | `card:path "flow/low-flows/…"` | **à remplacer** : un chemin relatif ne mène nulle part. `dcterms:source` vers l'URL GitHub du fichier |
+| qui a écrit la fiche | rien | `dcterms:creator`, depuis `authors` |
+| quand | rien | `dcterms:created`, depuis `date` |
+| qui publie le vocabulaire | rien | `dcterms:publisher` (INRAE) |
+| quel préfixe employer | rien | `vann:preferredNamespacePrefix "card"` et `vann:preferredNamespaceUri`, la convention pour qu'un outil tiers affiche `card:VCN10` et non une URI nue |
+| langues du vocabulaire | rien | `dcterms:language` |
+| cycle de vie | rien (aucun cas encore) | `owl:deprecated` + `dcterms:isReplacedBy`, déjà prévu |
+
+`vann:` est le vocabulaire d'annotation des vocabulaires
+(`purl.org/vocab/vann/`), employé par la plupart des thésaurus publiés :
+deux lignes, et un moissonneur sait comment nous nommer.
+
+
+
 **Trois de nos douze « unités » n'en sont pas**, et c'est une trouvaille
 de cet audit :
 
@@ -909,15 +979,24 @@ type de valeur, pas une unité, et le corpus le déclare déjà par ailleurs.
 
 Chacune de ces étapes est indépendante des autres et de Theia.
 
-| # | quoi | dépend de |
-|---|---|---|
-| 1 | unité dans l'export (chaîne), et `dcterms:creator` / `created` | rien |
-| 2 | codes UCUM par unité, et vérification contre l'unité canonique CF | 1 |
-| 3 | `cpm:StatisticalMeasure` : période d'agrégation, puis `derivedFrom` sur la chaîne | rien |
-| 4 | valeurs de contrainte (`cpm:value`) | rien |
-| 5 | familles en `iop:VariableSet` | rien |
-| 6 | rôles des entrées multiples (`AsymmetricSystem`) | rien |
-| 7 | alignements CF sur les quatre grandeurs | rien |
+Chaque ligne dit la propriété exacte à employer, pour qu'aucune
+n'ait à être re-décidée en codant.
+
+| # | quoi | avec quoi | dépend de |
+|---|---|---|---|
+| 1 | **l'unité**, la grandeur et le type de valeur | `qudt:hasUnit`, `qudt:ucumCode`, `qudt:hasQuantityKind`, `time:dayOfYear` pour les dates, `xsd:boolean` pour les booléens | table `units:` dans `alignments.yaml` |
+| 2 | **la traçabilité de la fiche** | `dcterms:creator`, `dcterms:created`, `dcterms:source` (URL GitHub), `rdfs:seeAlso` (URL SWH) | rien |
+| 3 | **les métadonnées de schéma** | `dcterms:publisher`, `dcterms:language`, `vann:preferredNamespacePrefix` et `…Uri` | rien |
+| 4 | **la période d'agrégation**, puis la chaîne | `cpm:StatisticalMeasure`, `cpm:aggregationTimePeriod`, `cpm:derivedFrom` | 5 |
+| 5 | **les fenêtres**, début et durée | `time:ProperInterval`, `time:hasBeginning` + `DateTimeDescription` (mois, jour), `time:hasDurationDescription` | rien |
+| 6 | **la valeur d'un paramètre** de contrainte | `cpm:Constraint`, `cpm:value`, `cpm:constraintProperty` | rien |
+| 7 | **les familles** | `iop:VariableSet` + `hasApplicableProperty`, `…StatisticalModifier`, `…ObjectOfInterest` | rien |
+| 8 | **les entrées multiples** | `iop:AsymmetricSystem` + `hasNumerator`/`hasDenominator`/`hasSource`/`hasTarget` | rôles déjà dans `alignments.yaml` |
+| 9 | **les alignements CF** des quatre grandeurs | `skos:closeMatch` vers le `standard_name`, unité canonique vérifiée | 1 |
+
+Aucune de ces neuf étapes ne dépend de Theia, et aucune ne demande
+d'écrire quoi que ce soit dans les 226 fiches : tout est déjà déclaré,
+c'est l'export qui n'en dit qu'une partie.
 
 
 ## Comment ça se lie à la documentation de card
