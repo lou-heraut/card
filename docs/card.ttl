@@ -14934,7 +14934,7 @@ card: a skos:ConceptScheme ;
         "card : définitions de variables hydroclimatiques"@fr ;
     vann:preferredNamespacePrefix "card" ;
     vann:preferredNamespaceUri "https://example.invalid/card/" ;
-    owl:versionInfo "0.11.0" ;
+    owl:versionInfo "0.12.0" ;
     skos:hasTopConcept <https://example.invalid/card/family/evapotranspiration.evaporative-demand.magnitude.sum.annual.series.etp>,
         <https://example.invalid/card/family/evapotranspiration.evaporative-demand.magnitude.sum.by-month.series.etp>,
         <https://example.invalid/card/family/evapotranspiration.evaporative-demand.magnitude.sum.by-season.series.etp>,

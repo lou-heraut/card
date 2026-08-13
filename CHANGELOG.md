@@ -63,6 +63,10 @@ des deux endroits.
 
 ## Non publié
 
+Rien depuis la 0.12.0.
+
+## 0.12.0 (2026-08-13)
+
 ### Ajouté
 
 - **Un site de documentation, en local (2026-08-13).** MkDocs Material,
