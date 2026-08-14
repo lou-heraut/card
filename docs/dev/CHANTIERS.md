@@ -4,7 +4,21 @@
 > expliquant le détail. Les sections portent des titres et non des
 > numéros : le registre bouge, un numéro ne se cite pas durablement.
 
-# CHANTIERS : pistes ouvertes (mise à jour 2026-08-05)
+# CHANTIERS : pistes ouvertes (mise à jour 2026-08-14)
+
+## Une version attend d'être coupée (2026-08-14)
+
+Le chantier du thésaurus est clos de notre côté et `## Non publié` du
+CHANGELOG porte ses entrées. `python scripts/set_version.py --etat` donne
+les faits du jour, la règle est la cinquième phrase du CHANGELOG.
+
+**Ce qui n'est écrit nulle part ailleurs, c'est l'hésitation** : aucune
+sortie du corpus n'a changé (ni valeur de fiche, ni nom de colonne, ni
+signature publique), donc à la lettre c'est un patch, `0.12.1`. Mais la
+forme de `docs/card.ttl` a assez bougé pour que « card 0.12 » et
+« card 0.13 » doivent se distinguer quand quelqu'un citera le fichier :
+133 concepts de famille ont disparu au profit de 68 tableaux, et leurs
+URIs avec. **En attente de la décision de l'utilisateur.**
 
 ## Nom PyPI de card (PEP 541)
 
@@ -88,28 +102,17 @@ biblio scientifique existant de l'utilisateur** (ne pas inventer un
 format de citation avant d'avoir vu le sien).
 
 **La notation officielle du SCHAPI est alignée depuis le 2026-08-14**,
-pour quinze variables et une grandeur d'entrée : ce qui reste ouvert
-n'est que son extension. Comment c'est fait, ce qui est écarté et
-pourquoi : `PLAN_THESAURUS.md`, section « La notation officielle
-française ».
+pour quinze variables et une grandeur d'entrée. Comment c'est fait, ce
+qui est écarté et pourquoi, et les deux correspondances laissées de côté
+faute d'une décision de leur part : `PLAN_THESAURUS.md`, sections « La
+notation officielle française » et « Ce qui reste ouvert ». Rien n'est
+recopié ici.
 
-Ce qui pourrait encore s'y ajouter, et ce qu'il faudrait avant :
-
-- **`QA` et `mean-QA`**, qu'on a laissés de côté parce que leur
-  dictionnaire écrit « `QA` ou `Q-Moy` » quand leur liste écrit
-  `QJ-Annuel` pour la même idée, et que leur `Q` nu désigne
-  l'instantané. Deux écritures, aucune tranchée : à leur demander plutôt
-  qu'à deviner ;
-- **les réductions inter-annuelles** (`mediane-`, `delta-`, `alpha-`).
-  La forme `Variable(Opérateur)` existe chez eux, mais leur
-  documentation ne l'applique jamais à une variable déjà extraite. Même
-  remarque.
-
-Et une règle qui vaut pour toute extension : **rien ne se dérive**, la
-table s'écrit à la main. Décoder un nom de variable serait le piège
-d'`operator` en pire, les deux grammaires descendant du même Oberlin
-1992 et se ressemblant assez pour qu'une correspondance fausse passe
-inaperçue.
+Une règle qui vaut pour toute extension, en revanche, parce qu'elle est
+propre à ce chantier : **rien ne se dérive**, la table s'écrit à la
+main. Décoder un nom de variable serait le piège d'`operator` en pire,
+les deux grammaires descendant du même Oberlin 1992 et se ressemblant
+assez pour qu'une correspondance fausse passe inaperçue.
 
 ## Lint temps réel sous Emacs
 

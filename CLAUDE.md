@@ -37,11 +37,12 @@ statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
   I-ADOPT, CPM, CF, QUDT et OWL-Time savent dire, et ce que card publie
   avec chacun) n'est écrit que là. Porte aussi les trois bascules du jour
   de la publication du site.
-- docs/dev/`PLAN_THESAURUS.md` : la seule question encore ouverte du
-  vocabulaire, à côté de Theia/OZCAR ou dedans. Porte la mesure de LEUR
-  thésaurus faite sur le graphe entier, le point de jonction unique, la
-  forme retenue chez nous et ce qui reste à trancher. **Rien n'est
-  publié** tant qu'elle n'est pas tranchée.
+- docs/dev/`PLAN_THESAURUS.md` : la forme du vocabulaire, close depuis le
+  2026-08-14, et pourquoi elle est celle-là. Porte la mesure de LEUR
+  thésaurus faite sur le graphe entier, le point de jonction unique,
+  l'alignement HydroPortail, et **la liste de ce qui reste ouvert, en fin
+  de document et à un seul endroit**. **Rien n'est publié** tant que
+  Theia n'a pas répondu.
 - docs/dev/`QUESTIONS_THEIA.md` : ce qu'on leur demande, et rien
   d'autre. Brouillon, rien n'est envoyé, et **rien n'attend leur
   réponse** : aucune des questions ne bloque le reste.
@@ -117,9 +118,20 @@ scripts/generate_catalog.py   # QUATRE sorties, relancer après toute modif :
                               #   fiche, portant sa figure) et le décompte
                               #   du README
 scripts/generate_skos.py      # docs/card.ttl : le corpus en SKOS, I-ADOPT,
-                              #   CPM, QUDT et OWL-Time. Base d'URI
-                              #   PROVISOIRE et fausse : rien n'est publié,
-                              #   cf. PLAN_THESAURUS.md.
+                              #   CPM, QUDT, OWL-Time et ISO 25964. Base
+                              #   d'URI PROVISOIRE et fausse : rien n'est
+                              #   publié, cf. PLAN_THESAURUS.md. L'arbre va
+                              #   de la grandeur au phénomène puis à la
+                              #   variable ; une FAMILLE n'est pas dans cette
+                              #   chaîne, c'est un `isothes:ThesaurusArray`,
+                              #   et son libellé de nœud vient de deux tables
+                              #   ÉCRITES qu'une facette nouvelle oblige à
+                              #   compléter (la génération échoue sinon).
+scripts/arbre_skos.py         # `make arbre` : le .ttl en arbre, lisible.
+                              #   Un Turtle sort dans l'ordre des URIs, où la
+                              #   hiérarchie est invisible : c'est la seule
+                              #   façon de juger la forme du vocabulaire.
+                              #   Ne vérifie rien, c'est une paire de lunettes.
 mkdocs.yml                    # le site : `make serve` en local,
 docs/assets/                  #   .github/workflows/site.yml en ligne.
                               #   theme.css porte l'identité (celle de la

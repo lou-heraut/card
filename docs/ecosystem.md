@@ -62,8 +62,15 @@ for the composition of each variable.
 
 [**card.ttl**](card.ttl) holds one concept per variable, its symbol as
 `skos:notation`, its labels in both languages, the facets it belongs to,
-the family it varies within, and the alignments to the Theia/OZCAR
-thesaurus for the quantities that exist there.
+and the alignments to the Theia/OZCAR thesaurus for the quantities that
+exist there. Fifteen variables also carry their official French notation,
+the one HydroPortail uses: `VCN10` is `Q10J-N` there.
+
+Variables hang under the quantity and the phenomenon they describe. The
+groups that gather the variants of one idea (`QNA`, `VCN3`, `VCN10`,
+`VCN30`) are thesaurus arrays, not concepts: nobody indexes data with
+"annual minimum, one per year", so they order the tree without claiming
+to be a kind of thing.
 
 !!! warning "Nothing is published yet"
     The URI base of this file is deliberately unresolvable

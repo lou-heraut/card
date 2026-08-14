@@ -1,8 +1,12 @@
-> **Statut : plan ouvert, rien n'est publié.** Porte UNE question, celle
-> qui reste après la livraison du site et de l'export SKOS (card 0.12.0) :
-> le vocabulaire de card vit-il à côté de celui de Theia/OZCAR, ou
-> dedans ? Contient la mesure de LEUR thésaurus, faite sur le fichier
-> entier, la forme retenue chez nous, et ce qui reste à trancher.
+> **Statut : construction close, publication en attente.** Le vocabulaire
+> a sa forme définitive depuis le 2026-08-14 : un arbre thématique, des
+> tableaux de thésaurus, une soudure vers Theia/OZCAR et la notation
+> officielle du SCHAPI. **Rien n'est publié**, la base d'URI reste
+> manifestement fausse, et la seule chose qui manque est une réponse de
+> Theia.
+> Ce document porte la mesure de LEUR thésaurus faite sur le graphe
+> entier, la forme retenue chez nous et POURQUOI, et la liste de ce qui
+> reste ouvert, en fin de document et à un seul endroit.
 > Ce qu'il faut LEUR demander est dans `QUESTIONS_THEIA.md`, et nulle
 > part ailleurs.
 > La construction du site et de l'export, elle, est close :
@@ -241,10 +245,8 @@ Trois conséquences, et ce sont elles qui justifient le changement :
   familles n'avaient qu'un membre ; elles ne sont plus émises, il reste
   68 tableaux qui subdivisent vraiment.
 
-**Ce qui est perdu, et il faut le savoir** : un navigateur n'affiche les
-tableaux que s'il est configuré pour. Skosmos a l'option (`arrayClass`),
-mais sans elle on voit les variables à plat sous leur phénomène. C'est
-le prix de la justesse, assumé le 2026-08-14.
+Le prix de ce choix est un défaut d'affichage, listé avec les autres
+limites connues en fin de document.
 
 #### Les 65 familles solitaires, triées
 
@@ -261,7 +263,7 @@ paramètre sémantique ? S'il y en a un, d'autres valeurs peuvent exister.
   `QMNA`, `QB-LH`, `dtCrue`, `RA`, `TA`, `ETPA`, et les huit fiches de
   finalité. Les grouper n'aurait aucun sens.
 
-À reprendre comme un chantier de corpus, pas de thésaurus.
+Les 28 premières sont un chantier de CORPUS, repris en fin de document.
 
 ### Le libellé de nœud : une phrase, puis des coordonnées
 
@@ -310,15 +312,9 @@ Deux points de forme, chacun pour une raison :
 - **les grandeurs vont entre parenthèses**, et seulement pour les
   tableaux de finalité, dont la branche ne les dit pas.
 
-**Une limite connue, à ne pas prendre pour un défaut de libellé** : la
-famille se calcule sur les entrées de la FICHE, pas sur celles de la
-variable. `RA` n'a besoin que de `R`, mais la fiche groupée qui le
-produit lit aussi `Rl` et `Rs` : `RA` appartient donc à deux tableaux, et
-l'un des deux s'annonce « phase liquide et phase solide ». Trois
-variables sont dans ce cas (`RA`, `RAl`, `RAs`). C'est le même phénomène
-que les 28 variables produites par deux fiches, et ça se corrigerait en
-dérivant la famille des entrées réellement consommées, ce que
-`list_cards()` ne rend pas aujourd'hui.
+Un tableau s'annonce « phase liquide et phase solide » alors qu'il
+groupe un cumul total : ce n'est pas un défaut de libellé mais une limite
+de la façon dont une famille se calcule, listée en fin de document.
 
 ### Geste 2 : la soudure, huit lignes déclarées
 
@@ -482,15 +478,72 @@ autorise l'`exactMatch` de `card:input/Q` vers
 Les trois autres grandeurs n'étaient pas concernées, leur objet étant
 déjà juste (Precipitation, Air, Evapotranspiration).
 
-## Deux doutes hérités, toujours ouverts
+## Ce qui reste ouvert
 
-**La grossièreté des familles de variables dérivées.** `delta-VCN10` se
-retrouve dans la même famille que les écarts d'autres variables de base,
-parce que l'identité d'une variable dérivée dépend de sa variable de
-BASE, qui n'est pas une facette. Ce n'est pas faux au sens de
-`skos:broader`, c'est moins fin qu'ailleurs. Affiner demanderait de
-déclarer la variable de base sur les fiches `delta-`, `median-`,
-`alpha-`. À trancher seulement si ça gêne à l'usage.
+Un seul endroit, pour n'avoir à en lire qu'un. Rien de ce qui suit ne
+bloque quoi que ce soit : le vocabulaire est complet et se régénère.
+
+### Ce qui attend une action de l'utilisateur
+
+**Le courriel à Theia/OZCAR.** Son contenu est dans `QUESTIONS_THEIA.md`
+et nulle part ailleurs. Tant qu'il n'est pas parti, la base d'URI,
+l'hébergement et la publication restent différés, et c'est la seule
+décision irréversible du chantier.
+
+### Deux alignements HydroPortail volontairement laissés de côté
+
+Ils demandent un jugement que leur documentation ne donne pas. À
+reprendre en les leur demandant plutôt qu'en devinant, et surtout pas en
+décodant un nom de variable : les deux grammaires descendent du même
+Oberlin 1992 et se ressemblent assez pour qu'une correspondance fausse
+passe inaperçue.
+
+- **`QA` et `mean-QA`.** Leur dictionnaire écrit « le débit moyen annuel
+  `QA` ou `Q-Moy` », leur liste écrit `QJ-Annuel` pour la même idée, et
+  leur `Q` nu désigne l'instantané quand celui de card est journalier.
+  Deux écritures, aucune tranchée.
+- **Les réductions inter-annuelles** (`mediane-`, `delta-`, `alpha-`). La
+  forme `Variable(Opérateur)` existe chez eux, `Q3J(Min)` par exemple,
+  mais leur documentation ne l'applique jamais à une variable DÉJÀ
+  extraite. `Q10J-N(Médian)` serait grammatical et probablement juste ;
+  ce serait nous qui l'aurions décidé.
+
+**Et un faux ami à ne jamais perdre de vue** : `QJ` désigne chez eux la
+chronique des débits moyens journaliers, chez card le régime journalier
+inter-annuel. Même symbole, deux objets. C'est l'entrée `Q` de card qui
+est alignée sur leur `QJ`, jamais la variable `QJ`.
+
+### Trois limites connues du modèle
+
+- **Les tableaux dépendent d'une option d'affichage.** Un navigateur ne
+  les montre que s'il est configuré pour, `arrayClass` chez Skosmos.
+  Sans elle, les variables apparaissent à plat sous leur phénomène.
+  C'est le prix de la justesse, assumé le 2026-08-14, et une ligne de
+  plus à demander à l'hébergeur le jour venu.
+- **Une famille se calcule sur les entrées de la FICHE**, pas sur celles
+  de la variable. `RA` n'a besoin que de `R`, mais la fiche groupée qui
+  le produit lit aussi `Rl` et `Rs` : il appartient donc à deux tableaux,
+  dont l'un s'annonce « phase liquide et phase solide ». Trois variables
+  sont dans ce cas. Se corrigerait en dérivant la famille des entrées
+  réellement consommées, ce que `list_cards()` ne rend pas.
+- **La grossièreté des tableaux de variables dérivées.** `delta-VCN10` se
+  retrouve avec les écarts d'autres variables de base, parce que
+  l'identité d'une variable dérivée dépend de sa variable de BASE, qui
+  n'est pas une facette. Ce n'est pas faux, c'est moins fin qu'ailleurs.
+  Affiner demanderait de déclarer la variable de base sur les fiches
+  `delta-`, `median-`, `alpha-`. À trancher seulement si ça gêne à
+  l'usage.
+
+### Un chantier de CORPUS, pas de vocabulaire
+
+**Les 28 trous de complétude** relevés en repliant les tableaux : `Q95` et
+`Q99` n'existent qu'en annuel quand `Q90` existe aussi sur la chronique ;
+toute la série `dtBE`, `vBE`, `tVCN10`, `alpha-VCN10` fige `d = 10 jours`
+sans `dtBE3` ni `tVCN30`. Ce sont des choix scientifiques. La liste se
+recalcule en repérant les tableaux d'un membre dont la variable porte un
+paramètre, elle n'a donc pas à être recopiée.
+
+### Un abandon qui tient toujours
 
 **Skosmos en local**, abandonné après deux tentatives : l'image
 officielle est fermée, les images tierces ne sont pas maintenues, et
@@ -498,19 +551,7 @@ Fuseki sert son jeu de données en lecture seule. Ce qu'on voulait savoir
 (« est-ce que ça passera chez eux ? ») est répondu par `skosify`, qui est
 leur propre outil de qualité et qui passe.
 
-## Pour la prochaine session
-
-Plus rien n'est en attente de notre côté : l'arbre, les tableaux, les
-libellés, la soudure et la notation officielle sont posés, et
-`make arbre` les montre.
-
-1. **le courriel à Theia**, dont le contenu est dans
-   `QUESTIONS_THEIA.md` ;
-2. **les 28 trous de complétude** relevés en repliant les tableaux, à
-   reprendre comme un chantier de corpus : ce sont des choix
-   scientifiques, pas des choix de vocabulaire ;
-3. selon la réponse de Theia : la base d'URI et l'hébergement, qui
-   restent la seule décision irréversible.
+---
 
 Ce qui est déjà tranché et qu'on ne rouvre pas est dans
 `PLAN_SITE_SKOS.md`, y compris l'audit des vocabulaires, qui reste la

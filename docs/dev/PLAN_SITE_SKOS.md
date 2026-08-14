@@ -1380,10 +1380,10 @@ regarde, **on ne publie rien**.
 | 4b | colonne calculée `family` dans `list_cards()`, exposée en filtre, et libellé généré | 4 | **fait** |
 | 5 | `src/card/alignments.yaml` : correspondances externes et concepts de contrainte, validés par le linter | 4 | **fait** |
 | 6 | `scripts/generate_skos.py` → `card.ttl`, base d'URI manifestement provisoire, métadonnées de schéma, garde de fraîcheur étendue | 3, 5 | **fait** (card 0.8.0) |
-| 7 | Skosmos **local** sur ce `.ttl`, pour voir le rendu avant tout dépôt | 6 | à faire |
+| 7 | Skosmos **local** sur ce `.ttl`, pour voir le rendu avant tout dépôt | 6 | **abandonné**, cf. `PLAN_THESAURUS.md` ; `make arbre` rend le service |
 | 8 | site MkDocs Material **en localhost** : sans `dev/`, URLs minuscules, catalogue filtrable rendu en HTML, fonctions en deux sections | rien | **fait** (2026-08-13), à regarder à l'écran avant publication |
 | 9 | retrait d'`operator`, coordonné card et card-api | 3 | **fait** (2026-08-13) |
-| 10 | courriel à Theia/OZCAR : l'alignement existe, veulent-ils l'extension, veulent-ils servir le `.ttl` ? | utilisateur | à faire |
+| 10 | courriel à Theia/OZCAR : l'alignement existe, veulent-ils l'extension, veulent-ils servir le `.ttl` ? | utilisateur | à faire, contenu dans `QUESTIONS_THEIA.md` |
 | 11 | base d'URI définitive, licence du vocabulaire, domaine, hébergement, publication | 10 | différé |
 
 ### Pourquoi l'étape 1 est proposée
@@ -1589,4 +1589,9 @@ sur le site public le 2026-08-13, où il s'affichait effectivement.
 
 3. **La statistique : `iop:hasStatisticalModifier` ou
    `cpm:statisticalMeasure` ?** Question à leur poser plutôt qu'à
-   trancher seuls, cf. la mesure du 2026-08-13.
+   trancher seuls, cf. la mesure du 2026-08-13. Elle est devenue une des
+   questions de `QUESTIONS_THEIA.md`, qui les porte toutes maintenant.
+
+Tout ce qui reste ouvert sur le VOCABULAIRE, lui, est en fin de
+`PLAN_THESAURUS.md`, à un seul endroit. Les deux questions ci-dessus
+regardent le SITE et l'hébergement, et elles seules.

@@ -68,14 +68,27 @@ des deux endroits.
 - **Le thésaurus a un arbre, et une soudure vers Theia/OZCAR
   (2026-08-14).** `docs/card.ttl` présentait ses 133 familles comme
   autant de concepts de tête : la page d'accueil d'un navigateur les
-  listait toutes, à plat, sans porte d'entrée. Elles pendent maintenant
-  sous les facettes `domain` et `phenomenon`, qui deviennent la colonne
-  vertébrale du vocabulaire, et le corpus se parcourt en quatre niveaux,
-  grandeur puis phénomène puis famille puis variable.
+  listait toutes, à plat, sans porte d'entrée. Les facettes `domain` et
+  `phenomenon` deviennent la colonne vertébrale du vocabulaire, et le
+  corpus se parcourt de la grandeur au phénomène puis à la variable.
 
   Rien de neuf n'est déclaré dans les fiches : le rattachement d'un
   phénomène à une grandeur se **mesure** sur le corpus, et le générateur
   refuse un phénomène qui apparaîtrait sous deux grandeurs.
+
+  Quatre `skos:broadMatch` et quatre `skos:exactMatch` déclarés dans
+  `alignments.yaml` rattachent l'arbre au thésaurus de Theia/OZCAR. Ils
+  sont posés au sommet, ce qui suffit : leur concept générique est plus
+  large que tout ce que card calcule sur cette grandeur. Mesuré sur leur
+  graphe entier, leur branche débit s'arrête à `1 day mean river
+  discharge`, qui est exactement le `Q` de card : ils décrivent ce qu'on
+  mesure, card décrit ce qu'on calcule dessus.
+
+  Pourquoi cette forme, ce qui a été mesuré sur leur thésaurus et ce qui
+  reste ouvert : `docs/dev/PLAN_THESAURUS.md`. Ce qu'il faut leur
+  demander, et rien d'autre : `docs/dev/QUESTIONS_THEIA.md`.
+
+  **Rien n'est publié**, la base d'URI reste provisoire.
 
 - **Une famille est un TABLEAU de thésaurus, plus un concept
   (2026-08-14).** Elle se déclarait `skos:Concept` dans la chaîne
@@ -109,20 +122,6 @@ des deux endroits.
   ne porte le libellé d'un voisin, les onze derniers se séparant par la
   phase de la précipitation, que `alignments.yaml` déclarait déjà.
 
-  Quatre `skos:broadMatch` et quatre `skos:exactMatch` déclarés dans
-  `alignments.yaml` rattachent l'arbre au thésaurus de Theia/OZCAR. Ils
-  sont posés au sommet, ce qui suffit : leur concept générique est plus
-  large que tout ce que card calcule sur cette grandeur. Mesuré sur leur
-  graphe entier, leur branche débit s'arrête à `1 day mean river
-  discharge`, qui est exactement le `Q` de card : ils décrivent ce qu'on
-  mesure, card décrit ce qu'on calcule dessus.
-
-  Pourquoi cette forme, ce qui a été mesuré sur leur thésaurus et ce qui
-  reste à trancher : `docs/dev/PLAN_THESAURUS.md`. Ce qu'il faut leur
-  demander, et rien d'autre : `docs/dev/QUESTIONS_THEIA.md`.
-
-  **Rien n'est publié**, la base d'URI reste provisoire.
-
 - **L'objet d'intérêt du débit devient `River` (2026-08-14).** Les quatre
   entrées de débit déclaraient `Surface water` ; le corpus est bâti sur
   des chroniques de stations hydrométriques de cours d'eau et aucune
@@ -145,8 +144,8 @@ des deux endroits.
   notation de card restant un littéral nu. **Ne figure que ce qui est
   certain** : ce que leur documentation donne explicitement, et ce qui
   s'en déduit par substitution d'un nombre. Ce qui demanderait un
-  jugement est écarté et listé dans `CHANTIERS.md`, avec le faux ami à
-  connaître, leur `QJ` n'étant pas celui de card.
+  jugement est écarté et listé en fin de `PLAN_THESAURUS.md`, avec le
+  faux ami à connaître, leur `QJ` n'étant pas celui de card.
 
 - **`scripts/arbre_skos.py`**, et `make arbre` : `docs/card.ttl` imprimé
   en arbre, dans la langue et à la profondeur demandées, une branche à la
