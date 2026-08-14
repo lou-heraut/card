@@ -854,36 +854,64 @@ def entrees(g):
                 g.add((noeud, propriete, uri(regle[champ])))
 
 
-HYDROPORTAIL = CARD["notation/hydroportail"]
+def type_de_registre(nom):
+    """L'URI du système de notation d'un registre, déduite de son nom.
+
+    Rien à tenir à jour : ajouter un registre dans `alignments.yaml`
+    suffit à ce qu'il sorte, avec son type et sa déclaration.
+    """
+    return CARD[f"notation/{nom.replace('_', '-')}"]
+
+
+def codes_officiels(registre, section, cle):
+    """Les codes d'un concept dans un registre, toujours en liste.
+
+    Une entrée s'écrit indifféremment `Q: QmJ` ou `Q: [QJ, QmJ]`, parce
+    que les deux registres n'ont pas la même pratique : le Sandre donne
+    un code par grandeur, la grammaire du SCHAPI en donne plusieurs et
+    déclare elle-même les raccourcis.
+    """
+    valeur = (registre.get(section) or {}).get(cle)
+    if not valeur:
+        return []
+    return valeur if isinstance(valeur, list) else [valeur]
 
 
 def notation_officielle(g, concept, cle, section):
-    """La notation du SCHAPI, quand la correspondance est certaine.
+    """Les notations officielles françaises, quand elles sont certaines.
 
     Une notation SKOS est un code dans un système de notation, et le
     système se dit par le TYPE du littéral : c'est la mécanique prévue
     pour qu'un même concept porte plusieurs codes sans qu'on les
     confonde. La notation propre à card reste un littéral nu, qui est la
-    lecture par défaut du vocabulaire ; celle-ci s'annonce.
+    lecture par défaut du vocabulaire ; celles-ci s'annoncent.
+
+    Deux registres coexistent en France, cf. `alignments.yaml`, et une
+    variable peut porter plusieurs codes dans le même : ce sont leurs
+    propres équivalences, pas les nôtres.
 
     **Un piège à connaître** : `QJ` désigne chez eux la chronique des
     débits moyens journaliers, et chez card le régime journalier
     inter-annuel. Même symbole, deux choses. C'est la raison pour
-    laquelle cette table est écrite à la main et ne contient que ce que
-    leur documentation donne.
+    laquelle ces tables sont écrites à la main et ne contiennent que ce
+    que leur documentation et leur interface donnent.
     """
-    valeur = (ALIGNEMENTS["hydroportail"].get(section) or {}).get(cle)
-    if valeur:
-        g.add((concept, SKOS.notation, Literal(valeur, datatype=HYDROPORTAIL)))
+    for nom, registre in ALIGNEMENTS["notations"].items():
+        type_ = type_de_registre(nom)
+        for code in codes_officiels(registre, section, cle):
+            g.add((concept, SKOS.notation, Literal(code, datatype=type_)))
 
 
 def type_de_notation(g):
-    """Déclare le système de notation, sans quoi le type ne dit rien."""
-    g.add((HYDROPORTAIL, RDF.type, RDFS.Datatype))
-    source = ALIGNEMENTS["hydroportail"]["source"]
-    for lang in ("en", "fr"):
-        g.add((HYDROPORTAIL, RDFS.label, Literal(source[lang], lang=lang)))
-    g.add((HYDROPORTAIL, RDFS.seeAlso, URIRef(source["url"])))
+    """Déclare les systèmes de notation, sans quoi les types ne disent rien."""
+    for nom, registre in ALIGNEMENTS["notations"].items():
+        type_ = type_de_registre(nom)
+        g.add((type_, RDF.type, RDFS.Datatype))
+        source = registre["source"]
+        for lang in ("en", "fr"):
+            g.add((type_, RDFS.label, Literal(source[lang], lang=lang)))
+        for lien in [source["url"]] + list(source.get("documents") or []):
+            g.add((type_, RDFS.seeAlso, URIRef(lien)))
 
 
 def mesure(g, concept, unite_en):

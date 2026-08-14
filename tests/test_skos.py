@@ -357,18 +357,40 @@ def test_a_variable_hangs_under_its_phenomenon(graphe):
 def test_a_foreign_notation_says_which_system_it_belongs_to(graphe):
     """Deux codes sur un concept, et rien ne les distinguerait sans type.
 
-    `VCN10` chez card s'écrit `Q10J-N` au SCHAPI. Le type du littéral
-    nomme le système ; la notation de card reste un littéral nu, qui est
-    la lecture par défaut du vocabulaire.
+    `VCN10` chez card s'écrit `Q10J-N` au SCHAPI, et sa forme pleine
+    `Qm10J-N` est attestée elle aussi. Le type du littéral nomme le
+    système ; la notation de card reste un littéral nu, qui est la
+    lecture par défaut du vocabulaire.
     """
     v = CARD["variable/VCN10"]
-    codes = {n.datatype: str(n) for n in graphe.objects(v, SKOS.notation)}
-    assert codes.get(None) == "VCN10", "la notation de card n'est plus nue"
+    codes = collections.defaultdict(set)
+    for n in graphe.objects(v, SKOS.notation):
+        codes[n.datatype].add(str(n))
+    assert codes[None] == {"VCN10"}, "la notation de card n'est plus nue"
     officielle = CARD["notation/hydroportail"]
-    assert codes.get(officielle) == "Q10J-N", (
-        f"notation officielle absente ou fausse : {codes}")
+    assert codes[officielle] == {"Q10J-N", "Qm10J-N"}, (
+        f"notations officielles absentes ou fausses : {dict(codes)}")
     assert (officielle, RDF.type, RDFS.Datatype) in graphe, (
         "le système de notation n'est pas déclaré, donc le type ne dit rien")
+
+
+def test_the_two_french_registers_both_reach_the_graph(graphe):
+    """La France a deux registres, et ils ne disent pas la même chose.
+
+    `QA` porte `QJ-annuel` dans la grammaire du SCHAPI et `QmA` dans la
+    nomenclature du Sandre ; `mean-QA` n'existe que dans la seconde, sous
+    le nom `Module`. Perdre un registre passerait inaperçu, l'autre
+    continuant de sortir.
+    """
+    sandre = CARD["notation/sandre-nsa513"]
+    schapi = CARD["notation/hydroportail"]
+    codes = {(str(n), n.datatype)
+             for c in (CARD["variable/QA"], CARD["variable/mean-QA"])
+             for n in graphe.objects(c, SKOS.notation)}
+    assert ("QJ-annuel", schapi) in codes
+    assert ("QmA", sandre) in codes
+    assert ("Module", sandre) in codes
+    assert (sandre, RDF.type, RDFS.Datatype) in graphe
 
 
 def test_the_input_quantities_are_concepts(graphe):

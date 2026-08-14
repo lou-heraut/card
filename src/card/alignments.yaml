@@ -307,69 +307,130 @@ ignored_parameters:
   - horizon_start
   - horizon_end
 
-# ── Notation officielle française (HydroPortail) ──────────────────────
+# ── Notations officielles françaises ──────────────────────────────────
 #
-# Le SCHAPI, avec INRAE, maintient pour le réseau Vigicrues un
-# dictionnaire des notations de statistiques hydrologiques. C'est la
-# notation que lisent les hydrologues français dans HydroPortail, et card
-# en emploie une autre.
+# DEUX registres, et c'est le fait à retenir avant de lire les tables. La
+# France en a deux, d'âges différents, qui coexistent dans les mêmes
+# pages : la grammaire du groupe de travail Statistiques du SCHAPI, que
+# l'interface d'HydroPortail affiche, et la nomenclature nationale du
+# Sandre, dont les codes viennent de l'ancienne Banque Hydro. `VCN10` et
+# `Q10J-N` sont la même variable dans les deux registres.
 #
-# **Les deux descendent du même texte.** Leur dictionnaire dit avoir été
-# bâti, entre autres, sur « Normalisation des variables dans les modèles
-# hydrologiques descriptifs », G. Oberlin, 1992, qui est la source de la
-# grammaire de card (cf. NOMENCLATURE.md). Ce n'est donc pas un
-# rapprochement de circonstance : c'est une divergence entre deux
-# héritiers, et la rapprocher a du sens.
+# **Les trois descendent du même texte**, la nôtre comprise. Leur
+# dictionnaire dit avoir été bâti, entre autres, sur « Normalisation des
+# variables dans les modèles hydrologiques descriptifs », G. Oberlin,
+# 1992, qui est la source de la grammaire de card (cf. NOMENCLATURE.md).
+# Ce n'est donc pas un rapprochement de circonstance : c'est une
+# divergence entre héritiers, et la rapprocher a du sens. C'est aussi
+# pourquoi tout se relit à la main : deux grammaires aussi proches
+# laissent passer une correspondance fausse sans que rien ne rougisse.
 #
-# Ce qui figure ici, et RIEN d'autre : les correspondances que leur
-# documentation donne explicitement, et celles qui s'en déduisent par
-# simple substitution d'un nombre (3 jours -> 10 jours, retour 5 ans ->
-# 2 ans). Tout ce qui demanderait un jugement est absent, et c'est
-# délibéré : une correspondance fausse entre deux grammaires qui se
-# ressemblent autant passerait inaperçue.
+# UNE VALEUR PEUT ÊTRE UNE LISTE, et ce n'est pas une commodité : leur
+# aide donne elle-même les équivalences (« Qm1J, raccourci en QmJ même
+# plutôt QJ », « QmM-N, raccourci en QM-N », « Qi-X en général simplifié
+# en Q-X »). Le PREMIER code est celui que l'interface affiche, les
+# suivants sont des variantes attestées. Aucune n'est fabriquée ici.
 #
-# Leur grammaire, pour relire cette table sans rouvrir le PDF :
-#   données de base   Grandeur + FiltreStatistique + FiltreTemporel
-#                     Q débit, H hauteur ; N minimum, X maximum ; absence
-#                     de filtre statistique = moyenne ; J journalier,
-#                     nJ n jours glissants, M mensuel, A annuel
-#   variables         DonnéesDeBase - Extracteur, la période valant
-#                     annuel par défaut
-#   valeurs caract.   Variable(PériodeDeRetour)
-#   fréquences        DonnéesDeBase en indice de la fréquence au NON
-#                     dépassement, d'où `Q90` (dépassé 90 % du temps)
-#                     qui s'écrit `QJ0,1` chez eux
-hydroportail:
-  source:
-    en: SCHAPI/INRAE, statistical notations for HydroPortail, V6, March 2022
-    fr: SCHAPI/INRAE, notations statistiques pour HydroPortail, V6, mars 2022
-    url: https://hydro.eaufrance.fr/documentation/notations-statistiques
-  # Ce que card CONSOMME. Leur `QJ` est la chronique des débits moyens
-  # journaliers, c'est-à-dire exactement l'entrée `Q` de card.
-  inputs:
-    Q: QJ
-  # Ce que card PRODUIT. Les fenêtres saisonnières de card (`_summer`,
-  # `_winter`) n'ont pas d'équivalent : leur extracteur est annuel, et une
-  # fenêtre partielle n'est pas dans leur grammaire.
-  variables:
-    QNA:     QJ-N            # minimums annuels des débits moyens journaliers
-    VCN3:    Q3J-N           # donné tel quel dans leur table, sigle VCN3
-    VCN10:   Q10J-N
-    VCN30:   Q30J-N
-    VCN10-5: Q10J-N(5)       # leur table donne Q3J-N(5) pour VCN3 (5)
-    VCN30-2: Q30J-N(2)
-    QMNA:    QM-N            # donné tel quel, sigle QMNA
-    QMNA-5:  QM-N(5)         # donné tel quel, sigle QMNA5
-    QJXA:    QJ-X
-    QJXA-10: QJ-X(10)        # donné tel quel, sigle QJX10
-    VCX3:    Q3J-X           # donné tel quel, sigle VCX3
-    VCX10:   Q10J-X
-    # Fréquence au NON dépassement en indice : `Q90` est dépassé 90 % du
-    # temps, donc non dépassé 10 %. Leur table donne `QJ0,5` pour le débit
-    # journalier médian, ce qui fixe la convention.
-    Q10:     QJ0,9
-    Q50:     QJ0,5
-    Q90:     QJ0,1
+# Ce qui figure, et RIEN d'autre : les correspondances que leur
+# documentation ou leur interface donnent explicitement, et celles qui
+# s'en déduisent par simple substitution d'un nombre (3 jours -> 10
+# jours, retour 5 ans -> 2 ans). Une seule ligne fait exception et le
+# dit.
+#
+# Un registre de plus ne demande aucun code : le générateur parcourt
+# cette clé, et le type de littéral se déduit du nom du registre.
+notations:
+
+  # ── La grammaire du GT Stat, celle de l'interface ────────────────────
+  #
+  #   données de base   Grandeur + i|m + FiltreStatistique + FiltreTemporel
+  #                     Q débit, H hauteur ; i instantané, m moyen ;
+  #                     N minimum, X maximum ; J journalier, nJ n jours,
+  #                     M mensuel, A annuel. La forme pleine est `Qm3J`,
+  #                     le raccourci `Q3J` : les deux sont attestées, et
+  #                     aucun de leurs documents ne dit laquelle fait foi.
+  #   variables         DonnéesDeBase - Extracteur, période annuelle par
+  #                     défaut
+  #   valeurs caract.   Variable(PériodeDeRetour)
+  #   fréquences        DonnéesDeBase en indice de la fréquence au NON
+  #                     dépassement. La preuve n'est pas `QJ0,5`, qui est
+  #                     symétrique et ne fixe rien : c'est le titre de
+  #                     section de leur V6, plus `QJ0,0274` pour le débit
+  #                     non dépassé 10 jours par an et `Freq[QJ <= QJn/12]
+  #                     = n/12`. D'où `Q90`, dépassé 90 % du temps donc
+  #                     non dépassé 10 %, qui s'écrit `QJ0,1`.
+  hydroportail:
+    source:
+      en: SCHAPI/INRAE, statistical notations for HydroPortail
+      fr: SCHAPI/INRAE, notations statistiques pour HydroPortail
+      # L'aide en ligne, et non la V6 de mars 2022 : la V6 ne connaît pas
+      # les marqueurs `i` et `m` que l'interface emploie, et c'est le
+      # premier point de RETOURS_SCHAPI.md.
+      url: https://hydro.eaufrance.fr/aide/donnees-et-noms-des-variables
+      documents:
+        - https://hydro.eaufrance.fr/uploads/Publications/NotationsStatistiquesV6_anonymisee.pdf
+        - https://hydro.eaufrance.fr/uploads/Publications/ListeAnalysesStatistiques.pdf
+    # Ce que card CONSOMME. Leur `QJ` est la chronique des débits moyens
+    # journaliers, c'est-à-dire exactement l'entrée `Q` de card.
+    inputs:
+      Q: [QJ, QmJ, Qm1J]      # les trois écritures, données par leur aide
+    # Ce que card PRODUIT. Les fenêtres saisonnières de card (`_summer`,
+    # `_winter`) n'ont pas d'équivalent : leur extracteur est annuel, et
+    # une fenêtre partielle n'est pas dans leur grammaire.
+    variables:
+      # Analyse de référence « toutes eaux » de toute station, dont la
+      # fiche affiche les paramètres : année hydrologique du 01/09 au
+      # 31/08, extracteur moyenne, grandeur QmnJ à 1 jour. C'est `QA`.
+      # Leur V6 écrit aussi « QA ou Q-Moy » pour le débit moyen annuel,
+      # mais `Q-Moy` a l'instantané pour donnée de base et `QA` ne dit
+      # pas le pas de temps : seule celle-ci est sans ambiguïté.
+      QA:      [QJ-annuel]
+      # Seule ligne déduite d'une grille plutôt qu'attestée : `Q-N`,
+      # `QM-N` et `Q3J-N` existent, la case journalière est vide.
+      # Ne pas confondre avec leur `QJ(Min)`, qui est le minimum sur la
+      # chronique entière et non la série des minimums annuels.
+      QNA:     [QJ-N]
+      VCN3:    [Q3J-N, Qm3J-N]     # donné tel quel, sigle répandu VCN3
+      VCN10:   [Q10J-N, Qm10J-N]
+      VCN30:   [Q30J-N, Qm30J-N]
+      VCN10-5: [Q10J-N(5)]         # leur table donne Q3J-N(5) pour VCN3 (5)
+      VCN30-2: [Q30J-N(2)]
+      QMNA:    [QM-N, QmM-N]       # donné tel quel, sigle QMNA
+      QMNA-5:  [QM-N(5)]           # donné tel quel, sigle QMNA5
+      QJXA:    [QJ-X]              # « débit journalier maximal (annuel) »
+      QJXA-10: [QJ-X(10)]          # donné tel quel, sigle QJX10
+      VCX3:    [Q3J-X, Qm3J-X]     # donné tel quel, sigle VCX3
+      VCX10:   [Q10J-X, Qm10J-X]
+      # Guillemets obligatoires : la virgule est le séparateur d'une
+      # liste YAML, et `[QJ0,9]` se lit sinon comme deux codes.
+      Q10:     ["QJ0,9"]
+      Q50:     ["QJ0,5"]           # donné tel quel, « débit journalier médian »
+      Q90:     ["QJ0,1"]
+
+  # ── Le registre national du Sandre ───────────────────────────────────
+  #
+  # Nomenclature 513, « Type de grandeur de l'observation élaborée
+  # Hydro ». C'est de là que viennent les symboles dont card a hérité,
+  # `VCN`, `VCX`, `QMNA`. Elle a une adresse, mais ses codes n'en ont
+  # pas : `id.eaufrance.fr/nsa/513/QmJ` renvoie la nomenclature entière.
+  # Un code ne peut donc pas être cité individuellement, et c'est
+  # pourquoi il sort ici en `skos:notation` typée et non en alignement.
+  #
+  # N'y figure QUE ce qui n'est pas paramétré. Leur `VCN` désigne « le
+  # débit minimal calculé sur n jours consécutifs », donc `VCN3`, `VCN10`
+  # et `VCN30` à la fois : un code qui désigne trois concepts n'est pas
+  # une notation, c'est une famille, et il n'a rien à faire ici.
+  sandre_nsa513:
+    source:
+      en: Sandre, nomenclature 513, elaborated hydrometric quantity types
+      fr: Sandre, nomenclature 513, type de grandeur de l'observation élaborée Hydro
+      url: https://id.eaufrance.fr/nsa/513
+    inputs:
+      Q: QmJ                  # « Débit moyen journalier »
+    variables:
+      QA:      QmA            # « Débit moyen annuel »
+      mean-QA: Module         # « Débit moyen inter-annuel », valeur non datée
+      QMNA:    QMNA           # « Débit moyen mensuel minimal par année »
 
 # ── Familles de contrainte définies par card ──────────────────────────
 #

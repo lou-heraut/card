@@ -63,8 +63,11 @@ for the composition of each variable.
 [**card.ttl**](card.ttl) holds one concept per variable, its symbol as
 `skos:notation`, its labels in both languages, the facets it belongs to,
 and the alignments to the Theia/OZCAR thesaurus for the quantities that
-exist there. Fifteen variables also carry their official French notation,
-the one HydroPortail uses: `VCN10` is `Q10J-N` there.
+exist there. Variables that have an official French counterpart carry it
+too, and France keeps two registers rather than one: the annual mean
+daily discharge `QA` is `QJ-annuel` in the HydroPortail grammar and `QmA`
+in the Sandre national nomenclature. The datatype of each literal says
+which register it comes from.
 
 Variables hang under the quantity and the phenomenon they describe. The
 groups that gather the variants of one idea (`QNA`, `VCN3`, `VCN10`,

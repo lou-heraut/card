@@ -51,4 +51,4 @@ __all__ = [
 
 # Écrit par scripts/set_version.py, jamais à la main :
 # tests/test_citation.py refuse le désaccord avec pyproject.
-__version__ = "0.12.0"
+__version__ = "0.13.0"

@@ -1,9 +1,9 @@
 > **Statut : construction close, publication en attente.** Le vocabulaire
 > a sa forme définitive depuis le 2026-08-14 : un arbre thématique, des
-> tableaux de thésaurus, une soudure vers Theia/OZCAR et la notation
-> officielle du SCHAPI. **Rien n'est publié**, la base d'URI reste
-> manifestement fausse, et la seule chose qui manque est une réponse de
-> Theia.
+> tableaux de thésaurus, une soudure vers Theia/OZCAR et les deux
+> notations officielles françaises, celle du SCHAPI et celle du Sandre.
+> **Rien n'est publié**, la base d'URI reste manifestement fausse, et la
+> seule chose qui manque est une réponse de Theia.
 > Ce document porte la mesure de LEUR thésaurus faite sur le graphe
 > entier, la forme retenue chez nous et POURQUOI, et la liste de ce qui
 > reste ouvert, en fin de document et à un seul endroit.
@@ -352,60 +352,82 @@ réciproques dans leur fichier**. Quatre triplets, aucun concept à
 maintenir, réversible. Si c'est non, tout fonctionne quand même, en sens
 unique, et rien n'est perdu.
 
-## La notation officielle française, alignée le 2026-08-14
+## Les notations officielles françaises, alignées le 2026-08-14
 
 Ce n'était pas dans ce plan, et ça y a sa place : c'est un alignement, il
 vit dans `alignments.yaml`, et il ne demande rien à personne.
 
-Le SCHAPI, avec INRAE, maintient pour le réseau Vigicrues un
-**dictionnaire des notations de statistiques hydrologiques**, celui que
-lisent les hydrologues français dans HydroPortail. Il définit une
-grammaire, pas une liste : grandeur, filtre statistique, filtre temporel,
-puis extracteur, puis période de retour.
+**Il y a deux registres, pas un**, et c'est le fait qu'on a mis le plus
+de temps à voir. Le SCHAPI, avec INRAE, maintient pour le réseau
+Vigicrues une **grammaire de notations statistiques**, celle qu'affiche
+l'interface d'HydroPortail. Le Sandre maintient à côté la **nomenclature
+513**, « type de grandeur de l'observation élaborée Hydro », dont les
+codes viennent de l'ancienne Banque Hydro. `VCN10` et `Q10J-N` sont la
+même variable dans les deux.
 
-**Les deux grammaires descendent du même texte.** Leur dictionnaire dit
-avoir été bâti, entre autres, sur « Normalisation des variables dans les
-modèles hydrologiques descriptifs », G. Oberlin, 1992, qui est aussi la
-source de la nomenclature de card (cf. `NOMENCLATURE.md`). Ce n'est donc
-pas un rapprochement de circonstance, c'est une divergence entre deux
-héritiers.
+**Les trois grammaires descendent du même texte**, la nôtre comprise.
+Leur dictionnaire dit avoir été bâti, entre autres, sur « Normalisation
+des variables dans les modèles hydrologiques descriptifs », G. Oberlin,
+1992, qui est aussi la source de la nomenclature de card (cf.
+`NOMENCLATURE.md`). Ce n'est donc pas un rapprochement de circonstance,
+c'est une divergence entre héritiers, et c'est pourquoi card a hérité de
+`VCN10` et de `QMNA` sans jamais les copier.
 
-Quinze variables et une grandeur d'entrée sont alignées :
+Les tables sont dans `alignments.yaml`, une par registre, et ne sont
+recopiées nulle part.
 
-```
-Q       QJ            la chronique des débits moyens journaliers
-QNA     QJ-N          VCN3   Q3J-N     VCN10   Q10J-N    VCN30  Q30J-N
-QMNA    QM-N          QJXA   QJ-X      VCX3    Q3J-X     VCX10  Q10J-X
-QMNA-5  QM-N(5)       VCN10-5 Q10J-N(5)   VCN30-2 Q30J-N(2)   QJXA-10 QJ-X(10)
-Q10     QJ0,9         Q50    QJ0,5     Q90     QJ0,1
-```
+**Ne figure que ce qui est certain** : ce que leur documentation ou leur
+interface donnent explicitement, et ce qui s'en déduit par simple
+substitution d'un nombre. Une seule ligne fait exception, `QNA` vers
+`QJ-N`, déduite d'une grille dont trois cases sur quatre sont attestées,
+et elle le dit dans le fichier.
 
-**Ne figure que ce qui est certain** : les correspondances que leur
-documentation donne explicitement (`VCN3`, `VCN10-5`, `QMNA`, `QMNA5`,
-`QJX10`, `VCX3`), et celles qui s'en déduisent par simple substitution
-d'un nombre. Tout ce qui demanderait un jugement est absent, et c'est
-délibéré : deux grammaires qui se ressemblent autant se trompent sans
-qu'on le voie.
+### Ce qui a été mesuré sur leur usage réel, et non sur leur dictionnaire
 
-Ce qui est écarté, et pourquoi :
+Fait le 2026-08-14, après avoir constaté que le dictionnaire ne suffisait
+pas : lecture des quatre documents publics, de l'aide en ligne, de la
+nomenclature Sandre, et de la fiche de statistiques d'une station réelle
+(le Célé à Orniac, `O8133520`).
+
+- **Une station publie quatre analyses de référence**, nommées
+  `<notation nouvelle> (<sigle ancien>)` : `QJ-annuel` en toutes eaux,
+  `QM-N (QMNA)` et `Q3J-N (VCN3)` en basses eaux, `Q-X (CRUCAL)` et
+  `QJ-X (CRUCAL)` en hautes eaux.
+- **`QJ-annuel` EST le `QA` de card**, et la fiche affiche ses
+  paramètres : année hydrologique du 01/09 au 31/08, extracteur moyenne,
+  grandeur `QmnJ` à un jour. Même fenêtre par défaut que card, sans que
+  personne l'ait cherché.
+- **Le module a un code à lui**, `Module` au Sandre, « débit moyen
+  inter-annuel ». C'est `mean-QA`, et il n'y a donc rien à composer.
+- **Ils ont plusieurs écritures par variable et le disent** : « `Qm1J`,
+  raccourci en `QmJ` même plutôt `QJ` », « `QmM-N`, raccourci en
+  `QM-N` ». Publier plusieurs `skos:notation` par registre n'est pas une
+  licence qu'on prend, c'est refléter leur pratique.
+
+Ce que cette lecture a relevé chez eux vit dans `RETOURS_SCHAPI.md`, et
+nulle part ailleurs. Ce qu'ils calculent et que card n'a pas est un
+inventaire de corpus, dans `CHANTIERS.md`.
+
+### Ce qui est écarté, et pourquoi
 
 - **les fenêtres saisonnières** (`_summer`, `_winter`) : leur extracteur
   est annuel par défaut et une fenêtre partielle n'est pas dans leur
   grammaire ;
-- **`QA` et `mean-QA`** : leur dictionnaire écrit « le débit moyen annuel
-  `QA` ou `Q-Moy` », mais leur `Q` nu désigne l'instantané, quand celui
-  de card est journalier ; et leur liste écrit `QJ-Annuel` pour la même
-  idée. Deux écritures, aucune tranchée ;
 - **les quantiles annuels** (`Q90A`…) : leur notation de fréquence porte
-  sur la chronique entière, pas sur chaque année ;
-- **les réductions inter-annuelles** (`mediane-`, `delta-`, `alpha-`) :
-  la forme `Variable(Opérateur)` existe chez eux, mais leur documentation
-  ne l'applique jamais à une variable déjà extraite.
+  sur la chronique entière, pas sur chaque année, et leur ligne le dit,
+  « sur la chronique analysée » ;
+- **les réductions inter-annuelles autres que la moyenne** (`median-`,
+  `delta-`, `alpha-`) : voir plus bas, la question est close ;
+- **les codes paramétrés du Sandre** (`VCN`, `VCX`, `DCn`) : `VCN`
+  désigne `VCN3`, `VCN10` et `VCN30` à la fois. Un code qui désigne trois
+  concepts n'est pas une notation, c'est une famille.
 
-**Un faux ami à connaître** : `QJ` désigne chez eux la chronique des
+**Deux faux amis à connaître.** `QJ` désigne chez eux la chronique des
 débits moyens journaliers, et chez card le régime journalier
-inter-annuel. Même symbole, deux choses. C'est la raison pour laquelle la
-table est écrite à la main.
+inter-annuel : c'est l'entrée `Q` de card qui est alignée sur leur `QJ`,
+jamais la variable `QJ`. Et chez eux, `QJ(Min)` est le minimum sur la
+chronique entière quand `QJ-N` est la série des minimums annuels. C'est
+la raison pour laquelle la table est écrite à la main.
 
 ### Comment ça sort en RDF
 
@@ -416,17 +438,32 @@ concept porte plusieurs codes sans qu'on les confonde :
 ```turtle
 card:variable/VCN10
     skos:notation  "VCN10" ;
-    skos:notation  "Q10J-N"^^card:notation/hydroportail .
+    skos:notation  "Q10J-N"^^card:notation/hydroportail ;
+    skos:notation  "Qm10J-N"^^card:notation/hydroportail .
+
+card:variable/QA
+    skos:notation  "QA" ;
+    skos:notation  "QJ-annuel"^^card:notation/hydroportail ;
+    skos:notation  "QmA"^^card:notation/sandre-nsa513 .
 ```
 
 La notation propre à card reste un littéral nu, qui est la lecture par
-défaut du vocabulaire ; la notation étrangère s'annonce. Le type est
-déclaré dans le fichier, avec le titre du dictionnaire et son URL.
+défaut du vocabulaire ; les notations étrangères s'annoncent. Chaque type
+est déclaré dans le fichier, avec le titre du registre, son adresse et
+les documents qui le définissent.
 
-Deux tests le gardent honnête : toute clé de la table est une vraie
-variable du corpus, et **aucune notation n'est attribuée deux fois**,
-seul symptôme qu'une machine puisse voir d'une correspondance erronée
-entre deux grammaires aussi proches.
+Le nom du registre suffit à le faire sortir : `alignments.yaml` porte les
+deux sous une seule clé `notations:`, le générateur la parcourt, et le
+type du littéral se déduit du nom. **Un troisième registre ne demanderait
+aucune ligne de code.**
+
+Trois tests le gardent honnête : toute clé des tables est une vraie
+variable du corpus, tout registre déclare sa source, et **aucun code
+n'est attribué deux fois DANS UN REGISTRE**, seul symptôme qu'une machine
+puisse voir d'une correspondance erronée entre deux grammaires aussi
+proches. Le doublon se mesure registre par registre parce qu'un même code
+peut vivre dans les deux sans rien dire de faux : `QMNA` est le symbole
+de card et le code du Sandre.
 
 ## Ce qui bloque l'option B, après audit
 
@@ -490,28 +527,34 @@ et nulle part ailleurs. Tant qu'il n'est pas parti, la base d'URI,
 l'hébergement et la publication restent différés, et c'est la seule
 décision irréversible du chantier.
 
-### Deux alignements HydroPortail volontairement laissés de côté
+**Le retour au SCHAPI**, si tu veux le faire. Son contenu est dans
+`RETOURS_SCHAPI.md` et nulle part ailleurs. Rien n'en dépend chez nous :
+l'alignement tient sans réponse. Deux points leur seraient utiles, la
+forme de notation qui fait foi et l'écriture du module.
 
-Ils demandent un jugement que leur documentation ne donne pas. À
-reprendre en les leur demandant plutôt qu'en devinant, et surtout pas en
-décodant un nom de variable : les deux grammaires descendent du même
-Oberlin 1992 et se ressemblent assez pour qu'une correspondance fausse
-passe inaperçue.
+### Les réductions inter-annuelles : question close, et pas par prudence
 
-- **`QA` et `mean-QA`.** Leur dictionnaire écrit « le débit moyen annuel
-  `QA` ou `Q-Moy` », leur liste écrit `QJ-Annuel` pour la même idée, et
-  leur `Q` nu désigne l'instantané quand celui de card est journalier.
-  Deux écritures, aucune tranchée.
-- **Les réductions inter-annuelles** (`mediane-`, `delta-`, `alpha-`). La
-  forme `Variable(Opérateur)` existe chez eux, `Q3J(Min)` par exemple,
-  mais leur documentation ne l'applique jamais à une variable DÉJÀ
-  extraite. `Q10J-N(Médian)` serait grammatical et probablement juste ;
-  ce serait nous qui l'aurions décidé.
+Elle l'était par prudence jusqu'au 2026-08-14 ; elle l'est maintenant par
+mesure, et il ne faut pas la rouvrir sur un souvenir.
 
-**Et un faux ami à ne jamais perdre de vue** : `QJ` désigne chez eux la
-chronique des débits moyens journaliers, chez card le régime journalier
-inter-annuel. Même symbole, deux objets. C'est l'entrée `Q` de card qui
-est alignée sur leur `QJ`, jamais la variable `QJ`.
+La forme `Variable(Opérateur)` **s'applique bien à une variable déjà
+extraite**, contrairement à ce qui était écrit ici : leur tableau donne
+`Qjanvier(Moyen)`, « moyenne interannuelle des débits mensuels de
+janvier », avec la formule qui réduit sur l'ensemble des années. Ce n'est
+donc pas la forme qui manquait.
+
+Ce qui manque est ailleurs, et rien ne le comblera :
+
+- **`median-`** : les quinze variables `median-` de card réduisent des
+  dates, des durées et des volumes d'étiage, dont **aucune base n'a de
+  notation officielle**. Il n'y a rien à composer ;
+- **`delta-`, `alpha-`, `n-`** : leur opérateur est une statistique
+  descriptive d'un échantillon, « Moyen, Médian, Min ou Max… ». Un écart
+  entre deux horizons, une pente de Sen et un décompte d'années n'en sont
+  pas. Et la parenthèse numérique est déjà prise par la période de
+  retour, donc `delta-VCN10` ne pourrait pas s'écrire sans collision ;
+- **`mean-QA`** est le seul cas qui restait, et il est réglé : le Sandre
+  lui donne `Module`. Aucune composition à inventer.
 
 ### Trois limites connues du modèle
 

@@ -6,20 +6,6 @@
 
 # CHANTIERS : pistes ouvertes (mise à jour 2026-08-14)
 
-## Une version attend d'être coupée (2026-08-14)
-
-Le chantier du thésaurus est clos de notre côté et `## Non publié` du
-CHANGELOG porte ses entrées. `python scripts/set_version.py --etat` donne
-les faits du jour, la règle est la cinquième phrase du CHANGELOG.
-
-**Ce qui n'est écrit nulle part ailleurs, c'est l'hésitation** : aucune
-sortie du corpus n'a changé (ni valeur de fiche, ni nom de colonne, ni
-signature publique), donc à la lettre c'est un patch, `0.12.1`. Mais la
-forme de `docs/card.ttl` a assez bougé pour que « card 0.12 » et
-« card 0.13 » doivent se distinguer quand quelqu'un citera le fichier :
-133 concepts de famille ont disparu au profit de 68 tableaux, et leurs
-URIs avec. **En attente de la décision de l'utilisateur.**
-
 ## Nom PyPI de card (PEP 541)
 
 Le nom `card` sur PyPI est occupé par une réservation VIDE : mesuré le
@@ -312,6 +298,68 @@ couvre pas. Piste future : une variante `output: series` par mois/saison
 (le fan-out `_month`/`_season` existe déjà côté valeurs), ou un mode trend
 qui accepte un axe sous-annuel. Noté à la revue card-api du 2026-07-24, à
 ne pas traiter maintenant.
+
+## Ce que HydroPortail calcule et que card n'a pas (inventaire 2026-08-14)
+
+Relevé en alignant card sur la notation officielle du SCHAPI, en lisant
+leurs quatre documents, leur aide en ligne, la nomenclature Sandre 513 et
+la fiche de statistiques d'une station réelle. C'est un inventaire de
+CORPUS : chaque ligne est une fiche possible, aucune n'est décidée.
+L'intérêt du repère est que le SCHAPI fixe en partie la pratique
+française, donc une absence ici est une absence que des utilisateurs
+verront. Ce qui a été relevé dans LEUR documentation est ailleurs :
+`RETOURS_SCHAPI.md`.
+
+**Sept absences qui ont un sens hydrologique clair.**
+
+- **QCNn** (`QiXnJ-N` chez eux, code Sandre `QCN`) : le plus petit
+  maximum de n débits consécutifs, seuil au-dessous duquel les débits
+  sont restés n jours. Seuil d'étiage, et c'est une procédure HYDRO 2
+  historique.
+- **QCXn** (`QiNnJ-X`, Sandre `QCX`) : le symétrique en crue, le plus
+  grand minimum de n débits consécutifs.
+- **QME**, débit moyen d'étiage (Sandre) : le débit du mois dont la
+  moyenne inter-annuelle est la plus faible. card a la courbe `QM`, donc
+  les douze valeurs, mais ne publie pas son minimum.
+- **DCE**, débit caractéristique d'étiage : le débit journalier non
+  atteint 10 jours par an. Notion réglementaire, très citée.
+- **DCC**, débit caractéristique de crue : dépassé 10 jours par an.
+- **DCn**, débit caractéristique de durée n mois (1, 3, 6, 9) : égalé ou
+  dépassé pendant n mois de l'année.
+- **Durées cumulées ou maximales sous ou sur un seuil**, avec ajustement
+  et période de retour (`dc()`, `dx()`), qu'ils annoncent comme leur
+  nouveauté en hautes eaux. card a des durées, mais attachées à des
+  définitions hydrologiques fixes, jamais à un seuil libre. Même famille
+  que la piste « durées cumulées de dépassement » plus bas.
+
+Les trois premières sont des variables au sens de card. Les trois
+suivantes sont la même idée à une paramétrisation près : `DCE` et `DCC`
+sont des quantiles sur chronique entière, comme `Q10`, `Q50` et `Q90`,
+mais exprimés en jours par an. Les créer serait moins un ajout qu'une
+extension de la famille `Q<p>` vers leurs valeurs usuelles.
+
+**Deux différences de déclinaison, pas des absences.**
+
+- Leur fiche de station porte `Q3J-N (VCN3)` pour **chacun des douze
+  mois**. card décline `VCN3` par saison (`_summer`, `_winter`), pas par
+  mois. Les deux se défendent ; le fan-out mensuel existe déjà côté
+  valeurs.
+- `DCNn` et `DCXn` sont des débits journaliers de **rang** n dans
+  l'année. card a `Q90A`, `Q95A`, `Q99A`, la même idée par fréquence.
+
+**Hors périmètre assumé, à ne pas compter comme un manque.** Toute la
+famille instantanée (`QIX`, `QIN`, `QIXJ`, `QINJ`, et le `Q-X (CRUCAL)`
+instantané) : card part de chroniques journalières. Les hauteurs, pour la
+même raison. Et les ajustements de lois de distribution, qui sont leur
+métier : card produit l'échantillon, `stase` fait les niveaux de retour
+là où une fiche le demande.
+
+**Ce que card a et qu'ils n'ont pas**, pour que le tableau soit
+équilibré : débit de base et séparation d'hydrogramme, dates et volumes
+d'étiage, durées de crue, précipitations, températures,
+évapotranspiration, tendances, performance de modèle et sensibilité
+climatique. Le recouvrement est étroit, et il est entier du côté des
+basses et hautes eaux de débit.
 
 ## Fiches futures
 

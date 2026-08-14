@@ -46,6 +46,9 @@ statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
 - docs/dev/`QUESTIONS_THEIA.md` : ce qu'on leur demande, et rien
   d'autre. Brouillon, rien n'est envoyé, et **rien n'attend leur
   réponse** : aucune des questions ne bloque le reste.
+- docs/dev/`RETOURS_SCHAPI.md` : même rôle pour le SCHAPI, ce qu'on a
+  relevé dans leur documentation et dans leur outil en alignant card sur
+  la notation officielle. Brouillon, rien n'est envoyé, rien n'en dépend.
 - **Écosystème R** : le front vit dans `../card4r/` (paquet mince qui
   APPELLE card, ne le réimplémente pas) ; les paquets historiques
   `../CARD-R/` et `../../EXstat_project/EXstat/` sont `superseded` et
@@ -103,8 +106,12 @@ src/card/
   inputs.yaml    # unités/définitions des variables d'entrée (invariants)
   alignments.yaml # ce que les fiches ne peuvent PAS dire : correspondances
                  #   vers les vocabulaires externes (Theia/OZCAR, QUDT, CF,
-                 #   et la notation officielle du SCHAPI sous
-                 #   `hydroportail:`), familles de contrainte propres à
+                 #   et les DEUX notations officielles françaises sous
+                 #   `notations:`, celle du SCHAPI et celle du Sandre ; un
+                 #   registre de plus ne demande aucun code, et une valeur
+                 #   peut être une liste parce qu'ils écrivent eux-mêmes
+                 #   la même variable de plusieurs façons), familles de
+                 #   contrainte propres à
                  #   card, table des paramètres de process qui sont
                  #   sémantiques, et les quatre racines thématiques
                  #   (`topics:`), leur note de portée et leur

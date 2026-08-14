@@ -63,6 +63,20 @@ des deux endroits.
 
 ## Non publié
 
+## 0.13.0 (2026-08-14)
+
+Le vocabulaire prend sa forme définitive et devient montrable. Aucune
+sortie de calcul ne change : ce qui bouge est `docs/card.ttl`, et il
+bouge assez pour qu'on doive pouvoir désigner l'avant et l'après. Une
+variable n'y pend plus sous un casier de rangement mais sous son
+phénomène, 133 URIs de famille ont disparu au profit de 68 tableaux de
+thésaurus, l'arbre se parcourt de la grandeur à la variable, et les
+notations officielles françaises y sont, dans leurs deux registres.
+
+**Rien n'est publié.** La base d'URI reste manifestement fausse, le site
+n'est pas en ligne, et la conversation avec Theia/OZCAR n'est pas
+engagée : `docs/dev/PLAN_THESAURUS.md` dit ce qui attend quoi.
+
 ### Modifié
 
 - **Le thésaurus a un arbre, et une soudure vers Theia/OZCAR
@@ -133,19 +147,40 @@ des deux endroits.
 
 ### Ajouté
 
-- **La notation officielle française du SCHAPI (2026-08-14).** Quinze
-  variables et la grandeur d'entrée `Q` portent désormais leur code
-  HydroPortail à côté du leur : `VCN10` est aussi `Q10J-N`, `QMNA5` est
-  `QM-N(5)`, `Q90` est `QJ0,1`. C'est la notation que lisent les
-  hydrologues français, et les deux grammaires descendent du même texte,
-  Oberlin 1992, que cite leur propre dictionnaire.
+- **Les notations officielles françaises (2026-08-14).** Les variables de
+  card qui ont un équivalent officiel portent désormais son code à côté
+  du leur : `VCN10` est aussi `Q10J-N`, `QMNA5` est `QM-N(5)`, `Q90` est
+  `QJ0,1`. C'est la notation que lisent les hydrologues français, et les
+  grammaires descendent du même texte, Oberlin 1992, que cite leur propre
+  dictionnaire.
 
-  Le code étranger sort en `skos:notation` typé par son système, la
-  notation de card restant un littéral nu. **Ne figure que ce qui est
-  certain** : ce que leur documentation donne explicitement, et ce qui
-  s'en déduit par substitution d'un nombre. Ce qui demanderait un
-  jugement est écarté et listé en fin de `PLAN_THESAURUS.md`, avec le
-  faux ami à connaître, leur `QJ` n'étant pas celui de card.
+  **Il y a deux registres, pas un**, et card publie les deux : la
+  grammaire du SCHAPI, qu'affiche l'interface d'HydroPortail, et la
+  nomenclature 513 du Sandre, d'où viennent les symboles dont card a
+  hérité. Chaque code sort en `skos:notation` typé par son registre, la
+  notation de card restant un littéral nu. **Une variable peut porter
+  plusieurs codes dans le même registre** parce qu'ils écrivent
+  eux-mêmes la même variable de plusieurs façons et déclarent les
+  raccourcis. Un registre de plus ne demanderait aucune ligne de code.
+
+  Mesuré sur leur usage réel et non sur leur seul dictionnaire : quatre
+  documents, l'aide en ligne, la nomenclature du Sandre et la fiche de
+  statistiques d'une station. Ce qui a été relevé chez eux au passage est
+  dans `docs/dev/RETOURS_SCHAPI.md`, ce qu'ils calculent et que card n'a
+  pas dans `docs/dev/CHANTIERS.md`.
+
+  Deux conséquences pour le corpus. **`QA` et `mean-QA` sont alignés** :
+  leur analyse de référence `QJ-annuel` est exactement `QA`, année
+  hydrologique du 01/09 au 31/08 comprise, et le module a son code au
+  Sandre. Et **les autres réductions inter-annuelles ne le seront
+  jamais**, leur opérateur ne connaissant que les statistiques
+  descriptives d'un échantillon. La question était ouverte par prudence,
+  elle est close par mesure.
+
+  **Ne figure que ce qui est certain** : ce que leur documentation ou
+  leur interface donnent explicitement, et ce qui s'en déduit par
+  substitution d'un nombre. Une seule ligne fait exception et le dit.
+  Le détail, les faux amis compris, est dans `PLAN_THESAURUS.md`.
 
 - **`scripts/arbre_skos.py`**, et `make arbre` : `docs/card.ttl` imprimé
   en arbre, dans la langue et à la profondeur demandées, une branche à la

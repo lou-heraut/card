@@ -15,9 +15,16 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://example.invalid/card/notation/hydroportail> a rdfs:Datatype ;
-    rdfs:label "SCHAPI/INRAE, statistical notations for HydroPortail, V6, March 2022"@en,
-        "SCHAPI/INRAE, notations statistiques pour HydroPortail, V6, mars 2022"@fr ;
-    rdfs:seeAlso <https://hydro.eaufrance.fr/documentation/notations-statistiques> .
+    rdfs:label "SCHAPI/INRAE, statistical notations for HydroPortail"@en,
+        "SCHAPI/INRAE, notations statistiques pour HydroPortail"@fr ;
+    rdfs:seeAlso <https://hydro.eaufrance.fr/aide/donnees-et-noms-des-variables>,
+        <https://hydro.eaufrance.fr/uploads/Publications/ListeAnalysesStatistiques.pdf>,
+        <https://hydro.eaufrance.fr/uploads/Publications/NotationsStatistiquesV6_anonymisee.pdf> .
+
+<https://example.invalid/card/notation/sandre-nsa513> a rdfs:Datatype ;
+    rdfs:label "Sandre, nomenclature 513, elaborated hydrometric quantity types"@en,
+        "Sandre, nomenclature 513, type de grandeur de l'observation élaborée Hydro"@fr ;
+    rdfs:seeAlso <https://id.eaufrance.fr/nsa/513> .
 
 <https://example.invalid/card/variable/BF-LH> a skos:Concept,
         iop:Variable ;
@@ -162,7 +169,9 @@
     rdfs:isDefinedBy <https://example.invalid/card/card/QA> ;
     skos:broader <https://example.invalid/card/phenomenon/mean-flows> ;
     skos:inScheme card: ;
-    skos:notation "QA" ;
+    skos:notation "QA",
+        "QJ-annuel"^^<https://example.invalid/card/notation/hydroportail>,
+        "QmA"^^<https://example.invalid/card/notation/sandre-nsa513> ;
     skos:prefLabel "Annual mean daily discharge"@en,
         "Moyenne annuelle du débit journalier"@fr ;
     iop:hasObjectOfInterest theia:c_97bb7b91 ;
@@ -248,7 +257,9 @@
     skos:broader <https://example.invalid/card/phenomenon/low-flows> ;
     skos:inScheme card: ;
     skos:notation "QMNA",
-        "QM-N"^^<https://example.invalid/card/notation/hydroportail> ;
+        "QM-N"^^<https://example.invalid/card/notation/hydroportail>,
+        "QmM-N"^^<https://example.invalid/card/notation/hydroportail>,
+        "QMNA"^^<https://example.invalid/card/notation/sandre-nsa513> ;
     skos:prefLabel "Annual minimum of monthly flows"@en,
         "Minimum annuel des débits mensuels"@fr ;
     iop:hasObjectOfInterest theia:c_97bb7b91 ;
@@ -966,7 +977,8 @@
     rdfs:isDefinedBy <https://example.invalid/card/card/mean-QA> ;
     skos:broader <https://example.invalid/card/phenomenon/mean-flows> ;
     skos:inScheme card: ;
-    skos:notation "mean-QA" ;
+    skos:notation "mean-QA",
+        "Module"^^<https://example.invalid/card/notation/sandre-nsa513> ;
     skos:prefLabel "Inter-annual mean of the annual mean daily flow"@en,
         "Moyenne inter-annuelle du débit moyen annuel"@fr ;
     iop:hasObjectOfInterest theia:c_97bb7b91 ;
@@ -4960,7 +4972,10 @@
     skos:exactMatch theia:c_dabd2d39 ;
     skos:inScheme <https://example.invalid/card/scheme/input> ;
     skos:notation "Q",
-        "QJ"^^<https://example.invalid/card/notation/hydroportail> ;
+        "QJ"^^<https://example.invalid/card/notation/hydroportail>,
+        "Qm1J"^^<https://example.invalid/card/notation/hydroportail>,
+        "QmJ"^^<https://example.invalid/card/notation/hydroportail>,
+        "QmJ"^^<https://example.invalid/card/notation/sandre-nsa513> ;
     skos:prefLabel "mean daily discharge"@en,
         "débit journalier moyen"@fr ;
     skos:topConceptOf <https://example.invalid/card/scheme/input> ;
@@ -8102,7 +8117,8 @@
     skos:broader <https://example.invalid/card/phenomenon/low-flows> ;
     skos:inScheme card: ;
     skos:notation "VCN10",
-        "Q10J-N"^^<https://example.invalid/card/notation/hydroportail> ;
+        "Q10J-N"^^<https://example.invalid/card/notation/hydroportail>,
+        "Qm10J-N"^^<https://example.invalid/card/notation/hydroportail> ;
     skos:prefLabel "Annual minimum of 10-day mean daily discharge"@en,
         "Minimum annuel de la moyenne sur 10 jours du débit journalier"@fr ;
     iop:hasConstraint <https://example.invalid/card/constraint/rolling-window-10> ;
@@ -8188,7 +8204,8 @@
     skos:broader <https://example.invalid/card/phenomenon/low-flows> ;
     skos:inScheme card: ;
     skos:notation "VCN3",
-        "Q3J-N"^^<https://example.invalid/card/notation/hydroportail> ;
+        "Q3J-N"^^<https://example.invalid/card/notation/hydroportail>,
+        "Qm3J-N"^^<https://example.invalid/card/notation/hydroportail> ;
     skos:prefLabel "Annual minimum of 3-day mean daily discharge"@en,
         "Minimum annuel de la moyenne sur 3 jours du débit journalier"@fr ;
     iop:hasConstraint <https://example.invalid/card/constraint/rolling-window-3> ;
@@ -8210,7 +8227,8 @@
     skos:broader <https://example.invalid/card/phenomenon/low-flows> ;
     skos:inScheme card: ;
     skos:notation "VCN30",
-        "Q30J-N"^^<https://example.invalid/card/notation/hydroportail> ;
+        "Q30J-N"^^<https://example.invalid/card/notation/hydroportail>,
+        "Qm30J-N"^^<https://example.invalid/card/notation/hydroportail> ;
     skos:prefLabel "Annual minimum of 30-day mean daily discharge"@en,
         "Minimum annuel de la moyenne sur 30 jours du débit journalier"@fr ;
     iop:hasConstraint <https://example.invalid/card/constraint/rolling-window-30> ;
@@ -8338,7 +8356,8 @@
     skos:broader <https://example.invalid/card/phenomenon/high-flows> ;
     skos:inScheme card: ;
     skos:notation "VCX10",
-        "Q10J-X"^^<https://example.invalid/card/notation/hydroportail> ;
+        "Q10J-X"^^<https://example.invalid/card/notation/hydroportail>,
+        "Qm10J-X"^^<https://example.invalid/card/notation/hydroportail> ;
     skos:prefLabel "Annual maximum of the 10-day moving average of daily flows"@en,
         "Maximum annuel de la moyenne mobile sur 10 jours des débits journaliers"@fr ;
     iop:hasConstraint <https://example.invalid/card/constraint/rolling-window-10> ;
@@ -8360,7 +8379,8 @@
     skos:broader <https://example.invalid/card/phenomenon/high-flows> ;
     skos:inScheme card: ;
     skos:notation "VCX3",
-        "Q3J-X"^^<https://example.invalid/card/notation/hydroportail> ;
+        "Q3J-X"^^<https://example.invalid/card/notation/hydroportail>,
+        "Qm3J-X"^^<https://example.invalid/card/notation/hydroportail> ;
     skos:prefLabel "Annual maximum of the 3-day moving average of daily flows"@en,
         "Maximum annuel de la moyenne mobile sur 3 jours des débits journaliers"@fr ;
     iop:hasConstraint <https://example.invalid/card/constraint/rolling-window-3> ;
@@ -14795,7 +14815,7 @@ card: a skos:ConceptScheme ;
         "card : définitions de variables hydroclimatiques"@fr ;
     vann:preferredNamespacePrefix "card" ;
     vann:preferredNamespaceUri "https://example.invalid/card/" ;
-    owl:versionInfo "0.12.0" ;
+    owl:versionInfo "0.13.0" ;
     skos:hasTopConcept <https://example.invalid/card/domain/evapotranspiration>,
         <https://example.invalid/card/domain/flow>,
         <https://example.invalid/card/domain/precipitation>,

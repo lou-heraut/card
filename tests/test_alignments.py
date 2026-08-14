@@ -150,37 +150,61 @@ def test_every_unit_of_the_corpus_is_declared():
     assert not mortes, f"unités déclarées, jamais employées : {sorted(mortes)}"
 
 
-def test_the_hydroportail_table_names_real_variables():
+def test_the_official_notation_tables_name_real_variables():
     """Une clé mal orthographiée est une notation qui ne sort jamais.
 
-    La table est écrite à la main depuis le dictionnaire du SCHAPI, et
-    rien dans le générateur ne se plaint d'une clé inconnue : elle ne
-    correspondrait simplement à aucune variable, en silence.
+    Les tables sont écrites à la main depuis la documentation du SCHAPI
+    et la nomenclature du Sandre, et rien dans le générateur ne se plaint
+    d'une clé inconnue : elle ne correspondrait simplement à aucune
+    variable, en silence.
     """
     import card
 
     connues = set(card.list_cards()["variable_en"])
-    declarees = set(ALIGNEMENTS["hydroportail"]["variables"])
-    assert declarees <= connues, (
-        f"notations HydroPortail sur des variables inconnues : "
-        f"{sorted(declarees - connues)}")
-    entrees = set(ALIGNEMENTS["hydroportail"]["inputs"])
-    assert entrees <= set(input_registry()), (
-        f"notations HydroPortail sur des entrées inconnues : "
-        f"{sorted(entrees - set(input_registry()))}")
+    entrees = set(input_registry())
+    for nom, registre in ALIGNEMENTS["notations"].items():
+        declarees = set(registre["variables"])
+        assert declarees <= connues, (
+            f"{nom} : notations sur des variables inconnues : "
+            f"{sorted(declarees - connues)}")
+        declarees = set(registre["inputs"])
+        assert declarees <= entrees, (
+            f"{nom} : notations sur des entrées inconnues : "
+            f"{sorted(declarees - entrees)}")
 
 
-def test_no_two_variables_share_one_official_notation():
+def test_no_two_variables_share_one_official_code():
     """Deux variables sous un même code officiel : l'une des deux est fausse.
 
     Leur grammaire et celle de card se ressemblent assez pour qu'une
     correspondance erronée passe inaperçue à la relecture. Un doublon est
     le seul symptôme qu'une machine puisse voir.
+
+    Le test se fait registre par registre : un même code peut exister
+    dans deux registres sans rien dire de faux, `QMNA` étant à la fois le
+    symbole de card et le code Sandre. Il compte aussi les variantes,
+    puisqu'une valeur peut être une liste.
     """
-    table = ALIGNEMENTS["hydroportail"]
-    codes = list(table["variables"].values()) + list(table["inputs"].values())
-    doublons = [c for c, n in collections.Counter(codes).items() if n > 1]
-    assert not doublons, f"notations attribuées deux fois : {sorted(doublons)}"
+    for nom, registre in ALIGNEMENTS["notations"].items():
+        codes = []
+        for section in ("variables", "inputs"):
+            for valeur in (registre.get(section) or {}).values():
+                codes += valeur if isinstance(valeur, list) else [valeur]
+        doublons = [c for c, n in collections.Counter(codes).items() if n > 1]
+        assert not doublons, (
+            f"{nom} : notations attribuées deux fois : {sorted(doublons)}")
+
+
+def test_every_notation_register_declares_its_source():
+    """Un code sans son système est un code que personne ne peut résoudre.
+
+    Le générateur en tire le type du littéral, son libellé et son lien :
+    un registre ajouté sans source sortirait muet.
+    """
+    for nom, registre in ALIGNEMENTS["notations"].items():
+        source = registre.get("source") or {}
+        for champ in ("en", "fr", "url"):
+            assert source.get(champ), f"{nom} : source sans `{champ}`"
 
 
 def test_a_unit_is_either_a_measure_or_a_value_type():
