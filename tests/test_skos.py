@@ -35,6 +35,9 @@ RACINE = pathlib.Path(__file__).resolve().parent.parent
 TTL = RACINE / "docs" / "card.ttl"
 BASE = "https://example.invalid/card/"
 CARD = Namespace(BASE)
+# La mise en SKOS de l'ISO 25964 : elle porte le TABLEAU, qui range des
+# concepts frères sans prétendre en être le genre.
+ISOTHES = Namespace("http://purl.org/iso25964/skos-thes#")
 RELANCE = "relancer : python scripts/generate_skos.py"
 
 
@@ -133,7 +136,9 @@ def test_the_expected_shape_of_one_variable(graphe):
     v = CARD["variable/VCN10"]
     iop = Namespace("https://w3id.org/iadopt/ont/")
     assert (v, RDF.type, SKOS.Concept) in graphe
-    assert str(next(graphe.objects(v, SKOS.notation))) == "VCN10"
+    nues = [str(n) for n in graphe.objects(v, SKOS.notation)
+            if n.datatype is None]
+    assert nues == ["VCN10"]
     assert len(set(graphe.objects(v, SKOS.prefLabel))) == 2
     assert next(graphe.objects(v, SKOS.broader), None) is not None
     for propriete in (iop.hasProperty, iop.hasObjectOfInterest,
@@ -296,21 +301,74 @@ def test_a_parameterised_constraint_carries_its_value(graphe):
             f"{c} : contrainte paramétrée sans valeur")
 
 
-def test_a_family_is_a_set_of_variables(graphe):
-    """Une famille n'est pas une variable : aucune fiche ne la calcule.
+def test_a_family_is_an_array_and_never_a_concept(graphe):
+    """Une famille est un TABLEAU, pas un genre dont ses membres seraient
+    des cas.
 
-    I-ADOPT a la classe qu'il faut, `VariableSet`, et ses
-    `hasApplicable…` disent ce que les membres partagent.
+    C'est ce que le guide SKOS appelle un libellé de nœud, et ce qu'il
+    déconseille de modéliser en concept. La conséquence à tenir : aucun
+    tableau ne porte de `skos:broader`, et aucune variable n'en a un vers
+    un tableau. Si ça revenait, la hiérarchie repasserait par du calculé,
+    et une régénération pourrait déplacer une variable.
     """
+    tableaux = list(graphe.subjects(RDF.type, ISOTHES.ThesaurusArray))
+    assert len(tableaux) > 50, "plus aucun tableau : le regroupement a disparu"
+    for t in tableaux:
+        assert (t, RDF.type, SKOS.Concept) not in graphe, (
+            f"{t} : un tableau se dit encore concept")
+        assert next(graphe.objects(t, SKOS.broader), None) is None, (
+            f"{t} : un tableau est revenu dans la chaîne broader")
+        assert next(graphe.objects(t, ISOTHES.superOrdinate), None) is not None, (
+            f"{t} : tableau sans concept superordonné, donc hors de l'arbre")
+
+
+def test_no_array_has_fewer_than_two_members(graphe):
+    """Un tableau d'un seul membre ne subdivise rien.
+
+    65 des 133 familles étaient dans ce cas, et 37 le resteront : leur
+    variable ne porte aucun paramètre, donc rien ne peut s'y ajouter. Les
+    émettre ferait autant de casiers à un objet.
+    """
+    for t in graphe.subjects(RDF.type, ISOTHES.ThesaurusArray):
+        membres = list(graphe.objects(t, SKOS.member))
+        assert len(membres) >= 2, f"{t} : tableau de {len(membres)} membre"
+        for m in membres:
+            assert "/variable/" in str(m), (
+                f"{t} : membre qui n'est pas une variable, {m}")
+
+
+def test_a_variable_hangs_under_its_phenomenon(graphe):
+    """La hiérarchie est directe, et elle est vraie.
+
+    `VCN10` est une sorte de basses eaux ; il n'est pas une sorte de
+    « Minimum (annuelle, série) », qui est un casier de rangement.
+    """
+    v = CARD["variable/VCN10"]
+    parents = set(graphe.objects(v, SKOS.broader))
+    assert parents == {CARD["phenomenon/low-flows"]}, (
+        f"VCN10 pend sous {parents}, pas sous son phénomène")
+    tableau = next(graphe.subjects(SKOS.member, v), None)
+    assert tableau is not None, "VCN10 n'est membre d'aucun tableau"
     iop = Namespace("https://w3id.org/iadopt/ont/")
-    familles = [s for s in graphe.subjects(RDF.type, iop.VariableSet)]
-    assert len(familles) > 100, "les familles ne sont plus des VariableSet"
-    for f in familles:
-        assert (f, RDF.type, iop.Variable) not in graphe, (
-            f"{f} : une famille se dit encore variable")
-    une = CARD["family/flow.low-flows.magnitude.minimum.annual.series.q"]
-    assert next(graphe.objects(une, iop.hasApplicableStatisticalModifier),
+    assert next(graphe.objects(tableau, iop.hasApplicableStatisticalModifier),
                 None) is not None
+
+
+def test_a_foreign_notation_says_which_system_it_belongs_to(graphe):
+    """Deux codes sur un concept, et rien ne les distinguerait sans type.
+
+    `VCN10` chez card s'écrit `Q10J-N` au SCHAPI. Le type du littéral
+    nomme le système ; la notation de card reste un littéral nu, qui est
+    la lecture par défaut du vocabulaire.
+    """
+    v = CARD["variable/VCN10"]
+    codes = {n.datatype: str(n) for n in graphe.objects(v, SKOS.notation)}
+    assert codes.get(None) == "VCN10", "la notation de card n'est plus nue"
+    officielle = CARD["notation/hydroportail"]
+    assert codes.get(officielle) == "Q10J-N", (
+        f"notation officielle absente ou fausse : {codes}")
+    assert (officielle, RDF.type, RDFS.Datatype) in graphe, (
+        "le système de notation n'est pas déclaré, donc le type ne dit rien")
 
 
 def test_the_input_quantities_are_concepts(graphe):

@@ -150,6 +150,39 @@ def test_every_unit_of_the_corpus_is_declared():
     assert not mortes, f"unités déclarées, jamais employées : {sorted(mortes)}"
 
 
+def test_the_hydroportail_table_names_real_variables():
+    """Une clé mal orthographiée est une notation qui ne sort jamais.
+
+    La table est écrite à la main depuis le dictionnaire du SCHAPI, et
+    rien dans le générateur ne se plaint d'une clé inconnue : elle ne
+    correspondrait simplement à aucune variable, en silence.
+    """
+    import card
+
+    connues = set(card.list_cards()["variable_en"])
+    declarees = set(ALIGNEMENTS["hydroportail"]["variables"])
+    assert declarees <= connues, (
+        f"notations HydroPortail sur des variables inconnues : "
+        f"{sorted(declarees - connues)}")
+    entrees = set(ALIGNEMENTS["hydroportail"]["inputs"])
+    assert entrees <= set(input_registry()), (
+        f"notations HydroPortail sur des entrées inconnues : "
+        f"{sorted(entrees - set(input_registry()))}")
+
+
+def test_no_two_variables_share_one_official_notation():
+    """Deux variables sous un même code officiel : l'une des deux est fausse.
+
+    Leur grammaire et celle de card se ressemblent assez pour qu'une
+    correspondance erronée passe inaperçue à la relecture. Un doublon est
+    le seul symptôme qu'une machine puisse voir.
+    """
+    table = ALIGNEMENTS["hydroportail"]
+    codes = list(table["variables"].values()) + list(table["inputs"].values())
+    doublons = [c for c, n in collections.Counter(codes).items() if n > 1]
+    assert not doublons, f"notations attribuées deux fois : {sorted(doublons)}"
+
+
 def test_a_unit_is_either_a_measure_or_a_value_type():
     """Trois des douze « unités » du corpus n'en sont pas.
 

@@ -63,7 +63,105 @@ des deux endroits.
 
 ## Non publié
 
-Rien depuis la 0.12.0.
+### Modifié
+
+- **Le thésaurus a un arbre, et une soudure vers Theia/OZCAR
+  (2026-08-14).** `docs/card.ttl` présentait ses 133 familles comme
+  autant de concepts de tête : la page d'accueil d'un navigateur les
+  listait toutes, à plat, sans porte d'entrée. Elles pendent maintenant
+  sous les facettes `domain` et `phenomenon`, qui deviennent la colonne
+  vertébrale du vocabulaire, et le corpus se parcourt en quatre niveaux,
+  grandeur puis phénomène puis famille puis variable.
+
+  Rien de neuf n'est déclaré dans les fiches : le rattachement d'un
+  phénomène à une grandeur se **mesure** sur le corpus, et le générateur
+  refuse un phénomène qui apparaîtrait sous deux grandeurs.
+
+- **Une famille est un TABLEAU de thésaurus, plus un concept
+  (2026-08-14).** Elle se déclarait `skos:Concept` dans la chaîne
+  `skos:broader`, ce qui affirmait que `VCN10` est une sorte de
+  « Minimum (annuelle, série) ». Un casier de rangement n'est pas un
+  genre : le guide SKOS nomme ça un libellé de nœud et dit que le
+  modéliser en concept fait perdre de la justesse. C'est maintenant un
+  `isothes:ThesaurusArray` (ISO 25964, sous-classe de `skos:Collection`)
+  rattaché par `isothes:superOrdinate`, et la variable pend directement
+  sous son phénomène.
+
+  Trois effets : le décompte des concepts passe de 706 à 573 et devient
+  honnête ; la hiérarchie ne traverse plus rien de calculé, donc une
+  régénération ne peut plus déplacer une variable ; et **un tableau d'un
+  seul membre ne subdivisant rien, il n'est plus émis**, 68 au lieu de
+  133. Un navigateur n'affiche les tableaux que s'il est configuré pour,
+  et c'est le prix assumé de la justesse.
+
+- **Le libellé de nœud est une phrase, suivie de ses coordonnées
+  (2026-08-14).** « Minimum (annuelle, série) » là où on lisait
+  « débit · basses eaux · minimum · annuelle · série ». La liste survit
+  en `skos:altLabel`, parce que c'est ce qu'un lecteur tape dans une
+  recherche. Deux tables écrites et relues portent les tournures, 31
+  couples (aspect, opération) et 13 couples (fenêtre, forme) : une
+  grammaire se serait cassée au premier accord et, pire, au premier sens,
+  `saisonnalité × minimum` étant « la date du minimum » quand
+  `durée × médiane` est « la médiane d'une durée ». **Un couple absent
+  fait échouer la génération.** Seule la moitié gauche gagnait à devenir
+  une phrase ; la droite, mise en prose, répétait « une valeur unique,
+  sur la série annuelle » sur presque chaque voisine. Plus aucun tableau
+  ne porte le libellé d'un voisin, les onze derniers se séparant par la
+  phase de la précipitation, que `alignments.yaml` déclarait déjà.
+
+  Quatre `skos:broadMatch` et quatre `skos:exactMatch` déclarés dans
+  `alignments.yaml` rattachent l'arbre au thésaurus de Theia/OZCAR. Ils
+  sont posés au sommet, ce qui suffit : leur concept générique est plus
+  large que tout ce que card calcule sur cette grandeur. Mesuré sur leur
+  graphe entier, leur branche débit s'arrête à `1 day mean river
+  discharge`, qui est exactement le `Q` de card : ils décrivent ce qu'on
+  mesure, card décrit ce qu'on calcule dessus.
+
+  Pourquoi cette forme, ce qui a été mesuré sur leur thésaurus et ce qui
+  reste à trancher : `docs/dev/PLAN_THESAURUS.md`. Ce qu'il faut leur
+  demander, et rien d'autre : `docs/dev/QUESTIONS_THEIA.md`.
+
+  **Rien n'est publié**, la base d'URI reste provisoire.
+
+- **L'objet d'intérêt du débit devient `River` (2026-08-14).** Les quatre
+  entrées de débit déclaraient `Surface water` ; le corpus est bâti sur
+  des chroniques de stations hydrométriques de cours d'eau et aucune
+  fiche ne vise un plan d'eau. C'est une descente d'un cran dans la
+  hiérarchie de Theia, `River` y étant un enfant de `Surface water`, et
+  c'est ce qui autorise l'alignement exact de `card:input/Q`. Touche
+  `iop:hasObjectOfInterest` sur 229 variables du `.ttl` ; aucune sortie
+  de calcul ne change.
+
+### Ajouté
+
+- **La notation officielle française du SCHAPI (2026-08-14).** Quinze
+  variables et la grandeur d'entrée `Q` portent désormais leur code
+  HydroPortail à côté du leur : `VCN10` est aussi `Q10J-N`, `QMNA5` est
+  `QM-N(5)`, `Q90` est `QJ0,1`. C'est la notation que lisent les
+  hydrologues français, et les deux grammaires descendent du même texte,
+  Oberlin 1992, que cite leur propre dictionnaire.
+
+  Le code étranger sort en `skos:notation` typé par son système, la
+  notation de card restant un littéral nu. **Ne figure que ce qui est
+  certain** : ce que leur documentation donne explicitement, et ce qui
+  s'en déduit par substitution d'un nombre. Ce qui demanderait un
+  jugement est écarté et listé dans `CHANTIERS.md`, avec le faux ami à
+  connaître, leur `QJ` n'étant pas celui de card.
+
+- **`scripts/arbre_skos.py`**, et `make arbre` : `docs/card.ttl` imprimé
+  en arbre, dans la langue et à la profondeur demandées, une branche à la
+  fois. Un Turtle sort dans l'ordre alphabétique des URIs, où la
+  hiérarchie est invisible : sans cette paire de lunettes, personne ne
+  peut juger de la forme du vocabulaire avant de le publier. Le script ne
+  vérifie rien, ce qui garde le fichier honnête est ailleurs.
+
+### Corrigé
+
+- **`verifie_alignements.py` parcourt les sections au lieu de les
+  lister.** Sa liste écrite en dur (`inputs`, `statistic`, `units`) était
+  un lien que rien ne vérifiait : la section `topics:` ajoutée le même
+  jour est passée sous le radar, avec quatre URIs externes que personne
+  ne résolvait. Les 59 références du fichier résolvent.
 
 ## 0.12.0 (2026-08-13)
 

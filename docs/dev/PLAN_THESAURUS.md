@@ -1,10 +1,10 @@
 > **Statut : plan ouvert, rien n'est publié.** Porte UNE question, celle
 > qui reste après la livraison du site et de l'export SKOS (card 0.12.0) :
 > le vocabulaire de card vit-il à côté de celui de Theia/OZCAR, ou
-> dedans ? Et si c'est dedans, qu'est-ce que ça coûte, et que faut-il
-> leur apporter ?
-> Contient la mesure de LEUR thésaurus, faite sur le fichier entier, ce
-> que card ajouterait, les trois options et leurs coûts.
+> dedans ? Contient la mesure de LEUR thésaurus, faite sur le fichier
+> entier, la forme retenue chez nous, et ce qui reste à trancher.
+> Ce qu'il faut LEUR demander est dans `QUESTIONS_THEIA.md`, et nulle
+> part ailleurs.
 > La construction du site et de l'export, elle, est close :
 > `PLAN_SITE_SKOS.md` la garde, avec l'audit des vocabulaires qui reste
 > la référence du modèle.
@@ -14,212 +14,475 @@
 
 ## La question, en une phrase
 
-Le plan précédent a tranché « thésaurus à part, aligné depuis chez
+Le plan initial avait tranché « thésaurus à part, aligné depuis chez
 nous », sur trois arguments : le volume, le contenu, la gouvernance. Deux
-des trois se sont affaiblis quand on a enfin regardé leur thésaurus en
-entier, et il faut donc rouvrir proprement.
+des trois se sont affaiblis quand on a regardé leur thésaurus en entier,
+puis l'un des deux s'est retourné quand on l'a regardé au bon endroit.
 
-## D'abord, comment on a mesuré, et ce que ça change
+## Comment on a mesuré, et pourquoi ça a changé trois fois
 
-Les mesures des 2026-08-11 et 13 interrogeaient leur service **par
-mots-clés**, concept par concept. On voyait ce qu'on cherchait. Le
-2026-08-14, le vocabulaire a été **téléchargé en entier** (1,2 Mo de
-Turtle, un seul appel), et l'image est différente.
+- **2026-08-11 et 13** : interrogation de leur service **par mots-clés**,
+  concept par concept. On voyait ce qu'on cherchait.
+- **2026-08-14, matin** : vocabulaire **téléchargé en entier** (1,2 Mo de
+  Turtle, un seul appel). Découverte de leur arbre thématique de 233
+  catégories, qu'aucun sondage n'avait montré.
+- **2026-08-14, audit** : parcours du graphe entier avec `rdflib`, en
+  comptant les branches au lieu de les regarder. C'est ce passage qui a
+  donné les chiffres ci-dessous, et ils contredisent ceux du matin.
 
 ```
-23 086 triplets, 2 067 concepts
+23 086 triplets, 2 067 concepts (les ~439 dépréciés sont hors export)
   1 152  iop:Variable
     302  iop:Entity
-    233  ozcar:CategoryOfVariable      ← jamais vu avant
+    233  ozcar:CategoryOfVariable
     140  iop:Property
     133  iop:Constraint
      35  cpm:StatisticalMeasure
-     16  sosa:Sensor
 ```
 
-**Ce qu'on avait raté : ils ont un arbre thématique de 233 catégories**,
-avec de vrais mots, sous lequel pendent leurs variables. Ce n'est pas
-l'arbre I-ADOPT des neuf composants, c'est un second axe, celui par
-lequel un humain cherche :
+## Le volume : l'argument ne s'effondre pas, il change de camp
+
+Le matin du 2026-08-14, on comparait 444 variables card aux 821 variables
+de leur branche « hydrosphère continentale », et on en concluait « c'est
+beaucoup, ce n'est pas absurde ». **La comparaison était fausse de deux
+ordres de grandeur**, parce que leur hydrosphère est de la CHIMIE :
 
 ```
-Variable
-├── Atmosphere variable
-│   ├── Atmospheric temperature variable → Air temperature → 10 déclinaisons
-│   └── Precipitation variable → Precipitation amount → 8 déclinaisons
-├── Biosphere variable
-├── Cryosphere variable
-├── Land surface variable
-└── Terrestrial hydrosphere variable
-    ├── Groundwater hydrology
-    ├── Karst hydrology
-    ├── Surface water hydrology
-    │   └── Surface water physic variable
-    │       ├── Surface water discharge → River discharge → 10 déclinaisons
-    │       ├── Surface water level, velocity, turbidity…
-    └── Unsaturated zone variable
+Terrestrial hydrosphere variable ........................ 846 variables
+├── Groundwater hydrology .............................. 233   (162 chimie)
+├── Karst hydrology .................................... 218   (189 chimie)
+├── Unsaturated zone variable .......................... 140
+└── Surface water hydrology ............................ 251
+    ├── Surface water chemistry ........................ 218
+    ├── Surface water chemicophysical variable .........   8
+    ├── Surface water microbiology .....................   0
+    └── Surface water physic variable ..................  25   ← la branche de card
 ```
 
-C'est exactement la « famille claire avec de vrais mots » qu'on se
-demandait s'il faudrait inventer. **Elle existe déjà chez eux.**
+**card entrerait dans une branche de 25 variables**, qu'il multiplierait
+par dix-huit. Ce n'est pas une contribution, c'est une reprise. L'argument
+du volume ne s'effondre donc pas : il devient l'argument le plus fort
+CONTRE l'intégration, et il protège leur thésaurus autant que le nôtre.
 
-## Le volume, mesuré : l'argument s'effondre
+## Le point de jonction : il y en a exactement un
 
-Le plan disait « une dizaine de concepts communs sur 2 506 chez eux et
-des centaines chez nous, c'est un voisin, pas une sous-branche ». Les
-chiffres réels :
+```
+Surface water physic variable                            [25 variables]
+├── Surface water discharge
+│   └── River discharge                                  c_9c959860
+│       ├── Instantaneous river discharge
+│       ├── 10 minutes mean river discharge
+│       ├── 15 minutes mean river discharge
+│       ├── 1 hour mean river discharge
+│       ├── 1 day mean river discharge   c_dabd2d39  ← le `Q` de card
+│       ├── 1 month mean river discharge
+│       └── 4 bornes d'intervalle d'incertitude
+├── Surface water level ................ 3
+├── Surface water suspended sediment concentration ... 3
+├── Surface water suspended sediment flux ............ 1
+├── Surface water turbidity .......................... 1
+└── Surface water velocity ........................... 0
+```
 
-| | concepts | variables |
+Leurs onze concepts de débit sont **onze pas de temps d'acquisition**.
+Pas un indicateur. Le recouvrement n'est donc pas « une dizaine de
+concepts », il est de **un** : `1 day mean river discharge` est
+exactement `card:input/Q`. Ils décrivent ce qu'on mesure, card décrit ce
+qu'on calcule dessus, et les deux se touchent en ce point.
+
+Cherché sur le fichier entier, zéro occurrence de : `flood`, `drought`,
+`low flow`, `high flow`, `baseflow`, `recession`, `return period`,
+`quantile`, `trend`, `rolling`, `moving`, `exceedance`, `threshold`,
+`hydrological year`, `duration curve`, `deficit`. Ce que card apporterait
+n'est pas un complément, c'est **une moitié du domaine qu'ils n'ont pas
+commencée**.
+
+## Ce que leur modèle fait, mesuré propriété par propriété
+
+| propriété | usages | lecture |
 |---|---|---|
-| leur thésaurus entier | 2 067 | 1 152 |
-| leur branche **hydrosphère continentale** | 970 | **821** |
-| ce que card apporterait | ~490 | **444** |
+| `iop:hasProperty` | 1 152 | systématique |
+| `iop:hasObjectOfInterest` | 1 151 | systématique |
+| `iop:hasMatrix` | 745 | le milieu, très employé ; card l'ignore |
+| `iop:hasConstraint` | 694 | systématique |
+| `ozcar:simplifiedLabel` | 1 385 | propriété maison, cf. ci-dessous |
+| `cpm:statisticalMeasure` | **81** | **7 % de leurs variables** |
+| `cpm:aggregationTimePeriod` | 21 | 21 couples durée × opération |
+| `skos:notation` | **0** | aucune |
+| `prefLabel@fr` | **0** | anglais seul |
 
-Leur thésaurus est **déjà majoritairement de l'eau**. card ajouterait
-54 % à cette branche et 38 % au total : c'est beaucoup, ce n'est pas
-absurde. L'argument du volume ne suffit donc plus à décider.
+Leur composition I-ADOPT est solide et systématique. **Leur étage
+statistique, lui, est marginal** : card en publie 254 sur 444, avec neuf
+fenêtres datées. Sur cet axe, card est en avance, pas en dette.
 
-## Ce qu'ils savent déjà dire, et c'est plus que prévu
-
-Leurs 35 mesures statistiques forment une hiérarchie propre :
+### `ozcar:simplifiedLabel` est notre `family`, en moins bien
 
 ```
-Accumulation → Temporal accumulation → 1 day / 1 hour / 1 year cumulative
-                                        Summer cumulative, Winter cumulative
-                                        Accumulation since the beginning of the year
-Average      → Temporal mean          → 1 day / 1 month / 10-15-30 minutes mean
-             → Spatial mean
-Maximum      → Temporal maximum       → 1 day maximum, 1 year maximum,
-                                        Maximum during wind gust
-Minimum      → Temporal minimum       → 1 day minimum, 10 minutes minimum
-Median       → Spatial median → 360° median
-Standard deviation, Uncertainty interval, Instantaneous
+"1 day mean river discharge"      simplifiedLabel → "Surface water discharge"
+"15 minutes mean river discharge" simplifiedLabel → "Surface water discharge"
+"River discharge"                 simplifiedLabel → "Surface water discharge"
 ```
 
-Donc : ils ont **l'année** (`1 year cumulative`, `1 year maximum`), ils
-ont **la saison** (`Summer cumulative`, dont la période est un concept
-`Summer period`), et ils composent chaque mesure avec sa durée. C'est le
-même geste que card.
+Ils ont eu exactement le besoin de card (grouper les variantes d'une même
+idée) et l'ont résolu par **une chaîne répétée sur 1 151 concepts**, avec
+une propriété non standard. card le résout par un `iop:VariableSet`, qui
+a une URI, deux libellés et des `hasApplicable…`. C'est la même idée, et
+notre forme est la meilleure des deux : à leur dire comme un constat.
 
-## Les trous, précisément : ce que card apporterait
+### Trois défauts relevés dans leur fichier
 
-C'est la bonne façon de poser la chose, et c'est la proposition à leur
-faire. Sur les dix-huit opérations de la facette `statistic` de card,
-**cinq ont un équivalent chez eux** (moyenne, médiane, minimum, maximum,
-cumul) et **treize n'en ont aucun** :
+Ils ne coûtent rien à personne et ouvrent la conversation. Détail et
+formulation : `QUESTIONS_THEIA.md`.
 
-| ce que card ajoute | où ça se range chez eux |
-|---|---|
-| quantile, quantile de dépassement | sous `Statistical method` |
-| période de retour | idem |
-| pente de tendance, significativité de tendance | idem |
-| écart entre deux périodes | idem |
-| rapport, biais, efficience, élasticité, corrélation | idem |
-| dépassement de seuil | idem |
-| filtre (séparation d'hydrogramme) | idem |
+1. `iop:hasContraint` au lieu de `hasConstraint`, 39 triplets.
+2. `1 day mean karst water discharge` pointe vers la mesure
+   « 1 day cumulative ».
+3. `10 minutes mean river discharge` range sa statistique dans
+   `hasConstraint`, seul de ses dix frères.
 
-Et sur les **spécialisations temporelles**, qui sont leur façon de
-composer :
+## La forme retenue, et pourquoi
 
-| ce que card ajoute | remarque |
-|---|---|
-| `1 year minimum` | ils ont le maximum et le cumul annuels, **pas le minimum** |
-| `1 year mean`, `1 year median` | ils s'arrêtent au mois |
-| moyenne mobile sur 3, 5, 10, 30 jours | aucune moyenne mobile chez eux |
-| **année hydrologique** (12 mois à partir du 1er septembre) | leur `1 year` est une durée sans origine |
-| fenêtres d'étiage datées | leurs `Summer period` et `Winter period` **n'ont aucune définition**, pas même des dates |
+**Option C : à côté, rangé dans leur arbre.** Deux gestes séparés, qui se
+tiennent l'un sans l'autre.
 
-Ce dernier point mérite d'être dit tel quel : **leurs saisons ne sont
-définies nulle part**. card en a de datées, et c'est un apport, pas une
-critique.
+### Geste 1 : une colonne vertébrale chez nous (fait)
 
-Compté large, la contribution serait d'une **vingtaine de concepts
-génériques**, utiles à tout observatoire qui publie autre chose que de
-la donnée brute. C'est ce qu'on leur propose, et ça ne dépend pas de la
-question de nos 444 variables.
+Le vrai défaut était antérieur à la question Theia. Les 133 familles
+étaient **133 racines**, donc la page d'accueil d'un navigateur les
+listait toutes, à plat. Personne n'entre par là.
 
-## Les trois options
+```
+card:  (6 concepts de tête)
+├── débit
+│   ├── basses eaux
+│   │   ├── intensité · minimum · annuelle · série
+│   │   │   ├── QNA, VCN3, VCN10, VCN30
+│   │   ├── saisonnalité · minimum · annuelle · série
+│   │   └── …
+│   ├── moyennes eaux · hautes eaux · débit de base
+├── précipitations · température · évapotranspiration
+├── performance de modèle
+└── sensibilité climatique
+```
 
-| | ce que ça veut dire | ce que ça coûte |
-|---|---|---|
-| **A. À côté, aligné** (l'état actuel) | nos concepts, nos URIs, notre génération ; des liens vers les leurs | rien de plus. Mais qui cherche une variable hydro chez eux ne trouve pas card |
-| **B. Dedans** | nos 444 variables deviennent des concepts de LEUR thésaurus | quatre obstacles réels, plus bas |
-| **C. À côté, mais rangé dans leur arbre** | nos concepts restent chez nous et déclarent `skos:broadMatch` vers leurs variables génériques ; on leur propose les composants manquants | quatre lignes de table dans `alignments.yaml` et une propriété de plus à l'export |
+Quatre décisions à ne pas rediscuter en codant :
 
-`skos:broadMatch` est la propriété SKOS faite exactement pour ça : une
-hiérarchie qui traverse deux vocabulaires. `card:variable/VCN10` se
-rangerait sous leur `River discharge` sans rien déplacer.
+- **la racine EST la facette `domain`**, pas un concept nouveau. Deux
+  URIs de même extension auraient été un doublon ; le rayon du catalogue
+  et la grandeur sont la même chose vue de deux côtés. Ce que la facette
+  ne pouvait pas dire (« il s'agit d'indicateurs calculés ») est un
+  `skos:scopeNote`, la propriété SKOS faite pour ça ;
+- **le rattachement phénomène → grandeur se MESURE**, il ne se déclare
+  pas. Les fiches déclarent les deux, et le générateur refuse un
+  phénomène qui apparaîtrait sous deux grandeurs. L'écrire dans
+  `topics.yaml` aurait été une seconde source, donc une source qui peut
+  mentir ;
+- **les 31 variables à `purpose` pendent sous leur finalité**, pas sous
+  une grandeur : leur domaine est multiple (`flow, precipitation`) et
+  elles ne décrivent pas un régime mais une comparaison. Les deux
+  facettes sont exclusives, le corpus est donc couvert sans reste ;
+- **`aspect` entre dans le libellé de famille**, et `domain` et
+  `phenomenon` en sortent puisque le parent les porte. Sans `aspect`, 57
+  familles portaient le libellé d'une voisine, `VCN10` et `tVCN10` étant
+  tous deux « minimum · annuelle · série ».
 
-## Ce qui bloque vraiment l'option B
+### Geste 1 bis : une famille est un TABLEAU, pas un concept
 
-Le volume n'est plus l'argument. Restent quatre points, et les deux
-premiers sont des faits vérifiés sur le fichier :
+Tranché le 2026-08-14, après avoir regardé l'arbre. La question n'était
+pas cosmétique : elle porte sur ce que le fichier AFFIRME.
 
-1. **Leur thésaurus est en ANGLAIS SEULEMENT.** `languages: ['en']`, et
-   aucun `prefLabel@fr` dans les 23 086 triplets. La moitié de ce que
-   les fiches de card écrivent n'aurait nulle part où aller.
+Une famille regroupe les variables qui ne diffèrent que par un paramètre,
+`QNA`, `VCN3`, `VCN10`, `VCN30`. C'est une construction classique de
+thésaurus, antérieure à SKOS : le **tableau** de l'ISO 25964, avec son
+**libellé de nœud** qui dit par quel caractère on divise. L'exemple
+canonique du guide SKOS est « lait par animal d'origine », qui regroupe
+lait de vache, de chèvre et de bufflonne.
+
+**Un libellé de nœud n'est pas un concept**, et le guide SKOS le dit
+noir sur blanc : le modéliser en concept est plus intuitif mais fait
+perdre de la justesse. Personne n'indexe une donnée avec « Minimum
+(annuelle, série) », on l'indexe avec `VCN10`.
+
+Ce que card affirmait, et qui était faux :
+
+```turtle
+card:variable/VCN10  skos:broader  card:family/…
+card:family/…        skos:broader  card:phenomenon/low-flows
+```
+
+`skos:broader` se lit « est une sorte de ». La chaîne disait donc que
+`VCN10` est une sorte de casier de rangement. Ce qu'elle dit maintenant,
+en deux affirmations séparées et chacune vraie :
+
+```turtle
+card:variable/VCN10  skos:broader           card:phenomenon/low-flows
+
+card:array/…   a isothes:ThesaurusArray , iop:VariableSet ;
+    isothes:superOrdinate  card:phenomenon/low-flows ;
+    skos:member            card:variable/VCN10 , card:variable/VCN3 , … .
+```
+
+`isothes:` est la mise en SKOS de l'ISO 25964, publiée par la DCMI.
+`ThesaurusArray` est une sous-classe de `skos:Collection`, et
+`superOrdinate` est la seule façon normalisée de placer une collection
+dans l'arbre, `skos:broader` lui étant interdit par le modèle SKOS.
+
+Trois conséquences, et ce sont elles qui justifient le changement :
+
+- **le décompte des concepts devient honnête**, 573 au lieu de 706 :
+  card définit des variables et un arbre, pas 133 casiers que personne
+  ne peut employer pour décrire une donnée ;
+- **la hiérarchie ne passe plus par du calculé.** Les familles se
+  recalculent à chaque génération ; tant qu'elles portaient la chaîne,
+  une recompilation pouvait déplacer `VCN10` dans l'arbre. C'est aussi
+  ce qui règle l'inquiétude sur la stabilité de leurs URI : ce qui bouge
+  n'est plus dans le chemin ;
+- **replier un tableau d'un seul membre ne coûte plus rien.** 65 des 133
+  familles n'avaient qu'un membre ; elles ne sont plus émises, il reste
+  68 tableaux qui subdivisent vraiment.
+
+**Ce qui est perdu, et il faut le savoir** : un navigateur n'affiche les
+tableaux que s'il est configuré pour. Skosmos a l'option (`arrayClass`),
+mais sans elle on voit les variables à plat sous leur phénomène. C'est
+le prix de la justesse, assumé le 2026-08-14.
+
+#### Les 65 familles solitaires, triées
+
+Mesuré avant de replier, et c'est une information sur le CORPUS, pas sur
+le vocabulaire. Le test est simple : la variable porte-t-elle un
+paramètre sémantique ? S'il y en a un, d'autres valeurs peuvent exister.
+
+- **28 sont des trous de complétude.** `Q10`, `Q50` et `Q90` sont les
+  trois seuls quantiles sur chronique entière, et ils tombent dans trois
+  phénomènes différents, donc ils ne peuvent pas être frères ; `Q95` et
+  `Q99` n'existent qu'en annuel. Toute la série `dtBE`, `vBE`, `tVCN10`,
+  `alpha-VCN10` fige `d = 10 jours`, sans `dtBE3` ni `tVCN30`.
+- **37 le resteront**, leur variable ne portant aucun paramètre : `QA`,
+  `QMNA`, `QB-LH`, `dtCrue`, `RA`, `TA`, `ETPA`, et les huit fiches de
+  finalité. Les grouper n'aurait aucun sens.
+
+À reprendre comme un chantier de corpus, pas de thésaurus.
+
+### Le libellé de nœud : une phrase, puis des coordonnées
+
+Un libellé de nœud a deux moitiés qui ne se valent pas.
+
+```
+prefLabel  « Minimum (annuelle, série) »
+altLabel   « intensité · minimum · annuelle · série »
+```
+
+- **à gauche, ce que la valeur EST**, et là une phrase apporte quelque
+  chose que la liste de facettes ne disait pas : `saisonnalité ×
+  quantile` devient « Date d'atteinte d'un quantile », et ses membres
+  sont bien début, centre et fin des écoulements lents ;
+- **à droite, ses coordonnées**, qui restent les étiquettes des facettes.
+  Mises en prose, elles donnaient « une valeur unique, sur la série
+  annuelle » sur presque chaque voisine : six mots pour deux, répétés,
+  qui noyaient la moitié qui compte. Essayé le 2026-08-14, abandonné le
+  jour même.
+
+Le synonyme garde la liste complète, et ce n'est pas une redite : c'est
+ce qu'un lecteur tape dans une recherche.
+
+**Deux tables écrites et relues, pas une grammaire.** Une règle qui
+fabriquerait la phrase depuis les étiquettes se casserait au premier
+accord (« minimum annuel » mais « moyenne annuelle ») et surtout au
+premier sens : `saisonnalité × minimum` est « la date du minimum »,
+`durée × médiane` est « la médiane d'une durée », et aucune règle ne
+devine que l'aspect gouverne dans un cas et est gouverné dans l'autre.
+Chaque entrée a été confrontée aux noms de ses membres.
+
+Les tables sont petites parce que les facettes le sont : **31 couples
+(aspect, opération) et 13 couples (fenêtre, forme)** couvrent le corpus
+entier. Elles vivent dans `generate_skos.py`, seul artefact qui les lise.
+**Un couple absent fait échouer la génération**, sans quoi une facette
+ajoutée demain produirait une phrase muette dont personne ne verrait
+qu'elle ment.
+
+Deux points de forme, chacun pour une raison :
+
+- **la phase d'une précipitation vient d'`alignments.yaml`**, qui déclare
+  déjà que `Rl` est contraint à la phase liquide et `Rs` à la solide.
+  Sans elle, onze tableaux portaient le libellé d'un voisin, « cumul
+  annuel » ne distinguant pas la pluie de la neige. Avec, **plus aucune
+  collision** ;
+- **les grandeurs vont entre parenthèses**, et seulement pour les
+  tableaux de finalité, dont la branche ne les dit pas.
+
+**Une limite connue, à ne pas prendre pour un défaut de libellé** : la
+famille se calcule sur les entrées de la FICHE, pas sur celles de la
+variable. `RA` n'a besoin que de `R`, mais la fiche groupée qui le
+produit lit aussi `Rl` et `Rs` : `RA` appartient donc à deux tableaux, et
+l'un des deux s'annonce « phase liquide et phase solide ». Trois
+variables sont dans ce cas (`RA`, `RAl`, `RAs`). C'est le même phénomène
+que les 28 variables produites par deux fiches, et ça se corrigerait en
+dérivant la famille des entrées réellement consommées, ce que
+`list_cards()` ne rend pas aujourd'hui.
+
+### Geste 2 : la soudure, huit lignes déclarées
+
+Dans `alignments.yaml`, section `topics:` pour les quatre premières,
+section `inputs:` pour les autres :
+
+```
+card:domain/flow            skos:broadMatch  theia:c_9c959860  River discharge
+card:domain/precipitation   skos:broadMatch  theia:c_a9b2927c  Precipitation amount
+card:domain/temperature     skos:broadMatch  theia:c_6f0c66da  Air temperature
+card:domain/evapotranspir…  skos:broadMatch  theia:c_6db0faac  Potential evapotr.
+
+card:input/Q    skos:exactMatch  theia:c_dabd2d39  1 day mean river discharge
+card:input/R    skos:exactMatch  theia:c_ee31e37f  1 day cumulative precip. amount
+card:input/T    skos:exactMatch  theia:c_6496391a  Mean air temperature
+card:input/ETP  skos:exactMatch  theia:c_6db0faac  Potential evapotranspiration
+```
+
+Le `broadMatch` est posé au SOMMET, et c'est ce qui le rend si petit :
+leur concept générique est plus large que tout ce que card calcule sur
+cette grandeur, donc la hiérarchie fait le reste. Quatre triplets, pas
+444.
+
+### Ce que le geste 2 ne suffit PAS à faire
+
+**Skosmos n'affiche que les alignements portés par la fiche qu'on
+regarde, jamais les alignements entrants** (vérifié sur leur
+documentation le 2026-08-14). Donc :
+
+- qui part de card arrive chez eux ;
+- qui part de chez eux **ne voit pas card**.
+
+D'où la seule demande structurelle : **quatre `skos:narrowMatch`
+réciproques dans leur fichier**. Quatre triplets, aucun concept à
+maintenir, réversible. Si c'est non, tout fonctionne quand même, en sens
+unique, et rien n'est perdu.
+
+## La notation officielle française, alignée le 2026-08-14
+
+Ce n'était pas dans ce plan, et ça y a sa place : c'est un alignement, il
+vit dans `alignments.yaml`, et il ne demande rien à personne.
+
+Le SCHAPI, avec INRAE, maintient pour le réseau Vigicrues un
+**dictionnaire des notations de statistiques hydrologiques**, celui que
+lisent les hydrologues français dans HydroPortail. Il définit une
+grammaire, pas une liste : grandeur, filtre statistique, filtre temporel,
+puis extracteur, puis période de retour.
+
+**Les deux grammaires descendent du même texte.** Leur dictionnaire dit
+avoir été bâti, entre autres, sur « Normalisation des variables dans les
+modèles hydrologiques descriptifs », G. Oberlin, 1992, qui est aussi la
+source de la nomenclature de card (cf. `NOMENCLATURE.md`). Ce n'est donc
+pas un rapprochement de circonstance, c'est une divergence entre deux
+héritiers.
+
+Quinze variables et une grandeur d'entrée sont alignées :
+
+```
+Q       QJ            la chronique des débits moyens journaliers
+QNA     QJ-N          VCN3   Q3J-N     VCN10   Q10J-N    VCN30  Q30J-N
+QMNA    QM-N          QJXA   QJ-X      VCX3    Q3J-X     VCX10  Q10J-X
+QMNA-5  QM-N(5)       VCN10-5 Q10J-N(5)   VCN30-2 Q30J-N(2)   QJXA-10 QJ-X(10)
+Q10     QJ0,9         Q50    QJ0,5     Q90     QJ0,1
+```
+
+**Ne figure que ce qui est certain** : les correspondances que leur
+documentation donne explicitement (`VCN3`, `VCN10-5`, `QMNA`, `QMNA5`,
+`QJX10`, `VCX3`), et celles qui s'en déduisent par simple substitution
+d'un nombre. Tout ce qui demanderait un jugement est absent, et c'est
+délibéré : deux grammaires qui se ressemblent autant se trompent sans
+qu'on le voie.
+
+Ce qui est écarté, et pourquoi :
+
+- **les fenêtres saisonnières** (`_summer`, `_winter`) : leur extracteur
+  est annuel par défaut et une fenêtre partielle n'est pas dans leur
+  grammaire ;
+- **`QA` et `mean-QA`** : leur dictionnaire écrit « le débit moyen annuel
+  `QA` ou `Q-Moy` », mais leur `Q` nu désigne l'instantané, quand celui
+  de card est journalier ; et leur liste écrit `QJ-Annuel` pour la même
+  idée. Deux écritures, aucune tranchée ;
+- **les quantiles annuels** (`Q90A`…) : leur notation de fréquence porte
+  sur la chronique entière, pas sur chaque année ;
+- **les réductions inter-annuelles** (`mediane-`, `delta-`, `alpha-`) :
+  la forme `Variable(Opérateur)` existe chez eux, mais leur documentation
+  ne l'applique jamais à une variable déjà extraite.
+
+**Un faux ami à connaître** : `QJ` désigne chez eux la chronique des
+débits moyens journaliers, et chez card le régime journalier
+inter-annuel. Même symbole, deux choses. C'est la raison pour laquelle la
+table est écrite à la main.
+
+### Comment ça sort en RDF
+
+Une notation SKOS est un code dans un système de notation, et le système
+se dit par le TYPE du littéral. C'est la mécanique prévue pour qu'un même
+concept porte plusieurs codes sans qu'on les confonde :
+
+```turtle
+card:variable/VCN10
+    skos:notation  "VCN10" ;
+    skos:notation  "Q10J-N"^^card:notation/hydroportail .
+```
+
+La notation propre à card reste un littéral nu, qui est la lecture par
+défaut du vocabulaire ; la notation étrangère s'annonce. Le type est
+déclaré dans le fichier, avec le titre du dictionnaire et son URL.
+
+Deux tests le gardent honnête : toute clé de la table est une vraie
+variable du corpus, et **aucune notation n'est attribuée deux fois**,
+seul symptôme qu'une machine puisse voir d'une correspondance erronée
+entre deux grammaires aussi proches.
+
+## Ce qui bloque l'option B, après audit
+
+Le volume a changé de camp (§ ci-dessus). Restent, inchangés :
+
+1. **Leur thésaurus est en ANGLAIS SEULEMENT.** Aucun `prefLabel@fr`
+   dans les 23 086 triplets. La moitié de ce que les fiches écrivent
+   n'aurait nulle part où aller.
 2. **Ils n'emploient aucun `skos:notation`.** La porte d'entrée de card
-   est le symbole (`VCN10`), qui est cité dans les publications, dans les
-   sorties de calcul et dans les colonnes des tableaux. Chez eux, une
-   variable se désigne par un libellé long.
-3. **On perdrait la génération.** Aujourd'hui `card.ttl` se régénère à
-   chaque changement du corpus et un test refuse l'écart : le thésaurus
-   ne PEUT PAS diverger des fiches. Si les concepts vivent dans leur
-   outil d'édition, la définition existe à deux endroits et plus rien ne
-   les tient d'accord. C'est le seul argument technique décisif.
+   est le symbole, cité dans les publications et dans les colonnes des
+   tableaux.
+3. **On perdrait la génération.** `card.ttl` se régénère à chaque
+   changement et un test refuse l'écart : le thésaurus ne PEUT PAS
+   diverger des fiches. Dans leur outil d'édition, la définition
+   existerait à deux endroits. **C'est le seul argument technique
+   décisif**, et c'est la dernière question de `QUESTIONS_THEIA.md`.
 4. **La cadence et la charge.** Une version de fiche change une
    définition ; leur thésaurus est une référence de communauté qui bouge
-   lentement. Qui met à jour, et à quel rythme ?
+   lentement.
 
-Les points 1 et 2 se règlent s'ils veulent bien : ajouter une langue et
-une notation est une décision, pas un obstacle technique. Le point 3 est
-le vrai sujet, et il se pose autrement : **ce n'est pas « à côté ou
-dedans », c'est « qui génère »**.
+## L'hébergement : un précédent qu'ils ont posé eux-mêmes
 
-## Ce que je recommande, et ce qu'il faut leur demander
+Ils exploitent un Skosmos multi-vocabulaire à Montpellier
+(`skosmos.msem.univ-montp2.fr`) qui sert `theia_in_situ`,
+`theia_spatial` et **le thésaurus de l'UNESCO**, donc un vocabulaire qui
+n'est pas le leur. Servir `card.ttl` de la même façon est un graphe de
+plus et une entrée de configuration, pas une demande d'infrastructure.
 
-**Option C, et la proposition des trous.** Concrètement :
+Un vocabulaire vit dans son propre espace, avec ses propres URIs, sa
+propre page d'accueil et sa propre recherche. Ils n'éditent rien, on leur
+passe le fichier à chaque version. Ordre de préférence inchangé : chez
+eux, sinon EarthPortal, et de toute façon en téléchargement chez nous.
 
-1. leur proposer les **vingt composants génériques** qui leur manquent,
-   qui servent tout le monde et qu'ils peuvent intégrer sans rien devoir
-   à card ;
-2. déclarer chez nous le `skos:broadMatch` vers leurs variables
-   génériques, pour que nos 444 variables se rangent dans leur arbre
-   thématique ;
-3. leur poser les trois questions qui décident de la suite :
-   - **acceptez-vous des libellés français** dans le thésaurus ?
-   - **acceptez-vous une notation** (un symbole) sur un concept ?
-   - **accepteriez-vous qu'un vocabulaire ENGENDRÉ soit chargé
-     périodiquement chez vous**, plutôt qu'édité à la main ? C'est la
-     question qui décide entre A/C et B.
+### L'objet d'intérêt du débit : `River`, tranché le 2026-08-14
 
-Si la réponse aux trois est oui, l'intégration complète devient
-souhaitable et le passage est mécanique : nos concepts portent déjà la
-même composition que les leurs. Si elle est non sur la troisième, C est
-le meilleur des mondes et rien n'est perdu.
+card déclarait `Surface water` (c_d73ddccf) là où leur `River discharge`
+déclare `River` (c_97bb7b91). Le corpus est bâti sur des chroniques de
+stations hydrométriques de cours d'eau et aucune fiche ne vise un plan
+d'eau : c'est donc `River`, sur les quatre entrées de débit (`Q`,
+`Q_obs`, `Q_sim`, `Q_lim`) et par conséquent sur les 229 variables qui en
+dérivent.
 
-## Ce que ça change pour les familles
+Ce n'est pas un changement de camp mais une descente d'un cran dans LEUR
+hiérarchie, `River` étant un enfant de `Surface water`. Et c'est ce qui
+autorise l'`exactMatch` de `card:input/Q` vers
+`1 day mean river discharge` : viser leur concept de rivière en disant
+« eau de surface » aurait affirmé plus qu'on ne savait.
 
-La question « faut-il des familles claires, avec de vrais mots, comme
-eux ? » a maintenant une réponse : **leur arbre thématique est déjà cette
-famille-là**, et il vaut mieux s'y rattacher que d'en inventer un
-deuxième. Nos 133 familles calculées ne sont pas la même chose : elles
-groupent les variantes d'un même concept par paramètre (`QNA`, `VCN3`,
-`VCN10`, `VCN30`), ce qu'aucun arbre thématique ne fait. Les deux axes
-cohabitent :
+Les trois autres grandeurs n'étaient pas concernées, leur objet étant
+déjà juste (Precipitation, Air, Evapotranspiration).
 
-- **leur arbre** dit de quoi on parle (eau de surface, débit de rivière) ;
-- **nos familles** disent quelles variantes existent d'une même idée.
-
-Le doute sur le libellé des familles (`débit · basses eaux · minimum ·
-annuelle · série`) perd donc de son poids : ce libellé n'est plus la
-porte d'entrée, il n'est qu'une étiquette de regroupement.
-
-## Deux doutes hérités du journal d'exécution
-
-Ils viennent de `RETOUR_SKOS.md`, supprimé le 2026-08-14 une fois le
-chantier livré, et ils survivent parce qu'ils ne sont toujours pas
-tranchés.
+## Deux doutes hérités, toujours ouverts
 
 **La grossièreté des familles de variables dérivées.** `delta-VCN10` se
 retrouve dans la même famille que les écarts d'autres variables de base,
@@ -227,27 +490,27 @@ parce que l'identité d'une variable dérivée dépend de sa variable de
 BASE, qui n'est pas une facette. Ce n'est pas faux au sens de
 `skos:broader`, c'est moins fin qu'ailleurs. Affiner demanderait de
 déclarer la variable de base sur les fiches `delta-`, `median-`,
-`alpha-`. À trancher seulement si ça gêne à l'usage, et l'usage
-commencera quand un navigateur affichera le fichier.
+`alpha-`. À trancher seulement si ça gêne à l'usage.
 
 **Skosmos en local**, abandonné après deux tentatives : l'image
 officielle est fermée, les images tierces ne sont pas maintenues, et
-Fuseki sert son jeu de données en lecture seule. Ce qu'on voulait
-savoir (« est-ce que ça passera chez eux ? ») est de toute façon répondu
-par `skosify`, qui est leur propre outil de qualité et qui passe. Si on
-veut vraiment l'écran, le plus court est de leur demander de charger le
-fichier.
+Fuseki sert son jeu de données en lecture seule. Ce qu'on voulait savoir
+(« est-ce que ça passera chez eux ? ») est répondu par `skosify`, qui est
+leur propre outil de qualité et qui passe.
 
 ## Pour la prochaine session
 
-Rien n'est à coder avant le courriel. Dans l'ordre :
+Plus rien n'est en attente de notre côté : l'arbre, les tableaux, les
+libellés, la soudure et la notation officielle sont posés, et
+`make arbre` les montre.
 
-1. **le courriel à Theia**, avec les trois questions ci-dessus et la
-   liste des composants proposés ;
-2. selon la réponse : implémenter C (petit) ou préparer B (autre
-   chantier) ;
-3. la base d'URI et l'hébergement, qui restent la seule décision
-   irréversible et qui dépendent de cette réponse.
+1. **le courriel à Theia**, dont le contenu est dans
+   `QUESTIONS_THEIA.md` ;
+2. **les 28 trous de complétude** relevés en repliant les tableaux, à
+   reprendre comme un chantier de corpus : ce sont des choix
+   scientifiques, pas des choix de vocabulaire ;
+3. selon la réponse de Theia : la base d'URI et l'hébergement, qui
+   restent la seule décision irréversible.
 
 Ce qui est déjà tranché et qu'on ne rouvre pas est dans
 `PLAN_SITE_SKOS.md`, y compris l'audit des vocabulaires, qui reste la

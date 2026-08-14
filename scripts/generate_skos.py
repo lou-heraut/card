@@ -70,6 +70,10 @@ QUDT = Namespace("http://qudt.org/schema/qudt/")
 VANN = Namespace("http://purl.org/vocab/vann/")
 CPM = Namespace("http://purl.org/voc/cpm#")
 TIME = Namespace("http://www.w3.org/2006/time#")
+# La mise en SKOS de l'ISO 25964, publiée par la DCMI. Elle apporte le
+# TABLEAU (`ThesaurusArray`, sous-classe de `skos:Collection`) et de quoi
+# le placer dans l'arbre sans prétendre que c'est un concept.
+ISOTHES = Namespace("http://purl.org/iso25964/skos-thes#")
 
 ALIGNEMENTS = yaml.safe_load(
     (RACINE / "src" / "card" / "alignments.yaml").read_text(encoding="utf-8"))
@@ -146,12 +150,21 @@ FACETTES_FR = {"domain": "grandeur", "phenomenon": "phénomène",
                "season": "fenêtre d'échantillonnage", "output": "forme",
                "purpose": "finalité"}
 
+# Les trois facettes qui font l'ARBRE, et non un axe de filtrage. Elles
+# vivent dans le schéma principal, pas dans un schéma de facette : c'est
+# par elles qu'on descend jusqu'aux variables (grandeur -> phénomène ->
+# variable), et un navigateur n'a pas d'autre porte d'entrée. Les quatre
+# autres (`aspect`, `statistic`, `season`, `output`) restent des axes
+# transverses, chacun dans son schéma.
+ARBRE = ("domain", "phenomenon", "purpose")
+
 
 def vocabulaire(g):
     """Les facettes et leurs valeurs : un schéma par facette."""
     for facette, valeurs in card.vocabulary().items():
-        noeud = sous_schema(g, facette, facette,
-                            FACETTES_FR.get(facette, facette))
+        noeud = (CARD[""] if facette in ARBRE
+                 else sous_schema(g, facette, facette,
+                                  FACETTES_FR.get(facette, facette)))
         for cle, etiquettes in valeurs.items():
             concept = CARD[f"{facette}/{cle}"]
             g.add((concept, RDF.type, SKOS.Concept))
@@ -161,7 +174,11 @@ def vocabulaire(g):
             if facette == "statistic":
                 g.add((concept, RDF.type, IOP.StatisticalModifier))
             g.add((concept, SKOS.inScheme, noeud))
-            sommet(g, concept, noeud)
+            # Un phénomène pend sous sa grandeur, `arbre()` s'en charge :
+            # l'annoncer ici en concept de tête ferait de lui une racine ET
+            # un fils, ce que skosify signale à juste titre.
+            if facette != "phenomenon":
+                sommet(g, concept, noeud)
             for lang in ("en", "fr"):
                 if etiquettes.get(lang):
                     g.add((concept, SKOS.prefLabel,
@@ -176,6 +193,84 @@ def vocabulaire(g):
             aligne = (ALIGNEMENTS.get(facette) or {}).get(cle, {})
             if aligne.get("same_as"):
                 g.add((concept, SKOS.exactMatch, uri(aligne["same_as"])))
+
+
+def parent_de(ligne):
+    """Sous quel concept de l'arbre pendent les variables de cette ligne.
+
+    Le phénomène quand il y en a un, la finalité sinon. Les deux cas sont
+    exclusifs et couvrent le corpus entier : une fiche qui déclare une
+    `purpose` ne déclare ni `aspect` ni phénomène, parce qu'elle ne décrit
+    pas un régime mais une comparaison (performance d'un modèle,
+    sensibilité au climat). Rend aussi la facette employée, dont dépend
+    ce que le libellé du tableau doit encore dire.
+    """
+    from card.schema import _slug_of
+    for facette in ("phenomenon", "purpose"):
+        brut = str(ligne.get(f"{facette}_en", "")).strip()
+        cle = _slug_of(facette, brut) if brut else None
+        if cle:
+            return facette, CARD[f"{facette}/{cle}"]
+    return None, None
+
+
+def arbre(g, meta):
+    """La colonne vertébrale : grandeur -> phénomène, et la soudure.
+
+    Sans elle, le vocabulaire est un buisson : les familles étaient
+    autant de racines, et la page d'accueil d'un navigateur les listait
+    toutes, à plat, avec des libellés qui récitent des facettes. Personne
+    n'entre par là.
+
+    **Rien n'est déclaré ici, tout est mesuré.** Le rattachement d'un
+    phénomène à une grandeur se lit dans les fiches, qui déclarent les
+    deux ; le vérifier vaut mieux que l'écrire une seconde fois dans
+    `topics.yaml`, où il pourrait mentir. Mesuré le 2026-08-14 : chacun
+    des onze phénomènes n'apparaît que sous une seule grandeur.
+
+    La seule chose qui vienne d'`alignments.yaml` est ce qui ne se déduit
+    d'aucune fiche : la note de portée, et le `skos:broadMatch` vers le
+    concept générique de Theia/OZCAR.
+    """
+    from card.schema import _slug_of
+    grandeur_de = {}
+    for _, ligne in meta.iterrows():
+        facette, _ = parent_de(ligne)
+        if facette != "phenomenon":
+            continue
+        phen = _slug_of("phenomenon", str(ligne["phenomenon_en"]).strip())
+        for brut in str(ligne["domain_en"]).split(","):
+            cle = _slug_of("domain", brut.strip()) if brut.strip() else None
+            if cle:
+                grandeur_de.setdefault(phen, set()).add(cle)
+
+    for phen, grandeurs in sorted(grandeur_de.items()):
+        if len(grandeurs) > 1:
+            raise SystemExit(
+                f"le phénomène « {phen} » apparaît sous plusieurs grandeurs "
+                f"({', '.join(sorted(grandeurs))}) : l'arbre thématique "
+                "suppose qu'un phénomène en a une seule")
+        g.add((CARD[f"phenomenon/{phen}"], SKOS.broader,
+               CARD[f"domain/{grandeurs.pop()}"]))
+
+    # Un phénomène du vocabulaire qu'aucune fiche n'emploie n'a pas de
+    # grandeur mesurable : il reste une racine plutôt que d'être rattaché
+    # au jugé. Aucun cas aujourd'hui, la garde est pour demain.
+    for cle in card.vocabulary()["phenomenon"]:
+        if cle not in grandeur_de:
+            sommet(g, CARD[f"phenomenon/{cle}"], CARD[""])
+
+    for cle, entree in (ALIGNEMENTS.get("topics") or {}).items():
+        noeud = CARD[f"domain/{cle}"]
+        # Un rayon du catalogue EST un ensemble de variables, comme une
+        # famille : I-ADOPT a la classe, autant la dire.
+        g.add((noeud, RDF.type, IOP.VariableSet))
+        for lang in ("en", "fr"):
+            if entree.get(lang):
+                g.add((noeud, SKOS.scopeNote,
+                       Literal(entree[lang], lang=lang)))
+        if entree.get("broad_match"):
+            g.add((noeud, SKOS.broadMatch, uri(entree["broad_match"])))
 
 
 def contraintes(g):
@@ -279,66 +374,266 @@ def parametres_de(carte):
     return trouves
 
 
-def familles(g, meta):
-    """Un concept parent par famille, et le rattachement des variables.
+# ── Le libellé de nœud d'un tableau ───────────────────────────────────
+#
+# Deux tables ÉCRITES ET RELUES, pas une grammaire. Une règle qui
+# fabriquerait la phrase depuis les étiquettes se casserait au premier
+# accord (« minimum annuel » mais « moyenne annuelle ») et surtout au
+# premier sens : `saisonnalité × minimum` est « la date du minimum »,
+# `durée × médiane` est « la médiane d'une durée », et aucune règle ne
+# devine que l'aspect gouverne dans un cas et est gouverné dans l'autre.
+#
+# Les combinaisons sont peu nombreuses parce que les facettes sont
+# petites : 31 couples (aspect, opération) et 13 couples (fenêtre,
+# forme) couvrent le corpus entier. Chacun a été confronté aux noms de
+# ses membres. **Un couple absent fait ÉCHOUER la génération** : c'est
+# ce qui empêche une facette ajoutée demain de produire une phrase
+# muette dont personne ne verrait qu'elle ment.
+#
+# La clé est le SLUG, jamais l'étiquette : une reformulation de
+# `topics.yaml` ne doit pas casser ces tables.
 
-    Le parent n'a pas de fiche : c'est un concept sémantique, « la
-    famille des VCN » existe sans qu'on la calcule jamais. Son libellé
-    est GÉNÉRÉ depuis ses composants, parce qu'un parent EST ses
-    composants et qu'un libellé qui les récite ne peut pas dériver.
+QUANTITE = {
+    # (aspect, statistique) : ce que la valeur EST
+    ("magnitude", "sum"): ("Total", "Cumul"),
+    ("magnitude", "mean"): ("Mean", "Moyenne"),
+    ("magnitude", "median"): ("Inter-annual median", "Médiane inter-annuelle"),
+    ("magnitude", "minimum"): ("Minimum", "Minimum"),
+    ("magnitude", "maximum"): ("Maximum", "Maximum"),
+    ("magnitude", "quantile"): ("Quantile", "Quantile"),
+    ("magnitude", "change"): ("Change between two periods",
+                              "Écart entre deux périodes"),
+    ("magnitude", "ratio"): ("Ratio", "Rapport"),
+    ("magnitude", "return-period"): ("Value for a given return period",
+                                     "Valeur de période de retour donnée"),
+    ("magnitude", "trend-slope"): ("Trend slope", "Pente de tendance"),
+    ("magnitude", "trend-significance"): ("Trend significance",
+                                          "Significativité de tendance"),
+    ("magnitude", "slope"): ("Slope of a curve", "Pente d'une courbe"),
+    ("magnitude", "filter"): ("Component separated by filtering",
+                              "Composante séparée par filtrage"),
+    ("duration", "threshold-exceedance"): ("Duration beyond a threshold",
+                                           "Durée au-delà d'un seuil"),
+    ("duration", "quantile"): ("Duration between two quantiles",
+                               "Durée entre deux quantiles"),
+    ("duration", "median"): ("Inter-annual median of a duration",
+                             "Médiane inter-annuelle d'une durée"),
+    ("duration", "change"): ("Change in duration between two periods",
+                             "Écart de durée entre deux périodes"),
+    ("timing", "minimum"): ("Date of the minimum", "Date du minimum"),
+    ("timing", "maximum"): ("Date of the maximum", "Date du maximum"),
+    ("timing", "quantile"): ("Date a quantile is reached",
+                             "Date d'atteinte d'un quantile"),
+    ("timing", "threshold-exceedance"): ("Date a threshold is crossed",
+                                         "Date de franchissement d'un seuil"),
+    ("timing", "median"): ("Inter-annual median of a date",
+                           "Médiane inter-annuelle d'une date"),
+    ("timing", "change"): ("Change in date between two periods",
+                           "Écart de date entre deux périodes"),
+    ("frequency", "threshold-exceedance"): ("Frequency of threshold exceedance",
+                                            "Fréquence de dépassement d'un seuil"),
+    ("frequency", "return-period"): ("Return period of a value",
+                                     "Période de retour d'une valeur"),
+    ("frequency", "change"): ("Change in frequency between two periods",
+                              "Écart de fréquence entre deux périodes"),
+    # Sans aspect : les fiches à `purpose`, qui comparent au lieu de
+    # décrire un régime. La facette `aspect` leur est interdite.
+    ("", "ratio"): ("Ratio", "Rapport"),
+    ("", "bias"): ("Bias", "Biais"),
+    ("", "efficiency"): ("Efficiency criterion", "Critère d'efficience"),
+    ("", "elasticity"): ("Elasticity", "Élasticité"),
+    ("", "correlation"): ("Correlation", "Corrélation"),
+}
+
+FORME = {
+    # (fenêtre, forme) : combien de valeurs, et sur quoi elles portent.
+    # `annual` et `record` ne disent PAS la même chose sur un scalaire :
+    # le premier réduit une série déjà annuelle, le second la chronique
+    # journalière entière, et c'est ce qui sépare `median-VCN10` de `Q90`.
+    ("annual", "series"): ("one value per year", "une valeur par année"),
+    ("annual", "scalar"): ("a single value, from the annual series",
+                           "une valeur unique, sur la série annuelle"),
+    ("summer", "series"): ("one value per year, summer window",
+                           "une valeur par année, fenêtre estivale"),
+    ("summer", "scalar"): ("a single value, summer window",
+                           "une valeur unique, fenêtre estivale"),
+    ("winter", "series"): ("one value per year, winter window",
+                           "une valeur par année, fenêtre hivernale"),
+    ("winter", "scalar"): ("a single value, winter window",
+                           "une valeur unique, fenêtre hivernale"),
+    ("by-month", "series"): ("one variable per month, one value per year",
+                             "une variable par mois, une valeur par année"),
+    ("by-month", "scalar"): ("one variable per month, a single value",
+                             "une variable par mois, une valeur unique"),
+    ("by-month", "curve"): ("one variable per month, a curve",
+                            "une variable par mois, une courbe"),
+    ("by-season", "series"): ("one variable per season, one value per year",
+                              "une variable par saison, une valeur par année"),
+    ("by-season", "scalar"): ("one variable per season, a single value",
+                              "une variable par saison, une valeur unique"),
+    ("record", "scalar"): ("a single value, over the whole record",
+                           "une valeur unique, sur la chronique entière"),
+    ("record", "curve"): ("a curve, over the whole record",
+                          "une courbe, sur la chronique entière"),
+}
+
+
+def phases_de(ligne):
+    """Les contraintes portées par les grandeurs d'entrée de cette ligne.
+
+    Rien à deviner : `alignments.yaml` déclare que `Rl` est de la
+    précipitation contrainte à la phase liquide et `Rs` à la phase
+    solide. Sans elles, onze tableaux portent le libellé d'un voisin,
+    « cumul annuel » ne distinguant pas la pluie de la neige.
     """
-    vus = {}
+    trouvees = []
+    for entree in str(ligne["input_vars"]).split(","):
+        regle = ALIGNEMENTS["inputs"].get(entree.strip().rstrip("?").strip())
+        cle = (regle or {}).get("constraint")
+        if cle and cle not in trouvees:
+            trouvees.append(cle)
+    return sorted(trouvees)
+
+
+def libelle_tableau(ligne, avec_grandeur):
+    """Le libellé de nœud d'un tableau, en anglais puis en français.
+
+    À gauche ce que la valeur EST, monté depuis les deux tables ; à droite
+    ses coordonnées, qui restent les étiquettes des facettes parce qu'en
+    prose elles répétaient la même chose sur presque chaque voisine.
+
+    `avec_grandeur` est vrai pour les tableaux rangés sous une finalité :
+    leur branche ne dit nulle part de quelle grandeur il s'agit, alors que
+    ceux rangés sous un phénomène l'héritent de leur superordonné.
+    """
+    from card.schema import _slug_of
+
+    def slug_facette(facette):
+        brut = str(ligne.get(f"{facette}_en", "")).strip()
+        return _slug_of(facette, brut) if brut else ""
+
+    couple = (slug_facette("aspect"), slug_facette("statistic"))
+    fenetre = (slug_facette("season"), slug_facette("output"))
+    for table, cle, quoi in ((QUANTITE, couple, "(aspect, statistique)"),
+                             (FORME, fenetre, "(fenêtre, forme)")):
+        if cle not in table:
+            raise SystemExit(
+                f"couple {quoi} sans phrase : {cle}. Ajouter l'entrée dans "
+                "generate_skos.py, après avoir lu les noms de ses membres.")
+    phases = phases_de(ligne)
+    phrases = []
+    for rang, lang in enumerate(("en", "fr")):
+        coordonnees = [str(ligne[f"season_{lang}"]), str(ligne[f"output_{lang}"])]
+        if avec_grandeur and str(ligne.get(f"domain_{lang}", "")):
+            coordonnees.insert(0, str(ligne[f"domain_{lang}"]))
+        coordonnees += [ALIGNEMENTS["constraints"][c][lang] for c in phases]
+        phrases.append(f"{QUANTITE[couple][rang]} ({', '.join(coordonnees)})")
+    return phrases
+
+
+def tableaux(g, meta):
+    """Les familles, comme des TABLEAUX de thésaurus et non des concepts.
+
+    Une famille regroupe les variables qui ne diffèrent que par un
+    paramètre : `QNA`, `VCN3`, `VCN10`, `VCN30`. C'est une construction
+    classique et normalisée, le *tableau* de l'ISO 25964, avec son
+    *libellé de nœud* qui dit par quel caractère on divise. L'exemple
+    canonique du guide SKOS est « lait par animal d'origine », qui
+    regroupe lait de vache, de chèvre et de bufflonne.
+
+    **Un libellé de nœud n'est PAS un concept**, et c'est tout l'objet de
+    ce passage. Le guide SKOS le dit : le modéliser en concept est plus
+    intuitif mais fait perdre de la justesse. Personne n'indexe une
+    donnée avec « Minimum (annuelle, série) », on l'indexe avec `VCN10`.
+    Jusqu'au 2026-08-14 la famille était un `skos:Concept` dans la chaîne
+    `skos:broader`, ce qui affirmait « VCN10 est une sorte de Minimum
+    (annuelle, série) ». C'était faux : un casier n'est pas un genre.
+
+    Maintenant, deux affirmations séparées et chacune vraie : la variable
+    est plus étroite que son PHÉNOMÈNE (`skos:broader`, posé par
+    `variables()`), et elle est MEMBRE d'un tableau qui subdivise ce
+    phénomène (`skos:member`, ici). `broader` se transmet, `member` non,
+    et c'est exactement la différence qu'on voulait.
+
+    Deux conséquences qui valent le changement :
+
+    - le décompte des concepts devient honnête, 133 casiers en sortant ;
+    - la hiérarchie ne passe plus par du CALCULÉ. Les familles se
+      recalculent à chaque génération : tant qu'elles portaient la
+      chaîne, une recompilation pouvait déplacer `VCN10` dans l'arbre.
+
+    **Un tableau d'un seul membre ne subdivise rien** et n'est donc pas
+    émis. Mesuré le 2026-08-14 : 65 des 133 familles sont dans ce cas, et
+    37 d'entre elles le resteront, leur variable ne portant aucun
+    paramètre (`QA`, `QMNA`, `QB-LH`, les huit fiches de finalité…). Les
+    28 autres sont des trous de complétude du corpus, pas du vocabulaire.
+    """
+    from card.schema import _slug_of
+
+    membres = {}
     for _, ligne in meta.iterrows():
-        cle = str(ligne["family"])
-        noeud = CARD[f"family/{cle}"]
-        if cle not in vus:
-            vus[cle] = noeud
-            g.add((noeud, RDF.type, SKOS.Concept))
-            # Un ENSEMBLE de variables, pas une variable. I-ADOPT a la
-            # classe qu'il faut, et ses `hasApplicable…` disent ce que
-            # les membres partagent. Se déclarer `iop:Variable` était une
-            # petite fausseté : aucune fiche ne calcule une famille.
-            g.add((noeud, RDF.type, IOP.VariableSet))
-            g.add((noeud, SKOS.inScheme, CARD[""]))
-            # Ce que les membres PARTAGENT, et rien d'autre : c'est la
-            # définition même d'une famille ici, deux variables qui ne
-            # diffèrent que par un paramètre.
-            from card.schema import _slug_of
-            cle_stat = _slug_of("statistic",
-                                str(ligne.get("statistic_en", "")).strip())
-            if cle_stat:
-                g.add((noeud, IOP.hasApplicableStatisticalModifier,
-                       CARD[f"statistic/{cle_stat}"]))
-            for entree in str(ligne["input_vars"]).split(","):
-                regle = ALIGNEMENTS["inputs"].get(
-                    entree.strip().rstrip("?").strip())
-                if not regle or regle.get("parameter"):
-                    continue
-                if regle.get("property"):
-                    g.add((noeud, IOP.hasApplicableProperty,
-                           uri(regle["property"])))
-                if regle.get("object"):
-                    g.add((noeud, IOP.hasApplicableObjectOfInterest,
-                           uri(regle["object"])))
-            # Les familles sont les points d'entrée du schéma : les
-            # variables pendent sous elles, rien ne pend sous elles-mêmes.
-            sommet(g, noeud, CARD[""])
-            # Liste de composants, jamais une phrase : une phrase générée
-            # se casse en français à la première question d'accord
-            # (« minimum annuel » mais « moyenne annuelle »). Le séparateur
-            # dit franchement qu'on énumère, ce qui est la vérité.
-            for lang in ("en", "fr"):
-                morceaux = [str(ligne[f"{f}_{lang}"])
-                            for f in ("domain", "phenomenon", "statistic",
-                                      "season", "output")
-                            if str(ligne.get(f"{f}_{lang}", ""))]
-                g.add((noeud, SKOS.prefLabel,
-                       Literal(" · ".join(morceaux) or cle, lang=lang)))
-            g.add((noeud, SKOS.editorialNote, Literal(
-                "Generated parent: the variables of this family differ "
-                "only by a parameter. Its label enumerates its components.",
-                lang="en")))
-    return vus
+        membres.setdefault(str(ligne["family"]), {})[
+            str(ligne["variable_en"])] = ligne
+
+    for cle, lignes in membres.items():
+        if len(lignes) < 2:
+            continue
+        ligne = next(iter(lignes.values()))
+        noeud = CARD[f"array/{cle}"]
+        # Sous-classe de `skos:Collection`, et Skosmos sait l'afficher en
+        # subdivision (option `skosmos:arrayClass`). Le type I-ADOPT reste :
+        # il dit la même chose à un autre lecteur, et c'est lui qui porte
+        # les `hasApplicable…`.
+        g.add((noeud, RDF.type, ISOTHES.ThesaurusArray))
+        g.add((noeud, RDF.type, IOP.VariableSet))
+        g.add((noeud, SKOS.inScheme, CARD[""]))
+        for nom in lignes:
+            g.add((noeud, SKOS.member, CARD[f"variable/{nom}"]))
+        # Le concept que ce tableau subdivise. `superOrdinate` a pour
+        # domaine un tableau et pour portée un concept : c'est la seule
+        # façon normalisée de placer une collection dans l'arbre, puisque
+        # `skos:broader` lui est interdit.
+        facette, parent = parent_de(ligne)
+        if parent is not None:
+            g.add((noeud, ISOTHES.superOrdinate, parent))
+            g.add((parent, ISOTHES.subordinateArray, noeud))
+        # Ce que les membres PARTAGENT, et rien d'autre.
+        cle_stat = _slug_of("statistic",
+                            str(ligne.get("statistic_en", "")).strip())
+        if cle_stat:
+            g.add((noeud, IOP.hasApplicableStatisticalModifier,
+                   CARD[f"statistic/{cle_stat}"]))
+        for entree in str(ligne["input_vars"]).split(","):
+            regle = ALIGNEMENTS["inputs"].get(entree.strip().rstrip("?").strip())
+            if not regle or regle.get("parameter"):
+                continue
+            if regle.get("property"):
+                g.add((noeud, IOP.hasApplicableProperty, uri(regle["property"])))
+            if regle.get("object"):
+                g.add((noeud, IOP.hasApplicableObjectOfInterest,
+                       uri(regle["object"])))
+        # Le libellé de nœud dit le caractère de division : à gauche ce que
+        # la valeur EST, à droite ses coordonnées. Seule la gauche gagnait à
+        # devenir une phrase ; la droite, mise en prose, répétait « une
+        # valeur unique, sur la série annuelle » sur presque chaque voisine.
+        #
+        # Le synonyme garde la liste des facettes, qui n'est pas une redite :
+        # c'est ce qu'un lecteur tape dans une recherche.
+        sous_finalite = facette != "phenomenon"
+        phrases = libelle_tableau(ligne, sous_finalite)
+        composants = (("domain",) if sous_finalite else ()) + (
+            "aspect", "statistic", "season", "output")
+        for rang, lang in enumerate(("en", "fr")):
+            g.add((noeud, SKOS.prefLabel, Literal(phrases[rang], lang=lang)))
+            morceaux = [str(ligne[f"{f}_{lang}"]) for f in composants
+                        if str(ligne.get(f"{f}_{lang}", ""))]
+            g.add((noeud, SKOS.altLabel,
+                   Literal(" · ".join(morceaux) or cle, lang=lang)))
+        g.add((noeud, SKOS.editorialNote, Literal(
+            "Thesaurus array (ISO 25964): its members differ only by a "
+            "parameter. A node label is not a concept, so it carries no "
+            "skos:broader; the members are narrower than the phenomenon.",
+            lang="en")))
 
 
 def fenetre(process):
@@ -547,6 +842,7 @@ def entrees(g):
             if decrit.get(lang):
                 g.add((noeud, SKOS.prefLabel, Literal(decrit[lang], lang=lang)))
         mesure(g, noeud, decrit.get("unit"))
+        notation_officielle(g, noeud, symbole, "inputs")
         regle = ALIGNEMENTS["inputs"].get(symbole) or {}
         for champ, propriete in (("property", IOP.hasProperty),
                                  ("object", IOP.hasObjectOfInterest),
@@ -556,6 +852,38 @@ def entrees(g):
                                  ("cf", SKOS.closeMatch)):
             if regle.get(champ):
                 g.add((noeud, propriete, uri(regle[champ])))
+
+
+HYDROPORTAIL = CARD["notation/hydroportail"]
+
+
+def notation_officielle(g, concept, cle, section):
+    """La notation du SCHAPI, quand la correspondance est certaine.
+
+    Une notation SKOS est un code dans un système de notation, et le
+    système se dit par le TYPE du littéral : c'est la mécanique prévue
+    pour qu'un même concept porte plusieurs codes sans qu'on les
+    confonde. La notation propre à card reste un littéral nu, qui est la
+    lecture par défaut du vocabulaire ; celle-ci s'annonce.
+
+    **Un piège à connaître** : `QJ` désigne chez eux la chronique des
+    débits moyens journaliers, et chez card le régime journalier
+    inter-annuel. Même symbole, deux choses. C'est la raison pour
+    laquelle cette table est écrite à la main et ne contient que ce que
+    leur documentation donne.
+    """
+    valeur = (ALIGNEMENTS["hydroportail"].get(section) or {}).get(cle)
+    if valeur:
+        g.add((concept, SKOS.notation, Literal(valeur, datatype=HYDROPORTAIL)))
+
+
+def type_de_notation(g):
+    """Déclare le système de notation, sans quoi le type ne dit rien."""
+    g.add((HYDROPORTAIL, RDF.type, RDFS.Datatype))
+    source = ALIGNEMENTS["hydroportail"]["source"]
+    for lang in ("en", "fr"):
+        g.add((HYDROPORTAIL, RDFS.label, Literal(source[lang], lang=lang)))
+    g.add((HYDROPORTAIL, RDFS.seeAlso, URIRef(source["url"])))
 
 
 def mesure(g, concept, unite_en):
@@ -583,7 +911,7 @@ def mesure(g, concept, unite_en):
         g.add((concept, QUDT.hasQuantityKind, uri(regle["kind"])))
 
 
-def variables(g, meta, parents):
+def variables(g, meta):
     """Un concept par variable produite, et sa ressource fiche."""
     cartes = _find_cards(_DEFAULT_CARD_DIR, None)
     par_fiche = {}
@@ -597,6 +925,7 @@ def variables(g, meta, parents):
         g.add((concept, RDF.type, IOP.Variable))
         g.add((concept, SKOS.inScheme, CARD[""]))
         g.add((concept, SKOS.notation, Literal(nom)))
+        notation_officielle(g, concept, nom, "variables")
         for lang in ("en", "fr"):
             if str(ligne.get(f"name_{lang}", "")):
                 # SKOS n'admet qu'un `prefLabel` par langue et par
@@ -617,7 +946,15 @@ def variables(g, meta, parents):
             if str(ligne.get(f"description_{lang}", "")):
                 g.add((concept, SKOS.definition,
                        Literal(ligne[f"description_{lang}"], lang=lang)))
-        g.add((concept, SKOS.broader, parents[str(ligne["family"])]))
+        # La variable pend sous son PHÉNOMÈNE, en direct. Elle passait
+        # avant par sa famille, ce qui affirmait qu'elle était une sorte de
+        # casier de rangement (cf. `tableaux`). Le regroupement, lui, se dit
+        # par `skos:member` et ne se transmet pas.
+        _, parent = parent_de(ligne)
+        if parent is None:
+            sommet(g, concept, CARD[""])
+        else:
+            g.add((concept, SKOS.broader, parent))
         mesure(g, concept, ligne.get("unit_en"))
 
         # Composants I-ADOPT, depuis les entrées et la facette statistique
@@ -700,23 +1037,27 @@ def main():
     graphe.bind("iop", IOP)
     graphe.bind("skos", SKOS)
     graphe.bind("dcterms", DCTERMS)
+    graphe.bind("isothes", ISOTHES)
     for prefixe, url in PREFIXES.items():
         graphe.bind(prefixe, Namespace(url))
 
     meta = card.list_cards()
     schema(graphe, card.__version__)
     vocabulaire(graphe)
+    arbre(graphe, meta)
     sous_schema(graphe, "period", "aggregation period", "période d'agrégation")
     unites(graphe)
+    type_de_notation(graphe)
     entrees(graphe)
     contraintes(graphe)
-    parents = familles(graphe, meta)
-    variables(graphe, meta, parents)
+    tableaux(graphe, meta)
+    variables(graphe, meta)
 
     SORTIE.write_text(graphe.serialize(format="turtle"), encoding="utf-8")
     concepts = len(set(graphe.subjects(RDF.type, SKOS.Concept)))
+    arrays = len(set(graphe.subjects(RDF.type, ISOTHES.ThesaurusArray)))
     print(f"{SORTIE} : {len(graphe)} triplets, {concepts} concepts, "
-          f"{len(parents)} familles")
+          f"{arrays} tableaux")
     print(f"base d'URI PROVISOIRE : {BASE}  (rien n'est publié)")
     return 0
 

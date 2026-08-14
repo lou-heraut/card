@@ -124,26 +124,34 @@ units:
 # nom et la description de chaque variable la disent déjà en toutes
 # lettres.
 inputs:
+  # `River` et non `Surface water`, tranché le 2026-08-14 : le corpus est
+  # bâti sur des chroniques de stations hydrométriques de cours d'eau, et
+  # aucune fiche ne vise un plan d'eau. Chez eux `River` est un enfant de
+  # `Surface water`, donc c'est un raffinement dans leur propre
+  # hiérarchie, et c'est l'objet exact de leur `River discharge`, sous
+  # lequel card se range.
   Q:
     property: theia:c_7742e5f0            # Discharge
-    object:   theia:c_d73ddccf            # Surface water
+    object:   theia:c_97bb7b91            # River
     cf: cfname:water_volume_transport_in_river_channel/
+    same_as:  theia:c_dabd2d39            # 1 day mean river discharge
   Q_obs:
     property: theia:c_7742e5f0
-    object:   theia:c_d73ddccf
+    object:   theia:c_97bb7b91
     provenance: observed
   Q_sim:
     property: theia:c_7742e5f0
-    object:   theia:c_d73ddccf
+    object:   theia:c_97bb7b91
     provenance: simulated
   Q_lim:
     property: theia:c_7742e5f0
-    object:   theia:c_d73ddccf
+    object:   theia:c_97bb7b91
     parameter: true                       # colonne de seuil fournie
   R:
     property: theia:c_fb752be1            # Volume per area
     object:   theia:c_2b48133e            # Precipitation
     cf: cfname:precipitation_amount/
+    same_as:  theia:c_ee31e37f            # 1 day cumulative precipitation amount
   R_obs:
     property: theia:c_fb752be1
     object:   theia:c_2b48133e
@@ -164,7 +172,10 @@ inputs:
     property: theia:c_650214c2            # Temperature
     object:   theia:c_d57d0742            # Air
     cf: cfname:air_temperature/
-    same_as:  theia:c_6f0c66da            # Air temperature
+    # `Mean air temperature` et non `Air temperature` : le second est leur
+    # concept générique, qui est la cible de `broad_match` plus bas ; le
+    # premier est la feuille, et `T` est bien une moyenne journalière.
+    same_as:  theia:c_6496391a            # Mean air temperature
   T_obs:
     property: theia:c_650214c2
     object:   theia:c_d57d0742
@@ -184,6 +195,44 @@ inputs:
     property: null
     object:   null
     parameter: true
+
+# ── Racines thématiques ───────────────────────────────────────────────
+#
+# La tête de l'arbre de card : une entrée par valeur de la facette
+# `domain`. Ce qui est déclaré ici n'est PAS dérivable, et rien d'autre
+# ne l'est : les libellés restent ceux de `topics.yaml`, l'appartenance
+# des phénomènes à un domaine se MESURE sur le corpus.
+#
+# `broad_match` est le seul point de contact avec le thésaurus de
+# Theia/OZCAR, et il tient en quatre lignes parce qu'il est posé au
+# sommet : leur concept générique est plus large que TOUT ce que card
+# calcule sur cette grandeur, donc la hiérarchie fait le reste. Mesuré
+# le 2026-08-14 : leur branche débit s'arrête à `1 day mean river
+# discharge`, qui est exactement le `Q` de card. Ils décrivent ce qu'on
+# mesure, card décrit ce qu'on calcule dessus.
+#
+# `scope` dit ce que le rayon contient, et c'est un `skos:scopeNote`,
+# la propriété SKOS faite pour ça. Le libellé de la facette
+# (« débit », « flow ») nomme une GRANDEUR ; sous un concept externe il
+# ne dirait pas qu'on est chez des indicateurs calculés. Deux propriétés
+# distinctes plutôt qu'un second concept qui aurait la même extension.
+topics:
+  flow:
+    broad_match: theia:c_9c959860         # River discharge
+    en: Indicators computed from river discharge series.
+    fr: Indicateurs calculés sur des chroniques de débit de rivière.
+  precipitation:
+    broad_match: theia:c_a9b2927c         # Precipitation amount
+    en: Indicators computed from precipitation series.
+    fr: Indicateurs calculés sur des chroniques de précipitations.
+  temperature:
+    broad_match: theia:c_6f0c66da         # Air temperature
+    en: Indicators computed from air temperature series.
+    fr: Indicateurs calculés sur des chroniques de température de l'air.
+  evapotranspiration:
+    broad_match: theia:c_6db0faac         # Potential evapotranspiration
+    en: Indicators computed from evapotranspiration series.
+    fr: Indicateurs calculés sur des chroniques d'évapotranspiration.
 
 # ── Opérations statistiques ───────────────────────────────────────────
 #
@@ -257,6 +306,70 @@ ignored_parameters:
   - ref_end
   - horizon_start
   - horizon_end
+
+# ── Notation officielle française (HydroPortail) ──────────────────────
+#
+# Le SCHAPI, avec INRAE, maintient pour le réseau Vigicrues un
+# dictionnaire des notations de statistiques hydrologiques. C'est la
+# notation que lisent les hydrologues français dans HydroPortail, et card
+# en emploie une autre.
+#
+# **Les deux descendent du même texte.** Leur dictionnaire dit avoir été
+# bâti, entre autres, sur « Normalisation des variables dans les modèles
+# hydrologiques descriptifs », G. Oberlin, 1992, qui est la source de la
+# grammaire de card (cf. NOMENCLATURE.md). Ce n'est donc pas un
+# rapprochement de circonstance : c'est une divergence entre deux
+# héritiers, et la rapprocher a du sens.
+#
+# Ce qui figure ici, et RIEN d'autre : les correspondances que leur
+# documentation donne explicitement, et celles qui s'en déduisent par
+# simple substitution d'un nombre (3 jours -> 10 jours, retour 5 ans ->
+# 2 ans). Tout ce qui demanderait un jugement est absent, et c'est
+# délibéré : une correspondance fausse entre deux grammaires qui se
+# ressemblent autant passerait inaperçue.
+#
+# Leur grammaire, pour relire cette table sans rouvrir le PDF :
+#   données de base   Grandeur + FiltreStatistique + FiltreTemporel
+#                     Q débit, H hauteur ; N minimum, X maximum ; absence
+#                     de filtre statistique = moyenne ; J journalier,
+#                     nJ n jours glissants, M mensuel, A annuel
+#   variables         DonnéesDeBase - Extracteur, la période valant
+#                     annuel par défaut
+#   valeurs caract.   Variable(PériodeDeRetour)
+#   fréquences        DonnéesDeBase en indice de la fréquence au NON
+#                     dépassement, d'où `Q90` (dépassé 90 % du temps)
+#                     qui s'écrit `QJ0,1` chez eux
+hydroportail:
+  source:
+    en: SCHAPI/INRAE, statistical notations for HydroPortail, V6, March 2022
+    fr: SCHAPI/INRAE, notations statistiques pour HydroPortail, V6, mars 2022
+    url: https://hydro.eaufrance.fr/documentation/notations-statistiques
+  # Ce que card CONSOMME. Leur `QJ` est la chronique des débits moyens
+  # journaliers, c'est-à-dire exactement l'entrée `Q` de card.
+  inputs:
+    Q: QJ
+  # Ce que card PRODUIT. Les fenêtres saisonnières de card (`_summer`,
+  # `_winter`) n'ont pas d'équivalent : leur extracteur est annuel, et une
+  # fenêtre partielle n'est pas dans leur grammaire.
+  variables:
+    QNA:     QJ-N            # minimums annuels des débits moyens journaliers
+    VCN3:    Q3J-N           # donné tel quel dans leur table, sigle VCN3
+    VCN10:   Q10J-N
+    VCN30:   Q30J-N
+    VCN10-5: Q10J-N(5)       # leur table donne Q3J-N(5) pour VCN3 (5)
+    VCN30-2: Q30J-N(2)
+    QMNA:    QM-N            # donné tel quel, sigle QMNA
+    QMNA-5:  QM-N(5)         # donné tel quel, sigle QMNA5
+    QJXA:    QJ-X
+    QJXA-10: QJ-X(10)        # donné tel quel, sigle QJX10
+    VCX3:    Q3J-X           # donné tel quel, sigle VCX3
+    VCX10:   Q10J-X
+    # Fréquence au NON dépassement en indice : `Q90` est dépassé 90 % du
+    # temps, donc non dépassé 10 %. Leur table donne `QJ0,5` pour le débit
+    # journalier médian, ce qui fixe la convention.
+    Q10:     QJ0,9
+    Q50:     QJ0,5
+    Q90:     QJ0,1
 
 # ── Familles de contrainte définies par card ──────────────────────────
 #

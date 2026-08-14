@@ -13,7 +13,7 @@ PY   := $(VENV)/python
 
 .DEFAULT_GOAL := help
 .PHONY: help deps check test schema lint catalogue skos serve site \
-        etat alignements classification
+        etat alignements classification arbre
 
 help:            ## liste des cibles
 	@grep -E '^[a-z-]+:.*##' $(MAKEFILE_LIST) | \
@@ -71,6 +71,11 @@ etat:            ## dernier tag, commits depuis, entrées non publiées
 
 alignements:     ## résout les URIs externes du .ttl (réseau, hors pytest)
 	$(PY) scripts/verifie_alignements.py
+
+# Un Turtle sort dans l'ordre alphabétique des URIs : la hiérarchie y est
+# invisible. `-d` descend, un argument limite à une branche.
+arbre:           ## docs/card.ttl en arbre, lisible par un humain
+	$(PY) scripts/arbre_skos.py
 
 classification:  ## santé des facettes, à lancer avant d'en toucher une
 	$(PY) scripts/analyse_classification.py

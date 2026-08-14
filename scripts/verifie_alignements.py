@@ -79,11 +79,19 @@ RESOLVEURS = {
 
 
 def uris(alignements):
-    """(où, uri, résolveur) pour chaque référence externe du fichier."""
+    """(où, uri, résolveur) pour chaque référence externe du fichier.
+
+    Les sections se PARCOURENT, elles ne se listent pas : une liste de
+    noms écrite en dur ici serait un lien que rien ne vérifie, et la
+    section suivante ajoutée au fichier passerait sous le radar sans que
+    rien ne rougisse. C'est arrivé au premier jet de `topics:`.
+    """
     prefixes = alignements["namespaces"]
     trouvees = []
-    for section in ("inputs", "statistic", "units"):
-        for cle, valeur in (alignements.get(section) or {}).items():
+    for section, contenu in alignements.items():
+        if section == "namespaces" or not isinstance(contenu, dict):
+            continue
+        for cle, valeur in contenu.items():
             for champ, brut in (valeur or {}).items():
                 if not isinstance(brut, str) or ":" not in brut:
                     continue

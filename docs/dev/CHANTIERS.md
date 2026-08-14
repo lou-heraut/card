@@ -76,14 +76,40 @@ La référence croisée est dans le dépôt depuis le 2026-08-05
   d'entrée à chaque exécution. Bonus, pas un manque : la garde de
   non-régression est `test_py_golden.py`, et elle tourne déjà.
 
-## Références bibliographiques externes dans les fiches
+## Références externes : la bibliographie, et les notations officielles
 
-Ancrer les fiches standardisées sur leurs références : identifiants
-climdex/ETCCDI (RCXA1 ↔ RX1day, RCXA5 ↔ RX5day, dtCDDA ↔ CDD,
-dtCWDA ↔ CWD...), libellés SANDRE/eaufrance (QMNA, VCNd, module).
-**À retravailler avec le système de biblio scientifique existant de
-l'utilisateur** (ne pas inventer un format de citation avant d'avoir
-vu le sien).
+Deux choses distinctes, longtemps confondues ici, et elles n'ont pas le
+même lieu.
+
+**La bibliographie** ancre une fiche standardisée sur son article :
+identifiants climdex/ETCCDI (RCXA1 ↔ RX1day, RCXA5 ↔ RX5day,
+dtCDDA ↔ CDD, dtCWDA ↔ CWD...). **À retravailler avec le système de
+biblio scientifique existant de l'utilisateur** (ne pas inventer un
+format de citation avant d'avoir vu le sien).
+
+**La notation officielle du SCHAPI est alignée depuis le 2026-08-14**,
+pour quinze variables et une grandeur d'entrée : ce qui reste ouvert
+n'est que son extension. Comment c'est fait, ce qui est écarté et
+pourquoi : `PLAN_THESAURUS.md`, section « La notation officielle
+française ».
+
+Ce qui pourrait encore s'y ajouter, et ce qu'il faudrait avant :
+
+- **`QA` et `mean-QA`**, qu'on a laissés de côté parce que leur
+  dictionnaire écrit « `QA` ou `Q-Moy` » quand leur liste écrit
+  `QJ-Annuel` pour la même idée, et que leur `Q` nu désigne
+  l'instantané. Deux écritures, aucune tranchée : à leur demander plutôt
+  qu'à deviner ;
+- **les réductions inter-annuelles** (`mediane-`, `delta-`, `alpha-`).
+  La forme `Variable(Opérateur)` existe chez eux, mais leur
+  documentation ne l'applique jamais à une variable déjà extraite. Même
+  remarque.
+
+Et une règle qui vaut pour toute extension : **rien ne se dérive**, la
+table s'écrit à la main. Décoder un nom de variable serait le piège
+d'`operator` en pire, les deux grammaires descendant du même Oberlin
+1992 et se ressemblant assez pour qu'une correspondance fausse passe
+inaperçue.
 
 ## Lint temps réel sous Emacs
 
