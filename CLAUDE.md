@@ -49,6 +49,11 @@ statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
 - docs/dev/`RETOURS_SCHAPI.md` : même rôle pour le SCHAPI, ce qu'on a
   relevé dans leur documentation et dans leur outil en alignant card sur
   la notation officielle. Brouillon, rien n'est envoyé, rien n'en dépend.
+- docs/dev/`PLAN_AUTOPORTANCE.md` : le CONTENU des concepts, arrêté le
+  2026-08-14 et **pas encore implémenté**. Doctrine (card se lit seul,
+  ne redéfinit pas le mètre, aligne fort), la mesure qui la justifie
+  (1 082 triplets suspendus à sept concepts étrangers sans libellé),
+  quatre lots, ce qui ne change pas, et les trois gardes.
 - **Écosystème R** : le front vit dans `../card4r/` (paquet mince qui
   APPELLE card, ne le réimplémente pas) ; les paquets historiques
   `../CARD-R/` et `../../EXstat_project/EXstat/` sont `superseded` et
@@ -378,6 +383,14 @@ rappelle :
 - Pas de tiret quadratin (—) dans la prose (docs, messages, commentaires,
   réponses) : reformuler (deux points, parenthèses, phrases séparées).
   Perçu comme un marqueur de texte IA, rebute des utilisateurices.
+- **Aucun néologisme, et chaque phrase doit se lire naturellement dans
+  les DEUX langues.** Un mot commode qui n'existe pas (« tendançable »,
+  proposé le 2026-08-14 pour une note de portée du thésaurus) passe
+  inaperçu dans un fil de discussion et entre ensuite dans un document
+  public. La règle vaut partout, et elle est stricte sur ce qui est
+  PUBLIÉ : libellés, définitions, notes de portée, catalogue, site. Ces
+  textes sont relus par l'utilisateur avant d'entrer, en une passe et
+  présentés en entier, jamais au fil de l'eau.
 - **Aucun nombre écrit à la main s'il vit ailleurs.** Nombre de fiches, de
   variables, de tests, de fonctions : la phrase reste, la valeur bouge, et
   la doc ment sans que rien ne rougisse. Le SEUL décompte du dépôt est

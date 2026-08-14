@@ -6,26 +6,15 @@
 
 # CHANTIERS : pistes ouvertes (mise à jour 2026-08-14)
 
-## Aucun concept de facette ne porte de définition (2026-08-14)
+## Rendre le thésaurus autoportant (plan arrêté le 2026-08-14)
 
-Mesuré sur `docs/card.ttl` avant de le montrer à quiconque : les 573
-concepts ont tous un `skos:prefLabel` dans les deux langues et aucun
-n'est orphelin, mais **les concepts qui portent l'arbre n'ont qu'une
-étiquette**. `basses eaux`, `débit de base`, `saisonnalité`, `par saison`
-n'ont ni `skos:definition` ni `skos:scopeNote`. Côté variables, 257 sur
-444 ont une définition, et c'est délibéré : une fiche ne remplit sa
-`description` que si son `name` ne dit pas déjà tout.
+Le vocabulaire nomme tout et ne définit presque rien, et 1 082 de ses
+triplets dépendent de sept concepts étrangers qui ne portent aucun
+libellé chez nous. **Le plan est arrêté, l'implémentation reste à
+faire** : quatre lots, ce qui ne doit pas changer, et les trois gardes
+qui empêcheront que ça se défasse.
 
-Ce qui manque tient en une quarantaine d'entrées, dans `topics.yaml` :
-4 grandeurs, 11 phénomènes, 5 aspects, 18 statistiques, 6 fenêtres,
-3 formes, 2 finalités. Le fichier ne porte aujourd'hui que `en` et `fr`,
-donc c'est un champ de plus et une phrase par entrée, relue.
-
-**Pourquoi ça presse un peu** : `QUESTIONS_THEIA.md` leur signale que
-`Summer period` et `Winter period` ne portent aucune définition chez eux.
-Leur envoyer cette remarque avec un vocabulaire dont aucun phénomène
-n'est défini serait une invitation à la retourner. Ce n'est pas un
-blocage, c'est une question de tenue.
+Tout est dans `PLAN_AUTOPORTANCE.md`, et rien n'en est recopié ici.
 
 ## Nom PyPI de card (PEP 541)
 

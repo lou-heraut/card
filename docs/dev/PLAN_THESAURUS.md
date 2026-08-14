@@ -12,6 +12,10 @@
 > La construction du site et de l'export, elle, est close :
 > `PLAN_SITE_SKOS.md` la garde, avec l'audit des vocabulaires qui reste
 > la référence du modèle.
+> **Le CONTENU des concepts, lui, a été rouvert le 2026-08-14** et vit
+> dans `PLAN_AUTOPORTANCE.md` : définitions, libellés des concepts
+> extérieurs, et fin de la dépendance à Theia pour la composition
+> I-ADOPT. La forme décrite ici n'est pas remise en cause.
 > À archiver quand la question sera tranchée et le vocabulaire publié.
 
 # Où vit le vocabulaire de card

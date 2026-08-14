@@ -63,6 +63,19 @@ des deux endroits.
 
 ## Non publié
 
+### Documentation
+
+- **Le vocabulaire sera autoportant, et le plan est écrit
+  (2026-08-14).** Mesuré juste après la 0.13.0 : 1 082 triplets de la
+  composition I-ADOPT dépendent de sept concepts de Theia, dont aucun ne
+  porte de libellé dans notre fichier, si bien qu'un lecteur voit
+  `theia:c_7742e5f0` là où il devrait lire « débit ». Et l'axe que
+  I-ADOPT invite à décrire ne distingue presque rien chez nous : quatre
+  objets d'intérêt et trois propriétés pour 444 variables, quand la
+  contrainte paramétrée en a 25. `docs/dev/PLAN_AUTOPORTANCE.md` porte
+  la doctrine, la mesure, quatre lots, ce qui ne doit PAS changer et les
+  trois gardes. Rien n'est implémenté.
+
 ## 0.13.0 (2026-08-14)
 
 Le vocabulaire prend sa forme définitive et devient montrable. Aucune
