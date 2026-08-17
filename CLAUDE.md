@@ -40,9 +40,10 @@ statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
 - docs/dev/`PLAN_THESAURUS.md` : la forme du vocabulaire, close depuis le
   2026-08-14, et pourquoi elle est celle-là. Porte la mesure de LEUR
   thésaurus faite sur le graphe entier, le point de jonction unique,
-  l'alignement HydroPortail, et **la liste de ce qui reste ouvert, en fin
-  de document et à un seul endroit**. **Rien n'est publié** tant que
-  Theia n'a pas répondu.
+  l'alignement HydroPortail, et **la liste de ce qui reste ouvert SUR LA
+  FORME, en fin de document et à un seul endroit**. Le CONTENU des
+  concepts est ailleurs, cf. `PLAN_AUTOPORTANCE.md`. **Rien n'est
+  publié** tant que Theia n'a pas répondu.
 - docs/dev/`QUESTIONS_THEIA.md` : ce qu'on leur demande, et rien
   d'autre. Brouillon, rien n'est envoyé, et **rien n'attend leur
   réponse** : aucune des questions ne bloque le reste.

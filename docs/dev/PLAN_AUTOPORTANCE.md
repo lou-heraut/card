@@ -162,6 +162,47 @@ débit se définissent les uns contre les autres, et c'est en les lisant à
 la suite qu'on voit que trois sont des périodes et que le débit de base
 est une composante.
 
+#### Ce que GEMET a de nos phénomènes, mesuré le 2026-08-14
+
+GEMET est le thésaurus environnemental de l'Agence européenne pour
+l'environnement : ancien, multilingue, et le plus susceptible de tenir
+nos notions. Interrogé concept par concept sur son service
+`eionet.europa.eu/gemet/getConceptsMatchingKeyword`. À ne pas refaire,
+et à ne pas deviner.
+
+| phénomène card | GEMET | libellé fr | définition |
+|---|---|---|---|
+| basses eaux | `concept/4922` | **étiage** | « Phase of lowest level of a water course », **en anglais seulement** |
+| périodes sèches | `concept/2347` | **sécheresse** | définie, en anglais seulement |
+| hautes eaux | `concept/3298` | **crue** | « unusual accumulation of water above the ground », voir ci-dessous |
+| neige | `concept/7769` | neige | |
+| débit de base, moyennes eaux, jours pluvieux, pluies fortes, précipitations moyennes, températures moyennes, demande évaporative | **rien** | | |
+
+Cherchés en vain, en plus : `baseflow`, `hydrological regime`,
+`dry period`, `heavy rainfall`, `streamflow`. GEMET a par ailleurs
+`runoff` (7340) et `evapotranspiration` (3022), qui ne sont pas des
+phénomènes chez nous.
+
+**Deux mises en garde qui valent plus que la table.**
+
+- **Leur `flood` n'est pas nos « hautes eaux ».** Ils définissent
+  l'inondation, l'eau accumulée au sol, qui est une conséquence. card
+  décrit un régime de débit. Poser un `closeMatch` y serait excessif :
+  `relatedMatch`, ou rien du tout, et la définition de card doit dire la
+  différence.
+- **Leurs définitions n'existent qu'en anglais**, alors que leurs
+  libellés sont bien multilingues. Même profil que Theia. C'est une
+  raison de plus d'écrire les nôtres plutôt que de pointer.
+
+Sept de nos onze phénomènes n'ont donc d'ancrage nulle part, et ce n'est
+pas un hasard : c'est ce qu'on écrit déjà à Theia, personne n'a commencé
+le domaine des régimes hydrologiques.
+
+**Une piste non explorée** : EarthPortal héberge d'autres vocabulaires et
+trouverait peut-être un ancrage pour le débit de base. Son API demande
+une clé gratuite liée à un compte (`earthportal.eu/account`), donc la
+recherche n'a pas pu être faite le 2026-08-14.
+
 Ne JAMAIS écrire dans une définition ce que la branche contient
 (« rassemble les indicateurs d'intensité et de durée ») : ça se dérive du
 corpus, donc ça mentira, et l'arbre le montre déjà.
