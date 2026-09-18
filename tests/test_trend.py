@@ -49,6 +49,28 @@ def test_trend_simplify_dataframe():
     assert set(tr["data"]["variable"]) == {"QA"}
 
 
+def test_trend_lets_the_point_count_through():
+    """`n` vient du moteur et doit traverser sans que card le connaisse.
+
+    Rien ne le garantit : `card.trend` ne sélectionne aucune colonne
+    aujourd'hui, mais une future mise en forme de la table ferait
+    disparaître la colonne en silence. Série TROUÉE, sans quoi `n`, le
+    nombre de lignes et l'étendue de la période coïncideraient et le
+    test ne prouverait rien.
+    """
+    daily = _daily()
+    daily.loc[daily["date"].dt.year.between(1995, 2002), "Q"] = np.nan
+    res = extract(daily, cards=["QA"], verbose=False)
+    df = trend(res, dependency="INDE")["data"]["QA"]
+
+    serie = res["data"]["QA"]["QA"]
+    n = int(df["n"].iloc[0])
+    assert n == int(serie.notna().sum())
+    assert n < len(serie)
+    span = df["period_end"].iloc[0].year - df["period_start"].iloc[0].year + 1
+    assert n < span
+
+
 def test_trend_requires_extract_result():
     with pytest.raises(TypeError, match="card.extract"):
         trend(pd.DataFrame({"x": [1.0]}))

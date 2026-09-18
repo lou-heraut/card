@@ -26,7 +26,7 @@ dependencies = [
     # en colonnes d'entrée) et 0.4.0 (suffixes résolus référence par
     # référence, sans quoi les fiches rp-* multi-seuils seraient
     # silencieusement fausses, et process_trend sans meta=).
-    "stase>=0.6.4",
+    "stase>=0.6.5",
     "numpy",
     "pandas>=2.0",
     "PyYAML",

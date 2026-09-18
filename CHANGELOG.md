@@ -63,6 +63,19 @@ des deux endroits.
 
 ## Non publié
 
+### Ajouté
+
+- **La tendance dit sur combien de points elle a porté (2026-09-18).**
+  La colonne `n` vient du moteur (`stase` 0.6.5, dont le journal porte
+  le détail et la raison) et traverse `card.trend` sans qu'aucun code
+  de card ne la connaisse, puisque rien n'y sélectionne de colonne.
+  C'est précisément pour cela qu'il fallait un test :
+  `tests/test_trend.py` le constate sur une série trouée, où `n` diffère
+  du nombre de lignes et de l'étendue de la période. Sans lui, une
+  future mise en forme de la table ferait disparaître la colonne en
+  silence. Le plancher du moteur passe à `stase>=0.6.5`, sans quoi la
+  contrainte mentirait.
+
 ### Documentation
 
 - **Le refus d'une fenêtre d'échantillonnage partielle est consigné
