@@ -151,6 +151,52 @@ et il tourne en mode normal.
   0, qui se lisait comme « aucun dépassement observé » au lieu de « rien
   d'observé ». Tests : `test_gap_robustness.py`.
 
+- **La fenêtre d'échantillonnage partielle ne s'écrase pas** (mesuré le
+  2026-09-18). CARD-R acceptait
+  `sampling_period_overwrite = c("02-01", "07-31")`, décrit dans sa
+  documentation comme « ne traiter que les dates entre le 1er février et
+  le 31 juillet de chaque année » (`CARD_process.R:152`). `card` refuse
+  cette forme : `extract(sampling_period=...)` n'accepte que
+  `"preferred"` ou une date `"MM-DD"`, et `_override_sampling` n'écrase
+  que les fenêtres ANNUELLES. Une fenêtre partielle `[début, fin]` fait
+  partie de la définition de la variable. Le moteur, lui, sait le faire :
+  `stase.extract` accepte le couple, c'est `card` qui trace la ligne.
+
+  **C'est une décision, pas une capacité perdue au portage**, et elle est
+  consignée ici parce que vue du dehors les deux se ressemblent : la
+  session qui a produit le plan de cache de `card-api` a d'abord classé
+  ce refus comme un manque du service, avant vérification.
+
+  Ce que la ligne sépare : déplacer le DÉPART d'année change le
+  résultat, parfois beaucoup, mais on parle toujours de la même
+  variable ; imposer une sous-période change la variable elle-même,
+  sans que rien dans la fiche ne le dise. Mesuré sur les 228 chroniques
+  du RRSE, 1968 à 2024, avec une fenêtre février-juillet imposée à
+  toutes les fiches :
+
+  - 87,6 % des étiages annuels du RRSE tombent hors de cette fenêtre
+    (36,2 % en septembre, 28,7 % en août, 15,0 % en octobre) ;
+  - la valeur encore appelée `VCN10` devient en moyenne 1,61 fois plus
+    haute (médiane 1,51, de 0,66 à 3,64) sur 226 stations ;
+  - 23 % des stations changent de verdict de stationnarité ;
+  - et le nom, la description et la palette continuent de dire
+    « étiage ».
+
+  À comparer au simple déplacement du départ d'année, que `card`
+  autorise : `QA` voit 15,4 % des verdicts basculer et 3,5 % des signes,
+  `tQJXA` 15,4 % et 32,0 % des signes, parce que c'est une date, donc une
+  variable circulaire dont le signe dépend du point de coupe. `VCN10` ne
+  bouge pas, sa fenêtre préférée étant déjà le 01-01, ce qui sert de
+  contrôle.
+
+  Méthode et détail : `AUDIT.md` section 5 de `MAKAHO-next`,
+  reproductible par son `scripts/mesure_sampling.py`.
+
+  Conséquence, à titre d'illustration : le mode « échantillon » de
+  MAKAHO disparaît de son interface. Si une sous-période a un sens
+  hydrologique, elle devient **une fiche**, avec son nom, sa description
+  et son SWHID.
+
 ## Noms hérités du R
 
 L'API canonique est `card.extract`, `card.list_cards`, `card.info`,

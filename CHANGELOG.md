@@ -63,6 +63,19 @@ des deux endroits.
 
 ## Non publié
 
+### Documentation
+
+- **Le refus d'une fenêtre d'échantillonnage partielle est consigné
+  (2026-09-18).** CARD-R acceptait une sous-période annuelle
+  (`sampling_period_overwrite`), card ne l'accepte pas, et le moteur en
+  est capable : vu du dehors, la décision ressemble donc à une capacité
+  perdue au portage, et quelqu'un finirait par rouvrir la porte pour
+  rendre service. La règle, sa raison et sa mesure sur les 228
+  chroniques du RRSE sont maintenant dans la section « Divergences
+  assumées avec le R » de `docs/dev/ORIGINE_R.md`. En deux mots :
+  déplacer le départ d'année change le résultat mais garde la variable,
+  imposer une sous-période change la variable sans que la fiche le dise.
+
 ## 0.13.1 (2026-09-18)
 
 ### Corrigé
