@@ -63,6 +63,24 @@ des deux endroits.
 
 ## Non publié
 
+## 0.13.1 (2026-09-18)
+
+### Corrigé
+
+- **La fenêtre adaptative se calculait sur des données hors période
+  (2026-09-18).** Le défaut est dans le moteur et la correction aussi
+  (`stase` 0.6.4, dont le journal porte le détail et la mesure), mais il
+  traversait card : sur les fiches à fenêtre d'échantillonnage
+  adaptative, `extract(default_period=...)` choisissait le mois de départ
+  de l'année hydrologique d'après la chronique ENTIÈRE, donc d'après des
+  données que personne n'avait demandées ; et une série dont une lacune
+  dépasse `max_na_years` le choisissait d'après la portion écartée, sans
+  qu'aucune période soit en jeu. Le plancher du moteur passe à
+  `stase>=0.6.4`, sans quoi la contrainte mentirait.
+
+  Aucun test de card ne passait de période à `extract`, donc aucun golden
+  ne bouge : c'est le moteur qui porte les deux tests de non-régression.
+
 ### Documentation
 
 - **Le vocabulaire sera autoportant, et le plan est écrit

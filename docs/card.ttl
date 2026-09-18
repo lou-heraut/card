@@ -14807,7 +14807,7 @@ card: a skos:ConceptScheme ;
     dcterms:language "en",
         "fr" ;
     dcterms:license <https://www.etalab.gouv.fr/licence-ouverte-open-licence> ;
-    dcterms:modified "2026-08-14" ;
+    dcterms:modified "2026-09-18" ;
     dcterms:publisher "INRAE, UR RiverLy" ;
     dcterms:rights "Licence Ouverte 2.0 (Etalab), compatible CC-BY 4.0"@en,
         "Licence Ouverte 2.0 (Etalab), compatible CC-BY 4.0"@fr ;
@@ -14815,7 +14815,7 @@ card: a skos:ConceptScheme ;
         "card : définitions de variables hydroclimatiques"@fr ;
     vann:preferredNamespacePrefix "card" ;
     vann:preferredNamespaceUri "https://example.invalid/card/" ;
-    owl:versionInfo "0.13.0" ;
+    owl:versionInfo "0.13.1" ;
     skos:hasTopConcept <https://example.invalid/card/domain/evapotranspiration>,
         <https://example.invalid/card/domain/flow>,
         <https://example.invalid/card/domain/precipitation>,
