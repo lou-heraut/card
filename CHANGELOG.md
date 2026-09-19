@@ -63,6 +63,8 @@ des deux endroits.
 
 ## Non publié
 
+## 0.13.2 (2026-09-19)
+
 ### Ajouté
 
 - **La tendance dit sur combien de points elle a porté (2026-09-18).**
