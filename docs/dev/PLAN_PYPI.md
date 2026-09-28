@@ -1,8 +1,9 @@
-> **Statut : plan en cours, le contact est pris.** Réclamer le nom `card`
+> **Statut : demande déposée, on attend PyPI.** Réclamer le nom `card`
 > sur PyPI, occupé depuis 2019 par une réservation vide. Le courriel et
-> l'issue sont partis le 2026-08-06 ; la demande PEP 541 peut suivre à
-> partir du 2026-09-06. Contient les preuves mesurées et les textes. Les
-> dates vivent ici, et nulle part ailleurs.
+> l'issue sont partis le 2026-08-06, sans réponse ; la demande PEP 541 est
+> partie le 2026-09-28 : https://github.com/pypi/support/issues/12459.
+> Contient les preuves mesurées et les textes. Les dates vivent ici, et
+> nulle part ailleurs.
 > À supprimer une fois le nom obtenu ou la demande refusée.
 
 # Réclamer `card` sur PyPI (PEP 541)
@@ -45,7 +46,7 @@ fait donc sérieusement, et publiquement pour qu'elle soit montrable.
 |---|---|---|---|
 | 1 | courriel au propriétaire | `longniao@gmail.com` | **envoyé le 2026-08-06** |
 | 2 | issue publique, trace horodatée | `github.com/pipname/card/issues` | **ouverte le 2026-08-06** |
-| 3 | demande PEP 541 | `github.com/pypi/support/issues/new/choose`, modèle de demande de nom de projet | **à partir du 2026-09-06** |
+| 3 | demande PEP 541 | `github.com/pypi/support/issues/new/choose`, modèle de demande de nom de projet | **envoyée le 2026-09-28**, [pypi/support#12459](https://github.com/pypi/support/issues/12459), compte PyPI `lou-heraut` |
 
 Entre 2 et 3, **attendre un mois**. Ce délai n'est pas une politesse : il
 rend la demande inattaquable, personne ne pouvant dire que le
@@ -54,6 +55,10 @@ propriétaire n'a pas eu sa chance.
 **Le délai court depuis le 2026-08-06**, donc la demande PEP 541 peut
 partir à partir du **2026-09-06**. Si une réponse arrive d'ici là, elle
 change tout : ce plan s'arrête et le nom de repli reste.
+
+Aucune réponse au 2026-09-28, ni par courriel ni sur l'issue : la demande
+est partie ce jour-là. Le label `PEP 541` du modèle n'a pas pu être posé
+(pas de droits sur leur dépôt) ; leurs modérateurs l'ajoutent au tri.
 
 Compter ensuite plusieurs mois de traitement. Rien ne presse : `card-stase`
 fonctionne, et le nom d'import est déjà `card`.

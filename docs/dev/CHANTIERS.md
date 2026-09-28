@@ -23,9 +23,10 @@ Le nom `card` sur PyPI est occupé par une réservation VIDE : mesuré le
 `pip install card` n'installe rien. C'est le motif le plus solide de
 PEP 541, celui du projet invalide.
 
-**En attente d'action de l'utilisateur.** Les preuves, les trois textes
-à envoyer et les dates d'envoi vivent dans `PLAN_PYPI.md`, qui est le
-seul endroit qui les porte.
+**En attente des administrateurs de PyPI** : les trois étapes sont
+faites, il n'y a plus qu'à attendre leur réponse. Les preuves, les textes,
+les dates d'envoi et le lien de la demande vivent dans `PLAN_PYPI.md`,
+qui est le seul endroit qui les porte.
 
 Ne rien publier sur PyPI tant que la demande n'est pas tranchée :
 `card-stase` reste le nom de repli du `pyproject.toml`, et l'import est
