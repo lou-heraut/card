@@ -4,7 +4,14 @@
 > expliquant le détail. Les sections portent des titres et non des
 > numéros : le registre bouge, un numéro ne se cite pas durablement.
 
-# CHANTIERS : pistes ouvertes (mise à jour 2026-08-14)
+# CHANTIERS : pistes ouvertes (mise à jour 2026-11-06)
+
+## Aligner les dépôts sur une même hygiène de projet (2026-11-06)
+
+Campagne commune à card, stase, card4r et card-api : ce registre deviendra
+`ROADMAP.md` à la racine, `docs/dev/` deviendra `dev/`, les plans seront
+datés. Plan, décisions et état par dépôt :
+`dev/plans/2026-11-06_layout-alignment.md`. card passe en dernier.
 
 ## Rendre le thésaurus autoportant (plan arrêté le 2026-08-14)
 

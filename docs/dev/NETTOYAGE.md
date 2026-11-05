@@ -263,7 +263,15 @@ VÉRIFIER la cohérence :
 
 ## Campagne en cours
 
-**Aucune.** La dernière a couru du 2026-07-21 au 2026-08-05 et a coché
+**Une, ouverte le 2026-11-06 : aligner les quatre dépôts sur une même
+hygiène de projet.** Son plan et son état vivent dans
+`dev/plans/2026-11-06_layout-alignment.md`, à la racine de card, et nulle
+part ailleurs. Elle remplace la structure décrite ici (`docs/dev/`,
+`archive/`) par une autre, et ce document prendra sa retraite à la fin de
+la campagne, une fois reporté ce qu'il est seul à porter (le plan en
+tient la liste).
+
+La précédente a couru du 2026-07-21 au 2026-08-05 et a coché
 ses six phases : carte des rôles, historiques archivés, CLAUDE.md
 élagués, README à exemples exécutés, métadonnées à placeholder relues,
 landing tranchée, conventions et renvois croisés appliqués aux quatre
