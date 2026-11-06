@@ -1,4 +1,4 @@
-> **Statut : archive, rangée le 2026-08-06. Non maintenue.**
+> **Statut : terminé le 2026-08-06. Non maintenu.**
 >
 > Ce plan a conduit le sort de l'écosystème R, du 2026-08-05 au
 > 2026-08-06. **Ses quatre chantiers sont sortis** : le `Package:` de

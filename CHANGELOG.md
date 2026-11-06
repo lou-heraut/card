@@ -63,6 +63,23 @@ des deux endroits.
 
 ## Non publié
 
+### Documentation
+
+- **Les documents de développement prennent la structure commune aux
+  dépôts de l'écosystème (2026-11-06).** `docs/dev/` sort du dossier du
+  site et devient `dev/`, avec des noms en anglais ; le registre devient
+  `ROADMAP.md` à la racine ; les plans et l'ancienne archive deviennent
+  des plans datés (`dev/plans/`), l'audit des fiches un audit daté
+  (`dev/audits/`), la publication d'Oberlin une référence
+  (`dev/references/`). `NETTOYAGE.md` devient le plan terminé du ménage de
+  juillet, et ses principes passent dans un nouveau `dev/decisions.md`,
+  avec le cadrage des fiches à placeholder. Trois renvois à des numéros de
+  section abandonnés en juillet visent maintenant ce qu'ils voulaient
+  dire, dont le message d'erreur d'un placeholder sans `suffix_default`.
+  Les liens du README vers les normes suivent les fichiers ; ceux d'une
+  page déjà publiée ailleurs pointent vers les anciens chemins. Campagne :
+  `dev/plans/2026-11-06_layout-alignment.md`.
+
 ## 0.13.2 (2026-09-19)
 
 ### Ajouté

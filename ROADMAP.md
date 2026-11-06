@@ -1,17 +1,18 @@
-> **Statut : registre vivant.** Ce fichier ne contient que des pistes
-> **ouvertes**. Un chantier livré en sort et devient une entrée de
-> `CHANGELOG.md`, à la racine du dépôt, qui renvoie au document
-> expliquant le détail. Les sections portent des titres et non des
-> numéros : le registre bouge, un numéro ne se cite pas durablement.
+> **Statut : ce qui reste à faire, et seulement cela,** pour le corpus de
+> fiches : le moteur a sa feuille de route dans stase, le service dans
+> card-api. Ce qui est fait en sort et devient une entrée de
+> `CHANGELOG.md`, qui renvoie au document expliquant le détail. Un point
+> devenu trop lourd ouvre un plan daté dans `dev/plans/`, vers lequel ce
+> fichier renvoie tant qu'il est en cours. Les sections portent des titres
+> et non des numéros : un numéro ne se cite pas durablement.
 
-# CHANTIERS : pistes ouvertes (mise à jour 2026-11-06)
+# Feuille de route de card (mise à jour 2026-11-06)
 
 ## Aligner les dépôts sur une même hygiène de projet (2026-11-06)
 
-Campagne commune à card, stase, card4r et card-api : ce registre deviendra
-`ROADMAP.md` à la racine, `docs/dev/` deviendra `dev/`, les plans seront
-datés. Plan, décisions et état par dépôt :
-`dev/plans/2026-11-06_layout-alignment.md`. card passe en dernier.
+Campagne commune à card, stase, card4r et card-api : plan, décisions et
+état par dépôt dans `dev/plans/2026-11-06_layout-alignment.md`, et nulle
+part ailleurs.
 
 ## Rendre le thésaurus autoportant (plan arrêté le 2026-08-14)
 
@@ -21,7 +22,7 @@ libellé chez nous. **Le plan est arrêté, l'implémentation reste à
 faire** : quatre lots, ce qui ne doit pas changer, et les trois gardes
 qui empêcheront que ça se défasse.
 
-Tout est dans `PLAN_AUTOPORTANCE.md`, et rien n'en est recopié ici.
+Tout est dans `dev/plans/2026-08-14_self-sufficiency.md`, et rien n'en est recopié ici.
 
 ## Nom PyPI de card (PEP 541)
 
@@ -32,7 +33,7 @@ PEP 541, celui du projet invalide.
 
 **En attente des administrateurs de PyPI** : les trois étapes sont
 faites, il n'y a plus qu'à attendre leur réponse. Les preuves, les textes,
-les dates d'envoi et le lien de la demande vivent dans `PLAN_PYPI.md`,
+les dates d'envoi et le lien de la demande vivent dans `dev/plans/2026-08-06_pypi-name.md`,
 qui est le seul endroit qui les porte.
 
 Ne rien publier sur PyPI tant que la demande n'est pas tranchée :
@@ -67,7 +68,7 @@ d'accord par l'unité.
 Des fiches plantent dans le paquet R lui-même, donc sans référence
 croisée possible. Le signalement en amont est devenu actionnable le
 2026-07-22, la cause étant diagnostiquée : **lesquelles, et pourquoi, se
-lisent dans `ORIGINE_R.md`** (deux familles, dont l'une est un
+lisent dans `dev/r-origin.md`** (deux familles, dont l'une est un
 `summarise` que dplyr a durci sous des fiches qui fonctionnaient).
 
 Ce qui reste à faire, et qui n'est écrit qu'ici :
@@ -82,7 +83,7 @@ Ce qui reste à faire, et qui n'est écrit qu'ici :
 ## Référence R gelée : deux pistes optionnelles
 
 La référence croisée est dans le dépôt depuis le 2026-08-05
-(`ORIGINE_R.md`). Deux choses restent possibles, aucune nécessaire.
+(`dev/r-origin.md`). Deux choses restent possibles, aucune nécessaire.
 
 - **La porter de 206 à 217 fiches.** Onze fiches ne tournent plus dans le
   paquet R avec dplyr >= 1.1, donc la référence gelée ne les couvre pas.
@@ -108,7 +109,7 @@ format de citation avant d'avoir vu le sien).
 **La notation officielle du SCHAPI est alignée depuis le 2026-08-14**,
 pour quinze variables et une grandeur d'entrée. Comment c'est fait, ce
 qui est écarté et pourquoi, et les deux correspondances laissées de côté
-faute d'une décision de leur part : `PLAN_THESAURUS.md`, sections « La
+faute d'une décision de leur part : `dev/plans/2026-08-14_thesaurus.md`, sections « La
 notation officielle française » et « Ce qui reste ouvert ». Rien n'est
 recopié ici.
 
@@ -144,7 +145,7 @@ n'ont pas pu être tranchés faute d'information :
 `RA-mean` règle trois colonnes intermédiaires, et c'est proportionné.
 Mais Oberlin n'a pas de case pour la moyenne temporelle d'une pluie :
 pour lui ce n'est pas une variate, la position 3 vide valant « totale »
-(cf. `NOMENCLATURE.md`). Le jour où une telle moyenne devient une
+(cf. `dev/nomenclature.md`). Le jour où une telle moyenne devient une
 sortie publiée, il faudra un jeton de position 3 plutôt qu'un suffixe de
 variante, donc une extension du système et non un contournement.
 
@@ -158,7 +159,7 @@ qu'aucun test de fiche n'exerce. À trancher avec le sort du portage.
 
 Leur voisine `difference_longest_run`, elle, a été retirée le 2026-08-03 :
 créée par symétrie le 2026-07-31, aucune fiche ne l'a jamais employée
-(cf. `RENAMING.md`).
+(cf. `dev/renaming.md`).
 
 ## `meta.sampling_period` : prose d'un côté, littéral Python de l'autre
 
@@ -218,7 +219,7 @@ Les trois sorties possibles, aucune satisfaisante en l'état :
 
 **Ce qui est déjà tranché** : c'est une propriété d'**affichage**, pas de
 sens. Elle ne peut donc pas fonder un alignement sémantique, et
-`PLAN_SITE_SKOS.md` l'écarte explicitement de l'export SKOS.
+`dev/plans/2026-08-11_site-skos.md` l'écarte explicitement de l'export SKOS.
 
 ## Raffiner `method` par étape, en plus de la classification (2026-08-12)
 
@@ -243,7 +244,7 @@ possibles :
 - ou l'entrée de `method` qui devient une table,
   `{statistic: mean, text: "..."}`, plus juste mais imposant une
   migration de format sur les 856 entrées, alors que `method` vient
-  d'être refondu (`archive/PLAN_METHOD.md`).
+  d'être refondu (`dev/plans/2026-08-03_method-field.md`).
 
 Le vocabulaire, lui, serait le même : celui de la facette `statistic`.
 Donc rien de ce travail n'est perdu si on s'y met plus tard.
@@ -255,7 +256,7 @@ chaîner une mesure statistique à une autre, ce qui écrirait « minimum
 annuel d'une moyenne sur 10 jours » d'un seul tenant. Ce qui manque pour
 le faire est exactement cette piste : la statistique de l'étape
 INTERMÉDIAIRE. La deviner voudrait dire lire un nom de fonction, c'est
-le piège d'`operator`. Détail et forme visée : `PLAN_SITE_SKOS.md`,
+le piège d'`operator`. Détail et forme visée : `dev/plans/2026-08-11_site-skos.md`,
 section « Deux choses arrêtées en chemin ».
 
 ## Revue de code du package (lisibilité, dé-boîte-noire)
@@ -279,20 +280,15 @@ Le besoin s'est concrétisé le 2026-08-11 : ces deux pistes sont sorties du
 registre et ont leur propre plan. **Les deux sont livrées en 0.12.0**, et
 il en reste deux publications, chacune dans son document :
 
-- `PLAN_SITE_SKOS.md` : ce qui a été construit, l'audit des vocabulaires
+- `dev/plans/2026-08-11_site-skos.md` : ce qui a été construit, l'audit des vocabulaires
   qui reste la référence du modèle, et les trois bascules du jour où le
   site part en ligne ;
-- `PLAN_THESAURUS.md` : la question restée ouverte, à côté de
+- `dev/plans/2026-08-14_thesaurus.md` : la question restée ouverte, à côté de
   Theia/OZCAR ou dedans, avec la mesure de leur thésaurus et ce qu'il
   faut leur demander.
 
-Ne rien noter ici de ce qui les regarde.
-
-Ce qui restait écrit ici et qui n'est pas dans le plan, parce que ça
-concerne le service et non le corpus : card-api pourrait exposer un
-`GET /v1/concepts` renvoyant vers les URIs des concepts. C'est un renvoi,
-pas une source : la vérité reste dans `src/card/topics.yaml` et dans les
-blocs `classification` des fiches.
+Ne rien noter ici de ce qui les regarde. La piste d'un `GET /v1/concepts`
+côté service vit dans les décisions de card-api.
 
 ## Unités machine-lisibles (UCUM) (différé)
 
@@ -326,7 +322,7 @@ CORPUS : chaque ligne est une fiche possible, aucune n'est décidée.
 L'intérêt du repère est que le SCHAPI fixe en partie la pratique
 française, donc une absence ici est une absence que des utilisateurs
 verront. Ce qui a été relevé dans LEUR documentation est ailleurs :
-`RETOURS_SCHAPI.md`.
+`dev/schapi-feedback.md`.
 
 **Sept absences qui ont un sens hydrologique clair.**
 
@@ -419,7 +415,7 @@ confirme :
 ## Palettes : questions ouvertes (2026-07-18)
 
 État : les fiches à grandeur non ambiguë sont toutes équipées (héritage
-de la fiche mère ; voir RENAMING.md 2026-07-18 pour l'orientation ETP).
+de la fiche mère ; voir dev/renaming.md 2026-07-18 pour l'orientation ETP).
 Quatre palettes sémantiques en usage : marron vers vert (quantités
 d'eau), bleu vers rouge (température), violet vers orange (dates et
 durées de crue), vert vers marron (durées et volumes d'étiage, ETP :

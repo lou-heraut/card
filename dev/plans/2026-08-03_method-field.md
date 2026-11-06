@@ -1,4 +1,4 @@
-> **Statut : document d'époque, archivé le 2026-08-04. Non maintenu.**
+> **Statut : terminé le 2026-08-04. Non maintenu.**
 >
 > Ce plan a conduit la refonte du champ `method` des fiches, du
 > 2026-08-01 au 2026-08-04. **Tous ses lots sont sortis** sauf le lot E,
@@ -8,7 +8,7 @@
 >
 > **Ne pas y chercher l'état courant.** Ce qui a été livré se lit dans
 > `CHANGELOG.md`, les règles en vigueur dans `CLAUDE.md` et
-> `NOMENCLATURE.md`, ce qui reste ouvert dans `CHANTIERS.md`. Les mesures
+> `dev/nomenclature.md`, ce qui reste ouvert dans `ROADMAP.md`. Les mesures
 > chiffrées qu'il contient datent du corpus de début août 2026 et n'ont
 > pas été retenues à jour.
 

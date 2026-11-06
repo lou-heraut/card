@@ -1,8 +1,8 @@
-> **Statut : archive.** Document d'époque, non maintenu, conservé pour
-> retracer la refonte R vers Python (phases A à D, toutes terminées le
-> 2026-07-12). Ce qui en reste vivant a été ré-hébergé : les principes de
-> la conversion dans `../ORIGINE_R.md`, le plan PEP 541 dans
-> `../CHANTIERS.md`. Journal daté des livraisons : `CHANGELOG.md` à la
+> **Statut : terminé le 2026-07-12.** Document d'époque, non maintenu,
+> conservé pour retracer la refonte R vers Python (phases A à D). Ce qui
+> en reste vivant a été ré-hébergé : les principes de la conversion dans
+> `dev/r-origin.md`, le plan PEP 541 dans
+> `dev/plans/2026-08-06_pypi-name.md`. Journal daté des livraisons : `CHANGELOG.md` à la
 > racine du dépôt.
 
 # ROADMAP : refonte card / stase (clarifiée avec l'utilisateur le 2026-07-11)

@@ -250,7 +250,7 @@ même module ; seuil -> période de retour, lois log-normale et Gumbel).
 ## Suffixes de scénario et métadonnées évolutives : 2026-07-20
 
 Ajout de capacité, sans rupture de sortie : conception complète dans
-`ROADMAP.md` §9.
+la docstring de `src/card/suffix.py`.
 
 `card.extract` gagne **suffix=** et **suffix_delimiter=** (mêmes noms
 qu'en R et que dans `stase.trend`, une seule grammaire) : une même fiche

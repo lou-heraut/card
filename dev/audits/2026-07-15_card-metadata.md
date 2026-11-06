@@ -1,8 +1,7 @@
-> **Statut : archive.** Document d'époque, non maintenu, conservé pour
-> retracer les constats et les arbitrages de l'audit des métadonnées.
-> Tous appliqués le 2026-07-15. La norme en vigueur est
-> `../NOMENCLATURE.md` ; les renommages de sorties sont tracés dans
-> `../RENAMING.md`.
+> **Statut : audit du 2026-07-15, figé.** Conservé pour retracer les
+> constats et les arbitrages de l'audit des métadonnées, tous appliqués
+> le jour même. La norme en vigueur est `dev/nomenclature.md` ; les
+> renommages de sorties sont tracés dans `dev/renaming.md`.
 
 # AUDIT_FICHES : Noms et métadonnées des fiches (2026-07-13)
 

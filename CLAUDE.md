@@ -10,55 +10,43 @@ packages R `CARD`/`EXstat` ; les repos R (`../CARD-R/`,
 `EXstat_project/EXstat/`) sont en maintenance, référence de validation
 uniquement, sans fichiers IA. Port validé R↔Python sur le corpus entier ;
 la mesure, sa date et les divergences résiduelles sont dans
-`docs/dev/ORIGINE_R.md`.
+`dev/r-origin.md`.
 
-Où lire quoi. Un rôle par fichier, chacun l'annonce dans un bandeau de
-statut en tête ; ne jamais recopier d'un fichier à l'autre, renvoyer.
-- `CHANGELOG.md` (racine) : ce qui a changé, quand, et où lire le détail.
-- docs/dev/, normes en vigueur : `NOMENCLATURE.md` (nommage, règles
-  R1-R7, Oberlin), `TOPICS.md` (classification à facettes),
-  `RENAMING.md` (noms R vers Python, et sorties modifiées
-  volontairement), `ORIGINE_R.md` (origine, validation croisée,
-  divergences assumées).
-- docs/dev/`CHANTIERS.md` : pistes ouvertes seulement.
-- docs/dev/archive/ : documents d'époque, non maintenus (`ROADMAP.md`,
-  `AUDIT_FICHES.md`, `PLAN_METHOD.md`, `PLAN_R.md`). On y va pour
-  comprendre POURQUOI une décision a été prise, jamais pour savoir où en
-  est le corpus.
-- docs/dev/`NETTOYAGE.md` : la procédure du ménage documentaire de
-  l'écosystème, à rejouer quand il le faut ; sa section « Campagne en
-  cours » est le seul endroit qui dise où en est chaque phase, et elle
-  dit aujourd'hui qu'aucune n'est ouverte.
-- docs/dev/`PLAN_PYPI.md` : réclamation du nom `card` sur PyPI, preuves
-  et dates d'envoi.
-- docs/dev/`PLAN_SITE_SKOS.md` : le site de documentation et l'export
-  SKOS, **construits et livrés en 0.12.0**, publication exceptée. Reste
-  la référence du MODÈLE : l'audit des vocabulaires (ce que SKOS,
-  I-ADOPT, CPM, CF, QUDT et OWL-Time savent dire, et ce que card publie
-  avec chacun) n'est écrit que là. Porte aussi les trois bascules du jour
-  de la publication du site.
-- docs/dev/`PLAN_THESAURUS.md` : la forme du vocabulaire, close depuis le
-  2026-08-14, et pourquoi elle est celle-là. Porte la mesure de LEUR
-  thésaurus faite sur le graphe entier, le point de jonction unique,
-  l'alignement HydroPortail, et **la liste de ce qui reste ouvert SUR LA
-  FORME, en fin de document et à un seul endroit**. Le CONTENU des
-  concepts est ailleurs, cf. `PLAN_AUTOPORTANCE.md`. **Rien n'est
-  publié** tant que Theia n'a pas répondu.
-- docs/dev/`QUESTIONS_THEIA.md` : ce qu'on leur demande, et rien
-  d'autre. Brouillon, rien n'est envoyé, et **rien n'attend leur
-  réponse** : aucune des questions ne bloque le reste.
-- docs/dev/`RETOURS_SCHAPI.md` : même rôle pour le SCHAPI, ce qu'on a
-  relevé dans leur documentation et dans leur outil en alignant card sur
-  la notation officielle. Brouillon, rien n'est envoyé, rien n'en dépend.
-- docs/dev/`PLAN_AUTOPORTANCE.md` : le CONTENU des concepts, arrêté le
-  2026-08-14 et **pas encore implémenté**. Doctrine (card se lit seul,
-  ne redéfinit pas le mètre, aligne fort), la mesure qui la justifie
-  (1 082 triplets suspendus à sept concepts étrangers sans libellé),
-  quatre lots, ce qui ne change pas, et les trois gardes.
+## Où lire quoi
+
+Un rôle par fichier, chacun l'annonce dans un bandeau de statut en tête ;
+ne jamais recopier d'un fichier à l'autre, renvoyer.
+
+- `README.md` : vitrine et parcours d'usage. `docs/` : le site publié
+  (mkdocs) et les catalogues générés.
+- `ROADMAP.md` : ce qui reste à faire, y compris ce qui attend une action
+  de l'utilisateur.
+- `CHANGELOG.md` : ce qui a été fait, quand, et où lire le détail ; la
+  doctrine des versions est en tête.
+- `dev/decisions.md` : les repères du dépôt avec leur date et leur raison
+  (principes documentaires, cadrage des placeholders, et ce qu'a coûté le
+  silence d'une fiche).
+- Normes en vigueur : `dev/nomenclature.md` (nommage, règles R1-R7,
+  Oberlin), `dev/topics.md` (classification à facettes),
+  `dev/renaming.md` (noms R vers Python, et sorties modifiées
+  volontairement), `dev/r-origin.md` (origine, validation croisée,
+  divergences assumées). La source d'Oberlin est dans `dev/references/`.
+- `dev/plans/` : les plans datés, chacun avec son état en tête. Deux
+  portent seuls une matière de référence : `2026-08-11_site-skos.md`
+  (l'audit des vocabulaires, référence du MODÈLE) et
+  `2026-08-14_thesaurus.md` (la forme du vocabulaire, et ce qui reste
+  ouvert sur elle) ; `2026-08-14_self-sufficiency.md` en porte le
+  contenu, arrêté et pas encore implémenté. **Rien n'est publié** tant
+  que Theia n'a pas répondu. Les plans terminés servent à comprendre
+  POURQUOI une décision a été prise, jamais à savoir où en est le corpus.
+- `dev/audits/` : états des lieux datés, figés.
+- `dev/theia-questions.md`, `dev/schapi-feedback.md` : brouillons de
+  courrier, rien n'est envoyé et rien n'en dépend.
 - **Écosystème R** : le front vit dans `../card4r/` (paquet mince qui
   APPELLE card, ne le réimplémente pas) ; les paquets historiques
   `../CARD-R/` et `../../EXstat_project/EXstat/` sont `superseded` et
-  restent **sans fichiers IA**. Pourquoi ces choix : `archive/PLAN_R.md`.
+  restent **sans fichiers IA**. Pourquoi ces choix :
+  `dev/plans/2026-08-05_r-ecosystem.md`.
 
 ## Structure
 
@@ -108,7 +96,7 @@ src/card/
   schema.py      # linter : python -m card.schema ; vocabulary() public
   topics.yaml    # vocabulaire de contrôle : la CLÉ est un slug neutre,
                  #   `en` et `fr` sont deux étiquettes à égalité ; le slug
-                 #   nomme aussi le dossier (cf. docs/dev/TOPICS.md)
+                 #   nomme aussi le dossier (cf. dev/topics.md)
   inputs.yaml    # unités/définitions des variables d'entrée (invariants)
   alignments.yaml # ce que les fiches ne peuvent PAS dire : correspondances
                  #   vers les vocabulaires externes (Theia/OZCAR, QUDT, CF,
@@ -133,7 +121,7 @@ scripts/generate_catalog.py   # QUATRE sorties, relancer après toute modif :
 scripts/generate_skos.py      # docs/card.ttl : le corpus en SKOS, I-ADOPT,
                               #   CPM, QUDT, OWL-Time et ISO 25964. Base
                               #   d'URI PROVISOIRE et fausse : rien n'est
-                              #   publié, cf. PLAN_THESAURUS.md. L'arbre va
+                              #   publié, cf. dev/plans/2026-08-14_thesaurus.md. L'arbre va
                               #   de la grandeur au phénomène puis à la
                               #   variable ; une FAMILLE n'est pas dans cette
                               #   chaîne, c'est un `isothes:ThesaurusArray`,
@@ -178,7 +166,7 @@ push, ce qui est arrivé du 2026-07-21 au 2026-07-22.
 ## Format d'une fiche
 
 ```yaml
-id: QA                      # = nom de fichier ; grammaire NOMENCLATURE.md
+id: QA                      # = nom de fichier ; grammaire dev/nomenclature.md
 version: "2.0"              # bump majeur si les SORTIES changent,
                             # mineur si method/description, patch sinon
 authors: ["Louis Héraut (INRAE, UR RiverLy)"]
@@ -245,7 +233,7 @@ deux niveaux ne sont pas un doublon, c'est le service rendu.
 > dite à un lecteur. Erreur commise trois fois pendant le chantier
 > `method` d'août 2026, corrigée trois fois par l'utilisateur.
 
-Règles clés (détail : NOMENCLATURE.md) :
+Règles clés (détail : dev/nomenclature.md) :
 - **func** : résolution card.functions puis numpy (nanmean, nanargmax,
   delta, return_level, apply_threshold...) ; kwarg dont la valeur est
   une variable amont ({lim: upLim}) résolu dynamiquement ; littéraux
@@ -284,12 +272,7 @@ Règles clés (détail : NOMENCLATURE.md) :
   donc une case contient des années et non des jours, et la valeur 3 y
   écarterait un jour dès qu'une seule année manque.
 
-  Ce que le silence a coûté, deux fois : une ligne perdue dans la fiche R
-  de `RMAs_month` a fait annoncer douze variables comme relatives, seules
-  de leur famille ; et `dtFlood` calculait son maximum annuel sur une
-  année même privée de la moitié de ses jours, quand la fiche jumelle
-  `dtLF` écartait la même année. Les deux corrigés le 2026-08-13, et
-  aucun n'était visible fiche par fiche.
+  Ce que le silence a déjà coûté : `dev/decisions.md`.
 - **multi-sorties** : métadonnées en listes si les sorties sont des
   variables distinctes ; name UNIQUE si ce sont les coordonnées d'un même
   objet (FDC_p/FDC_Q = une courbe).
@@ -327,7 +310,7 @@ rappelle :
   dessus (correspondance avec `process`, chaîne lisible sans les clés,
   moitié gauche confrontée au calcul, nombres écrits vérifiés). La figure
   lit ce champ. Conception : docstring de `src/card/method.py`, raisons dans
-  `docs/dev/archive/PLAN_METHOD.md`.
+  `dev/plans/2026-08-03_method-field.md`.
 - **suffixes de scénario** : le fan-out des valeurs est fait par stase au
   niveau colonne, card n'ajoute que les métadonnées, donc aucun
   placeholder ne peut changer un calcul. Une variable suffixée est une
@@ -345,7 +328,7 @@ rappelle :
 - Modifications de masse par batch (~10), récap avec niveau de confiance,
   attendre le go. Corrections auto uniquement à confiance élevée
   (grammaire, casse, cohérence) ; réécriture scientifique = validation.
-- Noms de fonctions/paramètres : RENAMING.md fait foi, tout nouveau
+- Noms de fonctions/paramètres : dev/renaming.md fait foi, tout nouveau
   renommage validé par l'utilisateur.
 - **Docstring d'une fonction PUBLIQUE ou d'une fonction hydro** : elles
   suivent la MÊME règle depuis le 2026-08-11, **anglais et sections
@@ -364,7 +347,7 @@ rappelle :
   Mesuré par `tests/test_docstrings.py`, et la même règle vaut dans
   stase.
 - **Version d'une fiche** (champ `version:` de son YAML) : majeur si ses
-  SORTIES changent (+ trace RENAMING.md, parité R rompue documentée,
+  SORTIES changent (+ trace dev/renaming.md, parité R rompue documentée,
   goldens re-figés), mineur pour method/description, patch sinon. Elle
   part dans les métadonnées de sortie.
 - **Chaînage à ne pas rater**, rappelé ici exprès : une modif notable se
@@ -404,7 +387,7 @@ rappelle :
 - **Une chaîne de caractères qui nomme une fonction est un lien que rien
   ne vérifie.** Ni l'import, ni le linter, ni les tests ne suivent un nom
   de fonction écrit en dur dans une liste (`if nom in ("quantile", ...)`).
-  `RENAMING.md` acte les renommages, il ne sait pas qui les cite en
+  `dev/renaming.md` acte les renommages, il ne sait pas qui les cite en
   toutes lettres. Préférer une propriété DÉCLARÉE à côté de la fonction
   (`is_transform`) et un test qui refuse une fonction du corpus non
   classée. Constaté le 2026-07-30 : `compute_Qp` renommé
@@ -447,15 +430,11 @@ Doctrine complète : « Versions, en cinq phrases », en tête de
 ## État
 
 Cette section ne porte aucun état, et c'est volontaire : un état recopié
-ici ne peut que retarder sur le dépôt. Elle dit seulement où le lire.
-
-- **Ce qui a été livré, et quand** : `CHANGELOG.md`.
-- **Ce qui reste ouvert**, y compris ce qui attend une action de
-  l'utilisateur et le prochain chantier proposé :
-  `docs/dev/CHANTIERS.md`.
-- **Où en est le ménage documentaire** : la section « Campagne en cours »
-  de `docs/dev/NETTOYAGE.md`.
+ici ne peut que retarder sur le dépôt. Livré : `CHANGELOG.md`. Ouvert :
+`ROADMAP.md`. Campagne d'alignement des dépôts en cours :
+`dev/plans/2026-11-06_layout-alignment.md`.
 
 Écosystème : le moteur vit dans `../../EXstat_project/stase/`, le service
-web dans `../card-api/`. Chacun a son CLAUDE.md, ses chantiers et son
-journal. Ne rien consigner ici de ce qui les regarde, et réciproquement.
+web dans `../card-api/`. Chacun a son CLAUDE.md, sa feuille de route et
+son journal. Ne rien consigner ici de ce qui les regarde, et
+réciproquement.
