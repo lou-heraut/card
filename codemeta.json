@@ -19,6 +19,18 @@
         "@type": "Organization",
         "name": "INRAE, UR RiverLy, Villeurbanne, France"
       }
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Ivan",
+      "familyName": "Horner"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Léonard",
+      "familyName": "Santos"
     },
     {
       "@type": "Person",

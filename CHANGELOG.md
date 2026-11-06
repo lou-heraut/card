@@ -63,6 +63,19 @@ des deux endroits.
 
 ## Non publié
 
+### Corrigé
+
+- **Les auteurs disent qui a fait quoi (2026-11-06).** card a un auteur,
+  Louis Héraut, dont c'est l'idée et qui en a écrit le code, en R comme
+  en Python ; `CITATION.cff`, `codemeta.json` et la référence à citer du
+  README en déclaraient six. Les contributions sont désormais décrites
+  avec leur rôle dans `AUTHORS` et reprises en contributeurs dans
+  `codemeta.json` : les fonctions R d'origine d'Ivan Horner et de Léonard
+  Santos, portées dans `card.functions`, le code R et les signalements de
+  David Dorchies, et la conception discutée avec Éric Sauquet et
+  Jean-Philippe Vidal. Le paquet R d'origine est cité en référence. Les
+  mentions de copyright en tête des fichiers source ne changent pas.
+
 ### Documentation
 
 - **Les documents de développement prennent la structure commune aux

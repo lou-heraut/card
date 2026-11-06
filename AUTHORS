@@ -1,18 +1,24 @@
-# Authors list for the project
+# Authors of card
 
-# Main Developer and Maintainer
+# Author and maintainer
 Louis, Héraut <louis.heraut@inrae.fr>*1
 
-# Developer
+# Contributors to the code of the original R package CARD, ported here
+Ivan, Horner
+    wrote the original R functions for the flow duration curve, the
+    performance criteria and the seasonal dynamics (2020), ported and
+    adapted in card.functions
+Leonard, Santos
+    wrote the original R functions for the RAT criteria (2021), ported
+    and adapted in card.functions
 David, Dorchies <david.dorchies@inrae.fr>*2
+    contributed to the R code (return periods in 2022, management and
+    processing of the cards in 2025) and reported issues; also took part
+    in the design
 
-# Scientific Referee
+# Contributors to the design, through discussion
 Éric, Sauquet <eric.sauquet@inrae.fr>*1
 Jean-Philippe, Vidal <jean-philippe.vidal@inrae.fr>*1
-
-# Other Contributors
-Ivan, Horner
-Leonard, Santos
 
 
 *1 INRAE, UR RiverLy, Villeurbanne, France

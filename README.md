@@ -453,8 +453,7 @@ This collection is scientific software: please cite it if you use it in
 published work.
 
 ```
-Héraut L., Dorchies D., Sauquet É., Vidal J.-P., Horner I., Santos L.
-(2026). card: the CARD collection of hydroclimatic cards (version 0.13.2).
+Héraut L. (2026). card: the CARD collection of hydroclimatic cards (version 0.13.2).
 Software Heritage: swh:1:rev:<commit>
 https://github.com/lou-heraut/card
 ```
@@ -476,8 +475,10 @@ card is the Python port of the R package
 [CARD](https://github.com/lou-heraut/CARD-R) (INRAE, UR RiverLy),
 validated by cross-comparison with R over the complete collection. The
 details of the validation and the documented divergences are in
-[dev/r-origin.md](https://github.com/lou-heraut/card/blob/main/dev/r-origin.md). GPL-3
-licence, authors in the AUTHORS file.
+[dev/r-origin.md](https://github.com/lou-heraut/card/blob/main/dev/r-origin.md).
+GPL-3 licence. Author: Louis Héraut; the contributions to the original R
+code and to the design, with their roles, are listed in the
+[AUTHORS](https://github.com/lou-heraut/card/blob/main/AUTHORS) file.
 
 ## Development
 

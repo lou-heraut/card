@@ -18,22 +18,6 @@ authors:
     given-names: "Louis"
     email: "louis.heraut@inrae.fr"
     affiliation: "INRAE, UR RiverLy, Villeurbanne, France"
-  - family-names: "Dorchies"
-    given-names: "David"
-    email: "david.dorchies@inrae.fr"
-    affiliation: "INRAE, UMR G-Eau, Montpellier, France"
-  - family-names: "Sauquet"
-    given-names: "Éric"
-    email: "eric.sauquet@inrae.fr"
-    affiliation: "INRAE, UR RiverLy, Villeurbanne, France"
-  - family-names: "Vidal"
-    given-names: "Jean-Philippe"
-    email: "jean-philippe.vidal@inrae.fr"
-    affiliation: "INRAE, UR RiverLy, Villeurbanne, France"
-  - family-names: "Horner"
-    given-names: "Ivan"
-  - family-names: "Santos"
-    given-names: "Leonard"
 version: "0.13.2"
 date-released: "2026-09-19"
 repository-code: "https://github.com/lou-heraut/card"
@@ -45,3 +29,11 @@ keywords:
   - crue
   - changement climatique
   - métadonnées
+references:
+  - type: software
+    title: "CARD"
+    notes: "Paquet R d'origine, dont card est le portage Python. Contributeurs et rôles : fichier AUTHORS."
+    authors:
+      - family-names: "Héraut"
+        given-names: "Louis"
+    repository-code: "https://github.com/lou-heraut/CARD-R"
