@@ -97,7 +97,7 @@ Cette table est conservée pour la traçabilité R↔Python.
 
 Nettoyage validé par l'utilisateur : renommage sec des paramètres et des
 clés YAML ; fonctions R conservées en alias. Côté stase :
-voir stase/docs/dev/RENAMING_PY.md.
+voir stase/dev/renaming.md.
 
 ## Fonctions (alias R conservés)
 
@@ -304,7 +304,7 @@ d'une même variable de base, ce qui rend `QA_obs` et `QA_sim`
 comparables sur la même échelle.
 
 **Sorties de tendance modifiées** (rupture de parité R volontaire,
-détail dans stase `docs/dev/ORIGINE_R.md`) : `a` et `change` portent
+détail dans stase `dev/r-origin.md`) : `a` et `change` portent
 toujours la valeur absolue, `a_relative` et `change_relative` toujours
 le pourcentage et valent NaN quand la variable n'est pas relative. Le R
 recopiait la valeur absolue dans la colonne relative, si bien que deux

@@ -9,9 +9,9 @@
 
 | ordre | dépôt    | état                                                   |
 |------:|----------|--------------------------------------------------------|
-|     1 | card-api | à faire, prochaine session                             |
-|     2 | stase    | à faire                                                |
-|     3 | card4r   | à faire                                                |
+|     1 | card-api | **fait le 2026-11-06** (commits 35df446 à 90a1cc3)    |
+|     2 | stase    | **fait le 2026-11-06** (commits cfcf771 à dda86cf)    |
+|     3 | card4r   | après card : ses seuls renvois visent les documents de card |
 |     4 | card     | à faire ; `NETTOYAGE.md` se retire à la fin            |
 |     5 | ensemble | prise de recul sur les quatre côte à côte (phase F)    |
 
@@ -228,6 +228,62 @@ Le `CLAUDE.md` de card-api pèse le plus lourd des quatre et raconte
 encore l'histoire dans son bloc « Structure ». Son allègement est la suite
 « Alléger la prose » de l'audit du 2026-10-11, faite dans la phase D.
 
+**Phase A, faite le 2026-11-06.** Ce que chaque fichier est seul à porter :
+
+- `API.md` : les arbitrages datés de la conception (accès en trois
+  étages, une représentation par URL, provenance et nom du CSV, nom des
+  colonnes, chronique servie, station muette, fraîcheur, chronique
+  entière). Devient `dev/decisions.md`, qui reçoit aussi ce que le
+  `CLAUDE.md` est seul à dire (plus bas).
+- Les trois plans, l'audit et `THEME_DOCS.md` : se déplacent intacts.
+- `CHANTIERS.md` : ses pistes ouvertes vont au ROADMAP. Son paragraphe
+  « ce qui a quitté ce fichier le 2026-07-29 » est de l'histoire, sauf une
+  décision : **le déploiement depuis le CI est écarté** (`make update`
+  reste un geste conscient). Le paragraphe la dit « consignée dans
+  `CLAUDE.md` », **elle n'y est pas, ni nulle part ailleurs** : elle va
+  dans `dev/decisions.md`.
+- `CLAUDE.md` : son bloc « Structure » redit, vérifié point par point, les
+  docstrings de module de `cache.py`, `pool.py`, `pipeline.py`, `keys.py`,
+  `usage.py` et `jobs.py`, les commentaires de `stats.py`, de `conftest.py`
+  et du `Makefile`, et `API.md`. Il est seul, ou seul avec le CHANGELOG,
+  à porter : la sauvegarde du volume écartée (nulle part ailleurs) ;
+  l'absence de dépôt Zenodo, choix de l'utilisateur ; le durcissement des
+  clés non rétroactif ; l'engagement des versions à partir de la première
+  clé (`FINGERPRINT_VERSION`, renommage de colonne) ; la validation des
+  mentions légales par INRAE, qui est une tâche ouverte ; et ses sections
+  de règles (service, versions, « À NE JAMAIS FAIRE »).
+
+Périmé ou contradictoire, à corriger en phase D :
+
+1. `API.md`, section fraîcheur : une demande mal routée « bloquait tous
+   ceux qui attendaient derrière le sémaphore ». Faux : depuis
+   `pipeline.py` (2026-07-29) les téléchargements se font avant de le
+   prendre. Même phrase dans `PLAN_CACHE.md` (A1) et dans une docstring
+   de `tests/test_jobs.py`.
+2. `API.md`, déploiement : « card et stase à révision épinglée, API x.y =
+   card @tag + stase @tag ». Contredit par la règle en vigueur : la
+   production suit `main`, et c'est le commit résolu qui trace.
+3. `API.md`, carte de l'écosystème du 2026-07-16 : trois dépôts (card4r
+   manque), « NOUVEAU repo », systemd, Skosmos, « chantier §4 ».
+4. `API.md`, arbitrage 4 : « quota IP bas », démenti par sa propre revue
+   du 2026-07-29.
+5. `main.py`, docstring de module : « Conception : docs/dev/API.md du
+   repo card ». C'est celui de card-api.
+6. `CLAUDE.md` : « 343 fiches sur 472 », deux décomptes qui dérivent.
+
+**Fait le 2026-11-06**, choix de l'utilisateur : allègement franc du
+`CLAUDE.md` (une ligne par module, règles intactes, 27 à 9 Ko) ;
+`THEME_DOCS.md` gardé à part ; la note sur les clés non rétroactives va
+dans `dev/decisions.md` avec la condition qui la rend sans objet ;
+décisions 6 et 7 appliquées. Les six points ci-dessus sont corrigés, et
+un septième trouvé en route : `cache.py` portait aussi la phrase du
+sémaphore. `docs/` a disparu, il ne contenait que `dev/`.
+
+**Laissé pour la migration de card**, qui doit re-router ces renvois
+depuis card-api : `src/card_api/main.py` cite `docs/dev/TOPICS.md` de
+card, `dev/plans/2026-09-18_cache.md` cite son `docs/dev/ORIGINE_R.md`, et
+`dev/plans/2026-07-24_fair.md` son registre de chantiers.
+
 ### stase
 
 ```
@@ -240,12 +296,27 @@ docs/dev/archive/harnais_R/                  dev/r-harness/
 docs/img/                                    reste (figures du README)
 ```
 
+### stase, fait le 2026-11-06
+
+Correspondances appliquées telles que proposées. En plus : un
+`dev/decisions.md` est créé pour les cinq règles du 2026-07-12 et la
+séparation d'avec les dépôts R, que le `CLAUDE.md` portait avec leurs
+raisons ; il n'en garde qu'une ligne par règle (10,6 à 8 Ko). Retirés du
+`CLAUDE.md` : les versions de pandas et de numpy du venv (recopiées, elles
+dérivent) et la règle de remontée de `stase>=` dite deux fois. Le corps
+du plan d'audit du 2026-07-12 garde les chemins de son époque, comme son
+bandeau l'annonce. Les deux renvois de `docs/dev/RENAMING.md` de card vers
+stase sont corrigés. Le bloc « À NE JAMAIS FAIRE » de stase n'a pas la
+règle des fichiers non suivis que portent card et card-api : question
+pour la phase F.
+
 ### card4r
 
 Pas de document de développement. Deux renvois à corriger : son
 `CLAUDE.md` cite `../card/docs/dev/PLAN_R.md`, qui est en réalité dans
 `archive/` (renvoi déjà cassé le 2026-11-06), et la procédure
-`NETTOYAGE.md`. Un `ROADMAP.md` seulement si quelque chose est ouvert.
+`NETTOYAGE.md`. Tous deux visent des documents de card : card4r passe
+donc après card, dont la phase C les re-route. Un `ROADMAP.md` seulement si quelque chose est ouvert.
 `docs/` est le site pkgdown généré, il ne bouge pas.
 
 ### card
