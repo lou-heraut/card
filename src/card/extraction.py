@@ -249,7 +249,7 @@ def _meta_rows(card) -> pd.DataFrame:
         # nom depuis `script_path`. Le CSV de CARD-R portait déjà la
         # colonne, où elle valait toujours `variable_en` faute de fiche
         # multi-sorties ; elle a été perdue au portage comme une
-        # redondance, et le fan-out l'a rendue nécessaire (RENAMING.md).
+        # redondance, et le fan-out l'a rendue nécessaire (dev/renaming.md).
         "card": [card.get("id") or Path(card["path"]).stem] * n,
         "variable_en": _as_list(variable_en, n),
         "unit_en": field(en, "unit"),

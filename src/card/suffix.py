@@ -48,7 +48,7 @@ def fields_used(value) -> set:
     process puis par colonne produite, si bien qu'un placeholder y vit à
     deux niveaux de profondeur. Ne voir que les listes ferait dire au
     linter qu'un `suffix_default` bien vivant est un champ mort, et
-    l'erreur serait silencieuse (cf. docs/dev/archive/PLAN_METHOD.md).
+    l'erreur serait silencieuse (cf. dev/plans/2026-08-03_method-field.md).
     """
     if isinstance(value, str):
         return {m.group(1) or "short" for m in _PLACEHOLDER.finditer(value)}
@@ -159,7 +159,7 @@ def substitute(value, rec, *, card_id, lang, field, key=None):
                 f"{card_id} : meta.{lang}.{field} utilise "
                 f"{{suffix.{name}}} mais meta.{lang}.suffix_default ne "
                 f"déclare pas '{name}'. Une fiche doit rester lisible sans "
-                "suffixe (cf. CHANTIERS §9, règle 2)."
+                "suffixe (cf. la docstring du module card.suffix)."
             )
         raise ValueError(
             f"{card_id} : meta.{lang}.{field} utilise {{suffix.{name}}} "

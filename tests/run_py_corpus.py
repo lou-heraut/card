@@ -52,7 +52,7 @@ HORIZON_SUFFIX = ["H1", "H2", "H3"]
 # Fiches dont la sortie Python diverge VOLONTAIREMENT/CONNUEMENT de R
 # (raison dans le manifeste tests/data/known_divergences.yaml). Elles sont
 # validées contre un golden PYTHON (tests/data/py_golden/, non-régression),
-# pas contre le golden R (parité impossible par décision). Voir CHANTIERS §10.
+# pas contre le golden R (parité impossible par décision). Voir dev/r-origin.md.
 PY_GOLDEN = TESTS / "data" / "py_golden"
 _div_path = TESTS / "data" / "known_divergences.yaml"
 KNOWN_DIVERGENCES = (yaml.safe_load(_div_path.read_text(encoding="utf-8"))

@@ -90,7 +90,7 @@ def main():
 
     # QJDC10 (ex median-QJC5) n'a plus de golden R comparable : sa fenêtre
     # de lissage est passée de 5 à 10 jours (harmonisée sur QJC10), et son
-    # id a changé. Divergence R assumée, cf. ORIGINE_R.md et RENAMING.md.
+    # id a changé. Divergence R assumée, cf. dev/r-origin.md et dev/renaming.md.
 
     # ── tQJXA (is_date : fonctions 0-based + conversion EXstat_py
     #    reproduisent exactement les valeurs R, vérifié empiriquement) ──

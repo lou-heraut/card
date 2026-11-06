@@ -62,7 +62,7 @@ def _squeeze_scalar(x):
 # plus bas, réduisent au contraire à UNE valeur. Une fonction ne peut avoir
 # qu'une de ces deux natures, sans quoi `is_transform` ne veut rien dire et
 # la figure ne peut pas annoncer ce que produit une étape : c'est pourquoi
-# le drapeau `first` a été scindé le 2026-07-31 (cf. RENAMING.md).
+# le drapeau `first` a été scindé le 2026-07-31 (cf. dev/renaming.md).
 
 def difference(a, b):
     """Difference between two series, term by term.

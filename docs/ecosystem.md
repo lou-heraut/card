@@ -89,5 +89,5 @@ to day, the commit is what identifies a state.
 
 !!! note "Where the reasoning lives"
     Design notes, open leads and the record of every renaming stay in the
-    repositories, under `docs/dev/`. They are working documents, not a
+    repositories, under `dev/`. They are working documents, not a
     showcase, and they are readable on GitHub without building anything.

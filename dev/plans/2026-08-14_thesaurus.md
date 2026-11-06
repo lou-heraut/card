@@ -7,13 +7,13 @@
 > Ce document porte la mesure de LEUR thésaurus faite sur le graphe
 > entier, la forme retenue chez nous et POURQUOI, et la liste de ce qui
 > reste ouvert, en fin de document et à un seul endroit.
-> Ce qu'il faut LEUR demander est dans `QUESTIONS_THEIA.md`, et nulle
+> Ce qu'il faut LEUR demander est dans `dev/theia-questions.md`, et nulle
 > part ailleurs.
 > La construction du site et de l'export, elle, est close :
-> `PLAN_SITE_SKOS.md` la garde, avec l'audit des vocabulaires qui reste
+> `dev/plans/2026-08-11_site-skos.md` la garde, avec l'audit des vocabulaires qui reste
 > la référence du modèle.
 > **Le CONTENU des concepts, lui, a été rouvert le 2026-08-14** et vit
-> dans `PLAN_AUTOPORTANCE.md` : définitions, libellés des concepts
+> dans `dev/plans/2026-08-14_self-sufficiency.md` : définitions, libellés des concepts
 > extérieurs, et fin de la dépendance à Theia pour la composition
 > I-ADOPT. La forme décrite ici n'est pas remise en cause.
 > À archiver quand la question sera tranchée et le vocabulaire publié.
@@ -140,7 +140,7 @@ notre forme est la meilleure des deux : à leur dire comme un constat.
 ### Trois défauts relevés dans leur fichier
 
 Ils ne coûtent rien à personne et ouvrent la conversation. Détail et
-formulation : `QUESTIONS_THEIA.md`.
+formulation : `dev/theia-questions.md`.
 
 1. `iop:hasContraint` au lieu de `hasConstraint`, 39 triplets.
 2. `1 day mean karst water discharge` pointe vers la mesure
@@ -373,7 +373,7 @@ même variable dans les deux.
 Leur dictionnaire dit avoir été bâti, entre autres, sur « Normalisation
 des variables dans les modèles hydrologiques descriptifs », G. Oberlin,
 1992, qui est aussi la source de la nomenclature de card (cf.
-`NOMENCLATURE.md`). Ce n'est donc pas un rapprochement de circonstance,
+`dev/nomenclature.md`). Ce n'est donc pas un rapprochement de circonstance,
 c'est une divergence entre héritiers, et c'est pourquoi card a hérité de
 `VCN10` et de `QMNA` sans jamais les copier.
 
@@ -408,9 +408,9 @@ nomenclature Sandre, et de la fiche de statistiques d'une station réelle
   `QM-N` ». Publier plusieurs `skos:notation` par registre n'est pas une
   licence qu'on prend, c'est refléter leur pratique.
 
-Ce que cette lecture a relevé chez eux vit dans `RETOURS_SCHAPI.md`, et
+Ce que cette lecture a relevé chez eux vit dans `dev/schapi-feedback.md`, et
 nulle part ailleurs. Ce qu'ils calculent et que card n'a pas est un
-inventaire de corpus, dans `CHANTIERS.md`.
+inventaire de corpus, dans `ROADMAP.md`.
 
 ### Ce qui est écarté, et pourquoi
 
@@ -483,7 +483,7 @@ Le volume a changé de camp (§ ci-dessus). Restent, inchangés :
    changement et un test refuse l'écart : le thésaurus ne PEUT PAS
    diverger des fiches. Dans leur outil d'édition, la définition
    existerait à deux endroits. **C'est le seul argument technique
-   décisif**, et c'est la dernière question de `QUESTIONS_THEIA.md`.
+   décisif**, et c'est la dernière question de `dev/theia-questions.md`.
 4. **La cadence et la charge.** Une version de fiche change une
    définition ; leur thésaurus est une référence de communauté qui bouge
    lentement.
@@ -526,13 +526,13 @@ bloque quoi que ce soit : le vocabulaire est complet et se régénère.
 
 ### Ce qui attend une action de l'utilisateur
 
-**Le courriel à Theia/OZCAR.** Son contenu est dans `QUESTIONS_THEIA.md`
+**Le courriel à Theia/OZCAR.** Son contenu est dans `dev/theia-questions.md`
 et nulle part ailleurs. Tant qu'il n'est pas parti, la base d'URI,
 l'hébergement et la publication restent différés, et c'est la seule
 décision irréversible du chantier.
 
 **Le retour au SCHAPI**, si tu veux le faire. Son contenu est dans
-`RETOURS_SCHAPI.md` et nulle part ailleurs. Rien n'en dépend chez nous :
+`dev/schapi-feedback.md` et nulle part ailleurs. Rien n'en dépend chez nous :
 l'alignement tient sans réponse. Deux points leur seraient utiles, la
 forme de notation qui fait foi et l'écriture du module.
 
@@ -601,6 +601,6 @@ leur propre outil de qualité et qui passe.
 ---
 
 Ce qui est déjà tranché et qu'on ne rouvre pas est dans
-`PLAN_SITE_SKOS.md`, y compris l'audit des vocabulaires, qui reste la
+`dev/plans/2026-08-11_site-skos.md`, y compris l'audit des vocabulaires, qui reste la
 référence du modèle : ce que SKOS, I-ADOPT, CPM, CF, QUDT et OWL-Time
 savent dire, et ce que card publie avec chacun.

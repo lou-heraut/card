@@ -118,8 +118,8 @@ its entry in the changelog.
 
 Two documents rule what gets accepted, both readable without building
 anything:
-[NOMENCLATURE.md](https://github.com/lou-heraut/card/blob/main/docs/dev/NOMENCLATURE.md)
+[dev/nomenclature.md](https://github.com/lou-heraut/card/blob/main/dev/nomenclature.md)
 for how a symbol is built and how a card is written, and
-[TOPICS.md](https://github.com/lou-heraut/card/blob/main/docs/dev/TOPICS.md)
+[dev/topics.md](https://github.com/lou-heraut/card/blob/main/dev/topics.md)
 for the classification. Input units are defined once and for all in
 `src/card/inputs.yaml`.

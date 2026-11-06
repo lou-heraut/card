@@ -31,7 +31,7 @@ Contrôles :
 - cohérence fenêtre meta ↔ process : une fenêtre partielle déclarée en
   meta doit se retrouver dans un sampling_period de process (le contrôle
   qui aurait détecté la perte de borne de fin sur 29 fiches) ;
-- classification (docs/dev/TOPICS.md) : présence des facettes requises,
+- classification (dev/topics.md) : présence des facettes requises,
   valeurs au vocabulaire (topics.yaml), appariement en/fr, aspect
   interdit quand purpose est présent.
 """
@@ -456,7 +456,7 @@ def _check_method(card, issues):
     """`method` indexé par process, puis par colonne produite.
 
     La forme cible est une table de tables : un process, une colonne, une
-    phrase (docs/dev/archive/PLAN_METHOD.md). Le corpus migre fiche par fiche, si
+    phrase (dev/plans/2026-08-03_method-field.md). Le corpus migre fiche par fiche, si
     bien que les formes héritées (chaîne numérotée, ou liste d'une chaîne
     par sortie) restent tolérées ici et publiées telles quelles ; elles ne
     seront refusées qu'une fois la dernière fiche migrée.

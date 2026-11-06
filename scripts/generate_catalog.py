@@ -103,7 +103,7 @@ def _anchor(section):
 # En-tête : le décodage d'un nom, en quatre lignes. C'est le meilleur
 # levier de découvrabilité du catalogue : sans lui, 226 identifiants sont
 # opaques ; avec lui, ils se PRÉDISENT. La grammaire complète est dans
-# docs/dev/NOMENCLATURE.md, on n'en met ici que de quoi lire un nom.
+# dev/nomenclature.md, on n'en met ici que de quoi lire un nom.
 _ENTETE = {
     "en": [
         "# CARD catalogue",
@@ -121,7 +121,7 @@ _ENTETE = {
         "inter-annual, `rp-` return period), a suffix qualifies it (`-10` "
         "ten-year return period, `_summer`, `_H` projection horizon). So "
         "`QJXA` reads discharge, daily, maximum, annual. Full grammar: "
-        "[NOMENCLATURE.md](dev/NOMENCLATURE.md).",
+        "[dev/nomenclature.md](../dev/nomenclature.md).",
         "",
         "Filed by **domain / phenomenon**. Each card runs through "
         "`card.extract(data, cards=[...])`; *inputs* are the columns `data` "
@@ -146,7 +146,7 @@ _ENTETE = {
         "suffixe la qualifie (`-10` période de retour 10 ans, `_summer`, "
         "`_H` horizon de projection). Ainsi `QJXA` se lit débit, "
         "journalier, maximum, annuel. Grammaire complète : "
-        "[NOMENCLATURE.md](dev/NOMENCLATURE.md).",
+        "[dev/nomenclature.md](../dev/nomenclature.md).",
         "",
         "Rangé par **domaine / phénomène**. Chaque fiche s'exécute via "
         "`card.extract(data, cards=[...])` ; *entrées* indique les colonnes "

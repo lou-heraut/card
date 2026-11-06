@@ -1,4 +1,4 @@
-"""Suffixes de scénario et métadonnées évolutives (CHANTIERS §9).
+"""Suffixes de scénario et métadonnées évolutives (conception : docstring de card.suffix).
 
 Le mécanisme est confiné aux métadonnées : stase éclate les valeurs au
 niveau colonne, card en dérive une ligne de méta par variable réellement
@@ -198,7 +198,7 @@ def test_the_substituted_sentence_still_reads_like_a_sentence():
 # --- La prose n'est pas toujours à plat : method est une table ---------
 #
 # `method` est indexé par process puis par colonne produite
-# (docs/dev/archive/PLAN_METHOD.md), donc un placeholder y vit à deux niveaux de
+# (dev/plans/2026-08-03_method-field.md), donc un placeholder y vit à deux niveaux de
 # profondeur. Une substitution qui ne descend que dans les listes laisse
 # l'accolade sortir telle quelle, et le linter, aveugle au même endroit,
 # déclare mort un suffix_default bien vivant.

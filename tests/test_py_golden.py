@@ -3,7 +3,7 @@
 `tests/data/py_golden/` fige la sortie Python des fiches dont la parité
 avec le paquet R a été rompue sciemment (motif de chacune dans
 `tests/data/known_divergences.yaml`, raisonnement dans
-`docs/dev/ORIGINE_R.md`). Ces fiches ne peuvent pas être jugées contre le
+`dev/r-origin.md`). Ces fiches ne peuvent pas être jugées contre le
 golden R : sans golden Python, rien ne les tient.
 
 Ces fichiers existaient déjà mais n'étaient lus que par

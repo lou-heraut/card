@@ -181,7 +181,7 @@ quantity time-step statistic  season
 | `rp-VCN10` | return period of a `VCN10` against a supplied threshold |
 
 The complete grammar, with its special cases, is in
-[NOMENCLATURE.md](https://github.com/lou-heraut/card/blob/main/docs/dev/NOMENCLATURE.md).
+[dev/nomenclature.md](https://github.com/lou-heraut/card/blob/main/dev/nomenclature.md).
 
 ### Trend
 
@@ -432,9 +432,9 @@ classification, that every input exists in the registry, that the
 `method` sentences match what `process` actually does, and that adaptive
 windows follow the convention of their phenomenon. Naming and writing
 rules are in
-[NOMENCLATURE.md](https://github.com/lou-heraut/card/blob/main/docs/dev/NOMENCLATURE.md),
+[dev/nomenclature.md](https://github.com/lou-heraut/card/blob/main/dev/nomenclature.md),
 the classification in
-[TOPICS.md](https://github.com/lou-heraut/card/blob/main/docs/dev/TOPICS.md); input units
+[dev/topics.md](https://github.com/lou-heraut/card/blob/main/dev/topics.md); input units
 are defined once and for all in `src/card/inputs.yaml`.
 
 ## The ecosystem
@@ -476,7 +476,7 @@ card is the Python port of the R package
 [CARD](https://github.com/lou-heraut/CARD-R) (INRAE, UR RiverLy),
 validated by cross-comparison with R over the complete collection. The
 details of the validation and the documented divergences are in
-[ORIGINE_R.md](https://github.com/lou-heraut/card/blob/main/docs/dev/ORIGINE_R.md). GPL-3
+[dev/r-origin.md](https://github.com/lou-heraut/card/blob/main/dev/r-origin.md). GPL-3
 licence, authors in the AUTHORS file.
 
 ## Development
@@ -506,5 +506,5 @@ CI: `.github/workflows/tests.yml` (pytest, card linter, ruff). What
 changed and when:
 [CHANGELOG.md](https://github.com/lou-heraut/card/blob/main/CHANGELOG.md).
 R to Python name mapping:
-[RENAMING.md](https://github.com/lou-heraut/card/blob/main/docs/dev/RENAMING.md). Open
-leads: [CHANTIERS.md](https://github.com/lou-heraut/card/blob/main/docs/dev/CHANTIERS.md).
+[dev/renaming.md](https://github.com/lou-heraut/card/blob/main/dev/renaming.md). Open
+leads: [ROADMAP.md](https://github.com/lou-heraut/card/blob/main/ROADMAP.md).

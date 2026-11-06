@@ -272,7 +272,7 @@ def test_chaque_etape_de_figure_porte_la_phrase_de_la_fiche():
 
 
 def test_la_figure_de_dtFlood_ne_reabstrait_plus_son_geste():
-    """Le cas qui a ouvert le chantier (docs/dev/archive/PLAN_METHOD.md).
+    """Le cas qui a ouvert le chantier (dev/plans/2026-08-03_method-field.md).
 
     Sous `apply_threshold(dQ)   dQ >= lowLim, select=dQXA, durée`, la
     figure ajoutait « Analyse des épisodes où X franchit un seuil lim » :

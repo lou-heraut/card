@@ -55,7 +55,7 @@ def test_exceedance_frequency_counts_observed_rows_only():
     q = np.array([1.0, 2, 3, np.nan, 5])
     # 3 valeurs > 1.5 sur 4 OBSERVÉES. Le NaN était compté au
     # dénominateur par parité R jusqu'au 2026-07-30 : ce test protégeait
-    # un biais, il est retourné sciemment. Détail dans ORIGINE_R.md et
+    # un biais, il est retourné sciemment. Détail dans dev/r-origin.md et
     # tests/test_gap_robustness.py.
     assert exceedance_frequency(q, 1.5) == pytest.approx(3 / 4)
 
@@ -109,7 +109,7 @@ def test_nansum_strict_all_nan_is_nan():
 
 def test_ratio_longest_run_reduces_to_one_value():
     # Le drapeau `first` de ratio a été scindé le 2026-07-31 : une
-    # fonction transforme ou elle réduit, jamais les deux (RENAMING.md).
+    # fonction transforme ou elle réduit, jamais les deux (dev/renaming.md).
     a = np.array([4.0, 4, 4, 8])
     b = np.array([2.0, 2, 2, 1])
     assert ratio_longest_run(a, b) == pytest.approx(2.0)

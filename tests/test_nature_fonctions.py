@@ -225,7 +225,7 @@ def test_une_fonction_na_quune_seule_nature_quels_que_soient_ses_arguments():
     C'est la règle qui rend `is_transform` énonçable : un booléen posé sur
     une fonction ne peut pas décrire deux comportements. `ratio` en avait
     deux, séparés par un drapeau `first`, et il a fallu le scinder en
-    `ratio` et `ratio_longest_run` (2026-07-31, RENAMING.md).
+    `ratio` et `ratio_longest_run` (2026-07-31, dev/renaming.md).
 
     Le test ne nomme personne : il mesure chaque fonction avec CHACUN des
     jeux d'arguments que le corpus lui passe, et refuse qu'une même

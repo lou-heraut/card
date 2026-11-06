@@ -1,5 +1,5 @@
 # Vocabulaire de contrôle de la classification des fiches (cf.
-# docs/dev/TOPICS.md). Référence de validation du linter : chaque
+# dev/topics.md). Référence de validation du linter : chaque
 # valeur utilisée dans un bloc `classification` doit exister ici, et
 # la paire en/fr des deux blocs de langue doit correspondre.
 #

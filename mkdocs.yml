@@ -8,7 +8,7 @@
 #   pas : pkgdown a publié le CLAUDE.md de card4r, et une action en
 #   `clean: false` a continué de servir un fichier qui n'était plus
 #   produit. Vérifier ce que la branche publiée contient VRAIMENT.
-# - `docs/dev/` reste dans le dépôt et hors du site. Les rouages sont
+# - `dev/` reste dans le dépôt et hors du site. Les rouages sont
 #   lisibles sur GitHub, ce qui est un coût d'entrée légitime ; les y
 #   publier ferait du site une vitrine de chantier au lieu d'une porte.
 

@@ -87,7 +87,7 @@ des deux endroits.
   perdue au portage, et quelqu'un finirait par rouvrir la porte pour
   rendre service. La règle, sa raison et sa mesure sur les 228
   chroniques du RRSE sont maintenant dans la section « Divergences
-  assumées avec le R » de `docs/dev/ORIGINE_R.md`. En deux mots :
+  assumées avec le R » de `dev/r-origin.md`. En deux mots :
   déplacer le départ d'année change le résultat mais garde la variable,
   imposer une sous-période change la variable sans que la fiche le dise.
 
@@ -118,7 +118,7 @@ des deux endroits.
   `theia:c_7742e5f0` là où il devrait lire « débit ». Et l'axe que
   I-ADOPT invite à décrire ne distingue presque rien chez nous : quatre
   objets d'intérêt et trois propriétés pour 444 variables, quand la
-  contrainte paramétrée en a 25. `docs/dev/PLAN_AUTOPORTANCE.md` porte
+  contrainte paramétrée en a 25. `dev/plans/2026-08-14_self-sufficiency.md` porte
   la doctrine, la mesure, quatre lots, ce qui ne doit PAS changer et les
   trois gardes. Rien n'est implémenté.
 
@@ -134,7 +134,7 @@ notations officielles françaises y sont, dans leurs deux registres.
 
 **Rien n'est publié.** La base d'URI reste manifestement fausse, le site
 n'est pas en ligne, et la conversation avec Theia/OZCAR n'est pas
-engagée : `docs/dev/PLAN_THESAURUS.md` dit ce qui attend quoi.
+engagée : `dev/plans/2026-08-14_thesaurus.md` dit ce qui attend quoi.
 
 ### Modifié
 
@@ -158,8 +158,8 @@ engagée : `docs/dev/PLAN_THESAURUS.md` dit ce qui attend quoi.
   mesure, card décrit ce qu'on calcule dessus.
 
   Pourquoi cette forme, ce qui a été mesuré sur leur thésaurus et ce qui
-  reste ouvert : `docs/dev/PLAN_THESAURUS.md`. Ce qu'il faut leur
-  demander, et rien d'autre : `docs/dev/QUESTIONS_THEIA.md`.
+  reste ouvert : `dev/plans/2026-08-14_thesaurus.md`. Ce qu'il faut leur
+  demander, et rien d'autre : `dev/theia-questions.md`.
 
   **Rien n'est publié**, la base d'URI reste provisoire.
 
@@ -225,8 +225,8 @@ engagée : `docs/dev/PLAN_THESAURUS.md` dit ce qui attend quoi.
   Mesuré sur leur usage réel et non sur leur seul dictionnaire : quatre
   documents, l'aide en ligne, la nomenclature du Sandre et la fiche de
   statistiques d'une station. Ce qui a été relevé chez eux au passage est
-  dans `docs/dev/RETOURS_SCHAPI.md`, ce qu'ils calculent et que card n'a
-  pas dans `docs/dev/CHANTIERS.md`.
+  dans `dev/schapi-feedback.md`, ce qu'ils calculent et que card n'a
+  pas dans `ROADMAP.md`.
 
   Deux conséquences pour le corpus. **`QA` et `mean-QA` sont alignés** :
   leur analyse de référence `QJ-annuel` est exactement `QA`, année
@@ -265,7 +265,7 @@ engagée : `docs/dev/PLAN_THESAURUS.md` dit ce qui attend quoi.
   `.github/workflows/site.yml` mais **rien n'est publié** : le
   déclenchement reste manuel et les Pages servent toujours `main:/docs`.
   Ce qu'il faudra basculer le jour de la publication, et pourquoi chaque
-  garde existe, sont dans `docs/dev/PLAN_SITE_SKOS.md`.
+  garde existe, sont dans `dev/plans/2026-08-11_site-skos.md`.
 
   Le plan du site répond à trois questions plutôt que d'aligner six
   pages : ce qu'on peut calculer, comment on s'en sert, où ça vit. Deux
@@ -298,7 +298,7 @@ engagée : `docs/dev/PLAN_THESAURUS.md` dit ce qui attend quoi.
   plusieurs. Chaque fiche porte son auteur, sa date, l'adresse de son
   fichier et celle où son swhid se résout ; le schéma dit son éditeur,
   ses langues et le préfixe à employer. Table `units:` dans
-  `alignments.yaml`, audit et raisons dans `docs/dev/PLAN_SITE_SKOS.md`.
+  `alignments.yaml`, audit et raisons dans `dev/plans/2026-08-11_site-skos.md`.
 
 - **Le thésaurus dit la fenêtre d'agrégation, la valeur d'un paramètre
   et la grandeur d'entrée (2026-08-13).** Une fenêtre est un DÉBUT et une
@@ -310,7 +310,7 @@ engagée : `docs/dev/PLAN_THESAURUS.md` dit ce qui attend quoi.
   dans un libellé, les familles deviennent des `iop:VariableSet` (aucune
   fiche ne calcule une famille), et les quatre grandeurs d'entrée
   deviennent des concepts, alignés sur leur `standard_name` CF. Détail
-  et décisions : `docs/dev/PLAN_SITE_SKOS.md`.
+  et décisions : `dev/plans/2026-08-11_site-skos.md`.
 
 ### Modifié
 
@@ -1136,7 +1136,7 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   concept par son étiquette, dans n'importe quelle langue.
   `card.vocabulary()` rend `{facette: {slug: {en, fr, ...}}}`. Aucun
   dossier déplacé (les slugs déclarés valent les noms existants), aucune
-  fiche modifiée. Détail : `docs/dev/TOPICS.md`.
+  fiche modifiée. Détail : `dev/topics.md`.
 
 - **`card.figure`, `card.vocabulary` et `card.info(quiet=True)`**, pour
   servir card ailleurs qu'un terminal. `info` imprimait la figure et
@@ -1164,7 +1164,7 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   performance`, comme `Bias`. Renverse une décision antérieure de
   `TOPICS.md` (« mean ne devient pas un phénomène »), pour permettre de
   ranger le corpus par régime observé. Métadonnée seule, valeurs
-  inchangées, patch de version sur les 23. Détail : `docs/dev/TOPICS.md`.
+  inchangées, patch de version sur les 23. Détail : `dev/topics.md`.
 
 - **`QJ`, le régime journalier moyen brut, complète la famille.** Il
   existait comme intermédiaire de `QJC10` mais pas comme fiche : le
@@ -1361,7 +1361,7 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   `agrégation mensuelle par année`, deux capitales corrigées, phrases
   composées des fiches d'élasticité rendues à leur colonne). Tout le
   reste revient à l'octet. Conception et suite des lots :
-  `docs/dev/archive/PLAN_METHOD.md`.
+  `dev/plans/2026-08-03_method-field.md`.
 
 - **La chaîne publiée se lit maintenant sans les clés (2026-08-03).** Les
   clés de `method` lèvent l'ambiguïté machine, mais la valeur publiée ne
@@ -1483,7 +1483,7 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   vérifié par extraction avant et après sur le jeu de test. Le test de
   nature devient total, sans exception : un nouveau test refuse qu'une
   fonction change de nature d'un appel à l'autre, et il a été vu rouge en
-  réintroduisant le drapeau. Détail : `docs/dev/RENAMING.md`.
+  réintroduisant le drapeau. Détail : `dev/renaming.md`.
 
 - **`exceedance_frequency` ne compte plus les lacunes au dénominateur
   (2026-07-30).** Le numérateur les écartait déjà, le dénominateur les
@@ -1503,7 +1503,7 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   `delta-*_H`), toutes plafonnées à 3 % de lacunes, ce qui borne l'écart.
   Rupture de parité R assumée, avec sa réserve (les lacunes des fiches de
   hautes eaux ne sont probablement pas aléatoires) :
-  `docs/dev/ORIGINE_R.md`.
+  `dev/r-origin.md`.
 
 - **La seconde liste de noms en dur de `render.py` disparaît à son tour
   (2026-07-30).** `glose()` décidait de museler une explication d'après
@@ -1516,7 +1516,7 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   muselait au passage `nansum_strict`, qui est de card et a sa propre
   prose : elle reste invisible pour l'autre raison, sa première phrase
   dépassant le seuil de 120 caractères, ouvert dans
-  `docs/dev/CHANTIERS.md`.
+  `ROADMAP.md`.
 
 - **Cinq docstrings parlaient au lecteur du code, pas au lecteur d'une
   fiche (2026-07-30).** La première phrase d'une docstring est reprise
@@ -1545,7 +1545,7 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   forme)`. Le **catalogue** suit : rangé domaine → phénomène, avec un
   sommaire cliquable et une colonne *forme*. Aucun calcul touché, que des
   déplacements et des métadonnées. Prérequis livré juste avant : toute
-  fiche a un phénomène (voir plus bas). Détail : `docs/dev/TOPICS.md`.
+  fiche a un phénomène (voir plus bas). Détail : `dev/topics.md`.
 
 - **Le régime médian se sigle `D`, plus le préfixe `median-`.**
   `median-QJ` et `median-QJC5` deviennent **`QJD`** et **`QJDC10`**. Le
@@ -1616,7 +1616,7 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   L'appelant choisit ses horizons, autant qu'il veut, et plus aucune date
   ne vit dans le corpus. À période égale, le résultat est identique à
   l'ancien, vérifié valeur par valeur sur les trois familles et sur les
-  quatre horizons, soit 16 sorties sur 16. Détail : `docs/dev/RENAMING.md`.
+  quatre horizons, soit 16 sorties sur 16. Détail : `dev/renaming.md`.
 - Le vocabulaire de ces trois fiches parle de **période**, non
   d'horizon : elles calculent un régime mensuel ou une courbe des débits
   classés sur n'importe quelle fenêtre, observée comprise, et « horizon »
@@ -1702,7 +1702,7 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   Vérifié par capture des 452 figures du corpus (226 fiches, deux
   langues) avant et après : seules les six fiches annoncées changent,
   d'une ligne chacune. La suite de tests était verte avant comme après,
-  d'où le test de garde ouvert dans `docs/dev/CHANTIERS.md`.
+  d'où le test de garde ouvert dans `ROADMAP.md`.
 
 - **La figure taisait les arguments positionnels littéraux
   (2026-08-01).** `render.appel` n'affichait que les colonnes :
@@ -1752,7 +1752,7 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   `keep: all` à `keep: [QJDC10]`, comme `QJC10` le fait déjà, et ne
   produit plus que sa colonne (une sortie retirée). Parité R volontairement
   rompue (le golden R garde les deux colonnes). Détail :
-  `docs/dev/RENAMING.md` et `docs/dev/ORIGINE_R.md`.
+  `dev/renaming.md` et `dev/r-origin.md`.
 
 - **La figure annonçait l'unité et la description de la première sortie
   comme celles de la fiche entière.** `allLF` se disait « jour de l'année »
@@ -1832,7 +1832,7 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   `docs/dev/archive/` au lieu d'être supprimés. Ce qui est daté vit ici,
   ce qui fait autorité vit dans une normative, ce qui est mort vit dans
   l'archive.
-- `docs/dev/VALIDATION_R.md` renommé `docs/dev/ORIGINE_R.md` : rôle
+- `docs/dev/VALIDATION_R.md` renommé `dev/r-origin.md` : rôle
   identique au fichier de ce nom dans stase (origine R, validation
   croisée, divergences assumées).
 
@@ -1873,7 +1873,7 @@ valeurs ont changé : c'est une rupture, d'où le deuxième chiffre.
   Le décalage d'un jour ne change pas le minimum annuel mais bascule
   celui d'une fenêtre saisonnière quand il tombe au bord.
 
-Détail : `docs/dev/RENAMING.md` (2026-07-21), `docs/dev/ORIGINE_R.md`,
+Détail : `dev/renaming.md` (2026-07-21), `dev/r-origin.md`,
 `tests/data/known_divergences.yaml`.
 
 ## 2026-07-20
@@ -1901,7 +1901,7 @@ Détail : `docs/dev/RENAMING.md` (2026-07-21), `docs/dev/ORIGINE_R.md`,
 - Empaquetage : `inputs.yaml` et `topics.yaml` embarqués dans la
   distribution, ils manquaient à l'installation.
 
-Détail : docstring de `src/card/suffix.py`, `docs/dev/RENAMING.md`
+Détail : docstring de `src/card/suffix.py`, `dev/renaming.md`
 (deux entrées du 2026-07-20).
 
 ## 2026-07-18
@@ -1921,7 +1921,7 @@ Détail : docstring de `src/card/suffix.py`, `docs/dev/RENAMING.md`
   retour, avec une correction sur `p0`. Fiches `rp-` renommées en
   conséquence.
 
-Détail : `docs/dev/RENAMING.md` (2026-07-18).
+Détail : `dev/renaming.md` (2026-07-18).
 
 ## 2026-07-17
 
@@ -1962,7 +1962,7 @@ Détail : `docs/dev/RENAMING.md` (2026-07-18).
   la donnée comme une autre.
 - Le champ `topic`, remplacé par la classification à facettes.
 
-Détail : `docs/dev/TOPICS.md`.
+Détail : `dev/topics.md`.
 
 ## 2026-07-15
 
@@ -1980,14 +1980,14 @@ Détail : `docs/dev/TOPICS.md`.
 
 ### Ajouté
 
-- Guide de nommage écrit et arbitré (`docs/dev/NOMENCLATURE.md`) : le
+- Guide de nommage écrit et arbitré (`dev/nomenclature.md`) : le
   système du corpus consolidé par Oberlin, la grammaire des identifiants
   et sept règles de rédaction des métadonnées.
 - 11 fiches comblant des manques évidents du catalogue (déclinaisons
   saisonnières des basses eaux, critère BFI-LH).
 
-Détail : `docs/dev/archive/AUDIT_FICHES.md`, `docs/dev/NOMENCLATURE.md`,
-`docs/dev/RENAMING.md`.
+Détail : `dev/audits/2026-07-15_card-metadata.md`, `dev/nomenclature.md`,
+`dev/renaming.md`.
 
 ## 2026-07-12
 
@@ -2019,5 +2019,5 @@ Première version du paquet, port Python du paquet R
 Validation croisée : 552 comparaisons identiques à R sur le corpus
 complet, tolérance 1e-6.
 
-Détail : `docs/dev/archive/ROADMAP.md`, `docs/dev/RENAMING.md`,
-`docs/dev/ORIGINE_R.md`.
+Détail : `dev/plans/2026-07-12_r-to-python.md`, `dev/renaming.md`,
+`dev/r-origin.md`.

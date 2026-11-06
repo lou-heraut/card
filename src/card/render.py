@@ -208,7 +208,7 @@ def decoupe(p, lang="fr"):
         # la fonction), cela ne se devine pas d'un nom. La version devinée
         # cherchait le préfixe `nan` et deux noms écrits en dur, dont
         # `quantile` : le renommage compute_Qp -> exceedance_quantile
-        # (RENAMING.md) a laissé la chaîne derrière lui, et six fiches ont
+        # (dev/renaming.md) a laissé la chaîne derrière lui, et six fiches ont
         # annoncé « une valeur par jour » pour un seuil unique. Une chaîne
         # qui nomme une fonction est un lien que rien ne vérifie.
         # Le défaut est « réduit » : transformer est le cas rare et

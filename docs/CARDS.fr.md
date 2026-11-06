@@ -2,7 +2,7 @@
 
 Généré par `scripts/generate_catalog.py`, ne pas éditer à la main. Le décompte du corpus est dans le README. [English version](CARDS.md).
 
-**Lire un nom.** Les identifiants sont systématiques et se lisent de gauche à droite : grandeur (`Q` débit, `R` précipitations, `T` température, `ETP` évapotranspiration), pas de temps (`A` année, `M` mois, `S` saison, `J` jour), statistique d'ordre (`N` minimum, `D` médiane, `X` maximum, rien = moyenne), saison. Un préfixe transforme la sortie (`delta-` changement entre deux périodes, `mean-`/`median-` inter-annuel, `rp-` période de retour), un suffixe la qualifie (`-10` période de retour 10 ans, `_summer`, `_H` horizon de projection). Ainsi `QJXA` se lit débit, journalier, maximum, annuel. Grammaire complète : [NOMENCLATURE.md](dev/NOMENCLATURE.md).
+**Lire un nom.** Les identifiants sont systématiques et se lisent de gauche à droite : grandeur (`Q` débit, `R` précipitations, `T` température, `ETP` évapotranspiration), pas de temps (`A` année, `M` mois, `S` saison, `J` jour), statistique d'ordre (`N` minimum, `D` médiane, `X` maximum, rien = moyenne), saison. Un préfixe transforme la sortie (`delta-` changement entre deux périodes, `mean-`/`median-` inter-annuel, `rp-` période de retour), un suffixe la qualifie (`-10` période de retour 10 ans, `_summer`, `_H` horizon de projection). Ainsi `QJXA` se lit débit, journalier, maximum, annuel. Grammaire complète : [dev/nomenclature.md](../dev/nomenclature.md).
 
 Rangé par **domaine / phénomène**. Chaque fiche s'exécute via `card.extract(data, cards=[...])` ; *entrées* indique les colonnes que `data` doit contenir (cf. `rename=`). Détail d'une fiche : `card.info("nom")`.
 

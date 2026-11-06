@@ -6,7 +6,7 @@
 
 > **Validé par l'utilisateur le 2026-07-15** (arbitrages en §9).
 > Référence normative pour toute création de fiche, et pour
-> l'application de l'audit (`archive/AUDIT_FICHES.md`). Fondé sur le
+> l'application de l'audit (`dev/audits/2026-07-15_card-metadata.md`). Fondé sur le
 > système du corpus CARD consolidé par Oberlin (1992), dont la
 > transcription est dans `Oberlin_1994ITCEMAGREF_1-8_edit.md`.
 
@@ -379,7 +379,7 @@ Le guide est **validé** avec les décisions suivantes :
 6. **STD → `STD_ratio`** (audit A3) : sd(sim)/sd(obs), sans unité,
    c'est la composante α du KGE (Gupta et al. 2009, à citer en
    description). Changement d'id et de sortie accepté, tracé dans
-   RENAMING.md.
+   dev/renaming.md.
 7. **Métadonnées listes : seulement pour de vraies variables
    distinctes** (précision du 2026-07-16, sur retour utilisateur).
    Une fiche dont les colonnes de sortie sont les *coordonnées d'un

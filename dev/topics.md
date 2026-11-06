@@ -70,14 +70,14 @@ capitalisent au besoin).
   dossiers serie/criteria, et le dossier classe mal FDC/QJC10).
 - L'**opérateur** (delta, tendance, médiane inter-annuelle...) n'est
   PAS une facette stockée : il est dérivé du préfixe de l'id (grammaire
-  NOMENCLATURE.md) et exposé comme colonne calculée de `list_cards()`.
+  dev/nomenclature.md) et exposé comme colonne calculée de `list_cards()`.
   **Décision de 2026-07-16, périmée depuis le 2026-08-12** : la facette
   `statistic` le rend **entièrement déterminé**, aucune des 37
   combinaisons `(statistic, output, aspect)` du corpus n'étant ambiguë.
   Il ne porte donc plus aucune information propre, et il dépend d'un
   préfixe de nom là où le reste de la classification est déclaré. Son
   retrait est un changement de sorties coordonné avec card-api, qui
-  l'expose en filtre : la piste est ouverte dans `CHANTIERS.md`.
+  l'expose en filtre : la piste est ouverte dans `ROADMAP.md`.
 
 ### Mesurer la santé de la classification
 
@@ -202,7 +202,7 @@ sont un minimum » ne se demandait pas avant.
 **Ce qu'elle n'est pas.** Elle ne décrit pas la CHAÎNE : `VCN10` est un
 minimum d'une moyenne mobile de dix jours, et seule l'opération finale
 est classée. Le raffinement par étape est un autre besoin, noté dans
-`CHANTIERS.md`, et il ne remplacerait pas celle-ci puisqu'il ne
+`ROADMAP.md`, et il ne remplacerait pas celle-ci puisqu'il ne
 classerait pas la variable.
 
 **Elle est ORTHOGONALE à `aspect`, et il ne faut jamais dupliquer l'une
@@ -262,7 +262,7 @@ produit la pente ET le résultat du test, deux variables qu'un terme
 unique rendait indiscernables. Avec la scission, la colonne héritée
 `operator` est devenue entièrement déterminée par `(statistic, output)`,
 sans une seule combinaison ambiguë, et c'est ce qui a permis de la
-retirer (`RENAMING.md`).
+retirer (`dev/renaming.md`).
 
 ### season : la fenêtre d'échantillonnage (obligatoire ; position 4 d'Oberlin)
 

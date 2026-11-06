@@ -53,7 +53,7 @@ def test_exceedance_frequency_ne_compte_que_le_temps_observe():
     vraie fréquence multipliée par la part de données présentes. La
     complétude des chroniques s'améliorant avec les années, ce biais se
     lisait comme une tendance à la hausse. Rupture de parité R du
-    2026-07-30 (ORIGINE_R.md).
+    2026-07-30 (dev/r-origin.md).
     """
     from card.functions.fdc import exceedance_frequency
 

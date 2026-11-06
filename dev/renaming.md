@@ -6,7 +6,7 @@
 
 # Table de correspondance R → Python : APPLIQUÉE le 2026-07-12
 
-Phase B de la refonte (`archive/ROADMAP.md`). La partie « numpy natif »
+Phase B de la refonte (`dev/plans/2026-07-12_r-to-python.md`). La partie « numpy natif »
 est déjà appliquée
 (2026-07-11, pré-validée) : `mean/median/sum/minNA/maxNA/which.*NA` →
 `nanmean/nanmedian/nansum/nanmin/nanmax/nanargmin/nanargmax`, le kwarg
@@ -149,7 +149,7 @@ ne change sur les vraies variables ; seules disparaissent 11 lignes
 étaient comparées à elles-mêmes par coïncidence de nom (les colonnes
 Python sont désormais en snake_case).
 
-## Renommages de fiches, audit 2026-07-15 (archive/AUDIT_FICHES.md, NOMENCLATURE.md)
+## Renommages de fiches, audit 2026-07-15 (dev/audits/2026-07-15_card-metadata.md, dev/nomenclature.md)
 
 Ids et sorties, validés par l'utilisateur :
 
@@ -198,7 +198,7 @@ lacunes (`max_na_pct: 3`, `max_na_years: 10`), pour que `{QJC10, QJDC10}`
 ne diffèrent que par moyenne/médiane. Les valeurs de `QJDC10` changent
 donc (fenêtre), c'est un majeur. Le sigle est identique en fr et en
 (comme `VCN10`), la variante `mediane-` disparaît. Parité R rompue sur le
-nom **et** la fenêtre (R : `median-QJC5`, 5 jours), cf. ORIGINE_R.md.
+nom **et** la fenêtre (R : `median-QJC5`, 5 jours), cf. dev/r-origin.md.
 
 La famille des régimes journaliers est complète et symétrique : `QJ`
 (moyen brut, fiche créée), `QJD` (médian brut), `QJC10` (moyen lissé
@@ -250,7 +250,7 @@ même module ; seuil -> période de retour, lois log-normale et Gumbel).
 ## Suffixes de scénario et métadonnées évolutives : 2026-07-20
 
 Ajout de capacité, sans rupture de sortie : conception complète dans
-`CHANTIERS.md` §9.
+`ROADMAP.md` §9.
 
 `card.extract` gagne **suffix=** et **suffix_delimiter=** (mêmes noms
 qu'en R et que dans `stase.trend`, une seule grammaire) : une même fiche
@@ -540,7 +540,7 @@ Ce n'est pas un changement de SORTIES : aucune colonne, aucune valeur,
 aucune fiche n'est touchée. C'est une suppression d'API interne, jamais
 documentée comme publique et absente de `card.__all__`. Elle est
 consignée ici parce qu'un module retiré est un import qui casse, et que
-`RENAMING.md` est l'endroit où l'on vient chercher ce qui a disparu.
+`dev/renaming.md` est l'endroit où l'on vient chercher ce qui a disparu.
 
 Parité R : sans objet, le paquet R n'a pas de convention de docstring
 bilingue.
@@ -558,7 +558,7 @@ statistique. `aspect` dit quelle dimension du régime une variable décrit
 orthogonales : `VCN10` et `tVCN10` sont tous deux un `minimum`, l'un en
 `magnitude`, l'autre en `timing`. Elle répond aussi à
 `iop:hasStatisticalModifier` du cadre I-ADOPT, prérequis de l'export SKOS
-(`PLAN_SITE_SKOS.md`).
+(`dev/plans/2026-08-11_site-skos.md`).
 
 **Provenance de chaque terme.** Cinq viennent de l'annexe E des
 conventions Climate and Forecast (`cell_methods`), qui sont aussi les

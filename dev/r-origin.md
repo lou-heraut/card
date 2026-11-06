@@ -10,8 +10,8 @@ card est le port Python du package R
 fiches YAML de `src/card/cards/` sont la source de vérité ; les fiches R
 de l'ancien package servent de référence de validation croisée. La
 correspondance des noms R vers Python est dans
-[RENAMING.md](RENAMING.md), le déroulé de la refonte dans
-[archive/ROADMAP.md](archive/ROADMAP.md).
+[renaming.md](renaming.md), le déroulé de la refonte dans
+[plans/2026-07-12_r-to-python.md](plans/2026-07-12_r-to-python.md).
 
 ## Principes de la conversion (actés le 2026-07-11)
 
@@ -201,4 +201,4 @@ et il tourne en mode normal.
 
 L'API canonique est `card.extract`, `card.list_cards`, `card.info`,
 `card.copy_cards` ; les noms du R restent valides en alias. Table
-complète, paramètres compris : [RENAMING.md](RENAMING.md).
+complète, paramètres compris : [renaming.md](renaming.md).

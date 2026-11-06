@@ -2,10 +2,10 @@
 > relevé dans la documentation et dans l'outil du SCHAPI en alignant card
 > sur leur notation, et rien d'autre : pas de décision, pas de mesure du
 > corpus. Ce que card fait de leur notation vit dans
-> `src/card/alignments.yaml` et dans `PLAN_THESAURUS.md`.
+> `src/card/alignments.yaml` et dans `dev/plans/2026-08-14_thesaurus.md`.
 > Aucun de ces points ne bloque quoi que ce soit chez nous : l'alignement
 > tient sans eux. Ils leur sont utiles, à eux.
-> Même rôle que `QUESTIONS_THEIA.md`, et même sort : à supprimer une fois
+> Même rôle que `dev/theia-questions.md`, et même sort : à supprimer une fois
 > la conversation engagée, en reportant ce qu'elle aura tranché.
 
 # Ce qu'on a relevé dans la notation HydroPortail

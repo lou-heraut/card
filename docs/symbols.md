@@ -84,5 +84,5 @@ every card.
 !!! note "The full grammar"
     This page is the reading guide. The complete rules, including the
     Oberlin system it derives from and the cases it does not cover, live
-    in [NOMENCLATURE.md](https://github.com/lou-heraut/card/blob/main/docs/dev/NOMENCLATURE.md)
+    in [dev/nomenclature.md](https://github.com/lou-heraut/card/blob/main/dev/nomenclature.md)
     in the repository.

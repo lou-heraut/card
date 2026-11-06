@@ -16,7 +16,7 @@
 (`https://example.invalid/`, un domaine que la RFC 2606 réserve et qui ne
 résoudra jamais), pour que personne ne cite par mégarde une adresse
 plausible avant que la question des identifiants pérennes soit tranchée
-avec les interlocuteurs concernés. Cf. `docs/dev/PLAN_SITE_SKOS.md`.
+avec les interlocuteurs concernés. Cf. `dev/plans/2026-08-11_site-skos.md`.
 
 Ce que le fichier contient, et d'où vient chaque chose : la table de
 référence est dans le plan, section « Tous les champs du thésaurus ».

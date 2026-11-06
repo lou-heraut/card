@@ -2,7 +2,7 @@
 > au terme d'une discussion qui a rouvert la forme du vocabulaire close
 > la veille. Rien n'est implémenté : ce document dit ce qui doit changer,
 > pourquoi, dans quel ordre, et ce qui ne doit PAS changer.
-> `PLAN_THESAURUS.md` reste la référence de la FORME de l'arbre (racines,
+> `dev/plans/2026-08-14_thesaurus.md` reste la référence de la FORME de l'arbre (racines,
 > tableaux, libellés de nœud) et des notations officielles ; il n'est pas
 > remis en cause. Ce plan-ci porte le CONTENU des concepts et la
 > dépendance aux vocabulaires extérieurs.
@@ -69,7 +69,7 @@ fenêtre de dix jours contre trois.
 **Conséquence directe sur l'effort** : sept libellés suffisent du côté
 ontologique, et tout le travail de définition va au statistique, au
 phénomène et à la contrainte. C'est aussi pourquoi la piste « raffiner
-`method` par étape » de `CHANTIERS.md` compte plus que n'importe quel
+`method` par étape » de `ROADMAP.md` compte plus que n'importe quel
 enrichissement I-ADOPT.
 
 ## Ce qu'un visualiseur affiche, vérifié le 2026-08-14
@@ -237,7 +237,7 @@ deux langues est une faute, pas un détail de style.**
 - **`hasMatrix` et `hasContextObject` d'I-ADOPT restent ignorés.** Le
   milieu est l'axe qui ne discrimine rien chez nous.
 - **La forme de l'arbre** (racines, tableaux ISO 25964, libellés de
-  nœud) : `PLAN_THESAURUS.md`, close.
+  nœud) : `dev/plans/2026-08-14_thesaurus.md`, close.
 - **Aucune sortie de calcul** n'est touchée par ce plan.
 
 ## Ce qui empêchera que ça se défasse

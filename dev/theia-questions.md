@@ -1,11 +1,11 @@
 > **Statut : brouillon, rien n'est envoyé.** Ce fichier porte les
 > questions à poser à Theia/OZCAR, et rien d'autre : pas de mesure, pas
-> de décision. Ce qui les justifie vit dans `PLAN_THESAURUS.md`, qui
+> de décision. Ce qui les justifie vit dans `dev/plans/2026-08-14_thesaurus.md`, qui
 > porte l'audit du 2026-08-14 et la forme retenue chez nous.
 > Le reste du chantier avance sans attendre ces réponses. Aucune ne
 > bloque, aucune ne demande de modifier une fiche.
 > À supprimer une fois la conversation engagée, en reportant ce qu'elle
-> aura tranché dans `PLAN_THESAURUS.md`.
+> aura tranché dans `dev/plans/2026-08-14_thesaurus.md`.
 
 # Questions à Theia/OZCAR
 

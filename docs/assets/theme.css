@@ -7,7 +7,7 @@
    recharger la page, `mkdocs serve` s'occupe du reste.
 
    La GAMME est celle de card-api (`src/card_api/static/theme-identity.css`,
-   conception dans son `docs/dev/THEME_DOCS.md`). Elle est recopiée ici
+   conception dans son `dev/docs-theme.md`). Elle est recopiée ici
    parce que deux dépôts ne partagent pas de feuille de style, et c'est le
    seul endroit du site où elle est écrite : tout le reste la lit.
 
