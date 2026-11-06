@@ -99,54 +99,25 @@ src/card/
                  #   nomme aussi le dossier (cf. dev/topics.md)
   inputs.yaml    # unités/définitions des variables d'entrée (invariants)
   alignments.yaml # ce que les fiches ne peuvent PAS dire : correspondances
-                 #   vers les vocabulaires externes (Theia/OZCAR, QUDT, CF,
-                 #   et les DEUX notations officielles françaises sous
-                 #   `notations:`, celle du SCHAPI et celle du Sandre ; un
-                 #   registre de plus ne demande aucun code, et une valeur
-                 #   peut être une liste parce qu'ils écrivent eux-mêmes
-                 #   la même variable de plusieurs façons), familles de
-                 #   contrainte propres à
-                 #   card, table des paramètres de process qui sont
-                 #   sémantiques, et les quatre racines thématiques
-                 #   (`topics:`), leur note de portée et leur
-                 #   `broadMatch`. Rien de dérivable.
+                 #   vers les vocabulaires externes et les deux notations
+                 #   officielles françaises (SCHAPI, Sandre). Rien de
+                 #   dérivable ; le détail est dans son en-tête.
 tests/           # pytest (goldens R, loader, lint, suffixes, UX, rendu)
                  #   pas de décompte ici : il périme, cf. README
-scripts/generate_catalog.py   # QUATRE sorties, relancer après toute modif :
-                              #   docs/CARDS.md et CARDS.fr.md (GitHub),
-                              #   docs/catalogue.md (le site, une entrée par
-                              #   VARIABLE), docs/cards/*.md (une page par
-                              #   fiche, portant sa figure) et le décompte
-                              #   du README
-scripts/generate_skos.py      # docs/card.ttl : le corpus en SKOS, I-ADOPT,
-                              #   CPM, QUDT, OWL-Time et ISO 25964. Base
-                              #   d'URI PROVISOIRE et fausse : rien n'est
-                              #   publié, cf. dev/plans/2026-08-14_thesaurus.md. L'arbre va
-                              #   de la grandeur au phénomène puis à la
-                              #   variable ; une FAMILLE n'est pas dans cette
-                              #   chaîne, c'est un `isothes:ThesaurusArray`,
-                              #   et son libellé de nœud vient de deux tables
-                              #   ÉCRITES qu'une facette nouvelle oblige à
-                              #   compléter (la génération échoue sinon).
-scripts/arbre_skos.py         # `make arbre` : le .ttl en arbre, lisible.
-                              #   Un Turtle sort dans l'ordre des URIs, où la
-                              #   hiérarchie est invisible : c'est la seule
-                              #   façon de juger la forme du vocabulaire.
-                              #   Ne vérifie rien, c'est une paire de lunettes.
-mkdocs.yml                    # le site : `make serve` en local,
-docs/assets/                  #   .github/workflows/site.yml en ligne.
-                              #   theme.css porte l'identité (celle de la
-                              #   page /docs de card-api), catalogue.css et
-                              #   .js le catalogue. Le déclenchement est
-                              #   MANUEL tant que la publication n'est pas
-                              #   tranchée.
+scripts/generate_catalog.py   # le catalogue et les pages de fiche, et le
+                              #   décompte du README : relancer après toute
+                              #   modification de fiche
+scripts/generate_skos.py      # docs/card.ttl. Base d'URI PROVISOIRE : rien
+                              #   n'est publié. Une facette nouvelle oblige à
+                              #   compléter ses deux tables écrites
+scripts/arbre_skos.py         # `make arbre` : le .ttl en arbre lisible ; ne
+                              #   vérifie rien
+mkdocs.yml, docs/assets/      # le site (`make serve`). Publication MANUELLE
+                              #   tant qu'elle n'est pas tranchée
 scripts/verifie_alignements.py # résout les URIs externes, sur le réseau,
                               #   donc hors de la suite de tests
-scripts/analyse_classification.py  # santé des facettes : redondance,
-                              #   pouvoir de résolution, colonnes dérivées.
-                              #   À lancer AVANT d'ajouter, retirer ou
-                              #   fusionner une facette ; ses chiffres ne
-                              #   sont recopiés nulle part, ils bougent.
+scripts/analyse_classification.py  # à lancer AVANT d'ajouter, retirer ou
+                              #   fusionner une facette
 ```
 
 Env : venv `.python_env/` ; `tests/conftest.py` rend card, stase et

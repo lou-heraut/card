@@ -395,15 +395,24 @@ dans card et card-api. `NETTOYAGE.md` a pris sa retraite comme plan
 terminé. card-api et stase renvoient désormais aux principes communs,
 dans `dev/decisions.md` de card.
 
-**Laissé à observer, hors campagne :**
+**Les quatre points laissés en fin de phase F, repris le jour même :**
 
-- card4r n'a pas de `codemeta.json`, que les trois autres portent ;
-- MAKAHO-next cite encore les anciens chemins dans son `CLAUDE.md`, son
-  `PLAN.md` et `scripts/mesure_sampling.py` : à mettre à jour au chantier
-  M1, avec le reste de son `PLAN.md` ;
-- le bloc « Structure » du `CLAUDE.md` de card décrit longuement ses
-  scripts, dont certains portent déjà leur raison dans leur docstring :
-  un allègement possible, à juger à l'usage ;
-- les pages PyPI déjà publiées de stase pointent vers l'ancien chemin de
-  `ORIGINE_R.md` (décision 7).
-
+- card4r a désormais son `codemeta.json` (commit ed2c48a), dont la
+  version est confrontée au `DESCRIPTION` par le test qui tenait déjà
+  `CITATION.cff` ; vérifié qu'il échoue sur un désaccord.
+- MAKAHO-next : le constat était en partie faux. Ses mentions de
+  `docs/dev/` visent ses propres documents, qui n'ont pas bougé. Ce qui
+  était périmé est mis à jour : son état (« rien n'est commencé »), les
+  sections des chantiers amont, toutes livrées, qui quittent son
+  `PLAN.md` selon sa propre règle, la question du suivi de card en
+  production, réglée, et le chiffre de « trente fois », démenti par la
+  mesure B5. Ce n'est pas un dépôt git : rien à commiter.
+- Le bloc « Structure » du `CLAUDE.md` de card renvoie désormais aux
+  docstrings et en-têtes des scripts et de `alignments.yaml`, vérifiés
+  point par point (26 à 24 Ko). La règle « transforme ou réduit » des
+  fonctions reste écrite en entier : elle ne l'est ailleurs que dans les
+  tests.
+- stase : le constat reposait sur une supposition fausse. stase n'est pas
+  publié sur PyPI (réponse 404 le 2026-11-06), donc aucune page publiée
+  ne pointe vers l'ancien chemin. Sa publication, pour réserver le nom,
+  est une décision à part.
