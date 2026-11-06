@@ -77,3 +77,35 @@ de leur famille ; et `dtFlood` calculait son maximum annuel sur une
 année même privée de la moitié de ses jours, quand la fiche jumelle
 `dtLF` écartait la même année. Les deux corrigés le 2026-08-13, et
 aucun n'était visible fiche par fiche.
+
+## Qui est auteur, qui contribue, et ce que dit un en-tête (2026-11-06)
+
+Décidé avec l'utilisateur pour les quatre dépôts (card, stase, card4r,
+card-api), après avoir trouvé six auteurs déclarés ici, trois sur PyPI
+pour stase, et des listes différentes d'un fichier à l'autre.
+
+- **Un seul auteur, Louis Héraut**, partout où un auteur se déclare :
+  `pyproject.toml` (ce qu'affiche PyPI), `CITATION.cff`, `codemeta.json`,
+  la référence à citer du README. Les idées et le code sont les siens, en
+  R comme en Python. Claude n'est pas déclaré auteur, selon l'usage (un
+  auteur répond de son travail) ; les commits portent sa participation.
+- **Les contributeurs sont nommés avec leur rôle** dans `AUTHORS`, et
+  repris dans le champ `contributor` de `codemeta.json`. `CITATION.cff`,
+  qui n'a pas ce champ, cite le paquet R d'origine en `references`.
+- **Une mention de copyright en tête de fichier désigne qui a écrit du
+  code**, pas qui a aidé à le penser : le droit d'auteur protège ce qui
+  est écrit, pas les idées. L'aide à la conception par la discussion se
+  crédite dans `AUTHORS`. Les mentions de ceux qui ont écrit du code,
+  même en R avant le portage, restent : la licence GPL oblige à les
+  garder. La forme exacte attendue par INRAE, titulaire probable des
+  droits patrimoniaux, reste à vérifier auprès de son service de
+  valorisation.
+- Les rôles, relevés dans les en-têtes des paquets R d'origine et
+  confirmés par l'utilisateur : Benjamin Renard (partie statistique
+  d'EXstat) et Valentin Mansanarez (mise en forme du code R d'EXstat)
+  pour stase ; Ivan Horner (2020) et Léonard Santos (2021), fonctions R
+  portées dans `card.functions`, et David Dorchies, code R de CARD (2022,
+  2025) et signalements, pour card ; Jean-Philippe Vidal, Éric Sauquet,
+  David Dorchies et Nathan Pellerin pour la conception, par la
+  discussion.
+

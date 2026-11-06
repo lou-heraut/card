@@ -8,6 +8,14 @@
 
 # Feuille de route de card (mise à jour 2026-11-06)
 
+## Dans CARD-R, un geste de l'utilisateur (2026-11-06)
+
+Les en-têtes de `R/CARD_management.R` et `R/CARD_process.R` nomment encore
+Éric Sauquet, Jean-Philippe Vidal et Nathan Pellerin, qui ont aidé à la
+conception sans écrire de code (`dev/decisions.md`, « Qui est auteur »).
+Leurs lignes sont retirées des en-têtes Python ; dans le dépôt R, resté
+sans intervention de l'IA, c'est à l'utilisateur de le faire.
+
 ## Rendre le thésaurus autoportant (plan arrêté le 2026-08-14)
 
 Le vocabulaire nomme tout et ne définit presque rien, et 1 082 de ses
