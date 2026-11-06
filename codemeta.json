@@ -61,6 +61,16 @@
         "@type": "Organization",
         "name": "INRAE, UR RiverLy, Villeurbanne, France"
       }
+    },
+    {
+      "@type": "Person",
+      "givenName": "Nathan",
+      "familyName": "Pellerin",
+      "email": "nathan.pellerin@inrae.fr",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "INRAE, UR RiverLy, Villeurbanne, France"
+      }
     }
   ],
   "keywords": [

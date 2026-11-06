@@ -72,9 +72,13 @@ des deux endroits.
   avec leur rôle dans `AUTHORS` et reprises en contributeurs dans
   `codemeta.json` : les fonctions R d'origine d'Ivan Horner et de Léonard
   Santos, portées dans `card.functions`, le code R et les signalements de
-  David Dorchies, et la conception discutée avec Éric Sauquet et
-  Jean-Philippe Vidal. Le paquet R d'origine est cité en référence. Les
-  mentions de copyright en tête des fichiers source ne changent pas.
+  David Dorchies, et la conception discutée avec Éric Sauquet,
+  Jean-Philippe Vidal et Nathan Pellerin. Le paquet R d'origine est cité
+  en référence. Les mentions de copyright en tête des fichiers source
+  désignent désormais seulement qui a écrit du code : celles d'Éric
+  Sauquet, de Jean-Philippe Vidal et de Nathan Pellerin dans
+  `management.py` sont retirées, leur aide à la conception étant créditée
+  dans `AUTHORS`.
 
 ### Documentation
 
