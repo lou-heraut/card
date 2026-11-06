@@ -431,8 +431,7 @@ Doctrine complète : « Versions, en cinq phrases », en tête de
 
 Cette section ne porte aucun état, et c'est volontaire : un état recopié
 ici ne peut que retarder sur le dépôt. Livré : `CHANGELOG.md`. Ouvert :
-`ROADMAP.md`. Campagne d'alignement des dépôts en cours :
-`dev/plans/2026-11-06_layout-alignment.md`.
+`ROADMAP.md`.
 
 Écosystème : le moteur vit dans `../../EXstat_project/stase/`, le service
 web dans `../card-api/`. Chacun a son CLAUDE.md, sa feuille de route et

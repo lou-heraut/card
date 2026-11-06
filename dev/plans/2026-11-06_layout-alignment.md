@@ -1,19 +1,20 @@
 # Aligner les quatre dépôts sur une même hygiène de projet
 
-> **Statut : en cours, ouvert le 2026-11-06.** Plan de campagne commun à
-> card, stase, card4r et card-api. L'état de chaque dépôt est dans le
-> tableau ci-dessous, et nulle part ailleurs. Il succède à la section
-> « Campagne en cours » de `docs/dev/NETTOYAGE.md`, qui renvoie ici et
-> prendra sa retraite à la fin de la campagne (décision 3). Ce fichier
-> reste en place une fois terminé.
+> **Statut : terminé le 2026-11-06.** Plan de campagne commun à card,
+> stase, card4r et card-api, ouvert et mené le même jour. L'état de
+> chaque dépôt est dans le tableau ci-dessous ; le bilan et ce qui reste à
+> observer, en fin de document. Il a succédé à `docs/dev/NETTOYAGE.md`,
+> devenu `dev/plans/2026-07-21_cleanup.md`. Il reste en place, et ses
+> tables de correspondance permettent de résoudre un ancien chemin cité
+> par un document figé.
 
-| ordre | dépôt    | état                                                   |
-|------:|----------|--------------------------------------------------------|
-|     1 | card-api | **fait le 2026-11-06** (commits 35df446 à 90a1cc3)    |
-|     2 | stase    | **fait le 2026-11-06** (commits cfcf771 à dda86cf)    |
-|     3 | card4r   | après card : ses seuls renvois visent les documents de card |
-|     4 | card     | à faire ; `NETTOYAGE.md` se retire à la fin            |
-|     5 | ensemble | prise de recul sur les quatre côte à côte (phase F)    |
+| ordre | dépôt    | état                                                |
+|------:|----------|-----------------------------------------------------|
+|     1 | card-api | **fait le 2026-11-06** (commits 35df446 à 90a1cc3)  |
+|     2 | stase    | **fait le 2026-11-06** (commits cfcf771 à dda86cf)  |
+|     3 | card4r   | **fait le 2026-11-06**, après card (commit 016be69) |
+|     4 | card     | **fait le 2026-11-06** (commits 6c154ba à 3d2fbe5)  |
+|     5 | ensemble | **fait le 2026-11-06**, cf. « Bilan »               |
 
 ## Pourquoi
 
@@ -359,3 +360,50 @@ s'il reste un plan ou si cet audit devient un fichier à part.
 Hors campagne : ce n'est pas encore un dépôt git. Il adoptera la structure
 au chantier M1, en mettant à jour les renvois de son `CLAUDE.md` et de son
 `PLAN.md`. Ses consignes de passation sont figées (décision 6).
+
+## Bilan, phase F faite le 2026-11-06
+
+**card, ce qui a différé de la table proposée.** `NETTOYAGE.md` n'a pas
+été supprimé mais rangé comme plan terminé de la campagne de juillet
+(`dev/plans/2026-07-21_cleanup.md`) : c'est la règle des plans terminés,
+et rien ne s'y perd ; ce qu'il était seul à porter (principes du
+2026-07-22, inventaires sans valeur dérivée, cadrage des placeholders,
+README exécutés) est dans le nouveau `dev/decisions.md` de card.
+`dev/references.md` n'a pas été créé : il n'aurait porté qu'une ligne, la
+publication d'Oberlin, que `dev/nomenclature.md` cite déjà depuis
+`dev/references/`. `PLAN_SITE_SKOS.md` est resté un seul plan : en sortir
+l'audit des vocabulaires demandait de le relire en entier, pour un gain
+de rangement seulement. Le `CLAUDE.md` de card n'a été allégé que de sa
+carte des documents (28 à 26 Ko) : le reste est le format d'une fiche et
+les règles de rédaction, de vraies consignes de travail. L'exclusion
+`dev/` de `mkdocs.yml` est gardée, par prudence pour un dossier local.
+
+**Les quatre côte à côte.** Même squelette partout où il a de quoi
+porter : `README`, `ROADMAP` (card, stase, card-api ; card4r n'a rien
+d'ouvert), `CHANGELOG`, `CLAUDE.md`, `CITATION.cff`, `dev/decisions.md`
+et `dev/plans/` (card, stase, card-api), `dev/audits/` (card, card-api).
+Aucun ancien chemin ne subsiste hors des documents figés, des entrées
+historiques des CHANGELOG et des consignes de passation de MAKAHO-next ;
+aucun lien Markdown relatif n'est cassé dans les quatre dépôts ; tests,
+lint et construction du site passent.
+
+**Les deux questions de la phase F, tranchées.** Les règles recopiées
+dans les `CLAUDE.md` sont gardées, selon l'arbitrage du 2026-07-22 ; le
+bloc « À NE JAMAIS FAIRE » est donc complété dans stase (la règle des
+fichiers non suivis) et ajouté à card4r, et `bac/` y est ignoré comme
+dans card et card-api. `NETTOYAGE.md` a pris sa retraite comme plan
+terminé. card-api et stase renvoient désormais aux principes communs,
+dans `dev/decisions.md` de card.
+
+**Laissé à observer, hors campagne :**
+
+- card4r n'a pas de `codemeta.json`, que les trois autres portent ;
+- MAKAHO-next cite encore les anciens chemins dans son `CLAUDE.md`, son
+  `PLAN.md` et `scripts/mesure_sampling.py` : à mettre à jour au chantier
+  M1, avec le reste de son `PLAN.md` ;
+- le bloc « Structure » du `CLAUDE.md` de card décrit longuement ses
+  scripts, dont certains portent déjà leur raison dans leur docstring :
+  un allègement possible, à juger à l'usage ;
+- les pages PyPI déjà publiées de stase pointent vers l'ancien chemin de
+  `ORIGINE_R.md` (décision 7).
+

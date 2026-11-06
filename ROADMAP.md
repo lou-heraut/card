@@ -8,12 +8,6 @@
 
 # Feuille de route de card (mise à jour 2026-11-06)
 
-## Aligner les dépôts sur une même hygiène de projet (2026-11-06)
-
-Campagne commune à card, stase, card4r et card-api : plan, décisions et
-état par dépôt dans `dev/plans/2026-11-06_layout-alignment.md`, et nulle
-part ailleurs.
-
 ## Rendre le thésaurus autoportant (plan arrêté le 2026-08-14)
 
 Le vocabulaire nomme tout et ne définit presque rien, et 1 082 de ses
